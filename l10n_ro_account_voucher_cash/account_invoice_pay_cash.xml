@@ -1,0 +1,21 @@
+<openerp>
+	<data>
+		
+		<record model="ir.ui.view" id="view_vendor_receipt_dialog_form">
+            <field name="name">account.voucher.receipt.dialog.form</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_dialog_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="journal_id" position="replace">
+                         <field name="journal_id" domain="[('type','in',['cash'])]"
+                                invisible="context.get('line_type', False)"
+                                widget="selection"
+                                on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, context)"
+                                string="Payment Method"/>
+                    </field>
+				</data>
+            </field>
+        </record>
+	</data>
+</openerp>

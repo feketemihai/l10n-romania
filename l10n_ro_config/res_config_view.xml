@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_ro_config_settings" model="ir.ui.view">
+            <field name="name">Romania Settings</field>
+            <field name="model">l10n.ro.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure Romania Application" class="oe_form_configuration">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <group groups="base.group_multi_company">
+                        <div>
+                            <field name="has_default_company" invisible="1" />
+                            <div attrs="{'invisible': [('has_default_company', '=', True)]}">
+                                <label for="company_id" string="Select Company"/>
+                                <field name="company_id"
+                                    widget="selection"
+                                    class="oe_inline"/>
+                            </div>
+                        </div>
+                    </group>
+                    <separator string="Applications"/>
+                    <group>
+                        <label for="id" string="Features"/>
+                        <div>
+                            <div>
+                                <group col="2">
+                                    <group>
+                                        <field name="property_customer_advance_account_id"/>
+                                        <field name="property_supplier_advance_account_id"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                            </div>
+                            <div>
+                                <field name="module_account_storno" class="oe_inline"/>
+                                <label for="module_account_storno"/>
+                            </div>
+                            <div>
+                                <field name="module_account_vat_on_payment" class="oe_inline"/>
+                                <label for="module_account_vat_on_payment"/>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_account_constrains" class="oe_inline"/>
+                                <label for="module_l10n_ro_account_constrains"/>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_account_bank_statement" class="oe_inline"/>
+                                <label for="module_l10n_ro_account_bank_statement"/>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_account_voucher_cash" class="oe_inline"/>
+                                <label for="module_l10n_ro_account_voucher_cash"/>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_account_voucher_currency_update" class="oe_inline"/>
+                                <label for="module_l10n_ro_account_voucher_currency_update"/>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_invoice_line_not_deductible" class="oe_inline"/>
+                                <label for="module_l10n_ro_invoice_line_not_deductible"/>
+                                <group attrs="{'invisible': [('module_l10n_ro_invoice_line_not_deductible', '&lt;&gt;', True)]}" col="2">
+                                    <group>
+                                        <field name="property_undeductible_account_id"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_asset" class="oe_inline"/>
+                                <label for="module_l10n_ro_asset"/>
+                                <group attrs="{'invisible': [('module_l10n_ro_asset', '&lt;&gt;', True)]}" col="2">
+                                    <group>
+                                        <field name="property_asset_reevaluation_account_id"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                            </div>
+                            <div>
+                                <field name="module_currency_rate_update" class="oe_inline"/>
+                                <label for="module_currency_rate_update"/>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_stock" class="oe_inline"/>
+                                <label for="module_l10n_ro_stock"/>
+                                <group attrs="{'invisible': [('module_l10n_ro_stock', '&lt;&gt;', True)]}" col="2">
+                                    <group>
+                                        <field name="property_stock_picking_receivable_account_id"/>
+                                        <field name="property_stock_picking_payable_account_id"/>
+                                        <field name="property_stock_usage_giving_account_id"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_zip" class="oe_inline"/>
+                                <label for="module_l10n_ro_zip"/>
+                            </div>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_l10n_ro_config" model="ir.actions.act_window">
+            <field name="name">Romania Application</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n.ro.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="menu_account_config" name="Romania" parent="base.menu_config"
+            sequence="14" action="action_l10n_ro_config"/>
+    </data>
+</openerp>
