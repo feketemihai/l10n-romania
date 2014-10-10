@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    "name" : "Romania - Account Constrains",
+    "name" : "Romania - Account Currency Reevaluation",
     "version" : "1.0",
     "author" : "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",

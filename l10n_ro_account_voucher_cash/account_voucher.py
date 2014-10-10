@@ -126,6 +126,7 @@ class account_voucher(osv.osv):
                         'journal_id': statement.journal_id.id,
                         'ref': str(voucher.number),
                         'voucher_id': voucher.id,
+                        'journal_entry_id': voucher.move_id.id,
                         }          
                     statement_line_obj.create(cr, uid, args, context=context)
         return res

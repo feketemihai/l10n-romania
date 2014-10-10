@@ -36,6 +36,7 @@ class account_invoice(models.Model):
             return self.partner_id.vat_on_payment        
         
     vat_on_payment = fields.Boolean(string='Vat on payment', default=_default_vat_on_payment)
+    fiscal_receipt = fields.Boolean(string='Is a Fiscal Receipt', default=False)
 
     @api.multi
     def finalize_invoice_move_lines(self, move_lines):
@@ -53,7 +54,7 @@ class account_invoice(models.Model):
                     if account.type != 'receivable' and account.type != 'payable':
                         #if not account.vat_on_payment_related_account_id:
                         #    raise osv.except_osv(_('Error'), _('The invoice is \'VAT on payment\' but account %s does not have a related shadow account') % account.name)
-                        line_tup[2]['real_account_id'] = line_tup[2]['account_id']
+                        line_tup[2]['real_account_id'] = account.id
                         line_tup[2]['account_id'] = account.uneligible_account_id and account.uneligible_account_id.id or account.id
                 if line_tup[2].get('tax_code_id', False):
                     tax_code = tax_code_pool.browse(line_tup[2]['tax_code_id'])
@@ -79,5 +80,13 @@ class account_invoice(models.Model):
                         vat_on_payment = p.vat_on_payment 
                 else:
                     vat_on_payment = p.vat_on_payment 
+        result['value']['vat_on_payment'] = vat_on_payment 
+        return result
+    
+    @api.multi
+    def onchange_fiscal_receipt(self, fiscal_receipt=False, vat_on_payment=False):
+        result = {'value': {}}
+        if fiscal_receipt:
+            vat_on_payment = False
         result['value']['vat_on_payment'] = vat_on_payment 
         return result

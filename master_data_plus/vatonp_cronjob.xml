@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">    	
+        <record model="ir.cron" id="cronjob_get_vatonp_data">
+            <field name='name'>Get VAT on payment data</field>
+            <field name='interval_number'>1</field>
+            <field name='interval_type'>days</field>
+            <field name="numbercall">-1</field>
+            <field name="nextcall" eval="time.strftime('%Y-%m-%d 04:30:00', time.localtime(time.time()))" />  <!-- must set in gmt time -->
+            <field name="active">True</field>											
+            <field name="doall" eval="False" />
+            <field name="model">get_vatonp</field>
+            <field name="function">smart_get</field>
+            <field name="args">()</field>
+        </record>
+        
+    	<record model="ir.config_parameter" id="vatonp_data_keep_path">
+			<field name="key">vatonp_zip_path</field>
+			<field name="value">/opt/openerp/vat_on_payment</field>
+		</record>
+		
+    </data>
+</openerp>   

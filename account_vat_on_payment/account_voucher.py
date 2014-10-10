@@ -72,7 +72,7 @@ class account_voucher(osv.Model):
                         if acc_move_line.real_tax_code_id:
                             # compute the VAT or base line proportionally to the paid amount
                             new_line_amount = currency_obj.round(cr, uid, voucher.company_id.currency_id, ((amounts_by_invoice[invoice.id]['allocated'] + amounts_by_invoice[invoice.id]['write-off']) / amounts_by_invoice[invoice.id]['total']) * acc_move_line.tax_amount)
-                            acc = acc_move_line.real_account_id and acc_move_line.account_id.id or acc_move_line.real_account_id.id
+                            acc = acc_move_line.real_account_id and acc_move_line.real_account_id.id or acc_move_line.account_id.id
                             # prepare the real move line
                             vals = {
                                     'name': invoice.number + ' - ' + acc_move_line.name,

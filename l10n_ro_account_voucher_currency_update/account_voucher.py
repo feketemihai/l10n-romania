@@ -95,19 +95,21 @@ class account_voucher(osv.osv):
             amount = self._convert_amount(cr, uid, line.untax_amount or line.amount, voucher.id, context=ctx)
             # if the amount encoded in voucher is equal to the amount unreconciled, we need to compute the
             # currency rate difference
-            if line.amount <> line.amount_unreconciled:
-                if not line.move_line_id:
-                    raise osv.except_osv(_('Wrong voucher line'),_("The invoice you are willing to pay is not valid anymore."))
-                sign = line.type =='dr' and -1 or 1
-                currency_rate_difference = sign * amount
+            if company_currency<>current_currency:
+                currency_rate_difference = 0.00
+                if line.amount <> line.amount_unreconciled:
+                    if not line.move_line_id:
+                        raise osv.except_osv(_('Wrong voucher line'),_("The invoice you are willing to pay is not valid anymore."))
+                    sign = line.type =='dr' and -1 or 1
+                    currency_rate_difference = sign * amount
 
-            if not currency_obj.is_zero(cr, uid, voucher.company_id.currency_id, currency_rate_difference):
-                # Change difference entry in company currency
-                exch_lines = self._get_exchange_lines(cr, uid, line, move_id, currency_rate_difference, company_currency, current_currency, context=context)
-                new_id = move_line_obj.create(cr, uid, exch_lines[0],context)
-                move_line_obj.create(cr, uid, exch_lines[1], context)
-                rec_ids = [new_id, line.move_line_id.id]
+                if not currency_obj.is_zero(cr, uid, voucher.company_id.currency_id, currency_rate_difference):
+                    # Change difference entry in company currency
+                    exch_lines = self._get_exchange_lines(cr, uid, line, move_id, currency_rate_difference, company_currency, current_currency, context=context)
+                    new_id = move_line_obj.create(cr, uid, exch_lines[0],context)
+                    move_line_obj.create(cr, uid, exch_lines[1], context)
+                    rec_ids = [new_id, line.move_line_id.id]
 
-            if line.move_line_id.id:
-                rec_lst_ids.append(rec_ids)
+                if line.move_line_id.id:
+                    rec_lst_ids.append(rec_ids)
         return (tot_line, rec_lst_ids)

@@ -1,14 +1,8 @@
-#!/usr/bin/env python
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2008 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    $Id$
-#
-#    Version modified by TOTAL PC SYSTEMS in order to adapt it to 
-#    Romanian requirements. 30.11.2011
-#
+#     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
+#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA (http://www.forbiom.eu).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,19 +19,18 @@
 #
 ##############################################################################
 {
-    "name" : "City-Helps to keep Homogenous address data in the Database",
+    "name" : "Zipcodes - add a location field in partners to have the zipcode, city, country state, country",
     "version" : "1.0",
-    "author" : "TOTAL PC SYSTEMS",
+    "author" : "FOREST AND BIOMASS SERVICES ROMANIA SA",
     "category" : "Generic Modules/Base",
-    "description": """Creates a model for storing cities
+    "description": """Creates a model for storing zipcodes
 Zip code, city, state and country fields are replaced with a location field in partner and partner contact forms.
 This module helps to keep homogenous address data in the database.""",
-    "depends" : ["base","crm"],
-    "data" : ['data/res.country.state.csv',
-              #'data/buc.xml',
+    "depends" : ["base","l10n_ro"],
+    "data" : [#'data/buc.xml',
               #'data/mari.xml',
               #'data/mici.xml',
-			  'city_view.xml',
+			  'zipcode_view.xml',
               'security/ir.model.access.csv',
         ],
     "installable": True
