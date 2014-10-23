@@ -59,8 +59,8 @@ class account_invoice_line(models.Model):
                     'name': line.name,
                     'code': line.invoice_id.number or False,
                     'category_id': line.asset_category_id.id,
+                    'asset_type': line.asset_category_id.asset_type,
                     'purchase_value':round(price / line.quantity,2),
-                    'period_id': line.invoice_id.period_id.id,
                     'partner_id': line.invoice_id.partner_id.id,
                     'company_id': line.invoice_id.company_id.id,
                     'currency_id': line.invoice_id.company_id.currency_id.id,
@@ -92,5 +92,6 @@ class account_invoice(models.Model):
                         if asset.state <> 'draft':
                             raise except_orm(_('Error!'), _("You cannot cancel an invoice which doesn't have assets in draft state. You need to reset to draft the asset with name %s." % asset.name)) 
                     inv_line.asset_ids.unlink()
-        return super(account_invoice, self).action_cancel()                
+        return super(account_invoice, self).action_cancel()
+                       
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -33,9 +33,9 @@ class account_asset_asset(osv.osv):
 
     def validate(self, cr, uid, ids, context=None):
         obj_sequence = self.pool.get('ir.sequence')
-        for asset in self.browse(cr, uid, ids):
+        for asset in self.browse(cr, uid, ids, context=context):
             if asset.asset_type == 'fixed' and not asset.inventory_number:
-                asset.write({'inventory_number': obj_sequence.next_by_id(cr, uid, asset.category_id.sequence_id.id)})
+                asset.write({'inventory_number': obj_sequence.next_by_id(cr, uid, asset.category_id.sequence_id.id, context=context)})
         return super(account_asset_asset, self).validate(cr, uid, ids, context=context)
 
     def _compute_board_amount(self, cr, uid, asset, i, residual_amount, amount_to_depr, undone_dotation_number, posted_depreciation_line_ids, total_days, depreciation_date, context=None):
@@ -71,16 +71,6 @@ class account_asset_asset(osv.osv):
                 continue
             posted_lines = depreciation_lin_obj.search(cr, uid, [('asset_id', '=', asset.id), ('move_check', '=', True)],order='depreciation_date desc')
             posted_depreciation_line_ids = []
-            old_depr_value = 0.00
-            for line in depreciation_lin_obj.browse(cr, uid, posted_lines):
-                if line.move_id:
-                    for aml in line.move_id.line_id:
-                        if aml.asset_id and aml.asset_id.id == asset.id:
-                            if aml.account_id.id == asset.category_id.account_depreciation_id.id:
-                                posted_depreciation_line_ids.append(line.id)
-                                old_depr_value += aml.debit - aml.credit
-                            else:
-                                old_depr_value += aml.debit - aml.credit
             reevaluated_amount = 0.00
             for line in asset.reevaluation_ids:
                 reevaluated_amount += line.diff_value
@@ -112,10 +102,7 @@ class account_asset_asset(osv.osv):
 
             undone_dotation_number = self._compute_board_undone_dotation_nb(cr, uid, asset, depreciation_date, total_days, context=context)
             residual_amount = asset.value_residual
-            if day==1:
-                depr_number = undone_dotation_number-1
-            else:
-                depr_number = undone_dotation_number
+            depr_number = undone_dotation_number
             for x in range(len(posted_depreciation_line_ids), depr_number):
                 i = x + 1
                 amount = self._compute_board_amount(cr, uid, asset, i, residual_amount, amount_to_depr, depr_number, posted_depreciation_line_ids, total_days, depreciation_date, context=context)
@@ -131,7 +118,7 @@ class account_asset_asset(osv.osv):
                          'sequence': i,
                          'name': str(asset.id) +'/' + str(i),
                          'remaining_value': 0,
-                         'depreciated_value': round((asset.purchase_value - asset.salvage_value) - residual_amount + reevaluated_amount + old_depr_value,2),
+                         'depreciated_value': round((asset.purchase_value - asset.salvage_value) - residual_amount + reevaluated_amount ,2),
                          'depreciation_date': depreciation_date.strftime('%Y-%m-%d'),
                         }
                         residual_amount = 0
@@ -144,7 +131,7 @@ class account_asset_asset(osv.osv):
                      'sequence': i,
                      'name': str(asset.id) +'/' + str(i),
                      'remaining_value': residual_amount,
-                     'depreciated_value': round((asset.purchase_value - asset.salvage_value) - (residual_amount + amount) + reevaluated_amount + old_depr_value,2),
+                     'depreciated_value': round((asset.purchase_value - asset.salvage_value) - (residual_amount + amount) + reevaluated_amount,2),
                      'depreciation_date': depreciation_date.strftime('%Y-%m-%d'),
                     } 
                     

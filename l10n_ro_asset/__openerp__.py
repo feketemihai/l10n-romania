@@ -37,8 +37,6 @@ of the depreciation lines.
     'sequence': 32,
     'data': [
         'security/ir.model.access.csv',
-        #'data/account_asset_data.xml',
-        #'data/account_asset_category_data.xml',
         'account_asset_view.xml',
         'stock_assets_view.xml',
         'stock_view.xml',

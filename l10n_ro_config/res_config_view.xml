@@ -19,6 +19,7 @@
                                 <label for="company_id" string="Select Company"/>
                                 <field name="company_id"
                                     widget="selection"
+                                    on_change="onchange_company_id(company_id)"
                                     class="oe_inline"/>
                             </div>
                         </div>
@@ -78,6 +79,8 @@
                                 <group attrs="{'invisible': [('module_l10n_ro_asset', '&lt;&gt;', True)]}" col="2">
                                     <group>
                                         <field name="property_asset_reevaluation_account_id"/>
+                                        <separator string="Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Chart of Asset Category"/>
+                                        <field name="asset_category_chart_installed"/>
                                     </group>
                                     <group>
                                     </group>
@@ -104,6 +107,11 @@
                                 <field name="module_l10n_ro_zip" class="oe_inline"/>
                                 <label for="module_l10n_ro_zip"/>
                             </div>
+                            <div>
+                                <field name="module_l10n_ro_account_report" class="oe_inline"/>
+                                <label for="module_l10n_ro_account_report"/>
+                            </div>
+                            
                         </div>
                     </group>
                 </form>

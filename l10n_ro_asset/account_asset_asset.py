@@ -22,17 +22,22 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 import openerp.addons.decimal_precision as dp
+
 import time
+import datetime
+from datetime import datetime, timedelta, date
+from dateutil.relativedelta import relativedelta
+import calendar 
 
 class account_asset_category(models.Model):
     _name = 'account.asset.category'
     _inherit = 'account.asset.category'
     
     # Redefine accounting properties to be required for asset category type 'Normal', specified in view
-    account_asset_id = fields.Many2one('account.account', 'Category Asset Account', required=False, readonly=True, domain=[('type','=','other')])
-    account_depreciation_id = fields.Many2one('account.account', 'Depreciation Account', domain=[('type','=','other')], required=False)
-    account_expense_depreciation_id = fields.Many2one('account.account', 'Depr. Expense Account', domain=[('type','=','other')], required=False)
-    journal_id = fields.Many2one('account.journal', 'Journal', required=False)
+    account_asset_id = fields.Many2one('account.account', 'Category Asset Account', required=False, domain="[('type','=','other'),('company_id','=',company_id)]")
+    account_depreciation_id = fields.Many2one('account.account', 'Depreciation Account', domain="[('type','=','other'),('company_id','=',company_id)]", required=False)
+    account_expense_depreciation_id = fields.Many2one('account.account', 'Depr. Expense Account', domain="[('type','=','other'),('company_id','=',company_id)]", required=False)
+    journal_id = fields.Many2one('account.journal', 'Journal', required=False, domain="[('company_id','=',company_id)]")
     prorata = fields.Boolean('Prorata Temporis', help='Indicates that the first depreciation entry for this asset have to be done from the purchase date instead of first day of next month.')
     # Redefine depreciation properties to be required for asset category type 'Normal'
     method = fields.Selection([('linear','Linear'),('degressive','Degressive')], 'Computation Method', help="Choose the method to use to compute the amount of depreciation lines.\n" \
@@ -43,7 +48,7 @@ class account_asset_category(models.Model):
                                   help="Choose the method to use to compute the dates and number of depreciation lines.\n" \
                                        "  * Number of Depreciations: Fix the number of depreciation lines and the time between 2 depreciations.\n" \
                                        "  * Ending Date: Choose the time between 2 depreciations and the date the depreciations won't go beyond.", required=False)
-    account_income_id = fields.Many2one('account.account', string='Income Account',  domain=[('type','=','other')], required=False) 
+    account_income_id = fields.Many2one('account.account', string='Income Account',  domain="[('type','=','other'),('company_id','=',company_id)]", required=False) 
     code = fields.Char(string='Code', index=True, required=True)
     type = fields.Selection([('view', 'View'),('normal','Normal')], string='Category Type', required=True)
     asset_type = fields.Selection([('none', 'None'),('fixed', 'Fixed Assets'),('service','Services Assets')], string='Asset Type')
@@ -64,6 +69,8 @@ class account_asset_category(models.Model):
 class account_asset_asset(models.Model):
     _name = 'account.asset.asset'
     _inherit = 'account.asset.asset'
+    _order = 'category_id, purchase_date'
+
     
     @api.one
     def sale_close_asset(self, move):
@@ -94,10 +101,10 @@ class account_asset_asset(models.Model):
         res=dict(self._cr.fetchall())
         self.value_residual = self.purchase_value + res.get(self.id, 0.0) - self.salvage_value
         
-    category_id = fields.Many2one('account.asset.category', 'Asset Category', required=True, change_default=True, readonly=True, states={'draft':[('readonly',False)]}, domain=[('type','=','normal')])
+    category_id = fields.Many2one('account.asset.category', 'Asset Category', required=True, change_default=True, readonly=True, states={'draft':[('readonly',False)]}, domain="[('type','=','normal'),'|',('company_id','=',False),('company_id','=',user.company_id)]")
     purchase_date = fields.Date('Depreciation Start Date', required=True, readonly=True, states={'draft':[('readonly',False)]})
     prorata = fields.Boolean('Prorata Temporis', readonly=True, states={'draft':[('readonly',False)]}, help='Indicates that the first depreciation entry for this asset have to be done from the purchase date instead of first day of next month')
-    product_id = fields.Many2one('product.product', string='Product')
+    product_id = fields.Many2one('product.product', string='Product', required=True, readonly=True, states={'draft':[('readonly',False)]})
     asset_type = fields.Selection([('fixed', 'Fixed Assets'),('service','Services Assets')], related='category_id.asset_type', string='Asset Type', required=True, readonly=True, states={'draft':[('readonly',False)]}, store=True)
     entry_date = fields.Date('Purchase Date', readonly=True, states={'draft':[('readonly',False)]})
     value_residual = fields.Float('Residual Value', readonly=True, compute='_amount_residual')
@@ -110,6 +117,8 @@ class account_asset_asset(models.Model):
     def _check_method_number(self):
         if (self.method_time == 'number') and ((self.method_number < self.category_id.method_number_min) or (self.method_number > self.category_id.method_number)):
             raise Warning(_('Number of depreciations invalid, it must be between asset category limits.'))
+    
+   
     
 class account_asset_reevaluation(models.Model):
     _name = 'account.asset.reevaluation'

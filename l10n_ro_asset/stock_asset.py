@@ -41,7 +41,7 @@ class account_asset_asset(models.Model):
     def _check_method_number(self):
         if self.asset_type == 'fixed' and not self.stock_move_id:
             raise Warning(_('You cannot have a fixed asset without a link to the stock move line.'))
-        if self.asset_type == 'service' and not self.invoice_move_id:
+        if self.asset_type == 'service' and not self.inv_line_id:
             raise Warning(_('You cannot have a service asset without a link to the supplier invoice line.'))
     
     
@@ -117,11 +117,12 @@ class stock_move(osv.osv):
                     'purchase_date': purchase_date,
                     'partner_id': partner_id,
                     'entry_date': move.date,
-                    'product_id': move.product_id and move.product_id.id or False,
+                    'product_id': move.product_id.id,
                     'stock_move_id': move.id,
                     'picking_id':move.picking_id and move.picking_id.id or False,
                     'state': 'draft',
                 }
+                
                 if move.quant_ids:
                     for quant in move.quant_ids:
                         lot_id = quant.lot_id and quant.lot_id.id or False
