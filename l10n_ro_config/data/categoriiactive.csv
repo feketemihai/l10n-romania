@@ -1,0 +1,619 @@
+parent_code,code,name,type,asset_type,method_number_min,method_number,account_asset_id,account_depreciation_id,account_expense_id,account_income_id,method,method_time,method_period
+,0,Catalog Mijloace Fixe,view,none,,,,,,,,,
+0,1,Grupa 1. Constructii,view,none,,,,,,,,,
+0,2,"Grupa 2. Instalatii tehnice, mijloace de transport, animale si plantatii",view,none,,,,,,,,,
+0,3,"Mobilier, aparatura birotica, sisteme de protectie a valorilor umane si materiale si alte active corporale",view,none,,,,,,,,,
+1,1_1,Constructii industriale,view,none,,,,,,,,,
+1,1_1,Alte constructii neregasite in cadrul subgrupei 1,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_1,1_1_1,Cladiri industriale in afara de cladirile din,normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_1_1,1_1_1_1,"Cladiri industriale cladirile din industria alimentara, industria materialelor de constructii, industria metalurgica si industria siderurgica;",normal,fixed,336,504,212000,281200,681100,758300,linear,number,1
+1_1_1,1_1_1_2,Cladiri industriale cladirile din industria chimica,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1,1_1_10,Rampe de incarcare descarcare.,normal,fixed,300,420,212000,281200,681100,758300,linear,number,1
+1_1,1_1_11,"Constructii miniere subterane: pentru personal, gari si remize, statii de pompare, statii de compresoare, canale pentru aeraj, buncare, suitori-coboratori, etc.",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_1,1_1_12,Cosuri de fum si turnuri de racire,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_1,1_1_13,Iazuri pentru decantarea sterilului,normal,fixed,144,576,212000,281200,681100,758300,linear,number,1
+1_1,1_1_14,"Camere de fum, de prafuire, de uscare",normal,fixed,336,504,212000,281200,681100,758300,linear,number,1
+1_1,1_1_15,Lucrari de constructii de decoperta pentru exploatari miniere,normal,fixed,96,144,212000,281200,681100,758300,linear,number,1
+1_1,1_1_16,Poligoane de incercari experimentale in aer liber sau in incaperi inchise,normal,fixed,144,216,212000,281200,681100,758300,linear,number,1
+1_1,1_1_17,Alte constructii industriale neregasite in cadrul subgrupei 1.1.,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_1,1_1_2,"Constructii usoare cu structuri metalice (hale de productie, hale de montaj, etc.) in afara de:",normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_1_2,1_1_2_1,"Constructii usoare cu structuri metalice (hale de productie, hale de montaj, etc.): baraci, soproane, etc.",normal,fixed,96,144,212000,281200,681100,758300,linear,number,1
+1_1,1_1_3,"Centrale hidroelectrice, statii si posturi de transformare, statii de conexiuni, in afara de:",normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_1_3,1_1_3_1,"Centrale hidroelectrice, statii si posturi de transformare, statii de conexiuni,: constructii speciale metalice;",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_1_3,1_1_3_2,"Centrale hidroelectrice, statii si posturi de transformare, statii de conexiuni,: constructii speciale din beton.",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_1,1_1_4,"Centrale termoelectrice si nuclearo-electrice, in afara de",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_1_4,1_1_4_1,"Centrale termoelectrice si nuclearo-electrice, cladirea reactorului.",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_1,1_1_5,Piete si platforme,view,none,,,,,,,,,
+1_1_5,1_1_5_1,Piete si platforme din beton;,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_1_5,1_1_5_2,"Piete si platforme din balast, macadam.",normal,fixed,168,288,212000,281200,681100,758300,linear,number,1
+1_1,1_1_6,"Sonde de titei, gaze, sare si platforme marine de foraj si extractie.",view,none,,,,,,,,,
+1_1_6,1_1_6_1,"Sonde de titei, gaze si sare.",normal,fixed,96,144,212000,281200,681100,758300,linear,number,1
+1_1_6,1_1_6_2,Platforme marine de foraj si extractie.,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_1,1_1_7,Turnuri de eztractie miniera,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_1,1_1_8,"Puturi de mina, galerii, planuri inclinate si rampe de put.",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_1,1_1_9,"Structuri de sustinere, estacade si culoare pentru transportoare cu banda",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1,1_2,Constructii agricole,view,none,,,,,,,,,
+1_2,1_2_1,Cladiri agrozootehnice,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_2,1_2_10,"Sere, solarii, rasadnice si ciupercarii",view,none,,,,,,,,,
+1_2_10,1_2_10_1,"Sere, solarii, rasadnice si ciupercarii din zidarie, beton, metal sau lemn si sticla",normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_2_10,1_2_10_2,"Sere, solarii, rasadnice si ciupercarii constructie usoara din lemn si folie din masa plastica",normal,fixed,24,48,212000,281200,681100,758300,linear,number,1
+1_2,1_2_11,Alte constructii agricole neregasite in cadrul subgrupei 1.2.,normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_2,1_2_2,"Constructii agricole usoare (baraci, magazii, soproane, cabane)",normal,fixed,96,144,212000,281200,681100,758300,linear,number,1
+1_2,1_2_3,Depozite de ingrasaminte minerale sau naturale (constructii de compostare),normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_2,1_2_4,Silozuri pentru furaje,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_2,1_2_5,Silozuri pentru depozitarea si conservarea cerealelor,normal,fixed,336,504,212000,281200,681100,758300,linear,number,1
+1_2,1_2_6,Patule pentru depozitarea porumbului,normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_2,1_2_7,"Constructii pentru cresterea animalelor si pasarilor, padocuri",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_2,1_2_8,"Helestee, iazuri, bazine, ecluze si ascensoare, baraje, jgheaburi, etc. pentru piscicultura",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_2,1_2_9,"Terase pe arabil, plantatii pomicole si viticole",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1,1_3,Constructii pentru stransporturi de posta si telecomunicatii,view,none,,,,,,,,,
+1_3,1_3_1,"Cladiri pentru transporturi: autogari, gari, statii pentru metrou, aeroporturi, porturi, hangare, depouri, garaje, ateliere, in afara de:",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_3_1,1_3_1_1,"Cladiri pentru transporturi: autogari, gari, statii pentru metrou, aeroporturi, porturi, hangare, depouri, garaje, ateliere,: cladiri usoare cu structura metalica",normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_3,1_3_10,Cale pentru montarea si lansarea navelor,view,none,,,,,,,,,
+1_3_10,1_3_10_1,Cale pentru montarea si lansarea navelor - File din lemn,normal,fixed,144,216,212000,281200,681100,758300,linear,number,1
+1_3_10,1_3_10_2,"Cale pentru montarea si lansarea navelor - File din beton, beton armat",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_3,1_3_11,Canale pentru navigatie,normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_3,1_3_12,"Constructii accesorii pentru transport rutier, aerian, naval",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_3,1_3_13,Linii de funiculare pentru exploatari miniere si industriale,view,none,,,,,,,,,
+1_3_13,1_3_13_1,Linii de funiculare pentru exploatari miniere si industriale pe stalpi de lemn,normal,fixed,144,216,212000,281200,681100,758300,linear,number,1
+1_3_13,1_3_13_2,Linii de funiculare pentru exploatari miniere si industriale pe stalpi din metal sau beton armat,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_3,1_3_14,"Linii funiculare pentru personal, statii si constructii de protectie",view,none,,,,,,,,,
+1_3_14,1_3_14_1,"Linii funiculare pentru personal, statii si constructii de protectie cu telecabine, telegondole sau teleschiuri",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_3_14,1_3_14_2,"Linii funiculare pentru personal, statii si constructii de protectie multilifturi pentru schi",normal,fixed,108,180,212000,281200,681100,758300,linear,number,1
+1_3,1_3_15,Linii funiculare forestiere de tip usor,normal,fixed,48,72,212000,281200,681100,758300,linear,number,1
+1_3,1_3_16,Planuri inclinate supraterane,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_3,1_3_17,"Poduri, podete, pasarele si viaducte pentru transporturi feroviare si rutiere, viaducte",view,none,,,,,,,,,
+1_3_17,1_3_17_1,"Poduri, podete, pasarele si viaducte pentru transporturi feroviare si rutiere, viaducte din lemn",normal,fixed,96,144,212000,281200,681100,758300,linear,number,1
+1_3_17,1_3_17_2,"Poduri, podete, pasarele si viaducte pentru transporturi feroviare si rutiere, viaducte din zidarie, beton armat sau metal",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_3,1_3_18,Tunele,normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_3,1_3_19,"Cladiri pentru posta, telecomunicatii: centrale telefonice, statii de emisie radio, studiouri pentru radio, televiziune, etc.",normal,fixed,408,672,212000,281200,681100,758300,linear,number,1
+1_3,1_3_2,Infrastructura pentru transport feroviar,view,none,,,,,,,,,
+1_3_2,1_3_2_1,Infrastructura pentru transport feroviar - ecartament normal si larg,normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_3_2,1_3_2_2,Infrastructura pentru transport feroviar - ecartament normal pentru metrou,normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_3_2,1_3_2_3,"Infrastructura pentru transport feroviar - ecartament ingust, inclusiv forestier",normal,fixed,336,504,212000,281200,681100,758300,linear,number,1
+1_3_2,1_3_2_4,Infrastructura pentru transport feroviar - ecartament ingust minier,normal,fixed,144,216,212000,281200,681100,758300,linear,number,1
+1_3,1_3_20,"Linii si cabluri aeriene de telecomunicatii (stalpi, circuite, cabluri, traverse, console, etc.)",normal,fixed,108,180,212000,281200,681100,758300,linear,number,1
+1_3,1_3_21,"Retele si canalizatii subterane de comunicatii urbane si interurbane, in afara de:",normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_3_21,1_3_21_1,"Retele si canalizatii subterane de comunicatii urbane si interurbane,: Suport de transmisiuni de telecomunicatii pe sisteme de cabluri cu fibra optica (submarine, subfluviale)",normal,fixed,96,144,212000,281200,681100,758300,linear,number,1
+1_3,1_3_22,"Platforme, turnuri si piloni metalici pentru antene de radiotelefonie, telefonie mobila, radio si TV",normal,fixed,108,180,212000,281200,681100,758300,linear,number,1
+1_3,1_3_23,Cabine telefonice,normal,fixed,48,72,212000,281200,681100,758300,linear,number,1
+1_3,1_3_24,"Constructii usoare pentru transporturi si telecomunicatii (baraci, magazii, soproane, cabane)",normal,fixed,96,144,212000,281200,681100,758300,linear,number,1
+1_3,1_3_25,"Alte constructii pentru transporturi, posta si telecomunicatii neregasite in cadrul subgrupei 1.3.",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_3,1_3_3,Infrastructura si statii de tramvaie,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_3,1_3_4,Retele electrice de contact pentru tractiune electrica:,view,none,,,,,,,,,
+1_3_4,1_3_4_1,Retele electrice de contact pentru tractiune electrica - pentru linii de cale ferata,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_3_4,1_3_4_2,Retele electrice de contact pentru tractiune electrica - pentru linii de tramvaie si troleibuze,normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_3_4,1_3_4_3,Retele electrice de contact pentru tractiune electrica - pentru linii de cale ferata miniera,normal,fixed,144,216,212000,281200,681100,758300,linear,number,1
+1_3,1_3_5,"Constructii pentru transport feroviar: persoane, treceri de nivel, port-gabarit, cheiuri de incarcare- descarcare, pentru alimentare si revizie locomotive, canale de coborat osii, fundatii de placi turnate si pod bascula, canale de zgura, etc.",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_3,1_3_6,Aparate de cale,normal,fixed,48,72,212000,281200,681100,758300,linear,number,1
+1_3,1_3_7,"Infrastructura drumuri (publice, industriale, agricole), alei, strazi si autostrazi cu toate accesoriile necesare (trotuare, borne, parcaje, parapete, marcaje, semne de circulatie)",view,none,,,,,,,,,
+1_3_7,1_3_7_1,"Infrastructura drumuri (publice, industriale, agricole), alei, strazi si autostrazi cu toate accesoriile necesare (trotuare, borne, parcaje, parapete, marcaje, semne de circulatie) - cu imbracaminte din balast, pamant stabilizat sau macadam",normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_3_7,1_3_7_2,"Infrastructura drumuri (publice, industriale, agricole), alei, strazi si autostrazi cu toate accesoriile necesare (trotuare, borne, parcaje, parapete, marcaje, semne de circulatie) - cu imbracaminte din beton asfaltic sau pavaj pe fundatie supla",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_3_7,1_3_7_3,"Infrastructura drumuri (publice, industriale, agricole), alei, strazi si autostrazi cu toate accesoriile necesare (trotuare, borne, parcaje, parapete, marcaje, semne de circulatie) - cu imbracaminte din beton de ciment",normal,fixed,336,504,212000,281200,681100,758300,linear,number,1
+1_3_7,1_3_7_4,"Infrastructura drumuri (publice, industriale, agricole), alei, strazi si autostrazi cu toate accesoriile necesare (trotuare, borne, parcaje, parapete, marcaje, semne de circulatie) - infrastructura drumuri forestiere",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_3,1_3_8,Piste pentru aeroporturi si platforme de stationare pentru avioane si autovehicule. Constructii aeroportuare.,normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_3,1_3_9,"Cheiuri, estacade si docuri pentru nave",normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1,1_4,Constructii hidrotehnice,view,none,,,,,,,,,
+1_4,1_4_1,"Baraje si constructii accesorii baraje (ecluze, deversoare, porturi si fronturi de asteptare, disipatoare de energie, goliri de fund, canale de derivatie)",normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_4,1_4_2,"Diguri (de aparare, de compartimentare, de dirijare a curentilor), consolidari de maluri, praguri, pinteni, anrocamente si casoaie, cleonaje",view,none,,,,,,,,,
+1_4_2,1_4_2_1,"Diguri (de aparare, de compartimentare, de dirijare a curentilor), consolidari de maluri, praguri, pinteni, anrocamente si casoaie, cleonaje - din fascine, lemn cu bolovan sau piatra",normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_4_2,1_4_2_2,"Diguri (de aparare, de compartimentare, de dirijare a curentilor), consolidari de maluri, praguri, pinteni, anrocamente si casoaie, cleonaje - din piatra bruta, blocuri de beton, zidarie de piatra, beton armat",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_4,1_4_3,Canale de aductiune,normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_4,1_4_4,Pereuri,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_4,1_4_5,"Constructii hidrotehnice, hidrometrice, hidrometeorologice, oceanografice, platforme meteorologice, in afara de:",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_4_5,1_4_5_1,"Constructii hidrotehnice, hidrometrice, hidrometeorologice, oceanografice, platforme meteorologice,: constructii usoare",normal,fixed,96,144,212000,281200,681100,758300,linear,number,1
+1_4,1_4_6,Lacuri artificiale de acumulare,normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_4,1_4_7,Alte constructii hidrotehnice neregasite in cadrul subgrupei 1.4.,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1,1_5,"Constructii pentru afaceri, comert, depozitare",view,none,,,,,,,,,
+1_5,1_5_1,Centre de afaceri,normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_5,1_5_10,"Tancuri, rezervoare, bidoane si butoaie pentru depozitarea bauturilor",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_5,1_5_11,Rampe de incarcare,normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_5,1_5_12,"Constructii usoare pentru afaceri, comert, depozitare (baraci, magazii, soproane, etc.)",normal,fixed,96,144,212000,281200,681100,758300,linear,number,1
+1_5,1_5_13,Camere de tezaur pentru depozitarea valorilor si datelor,normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_5,1_5_14,"Alte constructii pentru afaceri, comert, depozitare neregasite in cadrul subgrupei 1.5.",normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_5,1_5_2,Cladiri comerciale pentru depozitare-comercializare si distributie. Magazine.,normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_5,1_5_3,"Constructii pentru depozitarea marfurilor de larg consum, a marfurilor industriale, a materialelor de constructii si a produselor agricole",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_5,1_5_4,"Constructii pentru depozitarea si comercializarea produselor petrolifere (benzinarii, etc.)",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_5,1_5_5,"Constructii pentru depozitarea explozibililor, carburantilor si lubrifiantilor",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_5,1_5_6,"Silozuri pentru agregate minerale, minereuri, carbuni, materiale pulverulente (ciment, var, ipsos), etc.",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_5,1_5_7,"Rezervoare si bazine pentru depozitare, in afara de:",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_5_7,1_5_7_1,"Rezervoare si bazine pentru depozitare,: rezervoare pentru depozitare cu protectie catodica",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_5,1_5_8,Depozite frigorifice pentru alimente. Ghetarii.,normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_5,1_5_9,Platforme pentru depozitare si activitati comerciale,normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1,1_6,Constructii de locuinte si social-culturale,view,none,,,,,,,,,
+1_6,1_6_1,"Cladiri de locuit, hoteluri si camine, in afara de:",normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_6_1,1_6_1_1,"Cladiri de locuit, hoteluri si camine,: cladiri pentru locuinte sociale, moteluri si camine amplasate in centre industriale. WC publice.",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_6,1_6_2,"Constructii pentru invatamant, stiinta, cultura si arta, ocrotirea sanatatii, asistenta sociala, cultura fizica si agrement, in afara de:",normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_6_2,1_6_2_1,"Constructii pentru invatamant, stiinta, cultura si arta, ocrotirea sanatatii, asistenta sociala, cultura fizica si agrement,: case de sanatate, bai publice si baze de tratament",normal,fixed,336,504,212000,281200,681100,758300,linear,number,1
+1_6,1_6_3,Imprejmuiri din:,view,none,,,,,,,,,
+1_6_3,1_6_3_1,Imprejmuiri din lemn,normal,fixed,96,144,212000,281200,681100,758300,linear,number,1
+1_6_3,1_6_3_2,"Imprejmuiri din zidarie, beton armat, metal",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_6,1_6_4,Cladiri administrative,normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_6,1_6_5,Constructii pentru centrale termice si puncte termice,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_6,1_6_6,Constructii suport pentru panouri de afisare si publicitate.,normal,fixed,72,120,212000,281200,681100,758300,linear,number,1
+1_6,1_6_7,"Constructii pentru turnuri de ceas, turnuri de paza si alte amenajari asemanatoare",normal,fixed,108,180,212000,281200,681100,758300,linear,number,1
+1_6,1_6_8,Alte constructii de locuinte si social-culturale neregasite in cadrul subgrupei 1.6.,normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1,1_7,Constructii pentru transportul energiei electrice,view,none,,,,,,,,,
+1_7,1_7_1,"Retele de alimentare, de iluminat si linii de transport a energiei electrice:",view,none,,,,,,,,,
+1_7_1,1_7_1_1,"Retele de alimentare, de iluminat si linii de transport a energiei electrice aeriene pe stalpi din lemn",normal,fixed,108,180,212000,281200,681100,758300,linear,number,1
+1_7_1,1_7_1_2,"Retele de alimentare, de iluminat si linii de transport a energiei electrice aeriene pe stalpi metalici sau din beton armat",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_7_1,1_7_1_3,"Retele de alimentare, de iluminat si linii de transport a energiei electrice subterane",normal,fixed,144,216,212000,281200,681100,758300,linear,number,1
+1_7,1_7_2,Instalatii electrice de forta,view,none,,,,,,,,,
+1_7_2,1_7_2_1,Instalatii electrice de forta aeriene sau aparente,normal,fixed,108,180,212000,281200,681100,758300,linear,number,1
+1_7_2,1_7_2_2,Instalatii electrice de forta ingropate,normal,fixed,108,180,212000,281200,681100,758300,linear,number,1
+1_7_2,1_7_2_3,"Instalatii electrice de forta in tub, canal sau tunel de protectie",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_7,1_7_3,Alte constructii pentru transportul energiei electrice neregasite in cadrul subgrupei 1.7.,normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1,1_8,"Constructii pentru alimentare cu apa, canalizare si imbunatatiri funciare",view,none,,,,,,,,,
+1_8,1_8_1,Putruri sapate sau forate,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_8,1_8_10,"Iazuri de depozitare, paturi de uscare a namolului, campuri de irigare si infiltrare, in afara de",normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_8_10,1_8_10_1,"Iazuri de depozitare, paturi de uscare a namolului, campuri de irigare si infiltrare, canale de irigatii",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_8,1_8_11,Rezervoare din beton armat pentru inmagazinarea apei,normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_8,1_8_12,"Statii de pompare si separare a apei, in afara de:",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_8_12,1_8_12_1,"Statii de pompare si separare a apei,: statii de pompare plutitoare",normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_8,1_8_13,Constructii si instalatii tehnologice pentru alimentare cu apa si canalizare,normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_8,1_8_14,"Constructii usoare (baraci, magazii, soproane, etc.)",normal,fixed,96,144,212000,281200,681100,758300,linear,number,1
+1_8,1_8_15,"Alte constructii pentru alimentare cu apa, canalizare si imbunatatiri funciare neregasite in cadrul subgrupei 1.8.",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_8,1_8_2,Drenuri pentru alimentari cu apa,normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_8,1_8_3,Captari si prize de apa,normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_8,1_8_4,Canale pentru alimentare cu apa si evacuarea apelor,normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_8,1_8_5,Galerii pentru alimentare cu apa si evacuarea apelor,normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_8,1_8_6,"Conducte pentru alimentarea cu apa, inclusiv traversarile, retele de distributie. Galerii subterane pentru instalatii tehnico-edilitare",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_8,1_8_7,"Conducte pentru canalizare, in afara de:",normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1_8_7,1_8_7_1,"Conducte pentru canalizare,: conducte tehnologice pentru ape acide",normal,fixed,144,216,212000,281200,681100,758300,linear,number,1
+1_8,1_8_8,"Statii de tratare, de neutralizare si de epurare a apelor",normal,fixed,288,432,212000,281200,681100,758300,linear,number,1
+1_8,1_8_9,Castele de apa,normal,fixed,384,576,212000,281200,681100,758300,linear,number,1
+1,1_9,"Constructii pentru transportul si distributia petrolului, gazelor, lichidelor industriale, aerului comprimat si pentru termoficare",view,none,,,,,,,,,
+1_9,1_9_1,"Conducte magistrale pentru transportul produselor petrolifere, gazelor si a lichidelor industriale, inclusiv traversarile si instalatiile tehnologice, in afara de:",normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_9_1,1_9_1_1,"Conducte magistrale pentru transportul produselor petrolifere, gazelor si a lichidelor industriale, inclusiv traversarile si instalatiile tehnologice,: conducte magistrale pentru transportul produselor petroliere prevazute cu protectie catodica",normal,fixed,480,720,212000,281200,681100,758300,linear,number,1
+1_9,1_9_2,Conducte de termoficare,view,none,,,,,,,,,
+1_9_2,1_9_2_1,Conducte de termoficare aeriene sau in canale de protectie vizitabile,normal,fixed,240,360,212000,281200,681100,758300,linear,number,1
+1_9_2,1_9_2_2,Conducte de termoficare in canale nevizitabile,normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+1_9,1_9_3,"Conducte, bransamente si instalatii tehnologice pentru distributia gazelor, produselor petroliere si a lichidelor industriale, apa sarata, din exteriorul si exteriorul constructiilor",normal,fixed,144,216,212000,281200,681100,758300,linear,number,1
+1_9,1_9_4,"Alte constructii pentru transportul si distributia petrolului, gazelor, lichidelor industriale, aerului comprimat si pentru termoficare, neregasite in cadrul subgrupei 1.9.",normal,fixed,192,288,212000,281200,681100,758300,linear,number,1
+2,2_1,"Echipamente tehnologice (masini, utilaje si instalatii de lucru",view,none,,,,,,,,,
+2_1,2_1_1,Extractia si prepararea carbunilor si minereurilor metalifere si nemetalifere,view,none,,,,,,,,,
+2_1,2_1_1,Utilaje specifice productiei de electrozi din grafit,normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_1,2_1_1_1,"Masini, utilaje si instalatii pentru constructia puturilor miniere si forare miniera. Masini de havat, combine miniere si pluguri de carbune. Masini multifunctionale pe senile.",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_1,2_1_1_2,"Masini, utilaje si instalatii pentru sustinerea abatajelor si pentru taiere-prelucrare.",normal,fixed,36,60,213100,281300,681100,758300,linear,number,1
+2_1_1,2_1_1_3,Masini de incarcat si utilaje pentru rambleiere,normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_1,2_1_1_4,"Excavatoare cu rotor si instalatii de haldat. Masini, utilaje si instalatii de sfaramare si macinare.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_1,2_1_1_5,"Masini, utilaje si instalatii pentru clasare, pentru separare si concentrare (gravimetrica, magnetica, electrostatica). Masini, utilaje si instalatii pentru flotatie.",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_1,2_1_1_6,"Masini, utilaje si instalatii pentru extragerea si prepararea metalelor pretioase. Masini de tabletat si brichetat sare. Masini si utilaje pentru brichetarea carbunilor.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_1,2_1_1_7,Masini de ascutit sfredele si masini de curatat vagoane,normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_1,2_1_1_8,Alte echipamente tehnologice neregasite in cadrul clasei 2.1.1.,normal,fixed,48,72,213100,281300,681100,758300,linear,number,1
+2_1,2_1_10,"Masini, utilaje si instalatii pentru producerea sticlei, portelanului si faiantei",view,none,,,,,,,,,
+2_1_10,2_1_10_1,"Cuptoare pentru producerea masei de sticla si tratarea produselor din  sticla, masini de format si de prelucrat sticla, in afara de:",normal,fixed,132,204,213100,281300,681100,758300,linear,number,1
+2_1_10_1,2_1_10_1_1,"Cuptoare pentru producerea masei de sticla si tratarea produselor din  sticla, masini de format si de prelucrat sticla,: cuptoare de topire cu oale, de curbat si de securizat geamuri;
+- masini de confectionat aparatura de sticla pentru laborator, masini de gradat, masini de spart geamuri armate, de indreptat tuburi din sticla, de inchis termometre, de spalat cioburi, piese de rondele pentru masinile de tras geam;- masini de format materiale ceramice;- masini si instalatii de finisat si decorat produse din sticla si ceramica fina.",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_10,2_1_10_2,"Masini de ambalat butelii, de spalat si stors panza de filtru, instalatii de dozarea barbotinei, etc.",normal,fixed,132,204,213100,281300,681100,758300,linear,number,1
+2_1_10,2_1_10_3,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.10.",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1,2_1_11,"Masini, utilaje si instalatii pentru industria textila",view,none,,,,,,,,,
+2_1_11,2_1_11_1,"Masini pentru prelucrarea primara a fibrelor naturale. Masini, utilaje si instalatii pentru prelucrarea primara a fibrelor de lana si a parului. Masini pentru prelucrarea preliminara a deseurilor din fibre si a zdrentelor. Masini si instalatii din filaturile de bumbac. ",normal,fixed,96,168,213100,281300,681100,758300,linear,number,1
+2_1_11,2_1_11_2,"Masini, utilaje si instalatii din filaturile de matase naturala. Masini, utilaje si instalatii din filaturile de fibre liberiene si din filaturile de lana. Masini si utilaje pentru prepararea firelor. Masini, utilaje si instalatii pentru produs materiale textile netesute si electroplus. Masini pentru pregatire in vederea tratamentelor si finisarii. Masini, aparate si instalatii de vopsit si de imprimat materiale textile.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_11,2_1_11_3,"Masini si instalatii de albit. Masini si instalatii pentru tratamente umede fara folosire de coloranti. Masini de stors si de uscat materiale textile. Masini si instalatii pentru apretura si finisarea speciala a materialelor textile, de controlat, ajustat si impachetat. Masini de tesut.",normal,fixed,96,168,213100,281300,681100,758300,linear,number,1
+2_1_11,2_1_11_4,"Masini de tricotat, de impletit, crosetat si innodat.",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_11,2_1_11_5,"Alte masini, utilaje si instalatii neregaasite in cadrul clasei 2.1.11.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1,2_1_12,"Masini, utilaje si instalatii din industria confectiilor",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1,2_1_13,"Masini, utilaje si instalatii pentru industria pielariei, blanariei si incaltamintei",view,none,,,,,,,,,
+2_1_13,2_1_13_1,"Masini, utilaje si instalatii pentru produs talpa artificiala. Masini, utilaje si instalatii pentru confectii de incaltaminte din piele si din inlocuitori de piele. Masini, utilaje si instalatii pentru confectionarea incaltamintei din cauciuc, pentru confectii de manusi, blanarie, marochinarie si articole tehnice din piele.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_13,2_1_13_2,"Masini, utilaje si instalatii pentru tabacarii, in afara de:",normal,fixed,96,168,213100,281300,681100,758300,linear,number,1
+2_1_13,2_1_13_2_1,"Masini, utilaje si instalatii pentru tabacarii - bazine de inmuiat, cenusarit, pretabacit, tabacit si decolorat",normal,fixed,192,288,213100,281300,681100,758300,linear,number,1
+2_1_13,2_1_13_2_2,"Masini, utilaje si instalatii pentru tabacarii - haspele de inmuiat, cenusarit, decalcifiat,
+semaluire, pielat, tabacit si argasit si butoaie de inmuiat, cenusarit,
+decalcifiat, semaluire, pielat, tabacit, vopsit, retanat, uns, valcuit,
+etc., agregate elicoidale de cenusarit si tabacit",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_13,2_1_13_3,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.13.",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1,2_1_14,"Masini, utilaje si instalatii pentru industria alimentara",view,none,,,,,,,,,
+2_1_14,2_1_14_1,"Masini, utilaje si instalatii pentru abatoare si producerea preparatelor din carne",normal,fixed,96,168,213100,281300,681100,758300,linear,number,1
+2_1_14,2_1_14_2,"Masini, utilaje si instalatii pentru lapte si produse lactate",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_14,2_1_14_3,"Masini, utilaje si instalatii pentru producerea uleiurilor vegeatle si a margarinei, panificatie si producerea pastelor fainoase si a biscuitilor. Masini, utilaje si instalatii pentru producerea spirtului, amidonului, glucozei, deztrinei si drojdiei comprimate. Masini si instalatii pentru producerea tuicii, rachiurilor naturale, altor bauturi distilate si gazoase, esentelor si otetului",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_14,2_1_14_4,"Masini, utilaje si instalatii pentru ambalarea produselor alimentare. Masini, utilaje si instalatii pentru producerea conservelor de legume si fructe. Mesini, utilaje si instalatii comune pentru industria alimentara.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_14,2_1_14_5,"Masini, utilaje si instalatii pentru morarit",normal,fixed,156,252,213100,281300,681100,758300,linear,number,1
+2_1_14,2_1_14_6,"Masini, utilaje si instalatii pentru producerea zaharului",normal,fixed,168,264,213100,281300,681100,758300,linear,number,1
+2_1_14,2_1_14_7,"Masini, utilaje si instalatii pentru producerea produselor zaharoase. Masini, utilaje si instalatii pentru producerea vinului. Masini, utilaje si instalatii pentru producerea berii. Masini, utilaje si instalatii pentru prelucrarea tutunului si a produselor din tutun",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_14,2_1_14_8,Inventar gospodaresc din industria alimentara,normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_14,2_1_14_9,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.14.",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1,2_1_15,"Masini, utilaje si instalatii pentru industria poligrafica",normal,fixed,96,168,213100,281300,681100,758300,linear,number,1
+2_1,2_1_16,Masini de forta si utilaje energetice,view,none,,,,,,,,,
+2_1_16,2_1_16_1,"Masini generatoare, in afara de",normal,fixed,264,408,213100,281300,681100,758300,linear,number,1
+2_1_16_1,2_1_16_1_1,"Masini generatoare, instalatii de preparare a prafului de carbune, instalatii de tratare a apei de alimentare, instalatii de captare si evacuare a zgurei si cenusii;",normal,fixed,192,288,213100,281300,681100,758300,linear,number,1
+2_1_16_1,2_1_16_1_2,"Masini generatoare, generatoare de energie electrica:",view,none,,,,,,,,,
+2_1_16_1_2,2_1_16_1_2_1,"Masini generatoare, generatoare de curent continuu, de curent alternativ, generatoare de frecventa;",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_16_1_2,2_1_16_1_2_2,"Masini generatoare, grupuri electrogene stationare;",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_16_1_2,2_1_16_1_2_3,"Masini generatoare, grupuri electrogene mobile, grupuri de sudura mobile",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_16,2_1_16_2,Masini motrice:,view,none,,,,,,,,,
+2_1_16_2,2_1_16_2_1,Masini motrice - motoare electrice de curent continuu si de curent alternativ;,normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_16_2,2_1_16_2_2,"Masini motrice - turbine cu abur, turbine cu gaze;",normal,fixed,144,264,213100,281300,681100,758300,linear,number,1
+2_1_16_2,2_1_16_2_3,Masini motrice - turbine hidraulice;,normal,fixed,144,264,213100,281300,681100,758300,linear,number,1
+2_1_16_2,2_1_16_2_4,"Masini motrice - motoare cu ardere interna, cu piston, stabile;",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_16_2,2_1_16_2_5,Masini motrice - motoare eoliene.,normal,fixed,192,288,213100,281300,681100,758300,linear,number,1
+2_1_16,2_1_16_3,"Transformatoare, redresoare, convertizoare, acumulatoare si compensatoare",view,none,,,,,,,,,
+2_1_16_3,2_1_16_3_1,"Transformatoare si autotransformatoare, in afara de",normal,fixed,192,288,213100,281300,681100,758300,linear,number,1
+2_1_16_3_1,2_1_16_3_1_1,"Transformatoare si autotransformatoare, transformatoare si autotransformatoare de sudura",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_16_3_1,2_1_16_3_1_2,"Transformatoare si autotransformatoare, aparate de sudura electrica portabila",normal,fixed,48,72,213100,281300,681100,758300,linear,number,1
+2_1_16_3,2_1_16_3_2,"Transformatoare si autotransformatoare, instalatii de redresare- instalatii de convertizoare, in afara de:",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_16_3_2,2_1_16_3_2_1,"Transformatoare si autotransformatoare, roboti de pornire mobili",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_16_3,2_1_16_3_3,"Transformatoare si autotransformatoare, baterii de acumulatoare, instalatii de compensare a puterii reactive",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_16_3,2_1_16_3_4,"Transformatoare si autotransformatoare, baterii de acumulatoare pentru telecomunicatii",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_16,2_1_16_4,Compresoare si pompe de vid,view,none,,,,,,,,,
+2_1_16_4,2_1_16_4_1,"Compresoare si pompe de vid compresoare cu piston, stabile",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_16_4,2_1_16_4_2,"Compresoare si pompe de vid compresoare cu piston, mobile",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_16_4,2_1_16_4_3,"Compresoare si pompe de vid compresoare rotative, elicoidale, cu pistoane rotative, rotative cu inel lichid si centrifuge, stabile",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_16_4,2_1_16_4_4,"Compresoare si pompe de vid compresoare rotative, elicoidale, cu pistoane rotative, rotative cu inel lichid si centrifuge, mobile",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_16_4,2_1_16_4_5,Compresoare si pompe de vid pompe de vid,normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_16,2_1_16_5,"Aparataje pentru statii electrice si posturi de transformare. Echipamente pentru centrale termice, electrice si nucleare",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_16,2_1_16_6,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.16.",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1,2_1_17,"Masini, utilaje si instalatii comune care functioneaza independent",view,none,,,,,,,,,
+2_1_17,2_1_17_1,Pompe si aparate pentru vehicularea lichidelor,view,none,,,,,,,,,
+2_1_17_1,2_1_17_1_1,"Pompe centrifuge, in afara de:",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_17_1,2_1_17_1_1_1,Pompe centrifuge - pentru lichide slab corozive;,normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_17_1,2_1_17_1_1_2,Pompe centrifuge - pentru lichide cu actiune coroziva sau abraziva,normal,fixed,48,72,213100,281300,681100,758300,linear,number,1
+2_1_17_1,2_1_17_1_1_3,Pompe centrifuge - pentru titei,normal,fixed,36,60,213100,281300,681100,758300,linear,number,1
+2_1_17_1,2_1_17_1_2,Pompe centrifuge - pompe axiale;- pompe de injectie;- pompe cu roti dintate;- aparate si dispozitive pentru vehicularea lichidelor.,normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_17_1,2_1_17_1_3,Pompe centrifuge - pompe cu piston:,view,none,,,,,,,,,
+2_1_17_1_3,2_1_17_1_3_1,Pompe centrifuge - pentru lichide necorozive;,normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_17_1_3,2_1_17_1_3_2,Pompe centrifuge - pentru lichide cu actiune abraziva si coroziva;,normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_17_1_3,2_1_17_1_3_3,Pompe centrifuge - pentru extractia titeiului.,normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_17_1,2_1_17_1_4,"Pompe centrifuge - pompe cu pistonase, pompe cu membrana si pompe elicoidale, in afara de:",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_17_1_4,2_1_17_1_4_1,Pompe centrifuge - pompe de adancime cu cavitati progresive pentru extractia titeiului.,normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_17,2_1_17_2,"Masini si utilaje comune pentru prelucrarea mecanica a pamantului, minereurilor si a altor materii prime. Concasoare, delaioare si dezintegratoare. Ciururi si site. Alte masini si utilaje (roti desecatoare, gratare de separare, clasoare). Masini de echilibrat. Mori in afara de:",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_17_2,2_1_17_2_1,"Masini si utilaje comune pentru prelucrarea mecanica a pamantului, minereurilor si a altor materii prime. Concasoare, delaioare si dezintegratoare. Ciururi si site. Alte masini si utilaje (roti desecatoare, gratare de separare, clasoare). Masini de echilibrat. Mori: morile din industria cimentului",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_17,2_1_17_3,"Ventilatoare, aeroterme si microcentrale termice murale sau de pardoseli, in afara de:",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_17_3,2_1_17_3_1,"Ventilatoare, aeroterme si microcentrale termice murale sau de pardoseli,: aparate de climatizare",normal,fixed,48,72,213100,281300,681100,758300,linear,number,1
+2_1_17,2_1_17_4,"Mijloace de depozitare (rezervoare, tancuri, buncare, butelii industriale, etc.) incadrate in fluxul tehnologic:",view,none,,,,,,,,,
+2_1_17_4,2_1_17_4_1,"Mijloace de depozitare (rezervoare, tancuri, buncare, butelii industriale, etc.) incadrate in fluxul tehnologic - mediu neutru sau coroziv;",normal,fixed,192,288,213100,281300,681100,758300,linear,number,1
+2_1_17_4,2_1_17_4_2,"Mijloace de depozitare (rezervoare, tancuri, buncare, butelii industriale, etc.) incadrate in fluxul tehnologic - mediu puternic coroziv.",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_17,2_1_17_5,Amestecatoare si omogenizatoare,view,none,,,,,,,,,
+2_1_17_5,2_1_17_5_1,Amestecatoare si omogenizatoare: a) mediu neutru sau usor coroziv,normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_17_5,2_1_17_5_2,Amestecatoare si omogenizatoare: b) mediu puternic coroziv,normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_17,2_1_17_6,Masini si instalatii pentru industria frigului,normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_17,2_1_17_7,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.17",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1,2_1_19,"Unelte, dispozitive, instrumente si truse de scule specializate folosite in industrie",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1,2_1_2,"Prospectiuni geologice si geofizice, foraj si extractia titeiului si gazelor",view,none,,,,,,,,,
+2_1_2,2_1_2_1,Sondeze,normal,fixed,84,132,213100,281300,681100,758300,linear,number,1
+2_1_2,2_1_2_2,Utilaje si instalatii pentru forajul sondelor de titei si gaze,normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_2,2_1_2_3,"Trepiede, turle metalice, geamblacuri, macarale, trolii si mese rotative. Agregate de cimentare si fisurare. Masini, utilaje si instalatii pentru extractia titeiului si gazelor.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_2,2_1_2_4,"Masini, utilaje si instalatii pentru carotaj, deviatii si perforari",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_2,2_1_2_5,Alte echipamente tehnologice neregasite in cadrul clasei 2.1.2.,normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1,2_1_20,Masini si utilaje pentru constructii,view,none,,,,,,,,,
+2_1_20,2_1_20_1,"Masini si utilaje pentru saparea si pregatirea terenului. Screpere, gredere, buldozere, buldoexcavatoare, sapatoare de santuri, sapatoare de gropi si scarificatoare. Excavatoare sub 150 KW, in afara de:",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_20,2_1_20_1,"Unelte, dispozitive si instrumente folosite in constructii",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_20_1,2_1_20_1_1,"Masini si utilaje pentru saparea si pregatirea terenului. Screpere, gredere, buldozere, buldoexcavatoare, sapatoare de santuri, sapatoare de gropi si scarificatoare. Excavatoare sub 150 KW,: excavatoare de peste 150 KW",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_20,2_1_20_11,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.20.",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_20,2_1_20_2,"Masini unelte pentru lucrari de fundatii, lucrari in stanca si pentru tuneluri. Instalatii de forat la sectiunea plina. Berbeci mecanici si extractoare de piloti. Utileje pentru executarea lucrarilor sub apa si masini de forat si turnat piloti, in afara de:",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_20_2,2_1_20_2_1,"Masini unelte pentru lucrari de fundatii, lucrari in stanca si pentru tuneluri. Instalatii de forat la sectiunea plina. Berbeci mecanici si extractoare de piloti. Utileje pentru executarea lucrarilor sub apa si masini de forat si turnat piloti,: sonete",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_20_2,2_1_20_2_2,"Masini unelte pentru lucrari de fundatii, lucrari in stanca si pentru tuneluri. Instalatii de forat la sectiunea plina. Berbeci mecanici si extractoare de piloti. Utileje pentru executarea lucrarilor sub apa si masini de forat si turnat piloti,: ciocane pneumatice",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_20_2,2_1_20_2_3,"Masini unelte pentru lucrari de fundatii, lucrari in stanca si pentru tuneluri. Instalatii de forat la sectiunea plina. Berbeci mecanici si extractoare de piloti. Utileje pentru executarea lucrarilor sub apa si masini de forat si turnat piloti,: scuturi",normal,fixed,36,60,213100,281300,681100,758300,linear,number,1
+2_1_20,2_1_20_3,"Masini, utilaje si instalatii pentru prepararea, transportul si punerea in opera a betonului si mortarului, in afara de:",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_20_3,2_1_20_3_1,"Masini, utilaje si instalatii pentru prepararea, transportul si punerea in opera a betonului si mortarului,: betoniere si malaxoare, autobetoniere, pompe si autopompe de beton;",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_20_3,2_1_20_3_2,"Masini, utilaje si instalatii pentru prepararea, transportul si punerea in opera a betonului si mortarului,: centrale de beton;",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_20_3,2_1_20_3_3,"Masini, utilaje si instalatii pentru prepararea, transportul si punerea in opera a betonului si mortarului,: vibratoare de interior si de exterior pentru compactarea betonului",normal,fixed,36,60,213100,281300,681100,758300,linear,number,1
+2_1_20,2_1_20_4,"Masini, utilaje si instalatii pentru lucrari de zidarie, tencuieli, finisaje, izolatii si instalatii, in afara de:",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_20_4,2_1_20_4_1,"Masini, utilaje si instalatii pentru lucrari de zidarie, tencuieli, finisaje, izolatii si instalatii,: unelte mecanice portabile (electrice, pneumatice, hidraulice)",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_20,2_1_20_5,"Masini, utilaje si instalatii pentru lucrari hidrotehnice, in afara de:",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_20_5,2_1_20_5_1,"Masini, utilaje si instalatii pentru lucrari hidrotehnice,: dragi",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_20_5,2_1_20_5_2,"Masini, utilaje si instalatii pentru lucrari hidrotehnice,: greifere plutitoare",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_20_5,2_1_20_5_3,"Masini, utilaje si instalatii pentru lucrari hidrotehnice,: elevatoare",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_20,2_1_20_6,"Masini, utilaje si instalatii pentru constructii si reparatii de drumuri, in afara de:",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_20_6,2_1_20_6_1,"Masini, utilaje si instalatii pentru constructii si reparatii de drumuri,: compactoare tractate si autoporpulsate vibratoare si mixte, masini de taiat asfalt, placi vibratoare si maiuri mecanice",normal,fixed,36,60,213100,281300,681100,758300,linear,number,1
+2_1_20,2_1_20_7,"Masini, utilaje si instalatii pentru constructii si reparatii de cai ferate, in afara de:",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_20_7,2_1_20_7_1,"Masini, utilaje si instalatii pentru constructii si reparatii de cai ferate,: ciocane de burat prin vibrare",normal,fixed,36,60,213100,281300,681100,758300,linear,number,1
+2_1_20_7,2_1_20_7_2,"Masini, utilaje si instalatii pentru constructii si reparatii de cai ferate,: masini de burat",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_20_7,2_1_20_7_3,"Masini, utilaje si instalatii pentru constructii si reparatii de cai ferate,: utilaje pentru indreptat si indoit sine",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_20_7,2_1_20_7_4,"Masini, utilaje si instalatii pentru constructii si reparatii de cai ferate,: masini pentru montarea si sudarea sinei",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_20_7,2_1_20_7_5,"Masini, utilaje si instalatii pentru constructii si reparatii de cai ferate,: masini pentru pozatrea caii, utilaje de masurat si verificat cale si masini de resctificat rosturi",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_20,2_1_20_8,Masini pentru executarea armaturilor din beton,normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_20,2_1_20_9,Masini si utilaje pentru lucrari de conducte magistrale si linii de transport electrice,normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1,2_1_21,"Masini, utilaje si instalatii pentru agricultura",view,none,,,,,,,,,
+2_1_21,2_1_21_1,Masini si utilaje pentru prelucrarea solului,view,none,,,,,,,,,
+2_1_21_1,2_1_21_1_1,"Masini si utilaje pentru prelucrarea solului - tractoare agricole- masini pentru administrarea ingrasamintelor, aparate si dispozitive pentru tratarea culturilor (stropit, prafuit)",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_21_1,2_1_21_1_2,"Masini si utilaje pentru prelucrarea solului - utilaje si instalatii pentru irigatii;- masini pentru recoltat, treierat, curatat, sortat si tratat seminte, adunat si balotat fan si paie;- masini si echipamente pentru lucrarea si cultivarea pamantului, in afara de:",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_21_1_2,2_1_21_1_2_1,"Masini si utilaje pentru prelucrarea solului - grape, netezitoare si nivelatoare",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_21,2_1_21_2,"Masini, instalatii si utilaje pentru zootehnie. Masini, instalatii si utilaje pentru prepararea hranei animalelor. Masini, instalatii si utilaje pentru adapatul, distribuirea hranei animalelor si evacuarea gunoiului. Masini, instalatii si utilaje pentru recoltarea produselor animale. Masini, instalatii si utilaje pentru apicultura. Masini, instalatii si utilaje pentru incubatii si pentru avicultura. Masini, instalatii si utilaje pentru dezinfectie veterinara.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_21,2_1_21_3,"Masini, instalatii si utilaje pentru legumicultura, viticultura si pomicultura.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_21,2_1_21_4,"Masini, instalatii si utilaje pentru producerea biogazului",normal,fixed,144,240,213100,281300,681100,758300,linear,number,1
+2_1_21,2_1_21_5,"Unelte, dispozitive si instrumente folosite in agricultura",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_21,2_1_21_6,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.21.",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1,2_1_22,"Masini, utilaje si instalatii pentru transporturi si telecomunicatii",view,none,,,,,,,,,
+2_1_22,2_1_22_1,"Masini, utilaje si instalatii pentru transport feroviar",view,none,,,,,,,,,
+2_1_22_1,2_1_22_1_1,"Masini, utilaje si instalatii pentru transport feroviar - masini, utilaje si instalatii pentru mentenanta liniilor, locomotivelor si vagoanelor",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_22_1,2_1_22_1_2,"Masini, utilaje si instalatii pentru transport feroviar - instalatii speciale pentru siguranta circulatiei si marirea capacitatii de exploatare in statii, triaje si linii curente CF (instalatii pentru controlul pozitiei macazurilor, instalatii de comanda centralizata a circulatiei, se semnalizare automata a liniilor);- instalatii de telecomunicatii pentru caile ferate",normal,fixed,192,288,213100,281300,681100,758300,linear,number,1
+2_1_22_1,2_1_22_1_3,"Masini, utilaje si instalatii pentru transport feroviar - masini, utilaje si instalatii folosite in sistemul comercial;- utilaje pentru impregnarea si ignifugarea lemnului",normal,fixed,132,204,213100,281300,681100,758300,linear,number,1
+2_1_22,2_1_22_2,"Masini, utilaje si instalatii pentru mentenanta mijloacelor de transport rutier",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_22,2_1_22_3,"Masini, utilaje si instalatii pentru mentenanta navelor, intretinerea cailor navigabile si a lacurilor",view,none,,,,,,,,,
+2_1_22_3,2_1_22_3_1,"Masini, utilaje si instalatii pentru mentenanta navelor, intretinerea cailor navigabile si a lacurilor - barci pentru scafandri, din metal",normal,fixed,96,168,213100,281300,681100,758300,linear,number,1
+2_1_22_3,2_1_22_3_2,"Masini, utilaje si instalatii pentru mentenanta navelor, intretinerea cailor navigabile si a lacurilor - pompe de aer pentru scafandri",normal,fixed,48,72,213100,281300,681100,758300,linear,number,1
+2_1_22_3,2_1_22_3_3,"Masini, utilaje si instalatii pentru mentenanta navelor, intretinerea cailor navigabile si a lacurilor - pontoane maritime si fluviale;- docuri plutitoare, docuri uscate",normal,fixed,240,360,213100,281300,681100,758300,linear,number,1
+2_1_22_3,2_1_22_3_4,"Masini, utilaje si instalatii pentru mentenanta navelor, intretinerea cailor navigabile si a lacurilor - masini, utilaje si instalatii pentru intretinerea cailor navigabile si a lacurilor;- instalatii pentru intretinerea si repararea navelor",normal,fixed,192,288,213100,281300,681100,758300,linear,number,1
+2_1_22_3,2_1_22_3_5,"Masini, utilaje si instalatii pentru mentenanta navelor, intretinerea cailor navigabile si a lacurilor - uzine electrice plutitoare, nave pentru stins incendii, dormitoare plutitoare pe nave sau pe bacuri fluviale",normal,fixed,192,288,213100,281300,681100,758300,linear,number,1
+2_1_22,2_1_22_4,"Masini, utilaje si instalatii pentru exploatarea, mentenanta, protectia si servirea aeronavelor si a traficului aerian",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_22,2_1_22_5,"Masini, utilaje si instalatii pentru posta, presa si telecomunicatii (telefonie, telegrafie), in afara de:",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_22_5,2_1_22_5_1,"Masini, utilaje si instalatii pentru posta, presa si telecomunicatii (telefonie, telegrafie) - centrale automate (telefonice si telegrafice), analogice de oficiu",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_22_5,2_1_22_5_2,"Masini, utilaje si instalatii pentru posta, presa si telecomunicatii (telefonie, telegrafie) - centrale automate (telefonice si telegrafice) analogice pentru institutii",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_22_5,2_1_22_5_3,"Masini, utilaje si instalatii pentru posta, presa si telecomunicatii (telefonie, telegrafie) - echipamente digitale de telecomunicatii si instalatii aferente (electroalimentare, climatizare)",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_22,2_1_22_6,"Masini, aparate si instalatii pentru radio, televiziune si telecomunicatii prin sateliti, telefonie mobila, in afara de:",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_22_6,2_1_22_6_1,"Masini, aparate si instalatii pentru radio, televiziune si telecomunicatii prin sateliti, telefonie mobila - statii de emisie, emitatoare, translatoare si excitatoare, radiorelee;- antene;",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_22_6,2_1_22_6_2,"Masini, aparate si instalatii pentru radio, televiziune si telecomunicatii prin sateliti, telefonie mobila - statii radio, radiotelefoane mobile, rame de radiorelee mobile;- receptoare profesionale de trafic de banda larga;- echipamente pentru telecomunicatii prin sateliti.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_22_6,2_1_22_6_3,"Masini, aparate si instalatii pentru radio, televiziune si telecomunicatii prin sateliti, telefonie mobila - transformatoare de fider pentru motitoare de control video si audio;- monitoare de control video si audio",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_22_6,2_1_22_6_4,"Masini, aparate si instalatii pentru radio, televiziune si telecomunicatii prin sateliti, telefonie mobila - receptoare telefonie mobila",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_22,2_1_22_7,"Echipamente, utilaje si aparate pentru studiouri radio si televiziune, in afara de:",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_22_7,2_1_22_7_1,"Echipamente, utilaje si aparate pentru studiouri radio si televiziune, in afara de - echipamente auxiliare pentru controlul si monitorizarea semnalelor",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_22,2_1_22_8,"Unelte, dispozitive si instrumente pentru transporturi si telecomunicatii",normal,fixed,36,60,213100,281300,681100,758300,linear,number,1
+2_1_22,2_1_22_9,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.22.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1,2_1_23,"Masini, utilaje si instalatii pentru circulatia marfurilor",view,none,,,,,,,,,
+2_1_23,2_1_23_1,Masini pentru pregatirea alimentelor,normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_23,2_1_23_2,"Masini de spalat vesela si tacamuri. Dulapuri pentru uscat si incalzit vesela si tacamuri. Masini, utilaje si instalatii pentru conservarea si desfacerea preparatelor alimentare si a bauturilor. linii de autoservire pentru alimentatia publica.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_23,2_1_23_3,"Masini si utilaje pentru prepararea mancarurilor, in afara de:",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_23_3,2_1_23_3_1,Masini si utilaje pentru prepararea mancarurilor - marmite,normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_23,2_1_23_4,"Automate si semiautomate comerciale. Jocuri de noroc mecanice, electrice, electronice, mese de biliard, etc.",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_23,2_1_23_5,"Unelte, dispozitive, instrumente pentru circulatia marfurilor, containere si transcontainere",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_23,2_1_23_6,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.23.",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1,2_1_24,"Masini, utilaje si instalatii pentru gospodaria comunala si spalatorii",view,none,,,,,,,,,
+2_1_24,2_1_24_1,Masini pentru spalatorii si curatatorii chimice,normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_24,2_1_24_2,"Masini, utilaje si instalatii de salubritate si ingrijirea spatiilor verzi",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_24,2_1_24_3,"Masini, echipamente si instalatii pentru stins incendii, in afara de:",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_24_3,2_1_24_3_1,"Masini, echipamente si instalatii pentru stins incendii - centrale de avertizare si semnalizare",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_24,2_1_24_4,"Utilaje si instalatii pentru alimentarea cu apa, pentru tratarea apelor de alimentare si epurarea apelor uzate, in afara de:",normal,fixed,228,348,213100,281300,681100,758300,linear,number,1
+2_1_24_4,2_1_24_4_1,"Utilaje si instalatii pentru alimentarea cu apa, pentru tratarea apelor de alimentare si epurarea apelor uzate - aparate de clorinare",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_24_4,2_1_24_4_2,"Utilaje si instalatii pentru alimentarea cu apa, pentru tratarea apelor de alimentare si epurarea apelor uzate - poduri racloare",normal,fixed,288,432,213100,281300,681100,758300,linear,number,1
+2_1_24,2_1_24_5,"Masini, utilaje si instalatii pentru tratarea deseurilor menajere",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_24,2_1_24_6,"Recipiente pentru depozitarea deseurilor menajere, in afara de:",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_24_6,2_1_24_6_1,Recipiente pentru depozitarea deseurilor menajere - rampe ecologice,normal,fixed,48,72,213100,281300,681100,758300,linear,number,1
+2_1_24,2_1_24_7,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.24.",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1,2_1_25,"Masini, utilaje si instalatii pentru ocrotirea sanatatii",view,none,,,,,,,,,
+2_1_25,2_1_25_1,"Aparate si instrumente pentru oftalmologie, pentru oto-rino-laringologie. Aparate si instrumente pentru stomatologie. Aparate si instalatii pentru fizioterapie. Aparate si instalatii de laborator pentru analize medicale. Utilaje, instalatii si aparate pentru ocrotirea sanatatii (sterilizare, dezinfectii, dezinsectii).",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_25,2_1_25_2,"Aparate si instrumente pentru diagnostic, pentru chirurgie, pentru narcoza si reanimare, in afara de:",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_25_2,2_1_25_2_1,"Aparate si instrumente pentru diagnostic, pentru chirurgie, pentru narcoza si reanimare - aparate de inalta tehnologie;- aparate pentru masurarea presiunii arteriale",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_25,2_1_25_3,"Aparate, instrumente, utilaje si instalatii pentru radiologie",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_25,2_1_25_4,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.25.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1,2_1_26,"Alte masini, utilaje si instalatii",view,none,,,,,,,,,
+2_1_26,2_1_26_1,"Masini, aparate si instalatii pentru producerea de filme si proiectie cinematografica, in afara de:",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_26_1,2_1_26_1_1,"Masini, aparate si instalatii pentru producerea de filme si proiectie cinematografica - lampi fulger electronice, proiectoare si cutii de distributie",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_26,2_1_26_2,"Masini, utilaje si instalatii fotografice, utilaje pentru scene de teatru, cluburi si cinematografe, in afara de:",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_26_2,2_1_26_2_1,"Masini, utilaje si instalatii fotografice, utilaje pentru scene de teatru, cluburi si cinematografe - cortine, scene",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_26_2,2_1_26_2_2,"Masini, utilaje si instalatii fotografice, utilaje pentru scene de teatru, cluburi si cinematografe - scene metalice demontabile",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_26,2_1_26_3,"Instrumente muzicale si automate muzicale, in afara de:",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_26_3,2_1_26_3_1,Instrumente muzicale si automate muzicale - orga clasica cu comanda electrica,normal,fixed,480,720,213100,281300,681100,758300,linear,number,1
+2_1_26,2_1_26_4,"Masini, utilaje si instalatii pentru producerea de discuri fonografice",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_26,2_1_26_5,"Masini si utilaje pentru hidrometrie. Masini si echipamente pentru saloane de frizerie, coafura si cosmetica, in afara de:",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_26_5,2_1_26_5_1,"Masini si utilaje pentru hidrometrie. Masini si echipamente pentru saloane de frizerie, coafura si cosmetica - unelte si instrumente de frizerie, cosmetica si coafura",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1,2_1_27,Accesorii de productie,normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1,2_1_28,"Alte echipamente tehnologice (masini, utilaje si instalatii de lucru) neregasite in cadrul subgrupei 2.1.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1,2_1_3,"Masini, utilaje si instalatii pentru metalurgia feroasa, inclusiv laminarea si trefilarea metalelor",view,none,,,,,,,,,
+2_1_3,2_1_3_1,"Masini, utilaje si instalatii pentru productia de cocs metalurgic, pentru productia fontei de prima fuziune si a feroaliajelor.Masini, utilaje si instalatii pentru productia electrozilor de sudura. Masini, utilaje si instalatii pentru acoperirea si protectia suprafetei laminatelor, tevilor si trefilatelor.",normal,fixed,132,204,213100,281300,681100,758300,linear,number,1
+2_1_3,2_1_3_2,"Masini, utilaje si instalatii pentru productia de otel",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_3,2_1_3_3,"Masini, utilaje si instalatii pentru productia de laminate. Masini, utilaje si instalatii pentru productia barelor, sarmelor si tevilor trase. Masini, utilaje si instalatii pentru productia de tevi sudate.",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_3,2_1_3_4,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.3.",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1,2_1_4,"Masini, utilaje si instalatii pentru metalurgia neferoasa",normal,fixed,132,204,213100,281300,681100,758300,linear,number,1
+2_1_4,2_1_4_1,"Masini si instalatii pentru reducere, topire, distilare si turnare. Cuptoare pentru prerafinare, masini si instalatii pentru convertizoare si rafinare.",normal,fixed,132,204,213100,281300,681100,758300,linear,number,1
+2_1_4,2_1_4_2,"Masini si instalatii pentru prelucrarea produselor, subproduselor si deseurilor din metalurgia neferoasa",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_4,2_1_4_3,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.4.",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1,2_1_5,"Masini, utilaje si instalatii pentru constructia de masini si prelucrarea metalului",view,none,,,,,,,,,
+2_1_5,2_1_5_1,"Masini de alezat si frezat orizontale. Masini de rabotat cu masa mobila. Ciocane de forja. Prese de forja, prese speciale si specializate, masini de forjat, masini de rulat, indoit si debitat tabla, profile si tevi, masini auxiliare speciale pentru forja. Masini si instalatii de incalzire pentru forja. Masini, utilaje si instalatii pentru dezbatereasi curatirea pieselor turnate. Masini, utilaje si instalatii pentru tratamente termice. Masini, utilaje si instalatii specifice pentru productia de cabluri si conductoare. Masini, utilaje si instalatii specifice pentru productia de materiale electroizolante si de pulberi. Masini, utilaje si instalatii specializate de confectionat produse din sarma (cuie, ace, tinte, etc.). Masini, utilaje si instalatii specializate de confectionat produse din tabla subtire (jucarii, ambalaje, etc.). Masini, utilaje si instalatii specializate de confectionat autovehicule, tractoare, locomotive, vagoane. Masini specializate pentru confectionat nituri, suruburi, tirfoane, piulite si caiele. Masini, utilaje si instalatii specializate pentru constructia de nave, in afara de:  ",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_5_1,2_1_5_1_1,"Masini de alezat si frezat orizontale. Masini de rabotat cu masa mobila. Ciocane de forja. Prese de forja, prese speciale si specializate, masini de forjat, masini de rulat, indoit si debitat tabla, profile si tevi, masini auxiliare speciale pentru forja. Masini si instalatii de incalzire pentru forja. Masini, utilaje si instalatii pentru dezbatereasi curatirea pieselor turnate. Masini, utilaje si instalatii pentru tratamente termice. Masini, utilaje si instalatii specifice pentru productia de cabluri si conductoare. Masini, utilaje si instalatii specifice pentru productia de materiale electroizolante si de pulberi. Masini, utilaje si instalatii specializate de confectionat produse din sarma (cuie, ace, tinte, etc.). Masini, utilaje si instalatii specializate de confectionat produse din tabla subtire (jucarii, ambalaje, etc.). Masini, utilaje si instalatii specializate de confectionat autovehicule, tractoare, locomotive, vagoane. Masini specializate pentru confectionat nituri, suruburi, tirfoane, piulite si caiele. Masini, utilaje si instalatii specializate pentru constructia de nave,:   nii automate de formare-turnare",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_5,2_1_5_2,"Strunguri: paralele, frontale si carusel, revolver, automate si semiautomate, specializate. Masini de alezat. Masini de frezat. Masini de rabotat cu cutit mobil (sepinguri) si de mortezat, de prelucrat roti dintate, de filetat, etc., polizoare fixe. Masini de gaurit, masini de debitat metale. Masini agregat, linii automate si semiautomate, centre de prelucrare a metalului prin aschiere. Masini de formare, miezuire si formare de precizie si cu modele usor fuzibile, masini de turnat, uscatoare pentru forme si miezuri, masini, utilaje si instalatii pentru elaborarea metalelor si aliajelor. Masini, utilaje si instalatii pentru vopsire si acoperiri metalice. Masini, utilaje si instalatii comune pentru industria electrotehnica. Masini, utilaje si instalatii specifice pentru productia de transformatoare. Masini, utilaje si instalatii specifice pentru productia de masini electrice rotative. Masini, utilaje si instalatii specifice pentru productia de aparataj de inalta si joasa tensiune,d e aparate electrice, telefonice si de masurare. Masini, utilaje si instalatii specifice pentru fabricatia de produse electrochimice si surse de iluminat. Masini, utilaje si instalatii specifice pentru prelucrarea metalului prin procedee speciale (ultrasunete, etc.). Masini, utilaje si instalatii specializate pentru constructii aeronautice. Masini specializate pentru confectionat armaturi si fitiguri. ",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_5,2_1_5_3,Masini specializate pentru confectionat arcuri.,normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_5_3,2_1_5_3_4,"Alte masini, utilaje si instalatii pentru industria chimica organica",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_5,2_1_5_4,"Masini, utilaje si instalatii specializate pentru confectionarea ceasurilor",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_5,2_1_5_5,"Masini, utilaje si instalatii pentru sudarea metalului",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_5,2_1_5_6,"Masini, utilaje si instalatii specifice pentru productia componentelor produselor si sistemelor electronice (semiconductoare, circuite imprimate, aparate audio si video, aparate si instrumente electronice de masurare, calculatoare si periferice, etc.).",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_5,2_1_5_7,"Masini portabile de polizat, slefuit, taiat, gaurit, etc.",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_5,2_1_5_8,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.5.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1,2_1_6,"Masini, uilaje si instalatii pentru industria chimica si petrochimica",view,none,,,,,,,,,
+2_1_6,2_1_6_1,"Masini, utilaje si instalatii de uz general in tehnologia chimica",view,none,,,,,,,,,
+2_1_6_1,2_1_6_1_1,"Decantoare, separatoare, vase florentine, hidrocicloane filtre si centrifuge, masini, utilaje si instalatii pentru procese de distilare si rectificare a lichidelor. Masini, utilaje si instalatii pentru procesele de incalzire, racire si condensare, masini, utilaje si instalatii pentru evaporare, uscare si cristalizare:",view,none,,,,,,,,,
+2_1_6_1_1,2_1_6_1_1_1,"Decantoare, separatoare, vase florentine, hidrocicloane filtre si centrifuge, masini, utilaje si instalatii pentru procese de distilare si rectificare a lichidelor. Masini, utilaje si instalatii pentru procesele de incalzire, racire si condensare, masini, utilaje si instalatii pentru evaporare, uscare si cristalizare -  mediu neutru sau usor coroziv",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_6_1_1,2_1_6_1_1_2,"Decantoare, separatoare, vase florentine, hidrocicloane filtre si centrifuge, masini, utilaje si instalatii pentru procese de distilare si rectificare a lichidelor. Masini, utilaje si instalatii pentru procesele de incalzire, racire si condensare, masini, utilaje si instalatii pentru evaporare, uscare si cristalizare -  mediu puternic coroziv",normal,fixed,72,120,213100,281300,681100,758300,linear,number,1
+2_1_6_1,2_1_6_1_2,"Masini, utilaje si instalatii pentru procese de separare a sistemelor gazoase, masini, utilaje si instalatii pentru procese de absorbtie si extractie, masini, utilaje si instalatii pentru reactii chimice si electrochimice:",view,none,,,,,,,,,
+2_1_6_1_2,2_1_6_1_2_1,"Masini, utilaje si instalatii pentru procese de separare a sistemelor gazoase, masini, utilaje si instalatii pentru procese de absorbtie si extractie, masini, utilaje si instalatii pentru reactii chimice si electrochimice -  mediu neutru sau usor coroziv",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_6_1_2,2_1_6_1_2_2,"Masini, utilaje si instalatii pentru procese de separare a sistemelor gazoase, masini, utilaje si instalatii pentru procese de absorbtie si extractie, masini, utilaje si instalatii pentru reactii chimice si electrochimice -  mediu puternic coroziv",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_6,2_1_6_2,"Masini, utilaje si instalatii specifice industriei chimice anorganice",view,none,,,,,,,,,
+2_1_6_2,2_1_6_2_1,"Masini, utilaje si instalatii specifice pentru producerea acidului sulfuric si a ingrasamintelor fosfatice, a amoniacului, acidului azotic sia ingrasamintelor azotoase. Masini, utilaje si instalatii specifice producerii sodei. Masini, utilje si instalatii specifice producerii carbidului, oxigenului, pulberilor si explozibililor. Alte masini, utilaje si instalatii specifice pentru industria chimica anorganica.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_6_2,2_1_6_2_2,"Masini, utilaje si instalatii specifice producerii clorului si a compusilor sai",normal,fixed,48,96,213100,281300,681100,758300,linear,number,1
+2_1_6,2_1_6_3,"Masini, utilaje si instalatii specifice industriei chimice organice (exclusiv prelucrarea titeiului)",view,none,,,,,,,,,
+2_1_6_3,2_1_6_3_1,"Masini, utileje si instalatii specifice producerii fibrelor si firelor artificiale.Vase pentru coagularea latexului, prese de turnare, masini automate de ambalare in baloturi si masini de turnat epruvete de cauciuc. Masini, utilaje si instalatii specializate pentru confectionat produse din cauciuc (anvelope, garnituri, tuburi, etc.)",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_6_3,2_1_6_3_2,"Granulatoare pentru negru de fun. Reactoare pentru dehidrogenarea butanului, polimerizatoare. Masini, utilaje si instalatii specializate pentru confectionat produse din mase plastice. Masini, utilaje si instalatii specializate pentru producerea medicamentelor.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_6_3,2_1_6_3_3,"Instalatii pentru preparat solutii, in circuit inchis, in vase de sticla si vase de cuart pentru filtrare",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_6,2_1_6_4,"Masini, utilaje si instalatii specifice prelucrarii titeiului, in afara de:",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_6_4,2_1_6_4_1,"Masini, utilaje si instalatii specifice prelucrarii titeiului - coloane de distilare fractionata si generatoare de gaz inert;- vase pentru propan si butan.",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_6_4,2_1_6_4_2,"Masini, utilaje si instalatii specifice prelucrarii titeiului - agregate pentru taierea hidraulica a cocsului, regeneratoare de catalizator si umectoare, coloane pentru recuperarea SO2 din rafinat si coloane de solventare cu bioxid de sulf si cuptoare pentru arderea gudroanelor",normal,fixed,84,132,213100,281300,681100,758300,linear,number,1
+2_1_6,2_1_6_5,"Masini, utilaje si instalatii specifice productiei de sapun, detergenti si lumanari",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_6,2_1_6_6,"Alte masini, utilaje si instalatii neregasite din cadrul clasei 2.1.6.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1,2_1_7,"Masini, utilaje si instalatii pentru producerea materialelor de constructii si refractare",view,none,,,,,,,,,
+2_1_7,2_1_7_1,"Masini, utilaje si instalatii pentru fasonarea produselor, in afara de:",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_7_1,2_1_7_1_1,"Masini, utilaje si instalatii pentru fasonarea produselor - masini de fasonat prin presare;- masini de fasonat prin laminare;- vibroprese si traverse pentru blocuri din beton",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_7,2_1_7_2,"Masini, utilaje si instalatii pentru uscarea produselor. Masini, utilaje si instalatii pentru maturizarea produselor.",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_7,2_1_7_3,"Masini, utilaje si instalatii pentru arderea produselor, in afara de:",normal,fixed,192,288,213100,281300,681100,758300,linear,number,1
+2_1_7_3,2_1_7_3_1,"Masini, utilaje si instalatii pentru arderea produselor - cuptoare electrice pentru elaborarea electrocorindonului si a carburii de siliciu precum si pentru ars email.",normal,fixed,132,204,213100,281300,681100,758300,linear,number,1
+2_1_7,2_1_7_4,"Masini, utilaje si instalatii pentru arderea produselor - sini, utilaje si instalatii pentru deservirea uscatoriilor si cuptoarelor. Masini si instalatii specifice pentru producerea cimentului, varului si ipsosului. Masini si instalatii specifice fabricarii produselor din azbociment. Masini, utilaje si instalatii specifice producerii materialelor hidroizolatoare (carton asfaltat, etc.). Masini si instalatii specifice producerii materialelor termoizolatoare (a vatei minerale, a vatei si paslei din fibre de sticla). Masini si instalatii specifice producerii garniturilor tehnice de etansare. Masini si instalatii specifice producerii rondelelor, placilor izolatoare si dopurilor din pluta. Masini si instalatii specifice pentru extragerea si prelucrarea marmurei si a pietrelor naturale si artificiale de constructii. Masini, utilaje si instalatii specifice pentru ambalarea produselor. Masini si instalaii specifice pentru prefabricate din beton, caramizi silico-calcare si tigle din ciment, in afara de: ",normal,fixed,144,216,213100,281300,681100,758300,linear,number,1
+2_1_7_4,2_1_7_4_1,"Masini, utilaje si instalatii pentru arderea produselor - tipare metalice si din beton, incalzitoare;- casete verticale.",normal,fixed,48,72,213100,281300,681100,758300,linear,number,1
+2_1_7_4,2_1_7_4_2,"Masini, utilaje si instalatii pentru arderea produselor - tipare pentru tuburi din beton",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1,2_1_8,"Masini, utilaje si instalatii pentru silvicultura, exploatarea si prelucrarea lemnului",view,none,,,,,,,,,
+2_1_8,2_1_8_1,"Masini de cojit, despicat, tocat si maruntit. Stunguri si masini de copiat. Ferastraie in afara de:",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_8_1,2_1_8_1_1,"Masini de cojit, despicat, tocat si maruntit. Stunguri si masini de copiat. Ferastraie  - ferastraie cu lant portabile",normal,fixed,24,36,213100,281300,681100,758300,linear,number,1
+2_1_8,2_1_8_2,"Masini de rindeluit, de frezat, de gaurit si daltuit, in afara de:",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_8_2,2_1_8_2_1,"Masini de rindeluit, de frezat, de gaurit si daltuit - masini portabile de rindeluit, de frezat, de gaurit si daltuit",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_8,2_1_8_3,"Masini de slefuit, de lustruit, masini combinate, masini agregat, in afara de:",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_8_3,2_1_8_3_1,"Masini de slefuit, de lustruit, masini combinate, masini agregat - masini portabile de slefuit si de lustruit",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_8,2_1_8_4,"Masini de slefuit, de lustruit, masini combinate, masini agregat - sini-unelte pentru prelucrarea lemnului prin taiere si masini de curbat, agregate de inadire si asamblare, prese specifice pentru industria lemnului, masini, utilaje si instalatii pentru preparat si aplicat adezivi si lacuri, in afara de:",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_8_4,2_1_8_4_1,"Masini de slefuit, de lustruit, masini combinate, masini agregat - masini portabile de taiat si de imbinat prin agrafe, cuie, clame",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2_1_8,2_1_8_5,"Masini, utilaje si instalatii pentru uscare, aburire si tratare termica, in afara de:",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_8_5,2_1_8_5_1,"Masini, utilaje si instalatii pentru uscare, aburire si tratare termica - masini si instalatii de aburire si fierbere a lemnului",normal,fixed,48,72,213100,281300,681100,758300,linear,number,1
+2_1_8,2_1_8_6,"Masini, utilaje si instalatii specifice liniilor de fabricatie pentru prelucrarea lemnului",normal,fixed,108,180,213100,281300,681100,758300,linear,number,1
+2_1_8,2_1_8_7,"Masini, utilaje si instalatii pentru silvicultura",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_8,2_1_8_8,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.8.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1,2_1_9,"Masini, utilaje si instalatii pentru industria celulozei si hartiei",view,none,,,,,,,,,
+2_1_9,2_1_9_1,"Masini, utilaje si instalatii pentru fabricarea celulozei, in afara de:",normal,fixed,120,192,213100,281300,681100,758300,linear,number,1
+2_1_9_1,2_1_9_1_1,"Masini, utilaje si instalatii pentru fabricarea celulozei - putini din lemn pentru spalare",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_9,2_1_9_2,"Masini si instalatii pentru fabricarea hartiei, cartonului si mucavalei. Masini si utilaje pentru impregnarea si innobilarea hartiei si cartoanelor. Utilaje pentru exploatarea si balotarea stufului, in afara de:",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_1_9_2,2_1_9_2_1,"Masini si instalatii pentru fabricarea hartiei, cartonului si mucavalei. Masini si utilaje pentru impregnarea si innobilarea hartiei si cartoanelor. Utilaje pentru exploatarea si balotarea stufului - tractoare speciale pentru recoltat stuf;- recoltatoare de stuf.",normal,fixed,60,108,213100,281300,681100,758300,linear,number,1
+2_1_9,2_1_9_3,Masini si utilaje pentru confectii din hartie si prelucrarea hartiei,normal,fixed,120,192,213100,281300,681100,758300,linear,number,1
+2_1_9,2_1_9_4,"Alte masini, utilaje si instalatii neregasite in cadrul clasei 2.1.9.",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2,2_2,"Aparate si instalatii de masurare, control si reglare",view,none,,,,,,,,,
+2_2,2_2_1,"Aparate si instalatii pentru masurarea marimilor geometrice, mecanice si acustice",view,none,,,,,,,,,
+2_2_1,2_2_1_1,"Aparate, instrumente si instalatii pentru masurarea marimilor geometrice. Aparate si instalatii pentru masurarea marimilor mecanice si acustice, in afara de:",normal,fixed,96,144,213200,281300,681100,758300,linear,number,1
+2_2_1_1,2_2_1_1_1,"Aparate, instrumente si instalatii pentru masurarea marimilor geometrice. Aparate si instalatii pentru masurarea marimilor mecanice si acustice - bascule romane pod pentru autovehicule si vagoane;",normal,fixed,144,216,213200,281300,681100,758300,linear,number,1
+2_2_1_1,2_2_1_1_2,"Aparate, instrumente si instalatii pentru masurarea marimilor geometrice. Aparate si instalatii pentru masurarea marimilor mecanice si acustice - aparate de cantarit si marcat;",normal,fixed,48,72,213200,281300,681100,758300,linear,number,1
+2_2_1_1,2_2_1_1_3,"Aparate, instrumente si instalatii pentru masurarea marimilor geometrice. Aparate si instalatii pentru masurarea marimilor mecanice si acustice - dozatoare, debimetre, contoare pentru lichide si gaze.",normal,fixed,48,96,213200,281300,681100,758300,linear,number,1
+2_2_1,2_2_1_2,"Alte aparate si instalatii pentru masurarea marimilor geometrice, mecanice si acustice neregasite in cadrul clasei 2.2.1.",normal,fixed,96,144,213200,281300,681100,758300,linear,number,1
+2_2,2_2_10,"Alte aparate si instalatii de masurare, control si reglare neregasite in cadrul subgrupei 2.2.",normal,fixed,96,144,213200,281300,681100,758300,linear,number,1
+2_2,2_2_2,"Aparate si instalatii pentru masurarea timpului, frecventei si marimilor cinematice",view,none,,,,,,,,,
+2_2_2,2_2_2_1,"Aparate si instalatii etalon mecanice si electromecanice pentru masurarea timpului, cronografe si calculografe, ceasornice de semnalizare, instalatii pentru verificarea cronometrelor, etaloane de frecventa.",normal,fixed,108,180,213200,281300,681100,758300,linear,number,1
+2_2_2,2_2_2_2,"Punti de masurat, comparatoare si analizoare de frecventa, instalatii pentru verificarea frecventmetrelor si aparate de masurat deviatia de frecventa, in afara de:",normal,fixed,96,144,213200,281300,681100,758300,linear,number,1
+2_2_2_2,2_2_2_2_1,"Punti de masurat, comparatoare si analizoare de frecventa, instalatii pentru verificarea frecventmetrelor si aparate de masurat deviatia de frecventa - aparate portabile.",normal,fixed,48,72,213200,281300,681100,758300,linear,number,1
+2_2_2,2_2_2_3,"Alte aparate si instalatii pentru masurarea timpului, frecventei si marimilor cinematice neregasite in cadrul clasei 2.2.2.",normal,fixed,96,144,213200,281300,681100,758300,linear,number,1
+2_2,2_2_3,"Aparate si instalatii pentru masurarea marimilor electrice, electromagnetice si radiometrice",view,none,,,,,,,,,
+2_2_3,2_2_3_1,"Elemente Waston, aparate portabile",normal,fixed,48,72,213200,281300,681100,758300,linear,number,1
+2_2_3,2_2_3_2,"Alte aparate si instalatii pentru masurarea marimilor electrice, electromagnetice si radiometrice neregasite in cadrul clasei 2.2.3.",normal,fixed,96,144,213200,281300,681100,758300,linear,number,1
+2_2,2_2_4,Aparate si instalatii pentru masurarea marimilor termice si fotometrice,view,none,,,,,,,,,
+2_2_4,2_2_4_1,"Termometre de sticla si de cuart, bimetalice si manometrice, termometre cu rezistenta si termocupluri. Lampi etalon de temperatura, de culoare, luxmetre.",normal,fixed,48,72,213200,281300,681100,758300,linear,number,1
+2_2_4,2_2_4_2,Contoare pentru apa calda si energie termica,normal,fixed,48,96,213200,281300,681100,758300,linear,number,1
+2_2_4,2_2_4_3,Alte aparate si instalatii pentru masurarea marimilor termice si fotometrice neregasite in cadrul clasei 2.2.4.,normal,fixed,96,144,213200,281300,681100,758300,linear,number,1
+2_2,2_2_5,"Aparate si instalatii pentru masurarea marimilor analitice (de material, de structura si de compozitie), aparate si instalatii pentru incercarea materialelor, elementelor si a produselor",view,none,,,,,,,,,
+2_2_5,2_2_5_1,"Prese hidraulice, platforme seismice pentru incercari, echipamente pentru incercari electrice de mare putere si de inalta tensiune",normal,fixed,288,432,213200,281300,681100,758300,linear,number,1
+2_2_5,2_2_5_2,"Alte aparate si instalatii pentru masurarea marimilor analitice (de materiale, de structura si de compozitie), aparate si instalatii pentru incercarea materialelor, elementelor si a produselor neregasite in cadrul clasei 2.2.5.",normal,fixed,96,144,213200,281300,681100,758300,linear,number,1
+2_2,2_2_6,Utilaje si accesorii de laborator,view,none,,,,,,,,,
+2_2_6,2_2_6_1,Utilaje si accesorii de laborator executate din sticla,normal,fixed,48,72,213100,281300,681100,758300,linear,number,1
+2_2_6,2_2_6_2,Alte utilaje si accesorii de laborator neregasite in cadrul clasei 2.2.6.,normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_2,2_2_7,Aparate si instalatii de cercetare stiintifica,normal,fixed,48,72,213100,281300,681100,758300,linear,number,1
+2_2,2_2_8,"Instalatii pentru comanda si reglarea automata a proceselor tehnologice, pentru semnalizare si telemasurare",normal,fixed,96,144,213100,281300,681100,758300,linear,number,1
+2_2,2_2_9,"Calculatoare electronice si echipamente periferice. Masini si aparate de casa, control si facturat.",normal,fixed,24,48,213100,281300,681100,758300,linear,number,1
+2,2_3,Mijloace de transport,view,none,,,,,,,,,
+2_3,2_3_1,Mijloace de transport feroviare,view,none,,,,,,,,,
+2_3_1,2_3_1_1,"Locomotive, locotractoare ai automotoare de ecartament normal. Vagoane de marfa si de calatori, de ecartament normal.
+Locomotive, locotractoare si automotoare de ecartament ingust sau larg.
+Vagoane de marfa si de calatori, de ecartament ingust.",normal,fixed,144,216,213300,281300,681100,758300,linear,number,1
+2_3_1,2_3_1_2,"Locomotive si locotractoare pentru transport minier. Vagonete de ecartament ingust, pentru transportul minier subteran.",normal,fixed,72,120,213300,281300,681100,758300,linear,number,1
+2_3_1,2_3_1_3,Patruciclete si triciclete pe linie si vagonete de ecartament normal sau ingust,normal,fixed,144,216,213300,281300,681100,758300,linear,number,1
+2_3_1,2_3_1_4,Alte mijloace de transport feroviar neregasite in cadrul clasei 2.3.1.,normal,fixed,108,180,213300,281300,681100,758300,linear,number,1
+2_3,2_3_2,Mijloace de transport auto,view,none,,,,,,,,,
+2_3_2,2_3_2_1,Mijloace de transport pentru persoane,view,none,,,,,,,,,
+2_3_2_1,2_3_2_1_1,Mijloace de transport pentru persoane - autoturisme,normal,fixed,48,72,213300,281300,681100,758300,linear,number,1
+2_3_2_1_1,2_3_2_1_1_1,Mijloace de transport pentru persoane - taxiuri,normal,fixed,36,60,213300,281300,681100,758300,linear,number,1
+2_3_2_1,2_3_2_1_2,Mijloace de transport pentru persoane - microbuze,normal,fixed,48,96,213300,281300,681100,758300,linear,number,1
+2_3_2_1,2_3_2_1_3,Mijloace de transport pentru persoane - autobuze,normal,fixed,60,108,213300,281300,681100,758300,linear,number,1
+2_3_2_1_3,2_3_2_1_3_1,Mijloace de transport pentru persoane - autobuze pentru transportul urban,normal,fixed,48,96,213300,281300,681100,758300,linear,number,1
+2_3_2_1,2_3_2_1_4,Mijloace de transport pentru persoane - motociclete si biciclete,normal,fixed,36,60,213300,281300,681100,758300,linear,number,1
+2_3_2,2_3_2_2,"Mijloace de transport auto, pentru marfuri",view,none,,,,,,,,,
+2_3_2_2,2_3_2_2_1,"Mijloace de transport auto, pentru marfuri - autocamioane si autocamionete cu platforma fixa, autofurgonete, autofurgoane si autodube de capacitate pana la 4,5 tone, exclusiv",normal,fixed,48,72,213300,281300,681100,758300,linear,number,1
+2_3_2_2,2_3_2_2_2,"Mijloace de transport auto, pentru marfuri - autocamioane, autodube si autofurgoane cu platforma fixa, cu capacitatea de si peste 4,5 tone",normal,fixed,48,96,213300,281300,681100,758300,linear,number,1
+2_3_2_2,2_3_2_2_3,"Mijloace de transport auto, pentru marfuri - autocamioane cu platforma basculanta si dumpere;- autocisterne;- autoizoterme si autofrigorifere.",normal,fixed,48,72,213300,281300,681100,758300,linear,number,1
+2_3_2_2,2_3_2_2_4,"Mijloace de transport auto, pentru marfuri - autotractoare si autotractoare cu sa",normal,fixed,48,96,213300,281300,681100,758300,linear,number,1
+2_3_2_2,2_3_2_2_5,"Mijloace de transport auto, pentru marfuri - tractoare pe roti si pe sine",normal,fixed,48,72,213300,281300,681100,758300,linear,number,1
+2_3_2_2,2_3_2_2_6,"Mijloace de transport auto, pentru marfuri - remorci cu platforma fixa sau basculanta si remorci monoaxe;- remorci: cisterne, izoterme si frigorifice;- semiremorci auto: platforma, furgon, cisterne, izoterme si frigorifice, port containere;- remorci si semiremorci auto cu destinatie specifica.",normal,fixed,48,72,213300,281300,681100,758300,linear,number,1
+2_3_2_2,2_3_2_2_7,"Mijloace de transport auto, pentru marfuri - remorci cu platforma coborata pentru sarcini grele (trailere)",normal,fixed,60,108,213300,281300,681100,758300,linear,number,1
+2_3_2_2,2_3_2_2_8,"Mijloace de transport auto, pentru marfuri - motociclete si triciclete pentru transportul de marfuri",normal,fixed,36,60,213300,281300,681100,758300,linear,number,1
+2_3_2_2,2_3_2_2_9,"Mijloace de transport auto, pentru marfuri - autovehicule cu destinatie speciala:",view,none,,,,,,,,,
+2_3_2_2_9,2_3_2_2_9_1,"Mijloace de transport auto, pentru marfuri - autoturnuri, autotelescoape, autoateliere si autodepanatoare",normal,fixed,48,96,213300,281300,681100,758300,linear,number,1
+2_3_2_2_9,2_3_2_2_9_2,"Mijloace de transport auto, pentru marfuri - autovehicule pentru transportul materialelor pulverulente;- autovehicule cu troliu pentru busteni.",normal,fixed,48,72,213300,281300,681100,758300,linear,number,1
+2_3_2_2_9,2_3_2_2_9_3,"Mijloace de transport auto, pentru marfuri - alte autovehicule cu destinatie speciala",normal,fixed,60,108,213300,281300,681100,758300,linear,number,1
+2_3_2,2_3_2_3,Alte mijloace de transport auto neregasite in cadrul clasei 2.3.2.,normal,fixed,48,96,213300,281300,681100,758300,linear,number,1
+2_3,2_3_3,Mijloace de transport naval,view,none,,,,,,,,,
+2_3_3,2_3_3_1,"Nave maritime de calatori, de cursa lunga si costiere.
+Nave maritime mixte de calatori si marfuri.
+Nave maritime pentru marfuri in vrac (mineraliere) si pentru produse petroliere (petroliere).
+Remorchere maritime de linie pentru transport.
+Nave maritime tehnice si
+speciale. Remorchere maritime portuare.
+Nave maritime depozit, tancuri: de buncheraj, de apa potabila si mixte. Iahturi maritime. Nave fluviale pentru transport de calatori.
+Nave fluviale pentru transport de calatori.
+Nave fluviale cu propulsie, pentru transport de marfuri diferite,
+Bancuri, mahoane si barcaze pentru marfuri uscate, ceamuri fluviale cu corp metalic, fara propulsie, pentru stuf.
+Bacuri, mahoane si viviere fluviale pentru productie si transportat peste.
+Pontoane de leasa, cu doua flotoare metalice si platforma din lemn.
+Nave fluviale de trecere (bacuri de trecere fluviale,cu sau fara propulsie, pentru vehicule si calatori, poduri plutitoare fluviale, pe cablu).
+Nave fluviale tehnice si speciale, auxiliare si de servitute.
+Nave fluviale, iahturi si salupe de agrement.",normal,fixed,192,288,213300,281300,681100,758300,linear,number,1
+2_3_3_1,2_3_3_10,Barci pescaresti,normal,fixed,72,120,213300,281300,681100,758300,linear,number,1
+2_3_3_1,2_3_3_11,Alte mijloace de transport naval neregasite in cadrul clasei 2.3.3.,normal,fixed,144,216,212000,281200,681100,758300,linear,number,1
+2_3_3,2_3_3_2,"Mahoane maritime, in afara de:",normal,fixed,192,288,213300,281300,681100,758300,linear,number,1
+2_3_3_2,2_3_3_2_1,Mahoane maritime din lemn,normal,fixed,108,180,213300,281300,681100,758300,linear,number,1
+2_3_3,2_3_3_3,"Nave maritime de pescuit, in afara de:",normal,fixed,192,288,213300,281300,681100,758300,linear,number,1
+2_3_3_3,2_3_3_3_1,Nave maritime de pescuit - pescadoare cu corp din lemn,normal,fixed,108,180,213300,281300,681100,758300,linear,number,1
+2_3_3_3,2_3_3_3_2,"Nave maritime de pescuit - pescadoare cu corp metalic;- cutere cu corp din lemn, pentru productie si transportat peste.",normal,fixed,168,264,213300,281300,681100,758300,linear,number,1
+2_3_3,2_3_3_4,Doc plutitor,normal,fixed,192,288,213300,281300,681100,758300,linear,number,1
+2_3_3,2_3_3_5,"Salupe maritime pentru calatori. Salupe maritime. Nave fluviale fara propulsie pentru transport de marfuri diferite (slepuri, ceamuri, platine, barje, tancuri). Remorchere si impingatoare fluviale cu elice.",normal,fixed,168,264,213300,281300,681100,758300,linear,number,1
+2_3_3,2_3_3_6,Pilotine maritime,normal,fixed,144,216,213300,281300,681100,758300,linear,number,1
+2_3_3,2_3_3_7,"Ambarcatii maritime auxiliare, barci maritime si ambarcatii maritime sportive si de agrement:",view,none,,,,,,,,,
+2_3_3_7,2_3_3_7_1,"Ambarcatii maritime auxiliare, barci maritime si ambarcatii maritime sportive si de agrement cu corp din lemn",normal,fixed,108,180,213300,281300,681100,758300,linear,number,1
+2_3_3_7,2_3_3_7_2,"Ambarcatii maritime auxiliare, barci maritime si ambarcatii maritime sportive si de agrement cu corp din metal",normal,fixed,168,264,213300,281300,681100,758300,linear,number,1
+2_3_3,2_3_3_8,"Ambarcatii fluviale de agrement (barci de agrement, canoe de agrement, giguri, sandoline si hidrobiciclete). Ambarcatii fluviale si de pescuit (mahoane de taliene, barci viviere, barci de furajat, pramuri si navodnice).",normal,fixed,96,168,213300,281300,681100,758300,linear,number,1
+2_3_3,2_3_3_9,"Ambarcatii fluviale auxiliare de deservire generala si sportive, in afara de:",normal,fixed,96,168,213300,281300,681100,758300,linear,number,1
+2_3_3_9,2_3_3_9_1,Ambarcatii fluviale auxiliare de deservire generala si sportive - cu corp metalic,normal,fixed,144,216,213300,281300,681100,758300,linear,number,1
+2_3_3,2_3_4,Mijloace de transport aerian,view,none,,,,,,,,,
+2_3_4,2_3_4_1,"Avioane pentru transport de calatori, marfuri si mixte",normal,fixed,168,264,213300,281300,681100,758300,linear,number,1
+2_3_4,2_3_4_2,"Avioane pentru destinatie speciala: imprastierea ingrasamintelor chimice, insectofungicidelor la lucrari agrosilvice, sanitare.",normal,fixed,48,96,213300,281300,681100,758300,linear,number,1
+2_3_4,2_3_4_3,"Elicoptere pentru transport de calatori, marfuri sau destinatie speciala (imprastierea ingrasamintelor, montaj, etc.)",normal,fixed,48,96,213300,281300,681100,758300,linear,number,1
+2_3_4,2_3_4_4,Alte mijloace de transport aerian neregasite in cadrul clasei 2.3.4.,normal,fixed,96,144,213300,281300,681100,758300,linear,number,1
+2_3,2_3_5,Mijloace specifice pentru transportul urban de calatori,view,none,,,,,,,,,
+2_3_5,2_3_5_1,Mijloace de transport electric urban pe sine,normal,fixed,132,204,213300,281300,681100,758300,linear,number,1
+2_3_5,2_3_5_2,"Mijloace de transport electric urban, pe pneuri (troleibuze)",normal,fixed,72,120,213300,281300,681100,758300,linear,number,1
+2_3_5,2_3_5_3,Alte mijloace specifice pentru transportul urban de calatori neregasite in cadrul clasei 2.3.5.,normal,fixed,96,144,213300,281300,681100,758300,linear,number,1
+2_3,2_3_6,Utilaje si instalatii de transportat si ridicat,view,none,,,,,,,,,
+2_3_6,2_3_6_1,"Mecanisme de ridicat (vinciuri, trolii, etc.). Macarale diverse si speciale, in afara de:",normal,fixed,72,120,213300,281300,681100,758300,linear,number,1
+2_3_6_1,2_3_6_1_1,"Mecanisme de ridicat (vinciuri, trolii, etc.). Macarale diverse si speciale - macarale plutitoare",normal,fixed,192,288,213300,281300,681100,758300,linear,number,1
+2_3_6_1,2_3_6_1_2,"Mecanisme de ridicat (vinciuri, trolii, etc.). Macarale diverse si speciale - macarale feroviare si macarale transcontainer",normal,fixed,144,216,213300,281300,681100,758300,linear,number,1
+2_3_6,2_3_6_2,"Macarale rotitoare, macarale rulante cu platforma si poduri rulante, in afara de:",normal,fixed,108,180,213300,281300,681100,758300,linear,number,1
+2_3_6_2,2_3_6_2_1,"Macarale rotitoare, macarale rulante cu platforma si poduri rulante - macarale rotitoare stationare, fixe, cu coloana, macarale turn cu actionare electrica",normal,fixed,96,144,213300,281300,681100,758300,linear,number,1
+2_3_6_2,2_3_6_2_2,"Macarale rotitoare, macarale rulante cu platforma si poduri rulante - macarale mobile pe pneuri si senile, automacarale",normal,fixed,72,120,213300,281300,681100,758300,linear,number,1
+2_3_6,2_3_6_3,Ascensoare:,view,none,,,,,,,,,
+2_3_6_3,2_3_6_3_1,"Ascensoare de materiale si persoane pentru lucrari de constructii, de marfuri",normal,fixed,60,108,213300,281300,681100,758300,linear,number,1
+2_3_6_3,2_3_6_3_2,Ascensoare de persoane pentru cladiri,normal,fixed,96,144,213300,281300,681100,758300,linear,number,1
+2_3_6_3,2_3_6_3_3,Ascensoare de materiale si persoane pentru lucrari miniere,normal,fixed,144,216,213300,281300,681100,758300,linear,number,1
+2_3_6,2_3_6_4,"Transportoare si instalatii de transport pneumatic, in afara de:",normal,fixed,96,144,213300,281300,681100,758300,linear,number,1
+2_3_6_4,2_3_6_4_1,"Transportoare si instalatii de transport pneumatic - transportoare cu banda si placi, cu lant (cablu), cu ghiare, cu role, suspendate si cu lanturi de tractiune, portante, transportoare cu cupe si sisteme de transportoare utilizate in industrie pentru operatii de prelucrare, asamblare si montaj.",normal,fixed,84,132,213300,281300,681100,758300,linear,number,1
+2_3_6_4,2_3_6_4_2,Transportoare si instalatii de transport pneumatic - transportoare cu banda mobile,normal,fixed,60,108,213300,281300,681100,758300,linear,number,1
+2_3_6_4,2_3_6_4_3,Transportoare si instalatii de transport pneumatic - transportoare elicoidale si cu raclete,normal,fixed,36,60,213300,281300,681100,758300,linear,number,1
+2_3_6_4,2_3_6_4_4,"Transportoare si instalatii de transport pneumatic - jgheaburi si topogane, instalatii de transport hidraulic",normal,fixed,96,168,213300,281300,681100,758300,linear,number,1
+2_3_6,2_3_6_5,"Elevatoare, escalatoare si alimentatoare",normal,fixed,96,144,213300,281300,681100,758300,linear,number,1
+2_3_6,2_3_6_6,"Incarcatoare, impingatoare si basculatoare, in afara de:",normal,fixed,72,120,213300,281300,681100,758300,linear,number,1
+2_3_6_6,2_3_6_6_1,"Incarcatoare, impingatoare si basculatoare - incarcatoare frontale cu o cupa",normal,fixed,48,96,213300,281300,681100,758300,linear,number,1
+2_3_6,2_3_6_7,Placi turnante pentru intoarcerea locomotivelor,normal,fixed,192,288,213300,281300,681100,758300,linear,number,1
+2_3_6,2_3_6_8,"Alte utilaje, instalatii si echipamente de transportat si de ridicat, neregasite in cadrul clasei 2.3.6., in afara de:",normal,fixed,96,144,213300,281300,681100,758300,linear,number,1
+2_3_6_8,2_3_6_8_1,"Alte utilaje, instalatii si echipamente de transportat si de ridicat, neregasite in cadrul clasei 2.3.6. - electro si motostivuitoare",normal,fixed,48,96,213300,281300,681100,758300,linear,number,1
+2_3,2_3_7,Mijloace de transport cu tractiune animala,normal,fixed,48,72,213300,281300,681100,758300,linear,number,1
+2,2_4,Animale si plantatii,view,none,,,,,,,,,
+2_4,2_4_1,Animale,view,none,,,,,,,,,
+2_4_1,2_4_1_1,Cai de reproducere si de munca. Magari si catari.,normal,fixed,96,144,213400,281300,681100,758300,linear,number,1
+2_4_1,2_4_1_2,"Boi si bivoli de munca, vaci de lapte si tauri pentru reproducere",normal,fixed,60,108,213400,281300,681100,758300,linear,number,1
+2_4_1,2_4_1_3,"Oi, capre si porci pentru reproducere",normal,fixed,48,72,213400,281300,681100,758300,linear,number,1
+2_4_1,2_4_1_4,Pasari de reproducere,normal,fixed,24,48,213400,281300,681100,758300,linear,number,1
+2_4_1,2_4_1_5,Caini de paza si vanatoare,normal,fixed,48,96,213400,281300,681100,758300,linear,number,1
+2_4_1,2_4_1_6,Alte animale necuprinse in cadrul clasei 2.4.1.,normal,fixed,48,72,213400,281300,681100,758300,linear,number,1
+2_4,2_4_2,Plantatii,view,none,,,,,,,,,
+2_4_2,2_4_2_1,"Plantatii de meri, peri, pruni, gutui, duzi, migdali, castani",normal,fixed,192,288,213400,281300,681100,758300,linear,number,1
+2_4_2,2_4_2_10,Alte plantatii neregasite in cadrul clasei 2.4.2.,normal,fixed,192,288,213400,281300,681100,758300,linear,number,1
+2_4_2,2_4_2_2,"Plantatii de ciresi, visini, piersici, aluni si caisi",normal,fixed,108,180,213400,281300,681100,758300,linear,number,1
+2_4_2,2_4_2_3,Plantatii de nuci,normal,fixed,288,432,213400,281300,681100,758300,linear,number,1
+2_4_2,2_4_2_4,"Plantatii de agrisi, coacazi si trandafiri de dulceata",normal,fixed,72,120,213400,281300,681100,758300,linear,number,1
+2_4_2,2_4_2_5,"Plantatii de zmeura si alti arbusti si subarbusti (muri, capsuni, etc.)",normal,fixed,48,72,213400,281300,681100,758300,linear,number,1
+2_4_2,2_4_2_6,Plantatii de vita de vie:,view,none,,,,,,,,,
+2_4_2_6,2_4_2_6_1,Plantatii de vita de vie - vii altoite (nobile) si portaltoi vie,normal,fixed,192,288,213400,281300,681100,758300,linear,number,1
+2_4_2_6,2_4_2_6_2,"Plantatii de vita de vie - vii indigene, vii hibride, producatori directi",normal,fixed,144,216,213400,281300,681100,758300,linear,number,1
+2_4_2,2_4_2_7,Plantatii de hamei,normal,fixed,156,252,213400,281300,681100,758300,linear,number,1
+2_4_2,2_4_2_8,Plantatii de protectie si de consolidare a terenurilor:,view,none,,,,,,,,,
+2_4_2_8,2_4_2_8_1,Plantatii de protectie si de consolidare a terenurilor - foioase si rasinoase,normal,fixed,600,840,213400,281300,681100,758300,linear,number,1
+2_4_2_8,2_4_2_8_2,"Plantatii de protectie si de consolidare a terenurilor - plopi, salcami si salcii",normal,fixed,288,432,213400,281300,681100,758300,linear,number,1
+2_4_2,2_4_2_9,Rachitarii,normal,fixed,60,108,213400,281300,681100,758300,linear,number,1
+2,2_5,"Alte instalatii tehnice, mijloace de transport, animale si plantatii neregasite in cadrul grupei 2.",normal,fixed,240,360,213400,281300,681100,758300,linear,number,1
+3,3_1,Mobilier,view,none,,,,,,,,,
+3_1,3_1_1,"Mobilier (inclusiv mobilierul comercial si hotelier), in afara de:",normal,fixed,108,180,214000,281400,681100,758300,linear,number,1
+3_1_1,3_1_1_1,Mobilier (inclusiv mobilierul comercial si hotelier) - mobilier comercial de prezentare din lemn si plastic cu structura metalica usoara,normal,fixed,36,60,214000,281400,681100,758300,linear,number,1
+3_1,3_1_2,"Firme, panouri si reclame luminoase",normal,fixed,24,48,214000,281400,681100,758300,linear,number,1
+3_1,3_1_3,"Tablouri, gravuri, decoratiuni interioare, in afara celor inregistrate in patrimoniul cultural national",normal,fixed,96,144,214000,281400,681100,758300,linear,number,1
+3_1,3_1_4,"Inventar gospodaresc: tacamuri din metale pretioase, covoare, oglinzi, candelabre, etc.",normal,fixed,96,144,214000,281400,681100,758300,linear,number,1
+3_1,3_1_5,"Aparate electrocasnice, aparate radioreceptoare, televizoare, aparatura video, masini de spalat rufe, masini de spalat vase, frigidere, aspiratoare de praf, etc.",normal,fixed,48,72,214000,281400,681100,758300,linear,number,1
+3_1,3_1_6,Alt mobilier neregasit in cadrul grupei 3.1.,normal,fixed,72,120,214000,281400,681100,758300,linear,number,1
+3,3_2,Aparatura birotica,view,none,,,,,,,,,
+3_2,3_2_1,"Masini de scris, de francat, aparate de dictat si reprodus, aparate de desenat, heliografe, aparate de copiat si multiplicat, aparate de proiectie, aparate de citit microfilme, etc.",normal,fixed,48,72,214000,281400,681100,758300,linear,number,1
+3_2,3_2_2,"Aparate de telecomunicatii pentru birou: aparate telefonice, aparate telefax, aparate telex, instalatii de comanda prin radio, aparate de cautat persoane, etc.",normal,fixed,36,60,214000,281400,681100,758300,linear,number,1
+3_2,3_2_3,Masini de numarat si identificat bani,normal,fixed,24,48,214000,281400,681100,758300,linear,number,1
+3_2,3_2_4,Alta aparatura birotica neregasita in cadrul subgrupei 3.2.,normal,fixed,36,60,214000,281400,681100,758300,linear,number,1
+3,3_3,Sisteme de protectie a valorilor umane si materiale,view,none,,,,,,,,,
+3_3,3_3_1,"Echipamente de protectie mecanica – grilaje, gratare, usi blindate, usi de securitate, ferestre si panouri de securitate (antiefractie, antivandal,antiglont)",normal,fixed,192,288,214000,281400,681100,758300,linear,number,1
+3_3,3_3_2,"Unitati de depozitare valori si purtatori de date (case de bani, seifuri, dulapuri ignifuge, etc.)",normal,fixed,192,288,214000,281400,681100,758300,linear,number,1
+3_3,3_3_3,"Automate bancare, bancomate",normal,fixed,96,144,214000,281400,681100,758300,linear,number,1
+3_3,3_3_4,"Sisteme de protectie la incendiu (elemente de detectie si de actionare, centrale de semnalizare si alarma la efractie",normal,fixed,144,216,214000,281400,681100,758300,linear,number,1
+3_3,3_3_5,"Sisteme pentru identificare si controlul accesului, supraveghere si alarma la efractie",normal,fixed,96,144,214000,281400,681100,758300,linear,number,1
+3_3,3_3_6,Alte sisteme de protectie a valorilor umane si materiale neregasite in cadrul subgrupei 3.3.,normal,fixed,144,216,214000,281400,681100,758300,linear,number,1
+3,3_4,Alte active corporale neregasite in cele specificate la grupa 3,normal,fixed,96,180,214000,281400,681100,758300,linear,number,1
