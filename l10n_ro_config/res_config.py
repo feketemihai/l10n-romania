@@ -97,6 +97,7 @@ class l10n_ro_config_settings(models.TransientModel):
             domain="[('type', '=', 'payable'),('company_id','=',company_id)]",
             help="This account will be used as the supplier advance account for the current partner on vouchers.")
     asset_category_chart_installed = fields.Boolean('Install Chart of Asset Category', related='company_id.asset_category_chart_installed')
+    bank_statement_template_installed = fields.Boolean('Load Bank Statement Templates', related='company_id.bank_statement_template_installed')
     
     @api.model
     def create(self, values):
@@ -126,20 +127,22 @@ class l10n_ro_config_settings(models.TransientModel):
                 'property_customer_advance_account_id' : company.property_customer_advance_account_id and company.property_customer_advance_account_id.id or False,
                 'property_supplier_advance_account_id' : company.property_supplier_advance_account_id and company.property_supplier_advance_account_id.id or False,
                 'asset_category_chart_installed': company.asset_category_chart_installed,
+                'bank_statement_template_installed': company.bank_statement_template_installed,
             })
         return {'value': values}
     
     @api.multi
     def execute(self):
         res = super(l10n_ro_config_settings, self).execute()
+        # Load Chart of Asset Category if not installed previously
         categ_obj = self.env['account.asset.category']
+        account_obj = self.env['account.account']
         installed = self.env['ir.module.module'].search([('name','=','l10n_ro_asset'),('state','=','installed')])
         if installed:
             wiz = self[0]
             if wiz.asset_category_chart_installed:
                 asset_categ = categ_obj.search([('name','=','Catalog Mijloace Fixe'),('company_id','=',wiz.company_id.id)])
                 if not asset_categ:
-                    account_obj = self.env['account.account']
                     journal_obj = self.env['account.journal']
                     journal_id = journal_obj.search([('code','=','AMORT'),('company_id','=',wiz.company_id.id)])
                     # Search for Amortization Journal on company, if doesn't exist create it.
@@ -208,7 +211,32 @@ class l10n_ro_config_settings(models.TransientModel):
                                         'type': row['type'],
                                         'asset_type': row['asset_type'],
                                     })
-                                
+                    finally:
+                        f.close()
+        # Load Bank Statement Operation Templates if not installed previously
+        statement_obj = self.env['account.statement.operation.template']
+        installed = self.env['ir.module.module'].search([('name','=','l10n_ro_account_bank_statement'),('state','=','installed')])
+        if installed:
+            wiz = self[0]
+            if wiz.bank_statement_template_installed:
+                statements = statement_obj.search([('company_id','=',wiz.company_id.id)])
+                if not statements:
+                    script_dir = os.path.dirname(os.getcwd())
+                    rel_path = str(script_dir) + "/l10n-romania/l10n_ro_config/data/account_statement_operation_template.csv"
+                    f = open(rel_path, 'rb')
+                    try:                     
+                        operations = csv.DictReader(f)
+                        for row in operations:
+                            account_id = account_obj.search([('code','=',row['account_id']),('company_id','=',wiz.company_id.id)])
+                            if account_id:
+                                statement_obj.create({
+                                    'label': row['label'],
+                                    'name': row['name'],
+                                    'account_id': account_id[0].id,
+                                    'amount_type': row['amount_type'],
+                                    'amount': row['amount'],
+                                    'company_id': wiz.company_id.id,
+                                })
                     finally:
                         f.close()
         return res

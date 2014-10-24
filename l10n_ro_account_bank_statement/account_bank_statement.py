@@ -19,6 +19,12 @@
 #
 ##############################################################################
 
-import account_bank_statement
+from openerp import models, fields, _
 
+class account_statement_operation_template(models.Model):
+    _inherit = 'account.statement.operation.template'
+    
+    company_id = fields.Many2one('res.company', string='Company', required=True)
+            
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+ 

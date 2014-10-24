@@ -81,12 +81,10 @@ Thanks to main contributors: Grzegorz Grzelak, Alexis de Lattre
 """,
     "depends" : ["base",
                  "account"], #Added to ensure account security groups are present
-    "init_xml" : ["security/security.xml"],
-    "update_xml" : [
-                        "currency_rate_update.xml",
-                        "company_view.xml",
+    "data" : ["security/security.xml",
+              "currency_rate_update.xml",
+              "company_view.xml",
                     ],
-    "demo_xml" : [],
     "active": False,
     "installable": True
 }

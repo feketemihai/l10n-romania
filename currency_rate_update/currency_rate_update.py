@@ -229,7 +229,7 @@ class Currency_rate_update(osv.osv):
                 except Exception, e:
                     error_msg = note + "\n%s ERROR : %s"\
                         %(datetime.strftime(datetime.today(), '%Y-%m-%d %H:%M:%S'), str(e))
-                    self.logger.notifyChannel(self.LOG_NAME, netsvc.LOG_INFO, str(e))
+                    #self.logger.notifyChannel(self.LOG_NAME, netsvc.LOG_INFO, str(e))
                     service.write({'note':error_msg})
                 
                 

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
 		<record id="view_account_statement_from_invoice_lines" model="ir.ui.view">

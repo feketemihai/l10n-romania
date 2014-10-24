@@ -33,3 +33,5 @@ class res_company(models.Model):
     property_customer_advance_account_id = fields.Many2one('account.account',string="Customer Advance Account",domain="[('type', '=', 'receivable')]",help="This account will be used as the customer advance account for the current partner on vouchers.")
     property_supplier_advance_account_id = fields.Many2one('account.account',string="Supplier Advance Account",domain="[('type', '=', 'payable')]",help="This account will be used as the supplier advance account for the current partner on vouchers.")        
     asset_category_chart_installed = fields.Boolean('Install Chart of Asset Category')
+    bank_statement_template_installed = fields.Boolean('Load Bank Statement Templates')
+    
