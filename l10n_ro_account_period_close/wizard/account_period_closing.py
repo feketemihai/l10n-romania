@@ -21,13 +21,24 @@
 
 from openerp import models, fields, api, _
 
-class account_account(models.Model):    
-    _inherit = "account.account"
-    
-    uneligible_account_id = fields.Many2one('account.account', 'Unneligible Account (VAT on payment)', help='Related account used for real registrations on a VAT on payment basis. Set the shadow account here')
+class account_period_close_wizard(models.TransientModel):
+	_name = "account.period.close.wizard"
+	_description = "Wizard for Account Period Closing"
 
-class account_tax_code(models.Model):
-    _inherit = "account.tax.code"
-    
-    uneligible_tax_code_id = fields.Many2one('account.tax.code', 'Uneligible Tax Code (VAT on payment)', help='Related tax code used for real registrations on a VAT on payment basis. Set the shadow tax code here')
-    
+	@api.one
+	def close(self):
+		wizard = self[0]
+		if not wizard.done:
+			wizard.closing_id.close(wizard.date_move, wizard.period_id.id, wizard.journal_id.id)
+		return {'type': 'ir.actions.act_window_close'}
+
+
+	closing_id = fields.Many2one('account.period.close', 'Closing Model', required=True)
+	company_id = fields.Many2one('res.company', related='closing_id.company_id', string='Company')
+	date_move = fields.Date('Closing Move Date', required=True, select=True)
+	period_id = fields.Many2one('account.period', 'Closing Period', required=True)
+	journal_id = fields.Many2one('account.journal', 'Closing Journal', required=True)
+	done = fields.Boolean('Regularization Done')
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

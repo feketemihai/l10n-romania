@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+		<record id="view_account_period_close_wizard" model="ir.ui.view">
+            <field name="name">account.period.close.wizard</field>
+            <field name="model">account.period.close.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Account Period Closing Wizard">
+                    <group col="2" colspan="4">
+                        <field name="closing_id"/>
+                        <field name="company_id" invisible="1"/>					
+                    </group>
+					<field name="date_move" colspan="2"/>
+					<field name="period_id" domain="[('company_id','=',company_id)]" colspan="2"/>
+					<field name="journal_id" domain="[('company_id','=',company_id)]" colspan="4"/>
+                    <field name="done" readonly="1"/>
+                    <group col="2" colspan="4">
+                        <button icon='gtk-cancel' special="cancel" string="Cancel" />
+                        <button name="close" string="Close" attrs="{'invisible':[('done', '=' ,True)]}" type="object" icon="gtk-ok"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+                   
+		<record id="action_view_closings" model="ir.actions.act_window">
+            <field name="name">Closings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.period.close.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_account_period_close_wizard"/>
+            <field name="context">{'closing_id' : active_id}</field>
+            <field name="target">new</field>
+       </record>
+	</data>
+</openerp>

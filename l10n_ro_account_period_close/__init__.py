@@ -19,15 +19,5 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-
-class account_account(models.Model):    
-    _inherit = "account.account"
-    
-    uneligible_account_id = fields.Many2one('account.account', 'Unneligible Account (VAT on payment)', help='Related account used for real registrations on a VAT on payment basis. Set the shadow account here')
-
-class account_tax_code(models.Model):
-    _inherit = "account.tax.code"
-    
-    uneligible_tax_code_id = fields.Many2one('account.tax.code', 'Uneligible Tax Code (VAT on payment)', help='Related tax code used for real registrations on a VAT on payment basis. Set the shadow tax code here')
-    
+import account
+import wizard

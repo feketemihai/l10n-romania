@@ -18,16 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields, api, _
-
-class account_account(models.Model):    
-    _inherit = "account.account"
-    
-    uneligible_account_id = fields.Many2one('account.account', 'Unneligible Account (VAT on payment)', help='Related account used for real registrations on a VAT on payment basis. Set the shadow account here')
-
-class account_tax_code(models.Model):
-    _inherit = "account.tax.code"
-    
-    uneligible_tax_code_id = fields.Many2one('account.tax.code', 'Uneligible Tax Code (VAT on payment)', help='Related tax code used for real registrations on a VAT on payment basis. Set the shadow tax code here')
-    
+{
+    "name" : "Romania - Account Period Close",
+    "version" : "1.0",
+    "author" : "FOREST AND BIOMASS SERVICES ROMANIA	",
+    "website": "http://www.forbiom.eu",
+	"category" : "Romania Adaptation",
+    "description" : """ Account Period Close - The module allows to close periodically accounts based on templates defines.
+    Usefull for Income / Expense / VAT closing at the end of every month""",
+	"depends" : ["account"],
+	"data" : [
+		"account_period_close_view.xml",
+		"wizard/account_period_closing.xml",
+		"security/ir.model.access.csv"
+	],
+	"active": False,
+	"installable": True,
+}
