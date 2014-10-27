@@ -116,6 +116,10 @@
                                 <label for="module_l10n_ro_zip"/>
                             </div>
                             <div>
+                                <field name="module_l10n_ro_account_period_close" class="oe_inline"/>
+                                <label for="module_l10n_ro_account_period_close"/>
+                            </div>
+                            <div>
                                 <field name="module_l10n_ro_account_report" class="oe_inline"/>
                                 <label for="module_l10n_ro_account_report"/>
                             </div>

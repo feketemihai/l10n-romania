@@ -68,6 +68,8 @@ class l10n_ro_config_settings(models.TransientModel):
             help='This allows you to manage recors currency difference amounts on partial payments/receipts.\n')
     module_l10n_ro_account_report = fields.Boolean('Romania Accounting Reports',
             help='This allows you to print reports according to legislation like: Sale/Purchase Journals, Trial Balance, D394..\n')
+    module_l10n_ro_account_period_close = fields.Boolean('Romania Account Period Close',
+            help='This allows you to close accounts on periods based on templates: Income, Expense, VAT...\n')
     property_undeductible_account_id = fields.Many2one('account.account', related='company_id.property_undeductible_account_id',
             string="Undeductible Account",
             domain="[('type', '=', 'other'),('company_id','=',company_id)]",
