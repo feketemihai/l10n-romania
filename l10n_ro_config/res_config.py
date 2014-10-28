@@ -100,6 +100,7 @@ class l10n_ro_config_settings(models.TransientModel):
             help="This account will be used as the supplier advance account for the current partner on vouchers.")
     asset_category_chart_installed = fields.Boolean('Install Chart of Asset Category', related='company_id.asset_category_chart_installed')
     bank_statement_template_installed = fields.Boolean('Load Bank Statement Templates', related='company_id.bank_statement_template_installed')
+    account_period_close_template_installed = fields.Boolean('Load Account Period Close Templates', related='company_id.account_period_close_template_installed')
     
     @api.model
     def create(self, values):
@@ -239,6 +240,45 @@ class l10n_ro_config_settings(models.TransientModel):
                                     'amount': row['amount'],
                                     'company_id': wiz.company_id.id,
                                 })
+                    finally:
+                        f.close()
+        closing_obj = self.env['account.period.close']
+        installed = self.env['ir.module.module'].search([('name','=','l10n_ro_account_period_close'),('state','=','installed')])
+        if installed:
+            wiz = self[0]
+            if wiz.account_period_close_template_installed:
+                closings = closing_obj.search([('company_id','=',wiz.company_id.id)])
+                if not closings:
+                    script_dir = os.path.dirname(os.getcwd())
+                    rel_path = str(script_dir) + "/l10n-romania/l10n_ro_config/data/account_period_close_templates.csv"
+                    f = open(rel_path, 'rb')
+                    try:                     
+                        operations = csv.DictReader(f)
+                        for row in operations:
+                            debit_account_id = account_obj.search([('code','=',row['debit_account_id']),('company_id','=',wiz.company_id.id)])
+                            credit_account_id = account_obj.search([('code','=',row['credit_account_id']),('company_id','=',wiz.company_id.id)])
+                            new_accounts = []
+                            if row['account_ids']:
+                                accounts = row['account_ids'].split(",")
+                                print accounts
+                                for account in accounts:
+                                    print account
+                                    comp_account = account_obj.search([('code','=',account),('company_id','=',wiz.company_id.id)])
+                                    print comp_account
+                                    if comp_account:
+                                        new_accounts.append(comp_account[0].id)
+                                print new_accounts
+                            if debit_account_id and credit_account_id:
+                                template = closing_obj.create({
+                                    'name': row['name'],
+                                    'debit_account_id': debit_account_id[0].id,
+                                    'credit_account_id': credit_account_id[0].id,
+                                    'type': row['type'],
+                                    'account_ids': [(6,0, new_accounts)],
+                                    'company_id': wiz.company_id.id,
+                                })
+                                if row['type'] in ('income','expense'):
+                                    template._onchange_type()
                     finally:
                         f.close()
         return res

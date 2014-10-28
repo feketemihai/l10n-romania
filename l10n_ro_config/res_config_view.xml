@@ -118,6 +118,14 @@
                             <div>
                                 <field name="module_l10n_ro_account_period_close" class="oe_inline"/>
                                 <label for="module_l10n_ro_account_period_close"/>
+                                <group attrs="{'invisible': [('module_l10n_ro_account_period_close', '&lt;&gt;', True)]}" col="2">
+                                    <group>
+                                        <field name="account_period_close_template_installed"/>
+                                        <p>Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Account Period Close Templates</p>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
                             </div>
                             <div>
                                 <field name="module_l10n_ro_account_report" class="oe_inline"/>

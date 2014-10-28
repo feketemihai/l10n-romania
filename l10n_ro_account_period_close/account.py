@@ -32,8 +32,7 @@ class account_period_close(models.Model):
     _description = 'Account Period Close'
     
     name = fields.Char('Name', required=True)
-    company_id = fields.Many2one('res.company', string='Company', change_default=True,
-        required=True, default=lambda self: self.env['res.company']._company_default_get('account.period.close'))
+    company_id = fields.Many2one('res.company', string='Company', required=True)
     type = fields.Selection([('income', 'Incomes'),('expense', 'Expenses'),('selected', 'Selected')], string='Type', required=True)
     account_ids = fields.Many2many('account.account', string='Accounts to close', select=True)
     debit_account_id = fields.Many2one('account.account', 'Result account, debit', required=True,

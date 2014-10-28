@@ -19,19 +19,18 @@
 #
 ##############################################################################
 {
-    "name" : "Romania - Account Period Close",
-    "version" : "1.0",
-    "author" : "FOREST AND BIOMASS SERVICES ROMANIA	",
-    "website": "http://www.forbiom.eu",
-	"category" : "Romania Adaptation",
-    "description" : """ Account Period Close - The module allows to close periodically accounts based on templates defines.
+    'name' : 'Romania - Account Period Close',
+    'version' : '1.0',
+    'author' : 'FOREST AND BIOMASS SERVICES ROMANIA	',
+    'website': 'http://www.forbiom.eu',
+	'category' : 'Romania Adaptation',
+    'description' : """ Account Period Close - The module allows to close periodically accounts based on templates defines.
     Usefull for Income / Expense / VAT closing at the end of every month""",
-	"depends" : ["account"],
-	"data" : [
-		"account_period_close_view.xml",
-		"wizard/account_period_closing.xml",
-		"security/ir.model.access.csv"
+	'depends' : ['base','account'],
+	'data' : [	
+		'security/ir.model.access.csv',
+		'account_period_close_view.xml',
+		'wizard/account_period_closing.xml',
 	],
-	"active": False,
-	"installable": True,
+	'installable': True,
 }

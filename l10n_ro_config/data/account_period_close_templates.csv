@@ -1,0 +1,4 @@
+name,type,account_ids,debit_account_id,credit_account_id
+Incomes,income,,121000,121000
+Expense,expense,,121000,121000
+VAT,selected,"442600,442700",442400,442300
