@@ -111,3 +111,9 @@ class stock_warehouse(osv.osv):
         location_obj.write(cr, uid, usage_location_id, {'location_id': warehouse.view_location_id.id}, context=context)
         return new_id
         
+class stock_move(osv.osv):
+    _inherit="stock.move"
+    
+    _columns = {
+        'picking_type_code': fields.related('picking_type_id', 'code', 'Picking Type Code'),
+    }
