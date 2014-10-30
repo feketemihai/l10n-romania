@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="//form/field[@name='line_ids']" position="replace">
-						<field height="300" width="700" name="line_ids" domain="[('account_id.type','in',['receivable','payable']),('invoice', '&lt;&gt;', False),('journal_id.type', '&lt;&gt;', 'cash'),('journal_id.type', '&lt;&gt;', 'bank'), ('reconcile_id','=',False), ('state', '=', 'valid')]"/>
+						<field height="300" width="700" name="line_ids" domain="[('account_id.type','in',['receivable','payable']),('journal_id.type','in',['sale','purchase']),('reconcile_id','=',False), ('state', '=', 'valid')]"/>                    
 					</xpath>
 				</data>
             </field>
