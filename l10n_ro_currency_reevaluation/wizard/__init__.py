@@ -19,26 +19,5 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+import currency
 
-class account_move_line(osv.osv):
-    _inherit = "account.move.line"
-    
-    def _check_currency(self, cr, uid, ids, context=None):
-        return True 
-    
-    _constraints = [
-        (_check_currency, 'The selected account of your Journal Entry forces to provide a secondary currency. You should remove the secondary currency on the account or select a multi-currency view on the journal.', ['currency_id']),
-    ]
-        
-        
-class account_journal(osv.osv):
-    _inherit = "account.journal"
-    
-    def _check_currency(self, cr, uid, ids, context=None):
-        return True
-    
-    _constraints = [
-        (_check_currency, 'Configuration error!\nThe currency chosen should be shared by the default accounts too.', ['currency','default_debit_account_id','default_credit_account_id']),
-    ]

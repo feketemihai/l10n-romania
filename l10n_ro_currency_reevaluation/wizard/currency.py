@@ -19,170 +19,161 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 import time
 from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 
-class currency_reevauluation(models.TransientModel):
-	_name = 'currency.reevaluation'
+class currency_reevaluation(models.TransientModel):
+    _name = 'currency.reevaluation'
 
-	period_id = fields.Many2one('account.period','Period', help="The period to compute moves.", required=True)
-	journal_id = fields.Many2one('account.journal','Journal', help="The journal to post the entries.", required=True)
-	company_id = fields.Many2one('res.company','Company', help="The company for which is the reevaluation.", required=True)
+    period_id = fields.Many2one('account.period','Period', help="The period to compute moves.", required=True)
+    journal_id = fields.Many2one('account.journal','Journal', help="The journal to post the entries.", required=True)
+    company_id = fields.Many2one('res.company','Company', help="The company for which is the reevaluation.", required=True,
+        change_default=True, default=lambda self: self.env['res.company']._company_default_get('currency.reevaluation'))
+    
     
     @api.one
-	def get_lines(self, period_id, company_id):
-	    lines = move_line_obj.search(cr, uid, [('state','=','valid'),('curr_act','=',False),('reconcile_id','=',False),('currency_id','!=',False),('amount_currency','!=',False),('account_id.user_type.code','in',('payable', 'receivable')),('date','<=',form.period_id.date_stop),('date','>=',form.period_id.date_start)])
-		
-	    query = ("SELECT l.id as id, l.account_id as account_id, l.partner_id, l.currency_id, "
-                   "COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) as balance, "
-                   "COALESCE(SUM(l.amount_currency), 0) as foreign_balance, "
-                   " FROM account_move_line l "
-                   " LEFT JOIN account_journal journal ON journal.id = l.journal_id"
-                   " WHERE journal.type::text != ANY (ARRAY['cash'::character varying::text,'bank'::character varying::text])"
-                   " l.account_id IN %(account_ids)s AND "
-                   " l.period_id = %(period)s AND "
-                   " l.currency_id IS NOT NULL AND "
-                   " l.reconcile_id IS NULL AND "
-                   " GROUP BY l.account_id, l.partner_id, l.currency_id")
-        params = {'revaluation_date': revaluation_date,
-                  'account_ids': tuple(ids)}
-        return query, params
-	
-	def compute_difference(self, cr, uid, ids, context=None):
-		
-		context = context or {}
-		form = self.browse(cr, uid, ids[0], context=context)
-		move_obj = self.pool.get('account.move')
-		account_obj = self.pool.get('account.account')
-		journal_obj = self.pool.get('account.journal')
-		move_line_obj = self.pool.get('account.move.line')
-		period_obj = self.pool.get('account.period')
-		user_obj = self.pool.get('res.users')
-		curr_obj = self.pool.get('res.currency')
+    def compute_difference(self):
+        
+        form = self[0]
+        move_obj = self.env['account.move']
+        account_obj = self.env['account.account']
+        journal_obj = self.env['account.journal']
+        move_line_obj = self.env['account.move.line']
+        period_obj = self.env['account.period']
+        curr_obj = self.env['res.currency']
 
-		company = user_obj.browse(cr, uid, uid).company_id
-
-		# get current period from company
-		period = form.period_id
-		curr = company.currency_id
-		
-		#get receivable and payable accounts
-		#get account move lines with foreign currency		
-		lines = move_line_obj.search(cr, uid, [('state','=','valid'),('curr_act','=',False),('reconcile_id','=',False),('currency_id','!=',False),('amount_currency','!=',False),('account_id.user_type.code','in',('payable', 'receivable')),('date','<=',form.period_id.date_stop),('date','>=',form.period_id.date_start)])
-		created_ids = []
-		vals = {'name': 'Currency update '+period.code,
-                'journal_id': form.journal_id.id,
+        # get current period from company
+        company = form.company_id
+        period = form.period_id
+        journal = form.journal_id
+        
+        company_currency = company.currency_id
+        revaluation_date = period.date_stop
+        account_ids = [account.id for account in account_obj.search([('currency_revaluation','=',True),('company_id','=',company.id)])]
+        
+        date1 = datetime.strptime(revaluation_date,"%Y-%m-%d") + relativedelta(day=1, months=+1)
+            
+        ctx = dict(self._context)
+        ctx1 = dict(self._context)
+        ctx.update({'date': date1})                        
+            
+        #get account move lines with foreign currency posted before reevaluation date (end of period)
+        #balance and foreign balance are not taking in consideration newwer reconciliations       
+        query = """ SELECT DISTINCT sub.id, sub.date, sub.account_id, sub.journal_id, sub.partner_id, sub.currency_id,
+                    COALESCE(SUM(sub.balance),0) + COALESCE(SUM(sub.pay_amount),0) as balance,
+                    COALESCE(SUM(sub.foreign_balance),0) + COALESCE(SUM(sub.foreign_pay_amount),0) as foreign_balance
+                    FROM (SELECT l.id as id, l.date as date, COALESCE(partner.id,0) AS partner_id,
+                    account.id as account_id, l.journal_id as journal_id, COALESCE(SUM(l.debit - l.credit),0) / (CASE WHEN EXISTS(select lrec.id from account_move_line lrec WHERE l.reconcile_partial_id = lrec.reconcile_partial_id and l.id != lrec.id AND lrec.date <= %(revaluation_date)s::date) THEN COUNT(lrec.id) ELSE 1 END) as balance, 
+                    COALESCE(SUM(l.amount_currency),0) / (CASE WHEN EXISTS(select lrec.id from account_move_line lrec WHERE l.reconcile_partial_id = lrec.reconcile_partial_id and l.id != lrec.id AND lrec.date <= %(revaluation_date)s::date) THEN COUNT(lrec.id) ELSE 1 END) as foreign_balance,
+                    COALESCE(SUM(lrec.debit - lrec.credit),0) as pay_amount,
+                    COALESCE(SUM(lrec.amount_currency),0) as foreign_pay_amount,
+                    l.currency_id as currency_id
+                    FROM account_move_line l
+                    LEFT JOIN account_move am ON am.id = l.move_id
+                    LEFT JOIN account_account account ON account.id = l.account_id
+                    LEFT JOIN account_journal journal ON journal.id = l.journal_id
+                    LEFT JOIN res_partner partner ON partner.id = l.partner_id
+                    LEFT JOIN account_move_line lrec ON l.reconcile_partial_id = lrec.reconcile_partial_id and l.id != lrec.id AND lrec.date <= %(revaluation_date)s::date
+                    WHERE (journal.type::text != 'bank'::character varying::text AND journal.type::text != 'cash'::character varying::text) AND
+                    am.state::text = 'posted'::character varying::text AND account.id = ANY(%(account_ids)s) AND l.date <= %(revaluation_date)s AND l.currency_id IS NOT NULL
+                    GROUP BY l.id, account.id, partner.id, l.journal_id, l.currency_id
+                    ORDER BY account_id, journal_id, partner_id, l.id) AS sub
+                    WHERE sub.foreign_balance <> 0.00 AND sub.currency_id IS NOT NULL
+                    GROUP BY partner_id, account_id, journal_id, date, sub.currency_id, sub.id
+                    ORDER BY account_id, journal_id, partner_id, sub.id
+                """
+        params = {'revaluation_date': revaluation_date,'account_ids': account_ids}
+        self._cr.execute(query, params)
+        lines = self._cr.dictfetchall()
+        
+        created_ids = []
+        vals = {'name': 'Currency update '+period.code,
+                'journal_id': journal.id,
                 'period_id': period.id,
                 'date':period.date_stop}            
-		move_id = move_obj.create(cr, uid, vals, context=context)
-		move = move_obj.browse(cr, uid, move_id)
-		expense_acc = company.expense_currency_exchange_account_id.id
-		income_acc = company.income_currency_exchange_account_id.id
-		for line1 in lines:
-			line = move_line_obj.browse(cr, uid, line1)
-			part_move = False
-			if line.journal_id.type in ('sale','purchase'):
-				name, ref1, debit, credit, account_id, currency_id, partner_id = line.name, line.ref, line.debit, line.credit, line.account_id, line.currency_id, line.partner_id				
-				if partner_id and account_id.user_type.code not in ('payable', 'receivable'):
-					continue    
-				if partner_id:
-					amount_currency = line.amount_residual_currency
-				else:
-					amount_currency = line.amount_currency
-				if ref1:
-					ref = ref1
-				elif name:
-					ref = name
-				else:
-					ref = 'Currency update '+period.code
-				date1 = datetime.strptime(form.period_id.date_stop,"%Y-%m-%d") + relativedelta(day=1, months=+1)
-				ctx1 = context.copy()
-				ctx1.update({'date': date1})                        
-				amount1 = round(curr_obj._get_conversion_rate(cr, uid, currency_id, curr, ctx1) * abs(amount_currency),2)
-				rec_ids = []
-				if datetime.strptime(line.date,"%Y-%m-%d").month == datetime.strptime(form.period_id.date_start,"%Y-%m-%d").month:
-					#get current currency rate
-					date1 = datetime.strptime(line.date,"%Y-%m-%d")
-					ctx1.update({'date': date1})                        
-					amount2 = round(curr_obj._get_conversion_rate(cr, uid, currency_id, curr, ctx1) * abs(amount_currency),2)
-					amount = round(amount1 - amount2,2)
-				else:
-					ctx2 = context.copy()				
-					date2 = datetime.strptime(form.period_id.date_start,"%Y-%m-%d")
-					ctx2.update({'date': date2})                        
-					amount2 = round(curr_obj._get_conversion_rate(cr, uid, currency_id, curr, ctx2) * abs(amount_currency),2)	
-					amount = round(amount1 - amount2,2)
-				if amount <> 0.00:
-					if account_id.user_type.code=='receivable':
-						valsm = {
-								'name':ref,
-								'ref':ref,
-								'move_id': move_id,
-								'journal_id': form.journal_id.id,
-								'account_id': account_id.id,
-								'partner_id': partner_id.id,
-								'period_id': period.id,
-								'debit': amount>0 and abs(amount) or 0.00,
-								'credit': amount<0 and abs(amount) or 0.00,
-								'currency_id': currency_id.id,
-								'curr_act':True,
-								'date':period.date_stop,
-						}
-						part_move = move_line_obj.create(cr, uid, valsm)
-						valsm = {
-								'name':ref,
-								'ref':ref,
-								'move_id': move_id,
-								'journal_id': form.journal_id.id,
-								'account_id': amount>0 and income_acc or expense_acc,
-								'partner_id': False,
-								'period_id': period.id,
-								'debit': amount<0 and abs(amount) or 0.00,
-								'credit': amount>0 and abs(amount) or 0.00,
-								'currency_id': currency_id.id,
-								'curr_act':True,
-								'date':period.date_stop,
-						}
-						move_line_obj.create(cr, uid, valsm)
-					else:
-						valsm = {
-								'name':ref,
-								'move_id': move_id,
-								'journal_id': form.journal_id.id,
-								'account_id': account_id.id,
-								'partner_id': partner_id.id,
-								'period_id': period.id,
-								'debit': amount<0 and abs(amount) or 0.00,
-								'credit': amount>0 and abs(amount) or 0.00,
-								'currency_id': currency_id.id,
-								'curr_act':True,
-								'date':period.date_stop,
-						}
-						part_move = move_line_obj.create(cr, uid, valsm)
-						valsm = {
-								'name':ref,
-								'move_id': move_id,
-								'journal_id': form.journal_id.id,
-								'account_id': amount>0 and expense_acc or income_acc ,
-								'partner_id': False,
-								'period_id': period.id,
-								'debit': amount>0 and abs(amount) or 0.00,
-								'credit': amount<0 and abs(amount) or 0.00,
-								'currency_id': currency_id.id,
-								'curr_act':True,
-								'date':period.date_stop,
-						}
-						move_line_obj.create(cr, uid, valsm)
-				if part_move:
-					move_line_obj.reconcile_partial(cr, uid, [line.id, part_move], writeoff_acc_id=account_id.id, writeoff_period_id=period.id, writeoff_journal_id=form.journal_id.id)                
-		year, month, day = (int(x) for x in form.period_id.date_stop.split('-'))
-		start_date = date(year, month, day)
-		lines = []
-		cr.execute('SELECT DISTINCT ON (journal) j.id as journal, s.date AS date, j.code as code, s.balance_end_real as balance, c.id as currency ' \
+        move_id = move_obj.create(vals)
+        move = move_id[0]
+        
+        expense_acc = company.expense_currency_exchange_account_id.id
+        income_acc = company.income_currency_exchange_account_id.id
+        for line in lines:
+            aml = move_line_obj.browse(line['id'])
+            currency = curr_obj.browse(line['currency_id'])
+            account = account_obj.browse(line['account_id'])
+            
+            new_amount = currency.with_context(ctx).compute(line['foreign_balance'], company_currency, round=True)
+            rec_ids = []
+                
+            if datetime.strptime(line['date'],"%Y-%m-%d").month == datetime.strptime(revaluation_date,"%Y-%m-%d").month :
+                #get current currency rate
+                date1 = datetime.strptime(line['date'],"%Y-%m-%d")
+                ctx1.update({'date': date1})
+            else:
+                date1 = datetime.strptime(period.date_start,"%Y-%m-%d")
+                ctx1.update({'date': date1})                        
+            old_amount = currency.with_context(ctx1).compute(line['foreign_balance'], company_currency, round=True)
+            amount = new_amount - old_amount
+            if amount <> 0.00:
+                if amount > 0:
+                    eval_account = income_acc
+                    debit = abs(amount)
+                    credit = 0.00
+                    if account.user_type.code in ['payable','liability']:
+                        partner_id = line['partner_id']<>0 and line['partner_id']
+                    else:
+                        partner_id = False
+                else:
+                    eval_account = expense_acc
+                    debit = 0.00
+                    credit = abs(amount)
+                    if account.user_type.code in ['payable','liability']:
+                        partner_id = False
+                    else:
+                        partner_id = line['partner_id']<>0 and line['partner_id']
+                        
+                valsm = {
+                    'name': 'Update ' + str(line['foreign_balance']),
+                    'ref': 'Update ' + str(line['foreign_balance']),
+                    'move_id': move.id,
+                    'journal_id': journal.id,
+                    'account_id': account.id,
+                    'partner_id': line['partner_id'],
+                    'period_id': period.id,
+                    'debit': debit,
+                    'credit': credit,
+                    'amount_currency': 0.00,
+                    'currency_id': currency.id,
+                    'date':period.date_stop,
+                }
+                part_move = move_line_obj.create(valsm)
+                valsm = {
+                    'name': 'Update ' + str(line['foreign_balance']),
+                    'ref': 'Update ' + str(line['foreign_balance']),
+                    'move_id': move.id,
+                    'journal_id': journal.id,
+                    'account_id': eval_account,
+                    'partner_id': False,
+                    'period_id': period.id,
+                    'debit': credit,
+                    'credit': debit,
+                    'amount_currency': 0.00,
+                    'currency_id': currency.id,
+                    'date':period.date_stop,
+                }
+                move_line_obj.create(valsm)            
+                
+                move_lines = [move_line.id for move_line in aml.reconcile_partial_id.line_partial_ids]
+                move_lines.append(part_move[0].id)
+                move_line_obj.browse(move_lines).reconcile_partial('auto')
+        
+        created_ids.append(move_id)
+        
+        lines = []
+        self._cr.execute('SELECT DISTINCT ON (journal_id) j.id as journal_id, s.date AS date, s.balance_end_real as balance, c.id as currency_id ' \
                        'FROM account_bank_statement s ' \
                        'INNER JOIN account_journal j on s.journal_id = j.id ' \
                        'INNER JOIN res_company com on s.company_id = com.id ' \
@@ -192,84 +183,84 @@ class currency_reevauluation(models.TransientModel):
                                'WHERE date <= \'%s\' ' \
                                'GROUP BY journal_id) d ' \
                                'ON (s.journal_id = d.journal_id AND s.date = d.max_date) ' \
-                       'ORDER BY journal, code, date' % start_date)
-		lines = cr.dictfetchall()
-		for line in lines:
-			ref = str(journal_obj.browse(cr, uid, line['journal']).name)
-			ctx1 = context.copy()
-			date1 = datetime.strptime(form.period_id.date_stop,"%Y-%m-%d") + relativedelta(day=1, months=+1)
-			ctx1.update({'date': date1})                        
-			new_rate = str(round(curr_obj._get_conversion_rate(cr, uid, curr_obj.browse(cr, uid, line['currency']), curr, ctx1),4))
-			cr.execute('SELECT s.date AS date, s.balance_start as balance_start, s.total_entry_encoding as balance ' \
-                       'FROM account_bank_statement s ' \
-                       'INNER JOIN account_journal j on s.journal_id = j.id ' \
-                       'WHERE journal_id = \'%s\'  AND period_id = \'%s\' ' \
-                       'ORDER BY date' % (line['journal'], period.id))
-			oldlines = cr.dictfetchall()
-			amount = 0.00
-			ctx2 = context.copy()
-			if oldlines:
-				for bank_line in oldlines:
-					if bank_line == oldlines[0]:
-						amount1 = round(curr_obj.compute(cr, uid, line['currency'], curr.id, bank_line['balance_start'], context=ctx1),2)
-						date2 = datetime.strptime(form.period_id.date_start,"%Y-%m-%d")
-						ctx2.update({'date': date2})                        
-						amount2 = round(curr_obj.compute(cr, uid, line['currency'], curr.id, bank_line['balance_start'], context=ctx2),2)
-						amount += amount1-amount2
-					amount1 = round(curr_obj.compute(cr, uid, line['currency'], curr.id, bank_line['balance'], context=ctx1),2)
-					date2 = bank_line['date']
-					ctx2.update({'date': date2})                        
-					amount2 = round(curr_obj.compute(cr, uid, line['currency'], curr.id, bank_line['balance'], context=ctx2),2)
-					amount += amount1-amount2				
-			else:
-				amount1 = round(curr_obj.compute(cr, uid, line['currency'], curr.id, line['balance'], context=ctx1),2)
-				date2 = datetime.strptime(form.period_id.date_start,"%Y-%m-%d")
-				ctx2.update({'date': date2})                        
-				amount2 = round(curr_obj.compute(cr, uid, line['currency'], curr.id, line['balance'], context=ctx2),2)
-				print line
-				print str(amount1-amount2)
-				amount += amount1-amount2
-			if amount <> 0.00:
-				valsm = {
-						'name': 'Update ' + str(line['balance']) + ' from ' + ref + ' at ' + new_rate,
-						'move_id': move_id,
-						'journal_id': form.journal_id.id,
-						'account_id': amount>0 and (journal_obj.browse(cr, uid, line['journal']).default_credit_account_id and journal_obj.browse(cr, uid, line['journal']).default_credit_account_id.id) or (journal_obj.browse(cr, uid, line['journal']).default_debit_account_id and journal_obj.browse(cr, uid, line['journal']).default_debit_account_id.id),
-						'period_id': period.id,
-						'partner_id': False,
-						'debit': amount>0 and abs(amount) or 0.00,
-						'credit': amount<0 and abs(amount) or 0.00,
-						'curr_act':True,
-						'date':period.date_stop,
-				}
-				move_line_obj.create(cr, uid, valsm)
-				valsm = {
-						'name':'Update ' + str(line['balance']) + ' from ' + ref + ' at ' + new_rate,
-						'move_id': move_id,
-						'journal_id': form.journal_id.id,
-						'account_id': amount>0 and income_acc or expense_acc,
-						'period_id': period.id,
-						'partner_id': False,
-						'debit': amount<0 and abs(amount) or 0.00,
-						'credit': amount>0 and abs(amount) or 0.00,
-						'curr_act':True,
-						'date':period.date_stop,
-				}
-				move_line_obj.create(cr, uid, valsm)
-						
-					
-		created_ids.append(move_id)
-		if created_ids:
-			return {'domain': "[('id','in', %s)]" % (created_ids,),
-				'name': _("Created revaluation lines"),
-				'view_type': 'form',
-				'view_mode': 'tree,form',
-				'auto_search': True,
-				'res_model': 'account.move',
-				'view_id': False,
-				'search_view_id': False,
-				'type': 'ir.actions.act_window'}
-		else:
-			raise osv.except_osv(_("Warning"), _("No accounting entry have been posted."))
-			
-CurrencyDifference()
+                       'WHERE j.company_id = %s' \
+                       'ORDER BY journal_id, date' % (revaluation_date,company.id))
+        lines = self._cr.dictfetchall()
+        for line in lines:
+            currency = curr_obj.browse(line['currency_id'])
+            journal = journal_obj.browse(line['journal_id'])
+            
+            new_amount = currency.with_context(ctx).compute(line['balance'], company_currency, round=True)
+            rec_ids = []
+                
+            if datetime.strptime(line['date'],"%Y-%m-%d").month == datetime.strptime(revaluation_date,"%Y-%m-%d").month:
+                #get current currency rate
+                date1 = datetime.strptime(line['date'],"%Y-%m-%d")
+                ctx1.update({'date': date1})
+            else:
+                date1 = datetime.strptime(period.date_start,"%Y-%m-%d")
+                ctx1.update({'date': date1})                        
+            old_amount = currency.with_context(ctx1).compute(line['balance'], company_currency, round=True)
+            amount = new_amount - old_amount
+            if amount <> 0.00:
+                vals = {'name': 'Currency update ' + period.code,
+                    'journal_id': journal.id,
+                    'period_id': period.id,
+                    'date': period.date_stop}            
+                move_id = move_obj.create(vals)
+                move = move_id[0]            
+            
+                if amount > 0:
+                    eval_account = income_acc
+                    journal_account = journal.default_debit_account_id
+                    debit = abs(amount)
+                    credit = 0.00
+                else:
+                    eval_account = expense_acc
+                    journal_account = journal.default_credit_account_id
+                    debit = 0.00
+                    credit = abs(amount)
+                        
+                valsm = {
+                    'name': 'Update ' + str(line['balance']),
+                    'ref': 'Update ' + str(line['balance']),
+                    'move_id': move.id,
+                    'journal_id': journal.id,
+                    'account_id': journal_account.id,
+                    'partner_id': False,
+                    'period_id': period.id,
+                    'debit': debit,
+                    'credit': credit,
+                    'amount_currency': 0.00,
+                    'currency_id': currency.id,
+                    'date':period.date_stop,
+                }
+                move_line_obj.create(valsm)
+                valsm = {
+                    'name':'Update ' + str(line['balance']),
+                    'ref': 'Update ' + str(line['balance']),
+                    'move_id': move.id,
+                    'journal_id': journal.id,
+                    'account_id': eval_account,
+                    'partner_id': False,
+                    'period_id': period.id,
+                    'debit': credit,
+                    'credit': debit,
+                    'amount_currency': 0.00,
+                    'currency_id': currency.id,
+                    'date':period.date_stop,
+                }
+                move_line_obj.create(valsm)
+                created_ids.append(move_id)
+        if created_ids:
+            return {'domain': "[('id','in', %s)]" % (created_ids,),
+                'name': _("Created revaluation lines"),
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'auto_search': True,
+                'res_model': 'account.move',
+                'view_id': False,
+                'search_view_id': False,
+                'type': 'ir.actions.act_window'}
+        else:
+            raise except_orm(_("Warning"), _("No accounting entry have been posted."))

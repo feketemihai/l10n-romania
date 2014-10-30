@@ -32,7 +32,8 @@ Romania  - Accoutn Constrains
 
     """,
 
-    'data': [],
+    'data': ['account_view.xml',
+             'wizard/wizard_currency_revaluation_view.xml',],
     'installable': True,
     'auto_install': False,
 }
