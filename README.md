@@ -1,7 +1,5 @@
-l10n-romania
-============
-
 Odoo/OpenERP Romania Localization
+===============================
 
 It extends Odoo/OpenERP to add needed functionnalites to use Odoo/OpenERP in Romania.
 
