@@ -69,4 +69,5 @@ partner_create_by_vat
 Adds an easy method to create partners based on their VAT, if from Romania the partner will be created from Ministry of Finance website, and if from EU will be created based on VIES site.
 
 master_data_plus
+------------
 Adds VAT on Payment partners checking based on ANAF datas.
