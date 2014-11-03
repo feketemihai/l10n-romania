@@ -52,10 +52,10 @@ class currency_reevaluation(models.TransientModel):
         journal = form.journal_id
         
         company_currency = company.currency_id
-        revaluation_date = period.date_stop
-        account_ids = [account.id for account in account_obj.search([('currency_revaluation','=',True),('company_id','=',company.id)])]
+        reevaluation_date = period.date_stop
+        account_ids = [account.id for account in account_obj.search([('currency_reevaluation','=',True),('company_id','=',company.id)])]
         
-        date1 = datetime.strptime(revaluation_date,"%Y-%m-%d") + relativedelta(day=1, months=+1)
+        date1 = datetime.strptime(reevaluation_date,"%Y-%m-%d") + relativedelta(day=1, months=+1)
             
         ctx = dict(self._context)
         ctx1 = dict(self._context)
@@ -67,8 +67,8 @@ class currency_reevaluation(models.TransientModel):
                     COALESCE(SUM(sub.balance),0) + COALESCE(SUM(sub.pay_amount),0) as balance,
                     COALESCE(SUM(sub.foreign_balance),0) + COALESCE(SUM(sub.foreign_pay_amount),0) as foreign_balance
                     FROM (SELECT l.id as id, l.date as date, COALESCE(partner.id,0) AS partner_id,
-                    account.id as account_id, l.journal_id as journal_id, COALESCE(SUM(l.debit - l.credit),0) / (CASE WHEN EXISTS(select lrec.id from account_move_line lrec WHERE l.reconcile_partial_id = lrec.reconcile_partial_id and l.id != lrec.id AND lrec.date <= %(revaluation_date)s::date) THEN COUNT(lrec.id) ELSE 1 END) as balance, 
-                    COALESCE(SUM(l.amount_currency),0) / (CASE WHEN EXISTS(select lrec.id from account_move_line lrec WHERE l.reconcile_partial_id = lrec.reconcile_partial_id and l.id != lrec.id AND lrec.date <= %(revaluation_date)s::date) THEN COUNT(lrec.id) ELSE 1 END) as foreign_balance,
+                    account.id as account_id, l.journal_id as journal_id, COALESCE(SUM(l.debit - l.credit),0) / (CASE WHEN EXISTS(select lrec.id from account_move_line lrec WHERE l.reconcile_partial_id = lrec.reconcile_partial_id and l.id != lrec.id AND lrec.date <= %(reevaluation_date)s::date) THEN COUNT(lrec.id) ELSE 1 END) as balance, 
+                    COALESCE(SUM(l.amount_currency),0) / (CASE WHEN EXISTS(select lrec.id from account_move_line lrec WHERE l.reconcile_partial_id = lrec.reconcile_partial_id and l.id != lrec.id AND lrec.date <= %(reevaluation_date)s::date) THEN COUNT(lrec.id) ELSE 1 END) as foreign_balance,
                     COALESCE(SUM(lrec.debit - lrec.credit),0) as pay_amount,
                     COALESCE(SUM(lrec.amount_currency),0) as foreign_pay_amount,
                     l.currency_id as currency_id
@@ -77,16 +77,16 @@ class currency_reevaluation(models.TransientModel):
                     LEFT JOIN account_account account ON account.id = l.account_id
                     LEFT JOIN account_journal journal ON journal.id = l.journal_id
                     LEFT JOIN res_partner partner ON partner.id = l.partner_id
-                    LEFT JOIN account_move_line lrec ON l.reconcile_partial_id = lrec.reconcile_partial_id and l.id != lrec.id AND lrec.date <= %(revaluation_date)s::date
+                    LEFT JOIN account_move_line lrec ON l.reconcile_partial_id = lrec.reconcile_partial_id and l.id != lrec.id AND lrec.date <= %(reevaluation_date)s::date
                     WHERE (journal.type::text != 'bank'::character varying::text AND journal.type::text != 'cash'::character varying::text) AND
-                    am.state::text = 'posted'::character varying::text AND account.id = ANY(%(account_ids)s) AND l.date <= %(revaluation_date)s AND l.currency_id IS NOT NULL
+                    account.company_id = %(company_id)s AND am.state::text = 'posted'::character varying::text AND account.id = ANY(%(account_ids)s) AND l.date <= %(reevaluation_date)s AND l.currency_id IS NOT NULL
                     GROUP BY l.id, account.id, partner.id, l.journal_id, l.currency_id
                     ORDER BY account_id, journal_id, partner_id, l.id) AS sub
                     WHERE sub.foreign_balance <> 0.00 AND sub.currency_id IS NOT NULL
                     GROUP BY partner_id, account_id, journal_id, date, sub.currency_id, sub.id
                     ORDER BY account_id, journal_id, partner_id, sub.id
                 """
-        params = {'revaluation_date': revaluation_date,'account_ids': account_ids}
+        params = {'reevaluation_date': reevaluation_date,'account_ids': account_ids, 'company_id': company.id}
         self._cr.execute(query, params)
         lines = self._cr.dictfetchall()
         
@@ -108,7 +108,7 @@ class currency_reevaluation(models.TransientModel):
             new_amount = currency.with_context(ctx).compute(line['foreign_balance'], company_currency, round=True)
             rec_ids = []
                 
-            if datetime.strptime(line['date'],"%Y-%m-%d").month == datetime.strptime(revaluation_date,"%Y-%m-%d").month :
+            if datetime.strptime(line['date'],"%Y-%m-%d").month == datetime.strptime(reevaluation_date,"%Y-%m-%d").month :
                 #get current currency rate
                 date1 = datetime.strptime(line['date'],"%Y-%m-%d")
                 ctx1.update({'date': date1})
@@ -173,18 +173,19 @@ class currency_reevaluation(models.TransientModel):
         created_ids.append(move_id)
         
         lines = []
-        self._cr.execute('SELECT DISTINCT ON (journal_id) j.id as journal_id, s.date AS date, s.balance_end_real as balance, c.id as currency_id ' \
-                       'FROM account_bank_statement s ' \
-                       'INNER JOIN account_journal j on s.journal_id = j.id ' \
-                       'INNER JOIN res_company com on s.company_id = com.id ' \
-                       'INNER JOIN res_currency c on ((j.currency is not null and j.currency = c.id))' \
-                       'INNER JOIN ' \
-                           '(SELECT journal_id, max(date) as max_date FROM account_bank_statement ' \
-                               'WHERE date <= \'%s\' ' \
-                               'GROUP BY journal_id) d ' \
-                               'ON (s.journal_id = d.journal_id AND s.date = d.max_date) ' \
-                       'WHERE j.company_id = %s' \
-                       'ORDER BY journal_id, date' % (revaluation_date,company.id))
+        query = """ SELECT DISTINCT ON (journal_id) j.id as journal_id, s.date AS date, s.balance_end_real as balance, c.id as currency_id
+                       FROM account_bank_statement s
+                       INNER JOIN account_journal j on s.journal_id = j.id
+                       INNER JOIN res_company com on s.company_id = com.id
+                       INNER JOIN res_currency c on ((j.currency is not null and j.currency = c.id))
+                       INNER JOIN
+                           (SELECT journal_id, max(date) as max_date FROM account_bank_statement
+                               WHERE date <= %(reevaluation_date)s::date AND state = 'confirm'
+                               GROUP BY journal_id) d ON (s.journal_id = d.journal_id AND s.date = d.max_date)
+                       WHERE j.company_id = %(company_id)s
+                       ORDER BY journal_id, date"""
+        params = {'reevaluation_date': reevaluation_date,'company_id': company.id}
+        self._cr.execute(query, params)
         lines = self._cr.dictfetchall()
         for line in lines:
             currency = curr_obj.browse(line['currency_id'])
@@ -193,7 +194,7 @@ class currency_reevaluation(models.TransientModel):
             new_amount = currency.with_context(ctx).compute(line['balance'], company_currency, round=True)
             rec_ids = []
                 
-            if datetime.strptime(line['date'],"%Y-%m-%d").month == datetime.strptime(revaluation_date,"%Y-%m-%d").month:
+            if datetime.strptime(line['date'],"%Y-%m-%d").month == datetime.strptime(reevaluation_date,"%Y-%m-%d").month:
                 #get current currency rate
                 date1 = datetime.strptime(line['date'],"%Y-%m-%d")
                 ctx1.update({'date': date1})
@@ -254,7 +255,7 @@ class currency_reevaluation(models.TransientModel):
                 created_ids.append(move_id)
         if created_ids:
             return {'domain': "[('id','in', %s)]" % (created_ids,),
-                'name': _("Created revaluation lines"),
+                'name': _("Created reevaluation lines"),
                 'view_type': 'form',
                 'view_mode': 'tree,form',
                 'auto_search': True,

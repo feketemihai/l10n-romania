@@ -22,7 +22,11 @@
 
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
-#import openerp.addons.decimal_precision as dp
+import openerp.addons.decimal_precision as dp
+
+import time
+from datetime import datetime, timedelta, date
+from dateutil.relativedelta import relativedelta
 
 class account_move_line(osv.Model):
     
@@ -32,4 +36,7 @@ class account_move_line(osv.Model):
         'real_account_id': fields.many2one('account.account','Real account'),
         'real_tax_code_id': fields.many2one('account.tax.code','Real tax code'),
     }
+    
+
+
 

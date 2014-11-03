@@ -176,6 +176,9 @@ class stock_move(osv.osv):
         
     def action_done(self, cr, uid, ids, context=None):
         res = super(stock_move, self).action_done(cr, uid, ids, context=context)
+        for move in self.browse(cr, uid, ids, context=context):
+            if move.picking_id:
+                self.write(cr, uid, [move.id], {'date': move.picking_id.date})
         self.create_account_move_lines(cr, uid, ids, context=context)
         return res
     

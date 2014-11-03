@@ -11,7 +11,7 @@
             <field name="inherit_id" ref="account.view_account_form"/>
             <field name="arch" type="xml">
                   <field position="after" name="child_consol_ids">
-                      <field name="currency_revaluation"/>
+                      <field name="currency_reevaluation"/>
                   </field>
             </field>
         </record>
