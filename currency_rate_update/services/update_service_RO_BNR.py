@@ -58,19 +58,15 @@ class RO_BNR_getter(Currency_getter_interface):
             currency_array.remove(main_currency)
         # Move to new XML lib cf Launchpad bug #645263
         from lxml import etree
-        # logger = netsvc.Logger()
-        # logger.notifyChannel("currency_rate_update", netsvc.LOG_DEBUG,
-        #                       "BNR currency rate service : connecting...")
+        _logger.debug("BNR currency rate service : connecting...")
         rawfile = self.get_url(url)
         dom = etree.fromstring(rawfile)
-        # logger.notifyChannel("currency_rate_update", netsvc.LOG_DEBUG,
-        #                       "BNR sent a valid XML file")
-
         adminch_ns = {'def': 'http://www.bnr.ro/xsd'}
         rate_date = dom.xpath('/def:DataSet/def:Body/def:Cube/@date',
                               namespaces=adminch_ns)[0]
         rate_date_datetime = datetime.strptime(rate_date,
-                                               '%Y-%m-%d') + timedelta(days=1)
+                                               '%Y-%m-%d') + \
+                                               timedelta(days=1)
         self.check_rate_date(rate_date_datetime, max_delta_days)
         # we dynamically update supported currencies
         self.supported_currency_array = dom.xpath("/def:DataSet/def:Body/" + \
@@ -80,9 +76,6 @@ class RO_BNR_getter(Currency_getter_interface):
                                         self.supported_currency_array]
         self.supported_currency_array.append('RON')
 
-        # logger.notifyChannel("currency_rate_update", netsvc.LOG_DEBUG,
-        #                       "Supported currencies = " +
-        #                       str(self.supported_currency_array))
         self.validate_cur(main_currency)
         if main_currency != 'RON':
             main_curr_data = self.rate_retrieve(dom, adminch_ns, main_currency)
@@ -102,7 +95,6 @@ class RO_BNR_getter(Currency_getter_interface):
                     rate = main_rate * curr_data['rate_ref'] / \
                             curr_data['rate_currency']
             self.updated_currency[curr] = rate
-            # logger.notifyChannel("currency_rate_update", netsvc.LOG_DEBUG,
-            #                       "Rate retrieved : 1 " + main_currency +
-            #                       ' = ' + str(rate) + ' ' + curr)
+            _logger.debug("BNR Rate retrieved : 1 " + main_currency +
+                                   ' = ' + str(rate) + ' ' + curr)
         return self.updated_currency, self.log_info

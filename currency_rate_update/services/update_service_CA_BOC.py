@@ -21,7 +21,8 @@
 
 from ..currency_getter_interface import Currency_getter_interface
 
-from openerp.osv import osv
+from openerp import _
+from openerp.exceptions import except_orm
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -70,8 +71,8 @@ class CA_BOC_getter(Currency_getter_interface):
             if dom.status != 200:
                 _logger.error("Exchange data for %s is not reported by Bank\
                     of Canada." % curr)
-                raise osv.except_osv('Error !', 'Exchange data for %s is not\
-                    reported by Bank of Canada.' % str(curr))
+                raise except_orm(_('Error !'), _('Exchange data for %s is not\
+                    reported by Bank of Canada.' % str(curr)))
 
             _logger.debug("BOC sent a valid RSS file for: " + curr)
 
@@ -90,8 +91,8 @@ class CA_BOC_getter(Currency_getter_interface):
                     "Exchange data format error for Bank of Canada -"
                     "%s. Please check provider data format "
                     "and/or source code." % curr)
-                raise osv.except_osv('Error !',
-                                     'Exchange data format error for\
-                                     Bank of Canada - %s !' % str(curr))
+                raise except_orm(_('Error !'),
+                                     _('Exchange data format error for\
+                                     Bank of Canada - %s !' % str(curr)))
 
         return self.updated_currency, self.log_info

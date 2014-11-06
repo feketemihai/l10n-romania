@@ -294,14 +294,7 @@ class Currency_rate_update_service(models.Model):
                 ),
                 note
             )
-            self.write({'note': msg})
-            if self._context.get('cron', False):
-                next_run = (datetime.combine(datetime.strptime(
-                                self.next_run, DEFAULT_SERVER_DATE_FORMAT),
-                                datetime.min.time()) +
-                                _intervalTypes[str(self.interval_type)]
-                                (self.interval_number)).date()
-                self.write({'next_run': next_run})
+            self.write({'note': msg})            
         except Exception as exc:
             error_msg = "\n%s ERROR : %s %s" % (
                 datetime.today().strftime(
@@ -312,6 +305,13 @@ class Currency_rate_update_service(models.Model):
             )
             _logger.info(repr(exc))
             self.write({'note': error_msg})
+        if self._context.get('cron', False):
+            next_run = (datetime.combine(datetime.strptime(
+                            self.next_run, DEFAULT_SERVER_DATE_FORMAT),
+                            datetime.min.time()) +
+                            _intervalTypes[str(self.interval_type)]
+                            (self.interval_number)).date()
+            self.write({'next_run': next_run})
 
     @api.multi
     def run_currency_update(self):
