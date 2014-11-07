@@ -19,8 +19,7 @@ The module is able to use 4 different sources:
    Takes official rates from www.nbp.pl. Adds rate table symbol in log.
    You should check when rates should apply to bookkeeping.
    If next day you should change the update hour in schedule settings
-   because in OpenERP they apply from
-   date of update (date - no hours).
+   because in OpenERP they apply from date of update (date - no hours).
 
 5. Banxico for USD & MXN (created by Agustín Cruz)
    Updated daily
