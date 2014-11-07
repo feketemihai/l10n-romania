@@ -4,6 +4,8 @@
 #    Copyright (c) 2009 CamptoCamp. All rights reserved.
 #    @author Nicolas Bessi
 #
+#    Abstract class to fetch rates from National Bank of Romania
+#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -20,13 +22,10 @@
 ##############################################################################
 from ..currency_getter_interface import Currency_getter_interface
 
-
 from datetime import datetime, timedelta
 
 import logging
 _logger = logging.getLogger(__name__)
-
-# RO_BNR  #####################################################################
 
 
 class RO_BNR_getter(Currency_getter_interface):

@@ -4,6 +4,8 @@
 #    Copyright (c) 2009 CamptoCamp. All rights reserved.
 #    @author Nicolas Bessi
 #
+#    Abstract class to fetch rates from Bank of Canada
+#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -18,16 +20,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from ..currency_getter_interface import Currency_getter_interface
+from currency_getter_interface import Currency_getter_interface
 
 from openerp import _
 from openerp.exceptions import except_orm
 
 import logging
 _logger = logging.getLogger(__name__)
-
-# CA BOC #####   Bank of Canada   #############################################
 
 
 class CA_BOC_getter(Currency_getter_interface):

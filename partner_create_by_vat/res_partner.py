@@ -186,6 +186,8 @@ class res_partner(models.Model):
     _name = "res.partner"
     _inherit = "res.partner"
     
+    name = fields.Char('Name', required=True, select=True, default=' ')        
+    
     @api.one
     def button_get_partner_data(self):
         part = self[0]
