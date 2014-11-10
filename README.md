@@ -68,6 +68,6 @@ partner_create_by_vat
 ------------
 Adds an easy method to create partners based on their VAT, if from Romania the partner will be created from Ministry of Finance website, and if from EU will be created based on VIES site.
 
-master_data_plus
+l10n_ro_fiscal_validation
 ------------
-Adds VAT on Payment partners checking based on ANAF datas.
+Adds partner checking for VAT Subjected on open service (www.openapi.ro), VAT on Payment partners checking based on ANAF datas. Validation for VAT on Payment works at date, so you can record older invoices and partner will be threated at invoice date.
