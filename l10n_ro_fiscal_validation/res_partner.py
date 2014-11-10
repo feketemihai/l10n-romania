@@ -72,23 +72,23 @@ class res_partner(models.Model):
     @api.model
     def _download_anaf_data(self):
         date = datetime.now()
-        if os.path.exists("/home/openerp/istoric.txt"):
-            t = os.path.getmtime("/home/openerp/istoric.txt")
+        path = os.getcwd()
+        print str(path)
+        if os.path.exists(str(path) + "/istoric.txt"):
+            t = os.path.getmtime(str(path) + "/istoric.txt")
             modify = datetime.fromtimestamp(t).strftime('%Y%m%d')        
         else:
+            open(str(path) + "/istoric.txt", "w")
             modify = date.strftime('%Y%m%d')
         date = date.strftime('%Y%m%d')
         if modify<>date:
             url = urllib.urlopen('http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_' + str(date) + '.zip')
             zipfile = ZipFile(StringIO(url.read()))
-            txtfile = zipfile.open('istoric.txt')
-            new_file = open("/home/openerp/istoric.txt", "w")
-            for line in txtfile.readlines():
-                new_file.write(line)
+            zipfile.extractall(path=str(path))
     
-        self._cr.execute(""" DELETE FROM res_partner_anaf """)
-        self._cr.execute(""" COPY res_partner_anaf (id,vat,start_date, end_date, publish_date, operation_date, operation_type)
-                         FROM '/home/openerp/istoric.txt' WITH DELIMITER '#' NULL '' """)
+            self._cr.execute(""" DELETE FROM res_partner_anaf """)
+            self._cr.execute(""" COPY res_partner_anaf (id,vat,start_date, end_date, publish_date, operation_date, operation_type)
+                         FROM '%s/istoric.txt' WITH DELIMITER '#' NULL '' """ % str(path))
 
     @api.multi
     def _check_vat_on_payment(self):
