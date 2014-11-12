@@ -134,7 +134,7 @@ class res_partner(models.Model):
     
     @api.one
     def button_get_partner_data(self):
-        super(res.partner, self).button_get_partner_data()
+        super(res_partner, self).button_get_partner_data()
         self.update_vat_one()
     
     @api.multi
