@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="account.view_partner_property_form"/>
             <field name="arch" type="xml">
                 <page string="Accounting" position="after">
-					<page string="Fiscal Validation">
+					<page string="Fiscal Validation" attrs="{'invisible': [('anaf_history','=',[])]}">
 					    <separator string="ANAF - VAT on Payment"/>
                         <field name="anaf_history">
                             <tree string="ANAF History">

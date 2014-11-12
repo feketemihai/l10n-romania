@@ -35,6 +35,7 @@ Partner fiscal validation from ANAF, Mfinante or OpenAPI for Romanian Companies
     'data': ['res_partner_view.xml',
              'account_invoice_view.xml',
              'res_partner_vat_cron.xml',
+             'security/ir.model.access.csv',
              ],
     'installable': True,
     'auto_install': True,
