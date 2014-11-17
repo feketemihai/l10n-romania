@@ -33,6 +33,13 @@ import requests
 import psycopg2
 import os, os.path
 
+try:
+    import vatnumber
+except ImportError:
+    _logger.warning("VAT validation partially unavailable because the `vatnumber` Python library cannot be found. "
+                                          "Install it to support more countries, for example with `easy_install vatnumber`.")
+    vatnumber = None
+
 class res_partner_anaf(models.Model):
     _name = "res.partner.anaf"
     _description = "ANAF History about VAT on Payment"
@@ -121,6 +128,8 @@ class res_partner(models.Model):
                 res = json.loads(res.content)
                 if res['vat']=='1':
                     vat_s = True
+        elif vat_number and vat_country:
+            vat_s = vatnumber.check_vies(vat_country.upper()+vat_number)
         return vat_s
         
     @api.one

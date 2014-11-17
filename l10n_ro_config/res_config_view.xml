@@ -51,6 +51,17 @@
                                 <label for="module_l10n_ro_account_constrains"/>
                             </div>
                             <div>
+                                <field name="module_l10n_ro_invoice_line_not_deductible" class="oe_inline"/>
+                                <label for="module_l10n_ro_invoice_line_not_deductible"/>
+                                <group attrs="{'invisible': [('module_l10n_ro_invoice_line_not_deductible', '&lt;&gt;', True)]}" col="2">
+                                    <group>
+                                        <field name="property_undeductible_account_id"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                            </div>
+                            <div>
                                 <field name="module_l10n_ro_account_bank_statement" class="oe_inline"/>
                                 <label for="module_l10n_ro_account_bank_statement"/>
                                 <group attrs="{'invisible': [('module_l10n_ro_account_bank_statement', '&lt;&gt;', True)]}" col="2">
@@ -71,11 +82,16 @@
                                 <label for="module_l10n_ro_account_voucher_currency_update"/>
                             </div>
                             <div>
-                                <field name="module_l10n_ro_invoice_line_not_deductible" class="oe_inline"/>
-                                <label for="module_l10n_ro_invoice_line_not_deductible"/>
-                                <group attrs="{'invisible': [('module_l10n_ro_invoice_line_not_deductible', '&lt;&gt;', True)]}" col="2">
+                                <field name="module_account_compensation" class="oe_inline"/>
+                                <label for="module_account_compensation"/>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_account_period_close" class="oe_inline"/>
+                                <label for="module_l10n_ro_account_period_close"/>
+                                <group attrs="{'invisible': [('module_l10n_ro_account_period_close', '&lt;&gt;', True)]}" col="2">
                                     <group>
-                                        <field name="property_undeductible_account_id"/>
+                                        <field name="account_period_close_template_installed"/>
+                                        <p>Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Account Period Close Templates</p>
                                     </group>
                                     <group>
                                     </group>
@@ -95,10 +111,6 @@
                                 </group>
                             </div>
                             <div>
-                                <field name="module_currency_rate_update" class="oe_inline"/>
-                                <label for="module_currency_rate_update"/>
-                            </div>
-                            <div>
                                 <field name="module_l10n_ro_stock" class="oe_inline"/>
                                 <label for="module_l10n_ro_stock"/>
                                 <group attrs="{'invisible': [('module_l10n_ro_stock', '&lt;&gt;', True)]}" col="2">
@@ -112,26 +124,25 @@
                                 </group>
                             </div>
                             <div>
-                                <field name="module_l10n_ro_zip" class="oe_inline"/>
-                                <label for="module_l10n_ro_zip"/>
-                            </div>
-                            <div>
-                                <field name="module_l10n_ro_account_period_close" class="oe_inline"/>
-                                <label for="module_l10n_ro_account_period_close"/>
-                                <group attrs="{'invisible': [('module_l10n_ro_account_period_close', '&lt;&gt;', True)]}" col="2">
-                                    <group>
-                                        <field name="account_period_close_template_installed"/>
-                                        <p>Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Account Period Close Templates</p>
-                                    </group>
-                                    <group>
-                                    </group>
-                                </group>
-                            </div>
-                            <div>
                                 <field name="module_l10n_ro_account_report" class="oe_inline"/>
                                 <label for="module_l10n_ro_account_report"/>
                             </div>
-                            
+                            <div>
+                                <field name="module_currency_rate_update" class="oe_inline"/>
+                                <label for="module_currency_rate_update"/>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_zip" class="oe_inline"/>
+                                <label for="module_l10n_ro_zip"/>
+                            </div>  
+                            <div>
+                                <field name="module_partner_create_by_vat" class="oe_inline"/>
+                                <label for="module_partner_create_by_vat"/>
+                            </div>
+                            <div>
+                                <field name="module_l10n_ro_fiscal_validation" class="oe_inline"/>
+                                <label for="module_l10n_ro_fiscal_validation"/>
+                            </div>                          
                         </div>
                     </group>
                 </form>
