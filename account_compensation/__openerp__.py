@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    'name' : 'Partner COmpensation',
+    'name' : 'Partner Compensation',
     'version' : '1.0',
     'author' : 'FOREST AND BIOMASS SERVICES ROMANIA SA',
     'summary': 'Compensate partners credits and debits',
