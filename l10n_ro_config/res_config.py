@@ -37,6 +37,8 @@ class l10n_ro_config_settings(models.TransientModel):
             help='This allows you to manage the storno behaviour in accounting.')
     module_account_vat_on_payment = fields.Boolean('Vat on Payment Accounting',
             help='This allows you to manage the vat on payment behaviour in accounting.')
+    module_account_compensation = fields.Boolean('Account Compensation',
+            help='This allows you to manage partners compensation on accounts marked to be recociled.')
     module_l10n_ro_asset = fields.Boolean('Romanian Asset',
             help='This allows you to manage the Romanian adaptation for assets, including:\n'
                  'Split assets in fixed assets and services (financials).\n'
@@ -54,6 +56,14 @@ class l10n_ro_config_settings(models.TransientModel):
     module_l10n_ro_zip = fields.Boolean('Romanian Cities',
             help='This allows you to manage the Romanian zipcodes on addreses:\n'
                  'The addres fields will be replaced by one location field including city, state, country, zip.')
+    module_partner_create_by_vat = fields.Boolean('Create Partners by VAT',
+            help='This allows you to create partners based on VAT:\n'
+                 'Romanian partners will be create based on Ministry of Finance Website Datas\n'
+                 'European partners will be create based on VIES Website Datas (for countries that allow). \n')
+    module_l10n_ro_fiscal_validation = fields.Boolean('Partners Fiscal Validation',
+            help='This allows you to manage the vat subjected and vat on payment fields update:\n'
+                 'For Romanian partners based on ANAF data and www.openapi.ro webservice.\n'
+                 'For European partners based on VIES data.')
     module_currency_rate_update = fields.Boolean('Currency Rate Update',
             help='This allows you to manage the update of currency rate based on different provider, use BNR site.\n')
     module_l10n_ro_invoice_line_not_deductible = fields.Boolean('Not Deductible Invoice Line',
