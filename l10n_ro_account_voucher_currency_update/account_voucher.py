@@ -40,18 +40,20 @@ class account_voucher(osv.osv):
         currency_obj = self.pool.get('res.currency')
         ctx1 = context.copy()                
         amount1 = round(currency_obj._get_conversion_rate(cr, uid, line.move_line_id.currency_id, line.move_line_id.company_id.currency_id, ctx1) * abs(line.amount),2)                
-        if datetime.strptime(line.move_line_id.date,"%Y-%m-%d").month == datetime.strptime(line.voucher_id.date,"%Y-%m-%d").month:
+        if datetime.strptime(line.move_line_id.date,"%Y-%m-%d").month == datetime.strptime(line.compensation_id.date,"%Y-%m-%d").month:
             #get current currency rate
             date1 = datetime.strptime(line.move_line_id.date,"%Y-%m-%d")
             ctx1.update({'date': date1})                        
             amount2 = round(currency_obj._get_conversion_rate(cr, uid, line.move_line_id.currency_id, line.move_line_id.company_id.currency_id, ctx1) * abs(line.amount),2)
-            amount = round(amount2 - amount1,2)
+            amount = round(amount1 - amount2,2)
         else:
             ctx2 = context.copy()                
-            date2 = datetime.strptime(line.voucher_id.period_id.date_start,"%Y-%m-%d")
+            date2 = datetime.strptime(line.compensation_id.period_id.date_start,"%Y-%m-%d")
             ctx2.update({'date': date2})                        
             amount2 = round(currency_obj._get_conversion_rate(cr, uid, line.move_line_id.currency_id, line.move_line_id.company_id.currency_id, ctx2) * abs(line.amount),2)
-            amount = round(amount2 - amount1,2)
+            amount = round(amount1 - amount2,2)
+        if line.account_id.type in ('receivable', 'asset'):
+            amount  = (-1) * amount            
         return super(account_voucher, self)._get_exchange_lines(cr, uid, line, move_id, amount, company_currency, current_currency, context=context)
     
     def voucher_move_line_create(self, cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=None):
