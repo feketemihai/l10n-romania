@@ -135,9 +135,10 @@ class currency_reevaluation(models.TransientModel):
                     else:
                         partner_id = line['partner_id']<>0 and line['partner_id']
                         
+                ref = 'Currency update ' + str(line['foreign_balance']) + ' ' + str(currency.name)
                 valsm = {
-                    'name': 'Update ' + str(line['foreign_balance']),
-                    'ref': 'Update ' + str(line['foreign_balance']),
+                    'name': ref,
+                    'ref': ref,
                     'move_id': move.id,
                     'journal_id': journal.id,
                     'account_id': account.id,
@@ -151,8 +152,8 @@ class currency_reevaluation(models.TransientModel):
                 }
                 part_move = move_line_obj.create(valsm)
                 valsm = {
-                    'name': 'Update ' + str(line['foreign_balance']),
-                    'ref': 'Update ' + str(line['foreign_balance']),
+                    'name': ref,
+                    'ref': ref,
                     'move_id': move.id,
                     'journal_id': journal.id,
                     'account_id': eval_account,
@@ -223,8 +224,8 @@ class currency_reevaluation(models.TransientModel):
                     credit = abs(amount)
                         
                 valsm = {
-                    'name': 'Update ' + str(line['balance']),
-                    'ref': 'Update ' + str(line['balance']),
+                    'name': 'Currency update ' + str(line['balance']),
+                    'ref': 'Currency update ' + str(line['balance']),
                     'move_id': move.id,
                     'journal_id': journal.id,
                     'account_id': journal_account.id,

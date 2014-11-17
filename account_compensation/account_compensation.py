@@ -110,7 +110,7 @@ class account_compensation(osv.osv):
         'name':fields.char('Memo', readonly=True, states={'draft':[('readonly',False)]}),
         'date':fields.date('Date', readonly=True, select=True, states={'draft':[('readonly',False)]},
                            help="Effective date for accounting entries", copy=False),
-        'journal_id':fields.many2one('account.journal', 'Journal', required=True, readonly=True, states={'draft':[('readonly',False)]}),
+        'journal_id':fields.many2one('account.journal', 'Journal', required=True, readonly=True, domain=[('type', '=', 'general')], states={'draft':[('readonly',False)]}),
         'line_ids':fields.one2many('account.compensation.line', 'compensation_id', 'Compensation Lines',
                                    readonly=True, copy=True,
                                    states={'draft':[('readonly',False)]}),
