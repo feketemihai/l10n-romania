@@ -19,14 +19,14 @@
 #
 ##############################################################################
 {
-    "name" : "Romania - Application Configuration",
+    "name" : "Romania - Currency Update at partial Payments/Receipts",
     "version" : "1.0",
     "author" : "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category" : "Hidden",
     "depends": ['l10n_ro_config','account_voucher'],
     "description": """
-Romania Accounting Base
+Romania - Currency Update at partial Payments/Receipts
 ------------------------------------------
 
 
@@ -34,5 +34,5 @@ Romania Accounting Base
 
     'data': [],
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
 }

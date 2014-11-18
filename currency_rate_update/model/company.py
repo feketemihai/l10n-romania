@@ -28,10 +28,11 @@ class res_company(models.Model):
     @api.multi
     def _compute_multi_curr_enable(self):
         "check if multi company currency is enabled"
-        fields = self.env['res.currency'].search([('company_id', '!=', False)])
+        company_currency = self.env['res.currency'].search([('company_id',
+                                                             '!=', False)])
         for company in self:
             company.multi_company_currency_enable = \
-                1 if fields else 0
+                1 if company_currency else 0
 
     @api.one
     def button_refresh_currency(self):
@@ -57,4 +58,4 @@ class res_company(models.Model):
     services_to_use = fields.One2many(
         'currency.rate.update.service',
         'company_id',
-        'Currency update services')
+        string='Currency update services')
