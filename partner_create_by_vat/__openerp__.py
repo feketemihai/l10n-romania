@@ -35,5 +35,5 @@ Partner create by vat from Mfinante for Romanian Companies or Vies site for Euro
     'data': ['res_partner_view.xml',
              ],
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
 }
