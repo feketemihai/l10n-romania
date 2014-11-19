@@ -8,6 +8,10 @@ l10n_ro_config
 Module to provide easy configuration for Romanian adaptation, It provides easy install of the modules from this repo, plus accounting configuration or data upload for some modules. Will be install by default when you install the l10n_ro, and in Settings -> Configuration a menu will be created named Romania.
 
 
+account_compensation
+------------
+Provides partners compensation between credits and debits.
+
 account_storno
 ------------
 Provides posting account move lines with negative debit or credit, plus recomputation of refunds changed to have negative quantities. (Functionality proposed to be on Odoo V9)
@@ -18,11 +22,15 @@ Provides VAT on Payment concept, at one invoice with Vat on Payment, taxes are s
 
 currency_rate_update
 ------------
-Provides currency rate updated from many web services (National Bank of Romania available). (Functionality proposed to be on Odoo V9)
+Provides currency rate updated from many web services (National Bank of Romania available).Module copied from OCA/account-financial-tools. (Functionality proposed to be on Odoo V9)
 
 l10n_ro_account_bank_statement
 ------------
 Provides a multicompany rule to bank statement operation templates (To be proposed on Odoo V9), import of invoices to bank statement will take in consideration residual amounts instead of total amount. (To be proposed on Odoo V7 - V9)
+
+l10n_ro_account_compensation_currency_update
+------------
+Adds currency update methods for compensation, if debits or credits are in a different currency than the company one. 
 
 l10n_ro_account_constrains
 ------------
