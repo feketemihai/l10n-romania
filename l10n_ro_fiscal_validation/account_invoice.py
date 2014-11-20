@@ -23,6 +23,7 @@ from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 
 class account_invoice(models.Model):
+    _name = "account.invoice"
     _inherit = "account.invoice"
     
     @api.multi

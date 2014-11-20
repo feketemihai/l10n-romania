@@ -28,6 +28,7 @@ from dateutil.relativedelta import relativedelta
 import calendar 
    
 class account_asset_asset(osv.osv):
+    _name = 'account.asset.asset'
     _inherit = 'account.asset.asset'
     _order = 'category_id, purchase_date'
 

@@ -25,6 +25,7 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 import openerp.addons.decimal_precision as dp
 
 class account_invoice(models.Model):
+    _name = "account.invoice"
     _inherit = "account.invoice"
         
     @api.model

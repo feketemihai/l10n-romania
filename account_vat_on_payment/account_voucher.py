@@ -26,6 +26,7 @@ from openerp.tools.translate import _
 import openerp.addons.decimal_precision as dp
 
 class account_voucher(osv.Model):    
+    _name = "account.voucher"
     _inherit = "account.voucher"
     
     _columns = {

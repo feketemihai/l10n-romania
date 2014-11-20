@@ -72,12 +72,14 @@ class res_country_zipcode(models.Model):
     country_id = fields.Many2one('res.country', related='state_id.country_id', string="Country")
 
 class CountryState(models.Model):
+    _name = 'res.country.state'
     _inherit = 'res.country.state'
     
     city_ids = fields.One2many('res.country.zipcode', 'state_id', string='Cities')
 
 
 class res_partner(models.Model):
+    _name = "res.partner"
     _inherit = "res.partner"
     
     location_id = fields.Many2one('res.country.zipcode', string='Location', ondelete='set null', index=True)
