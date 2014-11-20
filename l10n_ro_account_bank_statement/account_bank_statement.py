@@ -37,7 +37,7 @@ from dateutil.relativedelta import relativedelta
 
 class account_bank_statement_line(osv.osv):
     _name = "account.bank.statement.line"
-	_inherit = "account.bank.statement.line"
+    _inherit = "account.bank.statement.line"
 	    
     def process_reconciliation(self, cr, uid, id, mv_line_dicts, context=None):
         """ Creates a move line for each item of mv_line_dicts and for the statement line. Reconcile a new move line with its counterpart_move_line_id if specified. Finally, mark the statement line as reconciled by putting the newly created move id in the column journal_entry_id.
