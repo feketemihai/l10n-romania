@@ -35,6 +35,7 @@ class account_invoice(models.Model):
        This version is for Croatia, Bih, Serbia...
        Candidate for new module?
     """
+    _name = "account.invoice"
     _inherit = "account.invoice"
 
     def _journal_invoice_type_dict(self):
@@ -66,6 +67,7 @@ class account_invoice(models.Model):
 
 
 class account_invoice_refund(osv.TransientModel):
+    _name = "account.invoice.refund"
     _inherit = "account.invoice.refund"
 
     def _get_journal(self, cr, uid, context=None):

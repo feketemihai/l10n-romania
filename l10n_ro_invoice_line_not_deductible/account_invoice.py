@@ -30,6 +30,7 @@ import openerp.addons.decimal_precision as dp
 
 
 class account_invoice(models.Model):
+    _name = "account.invoice"
     _inherit = "account.invoice"
 
     @api.model
@@ -39,16 +40,19 @@ class account_invoice(models.Model):
         return res
 
 class account_tax(models.Model):
+    _name = "account.tax"
     _inherit = "account.tax"
     
     not_deductible_tax_id = fields.Many2one('account.tax', string='Not Deductible Tax')
     
 class account_move_line(models.Model):
+    _name = "account.move.line"
     _inherit = "account.move.line"
     
     not_deductible = fields.Boolean('Not Deductible')
     
 class account_invoice_line(models.Model):
+    _name = "account.invoice.line"
     _inherit = "account.invoice.line"
     
     not_deductible = fields.Boolean('Not Deductible')

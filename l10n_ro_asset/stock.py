@@ -22,6 +22,7 @@
 from openerp.osv import osv, fields
        
 class stock_warehouse(osv.osv):
+    _name = "stock.warehouse"
     _inherit = "stock.warehouse"
     
     _columns = {
@@ -29,6 +30,7 @@ class stock_warehouse(osv.osv):
     }
     
 class stock_location(osv.osv):
+    _name = "stock.location"
     _inherit = "stock.location"
 
     _columns = {

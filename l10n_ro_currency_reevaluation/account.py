@@ -23,6 +23,7 @@ from openerp import models, fields, _
 
     
 class account_account(models.Model):
+    _name = "account.account"
     _inherit = "account.account"
     
     currency_reevaluation = fields.Boolean("Allow Currency reevaluation")
