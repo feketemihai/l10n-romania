@@ -23,6 +23,7 @@ from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 class res_company(models.Model):
+    _name = 'res.company'
     _inherit = 'res.company'
     
     property_stock_usage_giving_account_id = fields.Many2one('account.account',string="Usage Giving Account",domain="[('type', '=', 'other')]",help="This account will be used as the undeductible account foraccount move line.")

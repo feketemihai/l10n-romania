@@ -23,7 +23,8 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
        
-class stock_warehouse(osv.osv):
+class stock_warehouse(osv.Model):
+    _name = "stock.warehouse"
     _inherit = "stock.warehouse"
     
     _columns = {
@@ -111,7 +112,8 @@ class stock_warehouse(osv.osv):
         location_obj.write(cr, uid, usage_location_id, {'location_id': warehouse.view_location_id.id}, context=context)
         return new_id
         
-class stock_move(osv.osv):
+class stock_move(osv.Model):
+    _name="stock.move"
     _inherit="stock.move"
     
     _columns = {
