@@ -26,8 +26,8 @@
     "description": """Creates a model for storing zipcodes.
 Partner address zipcode related to the new zipcode model.""",
     "depends" : ["base","l10n_ro","l10n_ro_siruta"],
-    "data" : [#'data/mici.xml',
-			  'zipcode_view.xml',
+    "data" : ['zipcode_view.xml',
+              'partner_view.xml',
               'security/ir.model.access.csv',
         ],
     "installable": True

@@ -102,7 +102,7 @@
         <field name="name">res.country.city.search</field>
         <field name="model">res.country.city</field>
         <field name="arch" type="xml">
-			<search string="citys">
+			<search string="Cities">
 				<field name="name"/>
 				<field name="siruta"/>
 				<field name="commune_id"/>
@@ -117,7 +117,7 @@
         <field name="name">res.country.city.tree</field>
         <field name="model">res.country.city</field>
         <field name="arch" type="xml">
-			<tree string="citys">
+			<tree string="Cities">
 				<field name="name"/>
 				<field name="siruta"/>
 				<field name="commune_id"/>
@@ -132,7 +132,7 @@
         <field name="name">res.country.city.form</field>
         <field name="model">res.country.city</field>
         <field name="arch" type="xml">
-            <form string="City">
+            <form string="Cities">
 				<field name="name"/>
 				<field name="siruta"/>
 				<field name="commune_id"/>
