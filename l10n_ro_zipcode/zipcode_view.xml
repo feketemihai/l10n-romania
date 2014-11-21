@@ -1,60 +1,21 @@
 <?xml version="1.0"?>
 <openerp>
-    <data>  
-    
-<!-- Partner -->	
+    <data>
 
-   <record model="ir.ui.view" id="partners_form_add_location">
-        <field name="name">partners_form_add_location</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field eval="18" name="priority"/>
-        <field name="arch" type="xml">
-		    <field name="city" position="replace">
-				<field name="city" attrs="{'invisible': [('location_id','&lt;&gt;',False)]}"/>
-			</field>
-		    <field name="state_id" position="replace">
-				<field name="state_id" attrs="{'invisible': [('location_id','&lt;&gt;',False)]}"/>
-			</field>
-		    <field name="zip" position="replace">
-				<field name="zip" attrs="{'invisible': [('location_id','&lt;&gt;',False)]}"/>
-			</field>
-		    <field name="country_id" position="replace">
-				<field name="country_id" attrs="{'invisible': [('location_id','&lt;&gt;',False)]}"/>
-			</field>
-		    <div class="address_format" position="inside">
-				<field name="location_id" placeholder="Location" class="oe_no_button"  options='{"no_open": True}'/>
-                <button icon="gtk-ok" name="get_google_zip_from_reply" attrs="{'invisible': [('location_id','&lt;&gt;',False)]}"
-                                string="Get Zip" class="oe_highlight" type="object"/>
-            </div>
-            
-        </field>
-    </record>
-   <!--State-->
-
-    <record model="ir.ui.view" id="view_country_state_form2">
-        <field name="name">view_country_state_form2</field>
-        <field name="model">res.country.state</field>
-        <field name="inherit_id" ref="base.view_country_state_form"/>
-        <field name="arch" type="xml">
-            <field name="code" position="after">
-                <field name="city_ids" colspan="4" nolabel="1" widget="one2many_list"/>
-            </field>
-        </field>
-    </record>
-
-
-    <!--City-->
+    <!--zipcode-->
 
     <record model="ir.ui.view" id="view_zipcode_search">
         <field name="name">res.country.zipcode.search</field>
         <field name="model">res.country.zipcode</field>
         <field name="arch" type="xml">
 			<search string="Zipcodes">
-				<field name="state_id"/>
 				<field name="name"/>
-				<field name="descriere"/>
-                <field name="zipcode"/>
+				<field name="area"/>
+				<field name="city_id"/>
+				<field name="commune_id"/>
+				<field name="state_id"/>
+				<field name="zone_id"/>
+				<field name="country_id"/>
 			</search>
 		</field>
 	</record>
@@ -64,10 +25,13 @@
         <field name="model">res.country.zipcode</field>
         <field name="arch" type="xml">
 			<tree string="Zipcodes">
-				<field name="state_id"/>
 				<field name="name"/>
-				<field name="descriere"/>
-                <field name="zipcode"/>
+				<field name="area"/>
+				<field name="city_id"/>
+				<field name="commune_id"/>
+				<field name="state_id"/>
+				<field name="zone_id"/>
+				<field name="country_id"/>
 			</tree>
 		</field>
 	</record>
@@ -76,11 +40,14 @@
         <field name="name">res.country.zipcode.form</field>
         <field name="model">res.country.zipcode</field>
         <field name="arch" type="xml">
-            <form string="City">
-                <field name="state_id"/>
+            <form string="Zipcodes">
 				<field name="name"/>
-				<field name="descriere"/>
-                <field name="zipcode"/>
+				<field name="area"/>
+				<field name="city_id"/>
+				<field name="commune_id"/>
+				<field name="state_id"/>
+				<field name="zone_id"/>
+				<field name="country_id"/>
             </form>
         </field>
     </record>
@@ -105,8 +72,7 @@
         <field name="view_mode">form</field>
         <field name="view_id" ref="view_zipcode_form"/>
         <field name="act_window_id" ref="action_zipcode"/>
-    </record>
-        
+    </record>        
 
     <menuitem name="Zipcodes" groups="base.group_no_one" action="action_zipcode" parent="base.menu_localisation" id="menu_zipcode"/>
 
