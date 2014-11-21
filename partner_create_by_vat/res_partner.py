@@ -159,28 +159,18 @@ def getViesData(cc, vat):
         "action": "check",
         "check": "Verify",
     }
-    r = requests.get(VIES_RESPONSE, params=params)
-    html_doc = lxml.html.fromstring(r.content)
-    if u"Application unavailable" in r.content:
-        raise Unavailable()
-    info = {}
-    errors = html_doc.cssselect("span.invalidStyle")
-
-    if errors:
-        for error in errors:
-            if error.text:
-                raise InvalidVATNumber(u"".join(error.itertext()))
-
-    for tr in html_doc.cssselect("#vatResponseFormTable tr"):
-        tds = list(tr.iterchildren())
-        if len(tds) < 2:
-            continue
-        for td in tds:
-            if td.get("class") == "labelStyle":
-                key = td.text.strip()
-            if td.text and td.text.strip() and key:
-                info[key] = u"\n".join(t.strip() for t in td.itertext())
-    return info
+    req = requests.get(VIES_RESPONSE, params=params)
+    content = req.content
+    data = content.replace("\t", "").replace("\r", "").replace("\n", "").replace("&nbsp;"," ")
+    soup = BeautifulSoup(data)
+    dataTable = parseTable(str(soup.findAll('table',attrs={'id':'vatResponseFormTable'})))
+    newtable = {}
+    for dict1 in dataTable:
+        if 'Name' in dict1:
+            newtable['Name'] = dict1[1].strip() or ''
+        if 'Address' in dict1:
+            newtable['Address'] = dict1[1].strip() or ''
+    return newtable
 
 class res_partner(models.Model):
     _name = "res.partner"
@@ -249,6 +239,7 @@ class res_partner(models.Model):
             else:
                 try:
                     dataTable = getViesData(vat_country.upper(), vat_number)
+                    print dataTable
                     if dataTable:
                         if dataTable['Name'] and dataTable['Name']<>'---':
                             try:
@@ -258,9 +249,9 @@ class res_partner(models.Model):
                         if not part.street:
                             if dataTable['Address'] and dataTable['Address']<>'---':
                                 try:
-                                    self.write({'street': dataTable['Address'].decode('utf-8').upper()})
+                                    self.write({'street': dataTable['Address'].decode('utf-8').title()})
                                 except:
-                                    self.write({'street': str_conv(dataTable['Address']).upper()})
+                                    self.write({'street': str_conv(dataTable['Address']).title()})
                         self.write({'vat_subjected': self.vies_vat_check(vat_country, vat_number)})
                 except:
                     self.write({'vat_subjected': self.vies_vat_check(vat_country, vat_number)})
