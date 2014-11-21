@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
+from openerp import models, fields, api, tools, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 import csv
@@ -53,9 +53,12 @@ class l10n_ro_config_settings(models.TransientModel):
                  'account move lines on the picking\n'
                  'Methods of usage giving and consumption'
                  'Inventory account move lines...')
-    module_l10n_ro_zip = fields.Boolean('Romanian Cities',
+    module_l10n_ro_siruta = fields.Boolean('Romanian Cities',
+            help='This allows you to manage the Romanian Zones, States, Communeds, Cities:\n'
+                 'The address fields will contain city, commune, state, zone, country, zip.')
+    module_l10n_ro_zipcode = fields.Boolean('Romanian Zipcodes',
             help='This allows you to manage the Romanian zipcodes on addreses:\n'
-                 'The addres fields will be replaced by one location field including city, state, country, zip.')
+                 'The address fields will be replaced by one location field including city, commune, state, zone, country, zip.')
     module_partner_create_by_vat = fields.Boolean('Create Partners by VAT',
             help='This allows you to create partners based on VAT:\n'
                  'Romanian partners will be create based on Ministry of Finance Website Datas\n'
@@ -108,6 +111,7 @@ class l10n_ro_config_settings(models.TransientModel):
             string="Supplier Advance Account",
             domain="[('type', '=', 'payable'),('company_id','=',company_id)]",
             help="This account will be used as the supplier advance account for the current partner on vouchers.")
+    siruta_update = fields.Boolean('Update Siruta Data')
     asset_category_chart_installed = fields.Boolean('Install Chart of Asset Category', related='company_id.asset_category_chart_installed')
     bank_statement_template_installed = fields.Boolean('Load Bank Statement Templates', related='company_id.bank_statement_template_installed')
     account_period_close_template_installed = fields.Boolean('Load Account Period Close Templates', related='company_id.account_period_close_template_installed')
@@ -147,7 +151,7 @@ class l10n_ro_config_settings(models.TransientModel):
     @api.multi
     def execute(self):
         res = super(l10n_ro_config_settings, self).execute()
-        # Load Chart of Asset Category if not installed previously
+        # Load Chart of Asset Category
         account_obj = self.env['account.account']
         installed = self.env['ir.module.module'].search([('name','=','l10n_ro_asset'),('state','=','installed')])
         if installed:
@@ -226,7 +230,7 @@ class l10n_ro_config_settings(models.TransientModel):
                                     })
                     finally:
                         f.close()
-        # Load Bank Statement Operation Templates if not installed previously
+        # Load Bank Statement Operation Templates
         installed = self.env['ir.module.module'].search([('name','=','l10n_ro_account_bank_statement'),('state','=','installed')])
         if installed:
             statement_obj = self.env['account.statement.operation.template']        
@@ -252,6 +256,7 @@ class l10n_ro_config_settings(models.TransientModel):
                                 })
                     finally:
                         f.close()
+        # Load Account Period Templates
         installed = self.env['ir.module.module'].search([('name','=','l10n_ro_account_period_close'),('state','=','installed')])
         if installed:
             closing_obj = self.env['account.period.close']        
@@ -291,6 +296,16 @@ class l10n_ro_config_settings(models.TransientModel):
                                     template._onchange_type()
                     finally:
                         f.close()
+        # Reload SIRUTA Files
+        #installed = self.env['ir.module.module'].search([('name','=','l10n_ro_siruta'),('state','=','installed')])
+        #if installed:
+        #    files_dir = str(os.path.dirname(os.getcwd())) + "/l10n-romania/l10n_ro_config/data/siruta/"
+        #   files = [f for f in os.listdir(files_dir)]
+        #   for new_file in files:
+        #        rel_path = files_dir + str(new_file)
+        #        class_name = self.env[new_file.replace('.csv','')[1:]]
+        #        with tools.file_open(rel_path) as fp:                     
+        #            tools.convert_csv_import(self.env.cr, 'l10n_ro_config', new_file, {}, 'init', noupdate=True)
         return res
                         
     
