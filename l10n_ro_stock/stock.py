@@ -115,7 +115,5 @@ class stock_move(osv.osv):
     _inherit="stock.move"
     
     _columns = {
-        #'picking_type_code': fields.related('picking_type_id', 'code', 'Picking Type Code'),
-        'picking_type_code': fields.related('picking_type_id', 'code', type='char', string='Picking Type Code', help="Technical field used to display the correct label on print button in the picking view"),
-
+        'picking_type_code': fields.related('picking_type_id', 'code', type='char', string='Picking Type Code'),
     }

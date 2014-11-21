@@ -549,7 +549,11 @@ class stock_picking(osv.osv):
     
     _columns = {
         'acc_move_line_ids': fields.one2many('account.move.line', 'stock_picking_id', string='Generated accounting lines'),
-        'notice': fields.boolean('Is a notice'),
+        'notice': fields.boolean('Is a notice',states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}),
+    }
+
+    _defaults = {
+        'notice': True,
     }
     
     def get_account_move_lines(self, cr, uid, ids, context=None):

@@ -24,7 +24,7 @@
     "author" : "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category" : "Hidden",
-    "depends": ['stock', 'stock_picking_wave','stock_account','account', 'l10n_ro_config'],
+    "depends": ['stock', 'stock_account','account', 'l10n_ro_config'],
     "description": """
 Localization - Stock Accounting for Romania
 ------------------------------------------
