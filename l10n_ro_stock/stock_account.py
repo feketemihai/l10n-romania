@@ -24,8 +24,10 @@ from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 
 
-class product_category(osv.osv):
+class product_category(osv.Model):
+    _name = "product.category"
     _inherit = "product.category"
+
     _columns = {
         'property_account_creditor_price_difference_categ': fields.property(
             type='many2one',
@@ -34,8 +36,10 @@ class product_category(osv.osv):
             help="This account will be used to value price difference between purchase price and cost price."),
     }
 
-class product_template(osv.osv):
+class product_template(osv.Model):
+    _name = "product.template"
     _inherit = "product.template"
+    
     _columns = {
         'property_account_creditor_price_difference': fields.property(
             type='many2one',
@@ -77,7 +81,8 @@ class product_template(osv.osv):
 #----------------------------------------------------------
 
     
-class stock_location(osv.osv):
+class stock_location(osv.Model):
+    _name = "stock.location"
     _inherit = "stock.location"
 
     _columns = {
@@ -137,7 +142,8 @@ class stock_location(osv.osv):
     }
 
 
-class stock_move(osv.osv):
+class stock_move(osv.Model):
+    _name = "stock.move"
     _inherit = "stock.move"
     
     _columns = {
@@ -224,7 +230,8 @@ class stock_move(osv.osv):
 # Stock Quant
 #----------------------------------------------------------
 
-class stock_quant(osv.osv):
+class stock_quant(osv.Model):
+    _name = "stock.quant"
     _inherit = "stock.quant"
         
     def _account_entry_move(self, cr, uid, quants, move, context=None):
@@ -544,7 +551,8 @@ class stock_quant(osv.osv):
         return res
 
 
-class stock_picking(osv.osv):
+class stock_picking(osv.Model):
+    _name = 'stock.picking'
     _inherit = 'stock.picking'
     
     _columns = {
@@ -599,7 +607,8 @@ class stock_picking(osv.osv):
         self.write(cr, uid, ids, {'notice': False})
         return res
    
-class stock_inventory(osv.osv):
+class stock_inventory(osv.Model):
+    _name = "stock.inventory"    
     _inherit = "stock.inventory"    
     
     _columns = {

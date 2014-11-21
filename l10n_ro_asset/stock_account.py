@@ -33,6 +33,7 @@ from openerp import SUPERUSER_ID, api
 #----------------------------------------------------------
 
 class stock_move(osv.osv):
+    _name = "stock.move"
     _inherit = "stock.move"
     
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
@@ -58,6 +59,7 @@ class stock_move(osv.osv):
 #----------------------------------------------------------
 
 class stock_quant(osv.osv):
+    _name = "stock.quant"
     _inherit = "stock.quant"
         
     def _account_entry_move(self, cr, uid, quants, move, context=None):

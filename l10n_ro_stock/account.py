@@ -23,6 +23,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 class account_move_line(osv.Model):    
+    _name = "account.move.line"
     _inherit = "account.move.line"
     
     _columns = {

@@ -34,6 +34,7 @@ from datetime import datetime, timedelta, date
 
         
 class account_voucher(osv.osv):
+    _name = 'account.voucher'    
     _inherit = 'account.voucher'    
        
     def _get_exchange_lines(self, cr, uid, line, move_id, amount_residual, company_currency, current_currency, context=None):

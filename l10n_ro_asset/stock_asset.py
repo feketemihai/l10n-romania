@@ -27,6 +27,7 @@ from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 class account_asset_asset(models.Model):
+    _name = 'account.asset.asset'
     _inherit = 'account.asset.asset'
     
     # Stock History for fixed assets
@@ -48,10 +49,10 @@ class account_asset_asset(models.Model):
 from openerp.osv import osv, fields
 
 class stock_move(osv.osv):
+    _name = 'stock.move'
     _inherit = 'stock.move'
     
     _columns = {
-        'picking_type_code': fields.related('picking_type_id', 'code', type='char', string='Picking Type Code', help="Technical field used to display the correct label on print button in the picking view"),
         'location_dest_asset': fields.related('location_dest_id', 'asset_location', type='boolean', string='Destination Asset Location', readonly="1"),
         'location_asset': fields.related('location_id', 'asset_location', type='boolean', string='Source Asset Location', readonly="1"),
         'asset_category_id': fields.many2one('account.asset.category', "Asset Category", domain=[('asset_type','=','fixed')]),

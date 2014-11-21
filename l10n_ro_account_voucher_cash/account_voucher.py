@@ -32,6 +32,7 @@ import time
 from datetime import datetime, timedelta, date
 
 class account_bank_statement_line(osv.osv):
+    _name = "account.bank.statement.line"
     _inherit = "account.bank.statement.line"
     
     _columns = {
@@ -39,6 +40,7 @@ class account_bank_statement_line(osv.osv):
     }        
     
 class account_journal(osv.osv):
+    _name = "account.journal"    
     _inherit = "account.journal"    
     
     _columns = {
@@ -46,6 +48,7 @@ class account_journal(osv.osv):
         }
         
 class account_voucher(osv.osv):
+    _name = 'account.voucher'
     _inherit = 'account.voucher'
     
     def account_move_get(self, cr, uid, voucher_id, context=None):

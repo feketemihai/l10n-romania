@@ -29,6 +29,7 @@ import openerp.addons.decimal_precision as dp
 from openerp.osv import osv
 
 class account_asset_asset(models.Model):
+    _name = 'account.asset.asset'
     _inherit = 'account.asset.asset'
 
     # Invoice History for Service Assets
@@ -37,6 +38,7 @@ class account_asset_asset(models.Model):
     
 
 class account_invoice_line(models.Model):
+    _name = 'account.invoice.line'
     _inherit = 'account.invoice.line'
     
     asset_category_id = fields.Many2one('account.asset.category', string='Asset Category', domain=[('asset_type','=','service')])
@@ -80,6 +82,7 @@ class account_invoice_line(models.Model):
         return True
 
 class account_invoice(models.Model):
+    _name = 'account.invoice'
     _inherit = 'account.invoice'
     
     @api.multi

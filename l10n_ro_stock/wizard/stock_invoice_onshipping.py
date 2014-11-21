@@ -23,6 +23,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 class stock_invoice_onshipping(osv.osv_memory):
+    _name = "stock.invoice.onshipping"
     _inherit = "stock.invoice.onshipping"
     
     def _get_journal_type(self, cr, uid, context=None):

@@ -148,10 +148,10 @@ class l10n_ro_config_settings(models.TransientModel):
     def execute(self):
         res = super(l10n_ro_config_settings, self).execute()
         # Load Chart of Asset Category if not installed previously
-        categ_obj = self.env['account.asset.category']
         account_obj = self.env['account.account']
         installed = self.env['ir.module.module'].search([('name','=','l10n_ro_asset'),('state','=','installed')])
         if installed:
+            categ_obj = self.env['account.asset.category']
             wiz = self[0]
             if wiz.asset_category_chart_installed:
                 asset_categ = categ_obj.search([('name','=','Catalog Mijloace Fixe'),('company_id','=',wiz.company_id.id)])
@@ -227,9 +227,9 @@ class l10n_ro_config_settings(models.TransientModel):
                     finally:
                         f.close()
         # Load Bank Statement Operation Templates if not installed previously
-        statement_obj = self.env['account.statement.operation.template']
         installed = self.env['ir.module.module'].search([('name','=','l10n_ro_account_bank_statement'),('state','=','installed')])
         if installed:
+            statement_obj = self.env['account.statement.operation.template']        
             wiz = self[0]
             if wiz.bank_statement_template_installed:
                 statements = statement_obj.search([('company_id','=',wiz.company_id.id)])
@@ -252,9 +252,9 @@ class l10n_ro_config_settings(models.TransientModel):
                                 })
                     finally:
                         f.close()
-        closing_obj = self.env['account.period.close']
         installed = self.env['ir.module.module'].search([('name','=','l10n_ro_account_period_close'),('state','=','installed')])
         if installed:
+            closing_obj = self.env['account.period.close']        
             wiz = self[0]
             if wiz.account_period_close_template_installed:
                 closings = closing_obj.search([('company_id','=',wiz.company_id.id)])
