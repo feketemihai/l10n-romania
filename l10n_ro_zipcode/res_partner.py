@@ -22,24 +22,23 @@
 from openerp import models, fields, api
 
 # fields copy if 'use_parent_address' is checked
-ADDRESS_FIELDS = ('street', 'street2', 'zip', 'city', 'city_id', 'commune_id', 'state_id', 'zone_id', 'country_id')
+ADDRESS_FIELDS = ('street', 'street2', 'zip', 'city', 'city_id', 'commune_id', 'state_id', 'zone_id', 'country_id', 'zipcode_id')
 
 class res_partner(models.Model):
     _name = "res.partner"
     _inherit = "res.partner"
     
-    @api.onchange('city_id')
-    def _onchange_city_id(self):
-        if self.city_id:
-            self.commune_id = self.city_id.commune_id.id
-            self.state_id = self.city_id.state_id.id
-            self.zone_id = self.city_id.zone_id.id
-            self.country_id = self.city_id.country_id.id
+    @api.onchange('zipcode_id')
+    def _onchange_zipcode_id(self):
+        if self.zipcode_id:
+            self.city_id = self.zipcode_id.city_id.id
+            self.commune_id = self.zipcode_id.commune_id.id
+            self.state_id = self.zipcode_id.state_id.id
+            self.zone_id = self.zipcode_id.zone_id.id
+            self.country_id = self.zipcode_id.country_id.id
     
-    city_id = fields.Many2one('res.country.city', string='City', ondelete='set null', index=True)
-    city = fields.Char(related='city_id.name', string='City', store=True)
-    commune_id = fields.Many2one('res.country.commune', string='City/Commune', ondelete='set null', index=True)
-    zone_id = fields.Many2one('res.country.zone', string='Zone', ondelete='set null', index=True)
+    zipcode_id = fields.Many2one('res.country.city', string='City', ondelete='set null', index=True)
+    zip = fields.Char(related='zipcode_id.name', string='Zipcode', store=True)
 
     @api.one
     def _address_fields(self):

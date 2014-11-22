@@ -77,7 +77,7 @@ class res_country_zipcode(models.Model):
     area = fields.Char('Area')
     city_id = fields.Many2one('res.country.city', string='City', required=True)
     commune_id = fields.Many2one('res.country.commune', string='City/Commune', required=True)
-    state_id = fields.Many2one('res.country.state', related='commune_id.state_id', string='State', required=True, store=True)
-    zone_id = fields.Many2one('res.country.zone', related='commune_id.zone_id', string="Zone", required=True, store=True)
-    country_id = fields.Many2one('res.country', related='commune_id.country_id', string="Country", required=True, store=True)
+    state_id = fields.Many2one('res.country.state', string='State', required=True)
+    zone_id = fields.Many2one('res.country.zone', string="Zone", required=True)
+    country_id = fields.Many2one('res.country', string="Country", required=True)
 
