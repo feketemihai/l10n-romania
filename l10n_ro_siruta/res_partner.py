@@ -35,30 +35,6 @@ class res_partner(models.Model):
             self.state_id = self.city_id.state_id.id
             self.zone_id = self.city_id.zone_id.id
             self.country_id = self.city_id.country_id.id
-            
-    @api.onchange('commune_id')
-    def _onchange_commune_id(self):
-        if self.commune_id:
-            self.city_id = False
-            self.state_id = self.commune_id.state_id.id
-            self.zone_id = self.commune_id.zone_id.id
-            self.country_id = self.commune_id.country_id.id
-            
-    @api.onchange('state_id')
-    def _onchange_state_id(self):
-        if self.state_id:
-            self.city_id = False
-            self.commune_id = False
-            self.zone_id = self.state_id.zone_id.id
-            self.country_id = self.state_id.country_id.id
-    
-    @api.onchange('zone_id')
-    def _onchange_zone_id(self):
-        if self.zone_id:
-            self.city_id = False
-            self.commune_id = False
-            self.state_id = False
-            self.country_id = self.zone_id.country_id.id
     
     city_id = fields.Many2one('res.country.city', string='City', ondelete='set null', index=True)
     city = fields.Char(related='city_id.name', string='City', store=True)
