@@ -132,8 +132,20 @@
                                 <label for="module_currency_rate_update"/>
                             </div>
                             <div>
-                                <field name="module_l10n_ro_zip" class="oe_inline"/>
-                                <label for="module_l10n_ro_zip"/>
+                                <field name="module_l10n_ro_siruta" class="oe_inline"/>
+                                <label for="module_l10n_ro_siruta"/>
+                                <group attrs="{'invisible': [('module_l10n_ro_siruta', '&lt;&gt;', True)]}" col="2">
+                                    <group>
+                                        <field name="siruta_update"/>
+                                        <p>Folder 'l10n-romania' must be at the same level as 'odoo' directory to update SIRUTA data.</p>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                            </div>  
+                            <div>
+                                <field name="module_l10n_ro_zipcode" class="oe_inline"/>
+                                <label for="module_l10n_ro_zipcode"/>
                             </div>  
                             <div>
                                 <field name="module_partner_create_by_vat" class="oe_inline"/>
