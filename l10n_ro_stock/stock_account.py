@@ -265,10 +265,12 @@ class stock_quant(osv.Model):
         #in case of routes making the link between several warehouse of the same company, the transit location belongs to this company, so we don't need to create accounting entries
         # Create Journal Entry for stock moves
         ctx = context.copy()
-        if move.location_id.usage in ('supplier','customer'):
-            ctx['force_company'] = company_to.id
-        if move.location_dest_id.usage in ('supplier','customer'):
-            ctx['force_company'] = company_from.id
+        if company_to:
+            if move.location_id.usage in ('supplier','customer'):
+                ctx['force_company'] = company_to.id
+        if company_from:
+            if move.location_dest_id.usage in ('supplier','customer'):
+                ctx['force_company'] = company_from.id
         
         # Put notice in context if the picking is a notice
         ctx['notice'] = move.picking_id and move.picking_id.notice
@@ -557,7 +559,11 @@ class stock_picking(osv.Model):
     
     _columns = {
         'acc_move_line_ids': fields.one2many('account.move.line', 'stock_picking_id', string='Generated accounting lines'),
-        'notice': fields.boolean('Is a notice'),
+        'notice': fields.boolean('Is a notice',states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}),
+    }
+
+    _defaults = {
+        'notice': True,
     }
     
     def get_account_move_lines(self, cr, uid, ids, context=None):
