@@ -452,7 +452,7 @@ class stock_quant(osv.Model):
                 else:
                     price_invoice = sale_line.price_unit
                 price_invoice = currency_obj._get_conversion_rate(cr, uid, sale_line.order_id.currency_id, move.company_id.currency_id, context=context) * price_invoice
-            valuation_amount = price_invoice * qty
+                valuation_amount = price_invoice * qty
             debit_line_vals['debit'] = valuation_amount
             debit_line_vals['credit'] = 0.00
             credit_line_vals['credit'] = valuation_amount
