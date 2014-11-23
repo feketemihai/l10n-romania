@@ -21,9 +21,6 @@
 
 from openerp import models, fields, api
 
-# fields copy if 'use_parent_address' is checked
-ADDRESS_FIELDS = ('street', 'street2', 'zip', 'city', 'city_id', 'commune_id', 'state_id', 'zone_id', 'country_id')
-
 class res_partner(models.Model):
     _name = "res.partner"
     _inherit = "res.partner"
@@ -40,11 +37,3 @@ class res_partner(models.Model):
     city = fields.Char(related='city_id.name', string='City', store=True)
     commune_id = fields.Many2one('res.country.commune', string='City/Commune', ondelete='set null', index=True)
     zone_id = fields.Many2one('res.country.zone', string='Zone', ondelete='set null', index=True)
-
-    @api.one
-    def _address_fields(self):
-        """ Returns the list of address fields that are synced from the parent
-        when the `use_parent_address` flag is set. """
-        return list(ADDRESS_FIELDS)
-
-    

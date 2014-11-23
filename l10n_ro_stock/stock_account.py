@@ -435,10 +435,29 @@ class stock_quant(osv.Model):
         
         # Change the amounts to be with minus in case of delivery refund
         if context.get('type', False) and context.get('type') == 'delivery_refund':
-             debit_line_vals['debit'] = -1 * debit_line_vals['debit']
-             debit_line_vals['credit'] = -1 * debit_line_vals['credit']
-             credit_line_vals['credit'] = -1 * credit_line_vals['credit']
-             credit_line_vals['debit'] = -1 * credit_line_vals['debit']
+            debit_line_vals['debit'] = -1 * debit_line_vals['debit']
+            debit_line_vals['credit'] = -1 * debit_line_vals['credit']
+            credit_line_vals['credit'] = -1 * credit_line_vals['credit']
+            credit_line_vals['debit'] = -1 * credit_line_vals['debit']
+        # Change the amount in case of delivery with notice to price unit invoice
+        if context.get('type', False) and context.get('type') == 'delivery_notice':
+            valuation_amount = cost
+            if move.procurement_id and move.procurement_id.sale_line_id:
+                sale_line = move.procurement_id.sale_line_id
+                if move.product_id.id != sale_line.product_id.id:
+                    price_invoice = self.pool['product.pricelist'].price_get(
+                    cr, uid, [sale_line.order_id.pricelist_id.id],
+                    move.product_id.id, move.product_uom_qty or 1.0,
+                    sale_line.order_id.partner_id, context=context)[sale_line.order_id.pricelist_id.id]
+                else:
+                    price_invoice = sale_line.price_unit
+                price_invoice = currency_obj._get_conversion_rate(cr, uid, sale_line.order_id.currency_id, move.company_id.currency_id, context=context) * price_invoice
+            valuation_amount = price_invoice * qty
+            debit_line_vals['debit'] = valuation_amount
+            debit_line_vals['credit'] = 0.00
+            credit_line_vals['credit'] = valuation_amount
+            credit_line_vals['debit'] = 0.00
+        
         return [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
     
     def _get_accounting_data_for_valuation(self, cr, uid, move, context=None):
