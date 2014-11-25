@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<record id="view_res_company_caen_tree" model="ir.ui.view">
+            <field name="name">res.company.caen.tree</field>
+            <field name="model">res.company.caen</field>
+            <field name="arch" type="xml">
+                <tree string="CAEN codes">
+                    <field name="name"/>
+                    <field name="trisc"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="view_res_company_caen_form" model="ir.ui.view">
+            <field name="name">res.company.caen.form</field>
+            <field name="model">res.company.caen</field>
+            <field name="arch" type="xml">
+                <form string="CAEN codes">
+                    <field name="name"/>
+                    <field name="trisc"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_res_company_caen_filter" model="ir.ui.view">
+            <field name="name">res.company.caen.filter</field>
+            <field name="model">res.company.caen</field>
+            <field name="arch" type="xml">
+                <search string="Search CAEN code">
+					<field name="name"/>
+                    <field name="trisc"/>
+                </search>
+            </field>
+        </record>
+        
+        <record id="view_payroll_config_page_form" model="ir.ui.view">
+            <field name="name">view_payroll_config_page_form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Configuration']" position="after">
+                    <page string="Human Resources">
+                        <group colspan="4" string="CAEN Configuration">
+							<field name="codcaen"/>
+							<field name="coefacc"/>                  
+						</group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+       
+	</data>	
+</openerp>	
+        
+        
