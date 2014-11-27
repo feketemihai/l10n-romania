@@ -25,7 +25,7 @@
     "name": "VAT on payment",
     "version": "2.0",
     'category': 'Generic Modules/Accounting',
-    "depends": ["account","account_voucher","l10n_ro_config"],
+    "depends": ["account","account_voucher","l10n_ro_config","base_vat"],
     "author": "Agile Business Group",
     "description": """
     See 'account_voucher_cash_basis' description.

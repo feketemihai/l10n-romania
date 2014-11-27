@@ -151,8 +151,53 @@ class l10n_ro_config_settings(models.TransientModel):
     @api.multi
     def execute(self):
         res = super(l10n_ro_config_settings, self).execute()
-        # Load Chart of Asset Category
         account_obj = self.env['account.account']
+        # Load VAT on Payment Configuration
+        installed = self.env['ir.module.module'].search([('name','=','account_vat_on_payment'),('state','=','installed')])
+        if installed:
+            tax_code_names = ('TVA 5%', 'TVA 9%', 'TVA 19%', 'TVA 24%', 'Baza TVA 5%', 'Baza TVA 9%', 'Baza TVA 19%', 'Baza TVA 24%')
+            tax_codes = self.env['account.tax.code'].search([('company_id','=',self.company_id.id),('name','in',tax_code_names)])
+            unnelig_vat_colect_tax_code = self.env['account.tax.code'].search([('company_id','=',self.company_id.id),('name','=','TVA Neexigibil Colectat')])
+            unnelig_base_vat_colect_tax_code = self.env['account.tax.code'].search([('company_id','=',self.company_id.id),('name','=','Baza TVA Neexigibil Colectat')])
+            unnelig_vat_deduct_tax_code = self.env['account.tax.code'].search([('company_id','=',self.company_id.id),('name','=','TVA Neexigibil Deductibil')])
+            unnelig_base_vat_deduct_tax_code = self.env['account.tax.code'].search([('company_id','=',self.company_id.id),('name','=','Baza TVA Neexigibil Deductibil')])
+            if unnelig_vat_colect_tax_code and unnelig_base_vat_colect_tax_code and unnelig_vat_deduct_tax_code and unnelig_base_vat_deduct_tax_code:
+                if tax_codes:
+                    for tax_code in tax_codes:
+                        if not tax_code.uneligible_tax_code_id:
+                            if 'Baza' in tax_code.name:
+                                if 'colectat' in tax_code.code:
+                                    tax_code.uneligible_tax_code_id = unnelig_base_vat_colect_tax_code[0].id
+                                else:
+                                    tax_code.uneligible_tax_code_id = unnelig_base_vat_deduct_tax_code[0].id
+                            else:                        
+                                if 'colectat' in tax_code.code:
+                                    tax_code.uneligible_tax_code_id = unnelig_vat_colect_tax_code[0].id
+                                else:
+                                    tax_code.uneligible_tax_code_id = unnelig_vat_deduct_tax_code[0].id
+            unnelig_colect_account = account_obj.search([('company_id','=',self.company_id.id),('code','ilike','442810')])
+            colect_account = account_obj.search([('company_id','=',self.company_id.id),('code','ilike','442700')])
+            unnelig_deduct_account = account_obj.search([('company_id','=',self.company_id.id),('code','ilike','442820')])
+            deduct_account = account_obj.search([('company_id','=',self.company_id.id),('code','ilike','442600')])
+            if unnelig_colect_account and colect_account:
+                if not colect_account[0].uneligible_account_id:
+                    colect_account[0].uneligible_account_id = unnelig_colect_account[0].id
+            if unnelig_deduct_account and deduct_account:
+                if not deduct_account[0].uneligible_account_id:
+                    deduct_account[0].uneligible_account_id = unnelig_deduct_account[0].id                                
+        # Load Undeductible VAT Configuration
+        installed = self.env['ir.module.module'].search([('name','=','l10n_ro_invoice_line_not_deductible'),('state','=','installed')])
+        if installed:
+            tax_names = ('TVA deductibil 5%', 'TVA deductibil 9%', 'TVA deductibil 19%', 'TVA deductibil 24%')
+            taxes = self.env['account.tax'].search([('company_id','=',self.company_id.id),('name','in',tax_names)])
+            if taxes:
+                for tax in taxes:
+                    if not tax.not_deductible_tax_id:
+                        not_deduct_tax = self.env['account.tax'].search([('company_id','=',self.company_id.id),('name','ilike',tax.name.replace('deductibil','colectat'))])
+                        print not_deduct_tax
+                        if not_deduct_tax:
+                            tax.not_deductible_tax_id = not_deduct_tax[0].id                  
+        # Load Chart of Asset Category
         installed = self.env['ir.module.module'].search([('name','=','l10n_ro_asset'),('state','=','installed')])
         if installed:
             categ_obj = self.env['account.asset.category']
