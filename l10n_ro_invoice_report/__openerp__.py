@@ -30,7 +30,11 @@
     
 Romania - Invoice Report layout 
 ------------------------------------------
- 
+ - factura contine: pretul fara tva, valoare si valoare tva
+
+La companie a fost adaugat un camp nou pentru capitalul social
+La factura au fost adugate campurile delegat si mijloc de transport
+
     """,
     
     "category" : "Generic Modules",
@@ -39,6 +43,8 @@ Romania - Invoice Report layout
 
     "data" : [
                  'views/templates.xml',
+                 'company_view.xml',
+                 'account_invoice_view.xml'
                ],
     "active": False,
     "installable": True,
