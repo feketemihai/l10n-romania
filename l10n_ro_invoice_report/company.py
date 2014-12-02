@@ -17,39 +17,18 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
-{
-    "name" : "Romania - Invoice Report",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+from openerp import models, fields, api, _
+import openerp.addons.decimal_precision as dp
+
+class company(models.Model):
+    _inherit = 'res.company'
     
-    "description": """
-    
-Romania - Invoice Report layout 
-------------------------------------------
- - factura contine: pretul fara tva, valoare si valoare tva
-
-La companie a fost adaugat un camp nou pentru capitalul social
-La factura au fost adugate campurile delegat si mijloc de transport
-
-    """,
-    
-    "category" : "Generic Modules",
-    "depends" : ["base","account",'l10n_ro'],
+    share_capital = fields.Float(string='Share Capital', digits= dp.get_precision('Account'), default= 200 )
 
 
-    "data" : [
-                 'views/templates.xml',
-                 'company_view.xml',
-                 'account_invoice_view.xml'
-               ],
-    "active": False,
-    "installable": True,
-}
+company()
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

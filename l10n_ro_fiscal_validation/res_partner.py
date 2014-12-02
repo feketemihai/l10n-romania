@@ -144,6 +144,32 @@ class res_partner(models.Model):
     @api.one
     def button_get_partner_data(self):
         super(res_partner, self).button_get_partner_data()
+        vat_s = vat_number = vat_country = False        
+        if self.vat:
+            vat_country, vat_number = self.vat[:2].lower(), self.vat[2:].replace(' ', '')        
+        if vat_number and vat_country and vat_country.upper()=='RO':
+            res = requests.get('http://openapi.ro/api/companies/' + str(vat_number) + '.json')
+            if res.status_code==200:
+                res = json.loads(res.content)
+                if self.name == '1' or self.name == ' ':
+                    if res['state']:
+                        state = self.env['res.country.state'].search([('name','=',res['state'].decode('utf-8').title())])
+                        if state:
+                            state = state[0].id
+                        else:
+                            state = False                        
+                    else:
+                        state = False
+                    self.write({
+                        'name': res['name'].decode('utf-8').upper(),
+                        'is_company': True,
+                        'nrc': res['registration_id'].decode('utf-8').upper(),
+                        'street': res['address'].decode('utf-8').title() + ' ' + res['city'].decode('utf-8').title(),
+                        'phone': res['phone'].decode('utf-8'),
+                        'zip': res['zip'] and res['zip'].decode('utf-8') or '',
+                        'state_id': state,
+                        'country_id': self.env['res.country'].search([('code','=','RO')])[0].id,
+                    })
         self.update_vat_one()
     
     @api.multi
