@@ -147,7 +147,7 @@ class stock_move(osv.Model):
     _inherit = "stock.move"
     
     _columns = {
-        'acc_move_id': fields.many2one('account.move', string='Account move'),
+        'acc_move_id': fields.many2one('account.move', string='Account move', ondelete='cascade'),
         'acc_move_line_ids': fields.one2many('account.move.line', 'stock_move_id', string='Account move lines'),
     }
     
@@ -185,7 +185,8 @@ class stock_move(osv.Model):
         for move in self.browse(cr, uid, ids, context=context):
             if move.picking_id:
                 self.write(cr, uid, [move.id], {'date': move.picking_id.date})
-        self.create_account_move_lines(cr, uid, ids, context=context)
+            if not move.acc_move_id:
+                self.create_account_move_lines(cr, uid, [move.id], context=context)
         return res
     
     def action_cancel(self, cr, uid, ids, context=None):
@@ -582,7 +583,7 @@ class stock_picking(osv.Model):
     }
 
     _defaults = {
-        'notice': True,
+        'notice': False,
     }
     
     def get_account_move_lines(self, cr, uid, ids, context=None):
