@@ -164,9 +164,9 @@ class res_partner(models.Model):
                     self.write({
                         'name': res['name'].encode('utf-8').upper(),
                         'is_company': True,
-                        'nrc': res['registration_id'].encode('utf-8').upper(),
+                        'nrc': res['registration_id'] and res['registration_id'].encode('utf-8').upper() or '',
                         'street': res['address'].encode('utf-8').title() + ' ' + res['city'].encode('utf-8').title(),
-                        'phone': res['phone'].encode('utf-8'),
+                        'phone': res['phone'] and res['phone'].encode('utf-8') or '',
                         'zip': res['zip'] and res['zip'].encode('utf-8') or '',
                         'state_id': state,
                         'country_id': self.env['res.country'].search([('code','=','RO')])[0].id,
