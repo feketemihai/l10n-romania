@@ -26,6 +26,16 @@ class stock_invoice_onshipping(osv.osv_memory):
     _name = "stock.invoice.onshipping"
     _inherit = "stock.invoice.onshipping"
     
+    def _get_invoice_date(self, cr, uid, context=None):
+		if context is None:
+            context = {}
+        res_ids = context and context.get('active_ids', [])
+        pick_obj = self.pool.get('stock.picking')
+        pickings = pick_obj.browse(cr, uid, res_ids, context=context)
+        vals = []
+        pick = pickings and pickings[0]
+        return pick.date
+    
     def _get_journal_type(self, cr, uid, context=None):
         journal_type = super(stock_invoice_onshipping, self)._get_journal_type(cr, uid, context=context)
         if context is None:
@@ -52,6 +62,14 @@ class stock_invoice_onshipping(osv.osv_memory):
             journal_type = 'sale'
         return journal_type
 
+    _columns = {
+        'invoice_date':   fields.date('Invoice Date'),
+    }
+    
+    _defaults = {
+        'invoice_date': _get_invoice_date,
+    }
+    
     def create_invoice(self, cr, uid, ids, context=None):
         context = dict(context or {})
         picking_pool = self.pool.get('stock.picking')
