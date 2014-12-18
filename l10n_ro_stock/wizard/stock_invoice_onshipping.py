@@ -27,7 +27,7 @@ class stock_invoice_onshipping(osv.osv_memory):
     _inherit = "stock.invoice.onshipping"
     
     def _get_invoice_date(self, cr, uid, context=None):
-		if context is None:
+        if context is None:
             context = {}
         res_ids = context and context.get('active_ids', [])
         pick_obj = self.pool.get('stock.picking')
