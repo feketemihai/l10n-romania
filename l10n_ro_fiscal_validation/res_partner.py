@@ -94,8 +94,8 @@ class res_partner(models.Model):
                 files.extractall(path=str(path))
     
         file_path = str(path) + "/istoric.txt"
-        cr.execute("DELETE FROM res_partner_anaf")
-        cr.execute("COPY res_partner_anaf (id,vat,start_date, end_date, publish_date, operation_date, operation_type) FROM '%s' WITH DELIMITER '#' NULL '' " % file_path)
+        self.cr.execute("DELETE FROM res_partner_anaf")
+        self.cr.execute("COPY res_partner_anaf (id,vat,start_date, end_date, publish_date, operation_date, operation_type) FROM '%s' WITH DELIMITER '#' NULL '' " % file_path)
         return True
 
     @api.multi
