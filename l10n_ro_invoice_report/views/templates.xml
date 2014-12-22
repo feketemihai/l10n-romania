@@ -151,7 +151,7 @@
 										<span>Delegate:</span> <span t-field="o.delegate_id" />
 									</div>
 									<div t-if="o.mean_transp">
-										<span>Mean Transp:</span> <span t-field="o.mean_transp" />
+										<span>Mean Transport:</span> <span t-field="o.mean_transp" />
 									</div>
 								</td>
 							</tr>
