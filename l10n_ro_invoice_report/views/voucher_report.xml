@@ -9,81 +9,29 @@
 						<div class="page">
 							<div class="row">
 								<div class="col-xs-5">
-<<<<<<< HEAD
+
 									<strong t-field="res_company.partner_id.name" />
 									<div>
 										<strong>Address:</strong>
 										<address t-field="res_company.partner_id" t-field-options='{"widget": "contact", "fields": ["address","phone", "fax"], "no_marker": false, "no_tag_br": true}' />
 									</div>
-=======
-									<div>
-										<strong t-if="o.type == 'out_invoice'">Supplier</strong>
-										<strong t-if="o.type == 'in_invoice'">Customer</strong>
-									</div>
-									<strong t-field="res_company.partner_id.name" />
-									<div>
-										<strong>Address:</strong>
-										<address t-field="res_company.partner_id" t-field-options='{"widget": "contact", "fields": ["address","phone", "fax"], "no_marker": false}' />
-									</div>
 
->>>>>>> ed7643975e6a3aac33a1e9cb2618c4e1277b872f
 								</div>
 
 								<div class="col-xs-5 col-xs-offset-2">
 									<div>
-<<<<<<< HEAD
-=======
-										<strong t-if="o.type == 'out_invoice'">Customer</strong>
-										<strong t-if="o.type == 'in_invoice'">Supplier</strong>
-									</div>
-									<div>
->>>>>>> ed7643975e6a3aac33a1e9cb2618c4e1277b872f
+
+
 										<strong t-field="o.partner_id.name" />
 									</div>
 									<div>
 										<strong>Address:</strong>
-<<<<<<< HEAD
+
 										<address t-field="o.partner_id" t-field-options='{"widget": "contact", "fields": ["address", "phone", "fax"], "no_marker": false, "no_tag_br": true}' />
 									</div>
 								</div>
 							</div>
 
- 
-=======
-										<address t-field="o.partner_id" t-field-options='{"widget": "contact", "fields": ["address", "phone", "fax"], "no_marker": false}' />
-									</div>
-
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-xs-5">
-									<div t-foreach="res_company.partner_id.bank_ids" t-as="bank">
-										<div t-if="bank.bank_name">
-											<strong>Bank:</strong>
-											<span t-field="bank.bank_name" />
-										</div>
-										<div t-if="bank.acc_number">
-											<strong>Account:</strong>
-											<span t-field="bank.acc_number" />
-										</div>
-									</div>
-								</div>
-								<div class="col-xs-5 col-xs-offset-2">
-									<div t-foreach="o.partner_id.bank_ids" t-as="bank">
-										<div t-if="bank.bank_name">
-											<strong>Bank:</strong>
-											<span t-field="bank.bank_name" />
-										</div>
-										<div t-if="bank.acc_number">
-											<strong>Account:</strong>
-											<span t-field="bank.acc_number" />
-										</div>
-
-									</div>
-								</div>
-							</div>
->>>>>>> ed7643975e6a3aac33a1e9cb2618c4e1277b872f
 
 
 							<div class="row">
@@ -113,40 +61,13 @@
 								</div>
 							</div>
 							<br />
-<<<<<<< HEAD
 
 							<h2>
 								<span>Voucher:</span>
 								<span t-field="o.number" /> /  <span t-field="o.date" />
 							</h2>
 
- 
-=======
-							<br />
 
-
-							<h2>
-								<span>Voucher:</span>
-								<span t-field="o.number" />
-							</h2>
-
-							<table class="table table-condensed">
-								<thead>
-									<tr>
-										<th>
-											<strong>Date</strong>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>
-											<t t-esc="formatLang(o.date, date=True)" />
-										</td>
-									</tr>
-								</tbody>
-							</table>
->>>>>>> ed7643975e6a3aac33a1e9cb2618c4e1277b872f
 							<table class="table table-condensed">
 								<tr>
 									<td>Received from:</td>
@@ -169,11 +90,10 @@
 								<tr>
 									<td>Representing:</td>
 									<td>
-<<<<<<< HEAD
+
 										<span t-field="o.reference" />
 										
-=======
->>>>>>> ed7643975e6a3aac33a1e9cb2618c4e1277b872f
+
  										<span t-field="o.name" />		
 									</td>
 								</tr>
