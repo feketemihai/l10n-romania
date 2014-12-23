@@ -167,10 +167,9 @@
 					<br/>
 					<br/>
 					<div t-foreach="o.payment_ids" t-as="payment" style="border-top: 1px solid black;">
-<<<<<<< HEAD:l10n_ro_invoice_report/views/invoice_report.xml
+
 					<t t-if="payment.credit != 0">
-=======
->>>>>>> ed7643975e6a3aac33a1e9cb2618c4e1277b872f:l10n_ro_invoice_report/views/invoice_report.xml
+
 						<div>
 							<strong t-field="res_company.partner_id.name" />
 						</div>
@@ -208,11 +207,9 @@
 							Representing counter value of invoice
 							<span t-field="o.number" />
 						</div>
-<<<<<<< HEAD:l10n_ro_invoice_report/views/invoice_report.xml
-					</t>
-=======
 
->>>>>>> ed7643975e6a3aac33a1e9cb2618c4e1277b872f:l10n_ro_invoice_report/views/invoice_report.xml
+					</t>
+
 					</div>
 				</div>
 			</xpath>
