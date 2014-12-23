@@ -42,9 +42,11 @@ La factura au fost adugate campurile delegat si mijloc de transport
 
 
     "data" : [
-                 'views/templates.xml',
+                 'views/invoice_report.xml',
+                 'views/voucher_report.xml',
                  'company_view.xml',
-                 'account_invoice_view.xml'
+                 'account_invoice_view.xml',
+                 'account_voucher_report.xml'
                ],
     "active": False,
     "installable": True,
