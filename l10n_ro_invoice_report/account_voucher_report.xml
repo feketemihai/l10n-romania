@@ -5,7 +5,11 @@
             string="Voucher" 
             id="action_report_voucher" 
             model="account.voucher" 
+<<<<<<< HEAD
             report_type="qweb-pdf"
+=======
+            report_type="qweb-html"
+>>>>>>> ed7643975e6a3aac33a1e9cb2618c4e1277b872f
             name="l10n_ro_invoice_report.report_voucher" 
             file="l10n_ro_invoice_report.report_voucher"    />
     </data>
