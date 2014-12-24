@@ -30,6 +30,7 @@
     
 Romania - Invoice Report layout 
 ------------------------------------------
+<<<<<<< HEAD
  
     """,
     
@@ -39,6 +40,25 @@ Romania - Invoice Report layout
 
     "data" : [
                  'views/templates.xml',
+=======
+ - factura contine: pretul fara tva, valoare si valoare tva
+
+La companie a fost adaugat un camp nou pentru capitalul social
+La factura au fost adugate campurile delegat si mijloc de transport
+
+    """,
+    
+    "category" : "Generic Modules",
+    "depends" : ["base","account",'l10n_ro'],
+
+
+    "data" : [
+                 'views/invoice_report.xml',
+                 'views/voucher_report.xml',
+                 'company_view.xml',
+                 'account_invoice_view.xml',
+                 'account_voucher_report.xml'
+>>>>>>> d7a35eee216ad933df8a91c1c05453dad87291bc
                ],
     "active": False,
     "installable": True,
