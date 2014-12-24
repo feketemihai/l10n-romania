@@ -9,25 +9,29 @@
 						<div class="page">
 							<div class="row">
 								<div class="col-xs-5">
+
 									<strong t-field="res_company.partner_id.name" />
 									<div>
 										<strong>Address:</strong>
 										<address t-field="res_company.partner_id" t-field-options='{"widget": "contact", "fields": ["address","phone", "fax"], "no_marker": false, "no_tag_br": true}' />
 									</div>
+
 								</div>
 
 								<div class="col-xs-5 col-xs-offset-2">
 									<div>
+
+
 										<strong t-field="o.partner_id.name" />
 									</div>
 									<div>
 										<strong>Address:</strong>
+
 										<address t-field="o.partner_id" t-field-options='{"widget": "contact", "fields": ["address", "phone", "fax"], "no_marker": false, "no_tag_br": true}' />
 									</div>
 								</div>
 							</div>
 
- 
 
 
 							<div class="row">
@@ -63,7 +67,7 @@
 								<span t-field="o.number" /> /  <span t-field="o.date" />
 							</h2>
 
- 
+
 							<table class="table table-condensed">
 								<tr>
 									<td>Received from:</td>
@@ -86,8 +90,10 @@
 								<tr>
 									<td>Representing:</td>
 									<td>
+
 										<span t-field="o.reference" />
 										
+
  										<span t-field="o.name" />		
 									</td>
 								</tr>

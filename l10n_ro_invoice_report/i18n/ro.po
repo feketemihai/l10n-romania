@@ -122,7 +122,6 @@ msgstr "Furnizor"
 
 #. module: l10n_ro_invoice_report
 #: field:account.invoice.line,price_taxes:0
-#: view:website:account.report_invoice_document
 msgid "Taxes"
 msgstr "Taxe"
 
@@ -130,4 +129,3 @@ msgstr "Taxe"
 #: field:account.invoice.line,price_unit_without_taxes:0
 msgid "Unit Price without taxes"
 msgstr "Preț fără taxe"
-

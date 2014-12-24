@@ -92,9 +92,9 @@ class stock_quant(osv.osv):
         #in case of routes making the link between several warehouse of the same company, the transit location belongs to this company, so we don't need to create accounting entries
         # Create Journal Entry for stock moves
         ctx = context.copy()
-        if move.location_id.usage in ('supplier','customer'):
+        if company_to and move.location_id.usage in ('supplier','customer'):
             ctx['force_company'] = company_to.id
-        if move.location_dest_id.usage in ('supplier','customer'):
+        if company_from and move.location_dest_id.usage in ('supplier','customer'):
             ctx['force_company'] = company_from.id
         
         

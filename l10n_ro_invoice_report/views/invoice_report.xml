@@ -167,7 +167,9 @@
 					<br/>
 					<br/>
 					<div t-foreach="o.payment_ids" t-as="payment" style="border-top: 1px solid black;">
+
 					<t t-if="payment.credit != 0">
+
 						<div>
 							<strong t-field="res_company.partner_id.name" />
 						</div>
@@ -205,7 +207,9 @@
 							Representing counter value of invoice
 							<span t-field="o.number" />
 						</div>
+
 					</t>
+
 					</div>
 				</div>
 			</xpath>

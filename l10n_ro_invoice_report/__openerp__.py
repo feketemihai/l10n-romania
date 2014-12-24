@@ -30,6 +30,8 @@
     
 Romania - Invoice Report layout 
 ------------------------------------------
+
+
  - factura contine: pretul fara tva, valoare si valoare tva
 
 La companie a fost adaugat un camp nou pentru capitalul social
@@ -38,7 +40,7 @@ La factura au fost adugate campurile delegat si mijloc de transport
     """,
     
     "category" : "Generic Modules",
-    "depends" : ["base","account",'l10n_ro'],
+    "depends" : ["base","account","account_voucher","l10n_ro"],
 
 
     "data" : [

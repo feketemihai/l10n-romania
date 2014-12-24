@@ -24,8 +24,6 @@
 from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
 
-
-
 class account_invoice(models.Model):
     _inherit = "account.invoice"
       
@@ -34,8 +32,7 @@ class account_invoice(models.Model):
    
     mean_transp = fields.Char(string='Mean transport', readonly=True, states={'draft': [('readonly', False)]},)
     
- 
-
+    
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
     
