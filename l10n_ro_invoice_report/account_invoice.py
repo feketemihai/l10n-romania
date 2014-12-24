@@ -24,10 +24,6 @@
 from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
 
-
-<<<<<<< HEAD
-=======
-
 class account_invoice(models.Model):
     _inherit = "account.invoice"
       
@@ -36,9 +32,7 @@ class account_invoice(models.Model):
    
     mean_transp = fields.Char(string='Mean transport', readonly=True, states={'draft': [('readonly', False)]},)
     
- 
-
->>>>>>> d7a35eee216ad933df8a91c1c05453dad87291bc
+    
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
     
@@ -50,14 +44,6 @@ class account_invoice_line(models.Model):
         taxes = self.invoice_line_tax_id.compute_all(price, self.quantity, product=self.product_id, partner=self.invoice_id.partner_id)
         self.price_subtotal = taxes['total']
         self.price_taxes = taxes['total_included']-taxes['total']
-<<<<<<< HEAD
-        if self.invoice_id:
-            self.price_subtotal = self.invoice_id.currency_id.round(self.price_subtotal)    
-            self.price_taxes = self.invoice_id.currency_id.round(self.price_taxes)    
-    
-    price_taxes = fields.Float(string='Taxes', digits= dp.get_precision('Account'),
-        store=True, readonly=True, compute='_compute_price')
-=======
         taxes_unit = self.invoice_line_tax_id.compute_all(price, 1, product=self.product_id, partner=self.invoice_id.partner_id)  
         self.price_unit_without_taxes = taxes_unit['total']       
         if self.invoice_id:
@@ -73,4 +59,3 @@ class account_invoice_line(models.Model):
     
     price_taxes = fields.Float(string='Taxes', digits= dp.get_precision('Account'), 
                                store=True, readonly=True, compute='_compute_price')
->>>>>>> d7a35eee216ad933df8a91c1c05453dad87291bc
