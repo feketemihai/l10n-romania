@@ -20,13 +20,9 @@
 #
 ##############################################################################
 
-
-import account_invoice
-<<<<<<< HEAD
-=======
-import company
+import stock
 import report
->>>>>>> d7a35eee216ad933df8a91c1c05453dad87291bc
+
 
 
 

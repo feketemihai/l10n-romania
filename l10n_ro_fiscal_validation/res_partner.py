@@ -153,7 +153,11 @@ class res_partner(models.Model):
                 res = json.loads(res.content)
                 if self.name == '1' or self.name == ' ':
                     if res['state']:
+<<<<<<< HEAD
                         state = self.env['res.country.state'].search([('name','=',res['state'].encode('utf-8').title())])
+=======
+                        state = self.env['res.country.state'].search([('name','=',res['state'].decode('utf-8').title())])
+>>>>>>> d7a35eee216ad933df8a91c1c05453dad87291bc
                         if state:
                             state = state[0].id
                         else:
@@ -161,12 +165,21 @@ class res_partner(models.Model):
                     else:
                         state = False
                     self.write({
+<<<<<<< HEAD
                         'name': res['name'].encode('utf-8').upper(),
                         'is_company': True,
                         'nrc': res['registration_id'].encode('utf-8').upper(),
                         'street': res['address'].encode('utf-8').title() + ' ' + res['city'].encode('utf-8').title(),
                         'phone': res['phone'].encode('utf-8'),
                         'zip': res['zip'] and res['zip'].encode('utf-8') or '',
+=======
+                        'name': res['name'].decode('utf-8').upper(),
+                        'is_company': True,
+                        'nrc': res['registration_id'].decode('utf-8').upper(),
+                        'street': res['address'].decode('utf-8').title() + ' ' + res['city'].decode('utf-8').title(),
+                        'phone': res['phone'].decode('utf-8'),
+                        'zip': res['zip'] and res['zip'].decode('utf-8') or '',
+>>>>>>> d7a35eee216ad933df8a91c1c05453dad87291bc
                         'state_id': state,
                         'country_id': self.env['res.country'].search([('code','=','RO')])[0].id,
                     })
