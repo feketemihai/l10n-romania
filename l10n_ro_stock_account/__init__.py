@@ -18,23 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Romania - Stock",
-    "version" : "1.0",
-    "author" : "FOREST AND BIOMASS SERVICES ROMANIA	",
-    "website": "http://www.forbiom.eu",
-    "category" : "Hidden",
-    "depends": ['stock', 'l10n_ro_config'],
-    "description": """
-Localization - Stock for Romania
-------------------------------------------
 
-Main features include:
-    - Ease the process of Consume and Usage Giving - adds location and picking type for every newly created warehouse.
-    - Date of the invoice is the date of the first processed picking.
-    """,
-
-    'data': ['stock_view.xml',],
-    'installable': True,
-    'active': False,
-}
+import account
+import stock_account

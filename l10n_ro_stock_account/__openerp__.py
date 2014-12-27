@@ -19,22 +19,27 @@
 #
 ##############################################################################
 {
-    "name" : "Romania - Stock",
+    "name" : "Romania - Stock Accounting",
     "version" : "1.0",
     "author" : "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category" : "Hidden",
-    "depends": ['stock', 'l10n_ro_config'],
+    "depends": ['stock_account','account', 'l10n_ro_config', 'l10n_ro_stock'],
     "description": """
-Localization - Stock for Romania
+Localization - Stock Accounting for Romania
 ------------------------------------------
 
 Main features include:
-    - Ease the process of Consume and Usage Giving - adds location and picking type for every newly created warehouse.
-    - Date of the invoice is the date of the first processed picking.
+    - Stock accounting for receptions, deliveries, consume, usage_giving, inventory, production
+
+    **~*~**
+Modulul conţine adaptarea miscarilor contabile bazate pe miscarile de stoc. 
+
     """,
 
-    'data': ['stock_view.xml',],
+    'data': ['product_view.xml',
+             'stock_view.xml',
+             'stock_account_view.xml',],
     'installable': True,
     'active': False,
 }
