@@ -21,34 +21,28 @@
 ##############################################################################
 
 {
-    "name" : "Romania - Invoice Report",
+    "name" : "Romania - Picking Reports",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
     
     "description": """
     
-Romania - Invoice Report layout 
+Romania - Picking Report layout 
 ------------------------------------------
-
-
- - factura contine: pretul fara tva, valoare si valoare tva
-
-La companie a fost adaugat un camp nou pentru capitalul social
-La factura au fost adugate campurile delegat si mijloc de transport
+ - Reports for Reception and Delivery
 
     """,
     
     "category" : "Generic Modules",
-    "depends" : ["base","account","account_voucher","l10n_ro"],
+    "depends" : ["base","stock",'l10n_ro'],
 
 
     "data" : [
-                 'views/invoice_report.xml',
-                 'views/voucher_report.xml',
-                 'company_view.xml',
-                 'account_invoice_view.xml',
-                 'account_voucher_report.xml'
+                'l10n_ro_stock_picking_report.xml',
+                'views/report_picking.xml',
+                'stock_view.xml'
+
                ],
     "active": False,
     "installable": True,

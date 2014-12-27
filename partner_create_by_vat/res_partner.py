@@ -184,10 +184,16 @@ class res_partner(models.Model):
         if part.vat:
             self.write({'vat': part.vat.upper().replace(" ","")})
         vat_number = vat_country = False
+        if not vat_number and part.name:
+            if len(part.name)>2:
+                if part.name.upper()[:2]=='RO':
+                        part.vat =  part.name
+                        self.write( {'vat': part.vat.upper().replace(" ","")}) 
         if part.vat:
             vat_country, vat_number = self._split_vat(part.vat)                
         if part.vat_subjected:
             self.write({'vat_subjected': False})
+
         if vat_number and vat_country:
             if vat_country=='ro':
                 try:
@@ -234,8 +240,11 @@ class res_partner(models.Model):
                             }
                             self.write(vals)                    
                         self.write({'name': nume.decode('utf-8').upper(), 'is_company': True, 'nrc': nrc, 'vat_subjected': vat_s})
+                    else:
+                        raise Warning(_('Cannot retrive information from mfinante.ro'))
                 except:
-                    print 'Cannot connect to mfinante.ro'
+                    raise Warning(_( 'Cannot connect to mfinante.ro'))
+                     
             else:
                 try:
                     dataTable = getViesData(vat_country.upper(), vat_number)

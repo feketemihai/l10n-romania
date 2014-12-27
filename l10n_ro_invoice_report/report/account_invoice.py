@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
+# Copyright (c) 2014 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,43 +17,37 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
-{
-    "name" : "Romania - Invoice Report",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    
-    "description": """
-    
-Romania - Invoice Report layout 
-------------------------------------------
+
+import time
+from openerp.report import report_sxw
+from openerp.osv import osv
+from openerp.tools import amount_to_text_en
+from amount_to_text_ro import *
+
+class report_invoice_print(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context):
+        super(report_invoice_print, self).__init__(cr, uid, name, context=context)
+        self.localcontext.update({
+            'time': time,
+            'convert':self._convert,
+        })
+        
+    def _convert(self, amount):
+        amt_ro =  amount_to_text_ro(amount)
+        return amt_ro
+ 
+ 
+class report_voucher(osv.AbstractModel):
+    _name = 'report.account.report_invoice'
+    _inherit = 'report.abstract_report'
+    _template = 'account.report_invoice'
+    _wrapped_report_class = report_invoice_print
+ 
 
 
- - factura contine: pretul fara tva, valoare si valoare tva
-
-La companie a fost adaugat un camp nou pentru capitalul social
-La factura au fost adugate campurile delegat si mijloc de transport
-
-    """,
-    
-    "category" : "Generic Modules",
-    "depends" : ["base","account","account_voucher","l10n_ro"],
-
-
-    "data" : [
-                 'views/invoice_report.xml',
-                 'views/voucher_report.xml',
-                 'company_view.xml',
-                 'account_invoice_view.xml',
-                 'account_voucher_report.xml'
-               ],
-    "active": False,
-    "installable": True,
-}
-
+ 
+ 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

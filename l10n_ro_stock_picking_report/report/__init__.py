@@ -17,43 +17,9 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
-{
-    "name" : "Romania - Invoice Report",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    
-    "description": """
-    
-Romania - Invoice Report layout 
-------------------------------------------
-
-
- - factura contine: pretul fara tva, valoare si valoare tva
-
-La companie a fost adaugat un camp nou pentru capitalul social
-La factura au fost adugate campurile delegat si mijloc de transport
-
-    """,
-    
-    "category" : "Generic Modules",
-    "depends" : ["base","account","account_voucher","l10n_ro"],
-
-
-    "data" : [
-                 'views/invoice_report.xml',
-                 'views/voucher_report.xml',
-                 'company_view.xml',
-                 'account_invoice_view.xml',
-                 'account_voucher_report.xml'
-               ],
-    "active": False,
-    "installable": True,
-}
-
+ 
+import picking
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

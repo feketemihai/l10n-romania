@@ -153,14 +153,11 @@ class res_partner(models.Model):
             if res.status_code==200:
                 res = json.loads(res.content)
                 if self.name == '1' or self.name == ' ':
+                    state = False
                     if res['state']:
                         state = self.env['res.country.state'].search([('name','=',res['state'].encode('utf-8').title())])
                         if state:
                             state = state[0].id
-                        else:
-                            state = False                        
-                    else:
-                        state = False
                     self.write({
                         'name': res['name'].encode('utf-8').upper(),
                         'is_company': True,
