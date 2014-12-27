@@ -604,6 +604,11 @@ class stock_picking(osv.Model):
         self.get_account_move_lines(cr, uid, picking_ids, context=context)
         return res
         
+    def action_done(self, cr, uid, picking_ids, context=None):
+        res = super(stock_picking, self).action_done(cr, uid, picking_ids, context=context)
+        self.get_account_move_lines(cr, uid, picking_ids, context=context)
+        return res
+    
     def action_cancel(self, cr, uid, ids, context=None):
         acc_move_obj = self.pool.get('account.move')
         acc_move_line_obj = self.pool.get('account.move.line')

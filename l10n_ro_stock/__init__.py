@@ -19,7 +19,5 @@
 #
 ##############################################################################
 
-import account
 import stock
-import stock_account
 import wizard

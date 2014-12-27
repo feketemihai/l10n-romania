@@ -105,7 +105,7 @@ class account_asset_asset(models.Model):
     purchase_date = fields.Date('Depreciation Start Date', required=True, readonly=True, states={'draft':[('readonly',False)]})
     prorata = fields.Boolean('Prorata Temporis', readonly=True, states={'draft':[('readonly',False)]}, help='Indicates that the first depreciation entry for this asset have to be done from the purchase date instead of first day of next month')
     product_id = fields.Many2one('product.product', string='Product', required=True, readonly=True, states={'draft':[('readonly',False)]})
-    asset_type = fields.Selection([('fixed', 'Fixed Assets'),('service','Services Assets')], related='category_id.asset_type', string='Asset Type', required=True, readonly=True, states={'draft':[('readonly',False)]}, store=True)
+    asset_type = fields.Selection([('fixed', 'Fixed Assets'),('service','Services Assets')], related='category_id.asset_type', string='Asset Type', readonly=True, store=True)
     entry_date = fields.Date('Purchase Date', readonly=True, states={'draft':[('readonly',False)]})
     value_residual = fields.Float('Residual Value', readonly=True, compute='_amount_residual')
     value_depreciated = fields.Float('Depreciated Value', readonly=True, compute='_get_depreciated_value')
