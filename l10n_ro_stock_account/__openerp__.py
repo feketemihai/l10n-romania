@@ -19,34 +19,27 @@
 #
 ##############################################################################
 {
-    "name" : "Romania - Account Reports",
+    "name" : "Romania - Stock Accounting",
     "version" : "1.0",
     "author" : "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
-    "category" : "Romania Adaptation",
-    "depends": ['account','report','account_vat_on_payment','l10n_ro_invoice_line_not_deductible','l10n_ro_config'],
+    "category" : "Hidden",
+    "depends": ['stock_account','account', 'l10n_ro_config', 'l10n_ro_stock'],
     "description": """
-Romania  - Accounting Reports
+Localization - Stock Accounting for Romania
 ------------------------------------------
 
+Main features include:
+    - Stock accounting for receptions, deliveries, consume, usage_giving, inventory, production
+
+    **~*~**
+Modulul conţine adaptarea miscarilor contabile bazate pe miscarile de stoc. 
 
     """,
 
-    'data': ['data/report_paperformat.xml',
-             'data/394_codes.xml',
-             'views/report_trialbalance.xml',
-             'views/report_trialbalance_html.xml',
-             'views/report_sale_journal.xml',
-             'views/report_sale_journal_html.xml',
-             'views/report_purchase_journal.xml',
-             'views/report_purchase_journal_html.xml',
-             'views/layouts.xml',
-             'account_report.xml',
-             'wizard/account_report_account_balance_view.xml',
-             'wizard/account_report_sale_purchase_journal_view.xml',
-             'wizard/d394_view.xml',
-             'product_view.xml',
-             'security/ir.model.access.csv',],
+    'data': ['product_view.xml',
+             'stock_view.xml',
+             'stock_account_view.xml',],
     'installable': True,
-    'auto_install': False,
+    'active': False,
 }

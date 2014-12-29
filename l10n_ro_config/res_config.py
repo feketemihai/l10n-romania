@@ -33,12 +33,28 @@ class l10n_ro_config_settings(models.TransientModel):
         default=lambda self: self.env['res.company']._company_default_get('l10n.ro.config.settings'))
     has_default_company = fields.Boolean('Has default company', readonly=True, change_default=True,
         default=lambda self: bool(self.env['res.company'].search_count([]) == 1))
+    module_account_compensation = fields.Boolean('Account Compensation',
+            help='This allows you to manage partners compensation on accounts marked to be recociled.')
     module_account_storno = fields.Boolean('Storno Accounting',
             help='This allows you to manage the storno behaviour in accounting.')
     module_account_vat_on_payment = fields.Boolean('Vat on Payment Accounting',
             help='This allows you to manage the vat on payment behaviour in accounting.')
-    module_account_compensation = fields.Boolean('Account Compensation',
-            help='This allows you to manage partners compensation on accounts marked to be recociled.')
+    module_currency_rate_update = fields.Boolean('Currency Rate Update',
+            help='This allows you to manage the update of currency rate based on different provider, use BNR site.\n')
+    module_l10n_ro_account_bank_statement = fields.Boolean('Bank Statement Invoices',
+            help='This allows you to manage imports in bank statement line of the invoices only.\n')
+    module_l10n_ro_account_compensation_currency_update = fields.Boolean('Currency Difference on Compensations',
+            help='This allows you to manage currency difference amounts on compensation.\n')
+    module_l10n_ro_account_constrains = fields.Boolean('Account Constrains',
+            help='This allows will remove the constrains related to account journal, account with secondary currency.\n')
+    module_l10n_ro_account_period_close = fields.Boolean('Romania Account Period Close',
+            help='This allows you to close accounts on periods based on templates: Income, Expense, VAT...\n')
+    module_l10n_ro_account_report = fields.Boolean('Romania Accounting Reports',
+            help='This allows you to print reports according to legislation like: Sale/Purchase Journals, Trial Balance, D394..\n')
+    module_l10n_ro_account_voucher_cash = fields.Boolean('Voucher to Cash Statement',
+            help='This allows you to directly input in cash statement payments/receipts from cash journals.\n')
+    module_l10n_ro_account_voucher_currency_update = fields.Boolean('Currency Difference on Partial Payments/Receipts',
+            help='This allows you to manage currency difference amounts on partial payments/receipts.\n')
     module_l10n_ro_asset = fields.Boolean('Romanian Asset',
             help='This allows you to manage the Romanian adaptation for assets, including:\n'
                  'Split assets in fixed assets and services (financials).\n'
@@ -46,43 +62,39 @@ class l10n_ro_config_settings(models.TransientModel):
                  'also include history of creation of the asset.\n'
                  'Method of reevaluation of assets.'
                  'Import of the Chart of Asset Categories according with the legislation')
+    module_l10n_ro_currency_reevaluation = fields.Boolean('Currency Reevaluation',
+            help='This allows you to manage currency reevaluation of move lines recorded on foreign currency.\n'
+                 'To evaluate you have to check the "Allow Reevaluation" field on accounts.')
+    module_l10n_ro_fiscal_validation = fields.Boolean('Partners Fiscal Validation',
+            help='This allows you to manage the vat subjected and vat on payment fields update:\n'
+                 'For Romanian partners based on ANAF data and www.openapi.ro webservice.\n'
+                 'For European partners based on VIES data.')
+    module_l10n_ro_invoice_line_not_deductible = fields.Boolean('Not Deductible Invoice Line',
+            help='This allows you to manage not deductible supplier invoice line.\n')
+    module_l10n_ro_invoice_report = fields.Boolean('Invoice and Voucher Report',
+            help='This allows you to print invoice report based on romanian layout.\n'
+                 'Invoice includes voucher if payment is on the same day.\n'
+                 'Voucher report with amount in word')
+    module_l10n_ro_siruta = fields.Boolean('Romanian Cities',
+            help='This allows you to manage the Romanian Zones, States, Communeds, Cities:\n'
+                 'The address fields will contain city, commune, state, zone, country, zip.')
     module_l10n_ro_stock = fields.Boolean('Romanian Stock',
+            help='Methods of usage giving and consumption')
+    module_l10n_ro_stock_account = fields.Boolean('Romanian Stock Accounting',
             help='This allows you to manage the Romanian adaptation for stock, including:\n'
                  'New stock accounts on location to allow moving entry in accounting based on the stock move.\n'
                  'The account entry will be generated from stock move instead of stock quant, link with the generated \n'
                  'account move lines on the picking\n'
-                 'Methods of usage giving and consumption'
                  'Inventory account move lines...')
-    module_l10n_ro_siruta = fields.Boolean('Romanian Cities',
-            help='This allows you to manage the Romanian Zones, States, Communeds, Cities:\n'
-                 'The address fields will contain city, commune, state, zone, country, zip.')
+    module_l10n_ro_stock_picking_report = fields.Boolean('Stock Picking Report',
+            help='This allows you to print Reports for Reception and Delivery')
     module_l10n_ro_zipcode = fields.Boolean('Romanian Zipcodes',
             help='This allows you to manage the Romanian zipcodes on addreses:\n'
                  'The address fields will be replaced by one location field including city, commune, state, zone, country, zip.')
     module_partner_create_by_vat = fields.Boolean('Create Partners by VAT',
             help='This allows you to create partners based on VAT:\n'
-                 'Romanian partners will be create based on Ministry of Finance Website Datas\n'
+                 'Romanian partners will be create based on Ministry of Finance / openapi.ro Webservices Datas\n'
                  'European partners will be create based on VIES Website Datas (for countries that allow). \n')
-    module_l10n_ro_fiscal_validation = fields.Boolean('Partners Fiscal Validation',
-            help='This allows you to manage the vat subjected and vat on payment fields update:\n'
-                 'For Romanian partners based on ANAF data and www.openapi.ro webservice.\n'
-                 'For European partners based on VIES data.')
-    module_currency_rate_update = fields.Boolean('Currency Rate Update',
-            help='This allows you to manage the update of currency rate based on different provider, use BNR site.\n')
-    module_l10n_ro_invoice_line_not_deductible = fields.Boolean('Not Deductible Invoice Line',
-            help='This allows you to manage not deductible supplier invoice line.\n')
-    module_l10n_ro_account_constrains = fields.Boolean('Account Constrains',
-            help='This allows will remove the constrains related to account journal, account with secondary currency.\n')
-    module_l10n_ro_account_bank_statement = fields.Boolean('Bank Statement Invoices',
-            help='This allows you to manage imports in bank statement line of the invoices only.\n')
-    module_l10n_ro_account_voucher_cash = fields.Boolean('Voucher to Cash Statement',
-            help='This allows you to directly input in cash statement payments/receipts from cash journals.\n')
-    module_l10n_ro_account_voucher_currency_update = fields.Boolean('Currency Difference on Partial Payments/Receipts',
-            help='This allows you to manage recors currency difference amounts on partial payments/receipts.\n')
-    module_l10n_ro_account_report = fields.Boolean('Romania Accounting Reports',
-            help='This allows you to print reports according to legislation like: Sale/Purchase Journals, Trial Balance, D394..\n')
-    module_l10n_ro_account_period_close = fields.Boolean('Romania Account Period Close',
-            help='This allows you to close accounts on periods based on templates: Income, Expense, VAT...\n')
     property_undeductible_account_id = fields.Many2one('account.account', related='company_id.property_undeductible_account_id',
             string="Undeductible Account",
             domain="[('type', '=', 'other'),('company_id','=',company_id)]",
@@ -341,16 +353,6 @@ class l10n_ro_config_settings(models.TransientModel):
                                     template._onchange_type()
                     finally:
                         f.close()
-        # Reload SIRUTA Files
-        #installed = self.env['ir.module.module'].search([('name','=','l10n_ro_siruta'),('state','=','installed')])
-        #if installed:
-        #    files_dir = str(os.path.dirname(os.getcwd())) + "/l10n-romania/l10n_ro_config/data/siruta/"
-        #   files = [f for f in os.listdir(files_dir)]
-        #   for new_file in files:
-        #        rel_path = files_dir + str(new_file)
-        #        class_name = self.env[new_file.replace('.csv','')[1:]]
-        #        with tools.file_open(rel_path) as fp:                     
-        #            tools.convert_csv_import(self.env.cr, 'l10n_ro_config', new_file, {}, 'init', noupdate=True)
         return res
                         
     
