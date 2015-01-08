@@ -34,27 +34,27 @@ class l10n_ro_config_settings(models.TransientModel):
     has_default_company = fields.Boolean('Has default company', readonly=True, change_default=True,
         default=lambda self: bool(self.env['res.company'].search_count([]) == 1))
     module_account_compensation = fields.Boolean('Account Compensation',
-            help='This allows you to manage partners compensation on accounts marked to be recociled.')
+            help='This allows you to manage partners compensation on accounts marked to be reconciled.')
     module_account_storno = fields.Boolean('Storno Accounting',
             help='This allows you to manage the storno behaviour in accounting.')
     module_account_vat_on_payment = fields.Boolean('Vat on Payment Accounting',
             help='This allows you to manage the vat on payment behaviour in accounting.')
     module_currency_rate_update = fields.Boolean('Currency Rate Update',
-            help='This allows you to manage the update of currency rate based on different provider, use BNR site.\n')
+            help='This allows you to manage the update of currency rate based on different provider, use BNR site.')
     module_l10n_ro_account_bank_statement = fields.Boolean('Bank Statement Invoices',
-            help='This allows you to manage imports in bank statement line of the invoices only.\n')
+            help='This allows you to manage imports in bank statement line of the invoices only.')
     module_l10n_ro_account_compensation_currency_update = fields.Boolean('Currency Difference on Compensations',
-            help='This allows you to manage currency difference amounts on compensation.\n')
+            help='This allows you to manage currency difference amounts on compensation.')
     module_l10n_ro_account_constrains = fields.Boolean('Account Constrains',
-            help='This allows will remove the constrains related to account journal, account with secondary currency.\n')
+            help='This will remove the constrains related to account journal, accounts with secondary currency.')
     module_l10n_ro_account_period_close = fields.Boolean('Romania Account Period Close',
-            help='This allows you to close accounts on periods based on templates: Income, Expense, VAT...\n')
+            help='This allows you to close accounts on periods based on templates: Income, Expense, VAT...')
     module_l10n_ro_account_report = fields.Boolean('Romania Accounting Reports',
             help='This allows you to print reports according to legislation like: Sale/Purchase Journals, Trial Balance, D394..\n')
     module_l10n_ro_account_voucher_cash = fields.Boolean('Voucher to Cash Statement',
-            help='This allows you to directly input in cash statement payments/receipts from cash journals.\n')
+            help='This allows you to directly input in Cash Statement payments/receipts from Pay Invoice.')
     module_l10n_ro_account_voucher_currency_update = fields.Boolean('Currency Difference on Partial Payments/Receipts',
-            help='This allows you to manage currency difference amounts on partial payments/receipts.\n')
+            help='This allows you to manage currency difference amounts on partial payments/receipts.')
     module_l10n_ro_asset = fields.Boolean('Romanian Asset',
             help='This allows you to manage the Romanian adaptation for assets, including:\n'
                  'Split assets in fixed assets and services (financials).\n'
@@ -70,13 +70,13 @@ class l10n_ro_config_settings(models.TransientModel):
                  'For Romanian partners based on ANAF data and www.openapi.ro webservice.\n'
                  'For European partners based on VIES data.')
     module_l10n_ro_invoice_line_not_deductible = fields.Boolean('Not Deductible Invoice Line',
-            help='This allows you to manage not deductible supplier invoice line.\n')
+            help='This allows you to manage not deductible supplier invoice line.')
     module_l10n_ro_invoice_report = fields.Boolean('Invoice and Voucher Report',
             help='This allows you to print invoice report based on romanian layout.\n'
                  'Invoice includes voucher if payment is on the same day.\n'
                  'Voucher report with amount in word')
     module_l10n_ro_siruta = fields.Boolean('Romanian Cities',
-            help='This allows you to manage the Romanian Zones, States, Communeds, Cities:\n'
+            help='This allows you to manage the Romanian Zones, States, Communes, Cities:\n'
                  'The address fields will contain city, commune, state, zone, country, zip.')
     module_l10n_ro_stock = fields.Boolean('Romanian Stock',
             help='Methods of usage giving and consumption')

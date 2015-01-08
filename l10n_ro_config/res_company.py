@@ -26,7 +26,7 @@ class res_company(models.Model):
     _name = 'res.company'
     _inherit = 'res.company'
     
-    property_stock_usage_giving_account_id = fields.Many2one('account.account',string="Usage Giving Account",domain="[('type', '=', 'other')]",help="This account will be used as the undeductible account foraccount move line.")
+    property_stock_usage_giving_account_id = fields.Many2one('account.account',string="Usage Giving Account",domain="[('type', '=', 'other')]",help="This account will be used as the usage giving account in account move line.")
     property_undeductible_account_id = fields.Many2one('account.account',string="Undeductible Account",domain="[('type', '=', 'other')]",help="This account will be used as the undeductible account for account move line.")
     property_stock_picking_payable_account_id = fields.Many2one('account.account',string="Picking Account Payable",domain="[('type', '=', 'payable')]",help="This account will be used as the payable account for the current partner on stock picking notice.")
     property_stock_picking_receivable_account_id = fields.Many2one('account.account',string="Picking Account Receivable",domain="[('type', '=', 'receivable')]",help="This account will be used as the receivable account for the current partner on stock picking notice.")
