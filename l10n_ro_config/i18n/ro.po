@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-08 13:32+0000\n"
-"PO-Revision-Date: 2015-01-08 13:32+0000\n"
+"POT-Creation-Date: 2015-01-08 14:47+0000\n"
+"PO-Revision-Date: 2015-01-08 14:47+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -313,7 +313,7 @@ msgstr "Cont Avans Furnizori"
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_account_tax_code
 msgid "Tax Code"
-msgstr "Coduri Taxe"
+msgstr "Cod fiscal"
 
 #. module: l10n_ro_config
 #: help:res.company,property_customer_advance_account_id:0
@@ -351,11 +351,6 @@ msgid "This account will be used as the usage giving account in account move lin
 msgstr "Acest cont va fi folosit pentru inregistrari dare in folosinta."
 
 #. module: l10n_ro_config
-#: help:l10n.ro.config.settings,module_l10n_ro_account_constrains:0
-msgid "This will remove the constrains related to account journal, accounts with secondary currency."
-msgstr "Acest modul va elimina constrangerile legate de jurnale contabile, conturi cu moneda secundara."
-
-#. module: l10n_ro_config
 #: help:l10n.ro.config.settings,module_l10n_ro_account_period_close:0
 msgid "This allows you to close accounts on periods based on templates: Income, Expense, VAT..."
 msgstr "Acest modul va permite sa inchideti conturile periodic pe baza de sabloane: Venituri, Cheltuieli, TVA ..."
@@ -366,9 +361,9 @@ msgid "This allows you to create partners based on VAT:\n"
 "Romanian partners will be create based on Ministry of Finance / openapi.ro Webservices Datas\n"
 "European partners will be create based on VIES Website Datas (for countries that allow). \n"
 ""
-msgstr "Acest modul vă permite sa creati parteneri pe baza CUI: \ n "
-"Partenerii romani vor fi creati pe baza serviciilor de date ale Ministerului de Finante / openapi.ro \n"
-"Partenerii europeni vor fi creati pe baza datelor site-ului VIES (pentru tarile care permit). \n"
+msgstr "Acest modul vă permite sa creati parteneri pe baza CUI:\n"
+"Partenerii romani vor fi creati pe baza serviciilor de date ale Ministerului de Finante / openapi.ro\n"
+"Partenerii europeni vor fi creati pe baza datelor site-ului VIES (pentru tarile care permit).\n"
 ""
 
 #. module: l10n_ro_config
@@ -390,7 +385,7 @@ msgstr "Acest modul va permite sa gestionati diferentele de curs valutar in cazu
 #: help:l10n.ro.config.settings,module_l10n_ro_currency_reevaluation:0
 msgid "This allows you to manage currency reevaluation of move lines recorded on foreign currency.\n"
 "To evaluate you have to check the \"Allow Reevaluation\" field on accounts."
-msgstr "Acest modul va permite sa gestionati reevaluare curs valutar pe miscarile contabile inregistrate pe valuta. \n"
+msgstr "Acest modul va permite sa gestionati reevaluare curs valutar pe miscarile contabile inregistrate pe valuta.\n"
 "Pentru a reevalua va trebui să bifati campul \"Permiteți Reevaluarea\" pe conturi."
 
 #. module: l10n_ro_config
@@ -422,9 +417,9 @@ msgid "This allows you to manage the Romanian adaptation for assets, including:\
 "Fixed assets will be created / sold from stock moves, services assets from invoices,\n"
 "also include history of creation of the asset.\n"
 "Method of reevaluation of assets.Import of the Chart of Asset Categories according with the legislation"
-msgstr "Acest modul va permite sa gestionati adaptarea la Romania pentru mijloace fixe, inclusiv: \ n "
+msgstr "Acest modul va permite sa gestionati adaptarea la Romania pentru mijloace fixe, inclusiv:\n"
 "Activele divizate in active imobilizate si servicii (Financiare).\n"
-"Mijloace fixe vor fi creeate / vandute din miscari stoc, activele din servicii din facturi, \ n"
+"Mijloace fixe vor fi creeate / vandute din miscari stoc, activele din servicii din facturi,\n"
 "includ, de asemenea istoricul de creeare a mijlocului fix.\n"
 "Metoda de reevaluare a mijloacelor fixe.Importul Planului de Categorii Mijloace Fixe, bazat pe legislatie"
 
@@ -435,9 +430,9 @@ msgid "This allows you to manage the Romanian adaptation for stock, including:\n
 "The account entry will be generated from stock move instead of stock quant, link with the generated \n"
 "account move lines on the picking\n"
 "Inventory account move lines..."
-msgstr "Acest modul va permite sa gestionati adaptarea la Romania pentru stoc, printre care: \n"
+msgstr "Acest modul va permite sa gestionati adaptarea la Romania pentru stoc, printre care:\n"
 "Noi conturi de stoc pe locatie, pentru a permite inregistrari in contabilitate pe baza miscarii de stoc.\n"
-"Inregistrarile contabile vor fi generate de miscarile de stoc în loc de cantitati stoc, legat cu generarea \n"
+"Inregistrarile contabile vor fi generate de miscarile de stoc în loc de cantitati stoc, legat cu generarea\n"
 "elementelor contabile pe livrari\n"
 "Elemente contabile la inventare ..."
 
@@ -488,8 +483,15 @@ msgstr "Acest modul va permite sa printati Raport factura bazat pe aspectul roma
 
 #. module: l10n_ro_config
 #: help:l10n.ro.config.settings,module_l10n_ro_account_report:0
-msgid "This allows you to print reports according to legislation like: Sale/Purchase Journals, Trial Balance, D394..."
-msgstr "Acest modul va permite sa printati rapoarte in conformitate cu legislația cum ar fi: Jurnal Vanzari/Cumparari, Balanța de Verificare, Declaratia D394..."
+msgid "This allows you to print reports according to legislation like: Sale/Purchase Journals, Trial Balance, D394..\n"
+""
+msgstr "Acest modul va permite sa printati rapoarte in conformitate cu legislatia precum: Jurnal Vanzari/Cumparari, Balanta Verificare, D394..\n"
+""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_constrains:0
+msgid "This will remove the constrains related to account journal, accounts with secondary currency."
+msgstr "Acest modul va elimina constrangerile legate de jurnale contabile, conturi cu moneda secundara."
 
 #. module: l10n_ro_config
 #: field:res.company,property_undeductible_account_id:0
