@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    'name': 'Assets Management - Romania',
+    'name': 'Romania - Assets Management',
     'version': '1.0',
     'depends': ['account','account_asset','stock','l10n_ro_config','l10n_ro_stock'],
     'author': 'FOREST AND BIOMASS SERVICES ROMANIA',

@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    "name" : "Romania - Application Configuration",
+    "name" : "Romania - Compensation Currency Update",
     "version" : "1.0",
     "author" : "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
