@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    "name" : "Romania - Currency Update at partial Payments/Receipts",
+    "name" : "Romania - Voucher Currency Update",
     "version" : "1.0",
     "author" : "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
