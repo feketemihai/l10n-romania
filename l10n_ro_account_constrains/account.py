@@ -42,5 +42,5 @@ class account_journal(osv.osv):
         return True
     
     _constraints = [
-        (_check_currency, 'Configuration error!\nThe currency chosen should be shared by the default accounts too.', ['currency','default_debit_account_id','default_credit_account_id']),
+        (_check_currency, 'Removed Configuration error!\nThe currency chosen should be shared by the default accounts too.', ['currency','default_debit_account_id','default_credit_account_id']),
     ]
