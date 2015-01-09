@@ -29,7 +29,6 @@ from openerp.tools.translate import _
 import openerp.addons.decimal_precision as dp
 
 class account_voucher(osv.Model):
-    _name = "account.voucher"
     _inherit = "account.voucher"
     
     # Adding support for storno accounting, negative numbers in voucher lines. Amount original is taken from residual amount on accoutn move line, \ 
@@ -115,7 +114,6 @@ class account_voucher(osv.Model):
         return True
         
 class account_voucher_line(osv.Model):
-    _name = 'account.voucher.line'
     _inherit = 'account.voucher.line'
     
     # Adding support for storno accounting, negative numbers in voucher lines. Amount original is taken from residual amount on accoutn move line, \ 

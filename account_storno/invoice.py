@@ -34,7 +34,6 @@ import openerp.addons.decimal_precision as dp
 
 
 class account_invoice(models.Model):
-    _name = "account.invoice"
     _inherit = "account.invoice"
 
     @api.model

@@ -30,7 +30,6 @@ import openerp.addons.decimal_precision as dp
 
 
 class account_account(osv.Model):
-    _name = 'account.account'
     _inherit = 'account.account'
     _columns = {
         'check_side': fields.selection([('credit', 'Credit'),
@@ -47,7 +46,6 @@ class account_account(osv.Model):
 
 
 class account_journal(osv.Model):
-    _name = "account.journal"
     _inherit = "account.journal"
     _columns = {
         'posting_policy': fields.selection([('contra', 'Contra (debit<->credit)'),
@@ -66,7 +64,6 @@ class account_journal(osv.Model):
 
 
 class account_move_line(osv.Model):
-    _name = "account.move.line"
     _inherit = "account.move.line"
     #Original constraints
     #_sql_constraints = [
@@ -187,7 +184,6 @@ class account_move_line(osv.Model):
     }    
 
 class account_model_line(osv.Model):
-    _name = "account.model.line"
     _inherit = "account.model.line"
     
     def _auto_init(self, cr, context=None):
