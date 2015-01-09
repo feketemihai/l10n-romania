@@ -141,11 +141,7 @@ def getSomeData(method, action, params):
     soup = BeautifulSoup(data)
     dataTable = parseTable(str(soup.findAll('div',attrs={'id':'main'})))
     return dataTable
-
-def getMainData(cod):
-    params = {'cod': cod, 'B1': 'VIZUALIZARE'}
-    return getSomeData("POST", "http://www.mfinante.ro/infocodfiscal.html", params)
-    
+   
 def getViesData(cc, vat):
     params = {
         "memberStateCode": cc.upper(),
@@ -187,7 +183,7 @@ class res_partner(models.Model):
         if not vat_number and part.name:
             if len(part.name)>2:
                 if part.name.upper()[:2]=='RO':
-                        part.vat =  part.name
+                        part.vat = part.name
                         self.write( {'vat': part.vat.upper().replace(" ","")}) 
         if part.vat:
             vat_country, vat_number = self._split_vat(part.vat)                
@@ -195,60 +191,28 @@ class res_partner(models.Model):
             self.write({'vat_subjected': False})
 
         if vat_number and vat_country:
-            if vat_country=='ro':
-                try:
-                    dataTable = getMainData(vat_number)
-                    if dataTable:
-                        for dict1 in dataTable:
-                            if 'Denumire platitor:' in dict1:
-                                nume = dict1[1].strip() or ''
-                            if 'Adresa:' in dict1:
-                                adresa = dict1[1].strip() or ''
-                            if 'Numar de inmatriculare la RegistrulComertului:' in dict1:
-                                if dict1[1]=='-/-/-':
-                                    nrc = False
-                                else:
-                                    nrc = dict1[1].strip() or ''
-                            if 'Codul postal:' in dict1:
-                                zip1 = dict1[1].strip() or ''
-                            if 'Judetul:' in dict1:
-                                if dict1[1]:
-                                    state = self.env['res.country.state'].search([('name','ilike',dict1[1].title())])
-                                    if state:
-                                        state = state[0]
-                                    else:
-                                        state = False
-                                else:
-                                    state = False
-                            if 'Telefon:' in dict1:
-                                tel = dict1[1].strip() or ''
-                            if 'Fax:' in dict1:
-                                fax = dict1[1].strip() or ''
-                            if 'Taxa pe valoarea adaugata (data luarii in evidenta):' in dict1:
-                                if dict1[1].strip()<>'NU':
-                                    vat_s = True                                    
-                                else:    
-                                    vat_s = False
-                        if not part.street:
-                            vals = {
-                            'street': adresa.decode('utf-8').title(),
-                            'phone': tel, 
-                            'fax': fax,
-                            'zip': zip1,
-                            'state_id': state and state.id,
-                            'country_id': self.env['res.country'].search([('code','=','RO')])[0].id
-                            }
-                            self.write(vals)                    
-                        self.write({'name': nume.decode('utf-8').upper(), 'is_company': True, 'nrc': nrc, 'vat_subjected': vat_s})
-                    else:
-                        raise Warning(_('Cannot retrive information from mfinante.ro'))
-                except:
-                    raise Warning(_( 'Cannot connect to mfinante.ro'))
-                     
+            if vat_number and vat_country and vat_country.upper()=='RO':
+                res = requests.get('http://openapi.ro/api/companies/' + str(vat_number) + '.json')
+                if res.status_code==200:
+                    res = json.loads(res.content)
+                    state = False
+                    if res['state']:
+                        state = self.env['res.country.state'].search([('name','=',res['state'].encode('utf-8').title())])
+                        if state:
+                            state = state[0].id
+                    self.write({
+                        'name': res['name'].encode('utf-8').upper(),
+                        'is_company': True,
+                        'nrc': res['registration_id'] and res['registration_id'].encode('utf-8').upper() or '',
+                        'street': res['address'].encode('utf-8').title() + ' ' + res['city'].encode('utf-8').title(),
+                        'phone': res['phone'] and res['phone'].encode('utf-8') or '',
+                        'zip': res['zip'] and res['zip'].encode('utf-8') or '',
+                        'state_id': state,
+                        'country_id': self.env['res.country'].search([('code','=','RO')])[0].id,
+                    })
             else:
                 try:
                     dataTable = getViesData(vat_country.upper(), vat_number)
-                    print dataTable
                     if dataTable:
                         if dataTable['Name'] and dataTable['Name']<>'---':
                             try:
