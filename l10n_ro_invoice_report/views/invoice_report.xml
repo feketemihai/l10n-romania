@@ -50,14 +50,16 @@
 				<div class="row">
 					<div class="col-xs-5">
 						<div t-foreach="res_company.partner_id.bank_ids" t-as="bank">
-							<div t-if="bank.bank_name">
-								<strong>Bank:</strong>
-								<span t-field="bank.bank_name" />
-							</div>
-							<div t-if="bank.acc_number">
-								<strong>Account:</strong>
-								<span t-field="bank.acc_number" />
-							</div>
+							<t t-if t-if="bank.footer">
+								<div t-if="bank.bank_name">
+									<strong>Bank:</strong>
+									<span t-field="bank.bank_name" />
+								</div>
+								<div t-if="bank.acc_number">
+									<strong>Account:</strong>
+									<span t-field="bank.acc_number" />
+								</div>
+							</t>
 						</div>
 					</div>
 					<div class="col-xs-5 col-xs-offset-2">
@@ -70,7 +72,6 @@
 								<strong>Account:</strong>
 								<span t-field="bank.acc_number" />
 							</div>
-
 						</div>
 					</div>
 				</div>
@@ -164,51 +165,54 @@
 				</p>
 
 				<div t-if="o.type == 'out_invoice' and o.payment_ids">
-					<br/>
-					<br/>
+					<br />
+					<br />
 					<div t-foreach="o.payment_ids" t-as="payment" style="border-top: 1px solid black;">
 
-					<t t-if="payment.credit != 0">
+						<t t-if="payment.credit != 0">
 
-						<div>
-							<strong t-field="res_company.partner_id.name" />
-						</div>
-						<div>
-							VAT:
-							<span t-field="res_company.partner_id.vat" />
-						</div>
-						<div>
-							NRC:
-							<span t-field="res_company.partner_id.nrc" />
-						</div>
-						<address t-field="res_company.partner_id" t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": true}' />
-						<h4>
-							<span>Voucher:</span>
-							<span t-field="payment.ref" />
-							<span>/</span>
-							<span t-field="payment.date" />
-						</h4>
-						<div>
-							<span>I received from</span>
-							<strong t-field="o.partner_id.name" />
-							<span t-if="o.partner_id.city">
-								from
-								<span t-field="o.partner_id.city" /> <span t-field="o.partner_id.street" />  <span t-field="o.partner_id.street2" /> 
-							</span>,
+							<div>
+								<strong t-field="res_company.partner_id.name" />
+							</div>
+							<div>
+								VAT:
+								<span t-field="res_company.partner_id.vat" />
+							</div>
+							<div>
+								NRC:
+								<span t-field="res_company.partner_id.nrc" />
+							</div>
+							<address t-field="res_company.partner_id" t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true, "no_tag_br": true}' />
+							<h4>
+								<span>Voucher:</span>
+								<span t-field="payment.ref" />
+								<span>/</span>
+								<span t-field="payment.date" />
+							</h4>
+							<div>
+								<span>I received from</span>
+								<strong t-field="o.partner_id.name" />
+								<span t-if="o.partner_id.city">
+									from
+									<span t-field="o.partner_id.city" />
+									<span t-field="o.partner_id.street" />
+									<span t-field="o.partner_id.street2" />
+								</span>
+								,
 
-							<span>amount</span>
-							 
-							<span t-field="payment.credit" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-							(
-							<span t-esc="convert(payment.credit)" />
-							)
-						</div>
-						<div>
-							Representing counter value of invoice
-							<span t-field="o.number" />
-						</div>
+								<span>amount</span>
 
-					</t>
+								<span t-field="payment.credit" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}' />
+								(
+								<span t-esc="convert(payment.credit)" />
+								)
+							</div>
+							<div>
+								Representing counter value of invoice
+								<span t-field="o.number" />
+							</div>
+
+						</t>
 
 					</div>
 				</div>

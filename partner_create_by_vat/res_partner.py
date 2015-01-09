@@ -181,16 +181,16 @@ class res_partner(models.Model):
     @api.one
     def button_get_partner_data(self):
         part = self[0]
-        if part.vat:
+        vat = part.vat
+        if vat:
             self.write({'vat': part.vat.upper().replace(" ","")})
         vat_number = vat_country = False
         if not vat_number and part.name:
             if len(part.name)>2:
                 if part.name.upper()[:2]=='RO':
-                        part.vat =  part.name
-                        self.write( {'vat': part.vat.upper().replace(" ","")}) 
-        if part.vat:
-            vat_country, vat_number = self._split_vat(part.vat)                
+                        vat =  part.name                        
+        if vat:
+            vat_country, vat_number = self._split_vat(vat)                
         if part.vat_subjected:
             self.write({'vat_subjected': False})
 
