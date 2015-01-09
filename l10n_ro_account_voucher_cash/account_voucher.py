@@ -44,7 +44,7 @@ class account_journal(osv.osv):
     _inherit = "account.journal"    
     
     _columns = {
-        "receipts_sequence_id" : fields.many2one('ir.sequence', 'Voucher Sequence', help="This field contains the informatin related to the numbering of the vouchers (receipts) of this journal."),
+        "receipts_sequence_id" : fields.many2one('ir.sequence', 'Voucher Sequence', help="This field contains the information related to the numbering of the vouchers (receipts) of this journal."),
         }
         
 class account_voucher(osv.osv):
