@@ -55,7 +55,7 @@
                         <field name="currency_id" groups="base.group_multi_currency"/>
                     </group>
                     <notebook colspan="4">
-                        <page string="Voucher Entry">
+                        <page string="Compensation Entry">
                             <field name="line_ids" invisible="1"/>
                             <label for="line_dr_ids"/>
                             <field name="line_dr_ids" context="{'journal_id':journal_id, 'partner_id':partner_id}" colspan="4" nolabel="1" height="140" on_change="onchange_line_ids(line_dr_ids, line_cr_ids, currency_id, context)">
