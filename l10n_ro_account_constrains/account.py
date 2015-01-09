@@ -23,7 +23,6 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 class account_move_line(osv.osv):
-    _name = "account.move.line"
     _inherit = "account.move.line"
     
     def _check_currency(self, cr, uid, ids, context=None):
@@ -35,7 +34,6 @@ class account_move_line(osv.osv):
         
         
 class account_journal(osv.osv):
-    _name = "account.journal"
     _inherit = "account.journal"
     
     def _check_currency(self, cr, uid, ids, context=None):

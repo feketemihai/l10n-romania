@@ -29,7 +29,6 @@ from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 
 class account_move_line(osv.Model):    
-    _name = "account.move.line"
     _inherit = "account.move.line"
     
     _columns = {

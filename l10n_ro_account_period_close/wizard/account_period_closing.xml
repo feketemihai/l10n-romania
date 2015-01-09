@@ -2,9 +2,9 @@
 <openerp>
 	<data>
 		
-		<record id="view_account_period_close_wizard" model="ir.ui.view">
-            <field name="name">account.period.close.wizard</field>
-            <field name="model">account.period.close.wizard</field>
+		<record id="view_account_period_closing_wizard" model="ir.ui.view">
+            <field name="name">account.period.closing.wizard</field>
+            <field name="model">account.period.closing.wizard</field>
             <field name="arch" type="xml">
                 <form string="Account Period Closing Wizard">
                     <group col="2" colspan="4">
@@ -27,10 +27,10 @@
 		<record id="action_view_closings" model="ir.actions.act_window">
             <field name="name">Closings</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.period.close.wizard</field>
+            <field name="res_model">account.period.closing.wizard</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_account_period_close_wizard"/>
+            <field name="view_id" ref="view_account_period_closing_wizard"/>
             <field name="context">{'closing_id' : active_id}</field>
             <field name="target">new</field>
        </record>

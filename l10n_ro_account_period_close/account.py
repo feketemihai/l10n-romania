@@ -22,14 +22,13 @@
 from openerp import models, fields, api, _
 
 class account_move(models.Model):
-    _name = 'account.move'
     _inherit = 'account.move'
     
-    close_id = fields.Many2one('account.period.close', 'Close Account Period')
+    close_id = fields.Many2one('account.period.closing', 'Closed Account Period')
 
-class account_period_close(models.Model):
-    _name = 'account.period.close'
-    _description = 'Account Period Close'
+class account_period_closing(models.Model):
+    _name = 'account.period.closing'
+    _description = 'Account Period Closing'
     
     name = fields.Char('Name', required=True)
     company_id = fields.Many2one('res.company', string='Company', required=True)
