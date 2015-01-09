@@ -316,7 +316,7 @@ class l10n_ro_config_settings(models.TransientModel):
         # Load Account Period Templates
         installed = self.env['ir.module.module'].search([('name','=','l10n_ro_account_period_close'),('state','=','installed')])
         if installed:
-            closing_obj = self.env['account.period.close']        
+            closing_obj = self.env['account.period.closing']        
             wiz = self[0]
             if wiz.account_period_close_template_installed:
                 closings = closing_obj.search([('company_id','=',wiz.company_id.id)])
