@@ -20,13 +20,13 @@
             <field name='model'>account.period.close</field>
             <field name='type'>form</field>
             <field name='arch' type='xml'>
-                <form string='Regularization'>
+                <form string='Closing'>
                     <div class="oe_editonly">
                         <label for="name"/>
                         <h1><field name="name"/></h1>
                     </div>
                     <notebook>
-                        <page string="Main">
+                        <page string="Config">
                             <group>
                                 <field name="type"/>
                                 <field name="debit_account_id"/>

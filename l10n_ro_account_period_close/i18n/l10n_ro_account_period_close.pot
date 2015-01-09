@@ -1,0 +1,184 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_account_period_close
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-09 07:22+0000\n"
+"PO-Revision-Date: 2015-01-09 07:22+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model,name:l10n_ro_account_period_close.model_account_move
+msgid "Account Entry"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.actions.act_window,name:l10n_ro_account_period_close.action_account_period_close
+#: model:ir.ui.menu,name:l10n_ro_account_period_close.menu_action_account_period_close
+msgid "Account Period Close"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: view:account.period.close.wizard:l10n_ro_account_period_close.view_account_period_close_wizard
+msgid "Account Period Closing Wizard"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close,account_ids:0
+msgid "Accounts to close"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: view:account.period.close.wizard:l10n_ro_account_period_close.view_account_period_close_wizard
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: view:account.period.close.wizard:l10n_ro_account_period_close.view_account_period_close_wizard
+msgid "Close"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.move,close_id:0
+msgid "Close Account Period"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.actions.act_window,name:l10n_ro_account_period_close.act_account_period_close_wizard
+msgid "Close Period"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close.wizard,journal_id:0
+msgid "Closing Journal"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close.wizard,closing_id:0
+msgid "Closing Model"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close.wizard,date_move:0
+msgid "Closing Move Date"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close,move_ids:0
+msgid "Closing Moves"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close.wizard,period_id:0
+msgid "Closing Period"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.actions.act_window,name:l10n_ro_account_period_close.action_view_closings
+msgid "Closings"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close.wizard,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close.wizard,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: selection:account.period.close,type:0
+msgid "Expenses"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close.wizard,id:0
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: selection:account.period.close,type:0
+msgid "Incomes"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close.wizard,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: view:account.period.close:l10n_ro_account_period_close.view_account_period_close_form
+msgid "Config"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: view:account.period.close:l10n_ro_account_period_close.view_account_period_close_form
+msgid "Moves"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close,name:0
+msgid "Name"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: view:account.period.close:l10n_ro_account_period_close.view_account_period_close_form
+#: view:account.period.close:l10n_ro_account_period_close.view_account_period_close_tree
+msgid "Closing"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close.wizard,done:0
+msgid "Closing Done"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close,credit_account_id:0
+msgid "Closing account, credit"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close,debit_account_id:0
+msgid "Closing account, debit"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: selection:account.period.close,type:0
+msgid "Selected"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: field:account.period.close,type:0
+msgid "Type"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model,name:l10n_ro_account_period_close.model_account_period_close_wizard
+msgid "Wizard for Account Period Closing"
+msgstr ""
+
+#. module: l10n_ro_account_period_close
+#: model:ir.model,name:l10n_ro_account_period_close.model_account_period_close
+msgid "period close"
+msgstr ""
+
