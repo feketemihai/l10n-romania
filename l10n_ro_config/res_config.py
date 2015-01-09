@@ -206,7 +206,6 @@ class l10n_ro_config_settings(models.TransientModel):
                 for tax in taxes:
                     if not tax.not_deductible_tax_id:
                         not_deduct_tax = self.env['account.tax'].search([('company_id','=',self.company_id.id),('name','ilike',tax.name.replace('deductibil','colectat'))])
-                        print not_deduct_tax
                         if not_deduct_tax:
                             tax.not_deductible_tax_id = not_deduct_tax[0].id                  
         # Load Chart of Asset Category
@@ -332,14 +331,10 @@ class l10n_ro_config_settings(models.TransientModel):
                             new_accounts = []
                             if row['account_ids']:
                                 accounts = row['account_ids'].split(",")
-                                print accounts
                                 for account in accounts:
-                                    print account
                                     comp_account = account_obj.search([('code','=',account),('company_id','=',wiz.company_id.id)])
-                                    print comp_account
                                     if comp_account:
                                         new_accounts.append(comp_account[0].id)
-                                print new_accounts
                             if debit_account_id and credit_account_id:
                                 template = closing_obj.create({
                                     'name': row['name'],
