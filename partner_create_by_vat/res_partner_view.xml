@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//sheet" position="before">
            		    <header>
- 				        <button name="button_get_partner_data" attrs="{'invisible': [ ('is_company', '=', False )]}" colspan="2" string="Get Partner Datas" context="{'active_id': active_id}" type="object" icon="gtk-execute"/>
+ 				        <button name="button_get_partner_data" attrs="{'invisible': [('name', '&lt;&gt;', ' '),('vat', '=', False),('is_company', '=', False )]}" colspan="2" string="Get Partner Datas" context="{'active_id': active_id}" type="object" icon="gtk-execute"/>
                 	</header>  
            	    </xpath>
                 <label for="vat" position="replace"/>

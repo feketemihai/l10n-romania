@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record id='view_account_period_close_tree' model='ir.ui.view'>
-            <field name='name'>account.period.close.tree</field>
-            <field name='model'>account.period.close</field>
+        <record id='view_account_period_closing_tree' model='ir.ui.view'>
+            <field name='name'>account.period.closing.tree</field>
+            <field name='model'>account.period.closing</field>
             <field name='type'>form</field>
             <field name='arch' type='xml'>
-                <tree string='Regularization'>
+                <tree string='Closing'>
                     <field name="name"/>
                     <field name="type"/>
                     <field name="debit_account_id"/>
@@ -15,18 +15,18 @@
             </field>
         </record>
         
-        <record id='view_account_period_close_form' model='ir.ui.view'>
-            <field name='name'>account.period.close.form</field>
-            <field name='model'>account.period.close</field>
+        <record id='view_account_period_closing_form' model='ir.ui.view'>
+            <field name='name'>account.period.closing.form</field>
+            <field name='model'>account.period.closing</field>
             <field name='type'>form</field>
             <field name='arch' type='xml'>
-                <form string='Regularization'>
+                <form string='Closing'>
                     <div class="oe_editonly">
                         <label for="name"/>
                         <h1><field name="name"/></h1>
                     </div>
                     <notebook>
-                        <page string="Main">
+                        <page string="Config">
                             <group>
                                 <field name="type"/>
                                 <field name="debit_account_id"/>
@@ -45,21 +45,21 @@
             </field>
         </record>
         
-        <record id='action_account_period_close' model='ir.actions.act_window'>
-            <field name='name'>Account Period Close</field>
-            <field name='res_model'>account.period.close</field>
+        <record id='action_account_period_closing' model='ir.actions.act_window'>
+            <field name='name'>Account Period Closing</field>
+            <field name='res_model'>account.period.closing</field>
             <field name='view_type'>form</field>
             <field name='view_mode'>tree,form</field>
         </record>
         
-        <menuitem name='Account Period Close' parent="account.menu_account_end_year_treatments" action='action_account_period_close' id='menu_action_account_period_close'/>
+        <menuitem name='Account Period Close' parent="account.menu_account_end_year_treatments" action='action_account_period_closing' id='menu_action_account_period_closing'/>
         
        <act_window
-            id="act_account_period_close_wizard"
+            id="act_account_period_closing_wizard"
             name="Close Period"
-            res_model="account.period.close.wizard"
+            res_model="account.period.closing.wizard"
             context="{'search_default_closing_id':[active_id], 'default_closing_id': active_id}"
-            src_model="account.period.close"/>
+            src_model="account.period.closing"/>
 
     </data>
 </openerp>

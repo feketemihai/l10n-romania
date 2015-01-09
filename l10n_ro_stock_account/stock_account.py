@@ -364,8 +364,7 @@ class stock_quant(osv.Model):
                 valuation_amount = move.product_id.cost_method == 'real' and cost or move.product_id.standard_price
             list_price = move.product_id.list_price or 0.00
             if list_price<=valuation_amount:
-                raise osv.except_osv(_('Error!'),_("You cannot receive products if list price is lower than cost price. Pleasu update list price to suit \
-                    to be upper than %s." % valuation_amount))
+                raise osv.except_osv(_('Error!'),_("You cannot receive products if list price is lower than cost price. Pleasu update list price to suit to be upper than %s." % valuation_amount))
             else:
                 #the standard_price of the product may be in another decimal precision, or not compatible with the coinage of
                 #the company currency... so we need to use round() before creating the accounting entries.

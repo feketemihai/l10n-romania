@@ -1,0 +1,85 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_account_voucher_cash
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-09 08:11+0000\n"
+"PO-Revision-Date: 2015-01-09 08:11+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_account_voucher_cash
+#: model:ir.model,name:l10n_ro_account_voucher_cash.model_account_voucher
+msgid "Accounting Voucher"
+msgstr "Chitante"
+
+#. module: l10n_ro_account_voucher_cash
+#: model:ir.model,name:l10n_ro_account_voucher_cash.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Linie Extras Cont"
+
+#. module: l10n_ro_account_voucher_cash
+#: code:addons/l10n_ro_account_voucher_cash/account_voucher.py:68
+#, python-format
+msgid "Configuration Error !"
+msgstr "Eroare Configurare !"
+
+#. module: l10n_ro_account_voucher_cash
+#: code:addons/l10n_ro_account_voucher_cash/account_voucher.py:76
+#: code:addons/l10n_ro_account_voucher_cash/account_voucher.py:120
+#, python-format
+msgid "Error!"
+msgstr "Eroare!"
+
+#. module: l10n_ro_account_voucher_cash
+#: model:ir.model,name:l10n_ro_account_voucher_cash.model_account_journal
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: l10n_ro_account_voucher_cash
+#: view:account.voucher:l10n_ro_account_voucher_cash.view_vendor_receipt_dialog_form
+msgid "Payment Method"
+msgstr "Metoda de Plata"
+
+#. module: l10n_ro_account_voucher_cash
+#: code:addons/l10n_ro_account_voucher_cash/account_voucher.py:69
+#, python-format
+msgid "Please activate the receipts sequence of selected journal !"
+msgstr "Va rugam selectati secventa inregistrari chitante in jurnalul selectat !"
+
+#. module: l10n_ro_account_voucher_cash
+#: code:addons/l10n_ro_account_voucher_cash/account_voucher.py:77
+#, python-format
+msgid "Please define a receipts sequence on the journal."
+msgstr "Va rugam definiti secventa inregistrari chitante in jurnal."
+
+#. module: l10n_ro_account_voucher_cash
+#: code:addons/l10n_ro_account_voucher_cash/account_voucher.py:120
+#, python-format
+msgid "The cash statement of journal %s from date is not in open state, please open it \n"
+"to create the line in  it \"%s\"."
+msgstr "Registru de casa aferent jurnalului %s din data nu este în starea deschisa, va rugam sa il deschideti \n"
+"pentru a crea linia în el \"%s\"."
+
+#. module: l10n_ro_account_voucher_cash
+#: help:account.journal,receipts_sequence_id:0
+msgid "This field contains the information related to the numbering of the vouchers (receipts) of this journal."
+msgstr "Acest camp contine informatii referitoare la numerotarea chitantelor (incasarile) din acest jurnal"
+
+#. module: l10n_ro_account_voucher_cash
+#: field:account.bank.statement.line,voucher_id:0
+msgid "Voucher"
+msgstr "Chitanta"
+
+#. module: l10n_ro_account_voucher_cash
+#: field:account.journal,receipts_sequence_id:0
+msgid "Voucher Sequence"
+msgstr "Secventa Chitante"
+
