@@ -134,13 +134,20 @@ def parseTable(html):
     #are done, return ourTable of data.
     return ourTable
 
-def getSomeData(method, action, params):
-    req = requests.post(action, params=params)
-    content = req.content
-    data = content.replace("\t", "").replace("\r", "").replace("\n", "").replace("&nbsp;"," ")
-    soup = BeautifulSoup(data)
-    dataTable = parseTable(str(soup.findAll('div',attrs={'id':'main'})))
-    return dataTable
+def getMfinDryscape(cod):
+    import dryscape
+
+    sess = dryscape.Session(base_url = 'http://www.mfinante.ro/')
+    sess.visit('/infocodfiscal.html')
+    input_cod = sess.at_xpath("//form[@name='codfiscalForm']//input[@name='cod']")
+    input_cod.set(cod)
+    input_cod.form().submit()
+    table = sess.at_xpath("//div[@id='main']//center/table")
+    result = dict()
+    for line in tab.text().decode('utf8').replace(u'\xa0', '').split('\n'):
+       line = line.split('\t')
+       result[line[0].strip()] = line[1].strip()
+    return result
    
 def getViesData(cc, vat):
     params = {
@@ -191,25 +198,69 @@ class res_partner(models.Model):
             self.write({'vat_subjected': False})
 
         if vat_number and vat_country:
-            if vat_number and vat_country and vat_country.upper()=='RO':
+            if vat_country.upper()=='RO':
+                self.write({
+                    'is_company': True,
+                    'country_id': self.env['res.country'].search([('code','=','RO')])[0].id
+                })
                 res = requests.get('http://openapi.ro/api/companies/' + str(vat_number) + '.json')
                 if res.status_code==200:
-                    res = json.loads(res.content)
+                    res = res.json()
                     state = False
                     if res['state']:
-                        state = self.env['res.country.state'].search([('name','=',res['state'].encode('utf-8').title())])
+                        state = self.env['res.country.state'].search([('name','=',res['state'].title())])
                         if state:
                             state = state[0].id
                     self.write({
-                        'name': res['name'].encode('utf-8').upper(),
-                        'is_company': True,
-                        'nrc': res['registration_id'] and res['registration_id'].encode('utf-8').upper() or '',
-                        'street': res['address'].encode('utf-8').title() + ' ' + res['city'].encode('utf-8').title(),
-                        'phone': res['phone'] and res['phone'].encode('utf-8') or '',
+                        'name': res['name'].upper(),
+                        'nrc': res['registration_id'] and res['registration_id'].upper() or '',
+                        'street': res['address'].title(),
+                        'street2': res['city'].title(),
+                        'phone': res['phone'] and res['phone'] or '',
+                        'fax': res['fax'] and res['fax'] or '',
                         'zip': res['zip'] and res['zip'].encode('utf-8') or '',
+                        'vat_subjected': bool(res['vat'] == '1'),
                         'state_id': state,
-                        'country_id': self.env['res.country'].search([('code','=','RO')])[0].id,
                     })
+                else:
+                    result = getMfinDryscape(str(vat_number))
+                    name = nrc = adresa = tel = fax = zip1 = vat_s = False
+                    if 'Denumire platitor:' in result.keys():
+                        name = result['Denumire platitor:'].upper()
+                    if 'Adresa:' in result.keys():
+                        adresa = result['Adresa:'] or ''
+                    if 'Numar de inmatriculare la RegistrulComertului:' in result.keys():
+                        nrc = result['Numar de inmatriculare la RegistrulComertului:']
+                        if nrc == '-/-/-':
+                            nrc = ''
+                        else:
+                            nrc = nrc.replace(' ', '')
+                    if 'Codul postal:' in result.keys():
+                        zip1 = result['Codul postal:'] or ''
+                    if 'Judetul:' in result.keys():
+                        state = False
+                        jud = result['Judetul:'].title() or ''
+                        if jud:
+                            state = self.env['res.country.state'].search([('name','ilike',jud)])
+                            if state:
+                                state = state[0]
+                    if 'Telefon:' in result.keys():
+                        tel = result['Telefon:'] or ''
+                    if 'Fax:' in dict1:
+                        fax = result['Fax:'] or ''
+                    if 'Taxa pe valoarea adaugata (data luarii in evidenta):' in result.keys():
+                        vat_s = bool(result['Taxa pe valoarea adaugata (data luarii in evidenta):']<>'NU')
+                    self.write({
+                        'name': name or '',
+                        'nrc': nrc or '',
+                        'street': adresa or '',
+                        'phone': tel or '',
+                        'fax': fax or '',
+                        'zip': zip1 or '',
+                        'vat_subjected': vat_s or False,
+                        'state_id': state,
+                    })
+
             else:
                 try:
                     dataTable = getViesData(vat_country.upper(), vat_number)
