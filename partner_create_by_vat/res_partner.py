@@ -40,7 +40,7 @@ def getMfinante(cod):
         "Content-Type": "multipart/form-data;"
     }
     params = {'cod': cod}
-    res = requests.get(req_url, params = params, headers = headers)
+    res = requests.get('http://www.mfinante.ro/infocodfiscal.html', params = params, headers = headers)
     res.raise_for_status()
 
     htm = html.fromstring(res.text)
