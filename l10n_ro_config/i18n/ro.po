@@ -119,21 +119,6 @@ msgstr "Cont Avans Clineti"
 
 #. module: l10n_ro_config
 #: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
-msgid "Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Account Period Close Templates"
-msgstr "Directorul 'l10n-romania' trebuie saa fie la acelasi nivel cu directorul 'odoo' pentru a instala Sabloane Inchidere Perioada"
-
-#. module: l10n_ro_config
-#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
-msgid "Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Bank Statement Operation Templates"
-msgstr "Directorul 'l10n-romania' trebuie saa fie la acelasi nivel cu directorul 'odoo' pentru a instala Sabloane Operatiuni Extras de Cont"
-
-#. module: l10n_ro_config
-#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
-msgid "Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Chart of Asset Category"
-msgstr "Directorul 'l10n-romania' trebuie saa fie la acelasi nivel cu directorul 'odoo' pentru a instala Planul de Mijloace Fixe"
-
-#. module: l10n_ro_config
-#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
 msgid "Folder 'l10n-romania' must be at the same level as 'odoo' directory to update SIRUTA data."
 msgstr "Directorul 'l10n-romania' trebuie saa fie la acelasi nivel cu directorul 'odoo' pentru a actualiza datele SIRUTA"
 

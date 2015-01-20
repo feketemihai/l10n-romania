@@ -163,6 +163,7 @@ class l10n_ro_config_settings(models.TransientModel):
     @api.multi
     def execute(self):
         res = super(l10n_ro_config_settings, self).execute()
+        data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
         account_obj = self.env['account.account']
         # Load VAT on Payment Configuration
         installed = self.env['ir.module.module'].search([('name','=','account_vat_on_payment'),('state','=','installed')])
@@ -236,9 +237,7 @@ class l10n_ro_config_settings(models.TransientModel):
                                                                         "number_next": 1, "number_increment": 1,
                                                                         "prefix": 'INV/', "company_id" : wiz.company_id.id})
                     inv_sequence_id = inv_sequence_id[0].id
-                    script_dir = os.path.dirname(os.getcwd())
-                    rel_path = str(script_dir) + "/l10n-romania/l10n_ro_config/data/categoriiactive.csv"
-                    f = open(rel_path, 'rb')
+                    f = open(os.path.join(data_dir, 'categoriiactive.csv'), 'rb')
                     try:
                      
                         categorii = csv.DictReader(f)
@@ -294,9 +293,7 @@ class l10n_ro_config_settings(models.TransientModel):
             if wiz.bank_statement_template_installed:
                 statements = statement_obj.search([('company_id','=',wiz.company_id.id)])
                 if not statements:
-                    script_dir = os.path.dirname(os.getcwd())
-                    rel_path = str(script_dir) + "/l10n-romania/l10n_ro_config/data/account_statement_operation_template.csv"
-                    f = open(rel_path, 'rb')
+                    f = open(os.path.join(data_dir, 'account_statement_operation_template.csv'), 'rb')
                     try:                     
                         operations = csv.DictReader(f)
                         for row in operations:
@@ -320,9 +317,7 @@ class l10n_ro_config_settings(models.TransientModel):
             if wiz.account_period_close_template_installed:
                 closings = closing_obj.search([('company_id','=',wiz.company_id.id)])
                 if not closings:
-                    script_dir = os.path.dirname(os.getcwd())
-                    rel_path = str(script_dir) + "/l10n-romania/l10n_ro_config/data/account_period_close_templates.csv"
-                    f = open(rel_path, 'rb')
+                    f = open(os.path.join(data_dir, 'account_period_close_templates.csv'), 'rb')
                     try:                     
                         operations = csv.DictReader(f)
                         for row in operations:

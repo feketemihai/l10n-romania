@@ -73,7 +73,6 @@
 								<group attrs="{'invisible': [('module_l10n_ro_account_bank_statement', '&lt;&gt;', True)]}" col="2">
 									<group>
 										<field name="bank_statement_template_installed"/>
-										<p>Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Bank Statement Operation Templates</p>
 									</group>
 									<group>
 									</group>
@@ -90,7 +89,6 @@
 									<group>
 										<field name="property_asset_reevaluation_account_id"/>
 										<field name="asset_category_chart_installed"/>
-										<p>Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Chart of Asset Category</p>
 									</group>
 									<group>
 									</group>
@@ -114,7 +112,6 @@
 								<group attrs="{'invisible': [('module_l10n_ro_account_period_close', '&lt;&gt;', True)]}" col="2">
 									<group>
 										<field name="account_period_close_template_installed"/>
-										<p>Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Account Period Close Templates</p>
 									</group>
 									<group>
 									</group>

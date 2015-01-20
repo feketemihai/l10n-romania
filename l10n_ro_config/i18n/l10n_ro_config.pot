@@ -119,21 +119,6 @@ msgstr ""
 
 #. module: l10n_ro_config
 #: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
-msgid "Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Account Period Close Templates"
-msgstr ""
-
-#. module: l10n_ro_config
-#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
-msgid "Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Bank Statement Operation Templates"
-msgstr ""
-
-#. module: l10n_ro_config
-#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
-msgid "Folder 'l10n-romania' must be at the same level as 'odoo' directory to install the Chart of Asset Category"
-msgstr ""
-
-#. module: l10n_ro_config
-#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
 msgid "Folder 'l10n-romania' must be at the same level as 'odoo' directory to update SIRUTA data."
 msgstr ""
 
