@@ -24,12 +24,15 @@
 import datetime
 import time
 
+from string import maketrans
 import requests
 from stdnum.eu.vat import check_vies
 from lxml import html
 
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
+
+CEDILLATRANS = maketrans(u'\u015f\u0163\u015e\u0162'.encode('utf8'), u'\u0219\u021b\u0218\u021a'.encode('utf8'))
 
 def getMfinante(cod):
     headers = {
@@ -46,7 +49,7 @@ def getMfinante(cod):
     for tr in table.iterchildren():
         key = ' '.join([x.strip() for x in tr.getchildren()[0].text_content().split('\n') if x.strip() != ''])
         val = ' '.join([x.strip() for x in tr.getchildren()[1].text_content().split('\n') if x.strip() != ''])
-        result[key] = val
+        result[key] = val.encode('utf8').translate(CEDILLATRANS).decode('utf8')
     return result
 
 class res_partner(models.Model):
@@ -77,37 +80,15 @@ class res_partner(models.Model):
                     'is_company': True,
                     'country_id': self.env['res.country'].search([('code','=','RO')])[0].id
                 })
-                res = requests.get('http://openapi.ro/api/companies/' + str(vat_number) + '.json')
-                if res.status_code==200:
-                    res = res.json()
-                    state = False
-                    if res['state']:
-                        state = self.env['res.country.state'].search([('name','=',res['state'].title())])
-                        if state:
-                            state = state[0].id
-                    self.write({
-                        'name': res['name'].upper(),
-                        'nrc': res['registration_id'] and res['registration_id'].upper() or '',
-                        'street': res['address'].title(),
-                        'street2': res['city'].title(),
-                        'phone': res['phone'] and res['phone'] or '',
-                        'fax': res['fax'] and res['fax'] or '',
-                        'zip': res['zip'] and res['zip'].encode('utf-8') or '',
-                        'vat_subjected': bool(res['vat'] == '1'),
-                        'state_id': state,
-                    })
-                else:
-                    try:
-                        result = getMfinante(str(vat_number))
-                    except:
-                        raise Warning(_("Error retrieving data from mfinante.ro"))
+                try:
+                    result = getMfinante(vat_number)
                     name = nrc = adresa = tel = fax = zip1 = vat_s = state = False
                     if 'Denumire platitor:' in result.keys():
                         name = result['Denumire platitor:'].upper()
                     if 'Adresa:' in result.keys():
-                        adresa = result['Adresa:'] or ''
+                        adresa = result['Adresa:'].title() or ''
                     if 'Numar de inmatriculare la RegistrulComertului:' in result.keys():
-                        nrc = result['Numar de inmatriculare la RegistrulComertului:']
+                        nrc = result['Numar de inmatriculare la Registrul Comertului:']
                         if nrc == '-/-/-':
                             nrc = ''
                         else:
@@ -120,10 +101,10 @@ class res_partner(models.Model):
                         if jud:
                             state = self.env['res.country.state'].search([('name','ilike',jud)])
                             if state:
-                                state = state[0]
+                                state = state[0].id
                     if 'Telefon:' in result.keys():
                         tel = result['Telefon:'] or ''
-                    if 'Fax:' in dict1:
+                    if 'Fax:' in result.keys():
                         fax = result['Fax:'] or ''
                     if 'Taxa pe valoarea adaugata (data luarii in evidenta):' in result.keys():
                         vat_s = bool(result['Taxa pe valoarea adaugata (data luarii in evidenta):']<>'NU')
@@ -137,7 +118,26 @@ class res_partner(models.Model):
                         'vat_subjected': vat_s or False,
                         'state_id': state,
                     })
-
+                except:
+                    res = requests.get('http://openapi.ro/api/companies/' + str(vat_number) + '.json')
+                    if res.status_code==200:
+                        res = res.json()
+                        state = False
+                        if res['state']:
+                            state = self.env['res.country.state'].search([('name','=',res['state'].title())])
+                            if state:
+                                state = state[0].id
+                        self.write({
+                            'name': res['name'].upper(),
+                            'nrc': res['registration_id'] and res['registration_id'].upper() or '',
+                            'street': res['address'].title(),
+                            'street2': res['city'].title(),
+                            'phone': res['phone'] and res['phone'] or '',
+                            'fax': res['fax'] and res['fax'] or '',
+                            'zip': res['zip'] and res['zip'].encode('utf-8') or '',
+                            'vat_subjected': bool(res['vat'] == '1'),
+                            'state_id': state,
+                        })
             else:
                 try:
                     result = check_vies(part.vat)
