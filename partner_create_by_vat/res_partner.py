@@ -27,117 +27,14 @@ import time
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 
-import urllib
-import lxml.html
+from stdnum.eu.vat import check_vies
+import dryscrape
 import requests
-import json
-from BeautifulSoup import BeautifulSoup
-
-
-htmlcodes = ['&Aacute;', '&aacute;', '&Agrave;', '&Acirc;', '&agrave;', '&Acirc;', '&acirc;', '&Auml;', '&auml;', '&Atilde;', '&atilde;', '&Aring;', '&aring;', '&Aelig;', '&aelig;', '&Ccedil;', '&ccedil;', '&Eth;', '&eth;', '&Eacute;', '&eacute;', '&Egrave;', '&egrave;', '&Ecirc;', '&ecirc;', '&Euml;', '&euml;', '&Iacute;', '&iacute;', '&Igrave;', '&igrave;', '&Icirc;', '&icirc;', '&Iuml;', '&iuml;', '&Ntilde;', '&ntilde;', '&Oacute;', '&oacute;', '&Ograve;', '&ograve;', '&Ocirc;', '&ocirc;', '&Ouml;', '&ouml;', '&Otilde;', '&otilde;', '&Oslash;', '&oslash;', '&szlig;', '&Thorn;', '&thorn;', '&Uacute;', '&uacute;', '&Ugrave;', '&ugrave;', '&Ucirc;', '&ucirc;', '&Uuml;', '&uuml;', '&Yacute;', '&yacute;', '&yuml;', '&copy;', '&reg;', '&trade;', '&euro;', '&cent;', '&pound;', '&lsquo;', '&rsquo;', '&ldquo;', '&rdquo;', '&laquo;', '&raquo;', '&mdash;', '&ndash;', '&deg;', '&plusmn;', '&frac14;', '&frac12;', '&frac34;', '&times;', '&divide;', '&alpha;', '&beta;', '&infin']
-funnychars = ['\xc1','\xe1','\xc0','\xc2','\xe0','\xc2','\xe2','\xc4','\xe4','\xc3','\xe3','\xc5','\xe5','\xc6','\xe6','\xc7','\xe7','\xd0','\xf0','\xc9','\xe9','\xc8','\xe8','\xca','\xea','\xcb','\xeb','\xcd','\xed','\xcc','\xec','\xce','\xee','\xcf','\xef','\xd1','\xf1','\xd3','\xf3','\xd2','\xf2','\xd4','\xf4','\xd6','\xf6','\xd5','\xf5','\xd8','\xf8','\xdf','\xde','\xfe','\xda','\xfa','\xd9','\xf9','\xdb','\xfb','\xdc','\xfc','\xdd','\xfd','\xff','\xa9','\xae','\u2122','\u20ac','\xa2','\xa3','\u2018','\u2019','\u201c','\u201d','\xab','\xbb','\u2014','\u2013','\xb0','\xb1','\xbc','\xbd','\xbe','\xd7','\xf7','\u03b1','\u03b2','\u221e']
-
-def str_conv(textcontent):
-    newtext = ''
-    for char in textcontent:
-        if char not in funnychars:
-            newtext = newtext + char
-        else:
-            newtext  = newtext + htmlcodes[funnychars.index(char)]
-    return newtext
-    
-VIES_RESPONSE = "http://ec.europa.eu/taxation_customs/vies/vatResponse.html"
-
-def parseTable(html):
-    #Each "row" of the HTML table will be a list, and the items
-    #in that list will be the TD data items.
-    ourTable = []
-
-    #We keep these set to NONE when not actively building a
-    #row of data or a data item.
-    ourTD = None    #Stores one table data item
-    ourTR = None    #List to store each of the TD items in.
-
-
-    #State we keep track of
-    inTable = False
-    inTR = False
-    inTD = False
-
-    #Start looking for a start tag at the beginning!
-    tagStart = html.find("<", 0)
-
-    while( tagStart != -1):
-        tagEnd = html.find(">", tagStart)
-
-        if tagEnd == -1:    #We are done, return the data!
-            return ourTable
-
-        tagText = html[tagStart+1:tagEnd]
-
-        #only look at the text immediately following the <
-        tagList = tagText.split()
-        tag = tagList[0]
-        tag = tag.lower()
-
-        #Watch out for TABLE (start/stop) tags!
-        if tag == "table":      #We entered the table!
-            inTable = True
-        if tag == "/table":     #We exited a table.
-            inTable = False
-
-        #Detect/Handle Table Rows (TR's)
-        if tag == "tr":
-            inTR = True
-            ourTR = []      #Started a new Table Row!
-
-        #If we are at the end of a row, add the data we collected
-        #so far to the main list of table data.
-        if tag == "/tr":
-            inTR = False
-            ourTable.append(ourTR)
-            ourTR = None
-
-        #We are starting a Data item!
-        if tag== "td":
-            inTD = True
-            ourTD = ""      #Start with an empty item!
-
-        #We are ending a data item!
-        if tag == "/td":
-            inTD = False
-            if ourTD != None and ourTR != None:
-                cleanedTD = ourTD.strip()   #Remove extra spaces
-                ourTR.append( ourTD.strip() )
-            ourTD = None
-
-
-        #Look for the NEXT start tag. Anything between the current
-        #end tag and the next Start Tag is potential data!
-        tagStart = html.find("<", tagEnd+1)
-
-        #If we are in a Table, and in a Row and also in a TD,
-        # Save anything that's not a tag! (between tags)
-        #
-        #Note that this may happen multiple times if the table
-        #data has tags inside of it!
-        #e.g. <td>some <b>bold</b> text</td>
-        #
-        #Because of this, we need to be sure to put a space between each
-        #item that may have tags separating them. We remove any extra
-        #spaces (above) before we append the ourTD data to the ourTR list.
-        if inTable and inTR and inTD:
-            ourTD = ourTD + html[tagEnd+1:tagStart] + " "
-
-
-    #If we end the while loop looking for the next start tag, we
-    #are done, return ourTable of data.
-    return ourTable
 
 def getMfinDryscape(cod):
-    import dryscape
+    import dryscrape
 
-    sess = dryscape.Session(base_url = 'http://www.mfinante.ro/')
+    sess = dryscrape.Session(base_url = 'http://www.mfinante.ro/')
     sess.visit('/infocodfiscal.html')
     input_cod = sess.at_xpath("//form[@name='codfiscalForm']//input[@name='cod']")
     input_cod.set(cod)
@@ -149,32 +46,6 @@ def getMfinDryscape(cod):
        result[line[0].strip()] = line[1].strip()
     return result
    
-def getViesData(cc, vat):
-    params = {
-        "memberStateCode": cc.upper(),
-        "number": vat,
-        "traderName": "",
-        "traderStreet": "",
-        "traderPostalCode": "",
-        "traderCity": "",
-        "requesterMemberStateCode": cc.upper(),
-        "requesterNumber": vat,
-        "action": "check",
-        "check": "Verify",
-    }
-    req = requests.get(VIES_RESPONSE, params=params)
-    content = req.content
-    data = content.replace("\t", "").replace("\r", "").replace("\n", "").replace("&nbsp;"," ")
-    soup = BeautifulSoup(data)
-    dataTable = parseTable(str(soup.findAll('table',attrs={'id':'vatResponseFormTable'})))
-    newtable = {}
-    for dict1 in dataTable:
-        if 'Name' in dict1:
-            newtable['Name'] = dict1[1].strip() or ''
-        if 'Address' in dict1:
-            newtable['Address'] = dict1[1].strip() or ''
-    return newtable
-
 class res_partner(models.Model):
     _name = "res.partner"
     _inherit = "res.partner"
@@ -224,7 +95,7 @@ class res_partner(models.Model):
                     })
                 else:
                     result = getMfinDryscape(str(vat_number))
-                    name = nrc = adresa = tel = fax = zip1 = vat_s = False
+                    name = nrc = adresa = tel = fax = zip1 = vat_s = state = False
                     if 'Denumire platitor:' in result.keys():
                         name = result['Denumire platitor:'].upper()
                     if 'Adresa:' in result.keys():
@@ -263,19 +134,11 @@ class res_partner(models.Model):
 
             else:
                 try:
-                    dataTable = getViesData(vat_country.upper(), vat_number)
-                    if dataTable:
-                        if dataTable['Name'] and dataTable['Name']<>'---':
-                            try:
-                                self.write({'name': dataTable['Name'].decode('utf-8').upper(), 'is_company': True, 'vat_subjected':  True})
-                            except:
-                                self.write({'name': str_conv(dataTable['Name']).upper(), 'is_company': True, 'vat_subjected':  True})
-                        if not part.street:
-                            if dataTable['Address'] and dataTable['Address']<>'---':
-                                try:
-                                    self.write({'street': dataTable['Address'].decode('utf-8').title()})
-                                except:
-                                    self.write({'street': str_conv(dataTable['Address']).title()})
-                        self.write({'vat_subjected': self.vies_vat_check(vat_country, vat_number)})
+                    result = check_vies(part.vat)
+                    if result.name and result.name <> '---':
+                        self.write({'name': unicode(result.name).upper(), 'is_company': True, 'vat_subjected':  True})
+                    if not part.street and result.address and result.address <> '---':
+                        self.write({'street': dataTable['Address'].decode('utf-8').title()})
+                    self.write({'vat_subjected': result.valid})
                 except:
                     self.write({'vat_subjected': self.vies_vat_check(vat_country, vat_number)})
