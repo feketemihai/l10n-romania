@@ -24,28 +24,31 @@
 import datetime
 import time
 
+import requests
+from stdnum.eu.vat import check_vies
+from lxml import html
+
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 
-from stdnum.eu.vat import check_vies
-import dryscrape
-import requests
+def getMfinante(cod):
+    headers = {
+        "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
+        "Content-Type": "multipart/form-data;"
+    }
+    params = {'cod': cod}
+    res = requests.get(req_url, params = params, headers = headers)
+    res.raise_for_status()
 
-def getMfinDryscape(cod):
-    import dryscrape
-
-    sess = dryscrape.Session(base_url = 'http://www.mfinante.ro/')
-    sess.visit('/infocodfiscal.html')
-    input_cod = sess.at_xpath("//form[@name='codfiscalForm']//input[@name='cod']")
-    input_cod.set(cod)
-    input_cod.form().submit()
-    table = sess.at_xpath("//div[@id='main']//center/table")
+    htm = html.fromstring(res.text)
+    table = htm.xpath("//div[@id='main']//center/table")[0] # sunt 2 tabele primul e important
     result = dict()
-    for line in tab.text().decode('utf8').replace(u'\xa0', '').split('\n'):
-       line = line.split('\t')
-       result[line[0].strip()] = line[1].strip()
+    for tr in table.iterchildren():
+        key = ' '.join([x.strip() for x in tr.getchildren()[0].text_content().split('\n') if x.strip() != ''])
+        val = ' '.join([x.strip() for x in tr.getchildren()[1].text_content().split('\n') if x.strip() != ''])
+        result[key] = val
     return result
-   
+
 class res_partner(models.Model):
     _name = "res.partner"
     _inherit = "res.partner"
@@ -94,7 +97,10 @@ class res_partner(models.Model):
                         'state_id': state,
                     })
                 else:
-                    result = getMfinDryscape(str(vat_number))
+                    try:
+                        result = getMfinante(str(vat_number))
+                    except:
+                        raise Warning(_("Error retrieving data from mfinante.ro"))
                     name = nrc = adresa = tel = fax = zip1 = vat_s = state = False
                     if 'Denumire platitor:' in result.keys():
                         name = result['Denumire platitor:'].upper()
