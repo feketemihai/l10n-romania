@@ -55,31 +55,29 @@ def getMfinante(cod):
 class res_partner(models.Model):
     _name = "res.partner"
     _inherit = "res.partner"
-    
-    name = fields.Char('Name', required=True, select=True, default=' ')        
-    
+
+    name = fields.Char('Name', required=True, select=True, default=' ')
+
     @api.one
     def button_get_partner_data(self):
         part = self[0]
         if part.vat:
             self.write({'vat': part.vat.upper().replace(" ","")})
-        vat_number = vat_country = False
-        if not vat_number and part.name:
-            if len(part.name)>2:
-                if part.name.upper()[:2]=='RO':
-                        part.vat = part.name
-                        self.write( {'vat': part.vat.upper().replace(" ","")}) 
-        if part.vat:
-            vat_country, vat_number = self._split_vat(part.vat)                
+        elif part.name and len(part.name.strip())>2 and part.name.strip().upper()[:2]=='RO' and part.name.strip()[2:].isdigit():
+            part.vat = part.name.upper().replace(" ","")
+            self.write( {'vat': part.vat})
+        if not part.vat:
+            raise Warning(_("No VAT number found"))
+
+        vat_country, vat_number = self._split_vat(part.vat)                
         if part.vat_subjected:
             self.write({'vat_subjected': False})
-
         if vat_number and vat_country:
-            if vat_country.upper()=='RO':
-                self.write({
-                    'is_company': True,
-                    'country_id': self.env['res.country'].search([('code','=','RO')])[0].id
-                })
+            self.write({
+                'is_company': True,
+                'country_id': self.env['res.country'].search([('code','ilike',vat_country)])[0].id
+            })
+            if vat_country == 'ro':
                 try:
                     result = getMfinante(vat_number)
                     name = nrc = adresa = tel = fax = zip1 = vat_s = state = False
@@ -87,7 +85,7 @@ class res_partner(models.Model):
                         name = result['Denumire platitor:'].upper()
                     if 'Adresa:' in result.keys():
                         adresa = result['Adresa:'].title() or ''
-                    if 'Numar de inmatriculare la RegistrulComertului:' in result.keys():
+                    if 'Numar de inmatriculare la Registrul Comertului:' in result.keys():
                         nrc = result['Numar de inmatriculare la Registrul Comertului:']
                         if nrc == '-/-/-':
                             nrc = ''
@@ -96,16 +94,17 @@ class res_partner(models.Model):
                     if 'Codul postal:' in result.keys():
                         zip1 = result['Codul postal:'] or ''
                     if 'Judetul:' in result.keys():
-                        state = False
                         jud = result['Judetul:'].title() or ''
-                        if jud:
+                        if jud.lower().startswith('municip'):
+                            jud = ' '.join(jud.split(' ')[1:])
+                        if jud != '':
                             state = self.env['res.country.state'].search([('name','ilike',jud)])
                             if state:
                                 state = state[0].id
                     if 'Telefon:' in result.keys():
-                        tel = result['Telefon:'] or ''
+                        tel = result['Telefon:'].replace('.', '') or ''
                     if 'Fax:' in result.keys():
-                        fax = result['Fax:'] or ''
+                        fax = result['Fax:'].replace('.', '') or ''
                     if 'Taxa pe valoarea adaugata (data luarii in evidenta):' in result.keys():
                         vat_s = bool(result['Taxa pe valoarea adaugata (data luarii in evidenta):']<>'NU')
                     self.write({
@@ -131,7 +130,7 @@ class res_partner(models.Model):
                             'name': res['name'].upper(),
                             'nrc': res['registration_id'] and res['registration_id'].upper() or '',
                             'street': res['address'].title(),
-                            'street2': res['city'].title(),
+                            'city': res['city'].title(),
                             'phone': res['phone'] and res['phone'] or '',
                             'fax': res['fax'] and res['fax'] or '',
                             'zip': res['zip'] and res['zip'].encode('utf-8') or '',
