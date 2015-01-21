@@ -3,3049 +3,3049 @@
     <data noupdate="1">
 		<record id="1"  model="res.company.caen">
 			<field name="code">111</field>
-			<field name="name">Cultivarea cerealelor (exclusiv orez), plantelor leguminoase şi a plantelor producătoare de seminţe oleaginoase</field>
+			<field name="name">Cultivarea cerealelor (exclusiv orez), plantelor leguminoase și a plantelor producătoare de semințe oleaginoase</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="2"  model="res.company.caen">
 			<field name="code">112</field>
 			<field name="name">Cultivarea orezului</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="3"  model="res.company.caen">
 			<field name="code">113</field>
-			<field name="name">Cultivarea legumelor şi a pepenilor, a rădăcinoaselor şi tuberculilor</field>
+			<field name="name">Cultivarea legumelor și a pepenilor, a rădăcinoaselor și tuberculilor</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="4"  model="res.company.caen">
 			<field name="code">114</field>
 			<field name="name">Cultivarea trestiei de zahăr</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="5"  model="res.company.caen">
 			<field name="code">115</field>
 			<field name="name">Cultivarea tutunului</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="6"  model="res.company.caen">
 			<field name="code">116</field>
 			<field name="name">Cultivarea plantelor pentru fibre textile</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="7"  model="res.company.caen">
 			<field name="code">119</field>
 			<field name="name">Cultivarea altor plante din culturi nepermanente</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="8"  model="res.company.caen">
 			<field name="code">121</field>
 			<field name="name">Cultivarea strugurilor</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="9"  model="res.company.caen">
 			<field name="code">122</field>
-			<field name="name">Cultivarea fructelor tropicale şi subtropicale</field>
+			<field name="name">Cultivarea fructelor tropicale și subtropicale</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="10"  model="res.company.caen">
 			<field name="code">123</field>
 			<field name="name">Cultivarea fructelor citrice</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="11"  model="res.company.caen">
 			<field name="code">124</field>
-			<field name="name">Cultivarea fructelor seminţoase şi sâmburoase</field>
+			<field name="name">Cultivarea fructelor semințoase și sâmburoase</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="12"  model="res.company.caen">
 			<field name="code">125</field>
-			<field name="name">Cultivarea fructelor arbuştilor fructiferi, căpşunilor, nuciferilor şi a altor pomi fructiferi</field>
+			<field name="name">Cultivarea fructelor arbuștilor fructiferi, căpșunilor, nuciferilor și a altor pomi fructiferi</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="13"  model="res.company.caen">
 			<field name="code">126</field>
 			<field name="name">Cultivarea fructelor oleaginoase</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="14"  model="res.company.caen">
 			<field name="code">127</field>
 			<field name="name">Cultivarea plantelor pentru prepararea băuturilor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="15"  model="res.company.caen">
 			<field name="code">128</field>
-			<field name="name">Cultivarea condimentelor, plantelor aromatice, medicinale şi a plantelor de uz farmaceutic</field>
+			<field name="name">Cultivarea condimentelor, plantelor aromatice, medicinale și a plantelor de uz farmaceutic</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="16"  model="res.company.caen">
 			<field name="code">129</field>
 			<field name="name">Cultivarea altor plante permanente</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="17"  model="res.company.caen">
 			<field name="code">130</field>
-			<field name="name">Cultivarea plantelor pentru înmulţire</field>
+			<field name="name">Cultivarea plantelor pentru înmulțire</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="18"  model="res.company.caen">
 			<field name="code">141</field>
-			<field name="name">Creşterea bovinelor de lapte</field>
+			<field name="name">Creșterea bovinelor de lapte</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="19"  model="res.company.caen">
 			<field name="code">142</field>
-			<field name="name">Creşterea altor bovine</field>
+			<field name="name">Creșterea altor bovine</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="20"  model="res.company.caen">
 			<field name="code">143</field>
-			<field name="name">Creşterea cailor şi a altor cabaline</field>
+			<field name="name">Creșterea cailor și a altor cabaline</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="21"  model="res.company.caen">
 			<field name="code">144</field>
-			<field name="name">Creşterea cămilelor şi a camelidelor</field>
+			<field name="name">Creșterea cămilelor și a camelidelor</field>
 			<field name="trisc">0.288</field>
-		</record> 
+		</record>
 		<record id="22"  model="res.company.caen">
 			<field name="code">145</field>
-			<field name="name">Creşterea ovinelor şi a caprinelor</field>
+			<field name="name">Creșterea ovinelor și a caprinelor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="23"  model="res.company.caen">
 			<field name="code">146</field>
-			<field name="name">Creşterea porcinelor</field>
+			<field name="name">Creșterea porcinelor</field>
 			<field name="trisc">0.352</field>
-		</record> 
+		</record>
 		<record id="24"  model="res.company.caen">
 			<field name="code">147</field>
-			<field name="name">Creşterea păsărilor</field>
+			<field name="name">Creșterea păsărilor</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="25"  model="res.company.caen">
 			<field name="code">149</field>
-			<field name="name">Creşterea altor animale</field>
+			<field name="name">Creșterea altor animale</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="26"  model="res.company.caen">
 			<field name="code">150</field>
-			<field name="name">Activităţi în ferme mixte (cultura vegetală combinată cu creşterea animalelor)</field>
+			<field name="name">Activități în ferme mixte (cultura vegetală combinată cu creșterea animalelor)</field>
 			<field name="trisc">0.306</field>
-		</record> 
+		</record>
 		<record id="27"  model="res.company.caen">
 			<field name="code">161</field>
-			<field name="name">Activităţi auxiliare pentru producţia vegetală</field>
+			<field name="name">Activități auxiliare pentru producția vegetală</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="28"  model="res.company.caen">
 			<field name="code">162</field>
-			<field name="name">Activităţi auxiliare pentru creşterea animalelor</field>
+			<field name="name">Activități auxiliare pentru creșterea animalelor</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="29"  model="res.company.caen">
 			<field name="code">163</field>
-			<field name="name">Activităţi după recoltare</field>
+			<field name="name">Activități după recoltare</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="30"  model="res.company.caen">
 			<field name="code">164</field>
-			<field name="name">Pregătirea seminţelor</field>
+			<field name="name">Pregătirea semințelor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="31"  model="res.company.caen">
 			<field name="code">170</field>
-			<field name="name">Vânătoare, capturarea cu capcane a vânatului şi activităţi de servicii anexe vânătorii</field>
+			<field name="name">Vânătoare, capturarea cu capcane a vânatului și activități de servicii anexe vânătorii</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="32"  model="res.company.caen">
 			<field name="code">210</field>
-			<field name="name">Silvicultură şi alte activităţi forestiere</field>
+			<field name="name">Silvicultură și alte activități forestiere</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="33"  model="res.company.caen">
 			<field name="code">220</field>
 			<field name="name">Exploatare forestieră</field>
 			<field name="trisc">0.389</field>
-		</record> 
+		</record>
 		<record id="34"  model="res.company.caen">
 			<field name="code">230</field>
 			<field name="name">Colectarea produselor forestiere nelemnoase din flora spontană</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="35"  model="res.company.caen">
 			<field name="code">240</field>
-			<field name="name">Activităţi de servicii anexe silviculturii</field>
+			<field name="name">Activități de servicii anexe silviculturii</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="36"  model="res.company.caen">
 			<field name="code">311</field>
 			<field name="name">Pescuitul maritim</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="37"  model="res.company.caen">
 			<field name="code">312</field>
 			<field name="name">Pescuitul în ape dulci</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="38"  model="res.company.caen">
 			<field name="code">321</field>
 			<field name="name">Acvacultura maritimă</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="39"  model="res.company.caen">
 			<field name="code">322</field>
 			<field name="name">Acvacultura în ape dulci</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="40"  model="res.company.caen">
 			<field name="code">510</field>
-			<field name="name">Extracţia cărbunelui superior (PCS=>23865 kJ/kg)</field>
+			<field name="name">Extracția cărbunelui superior (PCS=>23865 kJ/kg)</field>
 			<field name="trisc">0.72</field>
-		</record> 
+		</record>
 		<record id="41"  model="res.company.caen">
 			<field name="code">520</field>
-			<field name="name">Extracţia cărbunelui inferior (PCS 23865 kJ/kg)</field>
+			<field name="name">Extracția cărbunelui inferior (PCS 23865 kJ/kg)</field>
 			<field name="trisc">0.5</field>
-		</record> 
+		</record>
 		<record id="42"  model="res.company.caen">
 			<field name="code">610</field>
-			<field name="name">Extracţia petrolului brut</field>
+			<field name="name">Extracția petrolului brut</field>
 			<field name="trisc">0.362</field>
-		</record> 
+		</record>
 		<record id="43"  model="res.company.caen">
 			<field name="code">620</field>
-			<field name="name">Extracţia gazelor naturale</field>
+			<field name="name">Extracția gazelor naturale</field>
 			<field name="trisc">0.352</field>
-		</record> 
+		</record>
 		<record id="44"  model="res.company.caen">
 			<field name="code">710</field>
-			<field name="name">Extracţia minereurilor feroase</field>
+			<field name="name">Extracția minereurilor feroase</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="45"  model="res.company.caen">
 			<field name="code">721</field>
-			<field name="name">Extracţia minereurilor de uraniu şi toriu</field>
+			<field name="name">Extracția minereurilor de uraniu și toriu</field>
 			<field name="trisc">0.352</field>
-		</record> 
+		</record>
 		<record id="46"  model="res.company.caen">
 			<field name="code">729</field>
-			<field name="name">Extracţia altor minereuri metalifere neferoase</field>
+			<field name="name">Extracția altor minereuri metalifere neferoase</field>
 			<field name="trisc">0.454</field>
-		</record> 
+		</record>
 		<record id="47"  model="res.company.caen">
 			<field name="code">811</field>
-			<field name="name">Extracţia pietrei ornamentale şi a pietrei pentru construcţii, extracţia pietrei calcaroase, ghipsului, cretei şi a ardeziei</field>
+			<field name="name">Extracția pietrei ornamentale și a pietrei pentru construcții, extracția pietrei calcaroase, ghipsului, cretei și a ardeziei</field>
 			<field name="trisc">0.334</field>
-		</record> 
+		</record>
 		<record id="48"  model="res.company.caen">
 			<field name="code">812</field>
-			<field name="name">Extracţia pietrişului şi nisipului; extracţia argilei şi caolinului</field>
+			<field name="name">Extracția pietrișului și nisipului; extracția argilei și caolinului</field>
 			<field name="trisc">0.288</field>
-		</record> 
+		</record>
 		<record id="49"  model="res.company.caen">
 			<field name="code">891</field>
-			<field name="name">Extracţia mineralelor pentru industria chimică şi a îngrăşămintelor naturale</field>
+			<field name="name">Extracția mineralelor pentru industria chimică și a îngrășămintelor naturale</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="50"  model="res.company.caen">
 			<field name="code">892</field>
-			<field name="name">Extracţia turbei</field>
+			<field name="name">Extracția turbei</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="51"  model="res.company.caen">
 			<field name="code">893</field>
-			<field name="name">Extracţia sării</field>
+			<field name="name">Extracția sării</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="52"  model="res.company.caen">
 			<field name="code">899</field>
-			<field name="name">Alte activităţi extractive n.c.a.</field>
+			<field name="name">Alte activități extractive n.c.a.</field>
 			<field name="trisc">0.573</field>
-		</record> 
+		</record>
 		<record id="53"  model="res.company.caen">
 			<field name="code">910</field>
-			<field name="name">Activităţi de servicii anexe extracţiei petrolului brut şi gazelor naturale</field>
+			<field name="name">Activități de servicii anexe extracției petrolului brut și gazelor naturale</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="54"  model="res.company.caen">
 			<field name="code">990</field>
-			<field name="name">Activităţi de servicii anexe pentru extracţia mineralelor</field>
+			<field name="name">Activități de servicii anexe pentru extracția mineralelor</field>
 			<field name="trisc">0.518</field>
-		</record> 
+		</record>
 		<record id="55"  model="res.company.caen">
 			<field name="code">1011</field>
-			<field name="name">Prelucrarea şi conservarea cărnii</field>
+			<field name="name">Prelucrarea și conservarea cărnii</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="56"  model="res.company.caen">
 			<field name="code">1012</field>
-			<field name="name">Prelucrarea şi conservarea cărnii de pasăre</field>
+			<field name="name">Prelucrarea și conservarea cărnii de pasăre</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="57"  model="res.company.caen">
 			<field name="code">1013</field>
 			<field name="name">Fabricarea produselor din carne (inclusiv din carne de pasăre)</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="58"  model="res.company.caen">
 			<field name="code">1020</field>
-			<field name="name">Prelucrarea şi conservarea peştelui, crustaceelor şi a moluştelor</field>
+			<field name="name">Prelucrarea și conservarea peștelui, crustaceelor și a moluștelor</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="59"  model="res.company.caen">
 			<field name="code">1031</field>
-			<field name="name">Prelucrarea şi conservarea cartofilor</field>
+			<field name="name">Prelucrarea și conservarea cartofilor</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="60"  model="res.company.caen">
 			<field name="code">1032</field>
-			<field name="name">Fabricarea sucurilor de fructe şi legume</field>
+			<field name="name">Fabricarea sucurilor de fructe și legume</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="61"  model="res.company.caen">
 			<field name="code">1039</field>
-			<field name="name">Prelucrarea şi conservarea fructelor şi legumelor n.c.a.</field>
+			<field name="name">Prelucrarea și conservarea fructelor și legumelor n.c.a.</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="62"  model="res.company.caen">
 			<field name="code">1041</field>
-			<field name="name">Fabricarea uleiurilor şi grăsimilor</field>
+			<field name="name">Fabricarea uleiurilor și grăsimilor</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="63"  model="res.company.caen">
 			<field name="code">1042</field>
-			<field name="name">Fabricarea margarinei şi a altor produse comestibile similare</field>
+			<field name="name">Fabricarea margarinei și a altor produse comestibile similare</field>
 			<field name="trisc">0.334</field>
-		</record> 
+		</record>
 		<record id="64"  model="res.company.caen">
 			<field name="code">1051</field>
-			<field name="name">Fabricarea produselor lactate şi a brânzeturilor</field>
+			<field name="name">Fabricarea produselor lactate și a brânzeturilor</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="65"  model="res.company.caen">
 			<field name="code">1052</field>
-			<field name="name">Fabricarea îngheţatei</field>
+			<field name="name">Fabricarea înghețatei</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="66"  model="res.company.caen">
 			<field name="code">1061</field>
-			<field name="name">Fabricarea produselor de morărit, a amidonului şi produselor din amidon</field>
+			<field name="name">Fabricarea produselor de morărit, a amidonului și produselor din amidon</field>
 			<field name="trisc">0.297</field>
-		</record> 
+		</record>
 		<record id="67"  model="res.company.caen">
 			<field name="code">1062</field>
-			<field name="name">Fabricarea amidonului şi a produselor din amidon</field>
+			<field name="name">Fabricarea amidonului și a produselor din amidon</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="68"  model="res.company.caen">
 			<field name="code">1071</field>
-			<field name="name">Fabricarea pâinii, fabricarea prăjiturilor şi a produselor proaspete de patiserie</field>
+			<field name="name">Fabricarea pâinii, fabricarea prăjiturilor și a produselor proaspete de patiserie</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="69"  model="res.company.caen">
 			<field name="code">1072</field>
-			<field name="name">Fabricarea biscuiţilor şi pişcoturilor; fabricarea prăjiturilor şi a produselor conservate de patiserie</field>
+			<field name="name">Fabricarea biscuiților și pișcoturilor; fabricarea prăjiturilor și a produselor conservate de patiserie</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="70"  model="res.company.caen">
 			<field name="code">1073</field>
-			<field name="name">Fabricarea macaroanelor, tăiţeilor, cuşcuşului şi a altor produse făinoase similare</field>
+			<field name="name">Fabricarea macaroanelor, tăițeilor, cușcușului și a altor produse făinoase similare</field>
 			<field name="trisc">0.288</field>
-		</record> 
+		</record>
 		<record id="71"  model="res.company.caen">
 			<field name="code">1081</field>
 			<field name="name">Fabricarea zahărului</field>
 			<field name="trisc">0.343</field>
-		</record> 
+		</record>
 		<record id="72"  model="res.company.caen">
 			<field name="code">1082</field>
-			<field name="name">Fabricarea produselor din cacao, a ciocolatei şi a produselor zaharoase</field>
+			<field name="name">Fabricarea produselor din cacao, a ciocolatei și a produselor zaharoase</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="73"  model="res.company.caen">
 			<field name="code">1083</field>
-			<field name="name">Prelucrarea ceaiului şi cafelei</field>
+			<field name="name">Prelucrarea ceaiului și cafelei</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="74"  model="res.company.caen">
 			<field name="code">1084</field>
-			<field name="name">Fabricarea condimentelor şi ingredientelor</field>
+			<field name="name">Fabricarea condimentelor și ingredientelor</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="75"  model="res.company.caen">
 			<field name="code">1085</field>
 			<field name="name">Fabricarea de mâncăruri preparate</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="76"  model="res.company.caen">
 			<field name="code">1086</field>
-			<field name="name">Fabricarea preparatelor alimentare omogenizate şi alimentelor dietetice</field>
+			<field name="name">Fabricarea preparatelor alimentare omogenizate și alimentelor dietetice</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="77"  model="res.company.caen">
 			<field name="code">1089</field>
 			<field name="name">Fabricarea altor produse alimentare n.c.a.</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="78"  model="res.company.caen">
 			<field name="code">1091</field>
 			<field name="name">Fabricarea preparatelor pentru hrana animalelor de fermă</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="79"  model="res.company.caen">
 			<field name="code">1092</field>
 			<field name="name">Fabricarea preparatelor pentru hrana animalelor de companie</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="80"  model="res.company.caen">
 			<field name="code">1101</field>
-			<field name="name">Distilarea, rafinarea şi mixarea băuturilor alcoolice</field>
+			<field name="name">Distilarea, rafinarea și mixarea băuturilor alcoolice</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="81"  model="res.company.caen">
 			<field name="code">1102</field>
 			<field name="name">Fabricarea vinurilor din struguri</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="82"  model="res.company.caen">
 			<field name="code">1103</field>
-			<field name="name">Fabricarea cidrului şi a altor vinuri din fructe</field>
+			<field name="name">Fabricarea cidrului și a altor vinuri din fructe</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="83"  model="res.company.caen">
 			<field name="code">1104</field>
-			<field name="name">Fabricarea altor băuturi nedistilate, obţinute prin fermentare</field>
+			<field name="name">Fabricarea altor băuturi nedistilate, obținute prin fermentare</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="84"  model="res.company.caen">
 			<field name="code">1105</field>
 			<field name="name">Fabricarea berii</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="85"  model="res.company.caen">
 			<field name="code">1106</field>
-			<field name="name">Fabricarea malţului</field>
+			<field name="name">Fabricarea malțului</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="86"  model="res.company.caen">
 			<field name="code">1107</field>
-			<field name="name">Producţia de băuturi răcoritoare nealcoolice; producţia de ape minerale şi alte ape îmbuteliate</field>
+			<field name="name">Producția de băuturi răcoritoare nealcoolice; producția de ape minerale și alte ape îmbuteliate</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="87"  model="res.company.caen">
 			<field name="code">1200</field>
 			<field name="name">Fabricarea produselor din tutun</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="88"  model="res.company.caen">
 			<field name="code">1310</field>
-			<field name="name">Pregătirea fibrelor şi filarea fibrelor textile</field>
+			<field name="name">Pregătirea fibrelor și filarea fibrelor textile</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="89"  model="res.company.caen">
 			<field name="code">1320</field>
-			<field name="name">Producţia de ţesături</field>
+			<field name="name">Producția de țesături</field>
 			<field name="trisc">0.435</field>
-		</record> 
+		</record>
 		<record id="90"  model="res.company.caen">
 			<field name="code">1330</field>
 			<field name="name">Finisarea materialelor textile</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="91"  model="res.company.caen">
 			<field name="code">1391</field>
-			<field name="name">Fabricarea de metraje prin tricotare sau croşetare</field>
+			<field name="name">Fabricarea de metraje prin tricotare sau croșetare</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="92"  model="res.company.caen">
 			<field name="code">1392</field>
-			<field name="name">Fabricarea de articole confecţionate din textile (cu excepţia îmbrăcămintei şi lenjeriei de corp)</field>
+			<field name="name">Fabricarea de articole confecționate din textile (cu excepția îmbrăcămintei și lenjeriei de corp)</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="93"  model="res.company.caen">
 			<field name="code">1393</field>
-			<field name="name">Fabricarea de covoare şi mochete</field>
+			<field name="name">Fabricarea de covoare și mochete</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="94"  model="res.company.caen">
 			<field name="code">1394</field>
-			<field name="name">Fabricarea de odgoane, frânghii, sfori şi plase</field>
+			<field name="name">Fabricarea de odgoane, frânghii, sfori și plase</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="95"  model="res.company.caen">
 			<field name="code">1395</field>
-			<field name="name">Fabricarea de textile neţesute şi articole din acestea, cu excepţia confecţiilor de îmbrăcăminte</field>
+			<field name="name">Fabricarea de textile nețesute și articole din acestea, cu excepția confecțiilor de îmbrăcăminte</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="96"  model="res.company.caen">
 			<field name="code">1396</field>
-			<field name="name">Fabricarea de articole tehnice şi industriale din textile</field>
+			<field name="name">Fabricarea de articole tehnice și industriale din textile</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="97"  model="res.company.caen">
 			<field name="code">1399</field>
 			<field name="name">Fabricarea altor articole textile n.c.a.</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="98"  model="res.company.caen">
 			<field name="code">1411</field>
 			<field name="name">Fabricarea articolelor de îmbrăcăminte din piele</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="99"  model="res.company.caen">
 			<field name="code">1412</field>
 			<field name="name">Fabricarea de articole de îmbrăcăminte pentru lucru</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="100"  model="res.company.caen">
 			<field name="code">1413</field>
 			<field name="name">Fabricarea altor articole de îmbrăcăminte (exclusiv lenjeria de corp)</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="101"  model="res.company.caen">
 			<field name="code">1414</field>
 			<field name="name">Fabricarea de articole de lenjerie de corp</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="102"  model="res.company.caen">
 			<field name="code">1419</field>
-			<field name="name">Fabricarea altor articole de îmbrăcăminte şi accesorii n.c.a.</field>
+			<field name="name">Fabricarea altor articole de îmbrăcăminte și accesorii n.c.a.</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="103"  model="res.company.caen">
 			<field name="code">1420</field>
 			<field name="name">Fabricarea articolelor din blană</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="104"  model="res.company.caen">
 			<field name="code">1431</field>
-			<field name="name">Fabricarea prin tricotare sau croşetare a ciorapilor şi articolelor de galanterie</field>
+			<field name="name">Fabricarea prin tricotare sau croșetare a ciorapilor și articolelor de galanterie</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="105"  model="res.company.caen">
 			<field name="code">1439</field>
-			<field name="name">Fabricarea prin tricotare sau croşetare a altor articole de îmbrăcăminte</field>
+			<field name="name">Fabricarea prin tricotare sau croșetare a altor articole de îmbrăcăminte</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="106"  model="res.company.caen">
 			<field name="code">1511</field>
-			<field name="name">Tăbăcirea şi finisarea pieilor; prepararea şi vopsirea blănurilor</field>
+			<field name="name">Tăbăcirea și finisarea pieilor; prepararea și vopsirea blănurilor</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="107"  model="res.company.caen">
 			<field name="code">1512</field>
-			<field name="name">Fabricarea articolelor de voiaj şi marochinărie şi a articolelor de harnaşament</field>
+			<field name="name">Fabricarea articolelor de voiaj și marochinărie și a articolelor de harnașament</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="108"  model="res.company.caen">
 			<field name="code">1520</field>
-			<field name="name">Fabricarea încălţămintei</field>
+			<field name="name">Fabricarea încălțămintei</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="109"  model="res.company.caen">
 			<field name="code">1610</field>
-			<field name="name">Tăierea şi rindeluirea lemnului</field>
+			<field name="name">Tăierea și rindeluirea lemnului</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="110"  model="res.company.caen">
 			<field name="code">1621</field>
-			<field name="name">Fabricarea de furnire şi a panourilor din lemn</field>
+			<field name="name">Fabricarea de furnire și a panourilor din lemn</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="111"  model="res.company.caen">
 			<field name="code">1622</field>
 			<field name="name">Fabricarea parchetului asamblat în panouri</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="112"  model="res.company.caen">
 			<field name="code">1623</field>
-			<field name="name">Fabricarea altor elemente de dulgherie şi tâmplărie, pentru construcţii</field>
+			<field name="name">Fabricarea altor elemente de dulgherie și tâmplărie, pentru construcții</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="113"  model="res.company.caen">
 			<field name="code">1624</field>
 			<field name="name">Fabricarea ambalajelor din lemn</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="114"  model="res.company.caen">
 			<field name="code">1629</field>
-			<field name="name">Fabricarea altor produse din lemn; fabricarea articolelor din plută, paie şi din alte materiale vegetale împletite</field>
+			<field name="name">Fabricarea altor produse din lemn; fabricarea articolelor din plută, paie și din alte materiale vegetale împletite</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="115"  model="res.company.caen">
 			<field name="code">1711</field>
 			<field name="name">Fabricarea celulozei</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="116"  model="res.company.caen">
 			<field name="code">1712</field>
-			<field name="name">Fabricarea hârtiei şi cartonului</field>
+			<field name="name">Fabricarea hârtiei și cartonului</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="117"  model="res.company.caen">
 			<field name="code">1721</field>
-			<field name="name">Fabricarea hârtiei şi cartonului ondulat şi a ambalajelor din hârtie şi carton</field>
+			<field name="name">Fabricarea hârtiei și cartonului ondulat și a ambalajelor din hârtie și carton</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="118"  model="res.company.caen">
 			<field name="code">1722</field>
-			<field name="name">Fabricarea produselor de uz gospodăresc şi sanitar, din hârtie sau carton</field>
+			<field name="name">Fabricarea produselor de uz gospodăresc și sanitar, din hârtie sau carton</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="119"  model="res.company.caen">
 			<field name="code">1723</field>
 			<field name="name">Fabricarea articolelor de papetărie</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="120"  model="res.company.caen">
 			<field name="code">1724</field>
 			<field name="name">Fabricarea tapetului</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="121"  model="res.company.caen">
 			<field name="code">1729</field>
-			<field name="name">Fabricarea altor articole din hârtie şi carton n.c.a.</field>
+			<field name="name">Fabricarea altor articole din hârtie și carton n.c.a.</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="122"  model="res.company.caen">
 			<field name="code">1811</field>
 			<field name="name">Tipărirea ziarelor</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="123"  model="res.company.caen">
 			<field name="code">1812</field>
-			<field name="name">Alte activităţi de tipărire n.c.a.</field>
+			<field name="name">Alte activități de tipărire n.c.a.</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="124"  model="res.company.caen">
 			<field name="code">1813</field>
 			<field name="name">Servicii pregătitoare pentru pretipărire</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="125"  model="res.company.caen">
 			<field name="code">1814</field>
-			<field name="name">Legătorie şi servicii conexe</field>
+			<field name="name">Legătorie și servicii conexe</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="126"  model="res.company.caen">
 			<field name="code">1820</field>
 			<field name="name">Reproducerea înregistrărilor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="127"  model="res.company.caen">
 			<field name="code">1910</field>
 			<field name="name">Fabricarea produselor de cocserie</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="128"  model="res.company.caen">
 			<field name="code">1920</field>
-			<field name="name">Fabricarea produselor obţinute din prelucrarea ţiţeiului</field>
+			<field name="name">Fabricarea produselor obținute din prelucrarea țițeiului</field>
 			<field name="trisc">0.38</field>
-		</record> 
+		</record>
 		<record id="129"  model="res.company.caen">
 			<field name="code">2011</field>
 			<field name="name">Fabricarea gazelor industriale</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="130"  model="res.company.caen">
 			<field name="code">2012</field>
-			<field name="name">Fabricarea coloranţilor şi a pigmenţilor</field>
+			<field name="name">Fabricarea coloranților și a pigmenților</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="131"  model="res.company.caen">
 			<field name="code">2013</field>
 			<field name="name">Fabricarea altor produse chimice anorganice, de bază</field>
 			<field name="trisc">0.426</field>
-		</record> 
+		</record>
 		<record id="132"  model="res.company.caen">
 			<field name="code">2014</field>
 			<field name="name">Fabricarea altor produse chimice organice, de bază</field>
 			<field name="trisc">0.362</field>
-		</record> 
+		</record>
 		<record id="133"  model="res.company.caen">
 			<field name="code">2015</field>
-			<field name="name">Fabricarea îngrăşămintelor şi produselor azotoase</field>
+			<field name="name">Fabricarea îngrășămintelor și produselor azotoase</field>
 			<field name="trisc">0.408</field>
-		</record> 
+		</record>
 		<record id="134"  model="res.company.caen">
 			<field name="code">2016</field>
 			<field name="name">Fabricarea materialelor plastice în forme primare</field>
 			<field name="trisc">0.334</field>
-		</record> 
+		</record>
 		<record id="135"  model="res.company.caen">
 			<field name="code">2017</field>
 			<field name="name">Fabricarea cauciucului sintetic în forme primare</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="136"  model="res.company.caen">
 			<field name="code">2020</field>
-			<field name="name">Fabricarea pesticidelor şi a altor produse agrochimice</field>
+			<field name="name">Fabricarea pesticidelor și a altor produse agrochimice</field>
 			<field name="trisc">0.408</field>
-		</record> 
+		</record>
 		<record id="137"  model="res.company.caen">
 			<field name="code">2030</field>
-			<field name="name">Fabricarea vopselelor, lacurilor, cernelii tipografice şi masticurilor</field>
+			<field name="name">Fabricarea vopselelor, lacurilor, cernelii tipografice și masticurilor</field>
 			<field name="trisc">0.426</field>
-		</record> 
+		</record>
 		<record id="138"  model="res.company.caen">
 			<field name="code">2041</field>
-			<field name="name">Fabricarea săpunurilor, detergenţilor şi a produselor de întreţinere</field>
+			<field name="name">Fabricarea săpunurilor, detergenților și a produselor de întreținere</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="139"  model="res.company.caen">
 			<field name="code">2042</field>
-			<field name="name">Fabricarea parfumurilor şi a produselor cosmetice (de toaletă)</field>
+			<field name="name">Fabricarea parfumurilor și a produselor cosmetice (de toaletă)</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="140"  model="res.company.caen">
 			<field name="code">2051</field>
 			<field name="name">Fabricarea explozivilor</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="141"  model="res.company.caen">
 			<field name="code">2052</field>
 			<field name="name">Fabricarea cleiurilor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="142"  model="res.company.caen">
 			<field name="code">2053</field>
-			<field name="name">Fabricarea uleiurilor esenţiale</field>
+			<field name="name">Fabricarea uleiurilor esențiale</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="143"  model="res.company.caen">
 			<field name="code">2059</field>
 			<field name="name">Fabricarea altor produse chimice n.c.a.</field>
 			<field name="trisc">0.417</field>
-		</record> 
+		</record>
 		<record id="144"  model="res.company.caen">
 			<field name="code">2060</field>
-			<field name="name">Fabricarea fibrelor sintetice şi artificiale</field>
+			<field name="name">Fabricarea fibrelor sintetice și artificiale</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="145"  model="res.company.caen">
 			<field name="code">2110</field>
 			<field name="name">Fabricarea produselor farmaceutice de bază</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="146"  model="res.company.caen">
 			<field name="code">2120</field>
 			<field name="name">Fabricarea preparatelor farmaceutice</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="147"  model="res.company.caen">
 			<field name="code">2211</field>
-			<field name="name">Fabricarea anvelopelor şi a camerelor de aer; reşaparea şi refacerea anvelopelor</field>
+			<field name="name">Fabricarea anvelopelor și a camerelor de aer; reșaparea și refacerea anvelopelor</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="148"  model="res.company.caen">
 			<field name="code">2219</field>
 			<field name="name">Fabricarea altor produse din cauciuc</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="149"  model="res.company.caen">
 			<field name="code">2221</field>
-			<field name="name">Fabricarea plăcilor, foliilor, tuburilor şi profilelor din material plastic</field>
+			<field name="name">Fabricarea plăcilor, foliilor, tuburilor și profilelor din material plastic</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="150"  model="res.company.caen">
 			<field name="code">2222</field>
 			<field name="name">Fabricarea articolelor de ambalaj din material plastic</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="151"  model="res.company.caen">
 			<field name="code">2223</field>
-			<field name="name">Fabricarea articolelor din material plastic pentru construcţii</field>
+			<field name="name">Fabricarea articolelor din material plastic pentru construcții</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="152"  model="res.company.caen">
 			<field name="code">2229</field>
 			<field name="name">Fabricarea altor produse din material plastic</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="153"  model="res.company.caen">
 			<field name="code">2311</field>
 			<field name="name">Fabricarea sticlei plate</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="154"  model="res.company.caen">
 			<field name="code">2312</field>
-			<field name="name">Prelucrarea şi fasonarea sticlei plate</field>
+			<field name="name">Prelucrarea și fasonarea sticlei plate</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="155"  model="res.company.caen">
 			<field name="code">2313</field>
 			<field name="name">Fabricarea articolelor din sticlă</field>
 			<field name="trisc">0.444</field>
-		</record> 
+		</record>
 		<record id="156"  model="res.company.caen">
 			<field name="code">2314</field>
 			<field name="name">Fabricarea fibrelor din sticlă</field>
 			<field name="trisc">0.334</field>
-		</record> 
+		</record>
 		<record id="157"  model="res.company.caen">
 			<field name="code">2319</field>
 			<field name="name">Fabricarea de sticlărie tehnică</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="158"  model="res.company.caen">
 			<field name="code">2320</field>
 			<field name="name">Fabricarea de produse refractare</field>
 			<field name="trisc">0.454</field>
-		</record> 
+		</record>
 		<record id="159"  model="res.company.caen">
 			<field name="code">2331</field>
-			<field name="name">Fabricarea plăcilor şi dalelor din ceramică</field>
+			<field name="name">Fabricarea plăcilor și dalelor din ceramică</field>
 			<field name="trisc">0.297</field>
-		</record> 
+		</record>
 		<record id="160"  model="res.company.caen">
 			<field name="code">2332</field>
-			<field name="name">Fabricarea cărămizilor, ţiglelor şi altor produse pentru construcţii, din argilă arsă</field>
+			<field name="name">Fabricarea cărămizilor, țiglelor și altor produse pentru construcții, din argilă arsă</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="161"  model="res.company.caen">
 			<field name="code">2341</field>
-			<field name="name">Fabricarea articolelor ceramice pentru uz gospodăresc şi ornamental</field>
+			<field name="name">Fabricarea articolelor ceramice pentru uz gospodăresc și ornamental</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="162"  model="res.company.caen">
 			<field name="code">2342</field>
 			<field name="name">Fabricarea de obiecte sanitare din ceramică</field>
 			<field name="trisc">0.362</field>
-		</record> 
+		</record>
 		<record id="163"  model="res.company.caen">
 			<field name="code">2343</field>
-			<field name="name">Fabricarea izolatorilor şi pieselor izolante din ceramică</field>
+			<field name="name">Fabricarea izolatorilor și pieselor izolante din ceramică</field>
 			<field name="trisc">0.288</field>
-		</record> 
+		</record>
 		<record id="164"  model="res.company.caen">
 			<field name="code">2344</field>
 			<field name="name">Fabricarea altor produse tehnice din ceramică</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="165"  model="res.company.caen">
 			<field name="code">2349</field>
 			<field name="name">Fabricarea altor produse ceramice n.c.a.</field>
 			<field name="trisc">0.398</field>
-		</record> 
+		</record>
 		<record id="166"  model="res.company.caen">
 			<field name="code">2351</field>
 			<field name="name">Fabricarea cimentului</field>
 			<field name="trisc">0.38</field>
-		</record> 
+		</record>
 		<record id="167"  model="res.company.caen">
 			<field name="code">2352</field>
-			<field name="name">Fabricarea varului şi ipsosului</field>
+			<field name="name">Fabricarea varului și ipsosului</field>
 			<field name="trisc">0.343</field>
-		</record> 
+		</record>
 		<record id="168"  model="res.company.caen">
 			<field name="code">2361</field>
-			<field name="name">Fabricarea produselor din beton pentru construcţii</field>
+			<field name="name">Fabricarea produselor din beton pentru construcții</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="169"  model="res.company.caen">
 			<field name="code">2362</field>
-			<field name="name">Fabricarea produselor din ipsos pentru construcţii</field>
+			<field name="name">Fabricarea produselor din ipsos pentru construcții</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="170"  model="res.company.caen">
 			<field name="code">2363</field>
 			<field name="name">Fabricarea betonului</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="171"  model="res.company.caen">
 			<field name="code">2364</field>
 			<field name="name">Fabricarea mortarului</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="172"  model="res.company.caen">
 			<field name="code">2365</field>
 			<field name="name">Fabricarea produselor din azbociment</field>
 			<field name="trisc">0.417</field>
-		</record> 
+		</record>
 		<record id="173"  model="res.company.caen">
 			<field name="code">2369</field>
-			<field name="name">Fabricarea altor articole din beton, ciment şi ipsos</field>
+			<field name="name">Fabricarea altor articole din beton, ciment și ipsos</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="174"  model="res.company.caen">
 			<field name="code">2370</field>
-			<field name="name">Tăierea, fasonarea şi finisarea pietrei</field>
+			<field name="name">Tăierea, fasonarea și finisarea pietrei</field>
 			<field name="trisc">0.38</field>
-		</record> 
+		</record>
 		<record id="175"  model="res.company.caen">
 			<field name="code">2391</field>
 			<field name="name">Fabricarea produselor abrazive</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="176"  model="res.company.caen">
 			<field name="code">2399</field>
 			<field name="name">Fabricarea altor produse din minerale nemetalice n.c.a.</field>
 			<field name="trisc">0.472</field>
-		</record> 
+		</record>
 		<record id="177"  model="res.company.caen">
 			<field name="code">2410</field>
-			<field name="name">Producţia de metale feroase sub forme primare şi de feroaliaje</field>
+			<field name="name">Producția de metale feroase sub forme primare și de feroaliaje</field>
 			<field name="trisc">0.463</field>
-		</record> 
+		</record>
 		<record id="178"  model="res.company.caen">
 			<field name="code">2420</field>
-			<field name="name">Producţia de tuburi, ţevi, profile tubulare şi accesorii pentru acestea, din oţel</field>
+			<field name="name">Producția de tuburi, țevi, profile tubulare și accesorii pentru acestea, din oțel</field>
 			<field name="trisc">0.5</field>
-		</record> 
+		</record>
 		<record id="179"  model="res.company.caen">
 			<field name="code">2431</field>
 			<field name="name">Tragere la rece a barelor</field>
 			<field name="trisc">0.417</field>
-		</record> 
+		</record>
 		<record id="180"  model="res.company.caen">
 			<field name="code">2432</field>
 			<field name="name">Laminare la rece a benzilor înguste</field>
 			<field name="trisc">0.343</field>
-		</record> 
+		</record>
 		<record id="181"  model="res.company.caen">
 			<field name="code">2433</field>
-			<field name="name">Producţia de profile obţinute la rece</field>
+			<field name="name">Producția de profile obținute la rece</field>
 			<field name="trisc">0.297</field>
-		</record> 
+		</record>
 		<record id="182"  model="res.company.caen">
 			<field name="code">2434</field>
 			<field name="name">Trefilarea firelor la rece</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="183"  model="res.company.caen">
 			<field name="code">2441</field>
-			<field name="name">Producţia metalelor preţioase</field>
+			<field name="name">Producția metalelor prețioase</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="184"  model="res.company.caen">
 			<field name="code">2442</field>
 			<field name="name">Metalurgia aluminiului</field>
 			<field name="trisc">0.49</field>
-		</record> 
+		</record>
 		<record id="185"  model="res.company.caen">
 			<field name="code">2443</field>
-			<field name="name">Producţia plumbului, zincului şi cositorului</field>
+			<field name="name">Producția plumbului, zincului și cositorului</field>
 			<field name="trisc">0.555</field>
-		</record> 
+		</record>
 		<record id="186"  model="res.company.caen">
 			<field name="code">2444</field>
 			<field name="name">Metalurgia cuprului</field>
 			<field name="trisc">0.389</field>
-		</record> 
+		</record>
 		<record id="187"  model="res.company.caen">
 			<field name="code">2445</field>
-			<field name="name">Producţia altor metale neferoase</field>
+			<field name="name">Producția altor metale neferoase</field>
 			<field name="trisc">0.509</field>
-		</record> 
+		</record>
 		<record id="188"  model="res.company.caen">
 			<field name="code">2446</field>
 			<field name="name">Prelucrarea combustibililor nucleari</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="189"  model="res.company.caen">
 			<field name="code">2451</field>
 			<field name="name">Turnarea fontei</field>
 			<field name="trisc">0.509</field>
-		</record> 
+		</record>
 		<record id="190"  model="res.company.caen">
 			<field name="code">2452</field>
-			<field name="name">Turnarea oţelului</field>
+			<field name="name">Turnarea oțelului</field>
 			<field name="trisc">0.38</field>
-		</record> 
+		</record>
 		<record id="191"  model="res.company.caen">
 			<field name="code">2453</field>
-			<field name="name">Turnarea metalelor neferoase uşoare</field>
+			<field name="name">Turnarea metalelor neferoase ușoare</field>
 			<field name="trisc">0.352</field>
-		</record> 
+		</record>
 		<record id="192"  model="res.company.caen">
 			<field name="code">2454</field>
 			<field name="name">Turnarea altor metale neferoase</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="193"  model="res.company.caen">
 			<field name="code">2511</field>
-			<field name="name">Fabricarea de construcţii metalice şi părţi componente ale structurilor metalice</field>
+			<field name="name">Fabricarea de construcții metalice și părți componente ale structurilor metalice</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="194"  model="res.company.caen">
 			<field name="code">2512</field>
-			<field name="name">Fabricarea de uşi şi ferestre din metal</field>
+			<field name="name">Fabricarea de uși și ferestre din metal</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="195"  model="res.company.caen">
 			<field name="code">2521</field>
-			<field name="name">Producţia de radiatoare şi cazane pentru încălzire centrală</field>
+			<field name="name">Producția de radiatoare și cazane pentru încălzire centrală</field>
 			<field name="trisc">0.306</field>
-		</record> 
+		</record>
 		<record id="196"  model="res.company.caen">
 			<field name="code">2529</field>
-			<field name="name">Producţia de rezervoare, cisterne şi containere metalice</field>
+			<field name="name">Producția de rezervoare, cisterne și containere metalice</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="197"  model="res.company.caen">
 			<field name="code">2530</field>
-			<field name="name">Producţia generatoarelor de aburi (cu excepţia cazanelor pentru încălzire centrală)</field>
+			<field name="name">Producția generatoarelor de aburi (cu excepția cazanelor pentru încălzire centrală)</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="198"  model="res.company.caen">
 			<field name="code">2540</field>
-			<field name="name">Fabricarea armamentului şi muniţiei</field>
+			<field name="name">Fabricarea armamentului și muniției</field>
 			<field name="trisc">0.389</field>
-		</record> 
+		</record>
 		<record id="199"  model="res.company.caen">
 			<field name="code">2550</field>
-			<field name="name">Fabricarea produselor metalice obţinute prin deformare plastică; metalurgia pulberilor</field>
+			<field name="name">Fabricarea produselor metalice obținute prin deformare plastică; metalurgia pulberilor</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="200"  model="res.company.caen">
 			<field name="code">2561</field>
-			<field name="name">Tratarea şi acoperirea metalelor</field>
+			<field name="name">Tratarea și acoperirea metalelor</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="201"  model="res.company.caen">
 			<field name="code">2562</field>
-			<field name="name">Operaţiuni de mecanică generală</field>
+			<field name="name">Operațiuni de mecanică generală</field>
 			<field name="trisc">0.297</field>
-		</record> 
+		</record>
 		<record id="202"  model="res.company.caen">
 			<field name="code">2571</field>
 			<field name="name">Fabricarea produselor de tăiat</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="203"  model="res.company.caen">
 			<field name="code">2572</field>
 			<field name="name">Fabricarea articolelor de feronerie</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="204"  model="res.company.caen">
 			<field name="code">2573</field>
 			<field name="name">Fabricarea uneltelor</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="205"  model="res.company.caen">
 			<field name="code">2591</field>
-			<field name="name">Fabricarea de recipienţi, containere şi alte produse similare din oţel</field>
+			<field name="name">Fabricarea de recipienți, containere și alte produse similare din oțel</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="206"  model="res.company.caen">
 			<field name="code">2592</field>
-			<field name="name">Fabricarea ambalajelor uşoare din metal</field>
+			<field name="name">Fabricarea ambalajelor ușoare din metal</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="207"  model="res.company.caen">
 			<field name="code">2593</field>
-			<field name="name">Fabricarea articolelor din fire metalice; fabricarea de lanţuri şi arcuri</field>
+			<field name="name">Fabricarea articolelor din fire metalice; fabricarea de lanțuri și arcuri</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="208"  model="res.company.caen">
 			<field name="code">2594</field>
-			<field name="name">Fabricarea de şuruburi, buloane şi alte articole filetate; fabricarea de nituri şi şaibe</field>
+			<field name="name">Fabricarea de șuruburi, buloane și alte articole filetate; fabricarea de nituri și șaibe</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="209"  model="res.company.caen">
 			<field name="code">2599</field>
 			<field name="name">Fabricarea altor articole din metal n.c.a.</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="210"  model="res.company.caen">
 			<field name="code">2611</field>
 			<field name="name">Fabricarea subansamblurilor electronice (module)</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="211"  model="res.company.caen">
 			<field name="code">2612</field>
 			<field name="name">Fabricarea altor componente electronice</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="212"  model="res.company.caen">
 			<field name="code">2620</field>
-			<field name="name">Fabricarea calculatoarelor şi a echipamentelor periferice</field>
+			<field name="name">Fabricarea calculatoarelor și a echipamentelor periferice</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="213"  model="res.company.caen">
 			<field name="code">2630</field>
-			<field name="name">Fabricarea echipamentelor de comunicaţii</field>
+			<field name="name">Fabricarea echipamentelor de comunicații</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="214"  model="res.company.caen">
 			<field name="code">2640</field>
 			<field name="name">Fabricarea produselor electronice de larg consum</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="215"  model="res.company.caen">
 			<field name="code">2651</field>
-			<field name="name">Fabricarea de instrumente şi dispozitive pentru măsură, verificare, control, navigaţie</field>
+			<field name="name">Fabricarea de instrumente și dispozitive pentru măsură, verificare, control, navigație</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="216"  model="res.company.caen">
 			<field name="code">2652</field>
-			<field name="name">Producţia de ceasuri</field>
+			<field name="name">Producția de ceasuri</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="217"  model="res.company.caen">
 			<field name="code">2660</field>
-			<field name="name">Fabricarea de echipamente pentru radiologie, electrodiagnostic şi electroterapie</field>
+			<field name="name">Fabricarea de echipamente pentru radiologie, electrodiagnostic și electroterapie</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="218"  model="res.company.caen">
 			<field name="code">2670</field>
-			<field name="name">Fabricarea de instrumente optice şi echipamente fotografice</field>
+			<field name="name">Fabricarea de instrumente optice și echipamente fotografice</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="219"  model="res.company.caen">
 			<field name="code">2680</field>
-			<field name="name">Fabricarea suporţilor magnetici şi optici destinaţi înregistrărilor</field>
+			<field name="name">Fabricarea suporților magnetici și optici destinați înregistrărilor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="220"  model="res.company.caen">
 			<field name="code">2711</field>
-			<field name="name">Fabricarea motoarelor, generatoarelor şi transformatoarelor electrice</field>
+			<field name="name">Fabricarea motoarelor, generatoarelor și transformatoarelor electrice</field>
 			<field name="trisc">0.408</field>
-		</record> 
+		</record>
 		<record id="221"  model="res.company.caen">
 			<field name="code">2712</field>
-			<field name="name">Fabricarea aparatelor de distribuţie şi control al electricităţii</field>
+			<field name="name">Fabricarea aparatelor de distribuție și control al electricității</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="222"  model="res.company.caen">
 			<field name="code">2720</field>
-			<field name="name">Fabricarea de acumulatori şi baterii</field>
+			<field name="name">Fabricarea de acumulatori și baterii</field>
 			<field name="trisc">0.408</field>
-		</record> 
+		</record>
 		<record id="223"  model="res.company.caen">
 			<field name="code">2731</field>
 			<field name="name">Fabricarea de cabluri cu fibră optică</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="224"  model="res.company.caen">
 			<field name="code">2732</field>
-			<field name="name">Fabricarea altor fire şi cabluri electrice şi electronice</field>
+			<field name="name">Fabricarea altor fire și cabluri electrice și electronice</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="225"  model="res.company.caen">
 			<field name="code">2733</field>
-			<field name="name">Fabricarea dispozitivelor de conexiune pentru fire şi cabluri electrice şi electronice</field>
+			<field name="name">Fabricarea dispozitivelor de conexiune pentru fire și cabluri electrice și electronice</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="226"  model="res.company.caen">
 			<field name="code">2740</field>
 			<field name="name">Fabricarea de echipamente electrice de iluminat</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="227"  model="res.company.caen">
 			<field name="code">2751</field>
 			<field name="name">Fabricarea de aparate electrocasnice</field>
 			<field name="trisc">0.306</field>
-		</record> 
+		</record>
 		<record id="228"  model="res.company.caen">
 			<field name="code">2752</field>
 			<field name="name">Fabricarea de echipamente casnice neelectrice</field>
 			<field name="trisc">0.389</field>
-		</record> 
+		</record>
 		<record id="229"  model="res.company.caen">
 			<field name="code">2790</field>
 			<field name="name">Fabricarea altor echipamente electrice</field>
 			<field name="trisc">0.352</field>
-		</record> 
+		</record>
 		<record id="230"  model="res.company.caen">
 			<field name="code">2811</field>
-			<field name="name">Fabricarea de motoare şi turbine (cu excepţia celor pentru avioane, autovehicule şi motociclete)</field>
+			<field name="name">Fabricarea de motoare și turbine (cu excepția celor pentru avioane, autovehicule și motociclete)</field>
 			<field name="trisc">0.389</field>
-		</record> 
+		</record>
 		<record id="231"  model="res.company.caen">
 			<field name="code">2812</field>
 			<field name="name">Fabricarea de motoare hidraulice</field>
 			<field name="trisc">0.38</field>
-		</record> 
+		</record>
 		<record id="232"  model="res.company.caen">
 			<field name="code">2813</field>
-			<field name="name">Fabricarea de pompe şi compresoare</field>
+			<field name="name">Fabricarea de pompe și compresoare</field>
 			<field name="trisc">0.435</field>
-		</record> 
+		</record>
 		<record id="233"  model="res.company.caen">
 			<field name="code">2814</field>
 			<field name="name">Fabricarea de articole de robinetărie</field>
 			<field name="trisc">0.518</field>
-		</record> 
+		</record>
 		<record id="234"  model="res.company.caen">
 			<field name="code">2815</field>
-			<field name="name">Fabricarea lagărelor, angrenajelor, cutiilor de viteză şi a elementelor mecanice de transmisie</field>
+			<field name="name">Fabricarea lagărelor, angrenajelor, cutiilor de viteză și a elementelor mecanice de transmisie</field>
 			<field name="trisc">0.306</field>
-		</record> 
+		</record>
 		<record id="235"  model="res.company.caen">
 			<field name="code">2821</field>
-			<field name="name">Fabricarea cuptoarelor, furnalelor şi arzătoarelor</field>
+			<field name="name">Fabricarea cuptoarelor, furnalelor și arzătoarelor</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="236"  model="res.company.caen">
 			<field name="code">2822</field>
-			<field name="name">Fabricarea echipamentelor de ridicat şi manipulat</field>
+			<field name="name">Fabricarea echipamentelor de ridicat și manipulat</field>
 			<field name="trisc">0.408</field>
-		</record> 
+		</record>
 		<record id="237"  model="res.company.caen">
 			<field name="code">2823</field>
-			<field name="name">Fabricarea maşinilor şi echipamentelor de birou (exclusiv fabricarea calculatoarelor şi a echipamentelor periferice)</field>
+			<field name="name">Fabricarea mașinilor și echipamentelor de birou (exclusiv fabricarea calculatoarelor și a echipamentelor periferice)</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="238"  model="res.company.caen">
 			<field name="code">2824</field>
-			<field name="name">Fabricarea maşinilor-unelte portabile acţionate electric</field>
+			<field name="name">Fabricarea mașinilor-unelte portabile acționate electric</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="239"  model="res.company.caen">
 			<field name="code">2825</field>
-			<field name="name">Fabricarea echipamentelor de ventilaţie şi frigorifice, exclusiv a echipamentelor de uz casnic</field>
+			<field name="name">Fabricarea echipamentelor de ventilație și frigorifice, exclusiv a echipamentelor de uz casnic</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="240"  model="res.company.caen">
 			<field name="code">2829</field>
-			<field name="name">Fabricarea altor maşini şi utilaje de utilizare generală</field>
+			<field name="name">Fabricarea altor mașini și utilaje de utilizare generală</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="241"  model="res.company.caen">
 			<field name="code">2830</field>
-			<field name="name">Fabricarea maşinilor şi utilajelor pentru agricultură şi exploatări forestiere</field>
+			<field name="name">Fabricarea mașinilor și utilajelor pentru agricultură și exploatări forestiere</field>
 			<field name="trisc">0.454</field>
-		</record> 
+		</record>
 		<record id="242"  model="res.company.caen">
 			<field name="code">2841</field>
-			<field name="name">Fabricarea utilajelor şi a maşinilor-unelte pentru prelucrarea metalului</field>
+			<field name="name">Fabricarea utilajelor și a mașinilor-unelte pentru prelucrarea metalului</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="243"  model="res.company.caen">
 			<field name="code">2849</field>
-			<field name="name">Fabricarea altor maşini-unelte n.c.a.</field>
+			<field name="name">Fabricarea altor mașini-unelte n.c.a.</field>
 			<field name="trisc">0.362</field>
-		</record> 
+		</record>
 		<record id="244"  model="res.company.caen">
 			<field name="code">2891</field>
 			<field name="name">Fabricarea utilajelor pentru metalurgie</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="245"  model="res.company.caen">
 			<field name="code">2892</field>
-			<field name="name">Fabricarea utilajelor pentru extracţie şi construcţii</field>
+			<field name="name">Fabricarea utilajelor pentru extracție și construcții</field>
 			<field name="trisc">0.417</field>
-		</record> 
+		</record>
 		<record id="246"  model="res.company.caen">
 			<field name="code">2893</field>
-			<field name="name">Fabricarea utilajelor pentru prelucrarea produselor alimentare, băuturilor şi tutunului</field>
+			<field name="name">Fabricarea utilajelor pentru prelucrarea produselor alimentare, băuturilor și tutunului</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="247"  model="res.company.caen">
 			<field name="code">2894</field>
-			<field name="name">Fabricarea utilajelor pentru industria textilă, a îmbrăcămintei şi a pielăriei</field>
+			<field name="name">Fabricarea utilajelor pentru industria textilă, a îmbrăcămintei și a pielăriei</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="248"  model="res.company.caen">
 			<field name="code">2895</field>
-			<field name="name">Fabricarea utilajelor pentru industria hârtiei şi cartonului</field>
+			<field name="name">Fabricarea utilajelor pentru industria hârtiei și cartonului</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="249"  model="res.company.caen">
 			<field name="code">2896</field>
-			<field name="name">Fabricarea utilajelor pentru prelucrarea maselor plastice şi a cauciucului</field>
+			<field name="name">Fabricarea utilajelor pentru prelucrarea maselor plastice și a cauciucului</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="250"  model="res.company.caen">
 			<field name="code">2899</field>
-			<field name="name">Fabricarea altor maşini şi utilaje specifice n.c.a.</field>
+			<field name="name">Fabricarea altor mașini și utilaje specifice n.c.a.</field>
 			<field name="trisc">0.288</field>
-		</record> 
+		</record>
 		<record id="251"  model="res.company.caen">
 			<field name="code">2910</field>
 			<field name="name">Fabricarea autovehiculelor de transport rutier</field>
 			<field name="trisc">0.481</field>
-		</record> 
+		</record>
 		<record id="252"  model="res.company.caen">
 			<field name="code">2920</field>
-			<field name="name">Producţia de caroserii pentru autovehicule, fabricarea de remorci şi semiremorci</field>
+			<field name="name">Producția de caroserii pentru autovehicule, fabricarea de remorci și semiremorci</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="253"  model="res.company.caen">
 			<field name="code">2931</field>
-			<field name="name">Fabricarea de echipamente electrice şi electronice pentru autovehicule şi motoare de autovehicule</field>
+			<field name="name">Fabricarea de echipamente electrice și electronice pentru autovehicule și motoare de autovehicule</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="254"  model="res.company.caen">
 			<field name="code">2932</field>
-			<field name="name">Fabricarea altor piese şi accesorii pentru autovehicule şi pentru motoare de autovehicule</field>
+			<field name="name">Fabricarea altor piese și accesorii pentru autovehicule și pentru motoare de autovehicule</field>
 			<field name="trisc">0.306</field>
-		</record> 
+		</record>
 		<record id="255"  model="res.company.caen">
 			<field name="code">3011</field>
-			<field name="name">Construcţia de nave şi structuri plutitoare</field>
+			<field name="name">Construcția de nave și structuri plutitoare</field>
 			<field name="trisc">0.435</field>
-		</record> 
+		</record>
 		<record id="256"  model="res.company.caen">
 			<field name="code">3012</field>
-			<field name="name">Construcţia de ambarcaţiuni sportive şi de agrement</field>
+			<field name="name">Construcția de ambarcațiuni sportive și de agrement</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="257"  model="res.company.caen">
 			<field name="code">3020</field>
 			<field name="name">Fabricarea materialului rulant</field>
 			<field name="trisc">0.417</field>
-		</record> 
+		</record>
 		<record id="258"  model="res.company.caen">
 			<field name="code">3030</field>
-			<field name="name">Fabricarea de aeronave şi nave spaţiale</field>
+			<field name="name">Fabricarea de aeronave și nave spațiale</field>
 			<field name="trisc">0.38</field>
-		</record> 
+		</record>
 		<record id="259"  model="res.company.caen">
 			<field name="code">3040</field>
 			<field name="name">Fabricarea vehiculelor militare de luptă</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="260"  model="res.company.caen">
 			<field name="code">3091</field>
 			<field name="name">Fabricarea de motociclete</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="261"  model="res.company.caen">
 			<field name="code">3092</field>
-			<field name="name">Fabricarea de biciclete şi de vehicule pentru invalizi</field>
+			<field name="name">Fabricarea de biciclete și de vehicule pentru invalizi</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="262"  model="res.company.caen">
 			<field name="code">3099</field>
 			<field name="name">Fabricarea altor mijloace de transport n.c.a.</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="263"  model="res.company.caen">
 			<field name="code">3101</field>
-			<field name="name">Fabricarea de mobilă pentru birouri şi magazine</field>
+			<field name="name">Fabricarea de mobilă pentru birouri și magazine</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="264"  model="res.company.caen">
 			<field name="code">3102</field>
 			<field name="name">Fabricarea de mobilă pentru bucătării</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="265"  model="res.company.caen">
 			<field name="code">3103</field>
-			<field name="name">Fabricarea de saltele şi somiere</field>
+			<field name="name">Fabricarea de saltele și somiere</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="266"  model="res.company.caen">
 			<field name="code">3109</field>
 			<field name="name">Fabricarea de mobilă n.c.a.</field>
 			<field name="trisc">0.288</field>
-		</record> 
+		</record>
 		<record id="267"  model="res.company.caen">
 			<field name="code">3211</field>
 			<field name="name">Baterea monedelor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="268"  model="res.company.caen">
 			<field name="code">3212</field>
-			<field name="name">Fabricarea bijuteriilor şi articolelor similare din metale şi pietre preţioase</field>
+			<field name="name">Fabricarea bijuteriilor și articolelor similare din metale și pietre prețioase</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="269"  model="res.company.caen">
 			<field name="code">3213</field>
-			<field name="name">Fabricarea imitaţiilor de bijuterii şi articole similare</field>
+			<field name="name">Fabricarea imitațiilor de bijuterii și articole similare</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="270"  model="res.company.caen">
 			<field name="code">3220</field>
 			<field name="name">Fabricarea instrumentelor muzicale</field>
 			<field name="trisc">0.352</field>
-		</record> 
+		</record>
 		<record id="271"  model="res.company.caen">
 			<field name="code">3230</field>
 			<field name="name">Fabricarea articolelor pentru sport</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="272"  model="res.company.caen">
 			<field name="code">3240</field>
-			<field name="name">Fabricarea jocurilor şi jucăriilor</field>
+			<field name="name">Fabricarea jocurilor și jucăriilor</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="273"  model="res.company.caen">
 			<field name="code">3250</field>
-			<field name="name">Fabricarea de dispozitive, aparate şi instrumente medicale stomatologice</field>
+			<field name="name">Fabricarea de dispozitive, aparate și instrumente medicale stomatologice</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="274"  model="res.company.caen">
 			<field name="code">3291</field>
-			<field name="name">Fabricarea măturilor şi periilor</field>
+			<field name="name">Fabricarea măturilor și periilor</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="275"  model="res.company.caen">
 			<field name="code">3299</field>
 			<field name="name">Fabricarea altor produse manufacturiere n.c.a.</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="276"  model="res.company.caen">
 			<field name="code">3311</field>
 			<field name="name">Repararea articolelor fabricate din metal</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="277"  model="res.company.caen">
 			<field name="code">3312</field>
-			<field name="name">Repararea maşinilor</field>
+			<field name="name">Repararea mașinilor</field>
 			<field name="trisc">0.398</field>
-		</record> 
+		</record>
 		<record id="278"  model="res.company.caen">
 			<field name="code">3313</field>
-			<field name="name">Repararea echipamentelor electronice şi optice</field>
+			<field name="name">Repararea echipamentelor electronice și optice</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="279"  model="res.company.caen">
 			<field name="code">3314</field>
 			<field name="name">Repararea echipamentelor electrice</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="280"  model="res.company.caen">
 			<field name="code">3315</field>
-			<field name="name">Repararea şi întreţinerea navelor şi bărcilor</field>
+			<field name="name">Repararea și întreținerea navelor și bărcilor</field>
 			<field name="trisc">0.316</field>
-		</record> 
+		</record>
 		<record id="281"  model="res.company.caen">
 			<field name="code">3316</field>
-			<field name="name">Repararea şi întreţinerea aeronavelor şi navelor spaţiale</field>
+			<field name="name">Repararea și întreținerea aeronavelor și navelor spațiale</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="282"  model="res.company.caen">
 			<field name="code">3317</field>
-			<field name="name">Repararea şi întreţinerea altor echipamente de transport n.c.a.</field>
+			<field name="name">Repararea și întreținerea altor echipamente de transport n.c.a.</field>
 			<field name="trisc">0.334</field>
-		</record> 
+		</record>
 		<record id="283"  model="res.company.caen">
 			<field name="code">3319</field>
 			<field name="name">Repararea altor echipamente</field>
 			<field name="trisc">0.398</field>
-		</record> 
+		</record>
 		<record id="284"  model="res.company.caen">
 			<field name="code">3320</field>
-			<field name="name">Instalarea maşinilor şi echipamentelor industriale</field>
+			<field name="name">Instalarea mașinilor și echipamentelor industriale</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="285"  model="res.company.caen">
 			<field name="code">3511</field>
-			<field name="name">Producţia de energie electrică</field>
+			<field name="name">Producția de energie electrică</field>
 			<field name="trisc">0.371</field>
-		</record> 
+		</record>
 		<record id="286"  model="res.company.caen">
 			<field name="code">3512</field>
 			<field name="name">Transportul energiei electrice</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="287"  model="res.company.caen">
 			<field name="code">3513</field>
-			<field name="name">Distribuţia energiei electrice</field>
+			<field name="name">Distribuția energiei electrice</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="288"  model="res.company.caen">
 			<field name="code">3514</field>
 			<field name="name">Comercializarea energiei electrice</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="289"  model="res.company.caen">
 			<field name="code">3521</field>
-			<field name="name">Producţia gazelor</field>
+			<field name="name">Producția gazelor</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="290"  model="res.company.caen">
 			<field name="code">3522</field>
-			<field name="name">Distribuţia combustibililor gazoşi, prin conducte</field>
+			<field name="name">Distribuția combustibililor gazoși, prin conducte</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="291"  model="res.company.caen">
 			<field name="code">3523</field>
-			<field name="name">Comercializarea combustibililor gazoşi, prin conducte</field>
+			<field name="name">Comercializarea combustibililor gazoși, prin conducte</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="292"  model="res.company.caen">
 			<field name="code">3530</field>
-			<field name="name">Furnizarea de abur şi aer condiţionat</field>
+			<field name="name">Furnizarea de abur și aer condiționat</field>
 			<field name="trisc">0.306</field>
-		</record> 
+		</record>
 		<record id="293"  model="res.company.caen">
 			<field name="code">3600</field>
-			<field name="name">Captarea, tratarea şi distribuţia apei</field>
+			<field name="name">Captarea, tratarea și distribuția apei</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="294"  model="res.company.caen">
 			<field name="code">3700</field>
-			<field name="name">Colectarea şi epurarea apelor uzate</field>
+			<field name="name">Colectarea și epurarea apelor uzate</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="295"  model="res.company.caen">
 			<field name="code">3811</field>
-			<field name="name">Colectarea deşeurilor nepericuloase</field>
+			<field name="name">Colectarea deșeurilor nepericuloase</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="296"  model="res.company.caen">
 			<field name="code">3812</field>
-			<field name="name">Colectarea deşeurilor periculoase</field>
+			<field name="name">Colectarea deșeurilor periculoase</field>
 			<field name="trisc">0.288</field>
-		</record> 
+		</record>
 		<record id="297"  model="res.company.caen">
 			<field name="code">3821</field>
-			<field name="name">Tratarea şi eliminarea deşeurilor nepericuloase</field>
+			<field name="name">Tratarea și eliminarea deșeurilor nepericuloase</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="298"  model="res.company.caen">
 			<field name="code">3822</field>
-			<field name="name">Tratarea şi eliminarea deşeurilor periculoase</field>
+			<field name="name">Tratarea și eliminarea deșeurilor periculoase</field>
 			<field name="trisc">0.408</field>
-		</record> 
+		</record>
 		<record id="299"  model="res.company.caen">
 			<field name="code">3831</field>
-			<field name="name">Demontarea (dezasamblarea) maşinilor şi a echipamentelor scoase din uz pentru recuperarea materialelor</field>
+			<field name="name">Demontarea (dezasamblarea) mașinilor și a echipamentelor scoase din uz pentru recuperarea materialelor</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="300"  model="res.company.caen">
 			<field name="code">3832</field>
 			<field name="name">Recuperarea materialelor reciclabile sortate</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="301"  model="res.company.caen">
 			<field name="code">3900</field>
-			<field name="name">Activităţi şi servicii de decontaminare</field>
+			<field name="name">Activități și servicii de decontaminare</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="302"  model="res.company.caen">
 			<field name="code">4110</field>
 			<field name="name">Dezvoltare (promovare) imobiliară</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="303"  model="res.company.caen">
 			<field name="code">4120</field>
-			<field name="name">Lucrări de construcţii ale clădirilor rezidenţiale şi nerezidenţiale</field>
+			<field name="name">Lucrări de construcții ale clădirilor rezidențiale și nerezidențiale</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="304"  model="res.company.caen">
 			<field name="code">4211</field>
-			<field name="name">Lucrări de construcţii ale drumurilor şi autostrăzilor</field>
+			<field name="name">Lucrări de construcții ale drumurilor și autostrăzilor</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="305"  model="res.company.caen">
 			<field name="code">4212</field>
-			<field name="name">Lucrări de construcţii ale căilor ferate de suprafaţă şi subterane</field>
+			<field name="name">Lucrări de construcții ale căilor ferate de suprafață și subterane</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="306"  model="res.company.caen">
 			<field name="code">4213</field>
-			<field name="name">Construcţia de poduri şi tuneluri</field>
+			<field name="name">Construcția de poduri și tuneluri</field>
 			<field name="trisc">0.463</field>
-		</record> 
+		</record>
 		<record id="307"  model="res.company.caen">
 			<field name="code">4221</field>
-			<field name="name">Lucrări de construcţii ale proiectelor utilitare pentru fluide</field>
+			<field name="name">Lucrări de construcții ale proiectelor utilitare pentru fluide</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="308"  model="res.company.caen">
 			<field name="code">4222</field>
-			<field name="name">Lucrări de construcţii ale proiectelor utilitare pentru electricitate şi telecomunicaţii</field>
+			<field name="name">Lucrări de construcții ale proiectelor utilitare pentru electricitate și telecomunicații</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="309"  model="res.company.caen">
 			<field name="code">4291</field>
-			<field name="name">Construcţii hidrotehnice</field>
+			<field name="name">Construcții hidrotehnice</field>
 			<field name="trisc">0.334</field>
-		</record> 
+		</record>
 		<record id="310"  model="res.company.caen">
 			<field name="code">4299</field>
-			<field name="name">Lucrări de construcţii ale altor proiecte inginereşti n.c.a.</field>
+			<field name="name">Lucrări de construcții ale altor proiecte inginerești n.c.a.</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="311"  model="res.company.caen">
 			<field name="code">4311</field>
-			<field name="name">Lucrări de demolare a construcţiilor</field>
+			<field name="name">Lucrări de demolare a construcțiilor</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="312"  model="res.company.caen">
 			<field name="code">4312</field>
 			<field name="name">Lucrări de pregătire a terenului</field>
 			<field name="trisc">0.288</field>
-		</record> 
+		</record>
 		<record id="313"  model="res.company.caen">
 			<field name="code">4313</field>
-			<field name="name">Lucrări de foraj şi sondaj pentru construcţii</field>
+			<field name="name">Lucrări de foraj și sondaj pentru construcții</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="314"  model="res.company.caen">
 			<field name="code">4321</field>
-			<field name="name">Lucrări de instalaţii electrice</field>
+			<field name="name">Lucrări de instalații electrice</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="315"  model="res.company.caen">
 			<field name="code">4322</field>
-			<field name="name">Lucrări de instalaţii sanitare, de încălzire şi de aer condiţionat</field>
+			<field name="name">Lucrări de instalații sanitare, de încălzire și de aer condiționat</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="316"  model="res.company.caen">
 			<field name="code">4329</field>
-			<field name="name">Alte lucrări de instalaţii pentru construcţii</field>
+			<field name="name">Alte lucrări de instalații pentru construcții</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="317"  model="res.company.caen">
 			<field name="code">4331</field>
 			<field name="name">Lucrări de ipsoserie</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="318"  model="res.company.caen">
 			<field name="code">4332</field>
-			<field name="name">Lucrări de tâmplărie şi dulgherie</field>
+			<field name="name">Lucrări de tâmplărie și dulgherie</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="319"  model="res.company.caen">
 			<field name="code">4333</field>
-			<field name="name">Lucrări de pardosire şi placare a pereţilor</field>
+			<field name="name">Lucrări de pardosire și placare a pereților</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="320"  model="res.company.caen">
 			<field name="code">4334</field>
-			<field name="name">Lucrări de vopsitorie, zugrăveli şi montări de geamuri</field>
+			<field name="name">Lucrări de vopsitorie, zugrăveli și montări de geamuri</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="321"  model="res.company.caen">
 			<field name="code">4339</field>
 			<field name="name">Alte lucrări de finisare</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="322"  model="res.company.caen">
 			<field name="code">4391</field>
-			<field name="name">Lucrări de învelitori, şarpante şi terase la construcţii</field>
+			<field name="name">Lucrări de învelitori, șarpante și terase la construcții</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="323"  model="res.company.caen">
 			<field name="code">4399</field>
-			<field name="name">Alte lucrări speciale de construcţii n.c.a.</field>
+			<field name="name">Alte lucrări speciale de construcții n.c.a.</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="324"  model="res.company.caen">
 			<field name="code">4511</field>
-			<field name="name">Comerţ cu autoturisme şi autovehicule uşoare (sub 3,5 tone)</field>
+			<field name="name">Comerț cu autoturisme și autovehicule ușoare (sub 3,5 tone)</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="325"  model="res.company.caen">
 			<field name="code">4519</field>
-			<field name="name">Comerţ cu alte autovehicule</field>
+			<field name="name">Comerț cu alte autovehicule</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="326"  model="res.company.caen">
 			<field name="code">4520</field>
-			<field name="name">Întreţinerea şi repararea autovehiculelor</field>
+			<field name="name">Întreținerea și repararea autovehiculelor</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="327"  model="res.company.caen">
 			<field name="code">4531</field>
-			<field name="name">Comerţ cu ridicata de piese şi accesorii pentru autovehicule</field>
+			<field name="name">Comerț cu ridicata de piese și accesorii pentru autovehicule</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="328"  model="res.company.caen">
 			<field name="code">4532</field>
-			<field name="name">Comerţ cu amănuntul de piese şi accesorii pentru autovehicule</field>
+			<field name="name">Comerț cu amănuntul de piese și accesorii pentru autovehicule</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="329"  model="res.company.caen">
 			<field name="code">4540</field>
-			<field name="name">Comerţ cu motociclete, piese şi accesorii aferente, întreţinerea şi repararea motocicletelor</field>
+			<field name="name">Comerț cu motociclete, piese și accesorii aferente, întreținerea și repararea motocicletelor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="330"  model="res.company.caen">
 			<field name="code">4611</field>
-			<field name="name">Intermedieri în comerţul cu materii prime agricole, animale vii, materii prime textile şi cu semifabricate</field>
+			<field name="name">Intermedieri în comerțul cu materii prime agricole, animale vii, materii prime textile și cu semifabricate</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="331"  model="res.company.caen">
 			<field name="code">4612</field>
-			<field name="name">Intermedieri în comerţul cu combustibili, minereuri, metale şi produse chimice pentru industrie</field>
+			<field name="name">Intermedieri în comerțul cu combustibili, minereuri, metale și produse chimice pentru industrie</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="332"  model="res.company.caen">
 			<field name="code">4613</field>
-			<field name="name">Intermedieri în comerţul cu material lemnos şi materiale de construcţii</field>
+			<field name="name">Intermedieri în comerțul cu material lemnos și materiale de construcții</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="333"  model="res.company.caen">
 			<field name="code">4614</field>
-			<field name="name">Intermedieri în comerţul cu maşini, echipamente industriale nave şi avioane</field>
+			<field name="name">Intermedieri în comerțul cu mașini, echipamente industriale nave și avioane</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="334"  model="res.company.caen">
 			<field name="code">4615</field>
-			<field name="name">Intermedieri în comerţul cu mobilă, articole de menaj şi de fierărie</field>
+			<field name="name">Intermedieri în comerțul cu mobilă, articole de menaj și de fierărie</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="335"  model="res.company.caen">
 			<field name="code">4616</field>
-			<field name="name">Intermedieri în comerţul cu textile, confecţii din blană, încălţăminte şi articole din piele</field>
+			<field name="name">Intermedieri în comerțul cu textile, confecții din blană, încălțăminte și articole din piele</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="336"  model="res.company.caen">
 			<field name="code">4617</field>
-			<field name="name">Intermedieri în comerţul cu produse alimentare, băuturi şi tutun</field>
+			<field name="name">Intermedieri în comerțul cu produse alimentare, băuturi și tutun</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="337"  model="res.company.caen">
 			<field name="code">4618</field>
-			<field name="name">Intermedieri în comerţul specializat în vânzarea produselor cu caracter specific n.c.a.</field>
+			<field name="name">Intermedieri în comerțul specializat în vânzarea produselor cu caracter specific n.c.a.</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="338"  model="res.company.caen">
 			<field name="code">4619</field>
-			<field name="name">Intermedieri în comerţul cu produse diverse</field>
+			<field name="name">Intermedieri în comerțul cu produse diverse</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="339"  model="res.company.caen">
 			<field name="code">4621</field>
-			<field name="name">Comerţ cu ridicata al cerealelor, seminţelor, furajelor şi tutunului neprelucrat</field>
+			<field name="name">Comerț cu ridicata al cerealelor, semințelor, furajelor și tutunului neprelucrat</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="340"  model="res.company.caen">
 			<field name="code">4622</field>
-			<field name="name">Comerţ cu ridicata al florilor şi al plantelor</field>
+			<field name="name">Comerț cu ridicata al florilor și al plantelor</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="341"  model="res.company.caen">
 			<field name="code">4623</field>
-			<field name="name">Comerţ cu ridicata al animalelor vii</field>
+			<field name="name">Comerț cu ridicata al animalelor vii</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="342"  model="res.company.caen">
 			<field name="code">4624</field>
-			<field name="name">Comerţ cu ridicata al blănurilor, pieilor brute şi al pieilor prelucrate</field>
+			<field name="name">Comerț cu ridicata al blănurilor, pieilor brute și al pieilor prelucrate</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="343"  model="res.company.caen">
 			<field name="code">4631</field>
-			<field name="name">Comerţ cu ridicata al fructelor şi al legumelor</field>
+			<field name="name">Comerț cu ridicata al fructelor și al legumelor</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="344"  model="res.company.caen">
 			<field name="code">4632</field>
-			<field name="name">Comerţ cu ridicata al cărnii şi produselor din carne</field>
+			<field name="name">Comerț cu ridicata al cărnii și produselor din carne</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="345"  model="res.company.caen">
 			<field name="code">4633</field>
-			<field name="name">Comerţ cu ridicata al produselor lactate, ouălor, uleiurilor şi grăsimilor comestibile</field>
+			<field name="name">Comerț cu ridicata al produselor lactate, ouălor, uleiurilor și grăsimilor comestibile</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="346"  model="res.company.caen">
 			<field name="code">4634</field>
-			<field name="name">Comerţ cu ridicata al băuturilor</field>
+			<field name="name">Comerț cu ridicata al băuturilor</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="347"  model="res.company.caen">
 			<field name="code">4635</field>
-			<field name="name">Comerţ cu ridicata al produselor din tutun</field>
+			<field name="name">Comerț cu ridicata al produselor din tutun</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="348"  model="res.company.caen">
 			<field name="code">4636</field>
-			<field name="name">Comerţ cu ridicata al zahărului, ciocolatei şi produselor zaharoase</field>
+			<field name="name">Comerț cu ridicata al zahărului, ciocolatei și produselor zaharoase</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="349"  model="res.company.caen">
 			<field name="code">4637</field>
-			<field name="name">Comerţ cu ridicata cu cafea, ceai, cacao şi condimente</field>
+			<field name="name">Comerț cu ridicata cu cafea, ceai, cacao și condimente</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="350"  model="res.company.caen">
 			<field name="code">4638</field>
-			<field name="name">Comerţ cu ridicata specializat al altor alimente, inclusiv peşte, crustacee şi moluşte</field>
+			<field name="name">Comerț cu ridicata specializat al altor alimente, inclusiv pește, crustacee și moluște</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="351"  model="res.company.caen">
 			<field name="code">4639</field>
-			<field name="name">Comerţ cu ridicata nespecializat de produse alimentare, băuturi şi tutun</field>
+			<field name="name">Comerț cu ridicata nespecializat de produse alimentare, băuturi și tutun</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="352"  model="res.company.caen">
 			<field name="code">4641</field>
-			<field name="name">Comerţ cu ridicata al produselor textile</field>
+			<field name="name">Comerț cu ridicata al produselor textile</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="353"  model="res.company.caen">
 			<field name="code">4642</field>
-			<field name="name">Comerţ cu ridicata al îmbrăcămintei şi încălţămintei</field>
+			<field name="name">Comerț cu ridicata al îmbrăcămintei și încălțămintei</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="354"  model="res.company.caen">
 			<field name="code">4643</field>
-			<field name="name">Comerţ cu ridicata al aparatelor electrice de uz gospodăresc, al aparatelor de radio şi televizoarelor</field>
+			<field name="name">Comerț cu ridicata al aparatelor electrice de uz gospodăresc, al aparatelor de radio și televizoarelor</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="355"  model="res.company.caen">
 			<field name="code">4644</field>
-			<field name="name">Comerţ cu ridicata al produselor din ceramică, sticlărie şi produse de întreţinere</field>
+			<field name="name">Comerț cu ridicata al produselor din ceramică, sticlărie și produse de întreținere</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="356"  model="res.company.caen">
 			<field name="code">4645</field>
-			<field name="name">Comerţ cu ridicata al produselor cosmetice şi de parfumerie</field>
+			<field name="name">Comerț cu ridicata al produselor cosmetice și de parfumerie</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="357"  model="res.company.caen">
 			<field name="code">4646</field>
-			<field name="name">Comerţ cu ridicata al produselor farmaceutice</field>
+			<field name="name">Comerț cu ridicata al produselor farmaceutice</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="358"  model="res.company.caen">
 			<field name="code">4647</field>
-			<field name="name">Comerţ cu ridicata al mobilei, covoarelor şi al articolelor de iluminat</field>
+			<field name="name">Comerț cu ridicata al mobilei, covoarelor și al articolelor de iluminat</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="359"  model="res.company.caen">
 			<field name="code">4648</field>
-			<field name="name">Comerţ cu ridicata al ceasurilor şi bijuteriilor</field>
+			<field name="name">Comerț cu ridicata al ceasurilor și bijuteriilor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="360"  model="res.company.caen">
 			<field name="code">4649</field>
-			<field name="name">Comerţ cu ridicata al altor bunuri de uz gospodăresc</field>
+			<field name="name">Comerț cu ridicata al altor bunuri de uz gospodăresc</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="361"  model="res.company.caen">
 			<field name="code">4651</field>
-			<field name="name">Comerţ cu ridicata al calculatoarelor, echipamentelor periferice şi software-lui</field>
+			<field name="name">Comerț cu ridicata al calculatoarelor, echipamentelor periferice și software-lui</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="362"  model="res.company.caen">
 			<field name="code">4652</field>
-			<field name="name">Comerţ cu ridicata de componente şi echipamente electronice şi de telecomunicaţii</field>
+			<field name="name">Comerț cu ridicata de componente și echipamente electronice și de telecomunicații</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="363"  model="res.company.caen">
 			<field name="code">4661</field>
-			<field name="name">Comerţ cu ridicata al maşinilor agricole, echipamentelor şi furniturilor</field>
+			<field name="name">Comerț cu ridicata al mașinilor agricole, echipamentelor și furniturilor</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="364"  model="res.company.caen">
 			<field name="code">4662</field>
-			<field name="name">Comerţ cu ridicata al maşinilor-unelte</field>
+			<field name="name">Comerț cu ridicata al mașinilor-unelte</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="365"  model="res.company.caen">
 			<field name="code">4663</field>
-			<field name="name">Comerţ cu ridicata al maşinilor pentru industria minieră şi construcţii</field>
+			<field name="name">Comerț cu ridicata al mașinilor pentru industria minieră și construcții</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="366"  model="res.company.caen">
 			<field name="code">4664</field>
-			<field name="name">Comerţ cu ridicata al maşinilor pentru industria textilă şi al maşinilor de cusut şi de tricotat</field>
+			<field name="name">Comerț cu ridicata al mașinilor pentru industria textilă și al mașinilor de cusut și de tricotat</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="367"  model="res.company.caen">
 			<field name="code">4665</field>
-			<field name="name">Comerţ cu ridicata al mobilei de birou</field>
+			<field name="name">Comerț cu ridicata al mobilei de birou</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="368"  model="res.company.caen">
 			<field name="code">4666</field>
-			<field name="name">Comerţ cu ridicata al altor maşini şi echipamente de birou</field>
+			<field name="name">Comerț cu ridicata al altor mașini și echipamente de birou</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="369"  model="res.company.caen">
 			<field name="code">4669</field>
-			<field name="name">Comerţ cu ridicata al altor maşini şi echipamente</field>
+			<field name="name">Comerț cu ridicata al altor mașini și echipamente</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="370"  model="res.company.caen">
 			<field name="code">4671</field>
-			<field name="name">Comerţ cu ridicata al combustibililor solizi, lichizi şi gazoşi şi al produselor derivate</field>
+			<field name="name">Comerț cu ridicata al combustibililor solizi, lichizi și gazoși și al produselor derivate</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="371"  model="res.company.caen">
 			<field name="code">4672</field>
-			<field name="name">Comerţ cu ridicata al metalelor şi minereurilor metalice</field>
+			<field name="name">Comerț cu ridicata al metalelor și minereurilor metalice</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="372"  model="res.company.caen">
 			<field name="code">4673</field>
-			<field name="name">Comerţ cu ridicata al materialului lemnos şi al materialelor de construcţie şi echipamentelor sanitare</field>
+			<field name="name">Comerț cu ridicata al materialului lemnos și al materialelor de construcție și echipamentelor sanitare</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="373"  model="res.company.caen">
 			<field name="code">4674</field>
-			<field name="name">Comerţ cu ridicata al echipamentelor şi furniturilor de fierărie pentru instalaţii sanitare şi de încălzire</field>
+			<field name="name">Comerț cu ridicata al echipamentelor și furniturilor de fierărie pentru instalații sanitare și de încălzire</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="374"  model="res.company.caen">
 			<field name="code">4675</field>
-			<field name="name">Comerţ cu ridicata al produselor chimice</field>
+			<field name="name">Comerț cu ridicata al produselor chimice</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="375"  model="res.company.caen">
 			<field name="code">4676</field>
-			<field name="name">Comerţ cu ridicata al altor produse intermediare</field>
+			<field name="name">Comerț cu ridicata al altor produse intermediare</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="376"  model="res.company.caen">
 			<field name="code">4677</field>
-			<field name="name">Comerţ cu ridicata al deşeurilor şi resturilor</field>
+			<field name="name">Comerț cu ridicata al deșeurilor și resturilor</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="377"  model="res.company.caen">
 			<field name="code">4690</field>
-			<field name="name">Comerţ cu ridicata nespecializat</field>
+			<field name="name">Comerț cu ridicata nespecializat</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="378"  model="res.company.caen">
 			<field name="code">4711</field>
-			<field name="name">Comerţ cu amănuntul în magazine nespecializate, cu vânzare predominantă de produse alimentare, băuturi şi tutun</field>
+			<field name="name">Comerț cu amănuntul în magazine nespecializate, cu vânzare predominantă de produse alimentare, băuturi și tutun</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="379"  model="res.company.caen">
 			<field name="code">4719</field>
-			<field name="name">Comerţ cu amănuntul în magazine nespecializate, cu vânzare predominantă de produse nealimentare</field>
+			<field name="name">Comerț cu amănuntul în magazine nespecializate, cu vânzare predominantă de produse nealimentare</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="380"  model="res.company.caen">
 			<field name="code">4721</field>
-			<field name="name">Comerţ cu amănuntul al fructelor şi legumelor proaspete, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al fructelor și legumelor proaspete, în magazine specializate</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="381"  model="res.company.caen">
 			<field name="code">4722</field>
-			<field name="name">Comerţ cu amănuntul al cărnii şi al produselor din carne, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al cărnii și al produselor din carne, în magazine specializate</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="382"  model="res.company.caen">
 			<field name="code">4723</field>
-			<field name="name">Comerţ cu amănuntul al peştelui, crustaceelor şi moluştelor, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al peștelui, crustaceelor și moluștelor, în magazine specializate</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="383"  model="res.company.caen">
 			<field name="code">4724</field>
-			<field name="name">Comerţ cu amănuntul al pâinii, produselor de patiserie şi produselor zaharoase, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al pâinii, produselor de patiserie și produselor zaharoase, în magazine specializate</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="384"  model="res.company.caen">
 			<field name="code">4725</field>
-			<field name="name">Comerţ cu amănuntul al băuturilor, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al băuturilor, în magazine specializate</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="385"  model="res.company.caen">
 			<field name="code">4726</field>
-			<field name="name">Comerţ cu amănuntul al produselor din tutun, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al produselor din tutun, în magazine specializate</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="386"  model="res.company.caen">
 			<field name="code">4729</field>
-			<field name="name">Comerţ cu amănuntul al altor produse alimentare, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al altor produse alimentare, în magazine specializate</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="387"  model="res.company.caen">
 			<field name="code">4730</field>
-			<field name="name">Comerţ cu amănuntul al carburanţilor pentru autovehicule, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al carburanților pentru autovehicule, în magazine specializate</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="388"  model="res.company.caen">
 			<field name="code">4741</field>
-			<field name="name">Comerţ cu amănuntul al calculatoarelor, unităţilor periferice şi software-lui, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al calculatoarelor, unităților periferice și software-lui, în magazine specializate</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="389"  model="res.company.caen">
 			<field name="code">4742</field>
-			<field name="name">Comerţ cu amănuntul al echipamentelor pentru telecomunicaţii în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al echipamentelor pentru telecomunicații în magazine specializate</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="390"  model="res.company.caen">
 			<field name="code">4743</field>
-			<field name="name">Comerţ cu amănuntul al echipamentelor audio/video în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al echipamentelor audio/video în magazine specializate</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="391"  model="res.company.caen">
 			<field name="code">4751</field>
-			<field name="name">Comerţ cu amănuntul al textilelor, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al textilelor, în magazine specializate</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="392"  model="res.company.caen">
 			<field name="code">4752</field>
-			<field name="name">Comerţ cu amănuntul al articolelor de fierărie, al articolelor din sticlă şi al celor pentru vopsit, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al articolelor de fierărie, al articolelor din sticlă și al celor pentru vopsit, în magazine specializate</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="393"  model="res.company.caen">
 			<field name="code">4753</field>
-			<field name="name">Comerţ cu amănuntul al covoarelor, carpetelor, tapetelor şi al altor acoperitoare de podea, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al covoarelor, carpetelor, tapetelor și al altor acoperitoare de podea, în magazine specializate</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="394"  model="res.company.caen">
 			<field name="code">4754</field>
-			<field name="name">Comerţ cu amănuntul al articolelor şi aparatelor electrocasnice, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al articolelor și aparatelor electrocasnice, în magazine specializate</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="395"  model="res.company.caen">
 			<field name="code">4759</field>
-			<field name="name">Comerţ cu amănuntul al mobilei, al articolelor de iluminat şi al articolelor de uz casnic n.c.a., în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al mobilei, al articolelor de iluminat și al articolelor de uz casnic n.c.a., în magazine specializate</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="396"  model="res.company.caen">
 			<field name="code">4761</field>
-			<field name="name">Comerţ cu amănuntul al cărţilor, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al cărților, în magazine specializate</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="397"  model="res.company.caen">
 			<field name="code">4762</field>
-			<field name="name">Comerţ cu amănuntul al ziarelor şi articolelor de papetărie, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al ziarelor și articolelor de papetărie, în magazine specializate</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="398"  model="res.company.caen">
 			<field name="code">4763</field>
-			<field name="name">Comerţ cu amănuntul al discurilor şi benzilor magnetice cu sau fără înregistrări audio/video, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al discurilor și benzilor magnetice cu sau fără înregistrări audio/video, în magazine specializate</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="399"  model="res.company.caen">
 			<field name="code">4764</field>
-			<field name="name">Comerţ cu amănuntul al echipamentelor sportive, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al echipamentelor sportive, în magazine specializate</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="400"  model="res.company.caen">
 			<field name="code">4765</field>
-			<field name="name">Comerţ cu amănuntul al jocurilor şi jucăriilor, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al jocurilor și jucăriilor, în magazine specializate</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="401"  model="res.company.caen">
 			<field name="code">4771</field>
-			<field name="name">Comerţ cu amănuntul al îmbrăcămintei, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al îmbrăcămintei, în magazine specializate</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="402"  model="res.company.caen">
 			<field name="code">4772</field>
-			<field name="name">Comerţ cu amănuntul al încălţămintei şi articolelor din piele, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al încălțămintei și articolelor din piele, în magazine specializate</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="403"  model="res.company.caen">
 			<field name="code">4773</field>
-			<field name="name">Comerţ cu amănuntul al produselor farmaceutice, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al produselor farmaceutice, în magazine specializate</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="404"  model="res.company.caen">
 			<field name="code">4774</field>
-			<field name="name">Comerţ cu amănuntul al articolelor medicale şi ortopedice, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al articolelor medicale și ortopedice, în magazine specializate</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="405"  model="res.company.caen">
 			<field name="code">4775</field>
-			<field name="name">Comerţ cu amănuntul al produselor cosmetice şi de parfumerie, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al produselor cosmetice și de parfumerie, în magazine specializate</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="406"  model="res.company.caen">
 			<field name="code">4776</field>
-			<field name="name">Comerţ cu amănuntul al florilor, plantelor şi seminţelor, comerţ cu amănuntul al animalelor de companie şi al hranei pentru acestea, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al florilor, plantelor și semințelor, comerț cu amănuntul al animalelor de companie și al hranei pentru acestea, în magazine specializate</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="407"  model="res.company.caen">
 			<field name="code">4777</field>
-			<field name="name">Comerţ cu amănuntul al ceasurilor şi bijuteriilor, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al ceasurilor și bijuteriilor, în magazine specializate</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="408"  model="res.company.caen">
 			<field name="code">4778</field>
-			<field name="name">Comerţ cu amănuntul al altor bunuri noi, în magazine specializate</field>
+			<field name="name">Comerț cu amănuntul al altor bunuri noi, în magazine specializate</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="409"  model="res.company.caen">
 			<field name="code">4779</field>
-			<field name="name">Comerţ cu amănuntul al bunurilor de ocazie vândute prin magazine</field>
+			<field name="name">Comerț cu amănuntul al bunurilor de ocazie vândute prin magazine</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="410"  model="res.company.caen">
 			<field name="code">4781</field>
-			<field name="name">Comerţ cu amănuntul al produselor alimentare, băuturilor şi produselor din tutun, efectuat prin standuri, chioşcuri şi pieţe</field>
+			<field name="name">Comerț cu amănuntul al produselor alimentare, băuturilor și produselor din tutun, efectuat prin standuri, chioșcuri și piețe</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="411"  model="res.company.caen">
 			<field name="code">4782</field>
-			<field name="name">Comerţ cu amănuntul al textilelor, îmbrăcămintei şi încălţămintei efectuat prin standuri, chioşcuri şi pieţe</field>
+			<field name="name">Comerț cu amănuntul al textilelor, îmbrăcămintei și încălțămintei efectuat prin standuri, chioșcuri și piețe</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="412"  model="res.company.caen">
 			<field name="code">4789</field>
-			<field name="name">Comerţ cu amănuntul prin standuri, chioşcuri şi pieţe al altor produse</field>
+			<field name="name">Comerț cu amănuntul prin standuri, chioșcuri și piețe al altor produse</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="413"  model="res.company.caen">
 			<field name="code">4791</field>
-			<field name="name">Comerţ cu amănuntul prin intermediul caselor de comenzi sau prin internet</field>
+			<field name="name">Comerț cu amănuntul prin intermediul caselor de comenzi sau prin internet</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="414"  model="res.company.caen">
 			<field name="code">4799</field>
-			<field name="name">Comerţ cu amănuntul efectuat în afara magazinelor, standurilor, chioşcurilor şi pieţelor</field>
+			<field name="name">Comerț cu amănuntul efectuat în afara magazinelor, standurilor, chioșcurilor și piețelor</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="415"  model="res.company.caen">
 			<field name="code">4910</field>
 			<field name="name">Transporturi interurbane de călători pe calea ferată</field>
 			<field name="trisc">0.334</field>
-		</record> 
+		</record>
 		<record id="416"  model="res.company.caen">
 			<field name="code">4920</field>
 			<field name="name">Transporturi de marfă pe calea ferată</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="417"  model="res.company.caen">
 			<field name="code">4931</field>
-			<field name="name">Transporturi urbane, suburbane şi metropolitane de călători</field>
+			<field name="name">Transporturi urbane, suburbane și metropolitane de călători</field>
 			<field name="trisc">0.481</field>
-		</record> 
+		</record>
 		<record id="418"  model="res.company.caen">
 			<field name="code">4932</field>
 			<field name="name">Transporturi cu taxiuri</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="419"  model="res.company.caen">
 			<field name="code">4939</field>
 			<field name="name">Alte transporturi terestre de călători n.c.a.</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="420"  model="res.company.caen">
 			<field name="code">4941</field>
 			<field name="name">Transporturi rutiere de mărfuri</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="421"  model="res.company.caen">
 			<field name="code">4942</field>
 			<field name="name">Servicii de mutare</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="422"  model="res.company.caen">
 			<field name="code">4950</field>
 			<field name="name">Transporturi prin conducte</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="423"  model="res.company.caen">
 			<field name="code">5010</field>
-			<field name="name">Transporturi maritime şi costiere de pasageri</field>
+			<field name="name">Transporturi maritime și costiere de pasageri</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="424"  model="res.company.caen">
 			<field name="code">5020</field>
-			<field name="name">Transporturi maritime şi costiere de marfă</field>
+			<field name="name">Transporturi maritime și costiere de marfă</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="425"  model="res.company.caen">
 			<field name="code">5030</field>
 			<field name="name">Transportul de pasageri pe căi navigabile interioare</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="426"  model="res.company.caen">
 			<field name="code">5040</field>
 			<field name="name">Transportul de marfă pe căi navigabile interioare</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="427"  model="res.company.caen">
 			<field name="code">5110</field>
 			<field name="name">Transporturi aeriene de pasageri</field>
 			<field name="trisc">0.343</field>
-		</record> 
+		</record>
 		<record id="428"  model="res.company.caen">
 			<field name="code">5121</field>
 			<field name="name">Transporturi aeriene de marfă</field>
 			<field name="trisc">0.297</field>
-		</record> 
+		</record>
 		<record id="429"  model="res.company.caen">
 			<field name="code">5210</field>
 			<field name="name">Depozitări</field>
 			<field name="trisc">0.306</field>
-		</record> 
+		</record>
 		<record id="430"  model="res.company.caen">
 			<field name="code">5221</field>
-			<field name="name">Activităţi de servicii anexe pentru transporturi terestre</field>
+			<field name="name">Activități de servicii anexe pentru transporturi terestre</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="431"  model="res.company.caen">
 			<field name="code">5222</field>
-			<field name="name">Activităţi de servicii anexe transporturilor pe apă</field>
+			<field name="name">Activități de servicii anexe transporturilor pe apă</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="432"  model="res.company.caen">
 			<field name="code">5223</field>
-			<field name="name">Activităţi de servicii anexe transporturilor aeriene</field>
+			<field name="name">Activități de servicii anexe transporturilor aeriene</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="433"  model="res.company.caen">
 			<field name="code">5224</field>
 			<field name="name">Manipulări</field>
 			<field name="trisc">0.371</field>
-		</record> 
+		</record>
 		<record id="434"  model="res.company.caen">
 			<field name="code">5229</field>
-			<field name="name">Alte activităţi anexe transporturilor</field>
+			<field name="name">Alte activități anexe transporturilor</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="435"  model="res.company.caen">
 			<field name="code">5310</field>
-			<field name="name">Activităţi poştale desfăşurate sub obligativitatea serviciului universal</field>
+			<field name="name">Activități poștale desfășurate sub obligativitatea serviciului universal</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="436"  model="res.company.caen">
 			<field name="code">5320</field>
-			<field name="name">Alte activităţi poştale şi de curier</field>
+			<field name="name">Alte activități poștale și de curier</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="437"  model="res.company.caen">
 			<field name="code">5510</field>
-			<field name="name">Hoteluri şi alte facilităţi de cazare similare</field>
+			<field name="name">Hoteluri și alte facilități de cazare similare</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="438"  model="res.company.caen">
 			<field name="code">5520</field>
-			<field name="name">Facilităţi de cazare pentru vacanţe şi perioade de scurtă durată</field>
+			<field name="name">Facilități de cazare pentru vacanțe și perioade de scurtă durată</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="439"  model="res.company.caen">
 			<field name="code">5530</field>
-			<field name="name">Parcuri pentru rulote, campinguri şi tabere</field>
+			<field name="name">Parcuri pentru rulote, campinguri și tabere</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="440"  model="res.company.caen">
 			<field name="code">5590</field>
 			<field name="name">Alte servicii de cazare</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="441"  model="res.company.caen">
 			<field name="code">5610</field>
 			<field name="name">Restaurante</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="442"  model="res.company.caen">
 			<field name="code">5621</field>
-			<field name="name">Activităţi de alimentaţie (catering) pentru evenimente</field>
+			<field name="name">Activități de alimentație (catering) pentru evenimente</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="443"  model="res.company.caen">
 			<field name="code">5629</field>
-			<field name="name">Alte servicii de alimentaţie n.c.a.</field>
+			<field name="name">Alte servicii de alimentație n.c.a.</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="444"  model="res.company.caen">
 			<field name="code">5630</field>
-			<field name="name">Baruri şi alte activităţi de servire a băuturilor</field>
+			<field name="name">Baruri și alte activități de servire a băuturilor</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="445"  model="res.company.caen">
 			<field name="code">5811</field>
-			<field name="name">Activităţi de editare a cărţilor</field>
+			<field name="name">Activități de editare a cărților</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="446"  model="res.company.caen">
 			<field name="code">5812</field>
-			<field name="name">Activităţi de editare de ghiduri, compendii, liste de adrese şi similare</field>
+			<field name="name">Activități de editare de ghiduri, compendii, liste de adrese și similare</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="447"  model="res.company.caen">
 			<field name="code">5813</field>
-			<field name="name">Activităţi de editare a ziarelor</field>
+			<field name="name">Activități de editare a ziarelor</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="448"  model="res.company.caen">
 			<field name="code">5814</field>
-			<field name="name">Activităţi de editare a revistelor şi periodicelor</field>
+			<field name="name">Activități de editare a revistelor și periodicelor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="449"  model="res.company.caen">
 			<field name="code">5819</field>
-			<field name="name">Alte activităţi de editare</field>
+			<field name="name">Alte activități de editare</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="450"  model="res.company.caen">
 			<field name="code">5821</field>
-			<field name="name">Activităţi de editare a jocurilor de calculator</field>
+			<field name="name">Activități de editare a jocurilor de calculator</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="451"  model="res.company.caen">
 			<field name="code">5829</field>
-			<field name="name">Activităţi de editare a altor produse software</field>
+			<field name="name">Activități de editare a altor produse software</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="452"  model="res.company.caen">
 			<field name="code">5911</field>
-			<field name="name">Activităţi de producţie cinematografică, video şi de programe de televiziune</field>
+			<field name="name">Activități de producție cinematografică, video și de programe de televiziune</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="453"  model="res.company.caen">
 			<field name="code">5912</field>
-			<field name="name">Activităţi postproducţie cinematografică, video şi de programe de televiziune</field>
+			<field name="name">Activități postproducție cinematografică, video și de programe de televiziune</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="454"  model="res.company.caen">
 			<field name="code">5913</field>
-			<field name="name">Activităţi de distribuţie a filmelor cinematografice, video şi a programelor de televiziune</field>
+			<field name="name">Activități de distribuție a filmelor cinematografice, video și a programelor de televiziune</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="455"  model="res.company.caen">
 			<field name="code">5914</field>
-			<field name="name">Proiecţia de filme cinematografice</field>
+			<field name="name">Proiecția de filme cinematografice</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="456"  model="res.company.caen">
 			<field name="code">5920</field>
-			<field name="name">Activităţi de realizare a înregistrărilor audio şi activităţi de editare muzicală</field>
+			<field name="name">Activități de realizare a înregistrărilor audio și activități de editare muzicală</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="457"  model="res.company.caen">
 			<field name="code">6010</field>
-			<field name="name">Activităţi de difuzare a programelor de radio</field>
+			<field name="name">Activități de difuzare a programelor de radio</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="458"  model="res.company.caen">
 			<field name="code">6020</field>
-			<field name="name">Activităţi de difuzare a programelor de televiziune</field>
+			<field name="name">Activități de difuzare a programelor de televiziune</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="459"  model="res.company.caen">
 			<field name="code">6110</field>
-			<field name="name">Activităţi de telecomunicaţii prin reţele cu cablu</field>
+			<field name="name">Activități de telecomunicații prin rețele cu cablu</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="460"  model="res.company.caen">
 			<field name="code">6120</field>
-			<field name="name">Activităţi de telecomunicaţii prin reţele fără cablu (exclusiv prin satelit)</field>
+			<field name="name">Activități de telecomunicații prin rețele fără cablu (exclusiv prin satelit)</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="461"  model="res.company.caen">
 			<field name="code">6130</field>
-			<field name="name">Activităţi de telecomunicaţii prin satelit</field>
+			<field name="name">Activități de telecomunicații prin satelit</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="462"  model="res.company.caen">
 			<field name="code">6190</field>
-			<field name="name">Alte activităţi de telecomunicaţii</field>
+			<field name="name">Alte activități de telecomunicații</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="463"  model="res.company.caen">
 			<field name="code">6201</field>
-			<field name="name">Activităţi de realizare a softului la comandă (software orientat client)</field>
+			<field name="name">Activități de realizare a softului la comandă (software orientat client)</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="464"  model="res.company.caen">
 			<field name="code">6202</field>
-			<field name="name">Activităţi de consultanţă în tehnologia informaţiei</field>
+			<field name="name">Activități de consultanță în tehnologia informației</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="465"  model="res.company.caen">
 			<field name="code">6203</field>
-			<field name="name">Activităţi de management (gestiune şi exploatare) a mijloacelor de calcul</field>
+			<field name="name">Activități de management (gestiune și exploatare) a mijloacelor de calcul</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="466"  model="res.company.caen">
 			<field name="code">6209</field>
-			<field name="name">Alte activităţi de servicii privind tehnologia informaţiei</field>
+			<field name="name">Alte activități de servicii privind tehnologia informației</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="467"  model="res.company.caen">
 			<field name="code">6311</field>
-			<field name="name">Prelucrarea datelor, administrarea paginilor web şi activităţi conexe</field>
+			<field name="name">Prelucrarea datelor, administrarea paginilor web și activități conexe</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="468"  model="res.company.caen">
 			<field name="code">6312</field>
-			<field name="name">Activităţi ale portalurilor web</field>
+			<field name="name">Activități ale portalurilor web</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="469"  model="res.company.caen">
 			<field name="code">6391</field>
-			<field name="name">Activităţi ale agenţiilor de ştiri</field>
+			<field name="name">Activități ale agențiilor de știri</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="470"  model="res.company.caen">
 			<field name="code">6399</field>
-			<field name="name">Alte activităţi de servicii informaţionale n.c.a.</field>
+			<field name="name">Alte activități de servicii informaționale n.c.a.</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="471"  model="res.company.caen">
 			<field name="code">6411</field>
-			<field name="name">Activităţi ale băncii centrale (naţionale)</field>
+			<field name="name">Activități ale băncii centrale (naționale)</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="472"  model="res.company.caen">
 			<field name="code">6419</field>
-			<field name="name">Alte activităţi de intermedieri monetare</field>
+			<field name="name">Alte activități de intermedieri monetare</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="473"  model="res.company.caen">
 			<field name="code">6420</field>
-			<field name="name">Activităţi ale holdingurilor</field>
+			<field name="name">Activități ale holdingurilor</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="474"  model="res.company.caen">
 			<field name="code">6430</field>
-			<field name="name">Fonduri mutuale şi alte entităţi financiare similare</field>
+			<field name="name">Fonduri mutuale și alte entități financiare similare</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="475"  model="res.company.caen">
 			<field name="code">6491</field>
 			<field name="name">Leasing financiar</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="476"  model="res.company.caen">
 			<field name="code">6492</field>
-			<field name="name">Alte activităţi de creditare</field>
+			<field name="name">Alte activități de creditare</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="477"  model="res.company.caen">
 			<field name="code">6499</field>
 			<field name="name">Alte intermedieri financiare n.c.a.</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="478"  model="res.company.caen">
 			<field name="code">6511</field>
-			<field name="name">Activităţi de asigurări de viaţă</field>
+			<field name="name">Activități de asigurări de viață</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="479"  model="res.company.caen">
 			<field name="code">6512</field>
-			<field name="name">Alte activităţi de asigurări (exceptând asigurările de viaţă)</field>
+			<field name="name">Alte activități de asigurări (exceptând asigurările de viață)</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="480"  model="res.company.caen">
 			<field name="code">6520</field>
-			<field name="name">Activităţi de reasigurare</field>
+			<field name="name">Activități de reasigurare</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="481"  model="res.company.caen">
 			<field name="code">6530</field>
-			<field name="name">Activităţi ale fondurilor de pensii (cu excepţia celor din sistemul public de asigurări sociale)</field>
+			<field name="name">Activități ale fondurilor de pensii (cu excepția celor din sistemul public de asigurări sociale)</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="482"  model="res.company.caen">
 			<field name="code">6611</field>
-			<field name="name">Administrarea pieţelor financiare</field>
+			<field name="name">Administrarea piețelor financiare</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="483"  model="res.company.caen">
 			<field name="code">6612</field>
-			<field name="name">Activităţi de intermediere a tranzacţiilor financiare</field>
+			<field name="name">Activități de intermediere a tranzacțiilor financiare</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="484"  model="res.company.caen">
 			<field name="code">6619</field>
-			<field name="name">Activităţi auxiliare intermedierilor financiare, exclusiv activităţi de asigurări şi fonduri de pensii</field>
+			<field name="name">Activități auxiliare intermedierilor financiare, exclusiv activități de asigurări și fonduri de pensii</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="485"  model="res.company.caen">
 			<field name="code">6621</field>
-			<field name="name">Activităţi de evaluare a riscului de asigurare şi a pagubelor</field>
+			<field name="name">Activități de evaluare a riscului de asigurare și a pagubelor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="486"  model="res.company.caen">
 			<field name="code">6622</field>
-			<field name="name">Activităţi ale agenţilor şi brokerilor de asigurări</field>
+			<field name="name">Activități ale agenților și brokerilor de asigurări</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="487"  model="res.company.caen">
 			<field name="code">6629</field>
-			<field name="name">Alte activităţi auxiliare de asigurări şi fonduri de pensii</field>
+			<field name="name">Alte activități auxiliare de asigurări și fonduri de pensii</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="488"  model="res.company.caen">
 			<field name="code">6630</field>
-			<field name="name">Activităţi de administrare a fondurilor</field>
+			<field name="name">Activități de administrare a fondurilor</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="489"  model="res.company.caen">
 			<field name="code">6810</field>
-			<field name="name">Cumpărarea şi vânzarea de bunuri imobiliare proprii</field>
+			<field name="name">Cumpărarea și vânzarea de bunuri imobiliare proprii</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="490"  model="res.company.caen">
 			<field name="code">6820</field>
 			<field name="name">Închirierea si subînchirierea bunurilor imobiliare proprii sau închiriate</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="491"  model="res.company.caen">
 			<field name="code">6831</field>
-			<field name="name">Agenţii imobiliare</field>
+			<field name="name">Agenții imobiliare</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="492"  model="res.company.caen">
 			<field name="code">6832</field>
 			<field name="name">Administrarea imobilelor pe bază de comision sau contract</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="493"  model="res.company.caen">
 			<field name="code">6910</field>
-			<field name="name">Activităţi juridice</field>
+			<field name="name">Activități juridice</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="494"  model="res.company.caen">
 			<field name="code">6920</field>
-			<field name="name">Activităţi de contabilitate şi audit financiar, consultanţă în domeniul fiscal</field>
+			<field name="name">Activități de contabilitate și audit financiar, consultanță în domeniul fiscal</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="495"  model="res.company.caen">
 			<field name="code">7010</field>
-			<field name="name">Activităţi ale direcţiilor (centralelor), birourilor administrative centralizate</field>
+			<field name="name">Activități ale direcțiilor (centralelor), birourilor administrative centralizate</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="496"  model="res.company.caen">
 			<field name="code">7021</field>
-			<field name="name">Activităţi de consultanţă în domeniul relaţiilor publice şi al comunicării</field>
+			<field name="name">Activități de consultanță în domeniul relațiilor publice și al comunicării</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="497"  model="res.company.caen">
 			<field name="code">7022</field>
-			<field name="name">Activităţi de consultanţă pentru afaceri şi management</field>
+			<field name="name">Activități de consultanță pentru afaceri și management</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="498"  model="res.company.caen">
 			<field name="code">7111</field>
-			<field name="name">Activităţi de arhitectură</field>
+			<field name="name">Activități de arhitectură</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="499"  model="res.company.caen">
 			<field name="code">7112</field>
-			<field name="name">Activităţi de inginerie şi consultanţă tehnică legate de acestea</field>
+			<field name="name">Activități de inginerie și consultanță tehnică legate de acestea</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="500"  model="res.company.caen">
 			<field name="code">7120</field>
-			<field name="name">Activităţi de testări şi analize tehnice</field>
+			<field name="name">Activități de testări și analize tehnice</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="501"  model="res.company.caen">
 			<field name="code">7211</field>
 			<field name="name">Cercetare-dezvoltare în biotehnologie</field>
 			<field name="trisc">0.27</field>
-		</record> 
+		</record>
 		<record id="502"  model="res.company.caen">
 			<field name="code">7219</field>
-			<field name="name">Cercetare-dezvoltare în alte ştiinţe naturale şi inginerie</field>
+			<field name="name">Cercetare-dezvoltare în alte științe naturale și inginerie</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="503"  model="res.company.caen">
 			<field name="code">7220</field>
-			<field name="name">Cercetare-dezvoltare în ştiinţe sociale şi umaniste</field>
+			<field name="name">Cercetare-dezvoltare în științe sociale și umaniste</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="504"  model="res.company.caen">
 			<field name="code">7311</field>
-			<field name="name">Activităţi ale agenţiilor de publicitate</field>
+			<field name="name">Activități ale agențiilor de publicitate</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="505"  model="res.company.caen">
 			<field name="code">7312</field>
 			<field name="name">Servicii de reprezentare media</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="506"  model="res.company.caen">
 			<field name="code">7320</field>
-			<field name="name">Activităţi de studiere a pieţei şi de sondare a opiniei publice</field>
+			<field name="name">Activități de studiere a pieței și de sondare a opiniei publice</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="507"  model="res.company.caen">
 			<field name="code">7410</field>
-			<field name="name">Activităţi de design specializat</field>
+			<field name="name">Activități de design specializat</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="508"  model="res.company.caen">
 			<field name="code">7420</field>
-			<field name="name">Activităţi fotografice</field>
+			<field name="name">Activități fotografice</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="509"  model="res.company.caen">
 			<field name="code">7430</field>
-			<field name="name">Activităţi de traducere scrisă şi orală (interpreţi)</field>
+			<field name="name">Activități de traducere scrisă și orală (interpreți)</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="510"  model="res.company.caen">
 			<field name="code">7490</field>
-			<field name="name">Alte activităţi profesionale, ştiinţifice şi tehnice, n.c.a.</field>
+			<field name="name">Alte activități profesionale, științifice și tehnice, n.c.a.</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="511"  model="res.company.caen">
 			<field name="code">7500</field>
-			<field name="name">Activităţi veterinare</field>
+			<field name="name">Activități veterinare</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="512"  model="res.company.caen">
 			<field name="code">7711</field>
-			<field name="name">Activităţi de închiriere şi leasing cu autoturisme şi autovehicule rutiere uşoare</field>
+			<field name="name">Activități de închiriere și leasing cu autoturisme și autovehicule rutiere ușoare</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="513"  model="res.company.caen">
 			<field name="code">7712</field>
-			<field name="name">Activităţi de închiriere şi leasing cu autovehicule rutiere grele</field>
+			<field name="name">Activități de închiriere și leasing cu autovehicule rutiere grele</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="514"  model="res.company.caen">
 			<field name="code">7721</field>
-			<field name="name">Activităţi de închiriere şi leasing cu bunuri recreaţionale şi echipament sportiv</field>
+			<field name="name">Activități de închiriere și leasing cu bunuri recreaționale și echipament sportiv</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="515"  model="res.company.caen">
 			<field name="code">7722</field>
-			<field name="name">Închirierea de casete video şi discuri</field>
+			<field name="name">Închirierea de casete video și discuri</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="516"  model="res.company.caen">
 			<field name="code">7729</field>
-			<field name="name">Activităţi de închiriere şi leasing cu alte bunuri personale şi gospodăreşti n.c.a.</field>
+			<field name="name">Activități de închiriere și leasing cu alte bunuri personale și gospodărești n.c.a.</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="517"  model="res.company.caen">
 			<field name="code">7731</field>
-			<field name="name">Activităţi de închiriere şi leasing cu maşini şi echipamente agricole</field>
+			<field name="name">Activități de închiriere și leasing cu mașini și echipamente agricole</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="518"  model="res.company.caen">
 			<field name="code">7732</field>
-			<field name="name">Activităţi de închiriere şi leasing cu maşini şi echipamente pentru construcţii</field>
+			<field name="name">Activități de închiriere și leasing cu mașini și echipamente pentru construcții</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="519"  model="res.company.caen">
 			<field name="code">7733</field>
-			<field name="name">Activităţi de închiriere şi leasing cu maşini şi echipamente de birou (inclusiv calculatoare)</field>
+			<field name="name">Activități de închiriere și leasing cu mașini și echipamente de birou (inclusiv calculatoare)</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="520"  model="res.company.caen">
 			<field name="code">7734</field>
-			<field name="name">Activităţi de închiriere şi leasing cu echipamente de transport pe apă</field>
+			<field name="name">Activități de închiriere și leasing cu echipamente de transport pe apă</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="521"  model="res.company.caen">
 			<field name="code">7735</field>
-			<field name="name">Activităţi de închiriere şi leasing cu echipamente de transport aerian</field>
+			<field name="name">Activități de închiriere și leasing cu echipamente de transport aerian</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="522"  model="res.company.caen">
 			<field name="code">7739</field>
-			<field name="name">Activităţi de închiriere şi leasing cu alte maşini, echipamente şi bunuri tangibile n.c.a.</field>
+			<field name="name">Activități de închiriere și leasing cu alte mașini, echipamente și bunuri tangibile n.c.a.</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="523"  model="res.company.caen">
 			<field name="code">7740</field>
 			<field name="name">Leasing cu bunuri intangibile (exclusiv financiare)</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="524"  model="res.company.caen">
 			<field name="code">7810</field>
-			<field name="name">Activităţi ale agenţiilor de plasare a forţei de muncă</field>
+			<field name="name">Activități ale agențiilor de plasare a forței de muncă</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="525"  model="res.company.caen">
 			<field name="code">7820</field>
-			<field name="name">Activităţi de contractare, pe baze temporare, a personalului</field>
+			<field name="name">Activități de contractare, pe baze temporare, a personalului</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="526"  model="res.company.caen">
 			<field name="code">7830</field>
-			<field name="name">Servicii de furnizare şi management al forţei de muncă</field>
+			<field name="name">Servicii de furnizare și management al forței de muncă</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="527"  model="res.company.caen">
 			<field name="code">7911</field>
-			<field name="name">Activităţi ale agenţiilor turistice</field>
+			<field name="name">Activități ale agențiilor turistice</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="528"  model="res.company.caen">
 			<field name="code">7912</field>
-			<field name="name">Activităţi ale tur-operatorilor</field>
+			<field name="name">Activități ale tur-operatorilor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="529"  model="res.company.caen">
 			<field name="code">7990</field>
-			<field name="name">Alte activităţi de rezervare şi asistenţă turistică</field>
+			<field name="name">Alte activități de rezervare și asistență turistică</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="530"  model="res.company.caen">
 			<field name="code">8010</field>
-			<field name="name">Activităţi de protecţie şi gardă</field>
+			<field name="name">Activități de protecție și gardă</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="531"  model="res.company.caen">
 			<field name="code">8020</field>
-			<field name="name">Activităţi de servicii privind sistemele de securizare</field>
+			<field name="name">Activități de servicii privind sistemele de securizare</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="532"  model="res.company.caen">
 			<field name="code">8030</field>
-			<field name="name">Activităţi de investigaţii</field>
+			<field name="name">Activități de investigații</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="533"  model="res.company.caen">
 			<field name="code">8110</field>
-			<field name="name">Activităţi de servicii suport combinate</field>
+			<field name="name">Activități de servicii suport combinate</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="534"  model="res.company.caen">
 			<field name="code">8121</field>
-			<field name="name">Activităţi generale de curăţenie a clădirilor</field>
+			<field name="name">Activități generale de curățenie a clădirilor</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="535"  model="res.company.caen">
 			<field name="code">8122</field>
-			<field name="name">Activităţi specializate de curăţenie</field>
+			<field name="name">Activități specializate de curățenie</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="536"  model="res.company.caen">
 			<field name="code">8129</field>
-			<field name="name">Alte activităţi de curăţenie</field>
+			<field name="name">Alte activități de curățenie</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="537"  model="res.company.caen">
 			<field name="code">8130</field>
-			<field name="name">Activităţi de întreţinere peisagistică</field>
+			<field name="name">Activități de întreținere peisagistică</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="538"  model="res.company.caen">
 			<field name="code">8211</field>
-			<field name="name">Activităţi combinate de secretariat</field>
+			<field name="name">Activități combinate de secretariat</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="539"  model="res.company.caen">
 			<field name="code">8219</field>
-			<field name="name">Activităţi de fotocopiere, de pregătire a documentelor şi alte activităţi specializate de secretariat</field>
+			<field name="name">Activități de fotocopiere, de pregătire a documentelor și alte activități specializate de secretariat</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="540"  model="res.company.caen">
 			<field name="code">8220</field>
-			<field name="name">Activităţi ale centrelor de intermediere telefonică (call center)</field>
+			<field name="name">Activități ale centrelor de intermediere telefonică (call center)</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="541"  model="res.company.caen">
 			<field name="code">8230</field>
-			<field name="name">Activităţi de organizare a expoziţiilor, târgurilor şi congreselor</field>
+			<field name="name">Activități de organizare a expozițiilor, târgurilor și congreselor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="542"  model="res.company.caen">
 			<field name="code">8291</field>
-			<field name="name">Activităţi ale agenţiilor de colectare şi ale birourilor (oficiilor) de raportare a creditului</field>
+			<field name="name">Activități ale agențiilor de colectare și ale birourilor (oficiilor) de raportare a creditului</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="543"  model="res.company.caen">
 			<field name="code">8292</field>
-			<field name="name">Activităţi de ambalare</field>
+			<field name="name">Activități de ambalare</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="544"  model="res.company.caen">
 			<field name="code">8299</field>
-			<field name="name">Alte activităţi de servicii suport pentru întreprinderi n.c.a.</field>
+			<field name="name">Alte activități de servicii suport pentru întreprinderi n.c.a.</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="545"  model="res.company.caen">
 			<field name="code">8411</field>
 			<field name="name">Servicii de administrare publică generală</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="546"  model="res.company.caen">
 			<field name="code">8412</field>
-			<field name="name">Reglementarea activităţilor organismelor care prestează servicii în domeniul îngrijirii sănătăţii, învăţământului, culturii şi al altor activităţi sociale, exclusiv protecţia socială</field>
+			<field name="name">Reglementarea activităților organismelor care prestează servicii în domeniul îngrijirii sănătății, învățământului, culturii și al altor activități sociale, exclusiv protecția socială</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="547"  model="res.company.caen">
 			<field name="code">8413</field>
-			<field name="name">Reglementarea şi eficientizarea activităţilor economice</field>
+			<field name="name">Reglementarea și eficientizarea activităților economice</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="548"  model="res.company.caen">
 			<field name="code">8421</field>
-			<field name="name">Activităţi de afaceri externe</field>
+			<field name="name">Activități de afaceri externe</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="549"  model="res.company.caen">
 			<field name="code">8423</field>
-			<field name="name">Activităţi de justiţie</field>
+			<field name="name">Activități de justiție</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="550"  model="res.company.caen">
 			<field name="code">8424</field>
-			<field name="name">Activităţi de ordine publică şi de protecţie civilă</field>
+			<field name="name">Activități de ordine publică și de protecție civilă</field>
 			<field name="trisc">0.26</field>
-		</record> 
+		</record>
 		<record id="551"  model="res.company.caen">
 			<field name="code">8425</field>
-			<field name="name">Activităţi de luptă împotriva incendiilor şi de prevenire a acestora</field>
+			<field name="name">Activități de luptă împotriva incendiilor și de prevenire a acestora</field>
 			<field name="trisc">0.325</field>
-		</record> 
+		</record>
 		<record id="552"  model="res.company.caen">
 			<field name="code">8430</field>
-			<field name="name">Activităţi de protecţie socială obligatorie</field>
+			<field name="name">Activități de protecție socială obligatorie</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="553"  model="res.company.caen">
 			<field name="code">8510</field>
-			<field name="name">Învăţământ preşcolar</field>
+			<field name="name">Învățământ preșcolar</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="554"  model="res.company.caen">
 			<field name="code">8520</field>
-			<field name="name">Învăţământ primar</field>
+			<field name="name">Învățământ primar</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="555"  model="res.company.caen">
 			<field name="code">8531</field>
-			<field name="name">Învăţământ secundar general</field>
+			<field name="name">Învățământ secundar general</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="556"  model="res.company.caen">
 			<field name="code">8532</field>
-			<field name="name">Învăţământ secundar, tehnic sau profesional</field>
+			<field name="name">Învățământ secundar, tehnic sau profesional</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="557"  model="res.company.caen">
 			<field name="code">8541</field>
-			<field name="name">Învăţământ superior nonuniversitar</field>
+			<field name="name">Învățământ superior nonuniversitar</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="558"  model="res.company.caen">
 			<field name="code">8542</field>
-			<field name="name">Învăţământ superior universitar</field>
+			<field name="name">Învățământ superior universitar</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="559"  model="res.company.caen">
 			<field name="code">8551</field>
-			<field name="name">Învăţământ în domeniul sportiv şi recreaţional</field>
+			<field name="name">Învățământ în domeniul sportiv și recreațional</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="560"  model="res.company.caen">
 			<field name="code">8552</field>
-			<field name="name">Învăţământ în domeniul cultural (limbi străine, muzică, teatru, dans, arte plastice etc.)</field>
+			<field name="name">Învățământ în domeniul cultural (limbi străine, muzică, teatru, dans, arte plastice etc.)</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="561"  model="res.company.caen">
 			<field name="code">8553</field>
-			<field name="name">Şcoli de conducere (pilotaj)</field>
+			<field name="name">Școli de conducere (pilotaj)</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="562"  model="res.company.caen">
 			<field name="code">8559</field>
-			<field name="name">Alte forme de învăţământ n.c.a.</field>
+			<field name="name">Alte forme de învățământ n.c.a.</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="563"  model="res.company.caen">
 			<field name="code">8560</field>
-			<field name="name">Activităţi de servicii suport pentru învăţământ</field>
+			<field name="name">Activități de servicii suport pentru învățământ</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="564"  model="res.company.caen">
 			<field name="code">8610</field>
-			<field name="name">Activităţi de asistenţă spitalicească</field>
+			<field name="name">Activități de asistență spitalicească</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="565"  model="res.company.caen">
 			<field name="code">8621</field>
-			<field name="name">Activităţi de asistenţă medicală generală</field>
+			<field name="name">Activități de asistență medicală generală</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="566"  model="res.company.caen">
 			<field name="code">8622</field>
-			<field name="name">Activităţi de asistenţă medicală specializată</field>
+			<field name="name">Activități de asistență medicală specializată</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="567"  model="res.company.caen">
 			<field name="code">8623</field>
-			<field name="name">Activităţi de asistenţă stomatologică</field>
+			<field name="name">Activități de asistență stomatologică</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="568"  model="res.company.caen">
 			<field name="code">8690</field>
-			<field name="name">Alte activităţi referitoare la sănătatea umană</field>
+			<field name="name">Alte activități referitoare la sănătatea umană</field>
 			<field name="trisc">0.214</field>
-		</record> 
+		</record>
 		<record id="569"  model="res.company.caen">
 			<field name="code">8710</field>
-			<field name="name">Activităţi ale centrelor de îngrijire medicală</field>
+			<field name="name">Activități ale centrelor de îngrijire medicală</field>
 			<field name="trisc">0.306</field>
-		</record> 
+		</record>
 		<record id="570"  model="res.company.caen">
 			<field name="code">8720</field>
-			<field name="name">Activităţi ale centrelor de recuperare psihică şi de dezintoxicare, exclusiv spitale</field>
+			<field name="name">Activități ale centrelor de recuperare psihică și de dezintoxicare, exclusiv spitale</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="571"  model="res.company.caen">
 			<field name="code">8730</field>
-			<field name="name">Activităţi ale căminelor de bătrâni şi ale căminelor pentru persoane aflate în incapacitate de a se îngriji singure</field>
+			<field name="name">Activități ale căminelor de bătrâni și ale căminelor pentru persoane aflate în incapacitate de a se îngriji singure</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="572"  model="res.company.caen">
 			<field name="code">8790</field>
-			<field name="name">Alte activităţi de asistenţă socială, cu cazare n.c.a.</field>
+			<field name="name">Alte activități de asistență socială, cu cazare n.c.a.</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="573"  model="res.company.caen">
 			<field name="code">8810</field>
-			<field name="name">Activităţi de asistenţă socială, fără cazare, pentru bătrâni şi pentru persoane aflate în incapacitate de a se îngriji singure</field>
+			<field name="name">Activități de asistență socială, fără cazare, pentru bătrâni și pentru persoane aflate în incapacitate de a se îngriji singure</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="574"  model="res.company.caen">
 			<field name="code">8891</field>
-			<field name="name">Activităţi de îngrijire zilnică pentru copii</field>
+			<field name="name">Activități de îngrijire zilnică pentru copii</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="575"  model="res.company.caen">
 			<field name="code">8899</field>
-			<field name="name">Alte activităţi de asistenţă socială, fără cazare n.c.a.</field>
+			<field name="name">Alte activități de asistență socială, fără cazare n.c.a.</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="576"  model="res.company.caen">
 			<field name="code">9001</field>
-			<field name="name">Activităţi de interpretare artistică (spectacole)</field>
+			<field name="name">Activități de interpretare artistică (spectacole)</field>
 			<field name="trisc">0.389</field>
-		</record> 
+		</record>
 		<record id="577"  model="res.company.caen">
 			<field name="code">9002</field>
-			<field name="name">Activităţi suport pentru interpretarea artistică (spectacole)</field>
+			<field name="name">Activități suport pentru interpretarea artistică (spectacole)</field>
 			<field name="trisc">0.279</field>
-		</record> 
+		</record>
 		<record id="578"  model="res.company.caen">
 			<field name="code">9003</field>
-			<field name="name">Activităţi de creaţie artistică</field>
+			<field name="name">Activități de creație artistică</field>
 			<field name="trisc">0.251</field>
-		</record> 
+		</record>
 		<record id="579"  model="res.company.caen">
 			<field name="code">9004</field>
-			<field name="name">Activităţi de gestionare a sălilor de spectacol</field>
+			<field name="name">Activități de gestionare a sălilor de spectacol</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="580"  model="res.company.caen">
 			<field name="code">9101</field>
-			<field name="name">Activităţi ale bibliotecilor şi arhivelor</field>
+			<field name="name">Activități ale bibliotecilor și arhivelor</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="581"  model="res.company.caen">
 			<field name="code">9102</field>
-			<field name="name">Activităţi ale muzeelor</field>
+			<field name="name">Activități ale muzeelor</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="582"  model="res.company.caen">
 			<field name="code">9103</field>
-			<field name="name">Gestionarea monumentelor, clădirilor istorice şi a altor obiective de interes turistic</field>
+			<field name="name">Gestionarea monumentelor, clădirilor istorice și a altor obiective de interes turistic</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="583"  model="res.company.caen">
 			<field name="code">9104</field>
-			<field name="name">Activităţi ale grădinilor zoologice, botanice şi ale rezervaţiilor naturale</field>
+			<field name="name">Activități ale grădinilor zoologice, botanice și ale rezervațiilor naturale</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="584"  model="res.company.caen">
 			<field name="code">9200</field>
-			<field name="name">Activităţi de jocuri de noroc şi pariuri</field>
+			<field name="name">Activități de jocuri de noroc și pariuri</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="585"  model="res.company.caen">
 			<field name="code">9311</field>
-			<field name="name">Activităţi ale bazelor sportive</field>
+			<field name="name">Activități ale bazelor sportive</field>
 			<field name="trisc">0.196</field>
-		</record> 
+		</record>
 		<record id="586"  model="res.company.caen">
 			<field name="code">9312</field>
-			<field name="name">Activităţi ale cluburilor sportive</field>
+			<field name="name">Activități ale cluburilor sportive</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="587"  model="res.company.caen">
 			<field name="code">9313</field>
-			<field name="name">Activităţi ale centrelor de fitness</field>
+			<field name="name">Activități ale centrelor de fitness</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="588"  model="res.company.caen">
 			<field name="code">9319</field>
-			<field name="name">Alte activităţi sportive</field>
+			<field name="name">Alte activități sportive</field>
 			<field name="trisc">0.187</field>
-		</record> 
+		</record>
 		<record id="589"  model="res.company.caen">
 			<field name="code">9321</field>
-			<field name="name">Bâlciuri şi parcuri de distracţii</field>
+			<field name="name">Bâlciuri și parcuri de distracții</field>
 			<field name="trisc">0.288</field>
-		</record> 
+		</record>
 		<record id="590"  model="res.company.caen">
 			<field name="code">9329</field>
-			<field name="name">Alte activităţi recreative şi distractive n.c.a.</field>
+			<field name="name">Alte activități recreative și distractive n.c.a.</field>
 			<field name="trisc">0.205</field>
-		</record> 
+		</record>
 		<record id="591"  model="res.company.caen">
 			<field name="code">9411</field>
-			<field name="name">Activităţi ale organizaţiilor economice şi patronale</field>
+			<field name="name">Activități ale organizațiilor economice și patronale</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="592"  model="res.company.caen">
 			<field name="code">9412</field>
-			<field name="name">Activităţi ale organizaţiilor profesionale</field>
+			<field name="name">Activități ale organizațiilor profesionale</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="593"  model="res.company.caen">
 			<field name="code">9420</field>
-			<field name="name">Activităţi ale sindicatelor salariaţilor</field>
+			<field name="name">Activități ale sindicatelor salariaților</field>
 			<field name="trisc">0.178</field>
-		</record> 
+		</record>
 		<record id="594"  model="res.company.caen">
 			<field name="code">9491</field>
-			<field name="name">Activităţi ale organizaţiilor religioase</field>
+			<field name="name">Activități ale organizațiilor religioase</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="595"  model="res.company.caen">
 			<field name="code">9492</field>
-			<field name="name">Activităţi ale organizaţiilor politice</field>
+			<field name="name">Activități ale organizațiilor politice</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="596"  model="res.company.caen">
 			<field name="code">9499</field>
-			<field name="name">Activităţi ale altor organizaţii n.c.a.</field>
+			<field name="name">Activități ale altor organizații n.c.a.</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="597"  model="res.company.caen">
 			<field name="code">9511</field>
-			<field name="name">Repararea calculatoarelor şi a echipamentelor periferice</field>
+			<field name="name">Repararea calculatoarelor și a echipamentelor periferice</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="598"  model="res.company.caen">
 			<field name="code">9512</field>
-			<field name="name">Repararea echipamentelor de comunicaţii</field>
+			<field name="name">Repararea echipamentelor de comunicații</field>
 			<field name="trisc">0.168</field>
-		</record> 
+		</record>
 		<record id="599"  model="res.company.caen">
 			<field name="code">9521</field>
 			<field name="name">Repararea aparatelor electronice de uz casnic</field>
 			<field name="trisc">0.224</field>
-		</record> 
+		</record>
 		<record id="600"  model="res.company.caen">
 			<field name="code">9522</field>
-			<field name="name">Repararea dispozitivelor de uz gospodăresc şi a echipamentelor pentru casă şi grădină</field>
+			<field name="name">Repararea dispozitivelor de uz gospodăresc și a echipamentelor pentru casă și grădină</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="601"  model="res.company.caen">
 			<field name="code">9523</field>
-			<field name="name">Repararea încălţămintei şi a articolelor din piele</field>
+			<field name="name">Repararea încălțămintei și a articolelor din piele</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="602"  model="res.company.caen">
 			<field name="code">9524</field>
-			<field name="name">Repararea mobilei şi a furniturilor casnice</field>
+			<field name="name">Repararea mobilei și a furniturilor casnice</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="603"  model="res.company.caen">
 			<field name="code">9525</field>
-			<field name="name">Repararea ceasurilor şi a bijuteriilor</field>
+			<field name="name">Repararea ceasurilor și a bijuteriilor</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="604"  model="res.company.caen">
 			<field name="code">9529</field>
-			<field name="name">Repararea articolelor de uz personal şi gospodăresc n.c.a.</field>
+			<field name="name">Repararea articolelor de uz personal și gospodăresc n.c.a.</field>
 			<field name="trisc">0.242</field>
-		</record> 
+		</record>
 		<record id="605"  model="res.company.caen">
 			<field name="code">9601</field>
-			<field name="name">Spălarea şi curăţarea (uscată) articolelor textile şi a produselor din blană</field>
+			<field name="name">Spălarea și curățarea (uscată) articolelor textile și a produselor din blană</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 		<record id="606"  model="res.company.caen">
 			<field name="code">9602</field>
-			<field name="name">Coafură şi alte activităţi de înfrumuseţare</field>
+			<field name="name">Coafură și alte activități de înfrumusețare</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="607"  model="res.company.caen">
 			<field name="code">9603</field>
-			<field name="name">Activităţi de pompe funebre şi similare</field>
+			<field name="name">Activități de pompe funebre și similare</field>
 			<field name="trisc">0.15</field>
-		</record> 
+		</record>
 		<record id="608"  model="res.company.caen">
 			<field name="code">9604</field>
-			<field name="name">Activităţi de întreţinere corporală</field>
+			<field name="name">Activități de întreținere corporală</field>
 			<field name="trisc">0.159</field>
-		</record> 
+		</record>
 		<record id="609"  model="res.company.caen">
 			<field name="code">9609</field>
-			<field name="name">Alte activităţi de servicii n.c.a.</field>
+			<field name="name">Alte activități de servicii n.c.a.</field>
 			<field name="trisc">0.233</field>
-		</record> 
+		</record>
 
     </data>
 </openerp>
