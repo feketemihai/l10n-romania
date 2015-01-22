@@ -26,10 +26,9 @@
     "category" : "Hidden",
     "depends": ['l10n_ro','base_vat'],
     "description": """
-Partner create by vat from Mfinante for Romanian Companies or Vies site for Euroipean one
-------------------------------------------
-
-
+Partner create by VAT
+---------------------
+Fetches Partner data from openapi/mfinante or VIES
     """,
 
     'data': ['res_partner_view.xml',

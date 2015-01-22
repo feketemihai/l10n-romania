@@ -21,10 +21,10 @@ msgid " * The 'Draft' status is used when a user is encoding a new and unconfirm
 "* The 'Pro-forma' when compensation is in Pro-forma status,compensation does not have an compensation number. \n"
 "* The 'Posted' status is used when user create compensation,a compensation number is generated and compensation entries are created in account \n"
 "* The 'Cancelled' status is used when user cancel compensation."
-msgstr "* Starea 'Ciorna' este utilizata atunci când un utilizator adauga o compensare noua sau neconfirmata. \n"
-"* 'Pro-forma' atunci când compensarea este în starea de pro-forma, compensarea nu are un număr de compensare. \n"
-"* Starea 'Postat' este utilizata atunci când utilizatorul creeaza o compensare noua, un număr de compensare este generat și miscarile contabile sunt inregistrate. \n"
-"* Starea 'Anulat' este utilizata atunci când utilizatorul anulează o compensare."
+msgstr "* Starea 'Ciornă' este utilizată atunci când un utilizator adaugă o compensare nouă sau neconfirmată. \n"
+"* 'Pro-formă' atunci când compensarea este în starea de pro-formă, compensarea nu are un număr de compensare. \n"
+"* Starea 'Postat' este utilizată atunci când utilizatorul creează o compensare nouă, un număr de compensare este generat și mișcările contabile sunt înregistrate. \n"
+"* Starea 'Anulat' este utilizată atunci când utilizatorul anulează o compensare."
 
 #. module: account_compensation
 #: field:account.compensation.line,account_id:0
@@ -34,7 +34,7 @@ msgstr "Cont"
 #. module: account_compensation
 #: field:account.compensation,move_id:0
 msgid "Account Entry"
-msgstr "Inregistrare Jurnal"
+msgstr "Înregistrare Jurnal"
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_form
@@ -50,23 +50,23 @@ msgstr "Suma"
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_form
 msgid "Are you sure you want to unreconcile this record?"
-msgstr "Sunteti sigur ca doriti sa nereconciliati aceasta inregistrare?"
+msgstr "Sunteți sigur că doriți să nereconciliați această înregistrare?"
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_form
 msgid "Cancel Compensation"
-msgstr "Anuleaza Compensare"
+msgstr "Anulează Compensare"
 
 #. module: account_compensation
 #: selection:account.compensation,state:0
 msgid "Cancelled"
-msgstr "Anulata"
+msgstr "Anulată"
 
 #. module: account_compensation
 #: code:addons/account_compensation/account_compensation.py:404
 #, python-format
 msgid "Cannot delete compensation(s) which are already opened or paid."
-msgstr "Nu puteti sterge compensarea(rile) care sunt deschise sau platite."
+msgstr "Nu puteți șterge compensarea(rile) care sunt deschise sau plătite."
 
 #. module: account_compensation
 #: field:account.compensation,company_id:0
@@ -87,7 +87,7 @@ msgstr "Compensare"
 #: model:ir.actions.act_window,name:account_compensation.act_journal_compensation_open
 #: model:ir.actions.act_window,name:account_compensation.action_review_compensation_list
 msgid "Compensation Entries"
-msgstr "Inregistrari Compensare"
+msgstr "Înregistrări Compensare"
 
 #. module: account_compensation
 #: field:account.compensation,line_ids:0
@@ -100,7 +100,7 @@ msgstr "Linii Compensare"
 #: code:addons/account_compensation/account_compensation.py:440
 #, python-format
 msgid "Configuration Error !"
-msgstr "Eroare COnfigurare !"
+msgstr "Eroare Configurare !"
 
 #. module: account_compensation
 #: field:account.compensation,create_uid:0
@@ -139,7 +139,7 @@ msgstr "Data"
 #. module: account_compensation
 #: help:account.compensation,message_last_post:0
 msgid "Date of the last message posted on the record."
-msgstr "Data ultimului mesaj postat la aceasta inregistrare"
+msgstr "Data ultimului mesaj postat la această înregistrare"
 
 #. module: account_compensation
 #: selection:account.compensation.line,type:0
@@ -165,22 +165,22 @@ msgstr "Dr/Cr"
 #: view:account.compensation:account_compensation.view_compensation_filter
 #: selection:account.compensation,state:0
 msgid "Draft"
-msgstr "Ciorna"
+msgstr "Ciornă"
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_filter
 msgid "Draft Compensation"
-msgstr "Compensari Ciorna"
+msgstr "Compensări Ciornă"
 
 #. module: account_compensation
 #: field:account.compensation.line,date_due:0
 msgid "Due Date"
-msgstr "Data Scadentei"
+msgstr "Data Scadenței"
 
 #. module: account_compensation
 #: help:account.compensation,date:0
 msgid "Effective date for accounting entries"
-msgstr "Data efectiva a inregistrarilor contabile"
+msgstr "Data efectivă a înregistrărilor contabile"
 
 #. module: account_compensation
 #: code:addons/account_compensation/account_compensation.py:446
@@ -191,7 +191,7 @@ msgstr "Eroare!"
 #. module: account_compensation
 #: help:account.compensation,is_multi_currency:0
 msgid "Fields with internal purpose only that depicts if the compensation is a multi currency one or not"
-msgstr "Campurile marcheaza compensarea daca este in multi-monedă sau nu"
+msgstr "Câmpurile marchează compensarea dacă este în multi-monedă sau nu"
 
 #. module: account_compensation
 #: field:account.compensation,message_follower_ids:0
@@ -201,24 +201,24 @@ msgstr "Persoane Interesate"
 #. module: account_compensation
 #: field:account.compensation.line,reconcile:0
 msgid "Full Reconcile"
-msgstr "Reconciliere Totala"
+msgstr "Reconciliere Totală"
 
 #. module: account_compensation
 #: code:addons/account_compensation/account_compensation.py:476
 #: code:addons/account_compensation/account_compensation.py:482
 #, python-format
 msgid "Go to the configuration panel"
-msgstr "Mergeti la Panoul de Configurare"
+msgstr "Mergeți la Panoul de Configurare"
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_filter
 msgid "Group By"
-msgstr "Grupeaza dupa"
+msgstr "Grupează după"
 
 #. module: account_compensation
 #: help:account.compensation,message_summary:0
 msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
-msgstr "Contine rezumatul Chatter (numar de mesaje, ...). Acest rezumat este direct in format HTML, icu scopul de a se introduce in vizualizari kanban."
+msgstr "Conține rezumatul Chatter (număr de mesaje, ...). Acest rezumat este direct în format HTML, cu scopul de a se introduce în vizualizari kanban."
 
 #. module: account_compensation
 #: field:account.compensation,id:0
@@ -229,7 +229,7 @@ msgstr "ID"
 #. module: account_compensation
 #: help:account.compensation,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr "Daca este selectat, mesajele noi necesita atentia dumneavoastra."
+msgstr "Dacă este selectat, mesajele noi necesită atenția dumneavoastră."
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_form
@@ -240,7 +240,7 @@ msgstr "Note Interne"
 #: code:addons/account_compensation/account_compensation.py:404
 #, python-format
 msgid "Invalid Action!"
-msgstr "Actiune Invalida"
+msgstr "Acțiune Invalidă"
 
 #. module: account_compensation
 #: field:account.compensation,message_is_follower:0
@@ -300,7 +300,7 @@ msgstr "Mesaje"
 #. module: account_compensation
 #: help:account.compensation,message_ids:0
 msgid "Messages and communication history"
-msgstr "Istoric mesaje si conversatii"
+msgstr "Istoric mesaje și conversații"
 
 #. module: account_compensation
 #: field:account.compensation,is_multi_currency:0
@@ -315,7 +315,7 @@ msgstr "Note"
 #. module: account_compensation
 #: field:account.compensation,number:0
 msgid "Number"
-msgstr "Numar"
+msgstr "Număr"
 
 #. module: account_compensation
 #: field:account.compensation.line,amount_unreconciled:0
@@ -325,17 +325,17 @@ msgstr "Sold la deschidere"
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_form
 msgid "Open Customer Journal Entries"
-msgstr "Deschide Inregistrarile Clientului in Registru"
+msgstr "Deschide Înregistrările Clientului în Registru"
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_form
 msgid "Open Supplier Journal Entries"
-msgstr "Deschide Inregistrarile Furnizorului in Registru"
+msgstr "Deschide Înregistrările Furnizorului în Registru"
 
 #. module: account_compensation
 #: field:account.compensation.line,amount_original:0
 msgid "Original Amount"
-msgstr "Suma Initiala"
+msgstr "Suma Inițială"
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_filter
@@ -354,18 +354,18 @@ msgstr "Perioada"
 #: code:addons/account_compensation/account_compensation.py:441
 #, python-format
 msgid "Please activate the sequence of selected journal !"
-msgstr "Va rugam sa activati secventa registrului selectat !"
+msgstr "Vă rugăm să activați secvența registrului selectat !"
 
 #. module: account_compensation
 #: code:addons/account_compensation/account_compensation.py:447
 #, python-format
 msgid "Please define a sequence on the journal."
-msgstr "Va rugam sa definiti o secventa in registru."
+msgstr "Vă rugăm să definiți o secvență în registru."
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_form
 msgid "Post"
-msgstr "Posteaza"
+msgstr "Postează"
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_filter
@@ -376,22 +376,22 @@ msgstr "Postat"
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_filter
 msgid "Posted Compensation"
-msgstr "Compensari Postate"
+msgstr "Compensări Postate"
 
 #. module: account_compensation
 #: selection:account.compensation,state:0
 msgid "Pro-forma"
-msgstr "Pro-forma"
+msgstr "Pro-formă"
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_filter
 msgid "Search Compensation"
-msgstr "Cauta COmpensari"
+msgstr "Caută Compensări"
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_form
 msgid "Set to Draft"
-msgstr "Setati ca ciorna"
+msgstr "Setați ca ciorna"
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_filter
@@ -402,13 +402,13 @@ msgstr "Stare"
 #. module: account_compensation
 #: field:account.compensation,message_summary:0
 msgid "Summary"
-msgstr "Continut"
+msgstr "Conținut"
 
 #. module: account_compensation
 #: code:addons/account_compensation/account_compensation.py:574
 #, python-format
 msgid "The invoice you are willing to pay is not valid anymore."
-msgstr "Factura pe care doriti sa o achitati nu mai este valabila."
+msgstr "Factura pe care doriți sa o achitați nu mai este valabilă."
 
 #. module: account_compensation
 #: view:account.compensation:account_compensation.view_compensation_form
@@ -435,13 +435,13 @@ msgstr "Linie incorecta a compensarii"
 #: code:addons/account_compensation/account_compensation.py:481
 #, python-format
 msgid "You should configure the 'Gain Exchange Rate Account' to manage automatically the booking of accounting entries related to differences between exchange rates."
-msgstr "Ar trebui să configurați 'Contul de venituri din diferenţe de curs valutar' pentru a gestiona în mod automat înregistrările contabile referitoare la diferențele dintre ratele de schimb."
+msgstr "Ar trebui să configurați 'Contul de venituri din diferențe de curs valutar' pentru a gestiona în mod automat înregistrările contabile referitoare la diferențele dintre ratele de schimb."
 
 #. module: account_compensation
 #: code:addons/account_compensation/account_compensation.py:475
 #, python-format
 msgid "You should configure the 'Loss Exchange Rate Account' to manage automatically the booking of accounting entries related to differences between exchange rates."
-msgstr "Ar trebui să configurați 'Contul de cheltuieli din diferenţe de curs valutar' pentru a gestiona în mod automat înregistrările contabile referitoare la diferențele dintre ratele de schimb."
+msgstr "Ar trebui să configurați 'Contul de cheltuieli din diferențe de curs valutar' pentru a gestiona în mod automat înregistrările contabile referitoare la diferențele dintre ratele de schimb."
 
 #. module: account_compensation
 #: code:addons/account_compensation/account_compensation.py:492

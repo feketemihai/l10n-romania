@@ -26,9 +26,9 @@
     "category" : "Hidden",
     "depends": ['l10n_ro','base_vat','account','account_vat_on_payment','partner_create_by_vat'],
     "description": """
-Partner fiscal validation from ANAF, Mfinante or OpenAPI for Romanian Companies
-------------------------------------------
-
+Partner fiscal validation for Romanian Companies
+------------------------------------------------
+Partner fiscal validation using ANAF, mfinante or OpenAPI
 
     """,
 
