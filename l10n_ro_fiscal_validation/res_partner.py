@@ -19,16 +19,19 @@
 #
 ##############################################################################
 
-import os
 from datetime import datetime, date
-from subprocess import Popen, PIPE
-
-from zipfile import ZipFile
-from StringIO import StringIO
-import requests
 
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
+
+import urllib
+from zipfile import ZipFile
+from StringIO import StringIO
+import json
+import requests
+
+import psycopg2
+import os, os.path
 
 try:
     import vatnumber
@@ -85,16 +88,12 @@ class res_partner(models.Model):
         if bool(date.today()-modify):
             result = requests.get('http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_' + date.today().strftime('%Y%m%d') + '.zip')
             if result.status_code == requests.codes.ok:
-                old_istoric = os.path.join(path, 'istoric%s.txt' % modify.strftime('%Y%m%d'))
-                os.rename(istoric, old_istoric)
                 files = ZipFile(StringIO(result.content))
                 files.extractall(path=str(path))
-                diff = Popen(['diff', '-b', '-B', old_istoric, istoric], stdout = PIPE)
-                (process_lines, err) = diff.communicate()
-                for 
     
+        file_path = str(path) + "/istoric.txt"
         self._cr.execute("DELETE FROM res_partner_anaf")
-        self._cr.execute("COPY res_partner_anaf (id,vat,start_date, end_date, publish_date, operation_date, operation_type) FROM '%s' WITH DELIMITER '#' NULL '' " % istoric)
+        self._cr.execute("COPY res_partner_anaf (id,vat,start_date, end_date, publish_date, operation_date, operation_type) FROM '%s' WITH DELIMITER '#' NULL '' " % file_path)
         return True
 
     @api.multi
@@ -129,8 +128,6 @@ class res_partner(models.Model):
                 if res['vat']=='1':
                     vat_s = True
         elif vat_number and vat_country:
-            if vatnumber is None:
-                return False
             vat_s = vatnumber.check_vies(vat_country.upper()+vat_number)
         return vat_s
         
