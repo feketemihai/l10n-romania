@@ -37,6 +37,8 @@ except ImportError:
                                           "Install it to support more countries, for example with `easy_install vatnumber`.")
     vatnumber = None
 
+ANAF_URL = 'http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_%s.zip'
+
 class res_partner_anaf(models.Model):
     _name = "res.partner.anaf"
     _description = "ANAF History about VAT on Payment"
@@ -75,26 +77,59 @@ class res_partner(models.Model):
     # Grab VAT on Payment data from ANAF, update table - SQL injection 
     @api.model
     def _download_anaf_data(self):
+        def _insert_anaf(cr, data):
+            if data == []:
+                return []
+            print cr.execute("""
+INSERT INTO res_partner_anaf
+    (id,vat,start_date, end_date, publish_date, operation_date, operation_type)
+VALUES
+    %s""" % ','.join(data))
+            return []
+
         date = datetime.now()
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
-        istoric = os.path.join(path) + "istoric.txt"
+        istoric = os.path.join(path, "istoric.txt")
         if os.path.exists(istoric):
             modify = date.fromtimestamp(os.path.getmtime(istoric))
         else:
-            modify = date.today()
+            open(istoric, 'a').close()
+            modify = date.fromtimestamp(0)
         if bool(date.today()-modify):
-            result = requests.get('http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_' + date.today().strftime('%Y%m%d') + '.zip')
+            result = requests.get(ANAF_URL % date.today().strftime('%Y%m%d'))
             if result.status_code == requests.codes.ok:
-                old_istoric = os.path.join(path, 'istoric%s.txt' % modify.strftime('%Y%m%d'))
+                old_istoric = 'istoric%s.txt' % modify.strftime('%Y%m%d')
+                old_istoric = os.path.join(path, old_istoric)
                 os.rename(istoric, old_istoric)
                 files = ZipFile(StringIO(result.content))
                 files.extractall(path=str(path))
-                diff = Popen(['diff', '-b', '-B', old_istoric, istoric], stdout = PIPE)
+                diff = Popen(
+                    ['diff', '-b', '-B', old_istoric, istoric],
+                    stdout = PIPE
+                )
                 (process_lines, err) = diff.communicate()
-                for 
-    
-        self._cr.execute("DELETE FROM res_partner_anaf")
-        self._cr.execute("COPY res_partner_anaf (id,vat,start_date, end_date, publish_date, operation_date, operation_type) FROM '%s' WITH DELIMITER '#' NULL '' " % istoric)
+                counter = 0
+                vals = []
+                for line in process_lines.split('\n'):
+                    if line and line[0] == '>':
+                        counter = counter + 1
+                        val = line[2:].split('#')
+                        for k, v in enumerate(val):
+                            if k == 0:
+                                continue
+                            elif v == '':
+                                val[k] = 'NULL'
+                            else:
+                                val[k] = "'%s'" % v
+                        vals.append('(' + ','.join(val) + ')')
+                    if counter > 99:
+                        vals = _insert_anaf(self._cr, vals)
+                        counter = 0
+                _insert_anaf(self._cr, vals)
+        # self._cr.execute("DELETE FROM res_partner_anaf")
+        # self._cr.execute("COPY res_partner_anaf (id,vat,start_date, end_date,
+        # publish_date, operation_date, operation_type) FROM '%s' WITH
+        # DELIMITER '#' NULL '' " % istoric)
         return True
 
     @api.multi
