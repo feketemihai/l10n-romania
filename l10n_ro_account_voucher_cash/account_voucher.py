@@ -38,7 +38,8 @@ class account_bank_statement_line(osv.osv):
     _inherit = "account.bank.statement.line"
 
     _columns = {
-        'voucher_id': fields.many2one('account.voucher', 'Voucher', ondelete='restrict'),
+        'voucher_id': fields.many2one(
+            'account.voucher', 'Voucher', ondelete='restrict'),
     }
 
 
@@ -47,7 +48,10 @@ class account_journal(osv.osv):
     _inherit = "account.journal"
 
     _columns = {
-        "receipts_sequence_id": fields.many2one('ir.sequence', 'Voucher Sequence', help="This field contains the information related to the numbering of the vouchers (receipts) of this journal."),
+        "receipts_sequence_id": fields.many2one(
+            'ir.sequence', 'Voucher Sequence',
+            help="""This field contains the information related to the
+            numbering of the vouchers (receipts) of this journal."""),
     }
 
 
@@ -57,9 +61,11 @@ class account_voucher(osv.osv):
 
     def account_move_get(self, cr, uid, voucher_id, context=None):
         '''
-        This method prepare the creation of the account move related to the given voucher.
+        This method prepare the creation of the account move related to the
+        given voucher.
 
-        :param voucher_id: Id of voucher for which we are creating account_move.
+        :param voucher_id: Id of voucher for which we are creating
+        account_move.
         :return: mapping between fieldname and value of account move to create
         :rtype: dict
         '''
@@ -77,16 +83,22 @@ class account_voucher(osv.osv):
                         {'fiscalyear_id': voucher.period_id.fiscalyear_id.id})
                     if not voucher.number:
                         number = seq_obj.next_by_id(
-                            cr, uid, voucher.journal_id.receipts_sequence_id.id, context=c)
+                            cr, uid,
+                            voucher.journal_id.receipts_sequence_id.id, context=c)
                         self.write(
-                            cr, uid, [voucher_id], {'number': number, 'name': number})
+                            cr, uid, [voucher_id],
+                            {'number': number, 'name': number})
                 else:
                     raise osv.except_osv(_('Error!'),
                                          _('Please define a receipts sequence on the journal.'))
             else:
                 if voucher.reference:
                     self.write(
-                        cr, uid, [voucher_id], {'number': voucher.reference, 'name': voucher.reference})
+                        cr, uid, [voucher_id],
+                        {
+                            'number': voucher.reference,
+                            'name': voucher.reference
+                        })
             voucher.refresh()
         return super(account_voucher, self).account_move_get(cr, uid, voucher_id, context=context)
 

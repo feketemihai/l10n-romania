@@ -36,7 +36,11 @@ class account_period_closing_wizard(models.TransientModel):
         return {'type': 'ir.actions.act_window_close'}
 
     closing_id = fields.Many2one(
-        'account.period.closing', 'Closing Model', required=True, ondelete='cascade')
+        'account.period.closing',
+        'Closing Model',
+        required=True,
+        ondelete='cascade'
+    )
     company_id = fields.Many2one(
         'res.company', related='closing_id.company_id', string='Company')
     date_move = fields.Date('Closing Move Date', required=True, select=True)

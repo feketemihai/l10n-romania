@@ -25,7 +25,13 @@
     "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category": "Romania Adaptation",
-    "depends": ['account', 'report', 'account_vat_on_payment', 'l10n_ro_invoice_line_not_deductible', 'l10n_ro_config'],
+    "depends": [
+        'account',
+        'report',
+        'account_vat_on_payment',
+        'l10n_ro_invoice_line_not_deductible',
+        'l10n_ro_config'
+    ],
     "description": """
 Romania  - Accounting Reports
 ------------------------------------------

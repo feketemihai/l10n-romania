@@ -38,13 +38,25 @@ class account_period_closing(models.Model):
     company_id = fields.Many2one(
         'res.company', string='Company', required=True)
     type = fields.Selection(
-        [('income', 'Incomes'), ('expense', 'Expenses'), ('selected', 'Selected')], string='Type', required=True)
+        [
+            ('income', 'Incomes'),
+            ('expense', 'Expenses'),
+            ('selected', 'Selected')
+        ], string='Type', required=True)
     account_ids = fields.Many2many(
         'account.account', string='Accounts to close', select=True)
-    debit_account_id = fields.Many2one('account.account', 'Closing account, debit', required=True,
-                                       domain="[('company_id', '=', company_id)]")
-    credit_account_id = fields.Many2one('account.account', 'Closing account, credit', required=True,
-                                        domain="[('company_id', '=', company_id)]")
+    debit_account_id = fields.Many2one(
+        'account.account',
+        'Closing account, debit',
+        required=True,
+        domain="[('company_id', '=', company_id)]"
+    )
+    credit_account_id = fields.Many2one(
+        'account.account',
+        'Closing account, credit',
+        required=True,
+        domain="[('company_id', '=', company_id)]"
+    )
     move_ids = fields.One2many('account.move', 'close_id', 'Closing Moves')
 
     @api.onchange('type')
@@ -53,14 +65,17 @@ class account_period_closing(models.Model):
         if self.type and self.type in ('income', 'expense'):
             user_types = self.env['account.account.type'].search(
                 [('code', '=', self.type)])
-            self.account_ids = self.env['account.account'].search([('user_type', 'in', [
-                                                                  x.id for x in user_types]), ('type', '!=', 'view'), ('company_id', '=', self.company_id.id)])
+            self.account_ids = self.env['account.account'].search([
+                ('user_type', 'in', [x.id for x in user_types]),
+                ('type', '!=', 'view'),
+                ('company_id', '=', self.company_id.id)
+            ])
         else:
             self.account_ids = account_ids
 
     @api.one
     def close(self, date=None, period=None, journal=None):
-        """ This method will create the closing move for the period selected."""
+        """ This method will create the closing move for the period selected"""
         if not period or not journal:
             raise osv.except_osv('No period or journal defined')
         closing = self[0]
@@ -74,8 +89,13 @@ class account_period_closing(models.Model):
             ctx)._get_children_and_consol()
         accounts = account_obj.browse(account_ids).with_context(
             ctx).read(['name', 'balance'])
-        move = self.env['account.move'].create(
-            {'date': date, 'journal_id': journal, 'period_id': period, 'close_id': closing.id, 'company_id': closing.company_id.id})
+        move = self.env['account.move'].create({
+            'date': date,
+            'journal_id': journal,
+            'period_id': period,
+            'close_id': closing.id,
+            'company_id': closing.company_id.id
+        })
         sum = 0.0
         for account in accounts:
             if account['balance'] != 0.0:
