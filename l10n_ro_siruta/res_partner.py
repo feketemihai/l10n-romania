@@ -22,7 +22,6 @@
 from openerp import models, fields, api
 
 class res_partner(models.Model):
-    _name = "res.partner"
     _inherit = "res.partner"
     
     @api.onchange('city_id')

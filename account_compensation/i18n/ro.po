@@ -1,0 +1,453 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account_compensation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-09 12:14+0000\n"
+"PO-Revision-Date: 2015-01-09 12:14+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_compensation
+#: help:account.compensation,state:0
+msgid " * The 'Draft' status is used when a user is encoding a new and unconfirmed compensation. \n"
+"* The 'Pro-forma' when compensation is in Pro-forma status,compensation does not have an compensation number. \n"
+"* The 'Posted' status is used when user create compensation,a compensation number is generated and compensation entries are created in account \n"
+"* The 'Cancelled' status is used when user cancel compensation."
+msgstr "* Starea 'Ciornă' este utilizată atunci când un utilizator adaugă o compensare nouă sau neconfirmată. \n"
+"* 'Pro-formă' atunci când compensarea este în starea de pro-formă, compensarea nu are un număr de compensare. \n"
+"* Starea 'Postat' este utilizată atunci când utilizatorul creează o compensare nouă, un număr de compensare este generat și mișcările contabile sunt înregistrate. \n"
+"* Starea 'Anulat' este utilizată atunci când utilizatorul anulează o compensare."
+
+#. module: account_compensation
+#: field:account.compensation.line,account_id:0
+msgid "Account"
+msgstr "Cont"
+
+#. module: account_compensation
+#: field:account.compensation,move_id:0
+msgid "Account Entry"
+msgstr "Înregistrare Jurnal"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_form
+#: model:ir.model,name:account_compensation.model_account_compensation
+msgid "Accounting Compensation"
+msgstr "Compensare"
+
+#. module: account_compensation
+#: field:account.compensation.line,amount:0
+msgid "Amount"
+msgstr "Suma"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_form
+msgid "Are you sure you want to unreconcile this record?"
+msgstr "Sunteți sigur că doriți să nereconciliați această înregistrare?"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_form
+msgid "Cancel Compensation"
+msgstr "Anulează Compensare"
+
+#. module: account_compensation
+#: selection:account.compensation,state:0
+msgid "Cancelled"
+msgstr "Anulată"
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:404
+#, python-format
+msgid "Cannot delete compensation(s) which are already opened or paid."
+msgstr "Nu puteți șterge compensarea(rile) care sunt deschise sau plătite."
+
+#. module: account_compensation
+#: field:account.compensation,company_id:0
+#: field:account.compensation.line,company_id:0
+msgid "Company"
+msgstr "Companie"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_filter
+#: field:account.compensation.line,compensation_id:0
+#: code:addons/account_compensation/account_compensation.py:73
+#, python-format
+msgid "Compensation"
+msgstr "Compensare"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_tree
+#: model:ir.actions.act_window,name:account_compensation.act_journal_compensation_open
+#: model:ir.actions.act_window,name:account_compensation.action_review_compensation_list
+msgid "Compensation Entries"
+msgstr "Înregistrări Compensare"
+
+#. module: account_compensation
+#: field:account.compensation,line_ids:0
+#: view:account.compensation.line:account_compensation.view_compensation_line_form
+#: model:ir.model,name:account_compensation.model_account_compensation_line
+msgid "Compensation Lines"
+msgstr "Linii Compensare"
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:440
+#, python-format
+msgid "Configuration Error !"
+msgstr "Eroare Configurare !"
+
+#. module: account_compensation
+#: field:account.compensation,create_uid:0
+#: field:account.compensation.line,create_uid:0
+msgid "Created by"
+msgstr "Creeat de"
+
+#. module: account_compensation
+#: field:account.compensation,create_date:0
+#: field:account.compensation.line,create_date:0
+msgid "Created on"
+msgstr "Creeat la"
+
+#. module: account_compensation
+#: selection:account.compensation.line,type:0
+msgid "Credit"
+msgstr "Credit"
+
+#. module: account_compensation
+#: field:account.compensation,line_cr_ids:0
+msgid "Credits"
+msgstr "Credite"
+
+#. module: account_compensation
+#: field:account.compensation,currency_id:0
+#: field:account.compensation.line,currency_id:0
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: account_compensation
+#: field:account.compensation,date:0
+#: field:account.compensation.line,date_original:0
+msgid "Date"
+msgstr "Data"
+
+#. module: account_compensation
+#: help:account.compensation,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Data ultimului mesaj postat la această înregistrare"
+
+#. module: account_compensation
+#: selection:account.compensation.line,type:0
+msgid "Debit"
+msgstr "Debit"
+
+#. module: account_compensation
+#: field:account.compensation,line_dr_ids:0
+msgid "Debits"
+msgstr "Debite"
+
+#. module: account_compensation
+#: field:account.compensation.line,name:0
+msgid "Description"
+msgstr "Descriere"
+
+#. module: account_compensation
+#: field:account.compensation.line,type:0
+msgid "Dr/Cr"
+msgstr "Dr/Cr"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_filter
+#: selection:account.compensation,state:0
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_filter
+msgid "Draft Compensation"
+msgstr "Compensări Ciornă"
+
+#. module: account_compensation
+#: field:account.compensation.line,date_due:0
+msgid "Due Date"
+msgstr "Data Scadenței"
+
+#. module: account_compensation
+#: help:account.compensation,date:0
+msgid "Effective date for accounting entries"
+msgstr "Data efectivă a înregistrărilor contabile"
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:446
+#, python-format
+msgid "Error!"
+msgstr "Eroare!"
+
+#. module: account_compensation
+#: help:account.compensation,is_multi_currency:0
+msgid "Fields with internal purpose only that depicts if the compensation is a multi currency one or not"
+msgstr "Câmpurile marchează compensarea dacă este în multi-monedă sau nu"
+
+#. module: account_compensation
+#: field:account.compensation,message_follower_ids:0
+msgid "Followers"
+msgstr "Persoane Interesate"
+
+#. module: account_compensation
+#: field:account.compensation.line,reconcile:0
+msgid "Full Reconcile"
+msgstr "Reconciliere Totală"
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:476
+#: code:addons/account_compensation/account_compensation.py:482
+#, python-format
+msgid "Go to the configuration panel"
+msgstr "Mergeți la Panoul de Configurare"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_filter
+msgid "Group By"
+msgstr "Grupează după"
+
+#. module: account_compensation
+#: help:account.compensation,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Conține rezumatul Chatter (număr de mesaje, ...). Acest rezumat este direct în format HTML, cu scopul de a se introduce în vizualizari kanban."
+
+#. module: account_compensation
+#: field:account.compensation,id:0
+#: field:account.compensation.line,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: account_compensation
+#: help:account.compensation,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Dacă este selectat, mesajele noi necesită atenția dumneavoastră."
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_form
+msgid "Internal Notes"
+msgstr "Note Interne"
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:404
+#, python-format
+msgid "Invalid Action!"
+msgstr "Acțiune Invalidă"
+
+#. module: account_compensation
+#: field:account.compensation,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Este un adept"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_filter
+#: field:account.compensation,journal_id:0
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: account_compensation
+#: model:ir.actions.act_window,name:account_compensation.action_compensation_list
+#: model:ir.ui.menu,name:account_compensation.menu_encode_entries_by_compensation
+msgid "Journal Compensation"
+msgstr "Jurnal Compensari"
+
+#. module: account_compensation
+#: field:account.compensation.line,move_line_id:0
+msgid "Journal Item"
+msgstr "Elementul Jurnalului"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_form
+#: field:account.compensation,move_ids:0
+msgid "Journal Items"
+msgstr "Elementele Jurnalului"
+
+#. module: account_compensation
+#: field:account.compensation,message_last_post:0
+msgid "Last Message Date"
+msgstr "Data ultimului mesaj"
+
+#. module: account_compensation
+#: field:account.compensation,write_uid:0
+#: field:account.compensation.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: account_compensation
+#: field:account.compensation,write_date:0
+#: field:account.compensation.line,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima actualizare la"
+
+#. module: account_compensation
+#: field:account.compensation,name:0
+msgid "Memo"
+msgstr "Memo"
+
+#. module: account_compensation
+#: field:account.compensation,message_ids:0
+msgid "Messages"
+msgstr "Mesaje"
+
+#. module: account_compensation
+#: help:account.compensation,message_ids:0
+msgid "Messages and communication history"
+msgstr "Istoric mesaje și conversații"
+
+#. module: account_compensation
+#: field:account.compensation,is_multi_currency:0
+msgid "Multi Currency Compensation"
+msgstr "Compensare Multi-moneda"
+
+#. module: account_compensation
+#: field:account.compensation,narration:0
+msgid "Notes"
+msgstr "Note"
+
+#. module: account_compensation
+#: field:account.compensation,number:0
+msgid "Number"
+msgstr "Număr"
+
+#. module: account_compensation
+#: field:account.compensation.line,amount_unreconciled:0
+msgid "Open Balance"
+msgstr "Sold la deschidere"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_form
+msgid "Open Customer Journal Entries"
+msgstr "Deschide Înregistrările Clientului în Registru"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_form
+msgid "Open Supplier Journal Entries"
+msgstr "Deschide Înregistrările Furnizorului în Registru"
+
+#. module: account_compensation
+#: field:account.compensation.line,amount_original:0
+msgid "Original Amount"
+msgstr "Suma Inițială"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_filter
+#: field:account.compensation,partner_id:0
+#: field:account.compensation.line,partner_id:0
+msgid "Partner"
+msgstr "Partener"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_filter
+#: field:account.compensation,period_id:0
+msgid "Period"
+msgstr "Perioada"
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:441
+#, python-format
+msgid "Please activate the sequence of selected journal !"
+msgstr "Vă rugăm să activați secvența registrului selectat !"
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:447
+#, python-format
+msgid "Please define a sequence on the journal."
+msgstr "Vă rugăm să definiți o secvență în registru."
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_form
+msgid "Post"
+msgstr "Postează"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_filter
+#: selection:account.compensation,state:0
+msgid "Posted"
+msgstr "Postat"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_filter
+msgid "Posted Compensation"
+msgstr "Compensări Postate"
+
+#. module: account_compensation
+#: selection:account.compensation,state:0
+msgid "Pro-forma"
+msgstr "Pro-formă"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_filter
+msgid "Search Compensation"
+msgstr "Caută Compensări"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_form
+msgid "Set to Draft"
+msgstr "Setați ca ciorna"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_filter
+#: field:account.compensation,state:0
+msgid "Status"
+msgstr "Stare"
+
+#. module: account_compensation
+#: field:account.compensation,message_summary:0
+msgid "Summary"
+msgstr "Conținut"
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:574
+#, python-format
+msgid "The invoice you are willing to pay is not valid anymore."
+msgstr "Factura pe care doriți sa o achitați nu mai este valabilă."
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_form
+msgid "Total Allocation"
+msgstr "Total Alocare"
+
+#. module: account_compensation
+#: field:account.compensation,message_unread:0
+msgid "Unread Messages"
+msgstr "Mesaje Necitite"
+
+#. module: account_compensation
+#: view:account.compensation:account_compensation.view_compensation_form
+msgid "Compensation Entry"
+msgstr "Inregistrare Compensare"
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:574
+#, python-format
+msgid "Wrong compensation line"
+msgstr "Linie incorecta a compensarii"
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:481
+#, python-format
+msgid "You should configure the 'Gain Exchange Rate Account' to manage automatically the booking of accounting entries related to differences between exchange rates."
+msgstr "Ar trebui să configurați 'Contul de venituri din diferențe de curs valutar' pentru a gestiona în mod automat înregistrările contabile referitoare la diferențele dintre ratele de schimb."
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:475
+#, python-format
+msgid "You should configure the 'Loss Exchange Rate Account' to manage automatically the booking of accounting entries related to differences between exchange rates."
+msgstr "Ar trebui să configurați 'Contul de cheltuieli din diferențe de curs valutar' pentru a gestiona în mod automat înregistrările contabile referitoare la diferențele dintre ratele de schimb."
+
+#. module: account_compensation
+#: code:addons/account_compensation/account_compensation.py:492
+#: code:addons/account_compensation/account_compensation.py:506
+#: code:addons/account_compensation/account_compensation.py:638
+#, python-format
+msgid "change"
+msgstr "Curs de schimb"
+

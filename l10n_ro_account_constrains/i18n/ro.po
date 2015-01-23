@@ -1,0 +1,39 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_account_constrains
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-09 07:14+0000\n"
+"PO-Revision-Date: 2015-01-09 07:14+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_account_constrains
+#: constraint:account.journal:0
+msgid "Removed Configuration error!\n"
+"The currency chosen should be shared by the default accounts too."
+msgstr "Eliminat Eroare de configurare!\n"
+"Valuta aleasa ar trebui sa fie comuna si conturilor implicite."
+
+#. module: l10n_ro_account_constrains
+#: model:ir.model,name:l10n_ro_account_constrains.model_account_journal
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: l10n_ro_account_constrains
+#: model:ir.model,name:l10n_ro_account_constrains.model_account_move_line
+msgid "Journal Items"
+msgstr "Elementele Jurnalului"
+
+#. module: l10n_ro_account_constrains
+#: constraint:account.move.line:0
+msgid "The selected account of your Journal Entry forces to provide a secondary currency. You should remove the secondary currency on the account or select a multi-currency view on the journal."
+msgstr "Contul selectat din Inregistrarea in Jurnal solicita furnizarea unei monede secundare. Ar trebui sa stergeti moneda secundara din cont sau sa selectati o vizualizare multi-moneda in jurnal."
+

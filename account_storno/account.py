@@ -30,7 +30,6 @@ import openerp.addons.decimal_precision as dp
 
 
 class account_account(osv.Model):
-    _name = 'account.account'
     _inherit = 'account.account'
     _columns = {
         'check_side': fields.selection([('credit', 'Credit'),
@@ -47,15 +46,14 @@ class account_account(osv.Model):
 
 
 class account_journal(osv.Model):
-    _name = "account.journal"
     _inherit = "account.journal"
     _columns = {
         'posting_policy': fields.selection([('contra', 'Contra (debit<->credit)'),
                                             ('storno', 'Storno (-)'),
                                            ],
                                           'Storno or Contra', size=16, required=True,
-                                           help="Storno allows minus postings, Refunds are posted on the same joural/account * (-1).\n"
-                                                "Contra doesn't allow negative posting. Refunds are posted by swaping credit and debit side."
+                                           help="Storno allows minus postings, Refunds are posted on the same journal/account * (-1).\n"
+                                                "Contra doesn't allow negative posting. Refunds are posted by swapping credit and debit side."
                                         ),
         'refund_journal_id': fields.many2one('account.journal', 'Refund journal',
                                            help="Journal for refunds/returns from this journal. Leave empty to use same journal for normal and refund/return postings.",
@@ -66,7 +64,6 @@ class account_journal(osv.Model):
 
 
 class account_move_line(osv.Model):
-    _name = "account.move.line"
     _inherit = "account.move.line"
     #Original constraints
     #_sql_constraints = [
@@ -124,7 +121,7 @@ class account_move_line(osv.Model):
 
     _constraints = [
         (_check_contra_minus, _('Negative credit or debit amount is not allowed for "contra" journal policy.'), ['journal_id']),
-        (_check_storno_tax, _('Invalid tax amount. Tax amount can be 0.00 or equal to (Credit + Debit).'), ['tax_amount']),
+        # (_check_storno_tax, _('Invalid tax amount. Tax amount can be 0.00 or equal to (Credit + Debit).'), ['tax_amount']),
         (_check_side, _('Invalid side for account.'), ['account_id']),
     ]
     
@@ -187,7 +184,6 @@ class account_move_line(osv.Model):
     }    
 
 class account_model_line(osv.Model):
-    _name = "account.model.line"
     _inherit = "account.model.line"
     
     def _auto_init(self, cr, context=None):

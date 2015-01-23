@@ -163,6 +163,7 @@ class l10n_ro_config_settings(models.TransientModel):
     @api.multi
     def execute(self):
         res = super(l10n_ro_config_settings, self).execute()
+        data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
         account_obj = self.env['account.account']
         # Load VAT on Payment Configuration
         installed = self.env['ir.module.module'].search([('name','=','account_vat_on_payment'),('state','=','installed')])
@@ -206,7 +207,6 @@ class l10n_ro_config_settings(models.TransientModel):
                 for tax in taxes:
                     if not tax.not_deductible_tax_id:
                         not_deduct_tax = self.env['account.tax'].search([('company_id','=',self.company_id.id),('name','ilike',tax.name.replace('deductibil','colectat'))])
-                        print not_deduct_tax
                         if not_deduct_tax:
                             tax.not_deductible_tax_id = not_deduct_tax[0].id                  
         # Load Chart of Asset Category
@@ -237,9 +237,7 @@ class l10n_ro_config_settings(models.TransientModel):
                                                                         "number_next": 1, "number_increment": 1,
                                                                         "prefix": 'INV/', "company_id" : wiz.company_id.id})
                     inv_sequence_id = inv_sequence_id[0].id
-                    script_dir = os.path.dirname(os.getcwd())
-                    rel_path = str(script_dir) + "/l10n-romania/l10n_ro_config/data/categoriiactive.csv"
-                    f = open(rel_path, 'rb')
+                    f = open(os.path.join(data_dir, 'categoriiactive.csv'), 'rb')
                     try:
                      
                         categorii = csv.DictReader(f)
@@ -295,9 +293,7 @@ class l10n_ro_config_settings(models.TransientModel):
             if wiz.bank_statement_template_installed:
                 statements = statement_obj.search([('company_id','=',wiz.company_id.id)])
                 if not statements:
-                    script_dir = os.path.dirname(os.getcwd())
-                    rel_path = str(script_dir) + "/l10n-romania/l10n_ro_config/data/account_statement_operation_template.csv"
-                    f = open(rel_path, 'rb')
+                    f = open(os.path.join(data_dir, 'account_statement_operation_template.csv'), 'rb')
                     try:                     
                         operations = csv.DictReader(f)
                         for row in operations:
@@ -316,14 +312,12 @@ class l10n_ro_config_settings(models.TransientModel):
         # Load Account Period Templates
         installed = self.env['ir.module.module'].search([('name','=','l10n_ro_account_period_close'),('state','=','installed')])
         if installed:
-            closing_obj = self.env['account.period.close']        
+            closing_obj = self.env['account.period.closing']        
             wiz = self[0]
             if wiz.account_period_close_template_installed:
                 closings = closing_obj.search([('company_id','=',wiz.company_id.id)])
                 if not closings:
-                    script_dir = os.path.dirname(os.getcwd())
-                    rel_path = str(script_dir) + "/l10n-romania/l10n_ro_config/data/account_period_close_templates.csv"
-                    f = open(rel_path, 'rb')
+                    f = open(os.path.join(data_dir, 'account_period_close_templates.csv'), 'rb')
                     try:                     
                         operations = csv.DictReader(f)
                         for row in operations:
@@ -332,14 +326,10 @@ class l10n_ro_config_settings(models.TransientModel):
                             new_accounts = []
                             if row['account_ids']:
                                 accounts = row['account_ids'].split(",")
-                                print accounts
                                 for account in accounts:
-                                    print account
                                     comp_account = account_obj.search([('code','=',account),('company_id','=',wiz.company_id.id)])
-                                    print comp_account
                                     if comp_account:
                                         new_accounts.append(comp_account[0].id)
-                                print new_accounts
                             if debit_account_id and credit_account_id:
                                 template = closing_obj.create({
                                     'name': row['name'],

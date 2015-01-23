@@ -22,22 +22,21 @@
 from openerp import models, fields, api, _
 
 class account_move(models.Model):
-    _name = 'account.move'
     _inherit = 'account.move'
     
-    close_id = fields.Many2one('account.period.close', 'Close Account Period')
+    close_id = fields.Many2one('account.period.closing', 'Closed Account Period')
 
-class account_period_close(models.Model):
-    _name = 'account.period.close'
-    _description = 'Account Period Close'
+class account_period_closing(models.Model):
+    _name = 'account.period.closing'
+    _description = 'Account Period Closing'
     
     name = fields.Char('Name', required=True)
     company_id = fields.Many2one('res.company', string='Company', required=True)
     type = fields.Selection([('income', 'Incomes'),('expense', 'Expenses'),('selected', 'Selected')], string='Type', required=True)
     account_ids = fields.Many2many('account.account', string='Accounts to close', select=True)
-    debit_account_id = fields.Many2one('account.account', 'Result account, debit', required=True,
+    debit_account_id = fields.Many2one('account.account', 'Closing account, debit', required=True,
         domain="[('company_id', '=', company_id)]")
-    credit_account_id = fields.Many2one('account.account', 'Result account, credit', required=True,
+    credit_account_id = fields.Many2one('account.account', 'Closing account, credit', required=True,
         domain="[('company_id', '=', company_id)]")
     move_ids = fields.One2many('account.move', 'close_id', 'Closing Moves')
 
@@ -68,9 +67,9 @@ class account_period_close(models.Model):
         sum = 0.0
         for account in accounts:
             if account['balance'] <> 0.0:
-                if closing.typee=='expense':
+                if closing.type == 'expense':
                     val = {
-                        'name': 'Closing ' + regularization.name,
+                        'name': 'Closing ' + closing.name,
                         'date': date,
                         'move_id': move[0].id,
                         'account_id':account['id'],
@@ -80,9 +79,9 @@ class account_period_close(models.Model):
                         'journal_id': journal,
                         'period_id': period,
                     }
-                elif closing.type=='income':
+                elif closing.type == 'income':
                     val = {
-                        'name': 'Closing ' + regularization.name,
+                        'name': 'Closing ' + closing.name,
                         'date': date,
                         'move_id': move[0].id,
                         'account_id':account['id'],
@@ -94,7 +93,7 @@ class account_period_close(models.Model):
                     }
                 else:
                     val = {
-                        'name': 'Closing ' + regularization.name,
+                        'name': 'Closing ' + closing.name,
                         'date': date,
                         'move_id': move[0].id,
                         'account_id':account['id'],

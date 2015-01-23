@@ -22,7 +22,6 @@
 from openerp import models, fields, _
 
 class account_statement_operation_template(models.Model):
-    _name = 'account.statement.operation.template'
     _inherit = 'account.statement.operation.template'
     
     company_id = fields.Many2one('res.company', string='Company', required=True)
@@ -36,7 +35,6 @@ from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 
 class account_bank_statement_line(osv.osv):
-    _name = "account.bank.statement.line"
     _inherit = "account.bank.statement.line"
 	    
     def process_reconciliation(self, cr, uid, id, mv_line_dicts, context=None):

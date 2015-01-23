@@ -79,16 +79,14 @@ class res_partner(models.Model):
     @api.model
     def _download_anaf_data(self):
         date = datetime.now()
-        path = os.getcwd()
-        if os.path.exists(str(path) + "/istoric.txt"):
-            t = os.path.getmtime(str(path) + "/istoric.txt")
-            modify = datetime.fromtimestamp(t).strftime('%Y%m%d')        
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+        istoric = os.path.join(path) + "istoric.txt"
+        if os.path.exists(istoric):
+            modify = date.fromtimestamp(os.path.getmtime(istoric))
         else:
-            open(str(path) + "/istoric.txt", "w")
-            modify = date.strftime('%Y%m%d')
-        date = date.strftime('%Y%m%d')
-        if modify<>date:
-            result = requests.get('http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_' + str(date) + '.zip')
+            modify = date.today()
+        if bool(date.today()-modify):
+            result = requests.get('http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_' + date.today().strftime('%Y%m%d') + '.zip')
             if result.status_code == requests.codes.ok:
                 files = ZipFile(StringIO(result.content))
                 files.extractall(path=str(path))
@@ -126,7 +124,7 @@ class res_partner(models.Model):
         if vat_number and vat_country and vat_country.upper()=='RO':
             res = requests.get('http://openapi.ro/api/companies/' + str(vat_number) + '.json')
             if res.status_code==200:
-                res = json.loads(res.content)
+                res = res.json()
                 if res['vat']=='1':
                     vat_s = True
         elif vat_number and vat_country:
@@ -145,30 +143,7 @@ class res_partner(models.Model):
     @api.one
     def button_get_partner_data(self):
         super(res_partner, self).button_get_partner_data()
-        vat_s = vat_number = vat_country = False        
-        if self.vat:
-            vat_country, vat_number = self.vat[:2].lower(), self.vat[2:].replace(' ', '')        
-        if vat_number and vat_country and vat_country.upper()=='RO':
-            res = requests.get('http://openapi.ro/api/companies/' + str(vat_number) + '.json')
-            if res.status_code==200:
-                res = json.loads(res.content)
-                if self.name == '1' or self.name == ' ':
-                    state = False
-                    if res['state']:
-                        state = self.env['res.country.state'].search([('name','=',res['state'].encode('utf-8').title())])
-                        if state:
-                            state = state[0].id
-                    self.write({
-                        'name': res['name'].encode('utf-8').upper(),
-                        'is_company': True,
-                        'nrc': res['registration_id'] and res['registration_id'].encode('utf-8').upper() or '',
-                        'street': res['address'].encode('utf-8').title() + ' ' + res['city'].encode('utf-8').title(),
-                        'phone': res['phone'] and res['phone'].encode('utf-8') or '',
-                        'zip': res['zip'] and res['zip'].encode('utf-8') or '',
-                        'state_id': state,
-                        'country_id': self.env['res.country'].search([('code','=','RO')])[0].id,
-                    })
-        self.update_vat_one()
+        self.check_vat_on_payment()
     
     @api.multi
     def update_vat_all(self):

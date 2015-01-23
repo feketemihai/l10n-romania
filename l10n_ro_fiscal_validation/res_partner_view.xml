@@ -19,7 +19,7 @@
                                 <field name="operation_type"/>
                             </tree>
                         </field>
-                        <button name="update_vat_one" colspan="2" string="Update VAT" type="object" icon="gtk-execute"/>                    
+                        <button name="update_vat_one" colspan="2" string="Update Data" type="object" icon="gtk-execute"/>                    
                     </page>
                 </page>
             </field>
