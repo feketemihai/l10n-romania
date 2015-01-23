@@ -45,9 +45,8 @@ class res_country_zipcode(models.Model):
         return recs.name_get()
         
     @api.onchange('city_id')
-    def _onchange_commune_id(self):
+    def _onchange_city_id(self):
         if self.city_id:
-            self.state_id = self.city_id.state_id.id
             self.state_id = self.city_id.state_id.id
             self.zone_id = self.city_id.zone_id.id
             self.country_id = self.city_id.country_id.id
