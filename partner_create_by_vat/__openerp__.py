@@ -2,7 +2,8 @@
 ##############################################################################
 #
 #     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA (http://www.forbiom.eu).
+#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
+#    (http://www.forbiom.eu).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,17 +20,16 @@
 #
 ##############################################################################
 {
-    "name" : "Partner create by VAT",
-    "version" : "1.0",
-    "author" : "FOREST AND BIOMASS SERVICES ROMANIA	",
+    "name": "Partner create by VAT",
+    "version": "1.0",
+    "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
-    "category" : "Hidden",
-    "depends": ['l10n_ro','base_vat'],
+    "category": "Hidden",
+    "depends": ['l10n_ro', 'base_vat'],
     "description": """
-Partner create by vat from Mfinante for Romanian Companies or Vies site for Euroipean one
-------------------------------------------
-
-
+Partner create by VAT
+---------------------
+Fetches Partner data from openapi/mfinante or VIES
     """,
 
     'data': ['res_partner_view.xml',

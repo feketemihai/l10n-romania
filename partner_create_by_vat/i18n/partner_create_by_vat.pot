@@ -17,7 +17,7 @@ msgstr ""
 
 #. module: partner_create_by_vat
 #: view:res.partner:partner_create_by_vat.view_partner_form
-msgid "Get Partner Datas"
+msgid "Get Partner Data"
 msgstr ""
 
 #. module: partner_create_by_vat
