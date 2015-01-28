@@ -20,7 +20,7 @@
 ##############################################################################
 
 import os
-from datetime import datetime, date
+from datetime import date
 from subprocess import Popen, PIPE
 
 from zipfile import ZipFile
@@ -45,9 +45,9 @@ class res_partner_anaf(models.Model):
     _order = "vat, operation_date DESC, end_date, start_date"
     
     
-    vat = fields.Char('VAT')
-    start_date = fields.Date('Start Date')
-    end_date = fields.Date('End Date')
+    vat = fields.Char('VAT', select = True)
+    start_date = fields.Date('Start Date', select = True)
+    end_date = fields.Date('End Date', select = True)
     publish_date = fields.Date('Publish Date')
     operation_date = fields.Date('Operation Date')
     operation_type = fields.Selection([('I', 'Register'),
@@ -73,65 +73,58 @@ class res_partner(models.Model):
     
     vat_number = fields.Char('VAT', compute='_compute_vat')
     anaf_history = fields.One2many('res.partner.anaf', compute='_compute_anaf_history', string='ANAF History', readonly=True)
-        
+
     # Grab VAT on Payment data from ANAF, update table - SQL injection 
     @api.model
     def _download_anaf_data(self):
-        def _insert_anaf(cr, data):
-            if data == []:
-                return []
-            print cr.execute("""
-INSERT INTO res_partner_anaf
-    (id,vat,start_date, end_date, publish_date, operation_date, operation_type)
-VALUES
-    %s""" % ','.join(data))
-            return []
-
-        date = datetime.now()
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
         istoric = os.path.join(path, "istoric.txt")
         if os.path.exists(istoric):
+            print "exista"
             modify = date.fromtimestamp(os.path.getmtime(istoric))
         else:
-            open(istoric, 'a').close()
             modify = date.fromtimestamp(0)
         if bool(date.today()-modify):
+            print modify.__class__
             result = requests.get(ANAF_URL % date.today().strftime('%Y%m%d'))
             if result.status_code == requests.codes.ok:
-                old_istoric = 'istoric%s.txt' % modify.strftime('%Y%m%d')
-                old_istoric = os.path.join(path, old_istoric)
-                os.rename(istoric, old_istoric)
                 files = ZipFile(StringIO(result.content))
                 files.extractall(path=str(path))
-                diff = Popen(
-                    ['diff', '-b', '-B', old_istoric, istoric],
-                    stdout = PIPE
-                )
-                (process_lines, err) = diff.communicate()
-                counter = 0
-                vals = []
-                for line in process_lines.split('\n'):
-                    if line and line[0] == '>':
-                        counter = counter + 1
-                        val = line[2:].split('#')
-                        for k, v in enumerate(val):
-                            if k == 0:
-                                continue
-                            elif v == '':
-                                val[k] = 'NULL'
-                            else:
-                                val[k] = "'%s'" % v
-                        vals.append('(' + ','.join(val) + ')')
-                    if counter > 99:
-                        vals = _insert_anaf(self._cr, vals)
-                        counter = 0
-                _insert_anaf(self._cr, vals)
-        # self._cr.execute("DELETE FROM res_partner_anaf")
-        # self._cr.execute("COPY res_partner_anaf (id,vat,start_date, end_date,
-        # publish_date, operation_date, operation_type) FROM '%s' WITH
-        # DELIMITER '#' NULL '' " % istoric)
-        return True
 
+    @api.model
+    def _insert_relevant_anaf_data(self, partners):
+        vat_numbers = [p.vat_number for p in partners if p.vat.lower().startswith('ro')]
+        if vat_numbers == []:
+            return
+        istoric = os.path.join(
+                    os.path.dirname(os.path.abspath(__file__)),
+                    'data',
+                    'istoric.txt')
+        vat_regex = '^[0-9]+#(%s)#' % '|'.join(vat_numbers)
+        anaf_data = Popen(
+            ['egrep', vat_regex, istoric],
+            stdout = PIPE
+        )
+        (process_lines, err) = anaf_data.communicate()
+        process_lines = [x.split('#') for x in process_lines.split()]
+        lines = self.env['res.partner.anaf'].search([
+                    ('id', 'in', [int(x[0]) for x in process_lines])])
+        line_ids = [l.id for l in lines]
+        for line in process_lines:
+            if int(line[0]) not in line_ids:
+                for k, v in enumerate(line):
+                    if k == 0:
+                        continue
+                    elif v == '':
+                        line[k] = 'NULL'
+                    else:
+                        line[k] = "'%s'" % v
+                self._cr.execute("""
+INSERT INTO res_partner_anaf
+    (id,vat,start_date, end_date, publish_date, operation_date, operation_type)
+VALUES
+    %s""" % '(' + ','.join(line) + ')')
+    
     @api.multi
     def _check_vat_on_payment(self):
         ctx = dict(self._context)
@@ -186,7 +179,8 @@ VALUES
     @api.multi
     def update_vat_all(self):
         self._download_anaf_data()
-        partners = self.search([('vat','!=',False)])        
+        partners = self.search([('vat', '!=', False)])
+        self._insert_relevant_anaf_data(partners)
         for partner in partners:
            partner.check_vat_on_payment()
            partner.check_vat_subjected()
