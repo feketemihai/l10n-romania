@@ -131,7 +131,11 @@ VALUES
         vat_on_payment = False
         if self.anaf_history:
             if len(self.anaf_history)>1 and ctx.get('check_date', False):
-                lines = self.env['res.partner.anaf'].search([('id','in',[rec.id for rec in self.anaf_history]),('start_date','<=', ctx['check_date']),('end_date','>=',ctx['check_date'])])
+                lines = self.env['res.partner.anaf'].search([
+                    ('id', 'in', [rec.id for rec in self.anaf_history]),
+                    ('start_date', '<=', ctx['check_date']),
+                    ('end_date', '>=', ctx['check_date'])
+                ])
                 if lines and lines[0].operation_type == 'D':
                     vat_on_payment = True
             else:
@@ -174,6 +178,7 @@ VALUES
     @api.one
     def button_get_partner_data(self):
         super(res_partner, self).button_get_partner_data()
+        self._insert_relevant_anaf_data([self[0]])
         self.check_vat_on_payment()
     
     @api.multi
