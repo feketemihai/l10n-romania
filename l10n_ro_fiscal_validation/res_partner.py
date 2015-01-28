@@ -80,12 +80,10 @@ class res_partner(models.Model):
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
         istoric = os.path.join(path, "istoric.txt")
         if os.path.exists(istoric):
-            print "exista"
             modify = date.fromtimestamp(os.path.getmtime(istoric))
         else:
             modify = date.fromtimestamp(0)
         if bool(date.today()-modify):
-            print modify.__class__
             result = requests.get(ANAF_URL % date.today().strftime('%Y%m%d'))
             if result.status_code == requests.codes.ok:
                 files = ZipFile(StringIO(result.content))
