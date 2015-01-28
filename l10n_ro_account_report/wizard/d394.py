@@ -76,29 +76,14 @@ class d394_report(osv.osv_memory):
         tax_obj = self.pool.get('account.tax')
         xmldict = {}
         user = self.pool.get('res.users').browse(cr, uid, uid)
-        employee = False
-        employee = self.pool.get('hr.employee').search(
-            cr, uid, [('user_id', '=', uid)])
         function = email = ''
-        if employee:
-            employee = self.pool.get(
-                'hr.employee').browse(cr, uid, employee[0])
-            if employee.job_id:
-                function = employee.job_id.name
-            # if employee.partner_id.email:
-            #    email = employee.partner_id.email
-            uid_name = employee.name.split()
-            if len(uid_name) == 2:
-                uid_fname = uid_name[0]
-                uid_name = uid_name[1]
-            else:
-                uid_fname = uid_name[0]
-                for i in [0, len(uid_name) - 1]:
-                    uid_name1 = uid_name[i]
-                uid_name = uid_name1
-
-        if function == '':
-            function = 'Administrator'
+        if user.partner_id.function:
+            function = user.partner_id.function
+        else:
+            raise osv.except_osv(_('Error!'), _('You need to define your Job Position.'))
+        uid_name = user.partner_id.name.split()
+        uid_fname = ' '.join(uid_name[:-1])
+        uid_name = uid_name[-1]
         wiz_data = self.browse(cr, uid, ids[0], context=context)
 
         data_company = obj_company.browse(
@@ -109,8 +94,8 @@ class d394_report(osv.osv_memory):
             'luna': int(wiz_data.period_id.code[:2]),
             'an': int(wiz_data.period_id.code[3:]),
             'tip_D394': "L",
-            'nume_declar': uid_fname,
-            'prenume_declar': uid_name,
+            'nume_declar': uid_name,
+            'prenume_declar': uid_fname,
             'functie_declar': function,
             'cui': data_company.partner_id.vat[2:],
             'den': data_company.partner_id.name,
@@ -147,8 +132,8 @@ class d394_report(osv.osv_memory):
             })
         else:
             xmldict.update({
-                'mail': '-',
-                'mailFisc': '-',
+                'mail': user.partner_id.email or '-',
+                'mailFisc': user.partner_id.email or '-',
             })
 
         from_xml = []
