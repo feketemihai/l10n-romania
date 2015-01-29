@@ -75,15 +75,19 @@ class res_partner(models.Model):
                         part.name.strip().upper()[:2] == 'RO' and
                         part.name.strip()[2:].isdigit())
         part = self[0]
-        if part.vat:
-            self.write({'vat': part.vat.upper().replace(" ", "")})
-        elif part.name and _check_vat_ro(part.name):
-            part.vat = part.name.upper().replace(" ", "")
-            self.write({'vat': part.vat})
+
+        vat = part.vat
+        if vat:
+            self.write({'vat': part.vat.upper().replace(" ","")})
+        elif part.name and len(part.name.strip())>2 and part.name.strip().upper()[:2]=='RO' and part.name.strip()[2:].isdigit():
+            part.vat = part.name.upper().replace(" ","")
+            self.write( {'vat': part.vat})
         if not part.vat:
             raise Warning(_("No VAT number found"))
 
-        vat_country, vat_number = self._split_vat(part.vat)
+        vat_country, vat_number = self._split_vat(part.vat)                
+ 
+
         if part.vat_subjected:
             self.write({'vat_subjected': False})
         if vat_number and vat_country:
