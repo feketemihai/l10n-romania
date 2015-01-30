@@ -182,7 +182,10 @@ VALUES
 
     @api.one
     def check_vat_subjected(self):
-        self.vat_subjected = self._check_vat_subjected()
+        if self.vat_on_payment:
+            self.vat_subjected = True
+        else:
+            self.vat_subjected = self._check_vat_subjected()
 
     @api.multi
     def update_vat_one(self):
