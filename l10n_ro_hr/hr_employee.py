@@ -23,6 +23,15 @@
 from openerp import models, fields, api, _
 
 
+def validate_cnp(cnp):
+    if len(cnp) != 13:
+        return False
+    numc = '279146358279'
+    c = sum(map(lambda x: int(x[0])+int(x[1]), zip(cnp[:-1], numc))) % 11
+    if c != int(cnp[-1]):
+        return False
+    return True
+
 class hr_employee_care(models.Model):
     _name = 'hr.employee.care'
     _description = "Employee person in care"
@@ -73,6 +82,25 @@ class hr_employee(models.Model):
     @api.depends('name')
     def _last_name(self):
         self.last_name = self.name.split()[-1]
+
+    @api.one
+    @api.onchange('ssnid')
+    def _ssnid_birthday_gender(self):
+        if 'RO' in self.country_id.code.upper():
+            gender = bday = None
+            bday = date.strptime(self.ssnid[1:6], '%y%m%d')
+            if int(self.ssnid[0]) in (1,3,5,7):
+                gender = 'male'
+            elif int(self.ssnid[0]) in (2,4,6,8):
+                gender = 'female'
+            self.write({'gender': gender, 'birthday': bday})
+
+    @api.one
+    @api.constrains('ssnid', 'country_id')
+    def _ssn_id_validation(self):
+        if 'RO' in self.country_id.code.upper():
+            if not validate_cnp(self.ssnid):
+                raise ValidationError('Invalid SSN number')
 
     first_name = fields.Char('First Name', compute = '_first_name', store = False)
     last_name = fields.Char('Last Name', compute = '_last_name', store = False)
