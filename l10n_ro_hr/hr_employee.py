@@ -21,7 +21,6 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
-from datetime import datetime
 
 
 class hr_employee_care(models.Model):
