@@ -1,43 +1,46 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-		<record id="view_employee_form_romania" model="ir.ui.view">
+        <record id="view_employee_form_romania" model="ir.ui.view">
             <field name="name">view.employee.form.romania</field>
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
                <xpath expr="/form/sheet/notebook/page[@string='Personal Information']" position="inside">
-					<group string="Persons in care">
-						<field name="person_in_care"/>
+                    <group string="Persons in care">
+                        <field name="person_in_care"/>
                         <field name="person_care_ids" context="{'employee_id': active_id}">
-							<tree string="Persons in Care" editable="bottom">
-								<field name="name"/>
-								<field name="ssnid"/>
-								<field name="relation"/>
-							</tree>
-						</field>
-					</group>
-					<group string="Co-insured Persons">
-						<field name="casang"/>
+                            <tree string="Persons in Care" editable="bottom">
+                                <field name="name"/>
+                                <field name="ssnid"/>
+                                <field name="relation"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Co-insured Persons">
+                        <field name="casang"/>
                         <field name="person_coinsured_ids" context="{'employee_id': active_id}">
-							<tree string="Co-Insured Persons" editable="bottom">
-								<field name="name"/>
-								<field name="ssnid"/>
-								<field name="relation"/>
-							</tree>
-						</field>
-					</group>
+                            <tree string="Co-Insured Persons" editable="bottom">
+                                <field name="name"/>
+                                <field name="ssnid"/>
+                                <field name="relation"/>
+                            </tree>
+                        </field>
+                    </group>
                 </xpath>
-                <field name="otherid" position="after">
-					<field name="emit_by"/>
+                <field name="identification_id" position="before">
+                    <field name="ssnid" groups="base.group_hr_user"/>
+                </field>
+                <field name="identification_id" position="after">
+                    <field name="emit_by"/>
                     <field name="emit_on"/>
                 </field>               
                 <xpath expr="/form/sheet/notebook/page[@string='Personal Information']/group/group[@string='Contact Information']" position="before">
-					<group string="Initial Datas">
-						<field name="ssnid_init"/>
-						<field name="first_name_init"/>
-						<field name="last_name_init"/>
-					</group>
+                    <group string="Initial Datas">
+                        <field name="ssnid_init"/>
+                        <field name="first_name_init"/>
+                        <field name="last_name_init"/>
+                    </group>
                 </xpath>
             </field>
         </record>
@@ -95,7 +98,7 @@
                     parent="hr.menu_hr_main"
                     action="action_hr_person_care_form"
                     sequence="30"
-                    icon="STOCK_JUSTIFY_FILL"/>	
+                    icon="STOCK_JUSTIFY_FILL"/> 
         
         <record id="view_hr_person_coinsured_tree" model="ir.ui.view">
             <field name="name">view.hr.person.coinsured.tree</field>
@@ -149,6 +152,6 @@
                     parent="hr.menu_hr_main"
                     action="action_hr_person_coinsured_form"
                     sequence="30"
-                    icon="STOCK_JUSTIFY_FILL"/>	 
-	</data>	
+                    icon="STOCK_JUSTIFY_FILL"/>  
+    </data> 
 </openerp>
