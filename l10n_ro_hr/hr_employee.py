@@ -64,6 +64,18 @@ class hr_employee(models.Model):
     def _number_personcare(self):
         self.person_in_care = len(self.person_care_ids)
 
+    @api.one
+    @api.depends('name')
+    def _first_name(self):
+        self.first_name = ' '.join(self.name.split()[:-1])
+
+    @api.one
+    @api.depends('name')
+    def _last_name(self):
+        self.last_name = self.name.split()[-1]
+
+    first_name = fields.Char('First Name', compute = '_first_name', store = False)
+    last_name = fields.Char('Last Name', compute = '_last_name', store = False)
     ssnid_init = fields.Char(
         'Initial SSN No', help='Initial Social Security Number')
     first_name_init = fields.Char('Initial Name')
