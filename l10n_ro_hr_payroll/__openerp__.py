@@ -32,7 +32,7 @@
     "description": """Romanian Payroll implementation""",
     'data': [
         'views/hr_payroll.xml',
-        'security/ir.model.access.csv',
+#        'security/ir.model.access.csv',
     ],
     'installable': True,
 }
