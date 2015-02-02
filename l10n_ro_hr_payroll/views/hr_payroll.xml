@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<record id="hr_contract_view_ro_form2" model="ir.ui.view">
+            <field name="name">hr.contract.view.ro.form2</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_payroll.hr_contract_form_inherit"/>
+            <field name="arch" type="xml">
+				<xpath expr="//field[@name='struct_id']" position="after">
+					<field name="meal_voucher"/>
+					<field name="meal_voucher_value"/>
+	            </xpath>
+			</field>
+		</record>
+
+		<record id="view_payroll_config_page_form2" model="ir.ui.view">
+			<field name="name">view_payroll_config_page_form2</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="l10n_ro_hr.view_payroll_config_page_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//group[@string='CAEN Configuration']" position="after">
+                    <group colspan="4" string="Company Payroll Taxes">
+						<field name="payroll"/>
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+        <record id="view_company_payroll_form" model="ir.ui.view">
+            <field name="name">view.company.payroll.form</field>
+            <field name="model">res.company.payroll</field>
+            <field name="arch" type="xml">
+                <form string="Company Payroll">
+                    <field name="name"/>
+					<group name="wages">
+						<field name="minimum_wage"/>
+						<field name="medimum_wage"/>
+					</group>
+					<group name="taxes">
+						<field name="taxes" context="{'payroll_tax_id': active_id}">
+							<tree string="Taxes" editable="bottom">
+			                    <field name="name"/>
+			                    <field name="code"/>
+			                    <field name="value"/>
+							</tree>
+						</field>
+					</group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_company_payroll_taxes_tree" model="ir.ui.view">
+            <field name="name">view.company.payroll.taxes.tree</field>
+            <field name="model">res.company.payroll.taxes</field>
+            <field name="arch" type="xml">
+                <tree string="Company Payroll Taxes">
+                    <field name="payroll_tax_id"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_company_payroll_taxes_form" model="ir.ui.view">
+            <field name="name">view.company.payroll.taxes.form</field>
+            <field name="model">res.company.payroll.taxes</field>
+            <field name="arch" type="xml">
+                <form string="Company Payroll Taxes">
+                    <field name="payroll_tax_id"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="value"/>
+                </form>
+            </field>
+        </record>
+		
+	</data>
+</openerp>
