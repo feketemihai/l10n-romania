@@ -24,56 +24,107 @@ from datetime import datetime
 from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
 
+# luat de pe wikipedia: 
+# http://ro.wikipedia.org/wiki/Cod_numeric_personal#JJ
+pob = {
+    '01': u'Alba',
+    '02': u'Arad',
+    '03': u'Argeș',
+    '04': u'Bacău',
+    '05': u'Bihor',
+    '06': u'Bistrița-Năsăud',
+    '07': u'Botoșani',
+    '08': u'Brașov',
+    '09': u'Brăila',
+    '10': u'Buzău',
+    '11': u'Caraș-Severin',
+    '12': u'Cluj',
+    '13': u'Constanța',
+    '14': u'Covasna',
+    '15': u'Dâmbovița',
+    '16': u'Dolj',
+    '17': u'Galați',
+    '18': u'Gorj',
+    '19': u'Harghita',
+    '20': u'Hunedoara',
+    '21': u'Ialomița',
+    '22': u'Iași',
+    '23': u'Ilfov',
+    '24': u'Maramureș',
+    '25': u'Mehedinți',
+    '26': u'Mureș',
+    '27': u'Neamț',
+    '28': u'Olt',
+    '29': u'Prahova',
+    '30': u'Satu Mare',
+    '31': u'Sălaj',
+    '32': u'Sibiu',
+    '33': u'Suceava',
+    '34': u'Teleorman',
+    '35': u'Timiș',
+    '36': u'Tulcea',
+    '37': u'Vaslui',
+    '38': u'Vâlcea',
+    '39': u'Vrancea',
+    '40': u'București',
+    '41': u'București S.1',
+    '42': u'București S.2',
+    '43': u'București S.3',
+    '44': u'București S.4',
+    '45': u'București S.5',
+    '46': u'București S.6',
+    '51': u'Călărași',
+    '52': u'Giurgiu',
+}
+
 def validate_cnp(cnp):
     if len(cnp) != 13:
         return False
-    numc = '279146358279'
-    c = sum(map(lambda x: int(x[0])*int(x[1]), zip(cnp[:-1], numc))) % 11
+    cnpc = map(lambda x: int(x), cnp)
+    numc = [2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9]
+    c = sum(map(lambda x: x[0]*x[1], zip(cnp[:-1], numc))) % 11
     if c > 9: c = 1
-    if c != int(cnp[-1]):
+    if c != cnpc[-1]:
         return False
     return True
 
-class hr_employee_care(models.Model):
-    _name = 'hr.employee.care'
-    _description = "Employee person in care"
+class hr_employee_related(models.Model):
+    _name = 'hr.employee.related'
+    _description = "Employee person in care or are coinsured"
+
+    @api.one
+    @api.onchange('ssnid')
+    @api.constrains('ssnid')
+    def _validate_ssnid(self):
+        if not validate_cnp(self.ssnid):
+            raise ValidationError('Invalid SSN number')
 
     employee_id = fields.Many2one('hr.employee', 'Employee', required=True)
     name = fields.Char(
-        'Person care name', required=True, help='Person in care name')
+        'Name', required=True, help='Person in care name')
     ssnid = fields.Char('SSN No', required=True, help='Social Security Number')
     relation = fields.Selection([('husband', 'Husband'),
                                  ('wife', 'Wife'),
                                  ('child', 'Child'),
                                  ('firstdegree', 'First degree relationship'),
                                  ('secdegree', 'Second degree relationship')],
-                                string='Person relation', required=True)
-
-
-class hr_employee_coinsured(models.Model):
-    _name = 'hr.employee.coinsured'
-    _description = "Employee co-insured persons"
-
-    employee_id = fields.Many2one('hr.employee', 'Employee', required=True)
-    name = fields.Char(
-        'Person care name', required=True, help='Person in care name')
-    ssnid = fields.Char('SSN No', required=True, help='Social Security Number')
-    relation = fields.Selection([('husband', 'Husband'),
-                                 ('wife', 'Wife'),
-                                 ('child', 'Child'),
-                                 ('firstdegree', 'First degree relationship'),
-                                 ('secdegree', 'Second degree relationship')],
-                                string='Person relation',
-                                required=True)
+                                string='Relation', required=True)
+    relation_type = fields.Selection([('in_care', 'In Care'),
+                                 ('coinsured', 'Coninsured'),
+                                 ('both', 'Both')],
+                                 string='Relation type', required=True,
+                                 select = True)
 
 
 class hr_employee(models.Model):
     _inherit = 'hr.employee'
 
     @api.one
-    @api.depends('person_care_ids')
+    @api.depends('person_related')
     def _number_personcare(self):
-        self.person_in_care = len(self.person_care_ids)
+        self.person_in_care = len(self.person_related.search([
+            ('relation_type', 'in', ('in_care', 'both'))
+        ]))
 
     @api.one
     @api.depends('name')
@@ -98,13 +149,19 @@ class hr_employee(models.Model):
         if self.country_id and 'RO' in self.country_id.code.upper():
             if not validate_cnp(self.ssnid):
                 raise ValidationError('Invalid SSN number')
-            gender = None
+            gender = bp = None
+            if self.ssnid[7:9] in pob.keys():
+                bp = pob[self.ssnid[7:9]]
             bday = datetime.strptime(self.ssnid[1:7], '%y%m%d').date()
             if int(self.ssnid[0]) in (1,3,5,7):
                 gender = 'male'
             elif int(self.ssnid[0]) in (2,4,6,8):
                 gender = 'female'
-            self.write({'gender': gender, 'birthday': bday})
+            self.write({
+                'gender': gender,
+                'birthday': bday,
+                'place_of_birth': bp
+            })
 
     first_name = fields.Char('First Name', compute = '_first_name', store = False)
     last_name = fields.Char('Last Name', compute = '_last_name', store = False)
@@ -136,10 +193,8 @@ class hr_employee(models.Model):
                                                    'CAS Municipiu Bucuresti'),
                                ('_A', 'AOPSNAJ'), ('_T', 'CASMTCT')],
                               string='Insurance', required=True)
-    person_care_ids = fields.One2many(
-        'hr.employee.care', 'employee_id', 'Person in care')
-    person_coinsured_ids = fields.One2many(
-        'hr.employee.coinsured', 'employee_id', 'Coinsured Persons')
+    person_related = fields.One2many(
+        'hr.employee.related', 'employee_id', 'Related Persons')
     person_in_care = fields.Integer(string='No of persons in care',
                                     compute='_number_personcare',
                                     help='Number of persons in care')
