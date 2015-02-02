@@ -25,7 +25,6 @@
     "website": "http://opennet.ro",
     "category": "Localization",
     "depends": [
-        'account',
         'hr_holiday',
         'hr_payroll',
         'l10n_ro_hr',
