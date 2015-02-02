@@ -59,6 +59,6 @@ class res_company(models.Model):
     @api.one
     def get_tax_by_code(self, code): 
         if self.payroll and self.payroll.taxes:
-            return self.payroll.minimum_wage
-        return 0
+            return self.payroll.taxes.search([('code', '=', code)])
+        return None
 
