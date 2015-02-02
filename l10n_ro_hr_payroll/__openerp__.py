@@ -19,17 +19,20 @@
 #
 ##############################################################################
 {
-    "name": "Romania - Payroll implementation",
+    "name": "Romania - Payroll",
     "version": "1.0",
     "author": "Adrian Vasile",
     "website": "http://opennet.ro",
-    "category": "Localization",
+    "category": "Localization/Payroll",
     "depends": [
-        'hr_holiday',
+        'hr_holidays',
         'hr_payroll',
         'l10n_ro_hr',
     ],
     "description": """Romanian Payroll implementation""",
-    'data': [],
+    'data': [
+        'views/hr_payroll.xml',
+        'security/ir.model.access.csv',
+    ],
     'installable': True,
 }
