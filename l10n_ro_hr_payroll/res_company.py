@@ -37,7 +37,7 @@ class res_company_payroll(models.Model):
     minimum_wage = fields.Integer('Minimum Wage', required = True)
     medimum_wage = fields.Integer('Medimum Wage', required = True)
     
-    payroll_taxes = fileds.One2many('res.company.payroll.taxes')
+    taxes = fileds.One2many('res.company.payroll.taxes')
 
 class res_company(models.Model):
     _inherit = 'res.company'
@@ -46,13 +46,19 @@ class res_company(models.Model):
 
     @api.one
     def get_minimum_wage(self):
-        pass
+        if self.payroll:
+            return self.payroll.minimum_wage
+        return 0
 
     @api.one
     def get_medimum_wage(self):
-        pass
+        if self.payroll:
+            return self.payroll.minimum_wage
+        return 0
 
     @api.one
-    def get_tax_by_code(self):
-        pass
+    def get_tax_by_code(self, code): 
+        if self.payroll and self.payroll.taxes:
+            return self.payroll.minimum_wage
+        return 0
 
