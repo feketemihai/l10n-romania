@@ -14,7 +14,7 @@
 		</record>
 
 		<record id="view_payroll_config_page_form2" model="ir.ui.view">
-			<field name="name">view_payroll_config_page_form2</field>
+			<field name="name">view.payroll.config.page.form2</field>
 			<field name="model">res.company</field>
 			<field name="inherit_id" ref="l10n_ro_hr.view_payroll_config_page_form"/>
 			<field name="arch" type="xml">
@@ -74,6 +74,34 @@
                 </form>
             </field>
         </record>
+
+        <record id="edit_holiday_status_form2" model="ir.ui.view">
+            <field name="name">hr.holidays.status.form2</field>
+            <field name="model">hr.holidays.status</field>
+			<field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//field[@name='categ_id']" position="after">
+					<field name="status_type"/>
+				</xpath>
+            </field>
+        </record>
 		
+        <record id="edit_holiday_status_type" model="ir.ui.view">
+            <field name="name">edit.holidays.status.type.form</field>
+            <field name="model">hr.holidays.status.type</field>
+            <field name="arch" type="xml">
+                <form string="Status Type">
+					<group colspan="2" name="strings">
+	                    <field name="name"/>
+	                    <field name="code"/>
+					</group>
+					<group colspan="2" name="others">
+	                    <field name="value"/>
+	                    <field name="ceiling"/>
+					</group>
+                </form>
+            </field>
+        </record>
+
 	</data>
 </openerp>
