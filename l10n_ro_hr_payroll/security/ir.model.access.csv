@@ -2,4 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_hr_employee_related,access_hr_employee_related,model_hr_employee_related,,1,1,1,1
 access_res_company_payroll_taxes,access_res_company_payroll_taxes,model_res_company_payroll_taxes,,1,1,1,1
 access_res_company_payroll,access_res_company_payroll,model_res_company_payroll,,1,1,1,1
-access_hr_holidays_status_sickleave,access_hr_holidays_status_sickleave,model_hr_holidays_status_sickleave,,1,1,1,1
+access_hr_holidays_status_type,access_hr_holidays_status_type,model_hr_holidays_status_type,,1,1,1,1
