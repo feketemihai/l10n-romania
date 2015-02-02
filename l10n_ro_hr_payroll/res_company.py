@@ -25,6 +25,7 @@ class res_company_payroll_taxes(models.Model):
     _name = "res.company.payroll.taxes"
     _description = "Payroll Taxes Generic Model"
 
+    payroll_tax_id = fields.Many2one('res.company.payroll', 'Company Payroll', required = True)
     code = fields.Char('Tax Code', required = True)
     name = fields.Char('Tax Name', required = True)
     value = fields.Float('Tax Value', required = True)
@@ -37,7 +38,7 @@ class res_company_payroll(models.Model):
     minimum_wage = fields.Integer('Minimum Wage', required = True)
     medimum_wage = fields.Integer('Medimum Wage', required = True)
     
-    taxes = fileds.One2many('res.company.payroll.taxes')
+    taxes = fields.One2many('res.company.payroll.taxes', 'payroll_tax_id', 'Company Payroll Taxes')
 
 class res_company(models.Model):
     _inherit = 'res.company'
