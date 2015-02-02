@@ -21,16 +21,16 @@
 
 from openerp import models, fields, api, _
 
-class hr_holidays_status_sick_leave(models.Model):
-    _name = 'hr.holidays.status.sickleave'
-    _description = 'Sick leave types'
+class hr_holidays_status_type(models.Model):
+    _name = 'hr.holidays.status.type'
+    _description = 'Leave status types'
 
-    name = fields.Char('Sick leave type name')
-    code = fields.Char('Sick leave type code', required = True)
+    name = fields.Char('Name')
+    code = fields.Char('Code', required = True)
     value = fields.Float('Percentage', decimal = (0,2), required = True)
     ceiling = fields.Integer('Ceiling', default = 0, help = 'Expressed in months')
 
 class hr_holidays_status(models.Model):
     _inherit = 'hr.holidays.status'
 
-    leave_type = fields.Many2one('hr.holidays.status.sickleave')
+    status_type = fields.Many2one('hr.holidays.status.type')
