@@ -24,7 +24,7 @@ from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
 from stdnum.ro.cnp import get_birth_date, is_valid as validate_cnp
 
-# luat de pe wikipedia: 
+# luat de pe wikipedia:
 # http://ro.wikipedia.org/wiki/Cod_numeric_personal#JJ
 pob = {
     '01': u'Alba',
@@ -77,6 +77,7 @@ pob = {
     '52': u'Giurgiu',
 }
 
+
 class hr_employee_related(models.Model):
     _name = 'hr.employee.related'
     _description = "Employee person in care or are coinsured"
@@ -104,24 +105,34 @@ class hr_employee_related(models.Model):
         except:
             self.first_name = ''
 
-    first_name = fields.Char('First Name', compute = '_first_name', store = False)
-    last_name = fields.Char('Last Name', compute = '_last_name', store = False)
+    @api.one
+    @api.constrains('relation', 'relation_type')
+    def _validate_relation(self):
+        if self.relation_type and self.relation:
+            if self.relation_type in (
+                    'coinsured', 'both') and not self.relation in (
+                    'husband', 'wife', 'parent'):
+                raise ValidationError(_("Just parents and husband/wife"))
+
+    first_name = fields.Char('First Name', compute='_first_name', store=False)
+    last_name = fields.Char('Last Name', compute='_last_name', store=False)
 
     employee_id = fields.Many2one('hr.employee', 'Employee', required=True)
     name = fields.Char(
         'Name', required=True, help='Related person name')
     ssnid = fields.Char('SSN No', required=True, help='Social Security Number')
     relation = fields.Selection([('husband', 'Husband'),
-                                 ('wife', 'Wife'),
+                                 ('wife', 'Wife')
+                                 ('parent', 'Parent'),
                                  ('child', 'Child'),
                                  ('firstdegree', 'First degree relationship'),
                                  ('secdegree', 'Second degree relationship')],
                                 string='Relation', required=True)
     relation_type = fields.Selection([('in_care', 'In Care'),
-                                 ('coinsured', 'Coninsured'),
-                                 ('both', 'Both')],
-                                 string='Relation type', required=True,
-                                 select = True)
+                                      ('coinsured', 'Coninsured'),
+                                      ('both', 'Both')],
+                                     string='Relation type', required=True,
+                                     select=True)
 
 
 class hr_employee(models.Model):
@@ -164,9 +175,9 @@ class hr_employee(models.Model):
                 bday = get_birth_date(self.ssnid)
             except:
                 bday = None
-            if int(self.ssnid[0]) in (1,3,5,7):
+            if self.ssnid[0] in '1357':
                 gender = 'male'
-            elif int(self.ssnid[0]) in (2,4,6,8):
+            elif self.ssnid[0] in '2468':
                 gender = 'female'
             self.write({
                 'gender': gender,
@@ -174,8 +185,8 @@ class hr_employee(models.Model):
                 'place_of_birth': bp
             })
 
-    first_name = fields.Char('First Name', compute = '_first_name', store = False)
-    last_name = fields.Char('Last Name', compute = '_last_name', store = False)
+    first_name = fields.Char('First Name', compute='_first_name', store=False)
+    last_name = fields.Char('Last Name', compute='_last_name', store=False)
     ssnid_init = fields.Char(
         'Initial SSN No', help='Initial Social Security Number')
     first_name_init = fields.Char('Initial Name')
