@@ -25,6 +25,7 @@
                 <field name="identification_id" position="after">
                     <field name="emit_by"/>
                     <field name="emit_on"/>
+					<field name="expires_on"/>
                 </field>               
                 <xpath expr="/form/sheet/notebook/page[@string='Personal Information']/group/group[@string='Contact Information']" position="before">
                     <group string="Initial Datas">

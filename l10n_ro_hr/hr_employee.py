@@ -222,3 +222,4 @@ class hr_employee(models.Model):
                                     help='Number of persons in care')
     emit_by = fields.Char('Emmited by')
     emit_on = fields.Date('Emmited on')
+    expires_on = fields.Date('Expires on')
