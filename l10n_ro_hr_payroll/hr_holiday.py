@@ -42,5 +42,7 @@ class hr_holidays(models.Model):
         if self.holiday_status_id:
             if not self.holiday_status_id.name.startswith('Sick'):
                 raise ValidationError(_("Leave Code is only for Sick Leaves"))
+        else:
+            raise ValidationError(_("Set Leave Type first"))
 
     status_type = fields.Many2one('hr.holidays.status.type', 'Leave Code', readonly=True, states={'draft':[('readonly',False)], 'confirm':[('readonly',False)]})
