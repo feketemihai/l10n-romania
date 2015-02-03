@@ -20,6 +20,8 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
+from openerp.exceptions import ValidationError
+
 
 class hr_holidays_status_type(models.Model):
     _name = 'hr.holidays.status.type'
@@ -33,4 +35,12 @@ class hr_holidays_status_type(models.Model):
 class hr_holidays(models.Model):
     _inherit = 'hr.holidays'
 
-    status_type = fields.Many2one('hr.holidays.status.type', 'Leave Type Code', readonly=True, states={'draft':[('readonly',False)], 'confirm':[('readonly',False)]})
+    @api.one
+    @api.depends('holiday_status_id')
+    @api.constrains('status_type')
+    def _validate_status_type(self):
+        if self.holiday_status_id:
+            if not self.holiday_status_id.name.startswith('Sick'):
+                raise ValidationError(_("Leave Code is only for Sick Leaves"))
+
+    status_type = fields.Many2one('hr.holidays.status.type', 'Leave Code', readonly=True, states={'draft':[('readonly',False)], 'confirm':[('readonly',False)]})
