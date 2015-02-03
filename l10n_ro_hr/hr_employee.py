@@ -20,9 +20,9 @@
 #
 ##############################################################################
 
-from datetime import datetime
 from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
+from stdnum.ro.cnp import get_birth_date, is_valid as validate_cnp
 
 # luat de pe wikipedia: 
 # http://ro.wikipedia.org/wiki/Cod_numeric_personal#JJ
@@ -77,17 +77,6 @@ pob = {
     '52': u'Giurgiu',
 }
 
-def validate_cnp(cnp):
-    if len(cnp) != 13:
-        return False
-    cnpc = map(lambda x: int(x), cnp)
-    numc = [2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9]
-    c = sum(map(lambda x: x[0]*x[1], zip(cnp[:-1], numc))) % 11
-    if c > 9: c = 1
-    if c != cnpc[-1]:
-        return False
-    return True
-
 class hr_employee_related(models.Model):
     _name = 'hr.employee.related'
     _description = "Employee person in care or are coinsured"
@@ -96,12 +85,12 @@ class hr_employee_related(models.Model):
     @api.onchange('ssnid')
     @api.constrains('ssnid')
     def _validate_ssnid(self):
-        if not validate_cnp(self.ssnid):
+        if self.ssnid and not validate_cnp(self.ssnid):
             raise ValidationError('Invalid SSN number')
 
     employee_id = fields.Many2one('hr.employee', 'Employee', required=True)
     name = fields.Char(
-        'Name', required=True, help='Person in care name')
+        'Name', required=True, help='Related person name')
     ssnid = fields.Char('SSN No', required=True, help='Social Security Number')
     relation = fields.Selection([('husband', 'Husband'),
                                  ('wife', 'Wife'),
@@ -122,9 +111,9 @@ class hr_employee(models.Model):
     @api.one
     @api.depends('person_related')
     def _number_personcare(self):
-        self.person_in_care = len(self.person_related.search([
+        self.person_in_care = self.person_related.search_count([
             ('relation_type', 'in', ('in_care', 'both'))
-        ]))
+        ])
 
     @api.one
     @api.depends('name')
@@ -146,13 +135,16 @@ class hr_employee(models.Model):
     @api.onchange('ssnid')
     @api.constrains('ssnid')
     def _ssnid_birthday_gender(self):
-        if self.country_id and 'RO' in self.country_id.code.upper():
+        if self.ssnid and self.country_id and 'RO' in self.country_id.code.upper():
             if not validate_cnp(self.ssnid):
                 raise ValidationError('Invalid SSN number')
             gender = bp = None
             if self.ssnid[7:9] in pob.keys():
                 bp = pob[self.ssnid[7:9]]
-            bday = datetime.strptime(self.ssnid[1:7], '%y%m%d').date()
+            try:
+                bday = get_birth_date(self.ssnid)
+            except:
+                bday = None
             if int(self.ssnid[0]) in (1,3,5,7):
                 gender = 'male'
             elif int(self.ssnid[0]) in (2,4,6,8):

@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
                <xpath expr="/form/sheet/notebook/page[@string='Personal Information']" position="inside">
-                    <group string="Persons in care">
+                    <group string="Persons Related">
                         <field name="person_in_care"/>
                         <field name="person_related" context="{'employee_id': active_id}">
                             <tree string="Persons Related" editable="bottom">
