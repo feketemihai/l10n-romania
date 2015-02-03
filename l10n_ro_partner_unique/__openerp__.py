@@ -19,23 +19,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields, api, _
-
-
-class res_company_caen(models.Model):
-    _name = "res.company.caen"
-    _description = "CAEN codes for Romanian Companies"
-
-    code = fields.Char('CAEN code', required=True, help='CAEN code')
-    name = fields.Char('CAEN name', required=True, help='CAEN name')
-    trisc = fields.Float('Accident Coefficient', required=True, digits=(0,4))
-
-
-class res_company(models.Model):
-    _inherit = "res.company"
-
-    codcaen = fields.Many2one(
-        'res.company.caen', 'CAEN code', help="Company CAEN code.")
-    coefacc = fields.Float(
-        string='Accident Coefficient', related='codcaen.trisc', digits=(0,4))
+{
+    "name": "Romania - Partners Unique",
+    "version": "1.0",
+    "author": "FOREST AND BIOMASS SERVICES ROMANIA SA",
+    "category": "Generic Modules/Base",
+    "description": """Creates a rule for vat and nrc unique for partners.""",
+    "depends": ["base", "l10n_ro"],
+    "data": [],
+    "installable": True
+}
