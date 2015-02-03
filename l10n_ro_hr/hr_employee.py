@@ -88,6 +88,25 @@ class hr_employee_related(models.Model):
         if self.ssnid and not validate_cnp(self.ssnid):
             raise ValidationError('Invalid SSN number')
 
+    @api.one
+    @api.depends('name')
+    def _first_name(self):
+        try:
+            self.first_name = ' '.join(self.name.split()[:-1])
+        except:
+            self.first_name = ''
+
+    @api.one
+    @api.depends('name')
+    def _last_name(self):
+        try:
+            self.last_name = self.name.split()[-1]
+        except:
+            self.first_name = ''
+
+    first_name = fields.Char('First Name', compute = '_first_name', store = False)
+    last_name = fields.Char('Last Name', compute = '_last_name', store = False)
+
     employee_id = fields.Many2one('hr.employee', 'Employee', required=True)
     name = fields.Char(
         'Name', required=True, help='Related person name')
