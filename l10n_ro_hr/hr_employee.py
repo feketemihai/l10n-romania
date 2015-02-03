@@ -153,6 +153,14 @@ class hr_employee(models.Model):
         ])
 
     @api.one
+    @api.depends('person_related')
+    def _compute_kids(self):
+        self.children = self.person_related.search_count([
+            ('relation_type', 'in', ('in_care', 'both')),
+            ('relation', '=', 'child'),
+        ])
+
+    @api.one
     @api.depends('name')
     def _first_name(self):
         try:
@@ -232,3 +240,7 @@ class hr_employee(models.Model):
     emit_by = fields.Char('Emmited by')
     emit_on = fields.Date('Emmited on')
     expires_on = fields.Date('Expires on')
+
+    # override fields declared in hr_contract
+    medic_exam = fields.Date('Medical Examination Date', index = True)
+    children = fields.integer('Number of Children', compute='_compute_kids')
