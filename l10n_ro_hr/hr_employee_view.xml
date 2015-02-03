@@ -34,6 +34,17 @@
                         <field name="last_name_init"/>
                     </group>
                 </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='HR Settings']" position="inside">
+					<group string="Studies and Qualifications">
+						<field name="studies" context="{'employee_id': active_id}">
+							<tree editable="bottom">
+								<field name="name"/>
+								<field name="partner_id"/>
+								<field name="qualification"/>
+							</tree>
+						</field>
+					</group>
+				</xpath>
             </field>
         </record>
         

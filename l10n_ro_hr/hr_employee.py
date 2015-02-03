@@ -118,11 +118,10 @@ class hr_employee_related(models.Model):
     last_name = fields.Char('Last Name', compute='_last_name', store=False)
 
     employee_id = fields.Many2one('hr.employee', 'Employee', required=True)
-    name = fields.Char(
-        'Name', required=True, help='Related person name')
+    name = fields.Char('Name', required=True, help='Related person name')
     ssnid = fields.Char('SSN No', required=True, help='Social Security Number')
     relation = fields.Selection([('husband', 'Husband'),
-                                 ('wife', 'Wife')
+                                 ('wife', 'Wife'),
                                  ('parent', 'Parent'),
                                  ('child', 'Child'),
                                  ('firstdegree', 'First degree relationship'),
@@ -134,6 +133,14 @@ class hr_employee_related(models.Model):
                                      string='Relation type', required=True,
                                      select=True)
 
+class hr_employee_related(models.Model):
+    _name = 'hr.employee.studies'
+    _description = "Employee Studies and Qualifications"
+
+    employee_id = fields.Many2one('hr.employee', 'Employee', readonly=True)
+    name = fields.Char('Diploma', required=True)
+    partner_id = fields.Many2one('res.partner', 'Institute', required=True)
+    qualification = fields.Char('Qualification', required=True)
 
 class hr_employee(models.Model):
     _inherit = 'hr.employee'
@@ -215,6 +222,8 @@ class hr_employee(models.Model):
                                                    'CAS Municipiu Bucuresti'),
                                ('_A', 'AOPSNAJ'), ('_T', 'CASMTCT')],
                               string='Insurance', required=True)
+    studies = fields.One2many(
+        'hr.employee.studies', 'employee_id')
     person_related = fields.One2many(
         'hr.employee.related', 'employee_id', 'Related Persons')
     person_in_care = fields.Integer(string='No of persons in care',
