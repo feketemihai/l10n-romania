@@ -30,7 +30,7 @@ class hr_holidays_status_type(models.Model):
     value = fields.Float('Percentage', decimal = (0,2), required = True)
     ceiling = fields.Integer('Ceiling', default = 0, help = 'Expressed in months')
 
-class hr_holidays_status(models.Model):
-    _inherit = 'hr.holidays.status'
+class hr_holidays(models.Model):
+    _inherit = 'hr.holidays'
 
-    status_type = fields.Many2one('hr.holidays.status.type')
+    status_type = fields.Many2one('hr.holidays.status.type', 'Leave Type Code', readonly=True, states={'draft':[('readonly',False)], 'confirm':[('readonly',False)]})
