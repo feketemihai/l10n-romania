@@ -26,12 +26,15 @@
     "category": "Localization/Payroll",
     "depends": [
         'hr_holidays',
+        'hr_public_holidays',
         'hr_payroll',
         'l10n_ro_hr',
     ],
     "description": """Romanian Payroll implementation""",
     'data': [
         'views/hr_payroll.xml',
+        'views/hr_public_holidays.xml',
+        'hr_public_holidays_workflow.xml',
 #        'security/ir.model.access.csv',
     ],
     'installable': True,
