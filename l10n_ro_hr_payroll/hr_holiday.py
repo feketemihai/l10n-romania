@@ -45,4 +45,75 @@ class hr_holidays(models.Model):
         else:
             raise ValidationError(_("Set Leave Type first"))
 
-    status_type = fields.Many2one('hr.holidays.status.type', 'Leave Code', readonly=True, states={'draft':[('readonly',False)], 'confirm':[('readonly',False)]})
+    status_type = fields.Many2one(
+        'hr.holidays.status.type', 'Leave Code', readonly=True,
+        states={'draft':[('readonly',False)], 'confirm':[('readonly',False)]})
+
+class hr_holidays_line(models.Model):
+    _inherit = 'hr.holidays.public.line'
+
+    holidays_id = fields.Many2one('hr.holidays.public',
+                                  'Holiday Calendar Year',
+                                  ondelete = 'cascade')
+
+class hr_public_holidays(models.Model):
+    _inherit = 'hr.holidays.public'
+
+    category_id = fields.Many2one(
+        'hr.employee.category', string = 'Employee Tag', required = True)
+    holiday_status_id = fields.Many2one(
+        'hr.holidays.status', string = 'Leave Type', required = True)
+    state = fields.Selection(
+        [
+            ('draft', 'Draft'),
+            ('approve', 'Approved'),
+            ('decline', 'Declined'),
+            ('close', 'Closed'),
+        ], default = 'draft'
+    )
+
+    @api.one
+    def state_approve(self):
+        print self.state
+        self.state = 'approve'
+        print self.state
+        return True
+
+    @api.one
+    def state_decline(self):
+        print self.state
+        self.state = 'decline'
+        print self.state
+        return True
+
+    @api.one
+    def state_close(self):
+        print self.state
+        self.state = 'close'
+        print self.state
+        return True
+
+    @api.one
+    def create_leave_reqs(self):
+        '''
+        First it creates an approved allocation request for all the public
+        holidays.
+        Second stage creates an approved leave request for each day.
+        '''
+        print "pas1"
+        allocation_req = self.pool.get('hr.holidays')
+        values = {
+            'name': 'Alocare Zile Libere Legale pt Anul %s' % self.year,
+            'state': 'confirm', # 'validate'
+            'holiday_status_id': self.holiday_status_id.id,
+            'number_of_days_temp': len(self.line_ids),
+            'category_id': self.category_id.id,
+            'holiday_type': 'category',
+            'type': 'add',
+            'user_id': None,
+            'employee_id': None,
+        }
+        print values
+        print allocation_req.create(self.env.cr, values) # TODO old style?
+        print "pas2"
+        return True
