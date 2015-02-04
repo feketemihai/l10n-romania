@@ -23,6 +23,7 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
 from stdnum.ro.cnp import get_birth_date, is_valid as validate_cnp
+from datetime import timedelta, date
 
 # luat de pe wikipedia:
 # http://ro.wikipedia.org/wiki/Cod_numeric_personal#JJ
@@ -133,14 +134,6 @@ class hr_employee_related(models.Model):
                                      string='Relation type', required=True,
                                      select=True)
 
-class hr_employee_related(models.Model):
-    _name = 'hr.employee.studies'
-    _description = "Employee Studies and Qualifications"
-
-    employee_id = fields.Many2one('hr.employee', 'Employee', readonly=True)
-    name = fields.Char('Diploma', required=True)
-    partner_id = fields.Many2one('res.partner', 'Institute', required=True)
-    qualification = fields.Char('Qualification', required=True)
 
 class hr_employee(models.Model):
     _inherit = 'hr.employee'
@@ -150,14 +143,6 @@ class hr_employee(models.Model):
     def _number_personcare(self):
         self.person_in_care = self.person_related.search_count([
             ('relation_type', 'in', ('in_care', 'both'))
-        ])
-
-    @api.one
-    @api.depends('person_related')
-    def _compute_kids(self):
-        self.children = self.person_related.search_count([
-            ('relation_type', 'in', ('in_care', 'both')),
-            ('relation', '=', 'child'),
         ])
 
     @api.one
@@ -200,6 +185,16 @@ class hr_employee(models.Model):
                 'place_of_birth': bp
             })
 
+    def _medic_exam_expires(self):
+        return fields.Date.to_string(date.today() - timedelta(days = 370))
+
+    @api.multi
+    def _return_medic_exam_expiring(self):
+        return self.search([
+            ('active', '=', True),
+            ('medic_exam', '>=', self._medic_exam_expires()),
+        ])
+        
     first_name = fields.Char('First Name', compute='_first_name', store=False)
     last_name = fields.Char('Last Name', compute='_last_name', store=False)
     ssnid_init = fields.Char(
@@ -243,4 +238,3 @@ class hr_employee(models.Model):
 
     # override fields declared in hr_contract
     medic_exam = fields.Date('Medical Examination Date', index = True)
-    children = fields.integer('Number of Children', compute='_compute_kids')
