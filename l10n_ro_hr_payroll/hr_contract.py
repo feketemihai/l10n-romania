@@ -25,4 +25,53 @@ class hr_contract(models.Model):
     _inherit = 'hr.contract'
 
     meal_voucher = fields.Boolean('Meal Voucher?')
-    meal_voucher_value = fields.Float('Meal Voucher Value', decimal=(0,2))
+    meal_voucher_value = fields.Float(
+        'Meal Voucher Value', decimal=(0,2), default = 9.35)
+    programmer_or_handicaped = fields.Boolean(
+        'Programmer or Handicaped', default = False)
+
+class hr_wage_history_line(models.Model):
+    _name = 'hr.wage.history.line'
+    _description = ''
+    _rec_name = 'month'
+    _order = 'month desc'
+
+    month = fields.Selection([
+            (1, _('January')), (2, _('February')), (3, _('March')),
+            (4, _('April')), (5, _('May')), (6, _('June')), (7, _('July')),
+            (8, _('August')), (9, _('September')), (10, _('Octomber')),
+            (11, _('November')), (12, _('December')),
+        ], required = True, index = True)
+    wage = fields.Integer('Wage', required = True)
+    working_days = fields.Integer('Number of Working(ed) Days', required = True)
+    history_id = fields.Many2one(
+        'hr.wage.history', 'Wage History', required = True)
+
+class hr_wage_history(models.Model):
+    _name = 'hr.wage.history'
+    _description = 'Used to compute taxable base'
+    _rec_name = 'year'
+    _order = 'year desc'
+    _sql_constrains = [(
+        'year_type_employee_uniq',
+        'unique (year, history_type, employee_id)',
+        'Only one type per year and employee'
+    )]
+
+    year = fields.Integer('Year', required = True)
+    line_ids = fields.One2many(
+        'hr.wage.history.line', 'history_id', 'Wage History Lines')
+    history_type = fields.Selection([
+            (0, 'Minimum Wage'),
+            (1, 'Medium Wage'),
+            (2, 'Employee Wage'),
+        ], required = True, index = True)
+    employee_id = fields.Many2one('hr.employee', 'Employee')
+
+    @api.one
+    def _compute_avg(self, start_month = 1):
+        wage = working_days = 0
+        for line in self.line_ids.search([['month', '>=', start_month]]):
+            wage += line.wage
+            working_days += line.working_days
+        return float(wage / working_days)
