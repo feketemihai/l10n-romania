@@ -19,7 +19,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
+from datetime import timedelta
+from openerp import netsvc, models, fields, api, _
 from openerp.exceptions import ValidationError
 
 
@@ -52,6 +53,7 @@ class hr_holidays(models.Model):
 class hr_holidays_line(models.Model):
     _inherit = 'hr.holidays.public.line'
 
+    # override - pentru a sterge intrarile daca s-a sters vacanta publica
     holidays_id = fields.Many2one('hr.holidays.public',
                                   'Holiday Calendar Year',
                                   ondelete = 'cascade')
@@ -87,11 +89,17 @@ class hr_public_holidays(models.Model):
         return True
 
     @api.one
-    def state_close(self):
-        print self.state
-        self.state = 'close'
-        print self.state
+    def set_to_draft(self):
+        self.state = 'draft'
+        wf_service = netsvc.LocalService("workflow")
+        wf_service.trg_delete(
+            self.env.user.id, 'hr.holidays.public', self.id, self.env.cr)
+        wf_service.trg_create(
+            self.env.user.id, 'hr.holidays.public', self.id, self.env.cr)
         return True
+
+    def state_close(self):
+        return self.create_leave_reqs()
 
     @api.one
     def create_leave_reqs(self):
@@ -100,11 +108,10 @@ class hr_public_holidays(models.Model):
         holidays.
         Second stage creates an approved leave request for each day.
         '''
-        print "pas1"
         allocation_req = self.pool.get('hr.holidays')
         values = {
             'name': 'Alocare Zile Libere Legale pt Anul %s' % self.year,
-            'state': 'confirm', # 'validate'
+            'state': 'confirm',
             'holiday_status_id': self.holiday_status_id.id,
             'number_of_days_temp': len(self.line_ids),
             'category_id': self.category_id.id,
@@ -113,7 +120,28 @@ class hr_public_holidays(models.Model):
             'user_id': None,
             'employee_id': None,
         }
-        print values
-        print allocation_req.create(self.env.cr, values) # TODO old style?
-        print "pas2"
+        alloc_id = allocation_req.create(self.env.cr, self.env.user.id, values)
+        ret = allocation_req.holidays_validate(
+            self.env.cr, self.env.user.id, [alloc_id])
+        if ret is False:
+            return False
+
+        values['type'] = 'remove'
+        values['number_of_days_temp'] = 1
+        leave_ids = []
+        for line in self.line_ids:
+            date_from = fields.Datetime.from_string(line.date)
+            values['name'] = line.name
+            # de la data 00:00:00
+            values['date_from'] = fields.Datetime.to_string(date_from)
+            # pana la data 23:59:59
+            values['date_to'] = fields.Datetime.to_string(
+                date_from+timedelta(seconds=86399))
+            leave_ids.append(
+                allocation_req.create(self.env.cr, self.env.user.id, values))
+        ret = allocation_req.holidays_validate(
+            self.env.cr, self.env.user.id, leave_ids)
+        if ret is False:
+            return False
+        self.state = 'close'
         return True
