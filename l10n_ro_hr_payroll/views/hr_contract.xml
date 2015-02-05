@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<record id="hr_contract_view_ro_form2" model="ir.ui.view">
+            <field name="name">hr.contract.view.ro.form2</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_payroll.hr_contract_form_inherit"/>
+            <field name="arch" type="xml">
+				<xpath expr="//field[@name='struct_id']" position="after">
+					<field name="meal_voucher"/>
+					<field name="meal_voucher_value"/>
+	            </xpath>
+			</field>
+		</record>
+	</data>
+</openerp>
