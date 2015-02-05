@@ -43,6 +43,8 @@
     """,
     'data': [
         'views/hr_payroll.xml',
+        'views/hr_contract.xml',
+        'views/res_company.xml',
         'views/hr_public_holidays.xml',
         'hr_public_holidays_workflow.xml',
 #        'security/ir.model.access.csv',
