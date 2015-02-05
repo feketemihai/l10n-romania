@@ -10,6 +10,9 @@
 					<field name="meal_voucher"/>
 					<field name="meal_voucher_value"/>
 	            </xpath>
+				<xpath expr="//field[@name='pensioneer']" position="after">
+					<field name="programmer_or_handicaped"/>
+				</xpath>
 			</field>
 		</record>
 	</data>
