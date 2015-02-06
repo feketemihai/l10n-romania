@@ -21,12 +21,20 @@
 
 from openerp import models, fields, api, _
 
+class hr_contract_advantages(models.Model):
+    _name = 'hr.contract.advantages'
+    _description = "Contract Advantages"
+    
+    contract_id = fields.Many2one('hr.contract', 'Contract', required=True)
+    code = fields.Char('Code', required=True, default='PERM', help='Advantage code')
+    name = fields.Char('Name', required=True, help='Advantage name')
+    amount = fields.Float('Name', help='Advantage amount')
+
 class hr_contract(models.Model):
     _inherit = 'hr.contract'
 
-    meal_voucher = fields.Boolean('Meal Voucher?')
-    meal_voucher_value = fields.Float(
-        'Meal Voucher Value', decimal=(0,2), default = 9.35)
+    advantage_ids = fields.One2many(
+        'hr.contract.advantages', 'contract_id', string="Advantages")
     programmer_or_handicaped = fields.Boolean(
         'Programmer or Handicaped', default = False)
 
@@ -57,6 +65,11 @@ class hr_wage_history_line(models.Model):
     _description = ''
     _rec_name = 'month'
     _order = 'month desc'
+    _sql_constrains = [(
+        'month_history_id_uniq',
+        'unique (month, history_id)',
+        'Unique months per year'
+    )]
 
     month = fields.Selection([
             (1, _('January')), (2, _('February')), (3, _('March')),
@@ -84,9 +97,9 @@ class hr_wage_history(models.Model):
     line_ids = fields.One2many(
         'hr.wage.history.line', 'history_id', 'Wage History Lines')
     history_type = fields.Selection([
-            (0, 'Minimum Wage'),
-            (1, 'Medium Wage'),
-            (2, 'Employee Wage'),
+            (0, 'Employee Wage'),
+            (1, 'Minimum Wage'),
+            (2, 'Medium Wage'),
         ], index = True)
     employee_id = fields.Many2one('hr.employee', 'Employee')
 
