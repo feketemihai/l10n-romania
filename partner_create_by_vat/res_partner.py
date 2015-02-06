@@ -23,6 +23,7 @@
 
 import datetime
 import time
+import unicodedata
 
 from string import maketrans
 import requests
@@ -118,6 +119,8 @@ class res_partner(models.Model):
                         if jud.lower().startswith('municip'):
                             jud = ' '.join(jud.split(' ')[1:])
                         if jud != '':
+                            jud=jud.replace('-', '%').replace(' ', '%') #for states with " " or "-"
+                            jud=unicodedata.normalize('NFKD', jud).encode('ascii','ignore')
                             state = self.env['res.country.state'].search(
                                 [('name', 'ilike', jud)])
                             if state:
