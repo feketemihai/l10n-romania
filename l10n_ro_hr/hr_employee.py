@@ -129,7 +129,7 @@ class hr_employee_related(models.Model):
                                  ('secdegree', 'Second degree relationship')],
                                 string='Relation', required=True)
     relation_type = fields.Selection([('in_care', 'In Care'),
-                                      ('coinsured', 'Coninsured'),
+                                      ('coinsured', 'Coinsured'),
                                       ('both', 'Both')],
                                      string='Relation type', required=True,
                                      select=True)
