@@ -46,6 +46,7 @@
         'views/hr_contract.xml',
         'views/res_company.xml',
         'views/hr_public_holidays.xml',
+        'views/hr_wage_history.xml',
         'hr_public_holidays_workflow.xml',
 #        'security/ir.model.access.csv',
     ],
