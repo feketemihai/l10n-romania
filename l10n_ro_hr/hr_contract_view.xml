@@ -67,7 +67,7 @@
 								<field name="pensioneer"/>
 								<field name="suspended"/>
 								<label for="sus_date_from" string="Suspension Duration"/>
-	                            <div attrs="{'invisible': [('suspended', '==', 'False')]}">
+	                            <div attrs="{'invisible': [('suspended', '==', False)]}">
 	                                 <field name="sus_date_from" class="oe_inline"/> - <field name="sus_date_to" class="oe_inline"/>
 	                            </div>
 							</group>
