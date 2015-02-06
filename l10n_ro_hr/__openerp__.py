@@ -29,7 +29,7 @@
     "depends": ['hr', 'hr_contract', 'l10n_ro_config'],
     "description": """
 Romania  - Human Resources
-------------------------------------------
+--------------------------
 
 
     """,
