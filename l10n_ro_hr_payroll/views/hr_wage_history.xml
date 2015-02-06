@@ -1,5 +1,57 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+        <record id="view_wage_history_tree" model="ir.ui.view">
+            <field name="name">hr.wage.history.tree</field>
+            <field name="model">hr.wage.history</field>
+            <field name="arch" type="xml">
+                <tree string="Wage History">
+                    <field name="year"/>
+                    <field name="history_type"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_wage_history_form" model="ir.ui.view">
+            <field name="name">hr.wage.history.form</field>
+            <field name="model">hr.wage.history</field>
+            <field name="arch" type="xml">
+                <form string="Wage History">
+					<group colspan="4">
+	                    <group col="2">
+	                        <field name="year"/>
+	                        <field name="history_type"/>
+	                    </group>
+	                    <group col="2">
+	                        <field name="line_ids" context="{'history_id': active_id}" nolabel="1"/>
+	                    </group>
+					</group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_wage_history_line_tree" model="ir.ui.view">
+            <field name="name">hr.wage.history.line.tree</field>
+            <field name="model">hr.wage.history.line</field>
+            <field name="arch" type="xml">
+                <tree string="Wage History" editable="top">
+                    <field name="month"/>
+                    <field name="wage"/>
+                    <field name="working_days"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="open_wage_history_view" model="ir.actions.act_window">
+            <field name="name">Wage History</field>
+            <field name="res_model">hr.wage.history</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem action="open_wage_history_view"
+                  id="menu_wage_history_view"
+                  parent="hr.menu_hr_configuration"
+                  sequence="19"/>
+
 	</data>
 </openerp>
