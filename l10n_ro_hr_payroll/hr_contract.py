@@ -30,6 +30,28 @@ class hr_contract(models.Model):
     programmer_or_handicaped = fields.Boolean(
         'Programmer or Handicaped', default = False)
 
+    def compute_avg_minimum_wage(self, months):
+        wg_hist = self.pool.get('hr.wage.history')
+        rs = wg_hist.search([
+            ('history_type', '=', 0),
+        ])
+        print rs
+
+    def compute_avg_medimum_wage(self, months):
+        wg_hist = self.pool.get('hr.wage.history')
+        rs = wg_hist.search([
+            ('history_type', '=', 1),
+        ])
+        print rs
+
+    def compute_avg_wage(self, months):
+        wg_hist = self.pool.get('hr.wage.history')
+        rs = wg_hist.search([
+            ('history_type', '=', 2),
+            ('employee_id', '=', self.employee_id.id)
+        ])
+        print rs
+
 class hr_wage_history_line(models.Model):
     _name = 'hr.wage.history.line'
     _description = ''
@@ -65,7 +87,7 @@ class hr_wage_history(models.Model):
             (0, 'Minimum Wage'),
             (1, 'Medium Wage'),
             (2, 'Employee Wage'),
-        ], required = True, index = True)
+        ], index = True)
     employee_id = fields.Many2one('hr.employee', 'Employee')
 
     @api.one
