@@ -47,11 +47,11 @@ class hr_payslip(models.Model):
         contract_obj = self.pool.get('hr.contract')
         for contract in contract_obj.browse(
                 cr, uid, contract_ids, context=context):
-            if contract.meal_voucher:
+            for advantage in contract.advantage_ids:
                 res += [{
-                    'name': u'Tichete de Masă',
-                    'code': 'TCHM',
-                    'amount': contract.meal_voucher_value,
+                    'name': advantage.name,
+                    'code': advantage.code,
+                    'amount': advantage.amount,
                     'contract_id': contract.id,
                 }]
         return res
