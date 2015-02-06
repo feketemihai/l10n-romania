@@ -225,8 +225,6 @@ class hr_employee(models.Model):
                                                    'CAS Municipiu Bucuresti'),
                                ('_A', 'AOPSNAJ'), ('_T', 'CASMTCT')],
                               string='Insurance', required=True)
-    studies = fields.One2many(
-        'hr.employee.studies', 'employee_id')
     person_related = fields.One2many(
         'hr.employee.related', 'employee_id', 'Related Persons')
     person_in_care = fields.Integer(string='No of persons in care',
