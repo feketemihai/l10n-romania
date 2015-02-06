@@ -33,6 +33,17 @@ class hr_holidays_status_type(models.Model):
     value = fields.Float('Percentage', decimal = (0,2), required = True)
     ceiling = fields.Integer('Ceiling', default = 0, help = 'Expressed in months')
 
+class hr_holidays_status(models.Model):
+    _inherit = 'hr.holidays.status'
+
+    @api.one
+    @api.depends('name')
+    def _compute_leave_code(self):
+        self.leave_code = ''.join(x[0] for x in self.name.split())
+
+    leave_code = fields.Char(
+        'Leave Code', compute = '_compute_leave_code', store = True)
+
 class hr_holidays(models.Model):
     _inherit = 'hr.holidays'
 
