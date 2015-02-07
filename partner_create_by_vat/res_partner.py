@@ -116,7 +116,8 @@ class res_partner(models.Model):
                     if 'Judetul:' in result.keys():
                         jud = result['Judetul:'].title() or ''
                         if jud.lower().startswith('municip'):
-                            jud = ' '.join(jud.split(' ')[1:])
+                            #jud = ' '.join(jud.split(' ')[1:])
+                            jud = "%bucure%"
                         if jud != '':
                             state = self.env['res.country.state'].search(
                                 [('name', 'ilike', jud)])
