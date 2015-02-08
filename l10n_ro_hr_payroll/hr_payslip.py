@@ -25,28 +25,28 @@ class hr_payslip(models.Model):
     _inherit = 'hr.payslip'
 
     # overridden to get proper leave codes
-    def get_worked_day_lines(
-            self, cr, uid, contract_ids, date_from, date_to, context=None):
+    @api.model
+    def get_worked_day_lines(self, contract_ids, date_from, date_to):
         res = super(hr_payslip, self).get_worked_day_lines(
-            cr, uid, contract_ids, date_from, date_to, context)
+            contract_ids, date_from, date_to)
         hs_obj = self.pool.get('hr.holidays.status')
         ret = []
         for key, val in enumerate(res):
-            hs_ids = hs_obj.search(cr, uid, [('name', '=', val['code'])])
+            hs_ids = hs_obj.search(self.env.cr, self.env.user.id, [('name', '=', val['code'])])
             if hs_ids:
-                hs = hs_obj.browse(cr, uid, hs_ids)
+                hs = hs_obj.browse(self.env.cr, self.env.user.id, hs_ids)
                 val['code'] = hs.leave_code
             ret += [val]
         return ret
 
     # overriden to get all inputs
-    def get_inputs(
-            self, cr, uid, contract_ids, date_from, date_to, context=None):
+    @api.model
+    def get_inputs(self, contract_ids, date_from, date_to):
         res = super(hr_payslip, self).get_inputs(
-            cr, uid, contract_ids, date_from, date_to, context)
+            contract_ids, date_from, date_to)
         contract_obj = self.pool.get('hr.contract')
         for contract in contract_obj.browse(
-                cr, uid, contract_ids, context=context):
+                self.env.cr, self.env.user.id, contract_ids):
             for advantage in contract.advantage_ids:
                 res += [{
                     'name': advantage.name,
