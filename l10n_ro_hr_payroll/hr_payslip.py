@@ -19,6 +19,7 @@
 #
 ##############################################################################
 
+from datetime import datetime, timedelta
 from openerp import models, fields, api, _
 
 class hr_payslip(models.Model):
@@ -27,8 +28,60 @@ class hr_payslip(models.Model):
     # overridden to get proper leave codes
     @api.model
     def get_worked_day_lines(self, contract_ids, date_from, date_to):
-        res = super(hr_payslip, self).get_worked_day_lines(
-            contract_ids, date_from, date_to)
+        # pot sa am 10 contracte dar unul singur de salar
+        res = []
+        day_from = datetime.strptime(date_from,"%Y-%m-%d")
+        day_to = datetime.strptime(date_to,"%Y-%m-%d")
+        nb_of_days = (day_to - day_from).days + 1
+        cal_obj = self.env['resource.calendar']
+        hol_obj = self.env['hr.holidays']
+        for contract in self.env['hr.contract'].browse(contract_ids):
+            if not contract.working_hours:
+                #fill only if the contract as a working schedule linked
+                continue
+            attendances = {
+                 'name': _("Normal Working Days paid at 100%"),
+                 'sequence': 1,
+                 'code': 'WORK100',
+                 'number_of_days': 0.0,
+                 'number_of_hours': 0.0,
+                 'contract_id': contract.id,
+            }
+            leaves = {}
+            for day in range(0, nb_of_days):
+                curr_day = day_from + timedelta(days=day)
+                curr_day = curr_day.replace(hour=0, minute=0)
+                # TODO functia e trecuta la depricated
+                working_hours_on_day = cal_obj.working_hours_on_day(contract.working_hours, curr_day)
+                leave = hol_obj.search([
+                    ('state', '=', 'validate'),
+                    ('employee_id', '=', contract.employee_id.id),
+                    ('type', '=', 'remove'),
+                    ('date_from', '<=', curr_day.strftime("%Y-%m-%d")),
+                    ('date_to', '>=', curr_day.strftime("%Y-%m-%d"))
+                ])
+                if leave and working_hours_on_day:
+                    leave_type = leave.holiday_status_id.leave_code
+                    #if he was on leave, fill the leaves dict
+                    if leave_type in leaves:
+                        leaves[leave_type]['number_of_days'] += 1.0
+                        leaves[leave_type]['number_of_hours'] += working_hours_on_day
+                    else:
+                        leaves[leave_type] = {
+                            'name': leave.name,
+                            'sequence': 5,
+                            'code': leave_type,
+                            'number_of_days': 1.0,
+                            'number_of_hours': working_hours_on_day,
+                            'contract_id': contract.id,
+                        }
+                elif working_hours_on_day:
+                    #add the input vals to tmp (increment if existing)
+                    attendances['number_of_days'] += 1.0
+                    attendances['number_of_hours'] += working_hours_on_day
+            res += [attendances] + leaves.values()
+        return res
+        
         hs_obj = self.pool.get('hr.holidays.status')
         ret = []
         for key, val in enumerate(res):
