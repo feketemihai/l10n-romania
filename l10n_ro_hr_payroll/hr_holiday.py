@@ -32,6 +32,9 @@ class hr_holidays_status_type(models.Model):
     code = fields.Char('Code', required = True)
     value = fields.Float('Percentage', decimal = (0,2), required = True)
     ceiling = fields.Integer('Ceiling', default = 0, help = 'Expressed in months')
+    ceiling_type = fields.Selection(('min', 'Minimum Wage'), ('med', 'Medium Wage'))
+    zileang = fields.Integer('# Days by Employer', default = 0)
+
 
 class hr_holidays_status(models.Model):
     _inherit = 'hr.holidays.status'
@@ -39,7 +42,10 @@ class hr_holidays_status(models.Model):
     @api.one
     @api.depends('name')
     def _compute_leave_code(self):
-        self.leave_code = ''.join(x[0] for x in self.name.split())
+        leave_code = ''.join(x[0] for x in self.name.split()).upper()
+        if self.status_type and leave_code == 'SL':
+            leave_code += '-' + self.status_type.code
+        self.leave_code = leave_code
 
     leave_code = fields.Char(
         'Leave Code', compute = '_compute_leave_code', store = True)
