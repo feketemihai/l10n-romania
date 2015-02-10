@@ -45,6 +45,10 @@ enter the appropriate year, tag, leave type, Approve and Close.
 * Closing the Public Holiday will automatically generate an allocation for
 all dates for all employees tagged and will create leave requests for all
 dates.
+
+Meal Vouchers
+-------------
+
     """,
     'data': [
         'views/hr_payroll.xml',
@@ -52,6 +56,7 @@ dates.
         'views/res_company.xml',
         'views/hr_holidays.xml',
         'views/hr_public_holidays.xml',
+        'views/hr_meal_vouchers.xml',
         'views/hr_wage_history.xml',
         'hr_public_holidays_workflow.xml',
 #        'security/ir.model.access.csv',
