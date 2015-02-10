@@ -33,7 +33,8 @@ class hr_payslip(models.Model):
         day_from = datetime.strptime(date_from,"%Y-%m-%d")
         day_to = datetime.strptime(date_to,"%Y-%m-%d")
         nb_of_days = (day_to - day_from).days + 1
-        cal_obj = self.env['resource.calendar']
+        # cal_obj = self.env['resource.calendar'] mumu old vs new api
+        cal_obj = self.pool.get('resource.calendar')
         hol_obj = self.env['hr.holidays']
         for contract in self.env['hr.contract'].browse(contract_ids):
             if not contract.working_hours:
@@ -51,8 +52,10 @@ class hr_payslip(models.Model):
             for day in range(0, nb_of_days):
                 curr_day = day_from + timedelta(days=day)
                 curr_day = curr_day.replace(hour=0, minute=0)
-                # TODO functia e trecuta la depricated
-                working_hours_on_day = cal_obj.working_hours_on_day(contract.working_hours, curr_day)
+                # TODO functia working_hours_on_day e trecuta la depricated
+                # dar cum am spus si mai sus, mumu old vs new api
+                working_hours_on_day = cal_obj.get_working_hours_of_date(self.env.cr, self.env.uid, contract.working_hours.id, start_dt=curr_day, context=None)
+                 # cal_obj.working_hours_on_day(contract.working_hours, curr_day)
                 leave = hol_obj.search([
                     ('state', '=', 'validate'),
                     ('employee_id', '=', contract.employee_id.id),
