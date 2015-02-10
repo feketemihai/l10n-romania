@@ -21,51 +21,6 @@
 
 from datetime import timedelta
 from openerp import netsvc, models, fields, api, _
-from openerp.exceptions import ValidationError
-
-
-class hr_holidays_status_type(models.Model):
-    _name = 'hr.holidays.status.type'
-    _description = 'Leave status types'
-
-    name = fields.Char('Name')
-    code = fields.Char('Code', required = True)
-    value = fields.Float('Percentage', decimal = (0,2), required = True)
-    ceiling = fields.Integer('Ceiling', default = 0, help = 'Expressed in months')
-    ceiling_type = fields.Selection(('min', 'Minimum Wage'), ('med', 'Medium Wage'))
-    zileang = fields.Integer('# Days by Employer', default = 0)
-
-
-class hr_holidays_status(models.Model):
-    _inherit = 'hr.holidays.status'
-
-    @api.one
-    @api.depends('name')
-    def _compute_leave_code(self):
-        leave_code = ''.join(x[0] for x in self.name.split()).upper()
-        if self.status_type and leave_code == 'SL':
-            leave_code += '-' + self.status_type.code
-        self.leave_code = leave_code
-
-    leave_code = fields.Char(
-        'Leave Code', compute = '_compute_leave_code', store = True)
-
-class hr_holidays(models.Model):
-    _inherit = 'hr.holidays'
-
-    @api.one
-    @api.depends('holiday_status_id')
-    @api.constrains('status_type')
-    def _validate_status_type(self):
-        if self.holiday_status_id:
-            if not self.holiday_status_id.name.startswith('Sick'):
-                raise ValidationError(_("Leave Code is only for Sick Leaves"))
-        else:
-            raise ValidationError(_("Set Leave Type first"))
-
-    status_type = fields.Many2one(
-        'hr.holidays.status.type', 'Leave Code', readonly=True,
-        states={'draft':[('readonly',False)], 'confirm':[('readonly',False)]})
 
 class hr_holidays_line(models.Model):
     _inherit = 'hr.holidays.public.line'
