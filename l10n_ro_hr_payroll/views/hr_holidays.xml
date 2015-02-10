@@ -20,10 +20,13 @@
 					<group colspan="2" name="strings">
 	                    <field name="name"/>
 	                    <field name="code"/>
+	                    <field name="employer_days"/>
+	                    <field name="max_days"/>
 					</group>
 					<group colspan="2" name="others">
 	                    <field name="value"/>
 	                    <field name="ceiling"/>
+	                    <field name="ceiling_type"/>
 					</group>
                 </form>
             </field>
