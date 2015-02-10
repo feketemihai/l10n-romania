@@ -39,21 +39,21 @@ class hr_contract(models.Model):
         'Programmer or Handicaped', default = False)
 
     def compute_avg_minimum_wage(self, months):
-        wg_hist = self.pool.get('hr.wage.history')
+        wg_hist = self.env['hr.wage.history']
         rs = wg_hist.search([
             ('history_type', '=', 0),
         ])
         print rs
 
     def compute_avg_medimum_wage(self, months):
-        wg_hist = self.pool.get('hr.wage.history')
+        wg_hist = self.env['hr.wage.history']
         rs = wg_hist.search([
             ('history_type', '=', 1),
         ])
         print rs
 
     def compute_avg_wage(self, months):
-        wg_hist = self.pool.get('hr.wage.history')
+        wg_hist = self.env['hr.wage.history']
         rs = wg_hist.search([
             ('history_type', '=', 2),
             ('employee_id', '=', self.employee_id.id)
