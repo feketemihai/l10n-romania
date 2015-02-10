@@ -20,5 +20,6 @@
 ##############################################################################
 import res_company
 import hr_contract
-import hr_holiday
+import hr_holidays
+import hr_public_holidays
 import hr_payslip
