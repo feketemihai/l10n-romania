@@ -31,15 +31,18 @@
         'l10n_ro_hr',
     ],
     "description": """
-    Romanian Payroll implementation
-    -------------------------------
-    1. Public Holidays
-    Tag all employees with necessary tag.
-    Define Public Leaves type and enter all leave dates in Public Holidays,
-    enter the appropriate year, tag, leave type, Approve and Close.
-    Closing the Public Holiday will automatically generate an allocation for
-    all dates for all employees tagged and will create leave requests for all
-    dates.
+Romanian Payroll implementation
+===============================
+This module deals with Romanian Payroll implementation.
+
+Public Holidays
+---------------
+* Tag all employees with necessary tag.
+* Define Public Leaves type and enter all leave dates in Public Holidays,
+enter the appropriate year, tag, leave type, Approve and Close.
+* Closing the Public Holiday will automatically generate an allocation for
+all dates for all employees tagged and will create leave requests for all
+dates.
     """,
     'data': [
         'views/hr_payroll.xml',
