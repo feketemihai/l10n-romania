@@ -21,7 +21,7 @@
 
 from datetime import timedelta
 from openerp import netsvc, models, fields, api, _
-from openerp.exceptions import ValidationError
+from openerp.exceptions import ValidationError, Warning
 
 
 class hr_holidays_status_type(models.Model):
@@ -55,16 +55,21 @@ class hr_holidays(models.Model):
     _inherit = 'hr.holidays'
 
     @api.one
-    @api.depends('holiday_status_id')
+    @api.onchange('holiday_status_id')
+    @api.constrains('holiday_status_id')
+    def _validate_status(self):
+        if self.holiday_status_id:
+            if self.env.ref('hr_holidays.holiday_status_sl').id == self.holiday_status_id.id:
+                if self.status_type.name is False:
+                    raise Warning(_("Set Sick Leave Code"))
+
+    @api.one
+    @api.depends('status_type')
     @api.constrains('status_type')
     def _validate_status_type(self):
-        if self.holiday_status_id:
-            sl = self.env.ref('hr_holidays.holiday_status_sl')
-            print bool(sl.id == self.holiday_status_id.id)
-            if self.status_type and sl.id != self.holiday_status_id.id:
+        if self.status_type:
+            if self.env.ref('hr_holidays.holiday_status_sl').id != self.holiday_status_id.id:
                 raise ValidationError(_("Sick Leave Code is only for Sick Leaves"))
-        else:
-            raise ValidationError(_("Set Leave Type first"))
 
     status_type = fields.Many2one(
         'hr.holidays.status.type', 'Sick Leave Code', readonly=True,
