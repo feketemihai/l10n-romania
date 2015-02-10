@@ -6,19 +6,20 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-               <xpath expr="/form/sheet/notebook/page[@string='Personal Information']" position="inside">
-                    <group string="Persons Related">
-                        <field name="person_in_care"/>
-                        <field name="person_related" context="{'employee_id': active_id}">
-                            <tree string="Persons Related" editable="bottom">
-                                <field name="name"/>
-                                <field name="ssnid"/>
-                                <field name="relation"/>
+            	<xpath expr="//group[@name='active_group']" position="after">
+					<group colspan="4" string="Asigurări Sociale">
+						<field name="casang"/>
+						<field name="person_in_care"/>
+						<field name="person_related" context="{'employee_id': active_id}">
+						    <tree string="Persons Related" editable="bottom">
+						        <field name="name"/>
+						        <field name="ssnid"/>
+						        <field name="relation"/>
 								<field name="relation_type"/>
-                            </tree>
-                        </field>
-                    </group>
-                </xpath>
+						    </tree>
+						</field>
+					</group>
+				</xpath>
                 <field name="identification_id" position="before">
                     <field name="ssnid" groups="base.group_hr_user"/>
                 </field>
