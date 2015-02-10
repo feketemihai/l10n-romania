@@ -109,8 +109,7 @@ class res_partner(models.Model):
                         name = result['Denumire platitor:'].upper()
                     if 'Adresa:' in result.keys():
                         adresa = result['Adresa:'].title() or ''
-                        city=re.search(r'\d+.*$',adresa).group()
-                        city=re.search(r'\s.*$',city).group().strip()
+                        city=re.split(r'(\w*\d+\w*|,|:|;)',adresa)[-1].strip()
                     if nrc_key in result.keys():
                         nrc = result[nrc_key].replace(' ', '')
                         if nrc == '-/-/-':
