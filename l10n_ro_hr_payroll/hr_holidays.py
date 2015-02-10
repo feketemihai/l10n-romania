@@ -30,7 +30,7 @@ class hr_holidays_status_type(models.Model):
 
     name = fields.Char('Name')
     code = fields.Char('Code', required = True)
-    value = fields.Float('Percentage', decimal = (0,2), required = True)
+    value = fields.Integer('Percentage')
     ceiling = fields.Integer(
         'Ceiling', default = 0, help = 'Expressed in months')
     ceiling_type = fields.Selection(
@@ -61,8 +61,8 @@ class hr_holidays(models.Model):
         if self.holiday_status_id:
             sl = self.env.ref('hr_holidays.holiday_status_sl')
             print bool(sl.id == self.holiday_status_id.id)
-            if not self.holiday_status_id.name.startswith('Sick'):
-                raise ValidationError(_("Leave Code is only for Sick Leaves"))
+            if self.status_type and sl.id != self.holiday_status_id.id:
+                raise ValidationError(_("Sick Leave Code is only for Sick Leaves"))
         else:
             raise ValidationError(_("Set Leave Type first"))
 
