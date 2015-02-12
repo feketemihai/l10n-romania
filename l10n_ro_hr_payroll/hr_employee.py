@@ -21,19 +21,37 @@
 
 from openerp import models, fields, api, _
 
-class hr_contract_advantages(models.Model):
-    _name = 'hr.contract.advantages'
-    _description = 'hr_contract_advantages'
+class hr_employee(models.Model):
+    _inherit = 'hr.employee'
+
+    @property
+    def wage_history(self):
+        return self.env['hr.wage.history'].search([('employee_id', '=', self.id)])
+
+    def get_company_tax(self, code):
+        if self.company_id:
+            return self.company_id.get_tax(code)
+        return 0.0
+
+    def compute_avg_minimum_wage(self, months):
+        wg_hist = self.env['hr.wage.history']
+        rs = wg_hist.search([
+            ('history_type', '=', 1),
+        ])
+        print rs
+
+    def compute_avg_medimum_wage(self, months):
+        wg_hist = self.env['hr.wage.history']
+        rs = wg_hist.search([
+            ('history_type', '=', 2),
+        ])
+        print rs
+
+    def compute_avg_wage(self, months):
+        wg_hist = self.env['hr.wage.history']
+        rs = wg_hist.search([
+            ('history_type', '=', 0),
+            ('employee_id', '=', self.id)
+        ])
+        print rs
     
-    contract_id = fields.Many2one('hr.contract', 'Contract', required=True)
-    code = fields.Char('Code', required=True, default='PERM', help='Advantage code')
-    name = fields.Char('Name', required=True, help='Advantage name')
-    amount = fields.Float('Name', help='Advantage amount')
-
-class hr_contract(models.Model):
-    _inherit = 'hr.contract'
-
-    advantage_ids = fields.One2many(
-        'hr.contract.advantages', 'contract_id', string="Advantages")
-    programmer_or_handicaped = fields.Boolean(
-        'Programmer or Handicaped', default = False)
