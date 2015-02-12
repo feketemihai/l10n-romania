@@ -27,7 +27,7 @@ from openerp.exceptions import ValidationError, Warning
 
 class hr_meal_vouchers_line(models.Model):
     _name = 'hr.meal.vouchers.line'
-    _description = 'Meal Vouchers Line'
+    _description = 'hr_meal_vouchers'
 
     meal_voucher_id = fields.Many2one('hr.meal.vouchers', 'Meal Voucher Run')
     contract_id = fields.Many2one('hr.contract', 'Contract')
@@ -37,7 +37,7 @@ class hr_meal_vouchers_line(models.Model):
     
 class hr_meal_vouchers(models.Model):
     _name = 'hr.meal.vouchers'
-    _description = 'Meal Vouchers'
+    _description = 'hr_meal_vouchers'
     
     name = fields.Char()
     company_id = fields.Many2one(
