@@ -22,44 +22,28 @@
 from openerp import models, fields, api, _
 
 class res_company_payroll_taxes(models.Model):
-    _name = "res.company.payroll.taxes"
-    _description = "Payroll Taxes Generic Model"
-
-    payroll_tax_id = fields.Many2one('res.company.payroll', 'Company Payroll', required = True)
+    _name = "res.company.payrolltaxes"
+    _description = "res_company_payrolltaxes"
+    _sql_constrains = [(
+        'company_id_code_uniq',
+        'unique (company_id, code)',
+        'Unique codes per company'
+    )]
+    company_id = fields.Many2one('res.company', 'Company', required = True)
     code = fields.Char('Tax Code', required = True)
     name = fields.Char('Tax Name', required = True)
     value = fields.Float('Tax Value', required = True)
 
-class res_company_payroll(models.Model):
-    _name = "res.company.payroll"
-    _description = "Payroll Taxes and Misc"
-
-    name = fields.Char('Paroll Name', required = True)
-    minimum_wage = fields.Integer('Minimum Wage', required = True)
-    medimum_wage = fields.Integer('Medimum Wage', required = True)
-    
-    taxes = fields.One2many('res.company.payroll.taxes', 'payroll_tax_id', 'Company Payroll Taxes')
-
 class res_company(models.Model):
     _inherit = 'res.company'
 
-    payroll = fields.Many2one('res.company.payroll')
+    payroll_taxes = fields.One2many('res.company.payroll.taxes', 'payroll_tax_id', 'Company Payroll Taxes')
 
     @api.one
-    def get_minimum_wage(self):
-        if self.payroll:
-            return self.payroll.minimum_wage
-        return 0
-
-    @api.one
-    def get_medimum_wage(self):
-        if self.payroll:
-            return self.payroll.minimum_wage
-        return 0
-
-    @api.one
-    def get_tax_by_code(self, code): 
-        if self.payroll and self.payroll.taxes:
-            return self.payroll.taxes.search([('code', '=', code)])
-        return None
+    def get_tax(self, code): 
+        if self.payroll_taxes:
+            ret = self.payroll_taxes.search([('code', '=', code)])
+            if ret and ret.value:
+                return ret.value
+        return False
 

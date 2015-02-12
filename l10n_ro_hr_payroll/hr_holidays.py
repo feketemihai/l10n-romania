@@ -26,7 +26,7 @@ from openerp.exceptions import ValidationError, Warning
 
 class hr_holidays_status_type(models.Model):
     _name = 'hr.holidays.status.type'
-    _description = 'Leave status types'
+    _description = 'hr_holidays_status_type'
 
     name = fields.Char('Name')
     code = fields.Char('Code', required = True)
