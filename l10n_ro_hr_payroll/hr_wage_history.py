@@ -27,17 +27,12 @@ class hr_wage_history_line(models.Model):
     _rec_name = 'month'
     _order = 'month desc'
     _sql_constrains = [(
-        'month_history_id_uniq',
-        'unique (month, history_id)',
+        'date_history_id_uniq',
+        'unique (date, history_id)',
         'Unique months per year'
     )]
 
-    month = fields.Selection([
-            (1, _('January')), (2, _('February')), (3, _('March')),
-            (4, _('April')), (5, _('May')), (6, _('June')), (7, _('July')),
-            (8, _('August')), (9, _('September')), (10, _('Octomber')),
-            (11, _('November')), (12, _('December')),
-        ], required = True, index = True)
+    date = fields.Date('Month/Year', required = True, index = True)
     wage = fields.Integer('Wage', required = True)
     working_days = fields.Integer('Number of Working(ed) Days', required = True)
     history_id = fields.Many2one(
@@ -49,23 +44,20 @@ class hr_wage_history(models.Model):
     _rec_name = 'year'
     _order = 'year desc'
     _sql_constrains = [(
-        'year_type_employee_uniq',
-        'unique (year, history_type, employee_id)',
-        'Only one type per year and employee'
+        'history_type_uniq',
+        'unique (history_type)',
+        'Only one type'
     )]
 
-    year = fields.Integer('Year', required = True)
     line_ids = fields.One2many(
         'hr.wage.history.line', 'history_id', 'Wage History Lines')
     history_type = fields.Selection([
-            (0, ''),
             (1, 'Minimum Wage'),
             (2, 'Medium Wage'),
         ], default = 0, index = True)
-    employee_id = fields.Many2one('hr.employee', 'Employee')
 
     @api.one
-    def _compute_avg(self, start_month = 1):
+    def _compute_avg(self, start_month = 1, months = 3):
         wage = working_days = 0
         for line in self.line_ids.search([['month', '>=', start_month]]):
             wage += line.wage

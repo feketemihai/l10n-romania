@@ -6,7 +6,6 @@
             <field name="model">hr.wage.history</field>
             <field name="arch" type="xml">
                 <tree string="Wage History">
-                    <field name="year"/>
                     <field name="history_type"/>
                 </tree>
             </field>
@@ -19,7 +18,6 @@
                 <form string="Wage History">
 					<group colspan="4">
 	                    <group col="2">
-	                        <field name="year"/>
 	                        <field name="history_type"/>
 	                    </group>
 	                    <group col="2">
@@ -35,7 +33,7 @@
             <field name="model">hr.wage.history.line</field>
             <field name="arch" type="xml">
                 <tree string="Wage History" editable="top">
-                    <field name="month"/>
+                    <field name="date"/>
                     <field name="wage"/>
                     <field name="working_days"/>
                 </tree>
