@@ -150,6 +150,8 @@ class stock_move(osv.osv):
                             vals.update(changed_vals['value'])
                             asset_id = asset_obj.create(
                                 cr, uid, vals, context=context)
+            if move.asset_id:
+                self.pool['account.asset.asset'].sale_close_asset(cr, uid, [move.asset_id.id], move, context=context)
         return True
 
     def action_cancel(self, cr, uid, ids, context=None):

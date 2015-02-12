@@ -104,7 +104,10 @@ class account_asset_asset(models.Model):
             depr_line[0].write(
                 {'amount': self.value_residual, 'remaining_value': 0.00, 'depreciation_date': move.date})
             depr_line[0].create_move()
-            self.compute_depreciation_board()
+            depr_lines = depr_lines_obj.search(
+            [('asset_id', '=', self.id), ('move_check', '=', False)])
+            depr_lines.unlink()
+        self.sold = True
         return True
 
     @api.one
@@ -147,7 +150,8 @@ class account_asset_asset(models.Model):
         'Monthly Depreciation', readonly=True, compute='_get_monthly_depreciation')
     reevaluation_ids = fields.One2many(
         'account.asset.reevaluation', 'asset_id', 'Reevaluations', copy=True)
-
+    sold = fields.Boolean('Sold', readonly=True)
+    
     @api.one
     @api.constrains('method_number')
     def _check_method_number(self):
