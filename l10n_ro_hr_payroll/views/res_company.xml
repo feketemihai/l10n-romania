@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//group[@string='CAEN Configuration']" position="after">
                     <group colspan="4" string="Company Payroll Taxes">
-                        <field name="payroll_taxes" context="{'company_id': active_id}"/>
+                        <field name="payroll_taxes" context="{'company_id': active_id}" nolabel="1"/>
                     </group>
                     <group string="Other" colspan="4">
                         <field name="meal_voucher_value"/>
