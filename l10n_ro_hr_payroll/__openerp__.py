@@ -37,17 +37,48 @@ This module deals with Romanian Payroll implementation.
 
 Public Holidays
 ---------------
+* depends on hr_public_holidays module
+
 * Tag all employees with necessary tag.
 
-* Define Public Leaves type and enter all leave dates in Public Holidays, 
-enter the appropriate year, tag, leave type, Approve and Close.
+* Define Public Leaves type and enter all leave dates in Public Holidays, enter
+  the appropriate year, tag, leave type, Approve and Close.
 
-* Closing the Public Holiday will automatically generate an allocation for
-all dates for all employees tagged and will create leave requests for all
-dates.
+* Closing the Public Holiday will automatically generate an allocation for all
+  dates for all employees tagged and will create leave requests for all dates.
+
+* TBD what happens with new employees (no holiday)
+
+
+Wage History
+------------
+* Used to compute base for Sick Leaves and others as given by `ANAF <http://static.anaf.ro/static/10/Anaf/Declaratii_R/AplicatiiDec/structura_dunica_A304_2015_230115.pdf>`_
+
 
 Meal Vouchers
 -------------
+* Set the value of the meal voucher in Company -> HR 
+
+* Calculates the number of vouchers per employee 
+
+* TBD: print voucher report
+
+
+Company Payroll Taxes
+---------------------
+* Setup company taxes used in Payroll
+
+
+Employee Contract
+-----------------
+* Advantages used as INPUT lines in Payroll calculation.
+
+* Programmer or Handicap boolean are exceptions for paying Income Tax
+
+
+Holidays
+--------
+* Sets Sick Leave Code
 
     """,
     'data': [
@@ -55,10 +86,11 @@ Meal Vouchers
         'views/hr_contract.xml',
         'views/res_company.xml',
         'views/hr_holidays.xml',
-        'views/hr_public_holidays.xml',
         'views/hr_meal_vouchers.xml',
         'views/hr_wage_history.xml',
-        'hr_public_holidays_workflow.xml',
+        'views/hr_public_holidays.xml',
+        'workflows/hr_public_holidays_workflow.xml',
+        'data/hr.wage.history.csv',
 #        'security/ir.model.access.csv',
     ],
     'installable': True,

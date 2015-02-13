@@ -18,11 +18,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import res_company
+
+# from models import *
+import hr_wage_history
+import hr_public_holidays
+import hr_holidays
 import hr_contract
 import hr_employee
-import hr_wage_history
-import hr_holidays
-import hr_public_holidays
-import hr_payslip
 import hr_meal_vouchers
+import hr_payslip
+import res_company
