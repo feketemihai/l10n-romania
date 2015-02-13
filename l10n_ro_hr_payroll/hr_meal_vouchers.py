@@ -31,7 +31,7 @@ class hr_meal_vouchers_line(models.Model):
 
     meal_voucher_id = fields.Many2one('hr.meal.vouchers', 'Meal Voucher Run')
     contract_id = fields.Many2one('hr.contract', 'Contract')
-    worked_days = fields.Integer('# of Worked Days')
+    num_vouchers = fields.Integer('# of Vouchers')
     serial_from = fields.Char('Serial # from')
     serial_to = fields.Char('Serial # to')
     
@@ -89,7 +89,6 @@ class hr_meal_vouchers(models.Model):
                 ('date_to', '>=', curr_day.strftime("%Y-%m-%d"))
             ])
             if not leave and working_hours_on_day:
-                #add the input vals to tmp (increment if existing)
                 res += 1.0
         return (contract, res)
 

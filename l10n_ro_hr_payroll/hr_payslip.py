@@ -25,6 +25,15 @@ from openerp import models, fields, api, _
 class hr_payslip(models.Model):
     _inherit = 'hr.payslip'
 
+    @api.one
+    def get_wage_history(self):
+        wg_hist = self.env['hr.wage.history']
+        start_date = self.date_from[:8] + '01'
+        rs = wg_hist.search([('date', '=', start_date)])
+        rs.ensure_one()
+        print rs
+        return rs
+
     # overridden to get proper leave codes
     @api.model
     def get_worked_day_lines(self, contract_ids, date_from, date_to):
@@ -84,16 +93,6 @@ class hr_payslip(models.Model):
                     attendances['number_of_hours'] += working_hours_on_day
             res += [attendances] + leaves.values()
         return res
-        
-        hs_obj = self.pool.get('hr.holidays.status')
-        ret = []
-        for key, val in enumerate(res):
-            hs_ids = hs_obj.search(self.env.cr, self.env.user.id, [('name', '=', val['code'])])
-            if hs_ids:
-                hs = hs_obj.browse(self.env.cr, self.env.user.id, hs_ids)
-                val['code'] = hs.leave_code
-            ret += [val]
-        return ret
 
     # overriden to get all inputs
     @api.model
