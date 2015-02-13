@@ -19,5 +19,11 @@
 #
 ##############################################################################
 
-import models
-import reports
+import hr_wage_history
+import hr_public_holidays
+import hr_holidays
+import hr_contract
+import hr_employee
+import hr_meal_vouchers
+import hr_payslip
+import res_company
