@@ -9,9 +9,9 @@
                 <field name="advantages" position="replace">
                     <field name="advantage_ids" context="{'contract_id': active_id}">
                         <tree string="Advantages" editable="bottom">
-                            <field name="code"/>
-                            <field name="name"/>
-                            <field name="amount"/>
+                            <field name="name" string="Name"/>
+                            <field name="code" string="Code"/>
+                            <field name="amount" string="Amount"/>
                         </tree>
                     </field>
                 </field>
