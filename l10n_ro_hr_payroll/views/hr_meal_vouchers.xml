@@ -25,10 +25,10 @@
                             <field name="company_id"/>
                         </group>
                         <group col="2">
-	                        <label for="date_from" string="Period"/>
-	                        <div>
-	                            <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
-							</div>
+                            <label for="date_from" string="Period"/>
+                            <div>
+                                <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
+                            </div>
                         </group>
                     </group>
                     <group colspan="4">
@@ -42,7 +42,7 @@
             <field name="model">hr.meal.vouchers.line</field>
             <field name="arch" type="xml">
                 <tree string="Meal Voucher Lines" editable="top">
-                    <field name="worked_days"/>
+                    <field name="num_vouchers"/>
                     <field name="contract_id"/>
                     <field name="serial_from"/>
                     <field name="serial_to"/>
@@ -62,5 +62,5 @@
                   parent="hr_payroll.menu_hr_root_payroll"
                   groups="base.group_hr_manager"
                   sequence="100"/>
-	</data>
+    </data>
 </openerp>
