@@ -18,7 +18,7 @@
             <field name="arch" type="xml">
                 <form string="Meal Vouchers">
                     <header>
-                        <button string="Get # of Meal Vouchers" name="set_to_draft" type="object" groups="base.group_hr_manager"/>
+                        <button string="Get # of Meal Vouchers" name="build_lines" type="object" groups="base.group_hr_user"/>
                     </header>
                     <group colspan="4">
                         <group col="2">
@@ -41,8 +41,9 @@
             <field name="name">hr.meal.vouchers.line.tree</field>
             <field name="model">hr.meal.vouchers.line</field>
             <field name="arch" type="xml">
-                <tree string="Meal Voucher Lines" editable="top">
+                <tree string="Meal Voucher Lines">
                     <field name="num_vouchers"/>
+					<field name="employee_id"/>
                     <field name="contract_id"/>
                     <field name="serial_from"/>
                     <field name="serial_to"/>

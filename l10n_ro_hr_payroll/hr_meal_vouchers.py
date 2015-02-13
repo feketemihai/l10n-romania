@@ -21,7 +21,7 @@
 
 import time
 from datetime import datetime, timedelta
-from dateutil import relativedelta
+from dateutil.relativedelta import relativedelta
 from openerp import netsvc, models, fields, api, _
 from openerp.exceptions import ValidationError, Warning
 
@@ -29,32 +29,40 @@ class hr_meal_vouchers_line(models.Model):
     _name = 'hr.meal.vouchers.line'
     _description = 'hr_meal_vouchers'
 
-    meal_voucher_id = fields.Many2one('hr.meal.vouchers', 'Meal Voucher Run')
-    contract_id = fields.Many2one('hr.contract', 'Contract')
-    num_vouchers = fields.Integer('# of Vouchers')
-    serial_from = fields.Char('Serial # from')
-    serial_to = fields.Char('Serial # to')
+    meal_voucher_id = fields.Many2one(
+        'hr.meal.vouchers', _('Meal Voucher Run'))
+    employee_id = fields.Many2one('hr.employee', _('Employee'))
+    contract_id = fields.Many2one('hr.contract', _('Contract'), select = True)
+    num_vouchers = fields.Integer(_('# of Vouchers'))
+    serial_from = fields.Char(_('Serial # from'))
+    serial_to = fields.Char(_('Serial # to'))
     
 class hr_meal_vouchers(models.Model):
     _name = 'hr.meal.vouchers'
     _description = 'hr_meal_vouchers'
-    
-    name = fields.Char()
+
+    @api.one
+    @api.depends('date_from', 'date_to')
+    def _compute_name(self):
+        self.name = _("Period %s - %s") % (self.date_from, self.date_to)
+
+    name = fields.Char(compute = "_compute_name", readonly = True)
     company_id = fields.Many2one(
-        'res.company', 'Company',
+        'res.company', _('Company'),
         default = lambda self: self.env.user.company_id)
     date_from = fields.Date(
         'Date From', required = True,
         default = lambda *a: time.strftime('%Y-%m-01'))
     date_to = fields.Date(
         'Date To', required = True,
-        default = lambda *a: str(datetime.now() + relativedelta.relativedelta(months=+1, day=1, days=-1))[:10])
+        default = lambda *a: str((datetime.now() + relativedelta(months=+1, day=1, days=-1)).date()))
     line_ids = fields.One2many('hr.meal.vouchers.line', 'meal_voucher_id')
 
     def get_contracts(self):
         angajati = self.env['hr.employee'].search([
             ('company_id', '=', self.company_id.id),
             ('active', '=', True),
+            ('company_id.meal_voucher_value', '!=', 0.0)
         ])
         # TODO: contracte susp
         # [('employee_id', '=', [1,4]), '|', '|', '&', ('date_end', '<=', '2015-02-28'), ('date_end', '>=', '2015-02-01'), '&', ('date_start', '<=', '2015-02-28'), ('date_start', '>=', '2015-02-01'), '&', ('date_start', '<=', '2015-02-01'), '|', ('date_end', '=', False), ('date_end', '>=', '2015-02-28')]
@@ -90,17 +98,30 @@ class hr_meal_vouchers(models.Model):
             ])
             if not leave and working_hours_on_day:
                 res += 1.0
-        return (contract, res)
+        return res
 
+    @api.one
     def build_lines(self):
+        lines_obj = self.env['hr.meal.vouchers.line']
         contracts = self.get_contracts()
-        if contracts is False:
-            return False
-        build = []
+        print "start", lines_obj, contracts
+        for line in lines_obj.search([('contract_id', 'in', contracts.ids)]):
+            print "unlink", line
+            line.unlink()
+
         for contract in contracts:
+            print "contract", contract
             for advantage in contract.advantage_ids:
+                print "adv", advantage
                 if advantage.code in 'TICHM':
-                    line = self.get_worked_days_num(contract)
-                    if line[1] > 0:
-                        build += [line]
-        return build
+                    no = self.get_worked_days_num(contract)
+                    print "# days", no
+                    if no > 0.0:
+                        line = lines_obj.create({
+                            'meal_voucher_id': self.id,
+                            'employee_id': contract.employee_id.id,
+                            'contract_id': contract.id,
+                            'num_vouchers': no,
+                        })
+                        print "create", line
+        return True
