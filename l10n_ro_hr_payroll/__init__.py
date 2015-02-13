@@ -28,3 +28,5 @@ import hr_employee
 import hr_meal_vouchers
 import hr_payslip
 import res_company
+
+import reports
