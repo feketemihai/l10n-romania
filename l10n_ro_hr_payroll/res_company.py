@@ -21,6 +21,19 @@
 
 from openerp import models, fields, api, _
 
+class res_company(models.Model):
+    _inherit = 'res.company'
+
+    payroll_taxes = fields.One2many('res.company.payrolltaxes', 'company_id', 'Company Payroll Taxes')
+    meal_voucher_value = fields.Float('Meal Voucher Value')
+
+    def get_tax(self, code): 
+        if self.payroll_taxes:
+            ret = self.payroll_taxes.search([('code', '=', code)])
+            if ret and ret.value:
+                return ret.value
+        return False
+
 class res_company_payroll_taxes(models.Model):
     _name = "res.company.payrolltaxes"
     _description = "res_company_payrolltaxes"
@@ -33,17 +46,4 @@ class res_company_payroll_taxes(models.Model):
     code = fields.Char('Tax Code', required = True)
     name = fields.Char('Tax Name', required = True)
     value = fields.Float('Tax Value', required = True)
-
-class res_company(models.Model):
-    _inherit = 'res.company'
-
-    payroll_taxes = fields.One2many('res.company.payroll.taxes', 'payroll_tax_id', 'Company Payroll Taxes')
-
-    @api.one
-    def get_tax(self, code): 
-        if self.payroll_taxes:
-            ret = self.payroll_taxes.search([('code', '=', code)])
-            if ret and ret.value:
-                return ret.value
-        return False
 

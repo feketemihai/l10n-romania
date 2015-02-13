@@ -24,34 +24,7 @@ from openerp import models, fields, api, _
 class hr_employee(models.Model):
     _inherit = 'hr.employee'
 
-    @property
-    def wage_history(self):
-        return self.env['hr.wage.history'].search([('employee_id', '=', self.id)])
-
     def get_company_tax(self, code):
-        if self.company_id:
-            return self.company_id.get_tax(code)
+        if self.company_id and self.company_id.name:
+            return self.company_id.get_tax(code) or 0.0
         return 0.0
-
-    def compute_avg_minimum_wage(self, months):
-        wg_hist = self.env['hr.wage.history']
-        rs = wg_hist.search([
-            ('history_type', '=', 1),
-        ])
-        print rs
-
-    def compute_avg_medimum_wage(self, months):
-        wg_hist = self.env['hr.wage.history']
-        rs = wg_hist.search([
-            ('history_type', '=', 2),
-        ])
-        print rs
-
-    def compute_avg_wage(self, months):
-        wg_hist = self.env['hr.wage.history']
-        rs = wg_hist.search([
-            ('history_type', '=', 0),
-            ('employee_id', '=', self.id)
-        ])
-        print rs
-    

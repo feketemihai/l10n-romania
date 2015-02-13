@@ -21,45 +21,21 @@
 
 from openerp import models, fields, api, _
 
-class hr_wage_history_line(models.Model):
-    _name = 'hr.wage.history.line'
-    _description = 'hr_wage_history_line'
-    _rec_name = 'month'
-    _order = 'month desc'
-    _sql_constrains = [(
-        'date_history_id_uniq',
-        'unique (date, history_id)',
-        'Unique months per year'
-    )]
-
-    date = fields.Date('Month/Year', required = True, index = True)
-    wage = fields.Integer('Wage', required = True)
-    working_days = fields.Integer('Number of Working(ed) Days', required = True)
-    history_id = fields.Many2one(
-        'hr.wage.history', 'Wage History', required = True)
-
 class hr_wage_history(models.Model):
     _name = 'hr.wage.history'
     _description = 'hr_wage_history'
-    _rec_name = 'year'
-    _order = 'year desc'
+    _rec_name = 'date'
+    _order = 'date desc'
     _sql_constrains = [(
-        'history_type_uniq',
-        'unique (history_type)',
-        'Only one type'
+        'date_uniq',
+        'unique (date)',
+        'Unique date',
     )]
 
-    line_ids = fields.One2many(
-        'hr.wage.history.line', 'history_id', 'Wage History Lines')
-    history_type = fields.Selection([
-            (1, 'Minimum Wage'),
-            (2, 'Medium Wage'),
-        ], default = 0, index = True)
-
-    @api.one
-    def _compute_avg(self, start_month = 1, months = 3):
-        wage = working_days = 0
-        for line in self.line_ids.search([['month', '>=', start_month]]):
-            wage += line.wage
-            working_days += line.working_days
-        return float(wage / working_days)
+    date = fields.Date('Month/Year', required = True, index = True)
+    min_wage = fields.Integer('Minimum Wage per economy', required = True)
+    med_wage = fields.Integer('Medium Wage per economy', required = True)
+    working_days = fields.Integer(
+        'Number of Working(ed) Days', required = True)
+    ceiling_min_wage = fields.Integer(
+        'Ceiling for 6 month income', required = True)
