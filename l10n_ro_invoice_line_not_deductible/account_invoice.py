@@ -70,8 +70,8 @@ class account_invoice_line(models.Model):
                 mres = self.move_line_get_item(line)
                 mres['invl_id'] = line.id
                 tax_code_found = False
-                #urmatoarea linie pt a face si cheltuiala nedeductibila si nu doar tva-ul
-         		res[0]['account_id']=inv.company_id.property_undeductible_account_id.id
+# urmatoarea linie pt a face si cheltuiala nedeductibila si nu doar tva-ul
+                res[0]['account_id'] = inv.company_id.property_undeductible_account_id.id
                 taxes = line.invoice_line_tax_id.compute_all(
                     (line.price_unit * (1.0 - (line.discount or 0.0) / 100.0)),
                     line.quantity, line.product_id, inv.partner_id)['taxes']
