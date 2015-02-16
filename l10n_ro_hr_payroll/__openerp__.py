@@ -82,6 +82,7 @@ Holidays
 
     """,
     'data': [
+        'views/report_meal_vouchers.xml',
         'views/hr_payroll.xml',
         'views/hr_contract.xml',
         'views/res_company.xml',
