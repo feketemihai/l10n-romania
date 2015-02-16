@@ -29,7 +29,8 @@ class hr_holidays_status_type(models.Model):
     _description = 'hr_holidays_status_type'
 
     name = fields.Char('Name')
-    code = fields.Char('Code', required = True)
+    code = fields.Char('Allowance Code', required = True)
+    emergency = fields.Boolean('Medical emergency', default = False)
     value = fields.Integer('Percentage')
     ceiling = fields.Integer(
         'Ceiling', default = 0, help = 'Expressed in months')
@@ -53,25 +54,62 @@ class hr_holidays_status(models.Model):
 
 class hr_holidays(models.Model):
     _inherit = 'hr.holidays'
+# ???
+    # @api.one
+    # @api.onchange('holiday_status_id')
+    # @api.constrains('holiday_status_id')
+    # def _validate_status(self):
+    #     if self.holiday_status_id:
+    #         if self.env.ref('hr_holidays.holiday_status_sl').id == self.holiday_status_id.id:
+    #             if self.status_type.name is False:
+    #                 raise Warning(_("Set Sick Leave Code"))
+
+    @property
+    def _sick_leave(self):
+        return self.env.ref('hr_holidays.holiday_status_sl')
+
+    @property
+    def _is_sick_leave(self):
+        if self.holiday_status_id and self.holiday_status_id.id:
+            return bool(self._sick_leave.id == self.holiday_status_id.id)
+        return False
+
+    # @api.one
+    # @api.depends(('holiday_status_id', 'status_type'))
+    # @api.constrains('status_type')
+    # def _validate_status_type(self):
+    #     if self.status_type:
+    #         if self.env.ref('hr_holidays.holiday_status_sl').id != self.holiday_status_id.id:
+    #             raise ValidationError(_("Sick Leave Code is only for Sick Leaves"))
 
     @api.one
     @api.onchange('holiday_status_id')
-    @api.constrains('holiday_status_id')
-    def _validate_status(self):
-        if self.holiday_status_id:
-            if self.env.ref('hr_holidays.holiday_status_sl').id == self.holiday_status_id.id:
-                if self.status_type.name is False:
-                    raise Warning(_("Set Sick Leave Code"))
+    def _compute_is_sick_leave(self):
+        self.is_sick_leave = (self._sick_leave.id == self.holiday_status_id.id)
 
     @api.one
-    @api.depends('status_type')
-    @api.constrains('status_type')
-    def _validate_status_type(self):
-        if self.status_type:
-            if self.env.ref('hr_holidays.holiday_status_sl').id != self.holiday_status_id.id:
-                raise ValidationError(_("Sick Leave Code is only for Sick Leaves"))
+    @api.depends('holiday_status_id', 'status_type')
+    @api.constrains('status_type', 'initial_id', 'allowance_code', 'diag_code')
+    def _validate_sl(self):
+        if self._sick_leave.id == self.holiday_status_id.id:
+            print self.diag_code, (int(self.diag_code) not in range(1, 1000)))
+            if self.diag_code is not False:
+                if not self.diag_code.isdigit():
+                    raise ValidationError("Diagnostic Code must be a number")
+                if int(self.diag_code) not in range(1, 1000)):
+                    raise ValidationError("Diagnostic Code must be between 1-999")
+            else:
+                raise Warning("Set Diagnostic Code")
+            if self.status_type.name is False:
+                raise ValidationError("Set Sick Leave Status Type")
+            if self.initial_id.date_to is not False and not (self.initial_id.date_to[:10] == self.date_from[:10] or self.diag_code == self.initial_id.diag_code):
+                raise ValidationError("Wrong Initial Sick Leave")
 
+    is_sick_leave = fields.Boolean(compute = '_compute_is_sick_leave', store = True)
     status_type = fields.Many2one(
         'hr.holidays.status.type', 'Sick Leave Code', readonly=True,
         states={'draft':[('readonly',False)], 'confirm':[('readonly',False)]})
-
+    diag_code = fields.Char('Diagnostic Code')
+    allowance_code = fields.Char('Allowance Code', related = 'status_type.code', readonly=True)
+    medical_emergency = fields.Boolean('Medical Emergency', related = 'status_type.emergency')
+    initial_id = fields.Many2one('hr.holidays', 'Initial Sick Leave')
