@@ -222,7 +222,7 @@ class account_bank_statement_line(osv.osv):
                 prorata_factor = (
                     mv_line_dict['debit'] - mv_line_dict['credit']) / st_line.amount_currency
                 mv_line_dict[
-                    'amount_currency'] = prorata_factor * st_line.amount                
+                    'amount_currency'] = prorata_factor * st_line.amount
             to_create.append(mv_line_dict)
         # Create move lines
         move_line_pairs_to_reconcile = []
