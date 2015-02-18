@@ -142,7 +142,8 @@ class hr_employee(models.Model):
     @api.depends('person_related')
     def _number_personcare(self):
         self.person_in_care = self.person_related.search_count([
-            ('relation_type', 'in', ('in_care', 'both'))
+            ('relation_type', 'in', ('in_care', 'both')),
+            ('employee_id', '=', self.id),
         ])
 
     @api.one
