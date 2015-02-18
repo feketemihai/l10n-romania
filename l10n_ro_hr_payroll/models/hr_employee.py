@@ -35,3 +35,4 @@ class hr_employee(models.Model):
             [('employee_id', '=', employee_id), ('state', '=', 'done')])
 
     def bazacm(self):
+        pass
