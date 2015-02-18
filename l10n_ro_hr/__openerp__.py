@@ -23,13 +23,16 @@
 {
     "name": "Romania - Human Resources",
     "version": "1.0",
-    "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
+    "author": "FOREST AND BIOMASS SERVICES ROMANIA",
     "website": "http://www.forbiom.eu",
     "category": "Romania Adaptation",
     "depends": ['hr', 'hr_contract', 'l10n_ro_config'],
+    "external_dependencies": {
+        'python' : ['stdnum'],
+    },
     "description": """
 Romania  - Human Resources
-------------------------------------------
+--------------------------
 
 
     """,
