@@ -19,7 +19,8 @@
 #
 ##############################################################################
 
-from datetime import timedelta
+from datetime import datetime
+import pytz
 from openerp import netsvc, models, fields, api, _
 
 class hr_holidays_line(models.Model):
@@ -81,8 +82,12 @@ class hr_public_holidays(models.Model):
         Second stage creates an approved leave request for each day.
         '''
         allocation_req = self.pool.get('hr.holidays')
+        DATEFORMAT = "%Y-%m-%d %H:%M:%S"
+        utc = pytz.utc
+        tz_name = self.env.context.get('tz') or self.env.user.tz
+        tz = tzname and pytz.timezone(tz_name) or utc
         values = {
-            'name': 'Alocare Zile Libere Legale pt Anul %s' % self.year,
+            'name': _('%s for %s') % (self.holiday_status_id.name, self.year),
             'state': 'confirm',
             'holiday_status_id': self.holiday_status_id.id,
             'number_of_days_temp': len(self.line_ids),
@@ -102,13 +107,17 @@ class hr_public_holidays(models.Model):
         values['number_of_days_temp'] = 1
         leave_ids = []
         for line in self.line_ids:
-            date_from = fields.Datetime.from_string(line.date)
             values['name'] = line.name
+            # Baza de date tine datetime in UTC si e aratat in tz-ul
+            # utilizatorului
             # de la data 00:00:00
-            values['date_from'] = fields.Datetime.to_string(date_from)
+            values['date_from'] = utc.normalize(
+                    tz.localize(datetime.strptime(line.date[:10] + ' 00:00:00',
+                    DATEFORMAT), is_dst = False), is_dst = False)
             # pana la data 23:59:59
-            values['date_to'] = fields.Datetime.to_string(
-                date_from+timedelta(seconds=86399))
+            values['date_to'] = utc.normalize(
+                    tz.localize(datetime.strptime(line.date[:10] + ' 23:59:59',
+                    DATEFORMAT), is_dst = False), is_dst = False)
             leave_ids.append(
                 allocation_req.create(self.env.cr, self.env.user.id, values))
         ret = allocation_req.holidays_validate(
