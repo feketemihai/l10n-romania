@@ -58,6 +58,24 @@ class account_invoice_line(models.Model):
     not_deductible = fields.Boolean('Not Deductible')
 
     @api.model
+    def move_line_get_item(self, line):
+        if line.not_deductible:
+            return {
+                'type': 'src',
+                'name': line.name.split('\n')[0][:64],
+                'price_unit': line.price_unit,
+                'quantity': line.quantity,
+                'price': line.price_subtotal,
+                'account_id': line.company_id.property_undeductible_account_id.id,
+                'product_id': line.product_id.id,
+                'uos_id': line.uos_id.id,
+                'account_analytic_id': line.account_analytic_id.id,
+                'taxes': line.invoice_line_tax_id,
+            }
+        else:
+            return super(account_invoice_line, self).move_line_get_item(line)
+        
+    @api.model
     def move_line_get(self, invoice_id):
         res = super(account_invoice_line, self).move_line_get(invoice_id)
         tax_obj = self.env['account.tax']
@@ -70,8 +88,6 @@ class account_invoice_line(models.Model):
                 mres = self.move_line_get_item(line)
                 mres['invl_id'] = line.id
                 tax_code_found = False
-# urmatoarea linie pt a face si cheltuiala nedeductibila si nu doar tva-ul
-                res[0]['account_id'] = inv.company_id.property_undeductible_account_id.id
                 taxes = line.invoice_line_tax_id.compute_all(
                     (line.price_unit * (1.0 - (line.discount or 0.0) / 100.0)),
                     line.quantity, line.product_id, inv.partner_id)['taxes']
@@ -79,7 +95,8 @@ class account_invoice_line(models.Model):
                     new_tax = tax_obj.browse(tax['id'])
                     if not new_tax.not_deductible_tax_id:
                         raise except_orm(_('Warning!'),
-                                         _("You must define a not deductible tax on '%s'!") % (tax.name,))
+                                         _("You must define a not deductible "
+                                           "tax on '%s'!") % (tax.name,))
                     new_tax = new_tax.not_deductible_tax_id
                     if inv.type in ('out_invoice', 'in_invoice'):
                         price = tax['amount'] * tax['base_sign']
@@ -93,15 +110,15 @@ class account_invoice_line(models.Model):
                         tax_code_id = new_tax.ref_base_code_id.id
                         tax_amount = line.price_subtotal * tax['ref_base_sign']
 
-                    mres[
-                        'account_id'] = inv.company_id.property_undeductible_account_id.id
+                    mres['account_id'] = inv.company_id and \
+                        inv.company_id.property_undeductible_account_id.id
                     res.append(dict(mres))
                     res[-1]['price'] = price
                     res[-1]['not_deductible'] = True
                     res[-1]['account_analytic_id'] = False
                     res[-1]['tax_code_id'] = tax_code_id
-                    res[-
-                        1]['tax_amount'] = currency.compute(tax_amount, company_currency)
+                    res[-1]['tax_amount'] = currency.compute(tax_amount,
+                                                             company_currency)
 
                     mres['account_id'] = new_tax.account_collected_id.id
                     mres['type'] = 'dest'
@@ -118,6 +135,6 @@ class account_invoice_line(models.Model):
                     res[-1]['account_analytic_id'] = False
 
                     res[-1]['tax_code_id'] = tax_code_id
-                    res[-
-                        1]['tax_amount'] = currency.compute(tax_amount, company_currency)
+                    res[-1]['tax_amount'] = currency.compute(tax_amount,
+                                                             company_currency)
         return res
