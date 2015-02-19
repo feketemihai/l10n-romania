@@ -19,4 +19,21 @@
 #
 ##############################################################################
 
-import meal_vouchers
+from openerp import models, fields, api, _
+
+class hr_contract_advantages(models.Model):
+    _name = 'hr.contract.advantages'
+    _description = 'hr_contract_advantages'
+    
+    contract_id = fields.Many2one('hr.contract', 'Contract', required=True)
+    code = fields.Char('Code', required=True, default='PERM', help='Advantage code')
+    name = fields.Char('Name', required=True, help='Advantage name')
+    amount = fields.Float('Name', help='Advantage amount')
+
+class hr_contract(models.Model):
+    _inherit = 'hr.contract'
+
+    advantage_ids = fields.One2many(
+        'hr.contract.advantages', 'contract_id', string="Advantages")
+    programmer_or_handicaped = fields.Boolean(
+        'Programmer or Handicaped', default = False)

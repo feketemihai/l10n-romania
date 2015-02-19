@@ -1,46 +1,5 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-        <record id="view_company_payroll_taxes_form" model="ir.ui.view">
-            <field name="name">view.company.payroll.taxes.form</field>
-            <field name="model">res.company.payroll.taxes</field>
-            <field name="arch" type="xml">
-                <form string="Company Payroll Taxes">
-                    <field name="payroll_tax_id"/>
-                    <field name="name"/>
-                    <field name="code"/>
-                    <field name="value"/>
-                </form>
-            </field>
-        </record>
-
-        <record id="edit_holiday_status_form2" model="ir.ui.view">
-            <field name="name">hr.holidays.status.form2</field>
-            <field name="model">hr.holidays</field>
-			<field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
-            <field name="arch" type="xml">
-				<xpath expr="//field[@name='holiday_status_id']" position="after">
-					<field name="status_type"/>
-				</xpath>
-            </field>
-        </record>
-		
-        <record id="edit_holiday_status_type" model="ir.ui.view">
-            <field name="name">edit.holidays.status.type.form</field>
-            <field name="model">hr.holidays.status.type</field>
-            <field name="arch" type="xml">
-                <form string="Status Type">
-					<group colspan="2" name="strings">
-	                    <field name="name"/>
-	                    <field name="code"/>
-					</group>
-					<group colspan="2" name="others">
-	                    <field name="value"/>
-	                    <field name="ceiling"/>
-					</group>
-                </form>
-            </field>
-        </record>
-
-	</data>
+    </data>
 </openerp>

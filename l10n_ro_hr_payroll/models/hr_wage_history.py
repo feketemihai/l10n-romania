@@ -19,4 +19,23 @@
 #
 ##############################################################################
 
-import meal_vouchers
+from openerp import models, fields, api, _
+
+class hr_wage_history(models.Model):
+    _name = 'hr.wage.history'
+    _description = 'hr_wage_history'
+    _rec_name = 'date'
+    _order = 'date desc'
+    _sql_constrains = [(
+        'date_uniq',
+        'unique (date)',
+        'Unique date',
+    )]
+
+    date = fields.Date('Month/Year', required = True, index = True)
+    min_wage = fields.Integer('Minimum Wage per economy', required = True)
+    med_wage = fields.Integer('Medium Wage per economy', required = True)
+    working_days = fields.Integer(
+        'Number of Working(ed) Days', required = True)
+    ceiling_min_wage = fields.Integer(
+        'Ceiling for 6 month income', required = True)

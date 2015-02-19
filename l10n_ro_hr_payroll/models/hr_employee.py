@@ -19,4 +19,20 @@
 #
 ##############################################################################
 
-import meal_vouchers
+from openerp import models, fields, api, _
+
+class hr_employee(models.Model):
+    _inherit = 'hr.employee'
+
+    def get_company_tax(self, code):
+        if self.company_id and self.company_id.name:
+            return self.company_id.get_tax(code) or 0.0
+        return 0.0
+
+
+    def _get_payslips(self, limit = None):
+        return self.env['hr.payslip'].search(
+            [('employee_id', '=', employee_id), ('state', '=', 'done')])
+
+    def bazacm(self):
+        pass

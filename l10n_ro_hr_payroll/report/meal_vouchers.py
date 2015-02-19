@@ -19,4 +19,11 @@
 #
 ##############################################################################
 
-import meal_vouchers
+from openerp import api, models
+
+class MealVoucherReport(models.AbstractModel):
+    _name = 'report.l10n_ro_hr_payroll.meal_voucher_report'
+
+    @api.multi
+    def render_html(self, data = None):
+        pass
