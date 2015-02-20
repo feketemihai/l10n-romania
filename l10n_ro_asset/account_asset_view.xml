@@ -108,7 +108,6 @@
             </field>
             <field name="purchase_date" position="before">
                 <field name="entry_date" required="1"/>
-                <field name="sold" readonly="1"/>
             </field>
             <field name="code" position="before">
                 <field name="product_id"/>
@@ -168,7 +167,6 @@
         <field name="arch" type="xml">
             <field name="category_id" position="before">
                 <field name="asset_type"/>
-                <field name="sold" invisible="1"/>
             </field>
             <field name="category_id" position="after">
                 <field name="product_id"/>
@@ -189,17 +187,12 @@
                 <field name="product_id"/>
                 <field name="inventory_number"/>
             </field>
-            <field name="partner_id" position="after">
-                <filter string="Fixed Assets" name="fixed" domain="[('asset_type','=','fixed')]" help="Fixed Assets"/>
-                <filter string="Financial Assets" name="services" domain="[('asset_type','=','service')]" help="Financial Assets"/>
-                <filter string="Sold" name="sold" domain="[('sold','=',1)]" help="Sold Assets"/>
-                <group expand="0" string="Group By">
-                    <filter string="Asset Type" icon="terp-personal" domain="[]"  context="{'group_by':'asset_type'}"/>
-                    <filter string="Category" icon="terp-personal" domain="[]"  context="{'group_by':'category_id'}"/>
-                    <filter string="Product" icon="terp-personal" domain="[]"  context="{'group_by':'product_id'}"/>
-                    <filter string="Partner" icon="terp-personal" domain="[]"  context="{'group_by':'partner_id'}"/>
-                </group>
-            </field>
+            <filter string="Current" position="before">
+                <filter string="Asset Type" icon="terp-personal" domain="[]"  context="{'group_by':'asset_type'}"/>
+                <filter string="Category" icon="terp-personal" domain="[]"  context="{'group_by':'category_id'}"/>
+                <filter string="Product" icon="terp-personal" domain="[]"  context="{'group_by':'product_id'}"/>
+                <filter string="Partner" icon="terp-personal" domain="[]"  context="{'group_by':'partner_id'}"/>
+            </filter>
         </field>
     </record>
                 
