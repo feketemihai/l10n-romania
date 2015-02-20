@@ -20,7 +20,9 @@
 ##############################################################################
 
 from datetime import datetime, timedelta
-from openerp import models, fields, api, _
+import pytz
+
+from openerp import models, fields, api, tools, _
 
 class hr_payslip(models.Model):
     _inherit = 'hr.payslip'
@@ -34,17 +36,56 @@ class hr_payslip(models.Model):
         print rs
         return rs
 
+    def _get_calendar_leaves(self, resource_id, day_from, day_to):
+        cal_leaves = {}
+        DFMT = tools.DEFAULT_SERVER_DATETIME_FORMAT
+        self.env.cr.execute("""
+        SELECT
+            id, holiday_id, date_from, date_to
+        FROM
+            resource_calendar_leaves
+        WHERE
+            resource_id = %d
+        AND (date_from, date_to) OVERLAPS ('%s'::TIMESTAMP, '%s'::TIMESTAMP)
+        """ % (resource_id, str(day_from), str(day_to)))
+        cal_leaves = {}
+        for x in self.env.cr.fetchall():
+            leave = {
+                'leave': self.env['hr.holidays'].browse(x[1]),
+                'period': (
+                    datetime.strptime(x[2], DFMT),
+                    datetime.strptime(x[3], DFMT)
+                ),
+                'date_period': (
+                    datetime.strptime(x[2], DFMT).date(),
+                    datetime.strptime(x[3], DFMT).date()
+                ),
+            }
+            cal_leaves.update({x[0]: leave})
+        return cal_leaves
+
+    def _was_on_leave(self, day, calendar_leaves):
+        res = []
+        for x in calendar_leaves:
+            if day >= calendar_leaves[x]['date_period'][0] and \
+                    day <= calendar_leaves[x]['date_period'][1]:
+                res += [(
+                    calendar_leaves[x]['leave'],
+                    calendar_leaves[x]['period']
+                )]
+        return res
+
     # overridden to get proper leave codes
     @api.model
     def get_worked_day_lines(self, contract_ids, date_from, date_to):
         # pot sa am 10 contracte dar unul singur de salar
         res = []
-        day_from = datetime.strptime(date_from,"%Y-%m-%d")
-        day_to = datetime.strptime(date_to,"%Y-%m-%d")
+        day_from = datetime.strptime(date_from,"%Y-%m-%d").replace(
+            hour = 0, minute = 0, second = 0)
+        day_to = datetime.strptime(date_to,"%Y-%m-%d").replace(
+            hour = 23, minute = 59, second = 59)
         nb_of_days = (day_to - day_from).days + 1
-        # cal_obj = self.env['resource.calendar'] mumu old vs new api
-        cal_obj = self.pool.get('resource.calendar')
-        hol_obj = self.env['hr.holidays']
+    
         for contract in self.env['hr.contract'].browse(contract_ids):
             if not contract.working_hours:
                 #fill only if the contract as a working schedule linked
@@ -57,40 +98,59 @@ class hr_payslip(models.Model):
                  'number_of_hours': 0.0,
                  'contract_id': contract.id,
             }
+
+            calendar_leaves = self._get_calendar_leaves(
+                contract.employee_id.id, day_from, day_to)
             leaves = {}
             for day in range(0, nb_of_days):
-                curr_day = day_from + timedelta(days=day)
-                curr_day = curr_day.replace(hour=0, minute=0)
-                # TODO functia working_hours_on_day e trecuta la depricated
-                # dar cum am spus si mai sus, mumu old vs new api
-                working_hours_on_day = cal_obj.get_working_hours_of_date(self.env.cr, self.env.uid, contract.working_hours.id, start_dt=curr_day, context=None)
-                 # cal_obj.working_hours_on_day(contract.working_hours, curr_day)
-                leave = hol_obj.search([
-                    ('state', '=', 'validate'),
-                    ('employee_id', '=', contract.employee_id.id),
-                    ('type', '=', 'remove'),
-                    ('date_from', '<=', curr_day.strftime("%Y-%m-%d")),
-                    ('date_to', '>=', curr_day.strftime("%Y-%m-%d"))
-                ])
-                if leave and working_hours_on_day:
-                    leave_type = leave.holiday_status_id.leave_code
-                    #if he was on leave, fill the leaves dict
-                    if leave_type in leaves:
-                        leaves[leave_type]['number_of_days'] += 1.0
-                        leaves[leave_type]['number_of_hours'] += working_hours_on_day
-                    else:
-                        leaves[leave_type] = {
-                            'name': leave.name,
-                            'sequence': 5,
-                            'code': leave_type,
-                            'number_of_days': 1.0,
-                            'number_of_hours': working_hours_on_day,
-                            'contract_id': contract.id,
-                        }
-                elif working_hours_on_day:
-                    #add the input vals to tmp (increment if existing)
+                curr_day = (day_from + timedelta(days = day)).\
+                    replace(hour=0,minute=0)
+                _leave = self._was_on_leave(curr_day.date(), calendar_leaves)
+                if _leave == []:
+                    leave_int = []
+                else:
+                    leave_int = [x[1] for x in _leave]
+                working_hours = contract.working_hours.\
+                    get_working_hours_of_date(
+                        start_dt = curr_day,
+                        compute_leaves = True,
+                        leaves = leave_int).pop()
+                if working_hours < 1.0:
+                    working_hours = 0.0
+
+                if _leave != []:
+                    leave_hours = contract.working_hours.\
+                        get_working_hours_of_date(
+                            start_dt = curr_day, compute_leaves = False).pop()
+                    leave_hours_left = 0.0   
+                    for leave, leave_int in _leave:
+                        leave_type = leave.holiday_status_id.leave_code
+                        _hours = contract.working_hours.\
+                            get_working_hours_of_date(
+                                start_dt = curr_day,
+                                compute_leaves = True,
+                                leaves = [leave_int]).pop()
+
+                        leave_hours_left += round(leave_hours - _hours)
+                        if leave_type in leaves.keys():
+                            leaves[leave_type].update({
+                                'number_of_days': leaves[leave_type]['number_of_days'] + leave.number_of_days_temp,
+                                'number_of_hours':  leaves[leave_type]['number_of_hours'] + round(leave_hours - _hours)
+                            })
+                        else:
+                            leaves[leave_type] = {
+                                'name': leave.name,
+                                'sequence': 5,
+                                'code': leave_type,
+                                'number_of_days': leave.number_of_days_temp,
+                                'number_of_hours': round(leave_hours - _hours),
+                                'contract_id': contract.id,
+                            }
+                    working_hours = leave_hours - leave_hours_left
+                    attendances['number_of_hours'] += working_hours
+                elif working_hours > 0.0:
                     attendances['number_of_days'] += 1.0
-                    attendances['number_of_hours'] += working_hours_on_day
+                    attendances['number_of_hours'] += working_hours
             res += [attendances] + leaves.values()
         return res
 
