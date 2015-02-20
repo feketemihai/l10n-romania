@@ -19,8 +19,8 @@
 #
 ##############################################################################
 
-from datetime import timedelta
-from openerp import netsvc, models, fields, api, _
+from datetime import datetime, timedelta
+from openerp import tools, models, fields, api, _
 from openerp.exceptions import ValidationError, Warning
 
 
@@ -92,11 +92,11 @@ class hr_holidays(models.Model):
     @api.constrains('status_type', 'initial_id', 'allowance_code', 'diag_code')
     def _validate_sl(self):
         if self._sick_leave.id == self.holiday_status_id.id:
-            print self.diag_code, (int(self.diag_code) not in range(1, 1000)))
+            print self.diag_code, (int(self.diag_code) not in range(1, 1000))
             if self.diag_code is not False:
                 if not self.diag_code.isdigit():
                     raise ValidationError("Diagnostic Code must be a number")
-                if int(self.diag_code) not in range(1, 1000)):
+                if int(self.diag_code) not in range(1000):
                     raise ValidationError("Diagnostic Code must be between 1-999")
             else:
                 raise Warning("Set Diagnostic Code")
@@ -113,3 +113,30 @@ class hr_holidays(models.Model):
     allowance_code = fields.Char('Allowance Code', related = 'status_type.code', readonly=True)
     medical_emergency = fields.Boolean('Medical Emergency', related = 'status_type.emergency')
     initial_id = fields.Many2one('hr.holidays', 'Initial Sick Leave')
+
+    @api.model
+    def _create_resource_leave(self, leaves):
+        '''This method will create entry in resource calendar leave object at the time of holidays validated '''
+        obj_res_leave = self.env['resource.calendar.leaves']
+        for leave in leaves:
+            # from utc to user's tz
+            date_from = fields.Datetime.context_timestamp(
+                leave, datetime.strptime(leave.date_from,
+                tools.DEFAULT_SERVER_DATETIME_FORMAT)).strftime(
+                tools.DEFAULT_SERVER_DATETIME_FORMAT)
+                
+            date_to = fields.Datetime.context_timestamp(
+                leave, datetime.strptime(leave.date_to,
+                tools.DEFAULT_SERVER_DATETIME_FORMAT)).strftime(
+                tools.DEFAULT_SERVER_DATETIME_FORMAT)
+
+            vals = {
+                'name': leave.name,
+                'date_from': date_from,
+                'holiday_id': leave.id,
+                'date_to': date_to,
+                'resource_id': leave.employee_id.resource_id.id,
+                'calendar_id': leave.employee_id.resource_id.calendar_id.id
+            }
+            obj_res_leave.create(vals)
+        return True
