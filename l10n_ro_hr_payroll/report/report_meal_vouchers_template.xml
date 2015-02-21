@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
 <data>
-<template id="report_meal_vouchers">
+<template id="report_meal_vouchers_template">
 	<t t-call="report.html_container">
 		<t t-foreach="docs" t-as="o">
 			<t t-call="report.external_layout">
@@ -15,6 +15,7 @@
 								<td># of Meal Vouchers</td>
 								<td>Serial # from</td>
 								<td>Serial # to</td>
+								<td>Signature</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -23,6 +24,7 @@
 								<td><span t-field="l.num_vouchers"/></td>
 								<td><span t-field="l.serial_from"/></td>
 								<td><span t-field="l.serial_to"/></td>
+								<td></td>
 							</tr>
 						</tbody>
 					</table>

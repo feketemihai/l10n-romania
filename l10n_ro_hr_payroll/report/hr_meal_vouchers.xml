@@ -5,7 +5,7 @@
 			model="hr.meal.vouchers"
 			string="Meal Vouchers Report"
 			report_type="qweb-pdf"
-			name="hr.report_meal_vouchers"
+			name="l10n_ro_hr_payroll.report_meal_vouchers_template"
 			attachment_use="False"
 			file="hr.report_meal_vouchers"
 			/>
