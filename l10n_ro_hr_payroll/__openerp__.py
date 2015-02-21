@@ -61,7 +61,7 @@ Meal Vouchers
 
 * Calculates the number of vouchers per employee 
 
-* TBD: print voucher report
+* Meal voucher report
 
 
 Company Payroll Taxes
@@ -82,6 +82,7 @@ Holidays
 
     """,
     'data': [
+        # views
         'views/report_meal_vouchers.xml',
         'views/hr_payroll.xml',
         'views/hr_contract.xml',
@@ -90,13 +91,19 @@ Holidays
         'views/hr_meal_vouchers.xml',
         'views/hr_wage_history.xml',
         'views/hr_public_holidays.xml',
+        # workflows
         'workflows/hr_public_holidays_workflow.xml',
+        # data
         'data/hr.wage.history.csv',
         'data/hr.holidays.status.csv',
         'data/hr.holidays.public.csv',
         'data/hr.holidays.public.lines.csv',
         'data/hr.employee.category.csv',
         'data/hr.contribution.register.csv',
+        # reports
+        'report/hr_meal_vouchers.xml',
+        'report/report_meal_vouchers_template.xml',
+        # model access
 #        'security/ir.model.access.csv',
     ],
     'installable': True,
