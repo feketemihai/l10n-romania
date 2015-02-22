@@ -26,6 +26,7 @@ from openerp import netsvc, models, fields, api, _
 class hr_holidays_line(models.Model):
     _inherit = 'hr.holidays.public.line'
 
+    alloc = fields.Many2one('hr.holidays')
     # override - pentru a sterge intrarile daca s-a sters vacanta publica
     holidays_id = fields.Many2one('hr.holidays.public',
                                   'Holiday Calendar Year',
@@ -38,6 +39,7 @@ class hr_public_holidays(models.Model):
         'hr.employee.category', string = 'Employee Tag', required = True)
     holiday_status_id = fields.Many2one(
         'hr.holidays.status', string = 'Leave Type', required = True)
+    master_alloc = fields.Many2one(hr.holidays)
     state = fields.Selection(
         [
             ('draft', 'Draft'),
@@ -93,29 +95,38 @@ class hr_public_holidays(models.Model):
             'user_id': None,
             'employee_id': None,
         }
-        alloc_id = allocation_req.create(self.env.cr, self.env.user.id, values)
-        ret = allocation_req.holidays_validate(
-            self.env.cr, self.env.user.id, [alloc_id])
-        if ret is False:
-            return False
+        
+        if not master_alloc.id:
+            alloc_id = allocation_req.create(self.env.cr, self.env.user.id, values)
+            ret = allocation_req.holidays_validate(
+                self.env.cr, self.env.user.id, [alloc_id])
+            if ret is False:
+                return False
+            self.master_alloc = allocation_req.browse(alloc_id)
+        else:
+            alloc_id = self.master_alloc.id
 
         values['type'] = 'remove'
         values['number_of_days_temp'] = 1
         leave_ids = []
         for line in self.line_ids:
-            values['name'] = line.name
-            # Baza de date tine datetime in UTC si e aratat in tz-ul
-            # utilizatorului
-            # de la data 00:00:00
-            values['date_from'] = utc.normalize(
-                    tz.localize(datetime.strptime(line.date[:10] + ' 00:00:00',
-                    DATEFORMAT), is_dst = False), is_dst = False)
-            # pana la data 23:59:59
-            values['date_to'] = utc.normalize(
-                    tz.localize(datetime.strptime(line.date[:10] + ' 23:59:59',
-                    DATEFORMAT), is_dst = False), is_dst = False)
-            leave_ids.append(
-                allocation_req.create(self.env.cr, self.env.user.id, values))
+            if not line.alloc.id:
+                values['name'] = line.name
+                # Baza de date tine datetime in UTC si e aratat in tz-ul
+                # utilizatorului
+                # de la data 00:00:00
+                values['date_from'] = utc.normalize(
+                        tz.localize(datetime.strptime(line.date[:10] + ' 00:00:00',
+                        DATEFORMAT), is_dst = False), is_dst = False)
+                # pana la data 23:59:59
+                values['date_to'] = utc.normalize(
+                        tz.localize(datetime.strptime(line.date[:10] + ' 23:59:59',
+                        DATEFORMAT), is_dst = False), is_dst = False)
+                leave_ids.append(
+                    allocation_req.create(self.env.cr, self.env.user.id, values))
+            else:
+                line.alloc.write({'state': 'confirm'})
+                leave_ids.append(line.alloc.id)
         ret = allocation_req.holidays_validate(
             self.env.cr, self.env.user.id, leave_ids)
         if ret is False:
