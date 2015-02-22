@@ -49,16 +49,12 @@ class hr_public_holidays(models.Model):
 
     @api.one
     def state_approve(self):
-        print self.state
         self.state = 'approve'
-        print self.state
         return True
 
     @api.one
     def state_decline(self):
-        print self.state
         self.state = 'decline'
-        print self.state
         return True
 
     @api.one

@@ -81,18 +81,13 @@ class hr_meal_vouchers(models.Model):
     def build_lines(self):
         lines_obj = self.env['hr.meal.vouchers.line']
         contracts = self.get_contracts()
-        print "start", lines_obj, contracts
         for line in lines_obj.search([('contract_id', 'in', contracts.ids)]):
-            print "unlink", line
             line.unlink()
 
         for contract in contracts:
-            print "contract", contract
             for advantage in contract.advantage_ids:
-                print "adv", advantage
                 if advantage.code in 'TICHM':
                     no = self.get_worked_days_num(contract)
-                    print "# days", no
                     if no > 0.0:
                         line = lines_obj.create({
                             'meal_voucher_id': self.id,
@@ -100,5 +95,4 @@ class hr_meal_vouchers(models.Model):
                             'contract_id': contract.id,
                             'num_vouchers': no,
                         })
-                        print "create", line
         return True
