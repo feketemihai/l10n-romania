@@ -75,30 +75,7 @@ class hr_meal_vouchers(models.Model):
         return self.env['hr.contract'].search(clause)
 
     def get_worked_days_num(self, contract):
-        res = 0.0
-        day_from = datetime.strptime(self.date_from,"%Y-%m-%d")
-        day_to = datetime.strptime(self.date_to,"%Y-%m-%d")
-        nb_of_days = (day_to - day_from).days + 1
-        # cal_obj = self.env['resource.calendar'] mumu old vs new api
-        cal_obj = self.pool.get('resource.calendar')
-        hol_obj = self.env['hr.holidays']
-        for day in range(0, nb_of_days):
-            curr_day = day_from + timedelta(days=day)
-            curr_day = curr_day.replace(hour=0, minute=0)
-            # TODO functia working_hours_on_day e trecuta la depricated
-            # dar cum am spus si mai sus, mumu old vs new api
-            working_hours_on_day = cal_obj.get_working_hours_of_date(self.env.cr, self.env.uid, contract.working_hours.id, start_dt=curr_day, context=None)
-             # cal_obj.working_hours_on_day(contract.working_hours, curr_day)
-            leave = hol_obj.search([
-                ('state', '=', 'validate'),
-                ('employee_id', '=', contract.employee_id.id),
-                ('type', '=', 'remove'),
-                ('date_from', '<=', curr_day.strftime("%Y-%m-%d")),
-                ('date_to', '>=', curr_day.strftime("%Y-%m-%d"))
-            ])
-            if not leave and working_hours_on_day:
-                res += 1.0
-        return res
+        return self.env['hr.payslip'].get_worked_day_lines(contract.ids, self.date_from, self.date_to)[0]['number_of_days']
 
     @api.one
     def build_lines(self):
