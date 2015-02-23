@@ -501,6 +501,12 @@ msgid "Undeductible Account"
 msgstr "Cont Nedeductibil"
 
 #. module: l10n_ro_config
+#: field:res.company,property_undeductible_tax_account_id:0
+#: field:l10n.ro.config.settings,property_undeductible_tax_account_id:0
+msgid "Undeductible Tax Account"
+msgstr "Cont Taxa Nedeductibila"
+
+#. module: l10n_ro_config
 #: field:account.tax.code,uneligible_tax_code_id:0
 msgid "Uneligible Tax Code (VAT on payment)"
 msgstr "Cod Taxa Neexigibil (TVA la Incasare)"
