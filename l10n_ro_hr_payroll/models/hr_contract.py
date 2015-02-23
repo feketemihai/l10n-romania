@@ -23,7 +23,7 @@ from openerp import models, fields, api, _
 
 class hr_contract_advantages(models.Model):
     _name = 'hr.contract.advantages'
-    _description = 'hr_contract_advantages'
+    _description = 'Contract Advantages'
     
     contract_id = fields.Many2one('hr.contract', 'Contract', required=True)
     code = fields.Char('Code', required=True, default='PERM', help='Advantage code')
