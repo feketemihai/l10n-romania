@@ -23,7 +23,7 @@ from openerp import models, fields, api, _
 
 class hr_wage_history(models.Model):
     _name = 'hr.wage.history'
-    _description = 'hr_wage_history'
+    _description = 'Wage History'
     _rec_name = 'date'
     _order = 'date desc'
     _sql_constrains = [(
