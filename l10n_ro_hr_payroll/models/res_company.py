@@ -36,7 +36,7 @@ class res_company(models.Model):
 
 class res_company_payroll_taxes(models.Model):
     _name = "res.company.payrolltaxes"
-    _description = "res_company_payrolltaxes"
+    _description = "Company Payroll Taxes"
     _sql_constrains = [(
         'company_id_code_uniq',
         'unique (company_id, code)',

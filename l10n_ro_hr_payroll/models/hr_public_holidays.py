@@ -39,7 +39,7 @@ class hr_public_holidays(models.Model):
         'hr.employee.category', string = 'Employee Tag', required = True)
     holiday_status_id = fields.Many2one(
         'hr.holidays.status', string = 'Leave Type', required = True)
-    master_alloc = fields.Many2one(hr.holidays)
+    master_alloc = fields.Many2one('hr.holidays')
     state = fields.Selection(
         [
             ('draft', 'Draft'),
@@ -83,7 +83,7 @@ class hr_public_holidays(models.Model):
         DATEFORMAT = "%Y-%m-%d %H:%M:%S"
         utc = pytz.utc
         tz_name = self.env.context.get('tz') or self.env.user.tz
-        tz = tzname and pytz.timezone(tz_name) or utc
+        tz = tz_name and pytz.timezone(tz_name) or utc
         values = {
             'name': _('%s for %s') % (self.holiday_status_id.name, self.year),
             'state': 'confirm',
@@ -95,14 +95,15 @@ class hr_public_holidays(models.Model):
             'user_id': None,
             'employee_id': None,
         }
-        
-        if not master_alloc.id:
+
+        if not self.master_alloc.id:
             alloc_id = allocation_req.create(self.env.cr, self.env.user.id, values)
             ret = allocation_req.holidays_validate(
-                self.env.cr, self.env.user.id, [alloc_id])
+                self.env.cr, self.env.uid, [alloc_id])
             if ret is False:
                 return False
-            self.master_alloc = allocation_req.browse(alloc_id)
+            self.master_alloc = allocation_req.browse(
+                self.env.cr, self.env.uid, alloc_id)
         else:
             alloc_id = self.master_alloc.id
 
@@ -122,8 +123,11 @@ class hr_public_holidays(models.Model):
                 values['date_to'] = utc.normalize(
                         tz.localize(datetime.strptime(line.date[:10] + ' 23:59:59',
                         DATEFORMAT), is_dst = False), is_dst = False)
-                leave_ids.append(
-                    allocation_req.create(self.env.cr, self.env.user.id, values))
+                alloc_id = allocation_req.create(
+                    self.env.cr, self.env.uid, values)
+                line.alloc = allocation_req.browse(
+                    self.env.cr, self.env.uid, alloc_id)
+                leave_ids.append(alloc_id)
             else:
                 line.alloc.write({'state': 'confirm'})
                 leave_ids.append(line.alloc.id)

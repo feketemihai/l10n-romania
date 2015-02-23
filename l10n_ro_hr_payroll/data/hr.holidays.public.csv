@@ -1,2 +1,2 @@
 "id","year","holiday_status_id/id","category_id/id"
-"hr_holidays_public_ro_2015","2015","hr_holidays_status_nat","hr_employee_category_ro"
+"hr_holidays_public_ro_2015","2015","l10n_ro_hr_payroll.hr_holidays_status_nat","l10n_ro_hr_payroll.hr_employee_category_ro"
