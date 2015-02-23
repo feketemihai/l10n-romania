@@ -83,7 +83,7 @@ Holidays
     """,
     'data': [
         # views
-        'views/report_meal_vouchers.xml',
+        #'views/report_meal_vouchers.xml',
         'views/hr_payroll.xml',
         'views/hr_contract.xml',
         'views/res_company.xml',
@@ -95,16 +95,16 @@ Holidays
         'workflows/hr_public_holidays_workflow.xml',
         # data
         'data/hr.wage.history.csv',
+        'data/hr.employee.category.csv',
         'data/hr.holidays.status.csv',
         'data/hr.holidays.public.csv',
-        'data/hr.holidays.public.lines.csv',
-        'data/hr.employee.category.csv',
+        'data/hr.holidays.public.line.csv',
         'data/hr.contribution.register.csv',
         # reports
         'report/hr_meal_vouchers.xml',
         'report/report_meal_vouchers_template.xml',
         # model access
-#        'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
 }
