@@ -111,7 +111,7 @@ class account_invoice_line(models.Model):
                         tax_amount = line.price_subtotal * tax['ref_base_sign']
 
                     mres['account_id'] = inv.company_id and \
-                        inv.company_id.property_undeductible_account_id.id
+                        inv.company_id.property_undeductible_tax_account_id.id
                     res.append(dict(mres))
                     res[-1]['price'] = price
                     res[-1]['not_deductible'] = True
