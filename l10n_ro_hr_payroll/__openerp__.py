@@ -104,7 +104,7 @@ Holidays
         'report/hr_meal_vouchers.xml',
         'report/report_meal_vouchers_template.xml',
         # model access
-#        'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
 }
