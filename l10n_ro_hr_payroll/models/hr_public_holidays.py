@@ -129,7 +129,7 @@ class hr_public_holidays(models.Model):
                     self.env.cr, self.env.uid, alloc_id)
                 leave_ids.append(alloc_id)
             else:
-                line.alloc.write({'state': 'confirm'})
+                # line.alloc.write({'state': 'confirm'})
                 leave_ids.append(line.alloc.id)
         ret = allocation_req.holidays_validate(
             self.env.cr, self.env.user.id, leave_ids)
