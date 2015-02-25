@@ -27,8 +27,7 @@ class res_partner(models.Model):
     _inherit = "res.partner"
     
     sql_constraints = [
-        ('vat_uniq', 'unique (id)', 'The vat of the partner must be unique !'),
-        ('nrc_uniq', 'unique (id)', 'The code of the partner must be unique !')
+        ('vat_nrc_uniq', 'unique (id)', 'The vat and nrc of the partner must be unique !'),
     ]
     
     def _auto_init(self, cr, context=None):
@@ -39,11 +38,10 @@ class res_partner(models.Model):
         # Contacts inside a company automatically have a copy of the company's commercial fields
         # (see _commercial_fields()), so they are automatically consistent.
         cr.execute("""
+            DROP INDEX IF EXISTS res_partner_vat_nrc_uniq_for_companies;
             DROP INDEX IF EXISTS res_partner_vat_uniq_for_companies;
             DROP INDEX IF EXISTS res_partner_nrc_uniq_for_companies;
-            CREATE UNIQUE INDEX res_partner_vat_uniq_for_companies ON res_partner
-                (company_id, vat) WHERE is_company OR parent_id IS NULL;
-            CREATE UNIQUE INDEX res_partner_nrc_uniq_for_companies ON res_partner
-                (company_id, nrc) WHERE is_company OR parent_id IS NULL;
+            CREATE UNIQUE INDEX res_partner_vat_nrc_uniq_for_companies ON res_partner
+                (company_id, vat, nrc) WHERE is_company OR parent_id IS NULL;
         """)
         return result
