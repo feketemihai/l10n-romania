@@ -22,6 +22,7 @@
 from datetime import datetime
 import pytz
 from openerp import netsvc, models, fields, api, _
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DATEFORMAT
 
 class hr_holidays_line(models.Model):
     _inherit = 'hr.holidays.public.line'
@@ -31,6 +32,14 @@ class hr_holidays_line(models.Model):
     holidays_id = fields.Many2one('hr.holidays.public',
                                   'Holiday Calendar Year',
                                   ondelete = 'cascade')
+
+    @property
+    def date_from_dt(self):
+        return datetime.strptime(self.date[:10] + ' 00:00:00', DATEFORMAT)
+
+    @property
+    def date_to_dt(self):
+        return datetime.strptime(self.date[:10] + ' 23:59:59', DATEFORMAT)
 
 class hr_public_holidays(models.Model):
     _inherit = 'hr.holidays.public'
@@ -69,9 +78,150 @@ class hr_public_holidays(models.Model):
             self.env.user.id, 'hr.holidays.public', self.id, self.env.cr)
         return True
 
+    @api.one
     def state_close(self):
         return self.create_leave_reqs()
 
+    def get_tz(self, env):
+        tz_name = env.context.get('tz') or env.user.tz
+        return tz_name and pytz.timezone(tz_name) or pytz.utc
+
+    def dt_to_utc(self, tz, dt):
+        return pytz.utc.normalize(
+            tz.localize(dt, is_dst = False), is_dst = False)
+
+    def dt_to_tz(self, tz, dt):
+        return tz.normalize(
+            pytz.utc.localize(dt, is_dst = False), is_dst = False)
+     
+    @api.one
+    def create_employee_leave_reqs(self, employee_id):
+        hol_obj = self.env['hr.holidays']
+        if self.master_alloc.id is False:
+            return False
+
+        tz = self.get_tz(self.env)
+
+        for line in self.line_ids:
+            if line.alloc.id is False:
+                continue
+            date_from = self.dt_to_utc(tz, line.date_from_dt)
+            date_to = self.dt_to_utc(tz, line.date_to_dt)
+            
+            alloc_id = hol_obj.search_count([
+                ('employee_id', '=', employee_id),
+                ('parent_id', '=', line.alloc.id),
+                ('date_from', '=', str(date_from)),
+                ('date_to', '=', str(date_to)),
+            ])
+            # skip, already allocated public holiday
+            if alloc_id:
+                continue
+
+            values = {
+                'name': line.name,
+                'holiday_status_id': self.holiday_status_id.id,
+                'holiday_type': 'employee',
+                'type': 'remove',
+                'employee_id': employee_id,
+                'parent_id': line.alloc.id,
+                'date_from': date_from,
+                'date_to': date_to,
+                'number_of_days_temp': 1,                
+            }
+            
+            alloc_id = hol_obj.create(values)
+            if alloc_id:
+                for sig in ('confirm', 'validate', 'second_validate'):
+                    hol_obj.signal_workflow(cr, uid, [alloc_id], sig)
+
+        return True
+
+    @api.one
+    def allocate(self):
+        if self.master_alloc.id:
+            return self.master_alloc.id
+        hol_obj = self.env['hr.holidays']
+        values = {
+            'name': _('%s for %s') % (self.holiday_status_id.name, self.year),
+            'holiday_status_id': self.holiday_status_id.id,
+            'number_of_days_temp': len(self.line_ids),
+            'category_id': self.category_id.id,
+            'holiday_type': 'category',
+            'type': 'add',
+            'employee_id': None,
+        }
+
+        self.master_alloc = hol_obj.create(values)
+        if not self.master_alloc.id:
+            return []
+
+        for sig in ('confirm', 'validate', 'second_validate'):
+            self.master_alloc.signal_workflow(sig)
+
+        alloc = hol_obj.search([('parent_id', '=', self.master_alloc.id)])
+        if len(alloc):
+            # a mai fost alocata
+            e_ids = set([a.employee_id.id for a in alloc])
+            c_e_ids = set([e.id for e in self.category_id.employee_ids])
+            ids = list(c_e_ids - e_ids)
+        else:
+            ids = [e.id for e in self.category_id.employee_ids]
+
+        values = {
+            'name': _('%s for %s') % (self.holiday_status_id.name, self.year),
+            'holiday_status_id': self.holiday_status_id.id,
+            'number_of_days_temp': len(self.line_ids),
+            'holiday_type': 'employee',
+            'type': u'add',
+            'employee_id': None,
+            'parent_id': self.master_alloc.id,
+        }
+        for emp_id in ids:
+            values['employee_id'] = emp_id
+            leave = hol_obj.create(values)
+            for sig in ('confirm', 'validate', 'second_validate'):
+                leave.signal_workflow(sig)
+        return self.master_alloc.id
+
+    @api.one
+    def allocate_leaves(self):
+        hol_obj = self.env['hr.holidays']
+        tz = self.get_tz(self.env)
+        for line in self.line_ids:
+            values = {
+                'name': line.name,
+                'holiday_status_id': self.holiday_status_id.id,
+                'number_of_days_temp': 1,
+                'category_id': self.category_id.id,
+                'type': 'remove',
+                # de la data 00:00:00
+                'date_from': self.dt_to_utc(tz, line.date_from_dt),
+                # pana la data 23:59:59
+                'date_to': self.dt_to_utc(tz, line.date_to_dt),
+            }
+            if line.alloc.id is False:
+                values['holiday_type'] = 'category'
+                values['employee_id'] = None
+                line.alloc = hol_obj.create(values)
+                for sig in ('confirm', 'validate', 'second_validate'):
+                    line.alloc.signal_workflow(sig)
+            alloc = hol_obj.search([('parent_id', '=', line.alloc.id)])
+            if len(alloc):
+                # a mai fost alocata
+                e_ids = set([a.employee_id.id for a in alloc])
+                c_e_ids = set([e.id for e in self.category_id.employee_ids])
+                ids = list(c_e_ids - e_ids)
+            else:
+                ids = [e.id for e in self.category_id.employee_ids]
+            values['holiday_type'] = 'employee'
+            for emp_id in ids:
+                values['employee_id'] = emp_id
+                leave = hol_obj.create(values)
+                for sig in ('confirm', 'validate', 'second_validate'):
+                    leave.signal_workflow(sig)
+            
+                
     @api.one
     def create_leave_reqs(self):
         '''
@@ -79,61 +229,7 @@ class hr_public_holidays(models.Model):
         holidays.
         Second stage creates an approved leave request for each day.
         '''
-        allocation_req = self.pool.get('hr.holidays')
-        DATEFORMAT = "%Y-%m-%d %H:%M:%S"
-        utc = pytz.utc
-        tz_name = self.env.context.get('tz') or self.env.user.tz
-        tz = tz_name and pytz.timezone(tz_name) or utc
-        values = {
-            'name': _('%s for %s') % (self.holiday_status_id.name, self.year),
-            'state': 'confirm',
-            'holiday_status_id': self.holiday_status_id.id,
-            'number_of_days_temp': len(self.line_ids),
-            'category_id': self.category_id.id,
-            'holiday_type': 'category',
-            'type': 'add',
-            'user_id': None,
-            'employee_id': None,
-        }
-
-        if not self.master_alloc.id:
-            alloc_id = allocation_req.create(self.env.cr, self.env.user.id, values)
-            ret = allocation_req.holidays_validate(
-                self.env.cr, self.env.uid, [alloc_id])
-            if ret is False:
-                return False
-            self.master_alloc = allocation_req.browse(
-                self.env.cr, self.env.uid, alloc_id)
-        else:
-            alloc_id = self.master_alloc.id
-
-        values['type'] = 'remove'
-        values['number_of_days_temp'] = 1
-        leave_ids = []
-        for line in self.line_ids:
-            if not line.alloc.id:
-                values['name'] = line.name
-                # Baza de date tine datetime in UTC si e aratat in tz-ul
-                # utilizatorului
-                # de la data 00:00:00
-                values['date_from'] = utc.normalize(
-                        tz.localize(datetime.strptime(line.date[:10] + ' 00:00:00',
-                        DATEFORMAT), is_dst = False), is_dst = False)
-                # pana la data 23:59:59
-                values['date_to'] = utc.normalize(
-                        tz.localize(datetime.strptime(line.date[:10] + ' 23:59:59',
-                        DATEFORMAT), is_dst = False), is_dst = False)
-                alloc_id = allocation_req.create(
-                    self.env.cr, self.env.uid, values)
-                line.alloc = allocation_req.browse(
-                    self.env.cr, self.env.uid, alloc_id)
-                leave_ids.append(alloc_id)
-            else:
-                # line.alloc.write({'state': 'confirm'})
-                leave_ids.append(line.alloc.id)
-        ret = allocation_req.holidays_validate(
-            self.env.cr, self.env.user.id, leave_ids)
-        if ret is False:
-            return False
+        self.allocate()
+        self.allocate_leaves()
         self.state = 'close'
         return True
