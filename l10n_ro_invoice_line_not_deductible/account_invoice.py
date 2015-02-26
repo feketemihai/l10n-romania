@@ -96,7 +96,7 @@ class account_invoice_line(models.Model):
                     if not new_tax.not_deductible_tax_id:
                         raise except_orm(_('Warning!'),
                                          _("You must define a not deductible "
-                                           "tax on '%s'!") % (tax.name,))
+                                           "tax on '%s'!") % (tax['name'],))
                     new_tax = new_tax.not_deductible_tax_id
                     if inv.type in ('out_invoice', 'in_invoice'):
                         price = tax['amount'] * tax['base_sign']
