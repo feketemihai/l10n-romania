@@ -195,6 +195,7 @@ class hr_public_holidays(models.Model):
                 'number_of_days_temp': 1,
                 'category_id': self.category_id.id,
                 'type': 'remove',
+                'parent_id': None,
                 # de la data 00:00:00
                 'date_from': self.dt_to_utc(tz, line.date_from_dt),
                 # pana la data 23:59:59
@@ -203,6 +204,7 @@ class hr_public_holidays(models.Model):
             if line.alloc.id is False:
                 values['holiday_type'] = 'category'
                 values['employee_id'] = None
+                values['parent_id'] = None
                 line.alloc = hol_obj.create(values)
                 for sig in ('confirm', 'validate', 'second_validate'):
                     line.alloc.signal_workflow(sig)
@@ -215,6 +217,7 @@ class hr_public_holidays(models.Model):
             else:
                 ids = [e.id for e in self.category_id.employee_ids]
             values['holiday_type'] = 'employee'
+            values['parent_id'] = line.alloc.id
             for emp_id in ids:
                 values['employee_id'] = emp_id
                 leave = hol_obj.create(values)
