@@ -41,6 +41,18 @@ class hr_holidays_line(models.Model):
     def date_to_dt(self):
         return datetime.strptime(self.date[:10] + ' 23:59:59', DATEFORMAT)
 
+    @api.one
+    def unlink(self):
+        if self.holidays_id.state not in ['draft']:
+            raise Warning(
+                _("You cannot delete a leave which is in %s state.") % \
+                (self.holidays_id.state))
+        if self.alloc.id:
+            self.alloc.holidays_refuse()
+            self.alloc.holidays_reset()
+            self.alloc.unlink()
+        return super(hr_holidays_line, self).unlink()
+
 class hr_public_holidays(models.Model):
     _inherit = 'hr.holidays.public'
     
@@ -79,6 +91,18 @@ class hr_public_holidays(models.Model):
         return True
     
     @api.one
+    def unlink(self):
+        if self.state not in ['draft']:
+            raise Warning(
+                _("You cannot delete a leave which is in %s state.") % \
+                (self.holidays_id.state))
+        if self.master_alloc.id:
+            self.master_alloc.holidays_refuse()
+            self.master_alloc.holidays_reset()
+            self.master_alloc.unlink()
+        return super(hr_public_holidays, self).unlink()
+
+    @api.one
     def state_close(self):
         return self.create_leave_reqs()
     
@@ -93,49 +117,6 @@ class hr_public_holidays(models.Model):
     def dt_to_tz(self, tz, dt):
         return tz.normalize(
             pytz.utc.localize(dt, is_dst = False), is_dst = False)
-    
-    @api.one
-    def create_employee_leave_reqs(self, employee_id):
-        hol_obj = self.env['hr.holidays']
-        if self.master_alloc.id is False:
-            return False
-        
-        tz = self.get_tz(self.env)
-        
-        for line in self.line_ids:
-            if line.alloc.id is False:
-                continue
-            date_from = self.dt_to_utc(tz, line.date_from_dt)
-            date_to = self.dt_to_utc(tz, line.date_to_dt)
-            
-            alloc_id = hol_obj.search_count([
-                ('employee_id', '=', employee_id),
-                ('parent_id', '=', line.alloc.id),
-                ('date_from', '=', str(date_from)),
-                ('date_to', '=', str(date_to)),
-            ])
-            # skip, already allocated public holiday
-            if alloc_id:
-                continue
-            
-            values = {
-                'name': line.name,
-                'holiday_status_id': self.holiday_status_id.id,
-                'holiday_type': 'employee',
-                'type': 'remove',
-                'employee_id': employee_id,
-                'parent_id': line.alloc.id,
-                'date_from': date_from,
-                'date_to': date_to,
-                'number_of_days_temp': 1,
-            }
-            
-            alloc_id = hol_obj.create(values)
-            if alloc_id:
-                for sig in ('confirm', 'validate', 'second_validate'):
-                    hol_obj.signal_workflow(cr, uid, [alloc_id], sig)
-        
-        return True
     
     @api.one
     def allocate(self):
@@ -243,7 +224,6 @@ class hr_public_holidays(models.Model):
                 leave = hol_obj.create(values)
                 for sig in ('confirm', 'validate', 'second_validate'):
                     leave.signal_workflow(sig)
-
 
     @api.one
     def create_leave_reqs(self):
