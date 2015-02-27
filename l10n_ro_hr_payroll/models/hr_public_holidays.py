@@ -104,7 +104,9 @@ class hr_public_holidays(models.Model):
 
     @api.one
     def state_close(self):
-        return self.create_leave_reqs()
+        res = self.create_leave_reqs()
+        self.state = 'close'
+        return res
     
     def get_tz(self, env):
         tz_name = env.context.get('tz') or env.user.tz
@@ -147,15 +149,17 @@ class hr_public_holidays(models.Model):
             c_e_ids = set([e.id for e in self.category_id.employee_ids])
             ids = list(c_e_ids - e_ids)
             unlink_ids = list(e_ids - c_e_ids)
+            print "remove ar for ids", unlink_ids
             if unlink_ids:
                 alloc = hol_obj.search([
-                    ('parent_id', '=', line.alloc.id),
+                    ('parent_id', '=', self.master_alloc.id),
                     ('employee_id', 'in', unlink_ids)
                 ])
-                for a in alloc:
-                    a.holidays_refuse()
-                    a.holidays_reset()
-                    a.unlink()
+                print alloc
+                # for a in alloc:
+                #     a.holidays_refuse()
+                #     a.holidays_reset()
+                #     a.unlink()
         else:
             ids = [e.id for e in self.category_id.employee_ids]
         
@@ -206,15 +210,17 @@ class hr_public_holidays(models.Model):
                 c_e_ids = set([e.id for e in self.category_id.employee_ids])
                 ids = list(c_e_ids - e_ids)
                 unlink_ids = list(e_ids - c_e_ids)
+                print "remove lr for ids", unlink_ids
                 if unlink_ids:
                     alloc = hol_obj.search([
                         ('parent_id', '=', line.alloc.id),
                         ('employee_id', 'in', unlink_ids)
                     ])
-                    for a in alloc:
-                        a.holidays_refuse()
-                        a.holidays_reset()
-                        a.unlink()
+                    print alloc
+                    # for a in alloc:
+                    #     a.holidays_refuse()
+                    #     a.holidays_reset()
+                    #     a.unlink()
             else:
                 ids = [e.id for e in self.category_id.employee_ids]
             values['holiday_type'] = 'employee'
@@ -234,5 +240,4 @@ class hr_public_holidays(models.Model):
         '''
         self.allocate()
         self.allocate_leaves()
-        self.state = 'close'
         return True

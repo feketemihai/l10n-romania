@@ -19,10 +19,33 @@
 #
 ##############################################################################
 
+from datetime import datetime
 from openerp import models, fields, api, _
 
 class hr_employee(models.Model):
     _inherit = 'hr.employee'
+
+    remaining_public_leaves = fields.Float(
+        compute = "_set_remaining_public_days", store = True)
+
+    @api.one
+    @api.depends('category_ids')
+    @api.onchange('category_ids')
+    def _set_remaining_public_days(self):
+        pubhol = self.env['hr.holidays.public']
+        date = datetime.now().date()
+        year = str(date.year)
+        res = 0.0
+        for ph in pubhol.search([
+                    ('year', '>=', year),
+                    ('state', '=', 'close'),
+                    ('category_id', 'in', tuple(self.category_ids.ids)),
+                ]):
+            res += ph.line_ids.search_count([
+                ('date', '>=', str(date)),
+                ('holidays_id', '=', ph.id)
+            ])
+        self.remaining_public_leaves = res
 
     def get_company_tax(self, code):
         if self.company_id and self.company_id.name:
