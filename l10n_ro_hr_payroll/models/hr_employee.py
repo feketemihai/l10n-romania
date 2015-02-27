@@ -47,6 +47,23 @@ class hr_employee(models.Model):
             ])
         self.remaining_public_leaves = res
 
+    @property
+    def get_company(self):
+        company_id = None
+        if self.user_id:
+            company_id = self.user_id.company_id.id
+        elif self.company_id:
+            company_id = self.company_id.id
+        elif self.job_id:
+            company_id = self.job_id.company_id.id
+        elif self.department_id:
+            company_id = self.department_id.company_id.id
+        else:
+            company_id = self.env['res.company']._company_default_get(
+                'hr.employee')
+        return company_id and self.env['res.company'].browse(company_id) \
+            or None
+
     def get_company_tax(self, code):
         if self.company_id and self.company_id.name:
             return self.company_id.get_tax(code) or 0.0

@@ -159,22 +159,30 @@ class hr_payslip(models.Model):
     def get_inputs(self, contract_ids, date_from, date_to):
         res = super(hr_payslip, self).get_inputs(
             contract_ids, date_from, date_to)
-        contract_obj = self.pool.get('hr.contract')
-        for contract in contract_obj.browse(
-                self.env.cr, self.env.user.id, contract_ids):
+
+        contract_obj = self.env['hr.contract']
+        for contract in contract_obj.browse(contract_ids):
             for advantage in contract.advantage_ids:
                 amount = advantage.amount
                 if advantage.code == 'TICHM':
-                    meals = self.env['hr.meal.vouchers'].search([('company_id','=', contract.employee_id.company_id.id),('date_from','>=', date_from),('date_to','<=', date_to)])
-                    if meals:
-                        meal_vouchers = self.env['hr.meal.vouchers.line'].search([('employee_id','=', contract.employee_id.id),('meal_voucher_id','=', meals[0].id)])
-                        if meal_vouchers:
-                            amount = sum(voucher.num_vouchers for voucher in meal_vouchers) * contract.employee_id.company_id.meal_voucher_value
+                    company = contract.employee_id.get_company
+                    amount = company.meal_voucher_value
                 res += [{
-                    'name': advantage.name,
+                    'name': advantage.name.title(),
                     'code': advantage.code,
                     'amount': amount,
                     'contract_id': contract.id,
                 }]
         return res
 
+
+class hr_salary_rule(models.Model):
+    _inherit = 'hr.salary.rule'
+
+    def compute_rule(self, cr, uid, rule_id, localdict, context=None):
+        localdict.update({
+            'company': localdict['employee'].get_company,
+        })
+        return super(hr_salary_rule, self).compute_rule(
+             cr, uid, rule_id, localdict, context
+        )

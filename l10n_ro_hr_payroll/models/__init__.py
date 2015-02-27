@@ -25,5 +25,5 @@ import hr_holidays
 import hr_contract
 import hr_employee
 import hr_meal_vouchers
-import hr_payslip
+import hr_payroll
 import res_company
