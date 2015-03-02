@@ -84,6 +84,7 @@ Holidays
     'data': [
         # views
         'views/hr_payroll.xml',
+        'views/hr_advantages.xml',
         'views/hr_contract.xml',
         'views/res_company.xml',
         'views/hr_holidays.xml',

@@ -21,14 +21,29 @@
 
 from openerp import models, fields, api, _
 
+class hr_advatages(models.Model):
+    _name = 'hr.advantages'
+    _description = 'Advantages'
+
+    code = fields.Char(_('Code'), required = True, help = _('Advantage code'))
+    name = fields.Char(_('Name'), required = True, help = _('Advantage name'))
+    amount = fields.Float(_('Amount'), help = _('Advantage amount'))
+    
 class hr_contract_advantages(models.Model):
     _name = 'hr.contract.advantages'
     _description = 'Contract Advantages'
-    
-    contract_id = fields.Many2one('hr.contract', 'Contract', required=True)
-    code = fields.Char('Code', required=True, default='PERM', help='Advantage code')
-    name = fields.Char('Name', required=True, help='Advantage name')
-    amount = fields.Float('Name', help='Advantage amount')
+
+    @api.one
+    @api.onchange('advantage')
+    def _set_amount_default(self):
+        if self.advantage.amount and self.amount is False:
+            self.amount = self.advantage.amount
+
+    contract_id = fields.Many2one(
+        'hr.contract', _('Contract'), required = True)
+    advantage = fields.Many2one(
+        'hr.advantages', _('Advantage'), required = True)
+    amount = fields.Float(_('Amount'), help = _('Advantage amount'))
 
 class hr_contract(models.Model):
     _inherit = 'hr.contract'
