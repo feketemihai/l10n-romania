@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="view_advantages_tree" model="ir.ui.view">
+            <field name="name">hr.advantages.tree</field>
+            <field name="model">hr.advantages</field>
+            <field name="arch" type="xml">
+                <tree string="Advantages">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="open_advantages_view" model="ir.actions.act_window">
+            <field name="name">Advantages</field>
+            <field name="res_model">hr.advantages</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem action="open_advantages_view"
+                  id="menu_advantages_view"
+                  parent="hr.menu_hr_configuration"
+                  groups=""
+                  sequence="19"/>
+
+    </data>
+</openerp>
