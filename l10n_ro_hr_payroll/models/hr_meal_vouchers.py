@@ -87,7 +87,7 @@ class hr_meal_vouchers(models.Model):
                     no = self.env['hr.payslip'].get_worked_day_lines(
                         [contract.id], self.date_from, self.date_to
                     )[0]['number_of_days']
-                    
+
                     if no > 0.0:
                         line = lines_obj.create({
                             'meal_voucher_id': self.id,
