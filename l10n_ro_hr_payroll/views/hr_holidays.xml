@@ -1,14 +1,40 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+		<record id="edit_holiday_status_form3" model="ir.ui.view">
+			<field name="name">hr.holidays.status.form3</field>
+			<field name="model">hr.holidays.status</field>
+			<field name="inherit_id"
+				ref="hr_holidays.edit_holiday_status_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//field[@name='categ_id']" position="after">
+					<field name="is_sick_leave"/>
+				</xpath>
+				<xpath expr="//page[@string='Details']" position="after">
+					<page string="Sick Leave" attrs="{'invisible': [('is_sick_leave','=',False)]}">
+						<group colspan="4">
+							<group col="2">
+								<field name="indemn_code"/>
+								<field name="emergency"/>
+								<field name="percentage"/>
+							</group>
+							<group col="2">
+								<field name="employer_days"/>
+								<field name="max_days"/>
+							</group>
+						</group>
+					</page>
+				</xpath>
+			</field>
+		</record>
+
         <record id="edit_holiday_status_form2" model="ir.ui.view">
             <field name="name">hr.holidays.status.form2</field>
             <field name="model">hr.holidays</field>
             <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='holiday_status_id']" position="after">
-                    <field name="status_type"/>
-                    <group colspan="4" string="Medical Leave" name="med" attrs="{'invisible':[('status_type','=',False)]}">
+                    <group colspan="4" string="Medical Leave" name="med" attrs="{'invisible':[('is_sick_leave','=',False)]}">
 						<group>
 							<field name="diag_code"/>
 							<field name="allowance_code"/>

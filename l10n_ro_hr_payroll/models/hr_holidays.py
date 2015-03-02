@@ -24,74 +24,61 @@ from openerp import tools, models, fields, api, _
 from openerp.exceptions import ValidationError, Warning
 
 
-class hr_holidays_status_type(models.Model):
-    _name = 'hr.holidays.status.type'
-    _description = 'hr_holidays_status_type'
+class hr_holidays_status(models.Model):
+    _inherit = 'hr.holidays.status'
 
-    name = fields.Char('Name')
-    code = fields.Char('Allowance Code', required = True)
-    emergency = fields.Boolean('Medical emergency', default = False)
-    value = fields.Integer('Percentage')
+    _sql_constrains = [(
+        'sick_leave_uniq',
+        'unique (is_sick_leave, emergency, indemn_code)',
+        'Only one Indemnization Code/Emergency pair',
+    )]
+
+    @api.one
+    @api.depends('name')
+    def _compute_leave_code(self):
+        if self.is_sick_leave:
+            self.leave_code = 'SL' + self.indemn_code
+        else:
+            self.leave_code = ''.join(x[0] for x in self.name.split()).upper()
+
+    @api.one
+    @api.onchange('is_sick_leave')
+    @api.constrains('indemn_code', 'percentage', 'employer_days', 'max_days')
+    def _require_values(self):
+        if self.is_sick_leave is True:
+            if not self.indemn_code:
+                raise ValidationError(_('Set Indemnization Code'))
+            if not self.percentage:
+                raise ValidationError(_('Set Percentage'))
+            if not self.employer_days:
+                raise ValidationError(_('Set # of Days by Employer'))
+            if not self.max_days:
+                raise ValidationError(_('Set Maximum # of Days'))
+
+    leave_code = fields.Char(
+        'Leave Code', compute = '_compute_leave_code', store = True)
+
+    is_sick_leave = fields.Boolean(_('Is Sick Leave'), default = False)
+    emergency = fields.Boolean(_('Medical Emergency'), default = False)
+    indemn_code = fields.Char(_('Indemnization Code'))
+    percentage = fields.Integer(_('Percentage'))
+    employer_days = fields.Integer(_('# Days by Employer'), default = 0)
+    max_days = fields.Integer(_('Max # of days'))
     ceiling = fields.Integer(
         'Ceiling', default = 0, help = 'Expressed in months')
     ceiling_type = fields.Selection(
         [('min', 'Minimum Wage'), ('med', 'Medium Wage')],
         string = 'Ceiling based on')
-    employer_days = fields.Integer('# Days by Employer', default = 0)
-    max_days = fields.Integer('Max # of days')
-
-
-class hr_holidays_status(models.Model):
-    _inherit = 'hr.holidays.status'
-
-    @api.one
-    @api.depends('name')
-    def _compute_leave_code(self):
-        self.leave_code = ''.join(x[0] for x in self.name.split()).upper()
-
-    leave_code = fields.Char(
-        'Leave Code', compute = '_compute_leave_code', store = True)
+    
 
 class hr_holidays(models.Model):
     _inherit = 'hr.holidays'
-# ???
-    # @api.one
-    # @api.onchange('holiday_status_id')
-    # @api.constrains('holiday_status_id')
-    # def _validate_status(self):
-    #     if self.holiday_status_id:
-    #         if self.env.ref('hr_holidays.holiday_status_sl').id == self.holiday_status_id.id:
-    #             if self.status_type.name is False:
-    #                 raise Warning(_("Set Sick Leave Code"))
-
-    @property
-    def _sick_leave(self):
-        return self.env.ref('hr_holidays.holiday_status_sl')
-
-    @property
-    def _is_sick_leave(self):
-        if self.holiday_status_id and self.holiday_status_id.id:
-            return bool(self._sick_leave.id == self.holiday_status_id.id)
-        return False
-
-    # @api.one
-    # @api.depends(('holiday_status_id', 'status_type'))
-    # @api.constrains('status_type')
-    # def _validate_status_type(self):
-    #     if self.status_type:
-    #         if self.env.ref('hr_holidays.holiday_status_sl').id != self.holiday_status_id.id:
-    #             raise ValidationError(_("Sick Leave Code is only for Sick Leaves"))
 
     @api.one
     @api.onchange('holiday_status_id')
-    def _compute_is_sick_leave(self):
-        self.is_sick_leave = (self._sick_leave.id == self.holiday_status_id.id)
-
-    @api.one
-    @api.depends('holiday_status_id', 'status_type')
-    @api.constrains('status_type', 'initial_id', 'allowance_code', 'diag_code')
+    @api.constrains('initial_id', 'diag_code')
     def _validate_sl(self):
-        if self._sick_leave.id == self.holiday_status_id.id:
+        if self.is_sick_leave:
             print self.diag_code, (int(self.diag_code) not in range(1, 1000))
             if self.diag_code is not False:
                 if not self.diag_code.isdigit():
@@ -100,18 +87,18 @@ class hr_holidays(models.Model):
                     raise ValidationError("Diagnostic Code must be between 1-999")
             else:
                 raise Warning("Set Diagnostic Code")
-            if self.status_type.name is False:
-                raise ValidationError("Set Sick Leave Status Type")
             if self.initial_id.date_to is not False and not (self.initial_id.date_to[:10] == self.date_from[:10] or self.diag_code == self.initial_id.diag_code):
                 raise ValidationError("Wrong Initial Sick Leave")
 
-    is_sick_leave = fields.Boolean(compute = '_compute_is_sick_leave', store = True)
-    status_type = fields.Many2one(
-        'hr.holidays.status.type', 'Sick Leave Code', readonly=True,
-        states={'draft':[('readonly',False)], 'confirm':[('readonly',False)]})
+    is_sick_leave = fields.Boolean(
+        related = 'holiday_status_id.is_sick_leave', store = True)
     diag_code = fields.Char('Diagnostic Code')
-    allowance_code = fields.Char('Allowance Code', related = 'status_type.code', readonly=True)
-    medical_emergency = fields.Boolean('Medical Emergency', related = 'status_type.emergency')
+    allowance_code = fields.Char(
+        'Allowance Code', related = 'holiday_status_id.indemn_code',
+        readonly=True, store = True)
+    medical_emergency = fields.Boolean(
+        'Medical Emergency', related = 'holiday_status_id.emergency',
+        readonly=True, store = True)
     initial_id = fields.Many2one('hr.holidays', 'Initial Sick Leave')
 
     @api.model
