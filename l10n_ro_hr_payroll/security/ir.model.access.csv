@@ -2,7 +2,6 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_hr_advantages,access_hr_advantages,l10n_ro_hr_payroll.model_hr_advantages,,1,1,1,1
 access_hr_contract_advantages,access_hr_contract_advantages,l10n_ro_hr_payroll.model_hr_contract_advantages,,1,1,1,1
 access_hr_wage_history,access_hr_wage_history,l10n_ro_hr_payroll.model_hr_wage_history,,1,1,1,1
-access_hr_holidays_status_type,access_hr_holidays_status_type,l10n_ro_hr_payroll.model_hr_holidays_status_type,,1,1,1,1
 access_hr_meal_vouchers_line,access_hr_meal_vouchers_line,l10n_ro_hr_payroll.model_hr_meal_vouchers_line,,1,1,1,1
 access_hr_meal_vouchers,access_hr_meal_vouchers,l10n_ro_hr_payroll.model_hr_meal_vouchers,,1,1,1,1
 access_res_company_payrolltaxes,access_res_company_payrolltaxes,l10n_ro_hr_payroll.model_res_company_payrolltaxes,,1,1,1,1
