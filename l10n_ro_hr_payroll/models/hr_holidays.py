@@ -36,7 +36,7 @@ class hr_holidays_status(models.Model):
     @api.one
     @api.depends('name')
     def _compute_leave_code(self):
-        if self.is_sick_leave:
+        if self.is_sick_leave is True:
             self.leave_code = 'SL' + self.indemn_code
         else:
             self.leave_code = ''.join(x[0] for x in self.name.split()).upper()
@@ -50,7 +50,7 @@ class hr_holidays_status(models.Model):
                 raise ValidationError(_('Set Indemnization Code'))
             if not self.percentage:
                 raise ValidationError(_('Set Percentage'))
-            if not self.employer_days:
+            if self.employer_days is False:
                 raise ValidationError(_('Set # of Days by Employer'))
             if not self.max_days:
                 raise ValidationError(_('Set Maximum # of Days'))
@@ -79,7 +79,7 @@ class hr_holidays(models.Model):
     @api.constrains('initial_id', 'diag_code')
     def _validate_sl(self):
         if self.is_sick_leave:
-            print self.diag_code, (int(self.diag_code) not in range(1, 1000))
+            # print self.diag_code, (int(self.diag_code) not in range(1000))
             if self.diag_code is not False:
                 if not self.diag_code.isdigit():
                     raise ValidationError("Diagnostic Code must be a number")
@@ -87,11 +87,14 @@ class hr_holidays(models.Model):
                     raise ValidationError("Diagnostic Code must be between 1-999")
             else:
                 raise Warning("Set Diagnostic Code")
-            if self.initial_id.date_to is not False and not (self.initial_id.date_to[:10] == self.date_from[:10] or self.diag_code == self.initial_id.diag_code):
+            if self.initial_id.date_to is not False and not \
+                    (self.initial_id.date_to[:10] == self.date_from[:10] or \
+                    self.diag_code == self.initial_id.diag_code):
                 raise ValidationError("Wrong Initial Sick Leave")
 
     is_sick_leave = fields.Boolean(
-        related = 'holiday_status_id.is_sick_leave', store = True)
+        related = 'holiday_status_id.is_sick_leave',
+        readonly = True, store = True)
     diag_code = fields.Char('Diagnostic Code')
     allowance_code = fields.Char(
         'Allowance Code', related = 'holiday_status_id.indemn_code',
@@ -101,9 +104,79 @@ class hr_holidays(models.Model):
         readonly=True, store = True)
     initial_id = fields.Many2one('hr.holidays', 'Initial Sick Leave')
 
+    @api.one
+    def get_employer_days(self):
+        res = 0
+        if self.is_sick_leave is False:
+            return res
+
+        if self.holiday_status_id.employer_days == 0:
+            return res
+
+        day_from = datetime.strptime(date_from,"%Y-%m-%d").replace(
+            hour = 0, minute = 0, second = 0)
+        day_to = datetime.strptime(date_to,"%Y-%m-%d").replace(
+            hour = 23, minute = 59, second = 59)
+        nb_of_days = (day_to - day_from).days + 1
+
+        if nb_of_days > self.holiday_status_id.employer_days:
+            nb_of_days = self.holiday_status_id.employer_days
+        contract = self.employee_id.contract_id
+
+        for day in range(0, nb_of_days):
+            curr_day = (day_from + timedelta(days = day)).\
+                replace(hour=0,minute=0)
+
+            if not ph_obj.is_holiday(
+                    curr_day, self.employee_id.category_ids.ids):
+                continue
+
+            working_hours = contract.working_hours.\
+                get_working_hours_of_date(start_dt = curr_day).pop()
+            if working_hours:
+                res += 1
+        return res
+            
+
+    @api.one
+    def get_rest_days(self):
+        res = 0
+        if self.is_sick_leave is False:
+            return res
+
+        day_from = datetime.strptime(date_from,"%Y-%m-%d").replace(
+            hour = 0, minute = 0, second = 0) + timedelta(
+            days = self.holiday_status_id.employer_days)
+        day_to = datetime.strptime(date_to,"%Y-%m-%d").replace(
+            hour = 23, minute = 59, second = 59)
+
+        if day_from >= day_to:
+            return 0
+
+        nb_of_days = (day_to - day_from).days + 1
+        contract = self.employee_id.contract_id
+
+        for day in range(0, nb_of_days):
+            curr_day = (day_from + timedelta(days = day)).\
+                replace(hour=0,minute=0)
+
+            if not ph_obj.is_holiday(
+                    curr_day, self.employee_id.category_ids.ids):
+                continue
+
+            working_hours = contract.working_hours.\
+                get_working_hours_of_date(start_dt = curr_day).pop()
+            if working_hours:
+                res += 1
+        return res
+        
+
     @api.model
     def _create_resource_leave(self, leaves):
-        '''This method will create entry in resource calendar leave object at the time of holidays validated '''
+        '''
+        This method will create entry in resource calendar leave object at
+        the time of holidays validated.
+        '''
         obj_res_leave = self.env['resource.calendar.leaves']
         for leave in leaves:
             # from utc to user's tz

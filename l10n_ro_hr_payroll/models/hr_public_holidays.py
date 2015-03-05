@@ -27,7 +27,7 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DATEFORMAT
 class hr_holidays_line(models.Model):
     _inherit = 'hr.holidays.public.line'
     
-    alloc = fields.Many2one('hr.holidays')
+    # alloc = fields.Many2one('hr.holidays')
     # override - pentru a sterge intrarile daca s-a sters vacanta publica
     holidays_id = fields.Many2one('hr.holidays.public',
                                   'Holiday Calendar Year',
@@ -47,10 +47,10 @@ class hr_holidays_line(models.Model):
             raise Warning(
                 _("You cannot delete a leave which is in %s state.") % \
                 (self.holidays_id.state))
-        if self.alloc.id:
-            self.alloc.holidays_refuse()
-            self.alloc.holidays_reset()
-            self.alloc.unlink()
+    #     if self.alloc.id:
+    #         self.alloc.holidays_refuse()
+    #         self.alloc.holidays_reset()
+    #         self.alloc.unlink()
         return super(hr_holidays_line, self).unlink()
 
 class hr_public_holidays(models.Model):
@@ -60,7 +60,7 @@ class hr_public_holidays(models.Model):
         'hr.employee.category', string = 'Employee Tag', required = True)
     holiday_status_id = fields.Many2one(
         'hr.holidays.status', string = 'Leave Type', required = True)
-    master_alloc = fields.Many2one('hr.holidays')
+    # master_alloc = fields.Many2one('hr.holidays')
     state = fields.Selection(
         [
             ('draft', 'Draft'),
@@ -96,17 +96,17 @@ class hr_public_holidays(models.Model):
             raise Warning(
                 _("You cannot delete a leave which is in %s state.") % \
                 (self.holidays_id.state))
-        if self.master_alloc.id:
-            self.master_alloc.holidays_refuse()
-            self.master_alloc.holidays_reset()
-            self.master_alloc.unlink()
+        # if self.master_alloc.id:
+        #     self.master_alloc.holidays_refuse()
+        #     self.master_alloc.holidays_reset()
+        #     self.master_alloc.unlink()
         return super(hr_public_holidays, self).unlink()
 
     @api.one
     def state_close(self):
-        res = self.create_leave_reqs()
+        # res = self.create_leave_reqs()
         self.state = 'close'
-        return res
+        return True
     
     def get_tz(self, env):
         tz_name = env.context.get('tz') or env.user.tz
@@ -119,7 +119,23 @@ class hr_public_holidays(models.Model):
     def dt_to_tz(self, tz, dt):
         return tz.normalize(
             pytz.utc.localize(dt, is_dst = False), is_dst = False)
-    
+
+    @api.model
+    def is_holiday(self, dt, categ_ids = None):
+        ph = self.search([
+            ('year', '=', str(dt.year)),
+            ('state', '=', 'close'),
+        ])
+
+        if ph.line_ids is False or \
+                (categ_ids is not None and ph.category_id.id not in categ_ids):
+            return False
+
+        return bool(ph.line_ids.search_count([
+            ('holidays_id', '=', ph.id),
+            ('date', '=', str(dt.date())),
+        ]))
+
     @api.one
     def allocate(self):
         if self.master_alloc.id:

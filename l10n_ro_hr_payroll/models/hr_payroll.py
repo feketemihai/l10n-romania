@@ -33,8 +33,11 @@ class hr_payslip(models.Model):
         start_date = self.date_from[:8] + '01'
         rs = wg_hist.search([('date', '=', start_date)])
         rs.ensure_one()
-        print rs
         return rs
+
+    @api.one
+    def get_payslip_wage(self, period = 1):
+        pass
 
     def _get_calendar_leaves(self, resource_id, day_from, day_to):
         cal_leaves = {}
@@ -80,6 +83,7 @@ class hr_payslip(models.Model):
     def get_worked_day_lines(self, contract_ids, date_from, date_to):
         # pot sa am 10 contracte dar unul singur de salar
         res = []
+        ph_obj = self.env['hr.holidays.public']
         day_from = datetime.strptime(date_from,"%Y-%m-%d").replace(
             hour = 0, minute = 0, second = 0)
         day_to = datetime.strptime(date_to,"%Y-%m-%d").replace(
@@ -105,6 +109,13 @@ class hr_payslip(models.Model):
             for day in range(0, nb_of_days):
                 curr_day = (day_from + timedelta(days = day)).\
                     replace(hour=0,minute=0)
+
+                if not ph_obj.is_holiday(
+                        curr_day, self.employee_id.category_ids.ids):
+                    print ph_obj.is_holiday(
+                        curr_day, self.employee_id.category_ids.ids)
+                    continue
+
                 _leave = self._was_on_leave(curr_day.date(), calendar_leaves)
                 if _leave == []:
                     leave_int = []
@@ -130,12 +141,14 @@ class hr_payslip(models.Model):
                                 start_dt = curr_day,
                                 compute_leaves = True,
                                 leaves = [leave_int]).pop()
-
+                        if leave.is_sick_leave is True:
+                            print leave
                         leave_hours_left += round(leave_hours - _hours)
+                        # print leave, leave_type
                         if leave_type in leaves.keys():
                             leaves[leave_type].update({
                                 'number_of_days': leaves[leave_type]['number_of_days'] + leave.number_of_days_temp,
-                                'number_of_hours':  leaves[leave_type]['number_of_hours'] + round(leave_hours - _hours)
+                                'number_of_hours':  leaves[leave_type]['number_of_hours'] + round(leave_hours - _hours),
                             })
                         else:
                             leaves[leave_type] = {
@@ -180,9 +193,16 @@ class hr_salary_rule(models.Model):
     _inherit = 'hr.salary.rule'
 
     def compute_rule(self, cr, uid, rule_id, localdict, context=None):
+        working_days = sum([localdict['worked_days'].dict[x].number_of_days \
+            for x in localdict['worked_days'].dict])
+        working_hours = sum([localdict['worked_days'].dict[x].number_of_hours \
+            for x in localdict['worked_days'].dict])
+
         localdict.update({
             'company': localdict['employee'].get_company,
+            'working_days_hours': (working_days, working_hours),
         })
+        
         return super(hr_salary_rule, self).compute_rule(
              cr, uid, rule_id, localdict, context
         )
