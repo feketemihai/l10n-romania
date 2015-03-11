@@ -148,7 +148,7 @@ class stock_move(osv.Model):
     _inherit = "stock.move"
 
     _columns = {
-        'acc_move_id': fields.many2one('account.move', string='Account move', ondelete='cascade'),
+        'acc_move_id': fields.many2one('account.move', string='Account move'),
         'acc_move_line_ids': fields.one2many('account.move.line', 'stock_move_id', string='Account move lines'),
     }
 
@@ -597,7 +597,7 @@ class stock_quant(osv.Model):
                     acc_src = move.product_id.taxes_id[
                         0].account_collected_id.id or False
                 if move.company_id.property_account_undeductible:
-                    acc_dest = move.company_id and move.company_id.property_undeductible_account_id and move.company_id.property_undeductible_account_id.id or False
+                    acc_dest = move.company_id and move.company_id.property_undeductible_tax_account_id and move.company_id.property_undeductible_tax_account_id.id or False
             if move_type == 'reception_diff':
                 # Receptions in location with inventory kept at list price
                 # Change the accounts with the price difference one (3x8) to
