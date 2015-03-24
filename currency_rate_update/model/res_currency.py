@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (c) 2009 CamptoCamp. All rights reserved.
-#    @author Nicolas Bessi
+# Copyright (c) 2015 Deltatech All Rights Reserved
+#                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,6 +19,19 @@
 #
 ##############################################################################
 
-from . import currency_rate_update
-from . import company
-from . import res_currency
+
+from openerp import models, fields, api
+
+
+class res_currency_rate(models.Model):
+    _inherit = 'res.currency.rate' 
+    
+    @api.one
+    @api.depends('rate')
+    def _compute_rate_inv(self):
+        if self.rate != 0:
+            self.rate_inv = 1 / self.rate
+        else:
+            self.rate_inv = 0
+       
+    rate_inv = fields.Float( string='Inverse Rate',   compute="_compute_rate_inv", digits=(12, 4) ) 
