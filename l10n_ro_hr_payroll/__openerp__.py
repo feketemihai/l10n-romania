@@ -98,13 +98,13 @@ Holidays
         'data/hr.holidays.status.csv',
         'data/hr.holidays.public.csv',
         'data/hr.holidays.public.line.csv',
-        'data/res.partner.csv',
+        # 'data/res.partner.csv',
         'data/hr.contribution.register.csv',
         # report
         'report/hr_meal_vouchers.xml',
         'report/report_meal_vouchers_template.xml',
         # model access
-#        'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
 }

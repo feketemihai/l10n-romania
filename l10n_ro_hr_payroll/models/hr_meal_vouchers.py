@@ -75,7 +75,7 @@ class hr_meal_vouchers(models.Model):
         return self.env['hr.contract'].search(clause)
 
     def get_worked_days_num(self, contract):
-        return self.env['hr.payslip'].get_worked_day_lines(contract.ids, self.date_from, self.date_to)[0]['number_of_days']
+        return self.env['hr.payslip'].get_worked_day_lines(contract, self.date_from, self.date_to)[0]['number_of_days']
 
     @api.one
     def build_lines(self):
@@ -87,7 +87,7 @@ class hr_meal_vouchers(models.Model):
         for contract in contracts:
             for advantage in contract.advantage_ids:
                 if advantage.code in 'TICHM':
-                    no = self.get_worked_days_num(contract)
+                    no = self.get_worked_days_num(contract.id)
                     if no > 0.0:
                         line = lines_obj.create({
                             'meal_voucher_id': self.id,
