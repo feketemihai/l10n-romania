@@ -139,7 +139,7 @@ class hr_payslip(models.Model):
                             })
                         else:
                             leaves[leave_type] = {
-                                'name': leave.name,
+                                'name': leave.name or 'Legal Leaves',
                                 'sequence': 5,
                                 'code': leave_type,
                                 'number_of_days': leave.number_of_days_temp,
@@ -163,10 +163,17 @@ class hr_payslip(models.Model):
         for contract in contract_obj.browse(
                 self.env.cr, self.env.user.id, contract_ids):
             for advantage in contract.advantage_ids:
+                amount = advantage.amount
+                if advantage.code == 'TICHM':
+                    meals = self.env['hr.meal.vouchers'].search([('company_id','=', contract.employee_id.company_id.id),('date_from','>=', date_from),('date_to','<=', date_to)])
+                    if meals:
+                        meal_vouchers = self.env['hr.meal.vouchers.line'].search([('employee_id','=', contract.employee_id.id),('meal_voucher_id','=', meals[0].id)])
+                        if meal_vouchers:
+                            amount = sum(voucher.num_vouchers for voucher in meal_vouchers) * contract.employee_id.company_id.meal_voucher_value
                 res += [{
                     'name': advantage.name,
                     'code': advantage.code,
-                    'amount': advantage.amount,
+                    'amount': amount,
                     'contract_id': contract.id,
                 }]
         return res

@@ -8,6 +8,16 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='holiday_status_id']" position="after">
                     <field name="status_type"/>
+                    <group colspan="4" string="Medical Leave" name="med" attrs="{'invisible':[('status_type','=',False)]}">
+						<group>
+							<field name="diag_code"/>
+							<field name="allowance_code"/>
+						</group>
+						<group>
+							<field name="medical_emergency"/>
+							<field name="initial_id" domain="[('employee_id','=', employee_id)]"/>
+						</group>
+					</group> 
                 </xpath>
             </field>
         </record>
