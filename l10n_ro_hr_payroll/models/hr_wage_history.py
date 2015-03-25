@@ -39,3 +39,18 @@ class hr_wage_history(models.Model):
         'Number of Working(ed) Days', required = True)
     ceiling_min_wage = fields.Integer(
         'Ceiling for 6 month income', required = True)
+
+    @api.model
+    def get_medium_wage(self, dt):
+        res = self.search([('date', '=', dt.date())])
+        return res.med_wage
+
+    @api.model
+    def get_minimum_wage(self, dt):
+        res = self.search([('date', '=', dt.date())])
+        return res.min_wage
+
+    @api.model
+    def get_ceiling(self, dt):
+        res = self.search([('date', '=', dt.date())])
+        return res.ceiling_min_wage

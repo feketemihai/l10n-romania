@@ -22,7 +22,8 @@
 from datetime import datetime
 import pytz
 from openerp import netsvc, models, fields, api, _
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DATEFORMAT
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as OE_DTFORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as OE_DFORMAT
 
 class hr_holidays_line(models.Model):
     _inherit = 'hr.holidays.public.line'
@@ -108,8 +109,9 @@ class hr_public_holidays(models.Model):
         self.state = 'close'
         return True
     
-    def get_tz(self, env):
-        tz_name = env.context.get('tz') or env.user.tz
+    @api.model
+    def get_tz(self):
+        tz_name = self.env.context.get('tz') or self.env.user.tz
         return tz_name and pytz.timezone(tz_name) or pytz.utc
     
     def dt_to_utc(self, tz, dt):
@@ -135,6 +137,22 @@ class hr_public_holidays(models.Model):
             ('holidays_id', '=', ph.id),
             ('date', '=', str(dt.date())),
         ]))
+
+    @api.model
+    def are_holidays(self, start_dt, end_dt, categ_ids = None):
+        ph = self.search([
+            ('state', '=', 'close'),
+            ('year', '=', str(start_dt.year)),'|'
+            ('year', '=', str(end_dt.year)),
+        ])
+        
+        lines = ph.line_ids.search([
+            ('holidays_id', 'in', ph.ids),
+            ('date', '>=', str(start_dt.date())),
+            ('date', '<=', str(end_dt.date())),
+        ])
+
+        return [datetime.strptime(l.date, OE_DFORMAT) for l in lines]
 
     @api.one
     def allocate(self):
