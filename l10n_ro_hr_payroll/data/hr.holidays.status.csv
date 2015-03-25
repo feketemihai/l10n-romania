@@ -1,2 +1,2 @@
-"id","name","color_name"
-"hr_holidays_status_nat","National Holidays","Wheat"
+"id","name","color_name","limit"
+"hr_holidays_status_nat","National Holidays","Wheat","1"
