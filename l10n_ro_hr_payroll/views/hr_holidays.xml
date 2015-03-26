@@ -34,6 +34,7 @@
             <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='holiday_status_id']" position="after">
+					<field name="is_sick_leave" invisible="1"/>
                     <group colspan="4" string="Medical Leave" name="med" attrs="{'invisible': [('is_sick_leave', '=', False)]}">
 						<group>
 							<field name="diag_code"/>
