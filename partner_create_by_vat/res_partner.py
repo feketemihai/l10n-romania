@@ -26,6 +26,7 @@ import time
 
 from string import maketrans
 import requests
+import json
 from stdnum.eu.vat import check_vies
 from lxml import html
 
@@ -143,7 +144,7 @@ class res_partner(models.Model):
                     res = requests.get(
                         'http://openapi.ro/api/companies/%s.json' % vat_number)
                     if res.status_code == 200:
-                        res = res.json()
+                        res = json.loads(res.content)
                         state = False
                         if res['state']:
                             state = self.env['res.country.state'].search(
@@ -152,9 +153,9 @@ class res_partner(models.Model):
                                 state = state[0].id
                         self.write({
                             'name': res['name'].upper(),
-                            'nrc': res['registration_id'].upper(),
-                            'street': res['address'].title(),
-                            'city': res['city'].title(),
+                            'nrc': res['registration_id'] and res['registration_id'].upper(),
+                            'street': res['address'] and res['address'].title(),
+                            'city':  res['city'] and res['city'].title(),
                             'phone': res['phone'] and res['phone'] or '',
                             'fax': res['fax'] and res['fax'] or '',
                             'zip': res['zip'] and res['zip'] or '',
