@@ -95,14 +95,14 @@ class hr_holidays(models.Model):
     is_sick_leave = fields.Boolean(
         related = 'holiday_status_id.is_sick_leave',
         readonly = True, store = True)
-    diag_code = fields.Char('Diagnostic Code')
+    diag_code = fields.Char('Diagnostic Code', copy = False)
     allowance_code = fields.Char(
         'Allowance Code', related = 'holiday_status_id.indemn_code',
         readonly=True, store = True)
     medical_emergency = fields.Boolean(
         'Medical Emergency', related = 'holiday_status_id.emergency',
         readonly=True, store = True)
-    initial_id = fields.Many2one('hr.holidays', 'Initial Sick Leave')
+    initial_id = fields.Many2one('hr.holidays', 'Initial Sick Leave', copy = False)
 
     @api.one
     def get_employer_days(self):

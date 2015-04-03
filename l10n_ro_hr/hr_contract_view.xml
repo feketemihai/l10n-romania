@@ -45,14 +45,20 @@
             <field name="model">hr.contract</field>
             <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
             <field name="arch" type="xml">
+				<field name="employee_id" position="before">
+					<field name="revisal_no"/>
+				</field>
 				<field name="employee_id" position="after">
 					<field name="sign_date"/>
 				</field>
-				<field name="working_hours" position="before">
-					<label for="period_type" string="Period type"/>
+				<field name="date_start" position="before">
+					<label for="period_type" string="Determined Period"/>
 					<div>
                         <field name="period_type"/>
                     </div>
+				</field>
+				<field name="date_end" position="replace">
+					<field name="date_end" attrs="{'invisible': [('period_type', '=', False)],'required': [('period_type', '=', True)]}"/>				
 				</field>
 				<field name="working_hours" position="replace">
 					<label for="working_hours" string="Scheduler"/>
@@ -66,8 +72,8 @@
 							<group col="2" name="col1">
 								<field name="pensioneer"/>
 								<field name="suspended"/>
-								<label for="sus_date_from" string="Suspension Duration"/>
-	                            <div attrs="{'invisible': [('suspended', '==', False)]}">
+								<div attrs="{'invisible': [('suspended', '=', False)]}">
+	                                 <label for="sus_date_from" string="Suspension Duration"/>
 	                                 <field name="sus_date_from" class="oe_inline"/> - <field name="sus_date_to" class="oe_inline"/>
 	                            </div>
 							</group>

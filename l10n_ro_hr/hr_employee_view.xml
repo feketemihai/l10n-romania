@@ -35,6 +35,11 @@
                         <field name="last_name_init"/>
                     </group>
                 </xpath>
+                <field name="address_home_id" position="after">
+                    <field name="address_actual_id"
+                        context="{'show_address': 1, 'default_customer': False}"
+                        options='{"always_reload": True, "highlight_first_line": True}'/>
+                </field>
             </field>
         </record>
         
@@ -58,10 +63,23 @@
             <field name="model">hr.employee.related</field>
             <field name="arch" type="xml">
                 <form string="Employees Persons related">
-                    <field name="employee_id"/>
-                    <field name="name"/>
-                    <field name="ssnid"/>
-                    <field name="relation"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <label for="employee_id" class="oe_edit_only"/>
+                        <field name="employee_id"/>
+                    </div>
+                    <group>
+						<group string="Identification">
+							<field name="ssnid"/>
+						</group>
+                        <group string="Relations">
+						    <field name="relation"/>
+					        <field name="relation_type"/>
+						</group>
+					</group>
                 </form>
             </field>
         </record>
@@ -93,7 +111,31 @@
                     parent="hr.menu_hr_main"
                     action="action_hr_person_related_form"
                     sequence="30"
-                    icon="STOCK_JUSTIFY_FILL"/> 
+                    icon="STOCK_JUSTIFY_FILL"/>
+                    
+        <!-- Employee Category -->
+       <record id="view_employee_category_form" model="ir.ui.view">
+            <field name="name">hr.employee.category.form</field>
+            <field name="model">hr.employee.category</field>
+            <field name="inherit_id" ref="hr.view_employee_category_form"/>
+            <field name="arch" type="xml">
+                <form string="Employee Category" position="inside">
+                    <field name="employee_ids" widget="many2many"/>
+                </form>
+            </field>
+        </record>
+        
+        <!-- hr.department -->
+        <record id="view_department_form" model="ir.ui.view">
+            <field name="name">hr.department.form</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <sheet position="inside">
+                    <field name="member_ids" widget="many2many"/>
+                </sheet>
+            </field>
+        </record>
         
     </data> 
 </openerp>

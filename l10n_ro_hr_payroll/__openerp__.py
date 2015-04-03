@@ -94,12 +94,12 @@ Holidays
         # workflows
         'workflows/hr_public_holidays_workflow.xml',
         # data
+        'data/res.partner.csv',
         'data/hr.wage.history.csv',
         'data/hr.employee.category.csv',
         'data/hr.holidays.status.csv',
         'data/hr.holidays.public.csv',
         'data/hr.holidays.public.line.csv',
-        # 'data/res.partner.csv',
         'data/hr.contribution.register.csv',
         # report
         'report/hr_meal_vouchers.xml',

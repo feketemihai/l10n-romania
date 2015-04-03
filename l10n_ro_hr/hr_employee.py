@@ -81,6 +81,7 @@ pob = {
 
 class hr_employee_related(models.Model):
     _name = 'hr.employee.related'
+    _inherit = ['ir.needaction_mixin']
     _description = "Employee person in care or are coinsured"
 
     @api.one
@@ -202,6 +203,8 @@ class hr_employee(models.Model):
         'Initial SSN No', help='Initial Social Security Number')
     first_name_init = fields.Char('Initial Name')
     last_name_init = fields.Char('Initial First Name')
+    address_actual_id = fields.Many2one('res.partner', 'Actual Address')
+        
     casang = fields.Selection([('AB', 'Alba'), ('AR', 'Arad'),
                                ('AG', 'Arges'), ('BC', 'Bacau'),
                                ('BH', 'Bihor'), ('BN', 'Bistrita-Nasaud'),
@@ -236,4 +239,15 @@ class hr_employee(models.Model):
     expires_on = fields.Date('Expires on')
 
     # override fields declared in hr_contract
-    medic_exam = fields.Date('Medical Examination Date', index = True)
+    medic_exam = fields.Date('Medical Examination Date', index=True)
+    vehicle = fields.Boolean(help='Mark this field if the employee is driving '
+                 'a company car') 
+
+# Remove readonly=True from department members, alows you to select employees
+# direct from the #department form view
+class hr_department(models.Model):
+    _inherit = 'hr.department'
+    
+    member_ids = fields.One2many('hr.employee', 'department_id',
+                                 string='Members', select = True)
+        

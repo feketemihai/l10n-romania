@@ -21,11 +21,13 @@
 
 from openerp import models, fields, api, _
 
-class hr_advatages(models.Model):
+class hr_advantages(models.Model):
     _name = 'hr.advantages'
     _description = 'Advantages'
 
-    company = fields.Many2one('res.company', _('Company'), required = True)
+    company = fields.Many2one('res.company', _('Company'), required = True,
+                              default=lambda self: self.env['res.company'].\
+                              _company_default_get('hr.advantages'))
     code = fields.Char(_('Code'), required = True, help = _('Advantage code'))
     name = fields.Char(_('Name'), required = True, help = _('Advantage name'))
     amount = fields.Float(_('Amount'), help = _('Advantage amount'))
@@ -51,7 +53,7 @@ class hr_contract_advantages(models.Model):
 class hr_contract(models.Model):
     _inherit = 'hr.contract'
 
-    advantage_ids = fields.One2many(
-        'hr.contract.advantages', 'contract_id', string="Advantages")
+    advantage_ids = fields.One2many('hr.contract.advantages',
+        'contract_id', string="Advantages", copy = False)
     programmer_or_handicaped = fields.Boolean(
-        'Programmer or Handicaped', default = False)
+        'Programmer or Handicaped', default = False, copy = False)

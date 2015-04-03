@@ -36,8 +36,10 @@ class hr_insurance_type (models.Model):
 class hr_contract(models.Model):
     _inherit = 'hr.contract'
 
-    period_type = fields.Boolean(
-        'Determined Period', help="The contract period type")
+    revisal_no = fields.Char('REVISAL Number', required=True, 
+                             help='Numbered registered in Revisal')
+    period_type = fields.Boolean('Determined Period',
+                                 help="The contract period type")
     suspended = fields.Boolean('Contract suspended?')
     sus_date_from = fields.Date('Suspended from')
     sus_date_to = fields.Date('Suspended to')
