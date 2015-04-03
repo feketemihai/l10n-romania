@@ -90,8 +90,7 @@ class res_partner(models.Model):
             except:
                 raise Warning(_("No VAT number found"))
 
-        vat_country, vat_number = self._split_vat(part.vat)                
-        
+        vat_country, vat_number = self._split_vat(part.vat)
 
         if part.vat_subjected:
             self.write({'vat_subjected': False})
