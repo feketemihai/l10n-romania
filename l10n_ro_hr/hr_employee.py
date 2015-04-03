@@ -249,5 +249,5 @@ class hr_department(models.Model):
     _inherit = 'hr.department'
     
     member_ids = fields.One2many('hr.employee', 'department_id',
-                                 string='Members', select = True)
+                                 string='Members', readonly = False)
         
