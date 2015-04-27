@@ -68,18 +68,25 @@
                         <h1>
                             <field name="name"/>
                         </h1>
-                        <label for="employee_id" class="oe_edit_only"/>
-                        <field name="employee_id"/>
                     </div>
-                    <group>
-						<group string="Identification">
-							<field name="ssnid"/>
-						</group>
-                        <group string="Relations">
-						    <field name="relation"/>
-					        <field name="relation_type"/>
-						</group>
-					</group>
+                    <div class="oe_right oe_button_box" name="button_box">
+                        <!-- Put here related buttons -->
+                    </div>
+                    <notebook>
+                        <page string="Informations">
+                            <group colspan="4">
+								<group string="Identification" colspan="2">
+									<field name="ssnid"/>
+								</group>
+								<newline/>
+								<group string="Relations" colspan="2">
+									<field name="employee_id"/>
+									<field name="relation"/>
+									<field name="relation_type"/>
+								</group>
+							</group>
+						</page>
+					</notebook>
                 </form>
             </field>
         </record>

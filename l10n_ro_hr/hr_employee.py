@@ -111,10 +111,9 @@ class hr_employee_related(models.Model):
     @api.constrains('relation', 'relation_type')
     def _validate_relation(self):
         if self.relation_type and self.relation:
-            if self.relation_type in (
-                    'coinsured', 'both') and not self.relation in (
-                    'husband', 'wife', 'parent'):
-                raise ValidationError(_("Just parents and husband/wife"))
+            if self.relation_type in ('coinsured', 'both'):
+                if self.relation not in ('husband', 'wife', 'parent'):
+                    raise ValidationError(_("Just parents and husband/wife"))
 
     first_name = fields.Char('First Name', compute='_first_name', store=False)
     last_name = fields.Char('Last Name', compute='_last_name', store=False)
@@ -148,22 +147,6 @@ class hr_employee(models.Model):
         ])
 
     @api.one
-    @api.depends('name')
-    def _first_name(self):
-        try:
-            self.first_name = ' '.join(self.name.split()[:-1])
-        except:
-            self.first_name = ''
-
-    @api.one
-    @api.depends('name')
-    def _last_name(self):
-        try:
-            self.last_name = self.name.split()[-1]
-        except:
-            self.first_name = ''
-
-    @api.one
     @api.onchange('ssnid')
     @api.constrains('ssnid')
     def _ssnid_birthday_gender(self):
@@ -188,7 +171,7 @@ class hr_employee(models.Model):
             })
 
     def _medic_exam_expires(self):
-        return fields.Date.to_string(date.today() - timedelta(days = 370))
+        return fields.Date.to_string(date.today()-timedelta(years=1))
 
     @api.multi
     def _return_medic_exam_expiring(self):
@@ -196,15 +179,12 @@ class hr_employee(models.Model):
             ('active', '=', True),
             ('medic_exam', '>=', self._medic_exam_expires()),
         ])
-        
-    first_name = fields.Char('First Name', compute='_first_name', store=False)
-    last_name = fields.Char('Last Name', compute='_last_name', store=False)
+
     ssnid_init = fields.Char(
         'Initial SSN No', help='Initial Social Security Number')
     first_name_init = fields.Char('Initial Name')
     last_name_init = fields.Char('Initial First Name')
     address_actual_id = fields.Many2one('res.partner', 'Actual Address')
-        
     casang = fields.Selection([('AB', 'Alba'), ('AR', 'Arad'),
                                ('AG', 'Arges'), ('BC', 'Bacau'),
                                ('BH', 'Bihor'), ('BN', 'Bistrita-Nasaud'),
@@ -240,14 +220,13 @@ class hr_employee(models.Model):
 
     # override fields declared in hr_contract
     medic_exam = fields.Date('Medical Examination Date', index=True)
-    vehicle = fields.Boolean(help='Mark this field if the employee is driving '
-                 'a company car') 
 
 # Remove readonly=True from department members, alows you to select employees
 # direct from the #department form view
+
+
 class hr_department(models.Model):
     _inherit = 'hr.department'
-    
+
     member_ids = fields.One2many('hr.employee', 'department_id',
-                                 string='Members', readonly = False)
-        
+                                 string='Members', readonly=False)

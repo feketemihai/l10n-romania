@@ -52,10 +52,10 @@
 					<field name="sign_date"/>
 				</field>
 				<field name="date_start" position="before">
-					<label for="period_type" string="Determined Period"/>
 					<div>
                         <field name="period_type"/>
                     </div>
+                    <label for="period_type" string="Determined Period"/>					
 				</field>
 				<field name="date_end" position="replace">
 					<field name="date_end" attrs="{'invisible': [('period_type', '=', False)],'required': [('period_type', '=', True)]}"/>				
