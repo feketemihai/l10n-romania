@@ -57,3 +57,5 @@ class hr_contract(models.Model):
         'contract_id', string="Advantages", copy = False)
     programmer_or_handicaped = fields.Boolean(
         'Programmer or Handicaped', default = False, copy = False)
+    net_wage = fields.Float('Expected Net Wage')
+

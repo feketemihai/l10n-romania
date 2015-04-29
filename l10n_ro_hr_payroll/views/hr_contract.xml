@@ -6,14 +6,19 @@
             <field name="model">hr.contract</field>
             <field name="inherit_id" ref="l10n_ro_hr.hr_contract_view_ro_form"/>
             <field name="arch" type="xml">
-                <field name="advantages" position="replace">
-                    <field name="advantage_ids" context="{'contract_id': active_id}">
+                <field name="wage" position="after">
+                    <field name="net_wage"/>
+                </field>
+                <field name="advantages" position="replace"/>
+                <group name="salary_and_advantages" position="inside">
+                    <label for="advantage_ids" string="Advantages" colspan="2"/>
+                    <field name="advantage_ids" colspan="2" nolabel="1" context="{'contract_id': active_id}">
                         <tree string="Advantages" editable="bottom">
                             <field name="advantage" string="Advantage"/>
                             <field name="amount" string="Amount"/>
                         </tree>
                     </field>
-                </field>
+                </group>
                 <xpath expr="//field[@name='pensioneer']" position="after">
                     <field name="programmer_or_handicaped"/>
                 </xpath>

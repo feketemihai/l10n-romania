@@ -47,6 +47,7 @@
             <field name="arch" type="xml">
 				<field name="employee_id" position="before">
 					<field name="revisal_no"/>
+					<field name="internal_no"/>
 				</field>
 				<field name="employee_id" position="after">
 					<field name="sign_date"/>

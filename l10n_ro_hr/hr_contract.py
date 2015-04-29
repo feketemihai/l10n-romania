@@ -38,6 +38,8 @@ class hr_contract(models.Model):
 
     revisal_no = fields.Char('REVISAL Number', required=True,
                              help='Numbered registered in Revisal')
+    internal_no = fields.Char('Internal Number',
+                             help='Internal Number')
     period_type = fields.Boolean('Determined Period',
                                  help="The contract period type")
     suspended = fields.Boolean('Contract suspended?')
