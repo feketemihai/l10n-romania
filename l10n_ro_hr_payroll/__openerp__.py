@@ -91,6 +91,8 @@ Holidays
         'views/hr_meal_vouchers.xml',
         'views/hr_wage_history.xml',
         'views/hr_public_holidays.xml',
+        'wizard/attendance_fulfill_view.xml',
+        'wizard/hr_attendance_bymonth_view.xml',
         # workflows
         'workflows/hr_public_holidays_workflow.xml',
         # data
@@ -104,6 +106,7 @@ Holidays
         # report
         'report/hr_meal_vouchers.xml',
         'report/report_meal_vouchers_template.xml',
+        'report/hr_attendance_by_month.xml',
         # model access
         'security/ir.model.access.csv',
     ],

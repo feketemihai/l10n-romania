@@ -19,6 +19,5 @@
 #
 ##############################################################################
 
-import models
-import wizard
-import report
+import attendance_fulfill
+import hr_attendance_bymonth

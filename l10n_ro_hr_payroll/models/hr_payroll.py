@@ -51,7 +51,7 @@ class hr_payslip(models.Model):
             resource_id = %d
         AND (date_from, date_to) OVERLAPS ('%s'::TIMESTAMP, '%s'::TIMESTAMP)
         """ % (resource_id, str(day_from), str(day_to)))
-        cal_leaves = {}
+        cal_leaves = []
         for x in self.env.cr.fetchall():
             leave = {
                 'leave': self.env['hr.holidays'].browse(x[1]),
@@ -64,17 +64,17 @@ class hr_payslip(models.Model):
                     datetime.strptime(x[3], DFMT).date()
                 ),
             }
-            cal_leaves.update({x[0]: leave})
+            cal_leaves.append(leave)
         return cal_leaves
 
     def _was_on_leave(self, day, calendar_leaves):
         res = []
         for x in calendar_leaves:
-            if day >= calendar_leaves[x]['date_period'][0] and \
-                    day <= calendar_leaves[x]['date_period'][1]:
+            if day >= x['date_period'][0] and \
+                    day <= x['date_period'][1]:
                 res += [(
-                    calendar_leaves[x]['leave'],
-                    calendar_leaves[x]['period']
+                    x['leave'],
+                    x['period']
                 )]
         return res
 
@@ -110,11 +110,9 @@ class hr_payslip(models.Model):
                 curr_day = (day_from + timedelta(days = day)).\
                     replace(hour=0,minute=0)
 
-                if not ph_obj.is_holiday(
-                        curr_day, self.employee_id.category_ids.ids):
-                    print ph_obj.is_holiday(
-                        curr_day, self.employee_id.category_ids.ids)
-                    continue
+                #if not ph_obj.is_holiday(
+                #        curr_day, self.employee_id.category_ids.ids):
+                #    continue
 
                 _leave = self._was_on_leave(curr_day.date(), calendar_leaves)
                 if _leave == []:
@@ -122,45 +120,36 @@ class hr_payslip(models.Model):
                 else:
                     leave_int = [x[1] for x in _leave]
                 working_hours = contract.working_hours.\
-                    get_working_hours_of_date(
-                        start_dt = curr_day,
-                        compute_leaves = True,
-                        leaves = leave_int).pop()
+                    get_working_hours(curr_day, curr_day,
+                        compute_leaves = True).pop()
                 if working_hours < 1.0:
                     working_hours = 0.0
-
                 if _leave != []:
-                    leave_hours = contract.working_hours.\
-                        get_working_hours_of_date(
-                            start_dt = curr_day, compute_leaves = False).pop()
-                    leave_hours_left = 0.0   
                     for leave, leave_int in _leave:
                         leave_type = leave.holiday_status_id.leave_code
-                        _hours = contract.working_hours.\
-                            get_working_hours_of_date(
-                                start_dt = curr_day,
-                                compute_leaves = True,
-                                leaves = [leave_int]).pop()
+                        count = 0.0
                         if leave.is_sick_leave is True:
-                            print leave
-                        leave_hours_left += round(leave_hours - _hours)
+                            count = 1
+                        else:
+                            working_hours = contract.working_hours.\
+                                get_working_hours(curr_day, curr_day,
+                                    compute_leaves = True).pop()
+                            if working_hours > 0:
+                                count = 1
                         # print leave, leave_type
                         if leave_type in leaves.keys():
                             leaves[leave_type].update({
-                                'number_of_days': leaves[leave_type]['number_of_days'] + leave.number_of_days_temp,
-                                'number_of_hours':  leaves[leave_type]['number_of_hours'] + round(leave_hours - _hours),
+                                'number_of_days': leaves[leave_type]['number_of_days'] + count,
                             })
                         else:
                             leaves[leave_type] = {
                                 'name': leave.name or 'Legal Leaves',
                                 'sequence': 5,
                                 'code': leave_type,
-                                'number_of_days': leave.number_of_days_temp,
-                                'number_of_hours': round(leave_hours - _hours),
+                                'number_of_days': count,
+                                'number_of_hours': 0.00,
                                 'contract_id': contract.id,
                             }
-                    working_hours = leave_hours - leave_hours_left
-                    attendances['number_of_hours'] += working_hours
                 elif working_hours > 0.0:
                     attendances['number_of_days'] += 1.0
                     attendances['number_of_hours'] += working_hours
