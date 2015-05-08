@@ -49,5 +49,6 @@ class account_period_closing_wizard(models.TransientModel):
     journal_id = fields.Many2one(
         'account.journal', 'Closing Journal', required=True)
     done = fields.Boolean('Closing Done')
+account_period_closing_wizard()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

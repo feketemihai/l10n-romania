@@ -21,6 +21,8 @@
 ##############################################################################
 
 from openerp.osv import osv, fields
+from openerp.tools.translate import _
+
 
 
 class product_product(osv.osv):
@@ -28,7 +30,7 @@ class product_product(osv.osv):
     _columns = {
         'd394_id': fields.many2one('report.394.code', string='D394 codes'),
     }
-
+product_product()
 
 class report_394_code(osv.osv):
     _name = "report.394.code"
@@ -38,3 +40,4 @@ class report_394_code(osv.osv):
         'description': fields.char('Description', size=64),
         'product_ids': fields.one2many('product.product', 'd394_id', string='Products'),
     }
+report_394_code()

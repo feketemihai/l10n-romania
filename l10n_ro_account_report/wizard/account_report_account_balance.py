@@ -20,6 +20,8 @@
 ##############################################################################
 
 from openerp.osv import fields, osv
+from openerp.tools.translate import _
+
 
 
 class account_balance_report_romania(osv.osv_memory):
@@ -47,6 +49,7 @@ class account_balance_report_romania(osv.osv_memory):
         context['landscape'] = True
         return self.pool['report'].get_action(cr, uid, [], 'l10n_ro_account_report.report_trialbalance', data=data, context=context)
 
+account_balance_report_romania()
 
 class account_balance_html_report_romania(osv.osv_memory):
     _inherit = "account.balance.report"
@@ -72,5 +75,6 @@ class account_balance_html_report_romania(osv.osv_memory):
         data = self.pre_print_report(cr, uid, ids, data, context=context)
         context['landscape'] = True
         return self.pool['report'].get_action(cr, uid, [], 'l10n_ro_account_report.report_trialbalance_html', data=data, context=context)
+account_balance_html_report_romania()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

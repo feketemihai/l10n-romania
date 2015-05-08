@@ -1,0 +1,916 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_account_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-07 13:10+0000\n"
+"PO-Revision-Date: 2015-05-07 13:10+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "..........."
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+msgid ": Purchase Journal"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid ": Sale Journal"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+msgid ": Trial Balance"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Account"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Adresa:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: selection:account.balance.html.report.romania,display_account:0
+#: selection:account.balance.report.romania,display_account:0
+msgid "All"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: selection:account.balance.html.report.romania,target_move:0
+#: selection:account.balance.report.romania,target_move:0
+#: code:addons/l10n_ro_account_report/report/common_report_header.py:71
+#, python-format
+msgid "All Entries"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: selection:account.balance.html.report.romania,target_move:0
+#: selection:account.balance.report.romania,target_move:0
+#: code:addons/l10n_ro_account_report/report/common_report_header.py:72
+#, python-format
+msgid "All Posted Entries"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "All accounts"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Base"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Base 0%"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Base 24%"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Base 5%"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Base 9%"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Base Collected"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal_html
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Casier"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,chart_account_id:0
+#: field:account.balance.report.romania,chart_account_id:0
+msgid "Chart of Account"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+msgid "Chart of Accounts:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Cod fiscal:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Code"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,company_id:0
+#: field:account.balance.report.romania,company_id:0
+#: field:l10n_ro_account_report.d394.report,company_id:0
+#: field:sale.purchase.journal.report,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Compartiment financiar-contabil"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394
+msgid "Create _XML"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,create_uid:0
+#: field:account.balance.report.romania,create_uid:0
+#: field:l10n_ro_account_report.d394.report,create_uid:0
+#: field:report.394.code,create_uid:0
+#: field:sale.purchase.journal.report,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,create_date:0
+#: field:account.balance.report.romania,create_date:0
+#: field:l10n_ro_account_report.d394.report,create_date:0
+#: field:report.394.code,create_date:0
+#: field:sale.purchase.journal.report,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:report.394.code,name:0
+msgid "D394 Code"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.model,name:l10n_ro_account_report.model_l10n_ro_account_report_d394_report
+#: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394
+msgid "D394 Declaration"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.actions.act_window,name:l10n_ro_account_report.action_d394
+#: model:ir.ui.menu,name:l10n_ro_account_report.d394
+#: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394
+msgid "D394 Form"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.model,name:l10n_ro_account_report.model_report_394_code
+#: field:product.template,d394_id:0
+msgid "D394 code"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Data"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: selection:account.balance.html.report.romania,filter:0
+#: selection:account.balance.report.romania,filter:0
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Date"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+msgid "Date from :"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+msgid "Date to :"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Deliveries/Services taxable"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:report.394.code,description:0
+msgid "Description"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Display Account:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,display_account:0
+#: field:account.balance.report.romania,display_account:0
+msgid "Display Accounts"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Doc. casa"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Document"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,date_to:0
+#: field:account.balance.report.romania,date_to:0
+msgid "End Date"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,period_to:0
+#: field:account.balance.report.romania,period_to:0
+msgid "End Period"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+msgid "End Period:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: code:addons/l10n_ro_account_report/report/common_report_header.py:96
+#: code:addons/l10n_ro_account_report/wizard/d394.py:83
+#, python-format
+msgid "Error!"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Exempt acc. art.143 al.2 lit.a+d"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Exempt acc. art.143 al.2 lit.b+c"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Explicatia"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:l10n_ro_account_report.d394.report,name:0
+msgid "File Name"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:l10n_ro_account_report.d394.report,msg:0
+msgid "File created"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+msgid "Filter By:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,filter:0
+#: field:account.balance.report.romania,filter:0
+msgid "Filter by"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Filtered by Period:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+msgid "Filtered by date"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Filtered by dates:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+msgid "Filtered by period"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,fiscalyear_id:0
+#: field:account.balance.report.romania,fiscalyear_id:0
+msgid "Fiscal Year"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Fiscal Year:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394
+msgid "General Information"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+msgid "Goods Imported"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+msgid "Goods and Services Purchased"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.ui.menu,name:l10n_ro_account_report.final_accounting_html_reports
+msgid "HTML Legal Reports"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,id:0
+#: field:account.balance.report.romania,id:0
+#: field:l10n_ro_account_report.d394.report,id:0
+#: field:report.394.code,id:0
+#: field:report.l10n_ro_account_report.report_purchase_journal,id:0
+#: field:report.l10n_ro_account_report.report_purchase_journal_html,id:0
+#: field:report.l10n_ro_account_report.report_sale_journal,id:0
+#: field:report.l10n_ro_account_report.report_sale_journal_html,id:0
+#: field:report.l10n_ro_account_report.report_trialbalance,id:0
+#: field:report.l10n_ro_account_report.report_trialbalance_html,id:0
+#: field:sale.purchase.journal.report,id:0
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Incasari"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Initial Credit"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Initial Debit"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Intra - communitaire Services"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Intra - communitaire and Inverse Taxation"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+msgid "Intracom. purchases exempt"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+msgid "Intracom. purchases not taxable"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+msgid "Intracommunitaire purchases of goods and services"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Inverse Taxation"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal_html
+#: field:sale.purchase.journal.report,journal:0
+msgid "Journal type"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,journal_ids:0
+#: field:account.balance.report.romania,journal_ids:0
+msgid "Journals"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: help:account.balance.html.report.romania,fiscalyear_id:0
+#: help:account.balance.report.romania,fiscalyear_id:0
+msgid "Keep empty for all open fiscal year"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,write_uid:0
+#: field:account.balance.report.romania,write_uid:0
+#: field:l10n_ro_account_report.d394.report,write_uid:0
+#: field:report.394.code,write_uid:0
+#: field:sale.purchase.journal.report,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,write_date:0
+#: field:account.balance.report.romania,write_date:0
+#: field:l10n_ro_account_report.d394.report,write_date:0
+#: field:report.394.code,write_date:0
+#: field:sale.purchase.journal.report,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Name"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: selection:account.balance.html.report.romania,filter:0
+#: selection:account.balance.report.romania,filter:0
+msgid "No Filters"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Not Exigible Operations"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Not filtered"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: code:addons/l10n_ro_account_report/report/common_report_header.py:96
+#, python-format
+msgid "Not implemented."
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Nr Crt"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Numar Registu Comertului"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Number"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Opening Credit"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Opening Debit"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Others"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.romanian_layout_footer
+msgid "Page:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Partener"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Payments - Exigible Operations"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Perioada"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394
+#: field:l10n_ro_account_report.d394.report,period_id:0
+#: field:sale.purchase.journal.report,periods:0
+msgid "Period"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Period Credit"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Period Debit"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: selection:account.balance.html.report.romania,filter:0
+#: selection:account.balance.report.romania,filter:0
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal_html
+msgid "Periods"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Plati"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal_html
+msgid "Print"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.model,name:l10n_ro_account_report.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: selection:sale.purchase.journal.report,journal:0
+msgid "Purchase"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_purchase_journal
+#: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_purchase_journal_html
+msgid "Purchase Journal"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+msgid "Purchases of goods exempt or not taxable"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Result Credit"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Result Debit"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: selection:sale.purchase.journal.report,journal:0
+msgid "Sale"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_sale_journal
+msgid "Sale Journal"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_sale_journal_html
+msgid "Sale Journal - HTML"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.actions.act_window,name:l10n_ro_account_report.action_sale_purchase_journal
+#: model:ir.actions.act_window,name:l10n_ro_account_report.action_sale_purchase_journal_html
+#: model:ir.ui.menu,name:l10n_ro_account_report.menu_account_print_sale_purchase_journal
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal_html
+msgid "Sale/Purchase Journal"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.model,name:l10n_ro_account_report.model_sale_purchase_journal_report
+msgid "Sale/Purchase Journal Report"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: code:addons/l10n_ro_account_report/wizard/d394.py:674
+#, python-format
+msgid "Save"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:l10n_ro_account_report.d394.report,file_save:0
+msgid "Save File"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394_save
+msgid "Save XML"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394_save
+msgid "Save the File with '.xml' extension."
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: help:account.balance.html.report.romania,chart_account_id:0
+#: help:account.balance.report.romania,chart_account_id:0
+msgid "Select Charts of Accounts"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Societatea comerciala:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Sold final calculat:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Sold final introdus:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_account_bank_statement2
+msgid "Sold initial:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Special Treatment"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,date_from:0
+#: field:account.balance.report.romania,date_from:0
+msgid "Start Date"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,period_from:0
+#: field:account.balance.report.romania,period_from:0
+msgid "Start Period"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+msgid "Start Period:"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: field:account.balance.html.report.romania,target_move:0
+#: field:account.balance.report.romania,target_move:0
+msgid "Target Moves"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Total"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Total Credit"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "Total Debit"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.actions.act_window,name:l10n_ro_account_report.action_account_balance_html_menu_romania
+#: model:ir.actions.act_window,name:l10n_ro_account_report.action_account_balance_menu_romania
+#: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_trial_balance_romania
+msgid "Trial Balance"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_trial_balance_html_romania
+msgid "Trial Balance - HTML"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.ui.menu,name:l10n_ro_account_report.menu_general_Balance_report_html
+msgid "Trial Balance - Html"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.model,name:l10n_ro_account_report.model_account_balance_html_report_romania
+#: model:ir.model,name:l10n_ro_account_report.model_account_balance_report_romania
+msgid "Trial Balance Report"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "VAT"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "VAT 24%"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "VAT 5%"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_purchase_journal
+#: view:website:l10n_ro_account_report.report_purchase_journal_html
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "VAT 9%"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "VAT Collected"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: selection:account.balance.html.report.romania,display_account:0
+#: selection:account.balance.report.romania,display_account:0
+msgid "With balance is not equal to 0"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "With balance not equal to zero"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "With deduction rights"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: selection:account.balance.html.report.romania,display_account:0
+#: selection:account.balance.report.romania,display_account:0
+#: view:website:l10n_ro_account_report.report_trialbalance
+#: view:website:l10n_ro_account_report.report_trialbalance_html
+msgid "With movements"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:website:l10n_ro_account_report.report_sale_journal
+#: view:website:l10n_ro_account_report.report_sale_journal_html
+msgid "Without deduction rights"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: code:addons/l10n_ro_account_report/wizard/d394.py:84
+#, python-format
+msgid "You need to define your Job Position."
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: model:ir.actions.report.xml,name:l10n_ro_account_report.report_account_bank_statement
+msgid "account_bank_statement"
+msgstr ""
+
+#. module: l10n_ro_account_report
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal
+#: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal_html
+msgid "or"
+msgstr ""
+
