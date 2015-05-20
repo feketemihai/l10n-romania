@@ -20,14 +20,6 @@
 #
 ##############################################################################
 
-from openerp import models, fields, _
-
-
-class account_statement_operation_template(models.Model):
-    _inherit = 'account.statement.operation.template'
-
-    company_id = fields.Many2one(
-        'res.company', string='Company', required=True)
 
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
