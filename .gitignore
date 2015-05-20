@@ -52,6 +52,9 @@ docs/_build/
 # PyBuilder
 target/
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Update code.
 # ANAF Data
 /l10n_ro_fiscal_validation/data

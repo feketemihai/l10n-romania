@@ -85,15 +85,14 @@ class currency_reevaluation(models.TransientModel):
              ('date', '<=', reevaluation_date),
              ('currency_reevaluation', '=', False),
              ('journal_id.type', 'in', ('sale', 'purchase', 'general'))])
-
         created_ids = []
-        vals = {'name': 'Currency update ' + period.code,
+        vals = {'name': 'Currency update '+period.code,
                 'journal_id': journal.id,
                 'period_id': period.id,
-                'date': period.date_stop}
+                'date':period.date_stop}            
         move_id = move_obj.create(vals)
         move = move_id[0]
-
+        
         expense_acc = company.expense_currency_exchange_account_id.id
         income_acc = company.income_currency_exchange_account_id.id
         for line in reeval_lines:
@@ -181,7 +180,6 @@ class currency_reevaluation(models.TransientModel):
                     move_line_obj.browse(move_lines).reconcile_partial('auto')
 
         created_ids.append(move_id)
-
         lines = []
         query = """
 SELECT DISTINCT ON (journal_id) j.id as journal_id, s.date AS date,
