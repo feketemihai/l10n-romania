@@ -32,8 +32,8 @@ class company(models.Model):
         default=200
     )
 
+    stamp_image = fields.Binary(string='Stamp image')
 
-company()
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
