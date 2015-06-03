@@ -27,18 +27,18 @@ msgstr ".........."
 #: view:website:l10n_ro_account_report.report_purchase_journal
 #: view:website:l10n_ro_account_report.report_purchase_journal_html
 msgid ": Purchase Journal"
-msgstr "Jurnal Cumparari"
+msgstr "Jurnal Cumpărări"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid ": Sale Journal"
-msgstr "Jurnal Vanzari"
+msgstr "Jurnal Vânzări"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 msgid ": Trial Balance"
-msgstr "Balata"
+msgstr "Balață"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
@@ -49,7 +49,7 @@ msgstr "Cont"
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
 msgid "Adresa:"
-msgstr "Adresa:"
+msgstr "Adresă:"
 
 #. module: l10n_ro_account_report
 #: selection:account.balance.html.report.romania,display_account:0
@@ -63,7 +63,7 @@ msgstr "Toate"
 #: code:addons/l10n_ro_account_report/report/common_report_header.py:71
 #, python-format
 msgid "All Entries"
-msgstr "Toate inregistrarile"
+msgstr "Toate înregistrările"
 
 #. module: l10n_ro_account_report
 #: selection:account.balance.html.report.romania,target_move:0
@@ -71,13 +71,13 @@ msgstr "Toate inregistrarile"
 #: code:addons/l10n_ro_account_report/report/common_report_header.py:72
 #, python-format
 msgid "All Posted Entries"
-msgstr "Toate inregistrarile postate"
+msgstr "Toate înregistrările postate"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "All accounts"
-msgstr "Toate contruile"
+msgstr "Toate conturile"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -85,13 +85,13 @@ msgstr "Toate contruile"
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Base"
-msgstr "Baza"
+msgstr "Bază"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Base 0%"
-msgstr "Baza 0%"
+msgstr "Bază 0%"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -99,7 +99,7 @@ msgstr "Baza 0%"
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Base 24%"
-msgstr "Baza 24%"
+msgstr "Bază 24%"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -107,7 +107,7 @@ msgstr "Baza 24%"
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Base 5%"
-msgstr "Baza 5%"
+msgstr "Bază 5%"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -115,20 +115,20 @@ msgstr "Baza 5%"
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Base 9%"
-msgstr "Baza 9%"
+msgstr "Bază 9%"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Base Collected"
-msgstr "Baza colectata"
+msgstr "Bază Colectată"
 
 #. module: l10n_ro_account_report
 #: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394
 #: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal
 #: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal_html
 msgid "Cancel"
-msgstr "Renunta"
+msgstr "Renunță"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
@@ -163,7 +163,7 @@ msgstr "Cod"
 #: field:l10n_ro_account_report.d394.report,company_id:0
 #: field:sale.purchase.journal.report,company_id:0
 msgid "Company"
-msgstr "Firma"
+msgstr "Firmă"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
@@ -173,7 +173,7 @@ msgstr "Compartiment financiar-contabil"
 #. module: l10n_ro_account_report
 #: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394
 msgid "Create _XML"
-msgstr "Creaza _XML"
+msgstr "Crează _XML"
 
 #. module: l10n_ro_account_report
 #: field:account.balance.html.report.romania,create_uid:0
@@ -202,7 +202,7 @@ msgstr "Codul pt D394"
 #: model:ir.model,name:l10n_ro_account_report.model_l10n_ro_account_report_d394_report
 #: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394
 msgid "D394 Declaration"
-msgstr "Declaratia D394"
+msgstr "Declarația D394"
 
 #. module: l10n_ro_account_report
 #: model:ir.actions.act_window,name:l10n_ro_account_report.action_d394
@@ -240,13 +240,13 @@ msgstr "De la data :"
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 msgid "Date to :"
-msgstr "Pana la data :"
+msgstr "Până la data :"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Deliveries/Services taxable"
-msgstr "Livrari/servicii taxabile"
+msgstr "Livrări/Servicii taxabile"
 
 #. module: l10n_ro_account_report
 #: field:report.394.code,description:0
@@ -257,18 +257,18 @@ msgstr "Descriere"
 #: view:website:l10n_ro_account_report.report_trialbalance
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "Display Account:"
-msgstr "Afisati conturile:"
+msgstr "Afisați conturile:"
 
 #. module: l10n_ro_account_report
 #: field:account.balance.html.report.romania,display_account:0
 #: field:account.balance.report.romania,display_account:0
 msgid "Display Accounts"
-msgstr "Afisaja conturile"
+msgstr "Afisajă conturile"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
 msgid "Doc. casa"
-msgstr "Doc. casa"
+msgstr "Doc. casă"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -282,18 +282,18 @@ msgstr "Document"
 #: field:account.balance.html.report.romania,date_to:0
 #: field:account.balance.report.romania,date_to:0
 msgid "End Date"
-msgstr "Data sfarsit"
+msgstr "Dată sfârșit"
 
 #. module: l10n_ro_account_report
 #: field:account.balance.html.report.romania,period_to:0
 #: field:account.balance.report.romania,period_to:0
 msgid "End Period"
-msgstr "Sfarsit Perioada"
+msgstr "Sfârșit Perioadă"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 msgid "End Period:"
-msgstr "Sfarsit Perioada:"
+msgstr "Sfârșit Perioadă:"
 
 #. module: l10n_ro_account_report
 #: code:addons/l10n_ro_account_report/report/common_report_header.py:96
@@ -317,48 +317,48 @@ msgstr "Exceptat conform art.143 al.2 lit.b+c"
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
 msgid "Explicatia"
-msgstr "Explicatia"
+msgstr "Explicația"
 
 #. module: l10n_ro_account_report
 #: field:l10n_ro_account_report.d394.report,name:0
 msgid "File Name"
-msgstr "Nume fisier"
+msgstr "Nume fișier"
 
 #. module: l10n_ro_account_report
 #: field:l10n_ro_account_report.d394.report,msg:0
 msgid "File created"
-msgstr "Fisier creat"
+msgstr "Fișier creat"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 msgid "Filter By:"
-msgstr "Filtrati dupa:"
+msgstr "Filtrați după:"
 
 #. module: l10n_ro_account_report
 #: field:account.balance.html.report.romania,filter:0
 #: field:account.balance.report.romania,filter:0
 msgid "Filter by"
-msgstr "Filtrati dupa"
+msgstr "Filtrați după"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "Filtered by Period:"
-msgstr "Filtrati dupa perioada:"
+msgstr "Filtrați după perioada:"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 msgid "Filtered by date"
-msgstr "Filtrati dupa data"
+msgstr "Filtrați după data"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "Filtered by dates:"
-msgstr "Filtrati dupa date:"
+msgstr "Filtrați dupa date:"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 msgid "Filtered by period"
-msgstr "Filtrati dupa perioada"
+msgstr "Filtrați dupa perioadă"
 
 #. module: l10n_ro_account_report
 #: field:account.balance.html.report.romania,fiscalyear_id:0
@@ -375,19 +375,19 @@ msgstr "An fiscal:"
 #. module: l10n_ro_account_report
 #: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394
 msgid "General Information"
-msgstr "Informatii generale"
+msgstr "Informații generale"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
 #: view:website:l10n_ro_account_report.report_purchase_journal_html
 msgid "Goods Imported"
-msgstr "Bunuri/marfuri importate"
+msgstr "Bunuri/mărfuri importate"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
 #: view:website:l10n_ro_account_report.report_purchase_journal_html
 msgid "Goods and Services Purchased"
-msgstr "Bunuri si servicii cumparate"
+msgstr "Bunuri si servicii cumpărate"
 
 #. module: l10n_ro_account_report
 #: model:ir.ui.menu,name:l10n_ro_account_report.final_accounting_html_reports
@@ -412,7 +412,7 @@ msgstr "ID"
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
 msgid "Incasari"
-msgstr "Incasari"
+msgstr "Încasări"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
@@ -442,19 +442,19 @@ msgstr "Intra - comunitare si taxare inversa"
 #: view:website:l10n_ro_account_report.report_purchase_journal
 #: view:website:l10n_ro_account_report.report_purchase_journal_html
 msgid "Intracom. purchases exempt"
-msgstr "Scutiere cumparare intracomunitara"
+msgstr "Scutiere cumpărare intracomunitara"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
 #: view:website:l10n_ro_account_report.report_purchase_journal_html
 msgid "Intracom. purchases not taxable"
-msgstr "cumparari intracomunitare ne taxabile"
+msgstr "Cumparari intracomunitare netaxabile"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
 #: view:website:l10n_ro_account_report.report_purchase_journal_html
 msgid "Intracommunitaire purchases of goods and services"
-msgstr "Cumparari intracomunitare de bunuri si servicii"
+msgstr "Cumpărări intracomunitare de bunuri si servicii"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -462,7 +462,7 @@ msgstr "Cumparari intracomunitare de bunuri si servicii"
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Inverse Taxation"
-msgstr "Taxare inversa"
+msgstr "Taxare inversă"
 
 #. module: l10n_ro_account_report
 #: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal
@@ -481,7 +481,7 @@ msgstr "Jurnale"
 #: help:account.balance.html.report.romania,fiscalyear_id:0
 #: help:account.balance.report.romania,fiscalyear_id:0
 msgid "Keep empty for all open fiscal year"
-msgstr "Lasati liber pentru anii fiscali deschisi"
+msgstr "Lasați liber pentru anii fiscali deschiși"
 
 #. module: l10n_ro_account_report
 #: field:account.balance.html.report.romania,write_uid:0
@@ -490,7 +490,7 @@ msgstr "Lasati liber pentru anii fiscali deschisi"
 #: field:report.394.code,write_uid:0
 #: field:sale.purchase.journal.report,write_uid:0
 msgid "Last Updated by"
-msgstr "Ultima data updatat de"
+msgstr "Ultima dată updatat de"
 
 #. module: l10n_ro_account_report
 #: field:account.balance.html.report.romania,write_date:0
@@ -521,13 +521,13 @@ msgstr "Fara filtre"
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Not Exigible Operations"
-msgstr "Operatii neeligibile"
+msgstr "Operații neeligibile"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "Not filtered"
-msgstr "nefiltrat"
+msgstr "Nefiltrat"
 
 #. module: l10n_ro_account_report
 #: code:addons/l10n_ro_account_report/report/common_report_header.py:96
@@ -547,7 +547,7 @@ msgstr "Nr Crt"
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
 msgid "Numar Registu Comertului"
-msgstr "Numar Registu Comertului"
+msgstr "Numar Registru Comerțului"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -555,25 +555,25 @@ msgstr "Numar Registu Comertului"
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Number"
-msgstr "Numar"
+msgstr "Număr"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "Opening Credit"
-msgstr "Sold intial Credit"
+msgstr "Sold inițial Credit"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "Opening Debit"
-msgstr "Sold intial Debit"
+msgstr "Sold inițial Debit"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Others"
-msgstr "Altii"
+msgstr "Alții"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_sale_journal
@@ -592,7 +592,7 @@ msgstr "Partener"
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Partner"
-msgstr "Partner"
+msgstr "Partener"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -600,7 +600,7 @@ msgstr "Partner"
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Payments - Exigible Operations"
-msgstr "Plati - operatii exigibile"
+msgstr "Plați - operații exigibile"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
@@ -618,13 +618,13 @@ msgstr "Perioada"
 #: view:website:l10n_ro_account_report.report_trialbalance
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "Period Credit"
-msgstr "Rulaj perioada Credit"
+msgstr "Rulaj perioadă Credit"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "Period Debit"
-msgstr "Rulaj perioada Debit"
+msgstr "Rulaj perioadă Debit"
 
 #. module: l10n_ro_account_report
 #: selection:account.balance.html.report.romania,filter:0
@@ -637,7 +637,7 @@ msgstr "Perioade"
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
 msgid "Plati"
-msgstr "Plati"
+msgstr "Plați"
 
 #. module: l10n_ro_account_report
 #: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal
@@ -648,24 +648,24 @@ msgstr "Print"
 #. module: l10n_ro_account_report
 #: model:ir.model,name:l10n_ro_account_report.model_product_template
 msgid "Product Template"
-msgstr "Product Template"
+msgstr "Template produs"
 
 #. module: l10n_ro_account_report
 #: selection:sale.purchase.journal.report,journal:0
 msgid "Purchase"
-msgstr "Cumparari"
+msgstr "Cumpărare"
 
 #. module: l10n_ro_account_report
 #: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_purchase_journal
 #: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_purchase_journal_html
 msgid "Purchase Journal"
-msgstr "Jurnal cumparari"
+msgstr "Jurnal cumpărări"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
 #: view:website:l10n_ro_account_report.report_purchase_journal_html
 msgid "Purchases of goods exempt or not taxable"
-msgstr "Cumparari de bunuri scutite sau netaxabile"
+msgstr "Cumpărări de bunuri scutite sau netaxabile"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
@@ -682,17 +682,17 @@ msgstr "Sold final Debit"
 #. module: l10n_ro_account_report
 #: selection:sale.purchase.journal.report,journal:0
 msgid "Sale"
-msgstr "Vanzare"
+msgstr "Vânzare"
 
 #. module: l10n_ro_account_report
 #: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_sale_journal
 msgid "Sale Journal"
-msgstr "Jurnal de vanzari"
+msgstr "Jurnal de vânzări"
 
 #. module: l10n_ro_account_report
 #: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_sale_journal_html
 msgid "Sale Journal - HTML"
-msgstr "Jurnal de vanzari HTML"
+msgstr "Jurnal de vânzări HTML"
 
 #. module: l10n_ro_account_report
 #: model:ir.actions.act_window,name:l10n_ro_account_report.action_sale_purchase_journal
@@ -701,39 +701,39 @@ msgstr "Jurnal de vanzari HTML"
 #: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal
 #: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal_html
 msgid "Sale/Purchase Journal"
-msgstr "Jurnal vanzari/cumparari"
+msgstr "Jurnal vânzare/cumpărare"
 
 #. module: l10n_ro_account_report
 #: model:ir.model,name:l10n_ro_account_report.model_sale_purchase_journal_report
 msgid "Sale/Purchase Journal Report"
-msgstr "Raport jurnal vanzari/cumparari"
+msgstr "Raport jurnal vânare/cumpărare"
 
 #. module: l10n_ro_account_report
 #: code:addons/l10n_ro_account_report/wizard/d394.py:674
 #, python-format
 msgid "Save"
-msgstr "Salveaza"
+msgstr "Salvează"
 
 #. module: l10n_ro_account_report
 #: field:l10n_ro_account_report.d394.report,file_save:0
 msgid "Save File"
-msgstr "Salveaza fisierul"
+msgstr "Salvează fisierul"
 
 #. module: l10n_ro_account_report
 #: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394_save
 msgid "Save XML"
-msgstr "Salveaza XML"
+msgstr "Salvează XML"
 
 #. module: l10n_ro_account_report
 #: view:l10n_ro_account_report.d394.report:l10n_ro_account_report.view_d394_save
 msgid "Save the File with '.xml' extension."
-msgstr "Salveaza fisierul cu extensia .xml"
+msgstr "Salvează fisierul cu extensia .xml"
 
 #. module: l10n_ro_account_report
 #: help:account.balance.html.report.romania,chart_account_id:0
 #: help:account.balance.report.romania,chart_account_id:0
 msgid "Select Charts of Accounts"
-msgstr "Selectati planul de conturi"
+msgstr "Selectați planul de conturi"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
@@ -753,7 +753,7 @@ msgstr "Sold final introdus:"
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
 msgid "Sold initial:"
-msgstr "Sold initial:"
+msgstr "Sold inițial:"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_sale_journal
@@ -765,24 +765,24 @@ msgstr "Tratare speciala"
 #: field:account.balance.html.report.romania,date_from:0
 #: field:account.balance.report.romania,date_from:0
 msgid "Start Date"
-msgstr "Data inceput"
+msgstr "Data început"
 
 #. module: l10n_ro_account_report
 #: field:account.balance.html.report.romania,period_from:0
 #: field:account.balance.report.romania,period_from:0
 msgid "Start Period"
-msgstr "Inceput perioada"
+msgstr "Inceput perioadă"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 msgid "Start Period:"
-msgstr "Inceptut perioada:"
+msgstr "Inceptut perioadă:"
 
 #. module: l10n_ro_account_report
 #: field:account.balance.html.report.romania,target_move:0
 #: field:account.balance.report.romania,target_move:0
 msgid "Target Moves"
-msgstr "Miscari afisate"
+msgstr "Mișcari afisate"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -809,23 +809,23 @@ msgstr "Total Debit"
 #: model:ir.actions.act_window,name:l10n_ro_account_report.action_account_balance_menu_romania
 #: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_trial_balance_romania
 msgid "Trial Balance"
-msgstr " Balanta de Verificare"
+msgstr "Balanță de Verificare"
 
 #. module: l10n_ro_account_report
 #: model:ir.actions.report.xml,name:l10n_ro_account_report.action_report_trial_balance_html_romania
 msgid "Trial Balance - HTML"
-msgstr "Balanta - HTML"
+msgstr "Balanță - HTML"
 
 #. module: l10n_ro_account_report
 #: model:ir.ui.menu,name:l10n_ro_account_report.menu_general_Balance_report_html
 msgid "Trial Balance - Html"
-msgstr "Balanta- HTML"
+msgstr "Balanță- HTML"
 
 #. module: l10n_ro_account_report
 #: model:ir.model,name:l10n_ro_account_report.model_account_balance_html_report_romania
 #: model:ir.model,name:l10n_ro_account_report.model_account_balance_report_romania
 msgid "Trial Balance Report"
-msgstr "Raport Balanta"
+msgstr "Raport Balanță"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -869,13 +869,13 @@ msgstr "TVA Colectat"
 #: selection:account.balance.html.report.romania,display_account:0
 #: selection:account.balance.report.romania,display_account:0
 msgid "With balance is not equal to 0"
-msgstr "Cu balanta ce nu este 0"
+msgstr "Cu balanță ce nu este 0"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "With balance not equal to zero"
-msgstr "Cu balanta ce nu este 0"
+msgstr "Cu balanță ce nu este 0"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_sale_journal
@@ -889,24 +889,24 @@ msgstr "Cu drept de deducere"
 #: view:website:l10n_ro_account_report.report_trialbalance
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "With movements"
-msgstr "Cu miscari"
+msgstr "Cu mișcări"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_sale_journal
 #: view:website:l10n_ro_account_report.report_sale_journal_html
 msgid "Without deduction rights"
-msgstr "Fara drept de deducere"
+msgstr "Fără drept de deducere"
 
 #. module: l10n_ro_account_report
 #: code:addons/l10n_ro_account_report/wizard/d394.py:84
 #, python-format
 msgid "You need to define your Job Position."
-msgstr "Trebuie sa va definiti pozitia/functia"
+msgstr "Trebuie sa va definiți poziția/funcția"
 
 #. module: l10n_ro_account_report
 #: model:ir.actions.report.xml,name:l10n_ro_account_report.report_account_bank_statement
 msgid "account_bank_statement"
-msgstr "Registu casa/banca"
+msgstr "Registru casă/bancă"
 
 #. module: l10n_ro_account_report
 #: view:sale.purchase.journal.report:l10n_ro_account_report.view_sale_purchase_journal
