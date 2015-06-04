@@ -38,7 +38,7 @@ msgstr "Jurnal Vânzări"
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
 msgid ": Trial Balance"
-msgstr "Balață"
+msgstr "Balanță"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_trialbalance
@@ -257,13 +257,13 @@ msgstr "Descriere"
 #: view:website:l10n_ro_account_report.report_trialbalance
 #: view:website:l10n_ro_account_report.report_trialbalance_html
 msgid "Display Account:"
-msgstr "Afisați conturile:"
+msgstr "Afișați conturile:"
 
 #. module: l10n_ro_account_report
 #: field:account.balance.html.report.romania,display_account:0
 #: field:account.balance.report.romania,display_account:0
 msgid "Display Accounts"
-msgstr "Afisajă conturile"
+msgstr "Afișați conturile"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
@@ -442,13 +442,13 @@ msgstr "Intra - comunitare si taxare inversa"
 #: view:website:l10n_ro_account_report.report_purchase_journal
 #: view:website:l10n_ro_account_report.report_purchase_journal_html
 msgid "Intracom. purchases exempt"
-msgstr "Scutiere cumpărare intracomunitara"
+msgstr "Achiziții intracomunitare scutite"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
 #: view:website:l10n_ro_account_report.report_purchase_journal_html
 msgid "Intracom. purchases not taxable"
-msgstr "Cumparari intracomunitare netaxabile"
+msgstr "Cumpărări intracomunitare netaxabile"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -513,7 +513,7 @@ msgstr "Nume"
 #: selection:account.balance.html.report.romania,filter:0
 #: selection:account.balance.report.romania,filter:0
 msgid "No Filters"
-msgstr "Fara filtre"
+msgstr "Fără filtre"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -547,7 +547,7 @@ msgstr "Nr Crt"
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_account_bank_statement2
 msgid "Numar Registu Comertului"
-msgstr "Numar Registru Comerțului"
+msgstr "Număr Registru Comerțului"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
@@ -782,7 +782,7 @@ msgstr "Inceptut perioadă:"
 #: field:account.balance.html.report.romania,target_move:0
 #: field:account.balance.report.romania,target_move:0
 msgid "Target Moves"
-msgstr "Mișcari afisate"
+msgstr "Mișcari afișate"
 
 #. module: l10n_ro_account_report
 #: view:website:l10n_ro_account_report.report_purchase_journal
