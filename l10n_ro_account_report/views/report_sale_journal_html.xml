@@ -14,8 +14,8 @@
                     <tr>
 							<td colspan="3"></td>
                             <td colspan="30">
-							    <h2 class="text-center"><span t-esc="res_company.name"/>: Sale Journal</h2>
-                            </td>
+<h2 t-if="data['journal'] == 'sale'" class="text-center">
+<span t-esc="res_company.name"/>: Sale Journal - Period:  <span t-esc="periods"/>     </h2>                             </td>
                             <td colspan="2"></td>
                     </tr>
                 </table>
@@ -301,6 +301,20 @@
                         </tr>
                     </tbody>
                 </table>
+<br /><br />
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+         <td class="text-center">Accounting Department</td>
+         <td class="text-center">Signature</td>
+       </tr>
+       <tr>
+         <td class="text-center">_</td>
+         <td class="text-center"></td>
+      </tr>
+    </tbody>
+     </table>
+
             </div>
         </t>
     </t>

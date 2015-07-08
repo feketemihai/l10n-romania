@@ -14,7 +14,9 @@
                     <tr>
 							<td colspan="3"></td>
                             <td colspan="30">
-							    <h2 class="text-center"><span t-esc="res_company.name"/>: Purchase Journal</h2>
+ <h2 class="text-center"><span t-esc="res_company.name"/>: Purchase Journal -
+   Period:       <span t-esc="periods"/>                                     
+     </h2>
                             </td>
                             <td colspan="2"></td>
                     </tr>
@@ -308,6 +310,20 @@
                         </tr>
                     </tbody>
                 </table>
+<br /><br />
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+         <td class="text-center">Accounting Department</td>
+         <td class="text-center">Signature</td>
+       </tr>
+       <tr>
+         <td class="text-center">_</td>
+         <td class="text-center"></td>
+      </tr>
+    </tbody>
+     </table>
+
             </div>
         </t>
     </t>

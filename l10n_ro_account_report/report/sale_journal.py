@@ -423,7 +423,7 @@ class sale_journal(report_sxw.rml_parse):
 
         lines = [inv1 for inv1 in inv if inv1['type']
                  in ['out_invoice', 'out_refund']]
-        self.localcontext.update({'lines': lines, 'data': data})
+        self.localcontext.update({'lines': lines, 'data': data,'periods':data['periods'][1]})
         return True
 
 

@@ -120,6 +120,20 @@
                         </tr>
                     </tbody>
                 </table>
+<br /><br />
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+         <td class="text-center">Accounting Department</td>
+         <td class="text-center">Signature</td>
+       </tr>
+       <tr>
+         <td class="text-center">_</td>
+         <td class="text-center"></td>
+      </tr>
+    </tbody>
+     </table>
+
             </div>
         </t>
 </template>
