@@ -79,7 +79,7 @@ msgstr "Valute disponibile"
 #: view:currency.rate.update.service:currency_rate_update.currency_rate_update_form
 #: field:currency.rate.update.service,currency_to_update:0
 msgid "Currencies to update with this service"
-msgstr "Currencies to update with this service"
+msgstr "Valute actualizate cu acest serviciu"
 
 #. module: currency_rate_update
 #: model:ir.model,name:currency_rate_update.model_res_currency_rate
