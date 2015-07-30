@@ -225,7 +225,8 @@ class account_bank_statement_line(osv.osv):
                     # the counterpart (to balance the account) and post the
                     # difference in another line
                     if datetime.strptime(mv_line.date, "%Y-%m-%d").month == \
-                            datetime.strptime(st_line.statement_id.date, "%Y-%m-%d").month:
+                            datetime.strptime(st_line.statement_id.date,
+                                              "%Y-%m-%d").month:
                         # get current currency rate
                         date1 = datetime.strptime(mv_line.date, "%Y-%m-%d")
                     else:

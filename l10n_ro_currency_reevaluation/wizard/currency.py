@@ -21,22 +21,27 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm
 
-import time
-from datetime import datetime, timedelta, date
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 
 class currency_reevaluation(models.TransientModel):
     _name = 'currency.reevaluation'
 
-    period_id = fields.Many2one(
-        'account.period', 'Period', help="The period to compute moves.", required=True)
-    journal_id = fields.Many2one(
-        'account.journal', 'Journal', help="The journal to post the entries.", required=True)
-    company_id = fields.Many2one('res.company', 'Company', help="The company for which is the reevaluation.", required=True,
-                                 change_default=True, default=lambda self: self.env['res.company']._company_default_get('currency.reevaluation'))
+    period_id = fields.Many2one('account.period', 'Period',
+                                help="The period to compute moves.",
+                                required=True)
+    journal_id = fields.Many2one('account.journal', 'Journal',
+                                 help="The journal to post the entries.",
+                                 required=True)
+    company_id = fields.Many2one('res.company', 'Company',
+                                 help="The company for which is the "
+                                      "reevaluation.",
+                                 required=True, change_default=True,
+                                 default=lambda self: self.env['res.company'].
+                                 _company_default_get('currency.reevaluation'))
 
     @api.one
     def compute_difference(self):
@@ -46,7 +51,6 @@ class currency_reevaluation(models.TransientModel):
         account_obj = self.env['account.account']
         journal_obj = self.env['account.journal']
         move_line_obj = self.env['account.move.line']
-        period_obj = self.env['account.period']
         curr_obj = self.env['res.currency']
 
         # get current period from company
@@ -57,7 +61,8 @@ class currency_reevaluation(models.TransientModel):
         company_currency = company.currency_id
         reevaluation_date = period.date_stop
         account_ids = [account.id for account in account_obj.search(
-            [('currency_reevaluation', '=', True), ('company_id', '=', company.id)])]
+            [('currency_reevaluation', '=', True),
+             ('company_id', '=', company.id)])]
 
         date1 = datetime.strptime(
             reevaluation_date, "%Y-%m-%d") + relativedelta(day=1, months=+1)
@@ -66,18 +71,20 @@ class currency_reevaluation(models.TransientModel):
         ctx1 = dict(self._context)
         ctx.update({'date': date1})
 
-        # get account move lines with foreign currency posted before reevaluation date (end of period)
-        # balance and foreign balance are not taking in consideration newwer
+        # get account move lines with foreign currency posted before
+        # reevaluation date (end of period)
+        # balance and foreign balance are not taking in consideration newer
         # reconciliations
-        reeval_lines = move_line_obj.search([('state','=','valid'),
-                                             ('reconcile_id','=',False),
-                                             ('move_id.state','=','posted'),
-                                             ('company_id','=',company.id),
-                                             ('currency_id','!=',False),
-                                             ('account_id','in',account_ids),
-                                             ('date','<=',reevaluation_date),
-                                             ('currency_reevaluation','=',False),
-                                             ('journal_id.type','in',('sale','purchase','general'))]) or False
+        reeval_lines = move_line_obj.search(
+            [('state', '=', 'valid'),
+             ('reconcile_id', '=', False),
+             ('move_id.state', '=', 'posted'),
+             ('company_id', '=', company.id),
+             ('currency_id', '!=', False),
+             ('account_id', 'in', account_ids),
+             ('date', '<=', reevaluation_date),
+             ('currency_reevaluation', '=', False),
+             ('journal_id.type', 'in', ('sale', 'purchase', 'general'))])
 
         created_ids = []
         vals = {'name': 'Currency update ' + period.code,
@@ -103,11 +110,11 @@ class currency_reevaluation(models.TransientModel):
                             balance += rec_line.debit - rec_line.credit
                             foreign_balance += rec_line.amount_currency
             if foreign_balance != 0.00:
-                rec_ids = []
 
                 new_amount = currency.with_context(ctx).compute(
                     foreign_balance, company_currency, round=True)
-                if datetime.strptime(line.date, "%Y-%m-%d").month == datetime.strptime(reevaluation_date, "%Y-%m-%d").month:
+                if line.date.month == datetime.strptime(reevaluation_date,
+                                                        "%Y-%m-%d").month:
                     # get current currency rate
                     date1 = datetime.strptime(line.date, "%Y-%m-%d")
                     ctx1.update({'date': date1})
@@ -143,7 +150,7 @@ class currency_reevaluation(models.TransientModel):
                         'move_id': move.id,
                         'journal_id': journal.id,
                         'account_id': account.id,
-                        'partner_id': line.partner_id.id,
+                        'partner_id': partner_id,
                         'period_id': period.id,
                         'debit': debit,
                         'credit': credit,
@@ -166,7 +173,8 @@ class currency_reevaluation(models.TransientModel):
                     move_line_obj.create(valsm)
 
                     move_lines = [
-                        move_line.id for move_line in aml.reconcile_partial_id.line_partial_ids]
+                        move_line.id for move_line in
+                        aml.reconcile_partial_id.line_partial_ids]
                     move_lines.append(line.id)
                     move_lines.append(part_move[0].id)
                     move_line_obj.browse(move_lines).reconcile_partial('auto')
@@ -174,17 +182,19 @@ class currency_reevaluation(models.TransientModel):
         created_ids.append(move_id)
 
         lines = []
-        query = """ SELECT DISTINCT ON (journal_id) j.id as journal_id, s.date AS date, s.balance_end_real as balance, c.id as currency_id
-                       FROM account_bank_statement s
-                       INNER JOIN account_journal j on s.journal_id = j.id
-                       INNER JOIN res_company com on s.company_id = com.id
-                       INNER JOIN res_currency c on ((j.currency is not null and j.currency = c.id))
-                       INNER JOIN
-                           (SELECT journal_id, max(date) as max_date FROM account_bank_statement
-                               WHERE date <= %(reevaluation_date)s::date AND state = 'confirm'
-                               GROUP BY journal_id) d ON (s.journal_id = d.journal_id AND s.date = d.max_date)
-                       WHERE j.company_id = %(company_id)s
-                       ORDER BY journal_id, date"""
+        query = """
+SELECT DISTINCT ON (journal_id) j.id as journal_id, s.date AS date,
+s.balance_end_real as balance, c.id as currency_id
+FROM account_bank_statement s
+INNER JOIN account_journal j on s.journal_id = j.id
+INNER JOIN res_company com on s.company_id = com.id
+INNER JOIN res_currency c on ((j.currency is not null and j.currency = c.id))
+INNER JOIN
+(SELECT journal_id, max(date) as max_date FROM account_bank_statement
+WHERE date <= %(reevaluation_date)s::date AND state = 'confirm'
+GROUP BY journal_id) d ON (s.journal_id = d.journal_id AND s.date = d.max_date)
+WHERE j.company_id = %(company_id)s
+ORDER BY journal_id, date"""
         params = {
             'reevaluation_date': reevaluation_date, 'company_id': company.id}
         self._cr.execute(query, params)
@@ -195,16 +205,13 @@ class currency_reevaluation(models.TransientModel):
 
             new_amount = currency.with_context(ctx).compute(
                 line['balance'], company_currency, round=True)
-            rec_ids = []
-
             ctx1.update({'date': False,
                          'fiscalyear': period.fiscalyear_id.id,
                          'date_from': period.fiscalyear_id.date_start,
                          'date_to': period.date_stop})
 
-            old_amount = journal.default_debit_account_id.with_context(ctx1).read(['balance'])[0]['balance']
-            print new_amount
-            print old_amount
+            old_amount = journal.default_debit_account_id.with_context(
+                ctx1).read(['balance'])[0]['balance']
             amount = new_amount - old_amount
             if amount != 0.00:
                 vals = {'name': 'Currency update ' + period.code,
