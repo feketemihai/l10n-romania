@@ -113,11 +113,12 @@ class currency_reevaluation(models.TransientModel):
 
                 new_amount = currency.with_context(ctx).compute(
                     foreign_balance, company_currency, round=True)
-                if line.date.month == datetime.strptime(reevaluation_date,
+                line_date = datetime.strptime(line.date, "%Y-%m-%d")
+                
+                if line_date.month == datetime.strptime(reevaluation_date,
                                                         "%Y-%m-%d").month:
                     # get current currency rate
-                    date1 = datetime.strptime(line.date, "%Y-%m-%d")
-                    ctx1.update({'date': date1})
+                    ctx1.update({'date': line_date})
                 else:
                     date1 = datetime.strptime(period.date_start, "%Y-%m-%d")
                     ctx1.update({'date': date1})
