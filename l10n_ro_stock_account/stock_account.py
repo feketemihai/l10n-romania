@@ -208,18 +208,18 @@ class stock_move(osv.Model):
             cr, uid, ids, context=context)
         for move in self.browse(cr, uid, ids, context=context):
             if move.picking_id:
-                self.write(cr, uid, [move.id], {'date': move.picking_id.date})
+                self.write(cr, uid, [move.id], {'date': move.picking_id.date}, context=context)
             if not move.acc_move_id:
                 self.create_account_move_lines(
                     cr, uid, [move.id], context=context)
         return res
 
     def action_cancel(self, cr, uid, ids, context=None):
-        acc_move_obj = self.pool.get('account.move.line')
+        acc_move_obj = self.pool.get('account.move')
         for move in self.browse(cr, uid, ids, context=context):
             if move.acc_move_id:
-                acc_move_obj.cancel(cr, uid, [move.acc_move_id.id])
-                acc_move_obj.unlink(cr, uid, [move.acc_move_id.id])
+                acc_move_obj.button_cancel(cr, uid, [move.acc_move_id.id], context=context)
+                acc_move_obj.unlink(cr, uid, [move.acc_move_id.id], context=context)
         return super(stock_move, self).action_cancel(cr, uid, ids, context=context)
 
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
@@ -624,7 +624,7 @@ class stock_quant(osv.Model):
                 if move.product_id.taxes_id and move.product_id.taxes_id[0].account_collected_id:
                     acc_src = move.product_id.taxes_id[
                         0].account_collected_id.id or False
-                if move.company_id.property_account_undeductible:
+                if move.company_id.property_undeductible_tax_account_id:
                     acc_dest = move.company_id and move.company_id.property_undeductible_tax_account_id and move.company_id.property_undeductible_tax_account_id.id or False
             if move_type == 'reception_diff':
                 # Receptions in location with inventory kept at list price
