@@ -230,19 +230,11 @@ class d394_report(osv.osv_memory):
                                                 ) or 0.00
 
                             for line in inv.invoice_line:
-                                taxes = tax_obj.compute_all(
-                                            cr, uid,
-                                            line.product_id.taxes_id,
-                                            line.price_subtotal,
-                                            1,
-                                            product=line.product_id,
-                                            partner=line.invoice_id.partner_id)
                                 tvainv += currency_obj.compute(
                                               cr, uid,
                                               inv.currency_id.id,
                                               comp_currency,
-                                              taxes['total_included'] -
-                                              taxes['total'],
+                                              line.price_normal_taxes-line.price_taxes,
                                               context={'date':
                                                        inv.date_invoice}
                                               ) or 0.00

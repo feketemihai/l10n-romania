@@ -54,4 +54,4 @@ target/
 
 
 # ANAF Data
-/l10n_ro_fiscal_validation/data
+!l10n_ro_fiscal_validation/data/
