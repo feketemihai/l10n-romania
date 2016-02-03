@@ -28,17 +28,10 @@ import openerp.addons.decimal_precision as dp
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
-<<<<<<< HEAD
-
 
     delegate_id = fields.Many2one('res.partner', string='Delegate',
                                   readonly=True, states={'draft': [('readonly', False)]}, domain=[('is_company', '=', False)])
-=======
-    delegate_id = fields.Many2one(
-        'res.partner', string='Delegate', readonly=True,
-        states={'draft': [('readonly', False)]},
-        domain=[('is_company', '=', False)])
->>>>>>> 280e9dcac10877a10521f8a5dfcbb5f3c6e081df
+ 
 
     mean_transp = fields.Char(
         string='Mean transport', readonly=True,
@@ -81,7 +74,7 @@ class account_invoice_line(models.Model):
             self.price_normal_taxes = self.invoice_id.currency_id.round(
                 self.price_normal_taxes)
 
-<<<<<<< HEAD
+ 
 
     sequence = fields.Integer(string='Sequence', default=1,
         help="Gives the sequence of this line when displaying the invoice.")
@@ -91,14 +84,8 @@ class account_invoice_line(models.Model):
 
     price_taxes = fields.Float(string='Taxes', digits=dp.get_precision('Account'),
                                store=True, readonly=True, compute='_compute_price')
-=======
-    price_unit_without_taxes = fields.Float(
-        string='Unit Price without taxes',
-        store=True, readonly=True, compute='_compute_price')
-    price_taxes = fields.Float(
-        string='Taxes', digits=dp.get_precision('Account'),
-        store=True, readonly=True, compute='_compute_price')
+ 
     price_normal_taxes = fields.Float(
         string='Normal Taxes', digits=dp.get_precision('Account'),
         store=True, readonly=True, compute='_compute_price')
->>>>>>> 280e9dcac10877a10521f8a5dfcbb5f3c6e081df
+ 
