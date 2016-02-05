@@ -57,7 +57,7 @@
 								</div>
 								<div t-if="bank.acc_number">
 									<strong>Account:</strong>
-									<span t-field="bank.acc_number" />
+									<span t-field="bank.acc_number" /> - <strong t-if="bank.currency_id"> <span t-field="bank.currency_id" /></strong><strong t-if="not bank.currency_id"> <span t-field="res_company.currency_id" /></strong>
 								</div>
 							</t>
 						</div>
@@ -70,7 +70,7 @@
 							</div>
 							<div t-if="bank.acc_number">
 								<strong>Account:</strong>
-								<span t-field="bank.acc_number" />
+								<span t-field="bank.acc_number" /> - <strong t-if="bank.currency_id"> <span t-field="bank.currency_id" /></strong>
 							</div>
 						</div>
 					</div>
