@@ -90,7 +90,6 @@ Holidays
         'views/hr_holidays.xml',
         'views/hr_meal_vouchers.xml',
         'views/hr_wage_history.xml',
-        'views/hr_public_holidays.xml',
         'wizard/attendance_fulfill_view.xml',
         'wizard/hr_attendance_bymonth_view.xml',
         # workflows
@@ -100,8 +99,6 @@ Holidays
         'data/hr.wage.history.csv',
         'data/hr.employee.category.csv',
         'data/hr.holidays.status.csv',
-        'data/hr.holidays.public.csv',
-        'data/hr.holidays.public.line.csv',
         'data/hr.contribution.register.csv',
         # report
         'report/hr_meal_vouchers.xml',

@@ -97,6 +97,21 @@ class hr_holidays(models.Model):
                     self.diag_code == self.initial_id.diag_code):
                 raise ValidationError("Wrong Initial Sick Leave")
 
+    @api.one
+    def _get_holiday_days(self):
+        emp_days = 0
+        comp_days = 0
+        if self.is_sick_leave:
+            if self.initial_id:
+                emp_days += self.initial_id.number_of_days_temp
+            if emp_days <= self.holiday_status_id.employer_days:
+                emp_days = self.holiday_status_id.employer_days - emp_days
+        if self.number_of_days_temp <= emp_days:
+            emp_days = self.number_of_days_temp
+        comp_days = self.number_of_days_temp - emp_days
+        self.employer_days = emp_days
+        self.company_days = comp_days
+
     is_sick_leave = fields.Boolean(
         related = 'holiday_status_id.is_sick_leave',
         readonly = True, store = True)
@@ -107,198 +122,6 @@ class hr_holidays(models.Model):
     medical_emergency = fields.Boolean(
         'Medical Emergency', related = 'holiday_status_id.emergency',
         readonly=True, store = True)
-    initial_id = fields.Many2one('hr.holidays', 'Initial Sick Leave', copy = False)
-
-    @api.one
-    def get_employer_days(self):
-        res = 0
-        if self.is_sick_leave is False:
-            return res
-
-        if self.holiday_status_id.employer_days == 0:
-            return res
-
-        ph_obj = self.env['hr.holidays.public']
-        day_from = datetime.strptime(date_from,"%Y-%m-%d").replace(
-            hour = 0, minute = 0, second = 0)
-        day_to = datetime.strptime(date_to,"%Y-%m-%d").replace(
-            hour = 23, minute = 59, second = 59)
-        nb_of_days = (day_to - day_from).days + 1
-
-        if nb_of_days > self.holiday_status_id.employer_days:
-            nb_of_days = self.holiday_status_id.employer_days
-        contract = self.employee_id.contract_id
-
-        for day in range(0, nb_of_days):
-            curr_day = (day_from + timedelta(days = day)).\
-                replace(hour=0,minute=0)
-
-            if not ph_obj.is_holiday(
-                    curr_day, self.employee_id.category_ids.ids):
-                continue
-
-            working_hours = contract.working_hours.\
-                get_working_hours_of_date(start_dt = curr_day).pop()
-            if working_hours:
-                res += 1
-        return res
-            
-
-    @api.one
-    def get_rest_days(self):
-        res = 0
-        if self.is_sick_leave is False:
-            return res
-
-        day_from = datetime.strptime(date_from,"%Y-%m-%d").replace(
-            hour = 0, minute = 0, second = 0) + timedelta(
-            days = self.holiday_status_id.employer_days)
-        day_to = datetime.strptime(date_to,"%Y-%m-%d").replace(
-            hour = 23, minute = 59, second = 59)
-
-        if day_from >= day_to:
-            return 0
-
-        nb_of_days = (day_to - day_from).days + 1
-        contract = self.employee_id.contract_id
-
-        for day in range(0, nb_of_days):
-            curr_day = (day_from + timedelta(days = day)).\
-                replace(hour=0,minute=0)
-
-            if not ph_obj.is_holiday(
-                    curr_day, self.employee_id.category_ids.ids):
-                continue
-
-            working_hours = contract.working_hours.\
-                get_working_hours_of_date(start_dt = curr_day).pop()
-            if working_hours:
-                res += 1
-        return res
-        
-
-    @api.model
-    def _create_resource_leave(self, leaves):
-        '''
-        This method will create entry in resource calendar leave object at
-        the time of holidays validated.
-        '''
-        obj_res_leave = self.env['resource.calendar.leaves']
-        for leave in leaves:
-            # from utc to user's tz
-            date_from = fields.Datetime.context_timestamp(
-                leave, datetime.strptime(leave.date_from,
-                tools.DEFAULT_SERVER_DATETIME_FORMAT)).strftime(
-                tools.DEFAULT_SERVER_DATETIME_FORMAT)
-                
-            date_to = fields.Datetime.context_timestamp(
-                leave, datetime.strptime(leave.date_to,
-                tools.DEFAULT_SERVER_DATETIME_FORMAT)).strftime(
-                tools.DEFAULT_SERVER_DATETIME_FORMAT)
-
-            vals = {
-                'name': leave.name,
-                'date_from': date_from,
-                'holiday_id': leave.id,
-                'date_to': date_to,
-                'resource_id': leave.employee_id.resource_id.id,
-                'calendar_id': leave.employee_id.resource_id.calendar_id.id
-            }
-            obj_res_leave.create(vals)
-        return True
-        
-
-    @api.cr_uid_ids
-    def onchange_date_from(self, cr, uid, ids, date_to, date_from):
-        """
-        If there are no date set for date_to, automatically set one 8 hours later than
-        the date_from.
-        Also update the number_of_days.
-        """
-        holiday = self.browse(cr, uid, ids[0])
-        if holiday.is_sick_leave:
-            super(hr_holidays, self).onchange_date_from(cr, uid, ids, date_to, date_from)
-        
-        # date_to has to be greater than date_from
-        if (date_from and date_to) and (date_from > date_to):
-            raise osv.except_osv(_('Warning!'),_('The start date must be anterior to the end date.'))
-
-        result = {'value': {}}
-
-        # No date_to set so far: automatically compute one 8 hours later
-        if date_from and not date_to:
-            date_to_with_delta = datetime.datetime.strptime(date_from, tools.DEFAULT_SERVER_DATETIME_FORMAT) + datetime.timedelta(hours=8)
-            result['value']['date_to'] = str(date_to_with_delta)
-                
-        number_of_days_temp = 0.00
-        day_from = datetime.strptime(date_from, tools.DEFAULT_SERVER_DATETIME_FORMAT).replace(
-            hour = 0, minute = 0, second = 0)
-        day_to = datetime.strptime(date_to, tools.DEFAULT_SERVER_DATETIME_FORMAT).replace(
-            hour = 23, minute = 59, second = 59)
-        nb_of_days = (day_to - day_from).days + 1
-        #get employee contract and compute days from contract scheduler, if not get days not counting weekends
-        contract = self.pool['hr.payslip'].get_contract(cr, uid, holiday.employee_id, date_from, date_to)
-        if contract:
-            contract = self.pool['hr.contract'].browse(cr, uid, contract[0])
-            if contract.working_hours:
-                for day in range(0, nb_of_days):
-                    curr_day = (day_from + timedelta(days = day)).\
-                        replace(hour=0,minute=0)
-                    working_hours = contract.working_hours.\
-                        get_working_hours(curr_day, curr_day,
-                            compute_leaves = True).pop()
-                    if working_hours > 0:
-                        number_of_days_temp += 1
-        else:
-            for day in range(0, nb_of_days):
-                curr_day = (day_from + timedelta(days = day)).\
-                    replace(hour=0,minute=0)
-                if curr_day.weekday() in [0, 1, 2, 3, 4]:
-                    number_of_days_temp += 1
-
-        result['value']['number_of_days_temp'] = number_of_days_temp
-        return result
-
-    @api.cr_uid_ids
-    def onchange_date_to(self, cr, uid, ids, date_to, date_from):
-        """
-        Update the number_of_days.
-        """
-        holiday = self.browse(cr, uid, ids[0])
-        if holiday.is_sick_leave:
-            super(hr_holidays, self).onchange_date_from(cr, uid, ids, date_to, date_from)
-        
-        # date_to has to be greater than date_from
-        if (date_from and date_to) and (date_from > date_to):
-            raise osv.except_osv(_('Warning!'),_('The start date must be anterior to the end date.'))
-
-        result = {'value': {}}
-
-        number_of_days_temp = 0.00
-        day_from = datetime.strptime(date_from, tools.DEFAULT_SERVER_DATETIME_FORMAT).replace(
-            hour = 0, minute = 0, second = 0)
-        day_to = datetime.strptime(date_to, tools.DEFAULT_SERVER_DATETIME_FORMAT).replace(
-            hour = 23, minute = 59, second = 59)
-        nb_of_days = (day_to - day_from).days + 1
-        #get employee contract and compute days from contract scheduler, if not get days not counting weekends
-        contract = self.pool['hr.payslip'].get_contract(cr, uid, holiday.employee_id, date_from, date_to)
-        if contract:
-            contract = self.pool['hr.contract'].browse(cr, uid, contract[0])
-            if contract.working_hours:
-                for day in range(0, nb_of_days):
-                    curr_day = (day_from + timedelta(days = day)).\
-                        replace(hour=0,minute=0)
-                    working_hours = contract.working_hours.\
-                        get_working_hours(curr_day, curr_day,
-                            compute_leaves = True).pop()
-                    if working_hours > 0:
-                        number_of_days_temp += 1
-        else:
-            for day in range(0, nb_of_days):
-                curr_day = (day_from + timedelta(days = day)).\
-                    replace(hour=0,minute=0)
-                if curr_day.weekday() in [0, 1, 2, 3, 4]:
-                    number_of_days_temp += 1
-
-        result['value']['number_of_days_temp'] = number_of_days_temp
-        return result
+    initial_id = fields.Many2one('hr.holidays', 'Initial Sick Leave', copy = False)    
+    employer_days = fields.Integer(_('# Days by Employer'), compute='_get_holiday_days')
+    company_days = fields.Integer(_('# Days by Company'), compute='_get_holiday_days')

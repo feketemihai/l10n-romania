@@ -20,7 +20,6 @@
 ##############################################################################
 
 import hr_wage_history
-import hr_public_holidays
 import hr_holidays
 import hr_contract
 import hr_employee

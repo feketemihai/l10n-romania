@@ -1,5 +1,4 @@
 "id","name","color_name","limit","is_sick_leave","indemn_code","emergency","percentage","employer_days","max_days"
-"hr_holidays_status_nat","National Holidays","Wheat","1",,,,,,
 "hr_holidays_status_cm_01","Boală obișnuită","violet","1","1","01",,"75","5","183"
 "hr_holidays_status_cm_02","Accident în timpul deplasării la/de la locul de muncă","violet","1","1","02",,"80","3","183"
 "hr_holidays_status_cm_02u","Accident în timpul deplasării la/de la locul de muncă [URG]","violet","1","1","02","1","100","3","183"

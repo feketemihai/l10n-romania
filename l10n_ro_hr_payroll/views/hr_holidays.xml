@@ -44,7 +44,13 @@
 							<field name="medical_emergency"/>
 							<field name="initial_id" domain="[('employee_id','=', employee_id)]"/>
 						</group>
-					</group> 
+					</group>
+					<group colspan="4" string="Holiday Days" name="hdays" attrs="{'invisible': [('is_sick_leave', '=', False)]}">
+						<group>
+							<field name="employer_days"/>
+							<field name="company_days"/>
+						</group>
+					</group>
                 </xpath>
             </field>
         </record>
