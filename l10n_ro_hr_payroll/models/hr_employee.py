@@ -36,11 +36,7 @@ class hr_employee(models.Model):
         date = datetime.now().date()
         year = str(date.year)
         res = 0.0
-        for ph in pubhol.search([
-                    ('year', '>=', year),
-                    ('state', '=', 'close'),
-                    ('category_id', 'in', tuple(self.category_ids.ids)),
-                ]):
+        for ph in pubhol.search([('year', '>=', year)]):
             res += ph.line_ids.search_count([
                 ('date', '>=', str(date)),
                 ('holidays_id', '=', ph.id)
