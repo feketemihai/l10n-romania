@@ -41,6 +41,7 @@
                         <page string="Config">
                             <group>
                                 <field name="type"/>
+                                <field name="close_result"/>
                                 <field name="debit_account_id"/>
                                 <field name="credit_account_id"/>
                             </group>
