@@ -22,6 +22,14 @@
 
 from openerp import models, fields, api, _
 
+class account_account(models.Model):
+    _inherit = 'account.account'
+
+    close_check = fields.Boolean('Bypass Closing Side Check',
+        help='By checking this when you close a period, it will not respect '
+             'the side of closing, meaning: expenses closed on credit side, '
+             'incomed closed on debit side. \n You should check the 711xxx '
+             'accounts.')
 
 class account_move(models.Model):
     _inherit = 'account.move'
@@ -99,7 +107,8 @@ class account_period_closing(models.Model):
         sum = 0.0
         for account in accounts:
             if account['balance'] != 0.0:
-                if closing.type == 'expense':
+                check = account_obj.browse(account['id']).close_check
+                if closing.type == 'expense' and not check:
                     val = {
                         'name': 'Closing ' + closing.name,
                         'date': date,
@@ -111,7 +120,7 @@ class account_period_closing(models.Model):
                         'journal_id': journal,
                         'period_id': period,
                     }
-                elif closing.type == 'income':
+                elif closing.type == 'income' and not check:
                     val = {
                         'name': 'Closing ' + closing.name,
                         'date': date,
