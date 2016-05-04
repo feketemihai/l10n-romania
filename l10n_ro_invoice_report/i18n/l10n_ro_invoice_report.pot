@@ -105,7 +105,7 @@ msgstr ""
 
 #. module: l10n_ro_invoice_report
 #: view:website:account.report_invoice_document
-msgid "Invoice circulate without signature and stamp according to the law 571/2003, rule 115, paragraph 6"
+msgid "Invoice circulate without signature and stamp according to the law 227/2015, rule 319, paragraph 29"
 msgstr ""
 
 #. module: l10n_ro_invoice_report

@@ -73,7 +73,7 @@ class currency_reevaluation(models.TransientModel):
 
         expense_acc = company.expense_currency_exchange_account_id.id
         income_acc = company.income_currency_exchange_account_id.id
-        
+
         # get account move lines with foreign currency posted before
         # reevaluation date (end of period)
         # balance and foreign balance are not taking in consideration newer
@@ -110,21 +110,23 @@ class currency_reevaluation(models.TransientModel):
                                 balance += rec_line.debit - rec_line.credit
                                 foreign_balance += rec_line.amount_currency
                 if foreign_balance != 0.00:
-
                     new_amount = currency.with_context(ctx).compute(
                         foreign_balance, company_currency, round=True)
                     line_date = datetime.strptime(line.date, "%Y-%m-%d")
-                
-                    if line_date.month == datetime.strptime(reevaluation_date,
-                                                            "%Y-%m-%d").month:
+                    reval_date = datetime.strptime(reevaluation_date,
+                                                   "%Y-%m-%d")
+
+                    if line_date.year == reval_date.year and
+                    line_date.month == reval_date.month:
                         # get current currency rate
                         ctx1.update({'date': line_date})
                     else:
-                        date1 = datetime.strptime(period.date_start, "%Y-%m-%d")
+                        date1 = datetime.strptime(period.date_start,
+                                                  "%Y-%m-%d")
                         ctx1.update({'date': date1})
                     old_amount = currency.with_context(ctx1).compute(
                          foreign_balance, company_currency, round=True)
-                    amount = round(new_amount - old_amount,2)
+                    amount = round(new_amount - old_amount, 2)
                     if amount != 0.00:
                         partner_id = line.partner_id.id
                         if amount > 0:
@@ -138,7 +140,7 @@ class currency_reevaluation(models.TransientModel):
 
                         ref = 'Currency update ' + \
                             str(foreign_balance) + ' ' + str(currency.name) + \
-                            ' '  + str(line.move_id.name)
+                            ' ' + str(line.move_id.name)
                         valsm = {
                             'name': ref,
                             'ref': ref,
@@ -167,12 +169,13 @@ class currency_reevaluation(models.TransientModel):
                         }
                         move_line_obj.create(valsm)
 
-                        move_lines = [
+                        move_lines_ids = [
                             move_line.id for move_line in
                             aml.reconcile_partial_id.line_partial_ids]
-                        move_lines.append(line.id)
-                        move_lines.append(part_move[0].id)
-                        move_line_obj.browse(move_lines).reconcile_partial('auto')
+                        move_lines_ids.append(line.id)
+                        move_lines_ids.append(part_move[0].id)
+                        move_lines = move_line_obj.browse(move_lines_ids)
+                        move_lines.reconcile_partial('auto')
             move.post()
             created_ids.append(move_id)
 
@@ -207,7 +210,7 @@ ORDER BY journal_id, date"""
 
             old_amount = journal.default_debit_account_id.with_context(
                 ctx1).read(['balance'])[0]['balance']
-            amount = round(new_amount - old_amount,2)
+            amount = round(new_amount - old_amount, 2)
             if amount != 0.00:
                 vals = {'name': 'Currency update ' + period.code,
                         'journal_id': journal.id,
