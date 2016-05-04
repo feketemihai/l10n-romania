@@ -116,8 +116,8 @@ class currency_reevaluation(models.TransientModel):
                     reval_date = datetime.strptime(reevaluation_date,
                                                    "%Y-%m-%d")
 
-                    if line_date.year == reval_date.year and
-                    line_date.month == reval_date.month:
+                    if (line_date.year == reval_date.year and
+                            line_date.month == reval_date.month):
                         # get current currency rate
                         ctx1.update({'date': line_date})
                     else:
