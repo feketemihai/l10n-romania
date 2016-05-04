@@ -1,0 +1,164 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data noupdate="0">
+		
+		<!-- Venit Brut -->
+		
+		<record id="venitbrut" model="hr.salary.rule.category">
+			<field name="code">VBRUT</field>
+			<field name="name">VENIT BRUT</field>
+		</record>
+		<record id="salarrealizat" model="hr.salary.rule.category">
+			<field name="code">REAL</field>
+			<field name="name">SALAR REALIZAT</field>
+			<field name="parent_id" ref="venitbrut"/>
+		</record>		
+		<record id="concedii" model="hr.salary.rule.category">
+			<field name="code">CONC</field>
+			<field name="name">CONCEDII</field>
+			<field name="parent_id" ref="venitbrut"/>
+		</record>
+		<record id="concediimedicale" model="hr.salary.rule.category">
+			<field name="code">MED</field>
+			<field name="name">CONCEDII MEDICALE</field>
+			<field name="parent_id" ref="venitbrut"/>
+		</record>
+		<record id="premiiregularizari" model="hr.salary.rule.category">
+			<field name="code">PREM</field>
+			<field name="name">PREMII / REGULARIZARI</field>
+			<field name="parent_id" ref="venitbrut"/>
+		</record>
+		<record id="sporuri" model="hr.salary.rule.category">
+			<field name="code">SPOR</field>
+			<field name="name">SPORURI</field>
+			<field name="parent_id" ref="venitbrut"/>
+		</record>
+		
+		<!-- Contributii Angajat -->
+		
+		<record id="contributiiangajat" model="hr.salary.rule.category">
+			<field name="code">ANG</field>
+			<field name="name">CONTRIBUTII ANGAJAT</field>
+		</record>
+		<record id="somajangajat" model="hr.salary.rule.category">
+			<field name="code">ANG_SOMAJ</field>
+			<field name="name">SOMAJ ANGAJAT</field>
+			<field name="parent_id" ref="contributiiangajat"/>
+		</record>
+		<record id="casangajat" model="hr.salary.rule.category">
+			<field name="code">ANG_CAS</field>
+			<field name="name">CAS ANGAJAT</field>
+			<field name="parent_id" ref="contributiiangajat"/>
+		</record>
+		<record id="cassangajat" model="hr.salary.rule.category">
+			<field name="code">ANG_CASS</field>
+			<field name="name">CASS ANGAJAT</field>
+			<field name="parent_id" ref="contributiiangajat"/>
+		</record>
+		
+		<!-- Venit Net -->
+		
+		<record id="venitnet" model="hr.salary.rule.category">
+			<field name="code">VNET</field>
+			<field name="name">VENIT NET</field>
+		</record>
+		
+		<!-- Cheltuieli Deductibile si Deduceri -->
+		
+		<record id="cheltdeduceri" model="hr.salary.rule.category">
+			<field name="code">CHDED</field>
+			<field name="name">CHELTUIELI DEDUCTIBILE SI DEDUCERI</field>
+		</record>
+		
+		<record id="cheltded" model="hr.salary.rule.category">
+			<field name="code">CHDED</field>
+			<field name="name">CHELTUIELI DEDUCTIBILE</field>
+			<field name="parent_id" ref="cheltdeduceri"/>
+		</record>
+		<record id="deducerebaza" model="hr.salary.rule.category">
+			<field name="code">DED</field>
+			<field name="name">DEDUCERE BAZA</field>
+			<field name="parent_id" ref="cheltdeduceri"/>
+		</record>
+		<record id="deduceresupl" model="hr.salary.rule.category">
+			<field name="code">DEDS</field>
+			<field name="name">DEDUCERE SUPLIMENTARA</field>
+			<field name="parent_id" ref="cheltdeduceri"/>
+		</record>
+		
+		<!-- Venit Impozabil -->
+		
+		<record id="venitimpozabil" model="hr.salary.rule.category">
+			<field name="code">VIMP</field>
+			<field name="name">VENIT IMPOZABIL</field>
+		</record>
+		
+		<!-- Impozit -->
+		
+		<record id="impozit" model="hr.salary.rule.category">
+			<field name="code">IMP</field>
+			<field name="name">IMPOZIT</field>
+		</record>
+		
+		<!-- Salar Net-->
+		
+		<record id="salarnet" model="hr.salary.rule.category">
+			<field name="code">NET</field>
+			<field name="name">SALAR NET</field>
+		</record>
+		
+		<record id="avans" model="hr.salary.rule.category">
+			<field name="code">AVANS</field>
+			<field name="name">AVANS</field>
+		</record>
+		<record id="tichetedemasa" model="hr.salary.rule.category">
+			<field name="code">TIC</field>
+			<field name="name">TICHETE DE MASA</field>
+		</record>
+		<record id="retineri" model="hr.salary.rule.category">
+			<field name="code">RET</field>
+			<field name="name">RETINERI</field>
+		</record>
+		<record id="restplata" model="hr.salary.rule.category">
+			<field name="code">REST</field>
+			<field name="name">REST PLATA</field>
+		</record>
+		
+		<!-- Contributii Angajator-->
+		
+		<record id="contributiiangajator" model="hr.salary.rule.category">
+			<field name="code">COMP</field>
+			<field name="name">CONTRIBUTII ANGAJATOR</field>
+		</record>	
+		<record id="somajangajator" model="hr.salary.rule.category">
+			<field name="code">COMP_SOMAJ</field>
+			<field name="name">SOMAJ ANGAJATOR</field>
+			<field name="parent_id" ref="contributiiangajator"/>
+		</record>
+		<record id="casangajator" model="hr.salary.rule.category">
+			<field name="code">COMP_CAS</field>
+			<field name="name">CAS ANGAJATOR</field>
+			<field name="parent_id" ref="contributiiangajator"/>
+		</record>
+		<record id="cassangajator" model="hr.salary.rule.category">
+			<field name="code">COMP_CASS</field>
+			<field name="name">CASS ANGAJATOR</field>
+			<field name="parent_id" ref="contributiiangajator"/>
+		</record>
+		<record id="fondconcediimedicale" model="hr.salary.rule.category">
+			<field name="code">COMP_FCON</field>
+			<field name="name">FOND CONCEDII MEDICALE</field>
+			<field name="parent_id" ref="contributiiangajator"/>
+		</record>
+		<record id="fondaccidente" model="hr.salary.rule.category">
+			<field name="code">COMP_FACC</field>
+			<field name="name">FOND ACCIDENTE</field>
+			<field name="parent_id" ref="contributiiangajator"/>
+		</record>
+		<record id="fondgarantaresalarii0" model="hr.salary.rule.category">
+			<field name="code">COMP_FSAL</field>
+			<field name="name">FOND GARANTARE SALARII</field>
+			<field name="parent_id" ref="contributiiangajator"/>
+		</record>
+    </data> 
+</openerp>
