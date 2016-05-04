@@ -160,7 +160,7 @@
 
 			<xpath expr="//p[@t-if='o.comment']" position="after">
 				<p t-if="o.type == 'out_invoice'">
-					<span>Invoice circulate without signature and stamp according to the law 571/2003, rule 115, paragraph 6
+					<span>Invoice circulate without signature and stamp according to the law 227/2015, rule 319, paragraph 29
 					</span>
 				</p>
 
