@@ -25,7 +25,6 @@
     "website": "http://opennet.ro",
     "category": "Localization/Payroll",
     "depends": [
-        'hr_holidays',
         'hr_public_holidays',
         'hr_payroll',
         'l10n_ro_hr',
@@ -83,8 +82,8 @@ Holidays
     """,
     'data': [
         # views
+        'views/hr_employee_view.xml',
         'views/hr_payroll.xml',
-        'views/hr_advantages.xml',
         'views/hr_contract.xml',
         'views/res_company.xml',
         'views/hr_holidays.xml',
@@ -92,19 +91,18 @@ Holidays
         'views/hr_wage_history.xml',
         'wizard/attendance_fulfill_view.xml',
         'wizard/hr_attendance_bymonth_view.xml',
-        # workflows
-        'workflows/hr_public_holidays_workflow.xml',
         # data
         'data/res.partner.csv',
         'data/hr.wage.history.csv',
-        'data/hr.employee.category.csv',
         'data/hr.holidays.status.csv',
-        'data/hr.contribution.register.csv',
+        'data/hr_salary_rule_category.xml',
+        'data/hr_salary_rule.xml',
         # report
         'report/hr_meal_vouchers.xml',
         'report/report_meal_vouchers_template.xml',
         'report/hr_attendance_by_month.xml',
         # model access
+        'security/hr_security.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True,

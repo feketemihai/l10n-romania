@@ -42,15 +42,15 @@ class hr_wage_history(models.Model):
 
     @api.model
     def get_medium_wage(self, dt):
-        res = self.search([('date', '=', dt.date())])
+        res = self.search([('date', '<=', dt.date())])
         return res.med_wage
 
     @api.model
     def get_minimum_wage(self, dt):
-        res = self.search([('date', '=', dt.date())])
+        res = self.search([('date', '<=', dt.date())])
         return res.min_wage
 
     @api.model
     def get_ceiling(self, dt):
-        res = self.search([('date', '=', dt.date())])
+        res = self.search([('date', '<=', dt.date())])
         return res.ceiling_min_wage

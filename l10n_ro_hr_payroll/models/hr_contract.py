@@ -19,42 +19,12 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
+from openerp import models, fields
 
-class hr_advantages(models.Model):
-    _name = 'hr.advantages'
-    _description = 'Advantages'
-
-    company = fields.Many2one('res.company', _('Company'), required = True,
-                              default=lambda self: self.env['res.company'].\
-                              _company_default_get('hr.advantages'))
-    code = fields.Char(_('Code'), required = True, help = _('Advantage code'))
-    name = fields.Char(_('Name'), required = True, help = _('Advantage name'))
-    amount = fields.Float(_('Amount'), help = _('Advantage amount'))
-    
-class hr_contract_advantages(models.Model):
-    _name = 'hr.contract.advantages'
-    _description = 'Contract Advantages'
-
-    @api.one
-    @api.onchange('advantage')
-    def _set_amount_default(self):
-        if self.advantage.amount and self.amount is False:
-            self.amount = self.advantage.amount
-
-    contract_id = fields.Many2one(
-        'hr.contract', _('Contract'), required = True)
-    advantage = fields.Many2one(
-        'hr.advantages', _('Advantage'), required = True)
-    code = fields.Char(related = 'advantage.code')
-    name = fields.Char(related = 'advantage.name')
-    amount = fields.Float(_('Amount'), help = _('Advantage amount'))
 
 class hr_contract(models.Model):
     _inherit = 'hr.contract'
 
-    advantage_ids = fields.One2many('hr.contract.advantages',
-        'contract_id', string="Advantages", copy = False)
     programmer_or_handicaped = fields.Boolean(
         'Programmer or Handicaped', default = False, copy = False)
     net_wage = fields.Float('Expected Net Wage')

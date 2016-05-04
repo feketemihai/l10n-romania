@@ -94,10 +94,12 @@ class hr_holidays(models.Model):
                 raise Warning("Set Diagnostic Code")
             if self.initial_id.date_to is not False and not \
                     (self.initial_id.date_to[:10] == self.date_from[:10] or \
-                    self.diag_code == self.initial_id.diag_code):
-                raise ValidationError("Wrong Initial Sick Leave")
+                    (self.initial_id.holidays_status_id.id == self.holidays_status_id.id and 
+                    self.diag_code == self.initial_id.diag_code)):
+                raise ValidationError("Wrong Initial Sick Leave for type and Diagnostci Code")
 
     @api.one
+    @api.depends('date_from',' date_to', 'holiday_status_id')
     def _get_holiday_days(self):
         emp_days = 0
         comp_days = 0
@@ -110,7 +112,24 @@ class hr_holidays(models.Model):
             emp_days = self.number_of_days_temp
         comp_days = self.number_of_days_temp - emp_days
         self.employer_days = emp_days
-        self.company_days = comp_days
+        self.budget_days = comp_days
+
+    @api.one
+    @api.depends('date_from',' date_to', 'holiday_status_id')
+    def _get_holiday_daily_base(self):
+        daily_base = 0
+        if self.is_sick_leave:
+            if self.initial_id:
+                daily_base = self.initial_id.daily_base
+            else:
+                daily_base = self.employee_id._get_holiday_base(date=self.date_from)
+                daily_base = daily_base * self.holiday_status_id.percentage / 100
+            self.employer_amount = self.employer_days * daily_base
+            self.budget_amount = self.budget_days * daily_base
+            self.total_amount = self.number_of_days * daily_base
+        else:
+            daily_base = self.employee_id._get_holiday_base(date=self.date_from)
+        self.daily_base = daily_base
 
     is_sick_leave = fields.Boolean(
         related = 'holiday_status_id.is_sick_leave',
@@ -123,5 +142,9 @@ class hr_holidays(models.Model):
         'Medical Emergency', related = 'holiday_status_id.emergency',
         readonly=True, store = True)
     initial_id = fields.Many2one('hr.holidays', 'Initial Sick Leave', copy = False)    
-    employer_days = fields.Integer(_('# Days by Employer'), compute='_get_holiday_days')
-    company_days = fields.Integer(_('# Days by Company'), compute='_get_holiday_days')
+    employer_days = fields.Integer(_('# Days by Employer'), compute='_get_holiday_days', store=True)
+    budget_days = fields.Integer(_('# Days by Social Security'), compute='_get_holiday_days', store=True)
+    daily_base = fields.Float(_('Daily Base'), compute='_get_daily_base', store=True)
+    employer_amount = fields.Float(_('Amount by Employer'), compute='_get_daily_base', store=True)
+    budget_amount = fields.Float(_('Amount by Social Sevcurity'), compute='_get_daily_base', store=True)
+    total_amount = fields.Float(_('Total Amount'), compute='_get_daily_base', store=True)

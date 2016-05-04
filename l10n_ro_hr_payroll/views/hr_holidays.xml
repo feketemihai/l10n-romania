@@ -21,6 +21,7 @@
 							<group col="2">
 								<field name="employer_days"/>
 								<field name="max_days"/>
+								<field name="hourly_base"/>
 							</group>
 						</group>
 					</page>
@@ -48,7 +49,8 @@
 					<group colspan="4" string="Holiday Days" name="hdays" attrs="{'invisible': [('is_sick_leave', '=', False)]}">
 						<group>
 							<field name="employer_days"/>
-							<field name="company_days"/>
+							<field name="budget_days"/>
+							<field name="hourly_base"/>
 						</group>
 					</group>
                 </xpath>

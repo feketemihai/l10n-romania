@@ -23,6 +23,18 @@ from datetime import datetime, timedelta
 import pytz
 
 from openerp import models, fields, api, tools, _
+from openerp.exceptions import ValidationError
+
+class hr_payslip_worked_days(models.Model):
+    _inherit = 'hr.payslip.worked_days'
+
+    daily_base = fields.Float(_('Daily Base'))
+    employer_days = fields.Integer(_('# Days by Employer'))
+    budget_days = fields.Integer(_('# Days by Social Security'))
+    employer_amount = fields.Float(_('Amount by Employer'))
+    budget_amount = fields.Float(_('Amount by Social Sevcurity'))
+    total_amount = fields.Float(_('Total Amount'))
+
 
 class hr_payslip(models.Model):
     _inherit = 'hr.payslip'
@@ -35,64 +47,28 @@ class hr_payslip(models.Model):
         rs.ensure_one()
         return rs
 
-    @api.one
-    def get_payslip_wage(self, period = 1):
-        pass
-
-    def _get_calendar_leaves(self, resource_id, day_from, day_to):
-        cal_leaves = {}
-        DFMT = tools.DEFAULT_SERVER_DATETIME_FORMAT
-        self.env.cr.execute("""
-        SELECT
-            id, holiday_id, date_from, date_to
-        FROM
-            resource_calendar_leaves
-        WHERE
-            resource_id = %d
-        AND (date_from, date_to) OVERLAPS ('%s'::TIMESTAMP, '%s'::TIMESTAMP)
-        """ % (resource_id, str(day_from), str(day_to)))
-        cal_leaves = []
-        for x in self.env.cr.fetchall():
-            leave = {
-                'leave': self.env['hr.holidays'].browse(x[1]),
-                'period': (
-                    datetime.strptime(x[2], DFMT),
-                    datetime.strptime(x[3], DFMT)
-                ),
-                'date_period': (
-                    datetime.strptime(x[2], DFMT).date(),
-                    datetime.strptime(x[3], DFMT).date()
-                ),
-            }
-            cal_leaves.append(leave)
-        return cal_leaves
-
-    def _was_on_leave(self, day, calendar_leaves):
-        res = []
-        for x in calendar_leaves:
-            if day >= x['date_period'][0] and \
-                    day <= x['date_period'][1]:
-                res += [(
-                    x['leave'],
-                    x['period']
-                )]
-        return res
-
-    # overridden to get proper leave codes
     @api.model
     def get_worked_day_lines(self, contract_ids, date_from, date_to):
-        # pot sa am 10 contracte dar unul singur de salar
+        """
+        @param contract_ids: list of contract id
+        @return: returns a list of dict containing the input that should be
+                 applied for the given contract between date_from and date_to
+        """
+        def was_on_leave(employee_id, datetime_day):
+            res = False
+            day = datetime_day.strftime("%Y-%m-%d")
+            res = self.env['hr.holidays'].search([
+                ('state', '=', 'validate'),
+                ('employee_id', '=', employee_id),
+                ('type', '=', 'remove'),
+                ('date_from', '<=', day),
+                ('date_to', '>=', day)])
+            return res
+
         res = []
-        ph_obj = self.env['hr.holidays.public']
-        day_from = datetime.strptime(date_from,"%Y-%m-%d").replace(
-            hour = 0, minute = 0, second = 0)
-        day_to = datetime.strptime(date_to,"%Y-%m-%d").replace(
-            hour = 23, minute = 59, second = 59)
-        nb_of_days = (day_to - day_from).days + 1
-    
         for contract in self.env['hr.contract'].browse(contract_ids):
             if not contract.working_hours:
-                #fill only if the contract as a working schedule linked
+                # fill only if the contract as a working schedule linked
                 continue
             attendances = {
                  'name': _("Normal Working Days paid at 100%"),
@@ -102,79 +78,114 @@ class hr_payslip(models.Model):
                  'number_of_hours': 0.0,
                  'contract_id': contract.id,
             }
-
-            calendar_leaves = self._get_calendar_leaves(
-                contract.employee_id.id, day_from, day_to)
             leaves = {}
+            day_from = datetime.strptime(date_from, "%Y-%m-%d")
+            day_to = datetime.strptime(date_to, "%Y-%m-%d")
+            nb_of_days = (day_to - day_from).days + 1
             for day in range(0, nb_of_days):
-                curr_day = (day_from + timedelta(days = day)).\
-                    replace(hour=0,minute=0)
-
-                #if not ph_obj.is_holiday(
-                #        curr_day, self.employee_id.category_ids.ids):
-                #    continue
-
-                _leave = self._was_on_leave(curr_day.date(), calendar_leaves)
-                if _leave == []:
-                    leave_int = []
-                else:
-                    leave_int = [x[1] for x in _leave]
-                working_hours = contract.working_hours.\
-                    get_working_hours(curr_day, curr_day,
-                        compute_leaves = True).pop()
-                if working_hours < 1.0:
-                    working_hours = 0.0
-                if _leave != []:
-                    for leave, leave_int in _leave:
-                        leave_type = leave.holiday_status_id.leave_code
-                        count = 0.0
-                        if leave.is_sick_leave is True:
-                            count = 1
-                        else:
-                            working_hours = contract.working_hours.\
-                                get_working_hours(curr_day, curr_day,
-                                    compute_leaves = True).pop()
-                            if working_hours > 0:
-                                count = 1
-                        # print leave, leave_type
-                        if leave_type in leaves.keys():
-                            leaves[leave_type].update({
-                                'number_of_days': leaves[leave_type]['number_of_days'] + count,
-                            })
-                        else:
-                            leaves[leave_type] = {
-                                'name': leave.name or 'Legal Leaves',
-                                'sequence': 5,
-                                'code': leave_type,
-                                'number_of_days': count,
-                                'number_of_hours': 0.00,
-                                'contract_id': contract.id,
-                            }
-                elif working_hours > 0.0:
-                    attendances['number_of_days'] += 1.0
-                    attendances['number_of_hours'] += working_hours
-            res += [attendances] + leaves.values()
+                working_hours_on_day =\
+                    self.env['resource.calendar'].working_hours_on_day(
+                        contract.working_hours,
+                        day_from + timedelta(days=day))
+                if working_hours_on_day:
+                    # the employee had to work
+                    emp_leaves = was_on_leave(contract.employee_id.id,
+                                              day_from + timedelta(days=day))
+                    if emp_leaves:
+                        # if he was on leave, fill the leaves dict
+                        for leave in emp_leaves:
+                            if leave.holiday_status_id.leave_code:
+                                leave_code = leave.holiday_status_id.leave_code
+                            else:
+                                leave_code = leave.holiday_status_id.name
+                            if leave_code in leaves:
+                                leaves[leave_code]['number_of_days'] += 1.0
+                                leaves[leave_code]['number_of_hours'] +=\
+                                    working_hours_on_day
+                                if day_from + timedelta(days=day) == fields.Date.from_string(leave.date_from[:10]):
+                                    leaves[leave_code]['employer_days'] +=\
+                                        leave.employer_days
+                                    leaves[leave_code]['budget_days'] +=\
+                                        leave.budget_days
+                                    leaves[leave_code]['employer_amount'] +=\
+                                        leave.employer_amount
+                                    leaves[leave_code]['budget_amount'] +=\
+                                        leave.budget_amount
+                                    leaves[leave_code]['total_amount'] +=\
+                                        leave.total_amount
+                            else:
+                                leaves[leave_code] = {
+                                    'name': leave.holiday_status_id.name,
+                                    'sequence': 5,
+                                    'code': leave_code,
+                                    'number_of_days': 1.0,
+                                    'number_of_hours': leave.number_of_days * 8,
+                                    'contract_id': contract.id,
+                                    'daily_base': leave.daily_base,
+                                    'employer_days': leave.employer_days,
+                                    'budget_days': leave.budget_days,
+                                    'employer_amount': leave.employer_amount,
+                                    'budget_amount': leave.budget_amount,
+                                    'total_amount': leave.total_amount,
+                                }
+                    else:
+                        # add the input vals to tmp (increment if existing)
+                        attendances['number_of_days'] += 1.0
+                        attendances['number_of_hours'] += working_hours_on_day
+            leaves = [value for key, value in leaves.items()]
+            res += [attendances] + leaves
         return res
 
-    # overriden to get all inputs
-    @api.model
-    def get_inputs(self, contract_ids, date_from, date_to):
-        res = super(hr_payslip, self).get_inputs(
-            contract_ids, date_from, date_to)
-
-        contract_obj = self.env['hr.contract']
-        for contract in contract_obj.browse(contract_ids):
-            for advantage in contract.advantage_ids:
-                amount = advantage.amount
-                if advantage.code == 'TICHM':
-                    company = contract.employee_id.get_company
-                    amount = company.meal_voucher_value
-                res += [{
-                    'name': advantage.name.title(),
-                    'code': advantage.code,
-                    'amount': amount,
-                    'contract_id': contract.id,
-                }]
+    @api.multi
+    def process_sheet(self):
+        res = super(hr_payslip, self).process_sheet()
+        for slip in self:
+            days = hours = gross = net = 0.00
+            date_from = date_to = False
+            date_from = slip.date_from
+            date_to = slip.date_to
+            worked_days = slip.worked_days_line_ids
+            if worked_days:
+                days = sum(line.number_of_days for line in worked_days)
+                hours = sum(line.number_of_hours for line in worked_days)
+            try:
+                gross_id = self.env.ref('l10n_ro_hr_payroll.venitbrut')
+                if gross_id:
+                    gross_line_id = self.env['hr.payslip.line'].search(
+                        [
+                         ('slip_id', '=', slip.id),
+                         ('salary_rule_id', '=', gross_id[0].id)
+                        ])
+                    if gross_line_id:
+                        gross = gross_line_id[0].total
+                else:
+                    ValidationError(_("There were no predefined gross "
+                                      "salary rule."))
+                net_id = self.env.ref('l10n_ro_hr_payroll.salar_net')
+                if net_id:
+                    net_line_id = self.env['hr.payslip.line'].search(
+                        [
+                         ('slip_id', '=', slip.id),
+                         ('salary_rule_id', '=', net_id[0].id)
+                        ])
+                    if net_line_id:
+                        net = net_line_id[0].total
+                else:
+                    ValidationError(_("There were no predefined net "
+                                      "salary rule."))
+                self.env['hr.employee.income'].create({
+                    'employee_id': slip.employee_id.id,
+                    'payslip_id': slip.id,
+                    'date_from': date_from,
+                    'date_to': date_to,
+                    'number_of_days': days,
+                    'number_of_hours': hours,
+                    'gross_amount': gross,
+                    'net_amount': net,
+                })
+            except:
+                ValidationError(_("The payslip data was not added to the "
+                                  "employee income history."))
         return res
 
 
@@ -182,16 +193,17 @@ class hr_salary_rule(models.Model):
     _inherit = 'hr.salary.rule'
 
     def compute_rule(self, cr, uid, rule_id, localdict, context=None):
-        working_days = sum([localdict['worked_days'].dict[x].number_of_days \
-            for x in localdict['worked_days'].dict])
-        working_hours = sum([localdict['worked_days'].dict[x].number_of_hours \
-            for x in localdict['worked_days'].dict])
+        working_days = sum(
+            [localdict['worked_days'].dict[x].number_of_days
+             for x in localdict['worked_days'].dict])
+        working_hours = sum(
+            [localdict['worked_days'].dict[x].number_of_hours
+             for x in localdict['worked_days'].dict])
 
         localdict.update({
-            'company': localdict['employee'].get_company,
             'working_days_hours': (working_days, working_hours),
         })
-        
+
         return super(hr_salary_rule, self).compute_rule(
              cr, uid, rule_id, localdict, context
         )

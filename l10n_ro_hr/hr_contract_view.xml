@@ -43,30 +43,23 @@
         <record id="hr_contract_view_ro_form" model="ir.ui.view">
             <field name="name">hr.contract.view.ro.form</field>
             <field name="model">hr.contract</field>
+            <field eval="10" name="sequence"/>
             <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
             <field name="arch" type="xml">
-				<field name="employee_id" position="before">
+				<xpath expr="//field[@name='employee_id']" position="before">
 					<field name="revisal_no"/>
 					<field name="internal_no"/>
-				</field>
-				<field name="employee_id" position="after">
+				</xpath>
+				<xpath expr="//field[@name='employee_id']" position="after">
 					<field name="sign_date"/>
-				</field>
-				<field name="date_start" position="before">
-					<div>
-                        <field name="period_type"/>
-                    </div>
-                    <label for="period_type" string="Determined Period"/>					
-				</field>
-				<field name="date_end" position="replace">
-					<field name="date_end" attrs="{'invisible': [('period_type', '=', False)],'required': [('period_type', '=', True)]}"/>				
-				</field>
-				<field name="working_hours" position="replace">
-					<label for="working_hours" string="Scheduler"/>
-					<div>
-                        <field name="working_hours"/>
-                    </div>
-				</field>
+				</xpath>
+				<xpath expr="//label[@for='date_start']" position="before">
+					<field name="period_type"/>
+					<newline/>
+				</xpath>
+				<xpath expr="//field[@name='date_end']" position="replace">
+					<field name="date_end"  class="oe_inline" attrs="{'invisible': [('period_type', '=', False)],'required': [('period_type', '=', True)]}"/>
+				</xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Information']" position="after">
 					<page string="Work Conditions" name="conditions">
 						<group colspan="4">

@@ -24,26 +24,26 @@ from openerp import models, fields, api, _
 class res_company(models.Model):
     _inherit = 'res.company'
 
-    payroll_taxes = fields.One2many('res.company.payrolltaxes', 'company_id', 'Company Payroll Taxes')
     meal_voucher_value = fields.Float('Meal Voucher Value')
+    
+    @api.model
+    def get_medium_wage(self, date=False):
+        if not date:
+            date = field.Date.today()
+        res = self.search([('date', '<=', date)])
+        return res.med_wage
 
-    def get_tax(self, code): 
-        if self.payroll_taxes:
-            ret = self.payroll_taxes.search([('code', '=', code)])
-            if ret and ret.value:
-                return ret.value
-        return False
+    @api.model
+    def get_minimum_wage(self, date=False):
+        if not date:
+            date = field.Date.today()
+        res = self.search([('date', '<=', date)])
+        return res.min_wage
 
-class res_company_payroll_taxes(models.Model):
-    _name = "res.company.payrolltaxes"
-    _description = "Company Payroll Taxes"
-    _sql_constrains = [(
-        'company_id_code_uniq',
-        'unique (company_id, code)',
-        'Unique codes per company'
-    )]
-    company_id = fields.Many2one('res.company', 'Company', required = True)
-    code = fields.Char('Tax Code', required = True)
-    name = fields.Char('Tax Name', required = True)
-    value = fields.Float('Tax Value', required = True)
-
+    @api.model
+    def get_ceiling(self, date=False):
+        if not date:
+            date = field.Date.today()
+        res = self.search([('date', '<=', date)])
+        return res.ceiling_min_wage
+        
