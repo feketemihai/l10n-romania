@@ -157,14 +157,15 @@ VALUES
         if self.vat:
             vat_country, vat_number = self._split_vat(self.vat)
         if vat_number and vat_country and vat_country.upper() == 'RO':
-            res = requests.get(
-                'http://openapi.ro/api/companies/' +
-                str(vat_number) +
-                '.json')
+            res = requests.get( 'http://openapi.ro/api/companies/' +  str(vat_number) + '.json')
             if res.status_code == 200:
-                res = res.json()
-                if res['vat'] == '1':
-                    vat_s = True
+                try:
+                    res = res.json()
+                    if res['vat'] == '1':
+                        vat_s = True
+                except:
+                    print res
+                    pass
         elif vat_number and vat_country:
             vat_s = self.vies_vat_check(vat_country, vat_number)
         return vat_s
