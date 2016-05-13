@@ -118,11 +118,14 @@ class res_partner(models.Model):
                         line[k] = 'NULL'
                     else:
                         line[k] = "'%s'" % v
-                self._cr.execute("""
+                try:
+                    self._cr.execute("""
 INSERT INTO res_partner_anaf
     (id,vat,start_date, end_date, publish_date, operation_date, operation_type)
 VALUES
     %s""" % '(' + ','.join(line) + ')')
+                except:
+                    pass
 
     @api.multi
     def _check_vat_on_payment(self):
@@ -190,6 +193,7 @@ VALUES
         partners = self.search([('vat', '!=', False)])
         self._insert_relevant_anaf_data(partners)
         for partner in partners:
+            print partner.name
             partner.check_vat_on_payment()
             partner.check_vat_subjected()
 
