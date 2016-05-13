@@ -61,18 +61,12 @@ class res_partner(models.Model):
     @api.one
     @api.depends('vat_number')
     def _compute_anaf_history(self):
-        history = self.env['res.partner.anaf'].search(
-            [('vat', '=', self.vat_number)])
+        history = self.env['res.partner.anaf'].search( [('vat', '=', self.vat_number)])
         if history:
             self.anaf_history = [(6, 0, [line.id for line in history])]
 
     vat_number = fields.Char('VAT', compute='_compute_vat')
-    anaf_history = fields.One2many(
-        'res.partner.anaf',
-        compute='_compute_anaf_history',
-        string='ANAF History',
-        readonly=True
-    )
+    anaf_history = fields.One2many( 'res.partner.anaf', compute='_compute_anaf_history',  string='ANAF History', readonly=True )
 
     # Grab VAT on Payment data from ANAF, update table - SQL injection
     @api.model
@@ -96,9 +90,7 @@ class res_partner(models.Model):
         if vat_numbers == []:
             return
         istoric = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            'data',
-            'istoric.txt')
+            os.path.dirname(os.path.abspath(__file__)), 'data', 'istoric.txt')
         vat_regex = '^[0-9]+#(%s)#' % '|'.join(vat_numbers)
         anaf_data = Popen(
             ['egrep', vat_regex, istoric],
@@ -106,8 +98,7 @@ class res_partner(models.Model):
         )
         (process_lines, err) = anaf_data.communicate()
         process_lines = [x.split('#') for x in process_lines.split()]
-        lines = self.env['res.partner.anaf'].search([
-            ('id', 'in', [int(x[0]) for x in process_lines])])
+        lines = self.env['res.partner.anaf'].search([ ('id', 'in', [int(x[0]) for x in process_lines])])
         line_ids = [l.id for l in lines]
         for line in process_lines:
             if int(line[0]) not in line_ids:
@@ -120,10 +111,10 @@ class res_partner(models.Model):
                         line[k] = "'%s'" % v
                 try:
                     self._cr.execute("""
-INSERT INTO res_partner_anaf
-    (id,vat,start_date, end_date, publish_date, operation_date, operation_type)
-VALUES
-    %s""" % '(' + ','.join(line) + ')')
+                    INSERT INTO res_partner_anaf
+                        (id,vat,start_date, end_date, publish_date, operation_date, operation_type)
+                    VALUES
+                        %s""" % '(' + ','.join(line) + ')')
                 except:
                     pass
 
@@ -194,9 +185,9 @@ VALUES
         partners = self.search([('vat', '!=', False)])
         self._insert_relevant_anaf_data(partners)
         for partner in partners:
-            print partner.name
             partner.check_vat_on_payment()
             partner.check_vat_subjected()
+            self.env.cr.commit()        # pentru actualizarea imediata a datelor
 
     @api.model
     def _update_vat_all(self):
