@@ -144,12 +144,13 @@ class res_partner(models.Model):
 
     @api.multi
     def _check_vat_subjected(self):
+        print "Verificare VAT Subjected", self.vat  
         vat_s = vat_number = vat_country = False
         if self.vat:
             vat_country, vat_number = self._split_vat(self.vat)
         if vat_number and vat_country and vat_country.upper() == 'RO':
             url = 'http://openapi.ro/api/companies/' +  str(vat_number) + '.json'
-            print url
+           
             res = requests.get( url )
             if res.status_code == 200:
                 try:
@@ -172,8 +173,9 @@ class res_partner(models.Model):
 
     @api.multi
     def update_vat_one(self):
-        self.check_vat_on_payment()
-        self.check_vat_subjected()
+        for partner in self:
+            partner.check_vat_on_payment()
+            partner.check_vat_subjected()
 
     @api.one
     def button_get_partner_data(self):
@@ -183,6 +185,7 @@ class res_partner(models.Model):
 
     @api.multi
     def update_vat_all(self):
+        print "Start Update All"
         self._download_anaf_data()
         partners = self.search([('vat', '!=', False)])
         self._insert_relevant_anaf_data(partners)
@@ -190,6 +193,8 @@ class res_partner(models.Model):
             partner.check_vat_on_payment()
             partner.check_vat_subjected()
             self.env.cr.commit()        # pentru actualizarea imediata a datelor
+        print "End Update All"
+            
 
     @api.model
     def _update_vat_all(self):
