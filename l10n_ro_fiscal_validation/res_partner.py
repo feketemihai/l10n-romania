@@ -21,6 +21,7 @@
 
 import os
 from datetime import date
+import time
 from subprocess import Popen, PIPE
 
 from zipfile import ZipFile
@@ -29,6 +30,13 @@ import requests
 
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
+
+import logging
+#Get the logger
+_logger = logging.getLogger(__name__)
+
+from openerp.api import Environment
+import threading
 
 ANAF_URL = 'http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_%s.zip'
 
@@ -120,6 +128,7 @@ class res_partner(models.Model):
 
     @api.multi
     def _check_vat_on_payment(self):
+        _logger.info( "Verificare %s TVA la plata" % self.vat ) 
         ctx = dict(self._context)
         vat_on_payment = False
         if self.anaf_history:
@@ -144,7 +153,7 @@ class res_partner(models.Model):
 
     @api.multi
     def _check_vat_subjected(self):
-        print "Verificare VAT Subjected", self.vat  
+        _logger.info( "Verificare %s TVA Subjected" % self.vat ) 
         vat_s = vat_number = vat_country = False
         if self.vat:
             vat_country, vat_number = self._split_vat(self.vat)
@@ -158,7 +167,7 @@ class res_partner(models.Model):
                     if res['vat'] == '1':
                         vat_s = True
                 except:
-                    print 'Eroare', res
+                    _logger.error('Nu se poate accesa openapi.ro')
                     
         elif vat_number and vat_country:
             vat_s = self.vies_vat_check(vat_country, vat_number)
@@ -173,9 +182,11 @@ class res_partner(models.Model):
 
     @api.multi
     def update_vat_one(self):
+        _logger.info( "Start Update TVA")
         for partner in self:
             partner.check_vat_on_payment()
             partner.check_vat_subjected()
+        _logger.info( "End Update TVA")
 
     @api.one
     def button_get_partner_data(self):
@@ -183,9 +194,26 @@ class res_partner(models.Model):
         self._insert_relevant_anaf_data([self[0]])
         self.check_vat_on_payment()
 
+    @api.model
+    def _update_vat_all(self):
+        self.update_vat_all()
+
+    def update_vat_all(self, cr, uid, ids, context=None):
+        threaded_estimation = threading.Thread(target=self._background_update_vat_all, args=(cr, uid, ids, context))
+        threaded_estimation.start()        
+        return
+
+    def _background_update_vat_all(self, cr, uid, ids, context=None):
+        with Environment.manage():
+            new_cr = self.pool.cursor()
+            self._task_update_vat_all(new_cr, uid, ids, context)
+            new_cr.commit()
+            new_cr.close()
+        return {} 
+
     @api.multi
-    def update_vat_all(self):
-        print "Start Update All"
+    def _task_update_vat_all(self):
+        _logger.info( "Start Update All")
         self._download_anaf_data()
         partners = self.search([('vat', '!=', False)])
         self._insert_relevant_anaf_data(partners)
@@ -193,9 +221,12 @@ class res_partner(models.Model):
             partner.check_vat_on_payment()
             partner.check_vat_subjected()
             self.env.cr.commit()        # pentru actualizarea imediata a datelor
-        print "End Update All"
+            # si acum asteapta putin
+            time.sleep(10)
+        _logger.info( "End Update All")
             
 
-    @api.model
-    def _update_vat_all(self):
-        self.update_vat_all()
+ 
+
+
+ 
