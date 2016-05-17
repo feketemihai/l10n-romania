@@ -161,6 +161,8 @@ class account_period_closing(models.Model):
                     ctx1).read(['balance'])[0]['balance']
                 old_balance = debit - credit
                 new_amount = amount
+                debit_acc = closing.debit_account_id
+                credit_acc = closing.credit_account_id
                 if amount < 0 and old_balance > 0:
                     debit_acc = closing.credit_account_id
                     credit_acc = closing.debit_account_id
