@@ -147,60 +147,7 @@ class account_period_closing(models.Model):
                     }
                 amount += account['balance']
                 self.env['account.move.line'].create(val)
-        if self.close_result:
-            ctx1 = dict(self._context)
-            if period and amount != 0.00:
-                period1 = self.env['account.period'].browse(period)
-                ctx1.update({'date': False,
-                         'fiscalyear': period1.fiscalyear_id.id,
-                         'date_from': period1.fiscalyear_id.date_start,
-                         'date_to': period1.date_stop})
-                debit = closing.debit_account_id.with_context(
-                    ctx1).read(['balance'])[0]['balance']
-                credit = closing.credit_account_id.with_context(
-                    ctx1).read(['balance'])[0]['balance']
-                old_balance = debit - credit
-                new_amount = amount
-                debit_acc = closing.debit_account_id
-                credit_acc = closing.credit_account_id
-                if amount < 0 and old_balance > 0:
-                    debit_acc = closing.credit_account_id
-                    credit_acc = closing.debit_account_id
-                    if old_balance < abs(amount):
-                        new_amount = old_balance
-                    else:
-                        new_amount = abs(amount)
-                elif amount > 0 and old_balance < 0:
-                    debit_acc = closing.debit_account_id
-                    credit_acc = closing.credit_account_id
-                    if abs(old_balance) < amount:
-                        new_amount = abs(old_balance)
-                    else:
-                        new_amount = amount
-                diff_line = {
-                    'name': 'Closing ' + closing.name + ' ' + str(debit_acc.code),
-                    'date': date,
-                    'move_id': move[0].id,
-                    'account_id': debit_acc.id,
-                    'credit': 0.0,
-                    'debit': new_amount,
-                    'company_id': closing.company_id.id,
-                    'journal_id': journal,
-                    'period_id': period,
-                }
-                self.env['account.move.line'].create(diff_line)
-                diff_line = {
-                    'name': 'Closing ' + closing.name + ' ' + str(credit_acc.code),
-                    'date': date,
-                    'move_id': move[0].id,
-                    'account_id': credit_acc.id,
-                    'credit': new_amount,
-                    'debit': 0.0,
-                    'company_id': closing.company_id.id,
-                    'journal_id': journal,
-                    'period_id': period,
-                }
-                self.env['account.move.line'].create(diff_line)
+
         diff_line = {
             'name': 'Closing ' + closing.name,
             'date': date,
@@ -213,6 +160,62 @@ class account_period_closing(models.Model):
             'period_id': period,
         }
         self.env['account.move.line'].create(diff_line)
+        if self.close_result:
+            ctx1 = dict(self._context)
+            if period and amount != 0.00:
+                period1 = self.env['account.period'].browse(period)
+                ctx1.update({'date': False,
+                         'fiscalyear': period1.fiscalyear_id.id,
+                         'date_from': period1.fiscalyear_id.date_start,
+                         'date_to': period1.date_stop})
+                debit = closing.debit_account_id.with_context(
+                    ctx1).read(['balance'])[0]['balance']
+                credit = closing.credit_account_id.with_context(
+                    ctx1).read(['balance'])[0]['balance']
+                if abs(debit) > abs(credit):
+                    new_amount = -1 * credit
+                else:
+                    new_amount = debit
+                old_balance = debit - (-1 * credit)
+                debit_acc = closing.debit_account_id
+                credit_acc = closing.credit_account_id
+                #new_amount = old_balance
+                print debit_acc.code
+                print credit_acc.code
+                print debit
+                print credit
+                print new_amount
+                if credit and debit:
+                    if old_balance > 0:
+                        debit_acc = closing.credit_account_id
+                        credit_acc = closing.debit_account_id
+                    elif old_balance < 0:
+                        debit_acc = closing.debit_account_id
+                        credit_acc = closing.credit_account_id
+                    diff_line = {
+                        'name': 'Closing ' + closing.name + ' ' + str(debit_acc.code),
+                        'date': date,
+                        'move_id': move[0].id,
+                        'account_id': debit_acc.id,
+                        'credit': 0.0,
+                        'debit': new_amount,
+                        'company_id': closing.company_id.id,
+                        'journal_id': journal,
+                        'period_id': period,
+                    }
+                    self.env['account.move.line'].create(diff_line)
+                    diff_line = {
+                        'name': 'Closing ' + closing.name + ' ' + str(credit_acc.code),
+                        'date': date,
+                        'move_id': move[0].id,
+                        'account_id': credit_acc.id,
+                        'credit': new_amount,
+                        'debit': 0.0,
+                        'company_id': closing.company_id.id,
+                        'journal_id': journal,
+                        'period_id': period,
+                    }
+                    self.env['account.move.line'].create(diff_line)
         move[0].post()
         return True
 
