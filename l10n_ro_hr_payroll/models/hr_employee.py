@@ -85,15 +85,20 @@ class hr_employee(models.Model):
     income_ids = fields.One2many('hr.employee.income', 'employee_id',
                                  'Payslip History')
 
-    def _get_holiday_base(self, date=False):
+    def _get_holiday_base(self, date=False, month_no=False):
         if not date:
-            date = field.Date.today()
-        six_month = date + relativedelta(months=-6)
-        
-        income_ids = self.income_ids.filtered(lambda income: income.date_to <= date and income.date_from >= six_month)
+            date = fields.Date.today()
+        if isinstance(date, str):
+            date = fields.Date.from_string(date)
+        date_string = fields.Date.to_string(date)
+        if not month_no:
+            months_no = 6
+        prev_date = date + relativedelta(months=-month_no)
+        prev_date_string = fields.Date.to_string(prev_date)
+        income_ids = self.income_ids.filtered(lambda income: income.date_to <= date_string and income.date_from >= prev_date_string)
         days = gross = False
         if income_ids:
-            gross = sum(income.gros_amount for income in income_ids)
+            gross = sum(income.gross_amount for income in income_ids)
             days = sum(income.number_of_days for income in income_ids)
         if gross and days and days != 0.00:
             return gross / days

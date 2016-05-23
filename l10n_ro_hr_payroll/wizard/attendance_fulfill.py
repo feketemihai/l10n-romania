@@ -99,7 +99,10 @@ class hr_attendance_fulfill(osv.osv):
 			if contract.employee_id.active and contract.working_hours and (contract.employee_id.department_id in wizard.department_id):
 				employee = contract.employee_id
 				user = employee.user_id
-				tz = pytz.timezone(contract.employee_id.user_id.partner_id.tz) or pytz.utc			
+				if contract.employee_id.user_id.partner_id.tz:
+				    tz = pytz.timezone(contract.employee_id.user_id.partner_id.tz)
+				else:
+				    tz = pytz.utc			
 				department = employee.department_id
 				company = employee.company_id
 				contract_id = contract.id

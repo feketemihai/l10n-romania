@@ -160,12 +160,7 @@ if ((employee.person_in_care == 4) and (categories.GROSS1 + categories.MED + cat
 			<field name="appears_on_payslip" eval="True"/>
 			<field name="condition_select">none</field>
 			<field name="amount_select">code</field>
-			<field name="amount_python_compute">result = inputs.TIC.amount</field>
-		</record>
-		<record id="hr_rule_input_tichetedemasa0" model="hr.rule.input">
-			<field name="code">TIC</field>
-			<field name="input_id" ref="l10n_ro_hr_payroll.hr_salary_rule_tichetedemasa0"/>
-			<field name="name">TICHETE DE MASA</field>
+			<field name="amount_python_compute">result = worked_days.WORK100.number_of_days * company.meal_voucher_value</field>
 		</record>
 		<record id="hr_salary_rule_sporextra0" model="hr.salary.rule">
 			<field name="code">SPOR1</field>

@@ -60,6 +60,7 @@ class hr_holidays_status(models.Model):
         'Leave Code', compute = '_compute_leave_code', store = True)
 
     is_sick_leave = fields.Boolean(_('Is Sick Leave'), default = False)
+    is_unpaid = fields.Boolean(_('Is Unpaid'), default = False)
     emergency = fields.Boolean(_('Medical Emergency'), default = False)
     indemn_code = fields.Char(_('Indemnization Code'))
     percentage = fields.Integer(_('Percentage'))
@@ -99,7 +100,7 @@ class hr_holidays(models.Model):
                 raise ValidationError("Wrong Initial Sick Leave for type and Diagnostci Code")
 
     @api.one
-    @api.depends('date_from',' date_to', 'holiday_status_id')
+    @api.depends('date_from','date_to', 'holiday_status_id')
     def _get_holiday_days(self):
         emp_days = 0
         comp_days = 0
@@ -115,24 +116,28 @@ class hr_holidays(models.Model):
         self.budget_days = comp_days
 
     @api.one
-    @api.depends('date_from',' date_to', 'holiday_status_id')
+    @api.depends('date_from','date_to', 'holiday_status_id')
     def _get_holiday_daily_base(self):
         daily_base = 0
-        if self.is_sick_leave:
-            if self.initial_id:
-                daily_base = self.initial_id.daily_base
+        if not self.is_unpaid:
+            if self.is_sick_leave:
+                if self.initial_id:
+                    daily_base = self.initial_id.daily_base
+                else:
+                    daily_base = self.employee_id._get_holiday_base(date=self.date_from, month_no=6)
+                    daily_base = daily_base * self.holiday_status_id.percentage / 100
+                self.employer_amount = self.employer_days * daily_base
+                self.budget_amount = self.budget_days * daily_base
+                self.total_amount = self.number_of_days_temp * daily_base
             else:
-                daily_base = self.employee_id._get_holiday_base(date=self.date_from)
-                daily_base = daily_base * self.holiday_status_id.percentage / 100
-            self.employer_amount = self.employer_days * daily_base
-            self.budget_amount = self.budget_days * daily_base
-            self.total_amount = self.number_of_days * daily_base
-        else:
-            daily_base = self.employee_id._get_holiday_base(date=self.date_from)
+                daily_base = self.employee_id._get_holiday_base(date=self.date_from, month_no=3)
         self.daily_base = daily_base
 
     is_sick_leave = fields.Boolean(
         related = 'holiday_status_id.is_sick_leave',
+        readonly = True, store = True)
+    is_unpaid = fields.Boolean(
+        related = 'holiday_status_id.is_unpaid',
         readonly = True, store = True)
     diag_code = fields.Char('Diagnostic Code', copy = False)
     allowance_code = fields.Char(
@@ -144,7 +149,7 @@ class hr_holidays(models.Model):
     initial_id = fields.Many2one('hr.holidays', 'Initial Sick Leave', copy = False)    
     employer_days = fields.Integer(_('# Days by Employer'), compute='_get_holiday_days', store=True)
     budget_days = fields.Integer(_('# Days by Social Security'), compute='_get_holiday_days', store=True)
-    daily_base = fields.Float(_('Daily Base'), compute='_get_daily_base', store=True)
-    employer_amount = fields.Float(_('Amount by Employer'), compute='_get_daily_base', store=True)
-    budget_amount = fields.Float(_('Amount by Social Sevcurity'), compute='_get_daily_base', store=True)
-    total_amount = fields.Float(_('Total Amount'), compute='_get_daily_base', store=True)
+    daily_base = fields.Float(_('Daily Base'), compute='_get_holiday_daily_base', store=True)
+    employer_amount = fields.Float(_('Amount by Employer'), compute='_get_holiday_daily_base', store=True)
+    budget_amount = fields.Float(_('Amount by Social Sevcurity'), compute='_get_holiday_daily_base', store=True)
+    total_amount = fields.Float(_('Total Amount'), compute='_get_holiday_daily_base', store=True)

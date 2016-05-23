@@ -30,20 +30,20 @@ class res_company(models.Model):
     def get_medium_wage(self, date=False):
         if not date:
             date = field.Date.today()
-        res = self.search([('date', '<=', date)])
-        return res.med_wage
+        res = self.env['hr.wage.history'].search([('date', '<=', date)])
+        return res[0].med_wage
 
     @api.model
     def get_minimum_wage(self, date=False):
         if not date:
             date = field.Date.today()
-        res = self.search([('date', '<=', date)])
-        return res.min_wage
+        res = self.env['hr.wage.history'].search([('date', '<=', date)])
+        return res[0].min_wage
 
     @api.model
     def get_ceiling(self, date=False):
         if not date:
             date = field.Date.today()
-        res = self.search([('date', '<=', date)])
-        return res.ceiling_min_wage
+        res = self.env['hr.wage.history'].search([('date', '<=', date)])
+        return res[0].ceiling_min_wage
         

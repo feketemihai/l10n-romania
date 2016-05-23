@@ -57,9 +57,6 @@
 					<field name="period_type"/>
 					<newline/>
 				</xpath>
-				<xpath expr="//field[@name='date_end']" position="replace">
-					<field name="date_end"  class="oe_inline" attrs="{'invisible': [('period_type', '=', False)],'required': [('period_type', '=', True)]}"/>
-				</xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Information']" position="after">
 					<page string="Work Conditions" name="conditions">
 						<group colspan="4">

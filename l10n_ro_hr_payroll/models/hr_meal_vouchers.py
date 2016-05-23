@@ -82,17 +82,17 @@ class hr_meal_vouchers(models.Model):
             line.unlink()
 
         for contract in contracts:
-            for advantage in contract.advantage_ids:
-                if advantage.code in 'TICHM':
-                    no = self.env['hr.payslip'].get_worked_day_lines(
-                        [contract.id], self.date_from, self.date_to
-                    )[0]['number_of_days']
+            tich_rule = self.env.ref('l10n_ro_hr_payroll.tichetedemasa')
+            if tich_rule and tich_rule in contract.struct_id.rule_ids:
+                no = self.env['hr.payslip'].get_worked_day_lines(
+                    [contract.id], self.date_from, self.date_to
+                )[0]['number_of_days']
 
-                    if no > 0.0:
-                        line = lines_obj.create({
-                            'meal_voucher_id': self.id,
-                            'employee_id': contract.employee_id.id,
-                            'contract_id': contract.id,
-                            'num_vouchers': no,
-                        })
+                if no > 0.0:
+                    line = lines_obj.create({
+                        'meal_voucher_id': self.id,
+                        'employee_id': contract.employee_id.id,
+                        'contract_id': contract.id,
+                        'num_vouchers': no,
+                    })
         return True

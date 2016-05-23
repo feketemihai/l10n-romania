@@ -102,7 +102,7 @@ class hr_payslip(models.Model):
                                 leaves[leave_code]['number_of_days'] += 1.0
                                 leaves[leave_code]['number_of_hours'] +=\
                                     working_hours_on_day
-                                if day_from + timedelta(days=day) == fields.Date.from_string(leave.date_from[:10]):
+                                if day_from + timedelta(days=day) == fields.Date.from_string(leave.date_from):
                                     leaves[leave_code]['employer_days'] +=\
                                         leave.employer_days
                                     leaves[leave_code]['budget_days'] +=\
@@ -119,7 +119,7 @@ class hr_payslip(models.Model):
                                     'sequence': 5,
                                     'code': leave_code,
                                     'number_of_days': 1.0,
-                                    'number_of_hours': leave.number_of_days * 8,
+                                    'number_of_hours': leave.number_of_days_temp * 8,
                                     'contract_id': contract.id,
                                     'daily_base': leave.daily_base,
                                     'employer_days': leave.employer_days,
@@ -138,6 +138,9 @@ class hr_payslip(models.Model):
 
     @api.multi
     def process_sheet(self):
+        for slip in self:
+            slip.line_ids.unlink()
+            self.get_worked_day_lines(slip.contract_id.id, slip.date_from, slip.date_to)
         res = super(hr_payslip, self).process_sheet()
         for slip in self:
             days = hours = gross = net = 0.00
@@ -187,6 +190,13 @@ class hr_payslip(models.Model):
                 ValidationError(_("The payslip data was not added to the "
                                   "employee income history."))
         return res
+
+    @api.one
+    @api.depends('worked_days_line_ids')
+    def _get_working_days(self):
+        self.working_days = sum(line.number_of_days for line in self.worked_days_line_ids)
+
+    working_days = fields.Integer(_('# Working Days'), compute='_get_working_days', store=True)
 
 
 class hr_salary_rule(models.Model):

@@ -26,6 +26,7 @@
     "category": "Localization/Payroll",
     "depends": [
         'hr_public_holidays',
+        'hr_employee_benefit',
         'hr_payroll',
         'l10n_ro_hr',
     ],
@@ -93,6 +94,7 @@ Holidays
         'wizard/hr_attendance_bymonth_view.xml',
         # data
         'data/res.partner.csv',
+        'data/hr.contribution.register.csv',
         'data/hr.wage.history.csv',
         'data/hr.holidays.status.csv',
         'data/hr_salary_rule_category.xml',
