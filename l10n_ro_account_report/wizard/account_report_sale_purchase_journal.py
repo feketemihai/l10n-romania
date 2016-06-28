@@ -21,6 +21,8 @@
 ##############################################################################
 
 from openerp.osv import fields, osv
+from openerp.tools.translate import _
+
 
 
 class sale_purchase_journal_report(osv.osv_memory):
@@ -64,4 +66,5 @@ class sale_purchase_journal_report(osv.osv_memory):
         else:
             return self.pool['report'].get_action(cr, uid, [], 'l10n_ro_account_report.report_purchase_journal_html', data=data, context=context)
 
+sale_purchase_journal_report()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

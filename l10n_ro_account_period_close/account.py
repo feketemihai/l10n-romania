@@ -36,7 +36,7 @@ class account_move(models.Model):
 
     close_id = fields.Many2one(
         'account.period.closing', 'Closed Account Period')
-
+account_move()
 
 class account_period_closing(models.Model):
     _name = 'account.period.closing'
@@ -218,5 +218,5 @@ class account_period_closing(models.Model):
                     self.env['account.move.line'].create(diff_line)
         move[0].post()
         return True
-
+account_period_closing()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

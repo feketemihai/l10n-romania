@@ -36,7 +36,7 @@ class purchase_journal(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context=None):
         super(purchase_journal, self).__init__(cr, uid, name, context=context)
 
-    def set_context(self, object, data, ids, report_type=None):
+    def set_context(self, object, data,  ids, report_type=None):
         """We do the grouping and proccessing of invoices"""
         invoice_obj = self.pool.get('account.invoice')
         period_obj = self.pool.get('account.period')
@@ -340,7 +340,7 @@ class purchase_journal(report_sxw.rml_parse):
 
         lines = [inv1 for inv1 in inv if inv1[
             'type'] in ['in_invoice', 'in_refund']]
-        self.localcontext.update({'lines': lines, 'data': data})
+        self.localcontext.update({'lines': lines, 'data': data, 'periods':data['periods'][1]})
         return True
 
 

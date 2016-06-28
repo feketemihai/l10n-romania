@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data>
-<template id="report_trialbalance">
+
+<!--template id="report_trialbalance">
     <t t-call="report.html_container">
+ <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'user_id.lang', 'report_trialbalance2')"/>
+    </t>
+</t>
+</template-->
+
+<template id="report_trialbalance">
         <t t-set="data_report_margin_top" t-value="12"/>
         <t t-set="data_report_margin_bottom" t-value="12"/>
         <t t-set="data_report_header_spacing" t-value="8"/>
@@ -112,9 +120,22 @@
                         </tr>
                     </tbody>
                 </table>
+<br /><br />
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+         <td class="text-center">Accounting Department</td>
+         <td class="text-center">Signature</td>
+       </tr>
+       <tr>
+         <td class="text-center">_</td>
+         <td class="text-center"></td>
+      </tr>
+    </tbody>
+     </table>
+
             </div>
         </t>
-    </t>
 </template>
 
 </data>
