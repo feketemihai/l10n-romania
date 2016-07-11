@@ -27,8 +27,13 @@ class account_period_closing_wizard(models.TransientModel):
     _name = "account.period.closing.wizard"
     _description = "Wizard for Account Period Closing"
 
+    @api.model
+    def default_get(self, fields):      
+        defaults = super(account_period_closing_wizard, self).default_get(fields)
+        return defaults
+    
     @api.one
-    def close(self):
+    def do_close(self):
         wizard = self[0]
         if not wizard.done:
             wizard.closing_id.close(
@@ -50,4 +55,18 @@ class account_period_closing_wizard(models.TransientModel):
         'account.journal', 'Closing Journal', required=True)
     done = fields.Boolean('Closing Done')
 
+
+class account_period_close(models.TransientModel):
+    _inherit = "account.period.close"
+
+    date_move = fields.Date(string='Closing Move Date', required=True, select=True)
+    journal_id = fields.Many2one( 'account.journal', string='Closing Journal', required=True)
+  
+    @api.one
+    def data_save(self):
+        for period_id in self.env.context['active_ids']:
+            for period_closing in self.env['account.period.closing'].search([]):
+                period_closing.close(self.date_move, period_id, self.journal_id.id)
+        
+        return super(account_period_close,self).data_save()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

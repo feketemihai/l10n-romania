@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
+#    Copyright (C) 2016 FOREST AND BIOMASS SERVICES ROMANIA SA
 #    (http://www.forbiom.eu).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,18 @@
 #
 ##############################################################################
 
-import account
-import report
-import wizard
+from openerp import models, fields
+
+SEQUENCE_TYPE = [
+    ('normal', 'Invoice'),
+    ('autoinv1', 'Customer Auto Invoicing'),
+    ('autoinv2', 'Supplier  Auto Invoicing')
+]
+
+
+class AccountJournal(models.Model):
+    _inherit = 'account.journal'
+
+    fiscal_receipt = fields.Boolean('Fiscal Receipts Journal')
+    sequence_type = fields.Selection(SEQUENCE_TYPE,
+                                     related='sequence_id.sequence_type')

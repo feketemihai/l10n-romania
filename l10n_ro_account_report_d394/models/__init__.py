@@ -20,21 +20,9 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
-
-
-class product_product(osv.osv):
-    _inherit = "product.product"
-    _columns = {
-        'd394_id': fields.many2one('report.394.code', string='D394 codes'),
-    }
-
-
-class report_394_code(osv.osv):
-    _name = "report.394.code"
-    _description = "D394 code"
-    _columns = {
-        'name': fields.char('D394 Code', size=16),
-        'description': fields.char('Description', size=64),
-        'product_ids': fields.one2many('product.product', 'd394_id', string='Products'),
-    }
+from . import res_company
+from . import account_invoice
+from . import account_journal
+from . import d394_code
+from . import ir_sequence
+from . import res_country_state
