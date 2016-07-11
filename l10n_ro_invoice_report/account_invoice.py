@@ -62,8 +62,12 @@ class account_invoice_line(models.Model):
             normal_taxes = self.product_id.taxes_id.compute_all(
                 price, self.quantity, product=self.product_id,
                 partner=self.invoice_id.partner_id)
-            self.price_normal_taxes = \
-                normal_taxes['total_included'] - normal_taxes['total']
+        else:
+            normal_taxes = self.product_id.supplier_taxes_id.compute_all(
+                price, self.quantity, product=self.product_id,
+                partner=self.invoice_id.partner_id)
+        self.price_normal_taxes = \
+            normal_taxes['total_included'] - normal_taxes['total']
         if self.invoice_id:
             self.price_subtotal = self.invoice_id.currency_id.round(
                 self.price_subtotal)

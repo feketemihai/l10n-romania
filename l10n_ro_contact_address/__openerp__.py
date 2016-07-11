@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
+#    Copyright (C) 2016 FOREST AND BIOMASS SERVICES ROMANIA SA
 #    (http://www.forbiom.eu).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,21 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import account
-import report
-import wizard
+{
+    "name": "Contacts Detailed Address",
+    "summary": "Introduces separate fields for street name and number, block, staircase and apartment number.",
+    "version": "8.0.1.0.0",
+    "author": "Forest and Biomass Services Romania,Odoo Community Association (OCA)",
+    "website": "https://forbiom.eu",
+    "category": 'Tools',
+    "depends": [
+        'base',
+        'web_readonly_bypass',
+        ],
+    "data": [
+        'views/res_partner.xml',
+        ],
+    'installable': True,
+    'auto_install': False,
+    'license': 'AGPL-3'
+}
