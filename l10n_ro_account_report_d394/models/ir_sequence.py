@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
+#    Copyright (C) 2016 FOREST AND BIOMASS SERVICES ROMANIA SA
 #    (http://www.forbiom.eu).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,18 @@
 #
 ##############################################################################
 
-import account
-import report
-import wizard
+from openerp import models, fields
+
+SEQUENCE_TYPE = [
+    ('normal', 'Invoice'),
+    ('autoinv1', 'Customer Auto Invoicing'),
+    ('autoinv2', 'Supplier  Auto Invoicing')
+]
+
+
+class IRSequence(models.Model):
+    _inherit = 'ir.sequence'
+
+    sequence_type = fields.Selection(SEQUENCE_TYPE, default='normal')
+    number_first = fields.Integer('Serie First Number')
+    number_last = fields.Integer('Serie Last Number')

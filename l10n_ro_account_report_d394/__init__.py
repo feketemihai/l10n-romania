@@ -20,6 +20,5 @@
 #
 ##############################################################################
 
-import account
-import report
-import wizard
+from . import models
+from . import wizard

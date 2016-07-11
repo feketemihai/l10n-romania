@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
+#    Copyright (C) 2016 FOREST AND BIOMASS SERVICES ROMANIA SA
 #    (http://www.forbiom.eu).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,4 @@
 #
 ##############################################################################
 
-import account
-import report
-import wizard
+from . import res_partner
