@@ -144,7 +144,7 @@ class AccountInvoice(models.Model):
                     taxes += [tax.id for tax in line.invoice_line_tax_id]
             else:
                 for line in inv.invoice_line:
-                    if self.type in ('out_invoice','out_refund'):
+                    if inv.type in ('out_invoice','out_refund'):
                         taxes += [tax.id for tax in line.product_id.taxes_id]
                     else:
                         taxes += [tax.id for tax in line.product_id.supplier_taxes_id]

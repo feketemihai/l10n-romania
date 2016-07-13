@@ -219,29 +219,54 @@ class d394_new_report(models.TransientModel):
                 for invoice in part_type_inv:
                     cotas = [tax for tax in invoice.tax_ids]
                 for cota in cotas:
+                    print cota.name + ' ' + str(cota.amount)
+                for cota in cotas:
                     cota_inv = part_type_inv.filtered(
                         lambda r: cota.id in r.tax_ids.ids)
                     partners = [invoice.partner_id for invoice in cota_inv]
                     for partner in partners:
                         part_invoices = cota_inv.filtered(
                             lambda r: r.partner_id.id == partner.id)
+                        cota_amount = 0
+                        if cota.type == 'percent':
+                            cota_amount = int(cota.amount * 100)
+                        elif cota.type == 'amount':
+                            cota_amount = int(cota.amount)
                         if partner_type == 2:
                             doc_types = [
                                 inv.origin_type for inv in part_invoices]
                             for doc_type in doc_types:
-                                inv_lines = obj_inv_line.search(
-                                    [('invoice_id', 'in', part_invoices.ids),
-                                     ('partner_id', '=', partner.id),
-                                     ('invoice_line_tax_id', 'in', [cota.id]),
-                                     ('invoice_id.origin_type', '=', doc_type)]
-                                 )
+                                domain = [('invoice_id',
+                                           'in',
+                                           part_invoices.ids)]
+                                inv_lines = obj_inv_line.search(domain)
+                                filtered_inv_lines = []
+                                for inv_line in inv_lines:
+                                    fp = inv_line.invoice_id.fiscal_position
+                                    tax = inv_line.product_id.supplier_taxes_id
+                                    if not fp or ('National' in fp.name):
+                                        tax = inv_line.invoice_line_tax_id.ids
+                                        if tax in [cota.id]:
+                                            filtered_inv_lines.append(
+                                                inv_line.id)
+                                    else:
+                                        inv_type = inv_line.invoice_id.type
+                                        if inv_type in ('out_invoice',
+                                                        'out_refund'):
+                                            tax = inv_line.product_id.taxes_id
+                                        if tax.ids in [cota.id]:
+                                            filtered_inv_lines.append(
+                                                inv_line.id)
+                                print inv_lines
+                                inv_lines = obj_inv_line.browse(
+                                    filtered_inv_lines)
                                 baza = sum(
                                     line.price_subtotal for line in inv_lines)
                                 taxes = 0
                                 new_dict = {
                                     'tip': oper_type,
                                     'tip_partener': partner_type,
-                                    'cota': cota,
+                                    'cota': cota_amount,
                                     'cuiP': partner._split_vat(partner.vat)[1],
                                     'denP': partner.name,
                                     'nrFact': len(
@@ -258,34 +283,64 @@ class d394_new_report(models.TransientModel):
                                     'tip_document': doc_type,
                                 }
                         else:
-                            inv_lines = obj_inv_line.search(
-                                [('invoice_id', 'in', part_invoices.ids),
-                                 ('partner_id', '=', partner.id),
-                                 ('invoice_line_tax_id', 'in', [cota.id])])
+                            domain = [('invoice_id', 'in', part_invoices.ids)]
+                            inv_lines = obj_inv_line.search(domain)
+                            filtered_inv_lines = []
+                            for inv_line in inv_lines:
+                                fp = inv_line.invoice_id.fiscal_position
+                                tax = inv_line.product_id.supplier_taxes_id
+                                if not fp or ('National' in fp.name):
+                                    tax = inv_line.invoice_line_tax_id
+                                    if cota.id in tax.ids:
+                                        filtered_inv_lines.append(
+                                            inv_line.id)
+                                else:
+                                    inv_type = inv_line.invoice_id.type
+                                    if inv_type in ('out_invoice',
+                                                    'out_refund'):
+                                        tax = inv_line.product_id.taxes_id
+                                    if cota.id in tax.ids:
+                                        filtered_inv_lines.append(
+                                            inv_line.id)
+                            inv_lines = obj_inv_line.browse(filtered_inv_lines)
+                            print inv_lines
                             baza = sum(
                                 line.price_subtotal for line in inv_lines)
                             taxes = 0
                             new_dict = {
                                 'tip': oper_type,
                                 'tip_partener': partner_type,
-                                'cota': cota,
+                                'cota': cota_amount,
                                 'cuiP': partner._split_vat(partner.vat)[1],
                                 'denP': partner.name,
                                 'nrFact': len(part_invoices),
                                 'baza': baza,
                             }
-                        if oper_type in ('L', 'V', 'C', 'A', 'AI'):
-                            taxes = sum(
-                                line.price_taxes + \
-                                line.price_normal_taxes for line in inv_lines)
-                            products = [line.product_id for line in inv_lines]
-                            codes = [product.d394_id for product in products]
-                            for code in codes:
-                                cod_lines = [
-                                    line for line in inv_lines.filtered(
-                                        lambda r:
-                                        r.product_id.d394_id == code.id)
-                                ]
+                            if oper_type in ('L', 'V', 'C', 'A', 'AI'):
+                                taxes = sum(
+                                    line.price_taxes + \
+                                    line.price_normal_taxes for line in inv_lines)
+                                new_dict['tva'] = taxes
+                                products = [line.product_id for line in inv_lines]
+                                codes = [product.d394_id for product in products]
+                                op11 = []
+                                for code in codes:
+                                    cod_lines = [
+                                        line for line in inv_lines.filtered(
+                                            lambda r:
+                                            r.product_id.d394_id.id == code.id)
+                                    ]
+                                    baza1 = sum(
+                                        line.price_subtotal for line in cod_lines)
+                                    taxes1 = sum(
+                                        line.price_taxes + \
+                                        line.price_normal_taxes for line in cod_lines)
+                                    op11.append({
+                                        'codPR': code.name,
+                                        'bazaPR': baza1,
+                                        'tvaPR': taxes1
+                                    })
+                                new_dict['op11'] = op11
                         op1.append(new_dict)
         xmldict.update({
             'totalPlata_A': int(len(cui)) + int(bazaL) + int(tvaL) +
