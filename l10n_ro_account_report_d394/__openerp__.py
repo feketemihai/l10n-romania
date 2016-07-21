@@ -50,6 +50,7 @@ Romania  - Accounting Reports
              'views/account_invoice_view.xml',
              'views/account_journal_view.xml',
              'views/ir_sequence_view.xml',
+             'views/res_company_view.xml',
              'wizard/d394_view.xml',
              'security/ir.model.access.csv', ],
     'installable': True,

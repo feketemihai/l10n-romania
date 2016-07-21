@@ -3,7 +3,7 @@
     <data>
         <record id="view_d394_new" model="ir.ui.view">
             <field name="name">D394 Form</field>
-            <field name="model">l10n_ro_account_report.d394_new.report</field>
+            <field name="model">l10n_ro_account_report_d394.d394_new.report</field>
             <field name="arch" type="xml">
                 <form string="D394 Form">
                     <group>
@@ -31,7 +31,7 @@
 
         <record id="view_d394_new_save" model="ir.ui.view">
             <field name="name">D394 New Form Save</field>
-            <field name="model">l10n_ro_account_report.d394_new.report</field>
+            <field name="model">l10n_ro_account_report_d394.d394_new.report</field>
             <field name="arch" type="xml">
                 <form string="Save XML">
                     <label string="Save the File with '.xml' extension."/>
@@ -43,9 +43,7 @@
 
         <record id="action_d394_new" model="ir.actions.act_window">
             <field name="name">D394 New Form</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">l10n_ro_account_report.d394_new.report</field>
-            <field name="view_type">form</field>
+            <field name="res_model">l10n_ro_account_report_d394.d394_new.report</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="view_d394_new"/>
             <field name="target">new</field>
