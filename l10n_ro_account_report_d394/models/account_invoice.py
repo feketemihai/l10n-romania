@@ -1,24 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2016 FOREST AND BIOMASS SERVICES ROMANIA SA
-#    (http://www.forbiom.eu).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2016 Forest and Biomass Romania
+# See README.rst file on addons root folder for license details
 
 import re
 from openerp import models, fields, api
@@ -119,6 +101,8 @@ class AccountInvoice(models.Model):
     @api.depends('state')
     def _get_operation_type(self):
         for inv in self:
+            partner = inv.partner_id
+            country_ro = self.env.ref('base.ro')
             if inv.type in ('out_invoice', 'out_refund'):
                 if inv.fiscal_position and \
                         ('Taxare Inversa' in inv.fiscal_position.name):
@@ -133,13 +117,19 @@ class AccountInvoice(models.Model):
                 else:
                     oper_type = 'L'
             else:
-                if not inv.partner_id.is_company and inv.origin_type:
+                if not partner.is_company and inv.origin_type:
                     oper_type = 'N'
                 elif inv.fiscal_position and \
                         (('Taxare Inversa' in inv.fiscal_position.name) or \
-                         ('Comunitar' in inv.fiscal_position.name) or \
-                         ('Scutite' in inv.fiscal_position.name)):
+                         ('Comunitar' in inv.fiscal_position.name)):
                     oper_type = 'C'
+                elif inv.fiscal_position and  \
+                        ('Scutite' in inv.fiscal_position.name):
+                    if partner.country_id and \
+                            partner.country_id.id == country_ro.id:
+                        oper_type = 'A'
+                    else:
+                        oper_type = 'C'
                 elif not inv.fiscal_position or \
                         (inv.fiscal_position and
                          ('National' in inv.fiscal_position.name)):
