@@ -22,7 +22,7 @@ Fields added:
 
 * Order Code - Country state order.
 
-The field in completed at module install/update from data file.
+The field in completed/updated at module install/update from data file.
 
 `Sequences <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/ir_sequence.py>`_.
 
@@ -50,10 +50,10 @@ Fields added:
   * Normal invoicing
   * Autoinvoicing emmited by supplier (Customer Invoice)
   * Autoinvoicing emitted by company (Supplier Invoice)
-Field is related to Sequence Type field from Journal Sequence.
+  Field is related to Sequence Type field from Journal Sequence.
 * Partner - In autoinvoicing, the field in storing the partner associated
   with this sequence.
-Field is related to Partner field from Journal Sequence.
+  Field is related to Partner field from Journal Sequence.
 
 `Account Invoice <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/account_invoice.py>`_.
 
@@ -75,7 +75,7 @@ Fields added:
   * Normal invoicing
   * Autoinvoicing emmited by supplier (Customer Invoice)
   * Autoinvoicing emitted by company (Supplier Invoice)
-Field is related to Sequence Type field from Journal and Journal Sequence.
+  Field is related to Sequence Type field from Journal and Journal Sequence.
 * Partner Type - Computed field to get partner type specified in ANAF specification.
   Options availables are:
 
