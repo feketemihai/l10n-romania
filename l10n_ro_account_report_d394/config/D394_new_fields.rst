@@ -8,6 +8,7 @@ Romania - D394 Account Report
 Version 3 - starting from 01.07.2016
 
 `Companies <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/res_company.py>`_.
+===========================================================================================================================
 
 Fields added:
 
@@ -17,6 +18,7 @@ Fields added:
 * Fiscal representative - Partner representing the company.
 
 `Country states <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/res_country_states.py>`_.
+=======================================================================================================================================
 
 Fields added:
 
@@ -25,6 +27,7 @@ Fields added:
 The field in completed/updated at module install/update from data file.
 
 `Sequences <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/ir_sequence.py>`_.
+===========================================================================================================================
 
 Fields added:
 
@@ -41,6 +44,7 @@ Fields added:
   with this sequence.
 
 `Account Journals <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/account_journal.py>`_.
+======================================================================================================================================
 
 Fields added:
 
@@ -51,11 +55,11 @@ Fields added:
   * Autoinvoicing emmited by supplier (Customer Invoice)
   * Autoinvoicing emitted by company (Supplier Invoice)
   Field is related to Sequence Type field from Journal Sequence.
-* Partner - In autoinvoicing, the field in storing the partner associated
-with this sequence.
+* Partner - In autoinvoicing, the field in storing the partner associated with this sequence.
   Field is related to Partner field from Journal Sequence.
 
 `Account Invoice <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/account_invoice.py>`_.
+=====================================================================================================================================
 
 Fields added:
 
@@ -83,7 +87,7 @@ Fields added:
   * 2 - Romanian Companies without Vat Subjected or Fizical Persons
   * 3 - EU Partnes
   * 4 - Extra EU Partnes
-* Special - Boolean field to mark the invoices with Special Taxation, e.g.
+* Special Taxation - Boolean field to mark the invoices with Special Taxation, e.g.
   Tourism, Second hand goods reseller...
 * Invoice Serie - Computed field to get the serie of the invoice
   splitted the invoice number/supplier invoice number.
@@ -94,5 +98,6 @@ Fields added:
   to easily fetch the vat quotas in D394.
 
 `D394 codes <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/d394_code.py>`_.
+==========================================================================================================================
   
 * Parent Code - Added for hierarchical use of codes, useful in "Rezumat" tags in report.
