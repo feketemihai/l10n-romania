@@ -39,3 +39,19 @@ Fields added:
   fiscalyear - available in internal decision about ordering.
 * Partner - In autoinvoicing, the field in storing the partner associated
   with this sequence.
+
+`Account Journals <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/account_journal.py>`_.
+
+Fields added:
+
+* Fiscal Receipt - Field to mark the journal as fiscal receipts journal.
+.. _`Sequence Type`:
+* _Sequence Type - Selection field to choose the type of invoicing:
+
+  * Normal invoicing
+  * Autoinvoicing emmited by supplier (Customer Invoice)
+  * Autoinvoicing emitted by company (Supplier Invoice)
+Field is related to `Sequence Type`_ field from Journal Sequence
+* Partner - In autoinvoicing, the field in storing the partner associated
+  with this sequence.
+Field is related to Partner field from Journal Sequence
