@@ -45,13 +45,54 @@ Fields added:
 Fields added:
 
 * Fiscal Receipt - Field to mark the journal as fiscal receipts journal.
-.. _`sequence-type`:
-* _Sequence Type - Selection field to choose the type of invoicing:
+* Sequence Type - Selection field to choose the type of invoicing:
 
   * Normal invoicing
   * Autoinvoicing emmited by supplier (Customer Invoice)
   * Autoinvoicing emitted by company (Supplier Invoice)
-Field is related to `Sequence Type`_ field from Journal Sequence
+Field is related to Sequence Type field from Journal Sequence.
 * Partner - In autoinvoicing, the field in storing the partner associated
   with this sequence.
-Field is related to Partner field from Journal Sequence
+Field is related to Partner field from Journal Sequence.
+
+`Account Invoice <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/account_invoice.py>`_.
+
+Fields added:
+
+* Operation Type - Computed field to get operation type specified in ANAF specification.
+  Options availables are:
+
+  * L - Customer Invoice
+  * A - Supplier Invoice
+  * LS - Special Customer Invoice
+  * AS - Special Supplier Invoice
+  * AI - VAT on Payment Supplier Invoice
+  * V - Inverse Taxation Customer Invoice
+  * C - Inverse Taxation Supplier Invoice
+  * N - Fizical Persons Supplier Invoice
+* Sequence Type - Selection field to choose the type of invoicing:
+
+  * Normal invoicing
+  * Autoinvoicing emmited by supplier (Customer Invoice)
+  * Autoinvoicing emitted by company (Supplier Invoice)
+Field is related to Sequence Type field from Journal and Journal Sequence.
+* Partner Type - Computed field to get partner type specified in ANAF specification.
+  Options availables are:
+
+  * 1 - Romanian Companies with Vat Subjected
+  * 2 - Romanian Companies without Vat Subjected or Fizical Persons
+  * 3 - EU Partnes
+  * 4 - Extra EU Partnes
+* Special - Boolean field to mark the invoices with Special Taxation, e.g.
+  Tourism, Second hand goods reseller...
+* Invoice Serie - Computed field to get the serie of the invoice
+  splitted the invoice number/supplier invoice number.
+* Invoice Number - Computed field to get the number of the invoice
+  splitted the invoice number/supplier invoice number.
+* Normal Taxes - On invoices with fiscal position different than National,
+  the field computes the normal taxes associated with invoice line products,
+  to easily fetch the vat quotas in D394.
+
+`D394 codes <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/d394_code.py>`_.
+  
+* Parent Code - Added for hierarchical use of codes, useful in "Rezumat" tags in report.

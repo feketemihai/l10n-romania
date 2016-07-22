@@ -188,7 +188,8 @@ class AccountInvoice(models.Model):
                                compute="_get_partner_type")
     special_taxes = fields.Boolean('Special Taxation')
     tax_ids = fields.Many2many('account.tax',
-                               compute="_get_tax_ids")
+                               compute="_get_tax_ids",
+                               'Normal Taxes')
 
     @api.multi
     def onchange_journal_id(self, journal_id=False):
