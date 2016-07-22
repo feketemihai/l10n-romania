@@ -63,7 +63,8 @@ class AccountInvoice(models.Model):
         regex = re.compile('[^a-zA-Z]')
         regex1 = re.compile('[^0-9]')
         for inv in self:
-            if inv.internal_number:
+            if inv.type in ('out_invoice', 'out_refund') or \
+                    inv.journal_id.sequence_type in ('autoinv1', 'autoinv2'):
                 inv_seq = inv.journal_id.sequence_id
                 ctx = self._context.copy()
                 ctx['fiscalyear_id'] = inv.period_id.fiscalyear_id.id
@@ -71,9 +72,25 @@ class AccountInvoice(models.Model):
                     inv_seq.prefix,
                     inv_seq.with_context(ctx)._interpolation_dict_context())
                 inv.inv_serie = regex.sub('', inv_serie)
-                inv.inv_number = regex1.sub(
+                inv.inv_number = int(regex1.sub(
                     '',
-                    inv.internal_number.replace(inv_serie, ''))
+                    inv.internal_number.replace(inv_serie, '')))
+            else:
+                if inv.supplier_invoice_number and \
+                        regex1.sub('', inv.supplier_invoice_number):
+                    val = inv.supplier_invoice_number
+                else:
+                    val = inv.internal_number
+                print val
+                inv_serie = regex.sub('', val)
+                inv.inv_serie = inv_serie
+                if inv_serie:
+                    inv.inv_number = int(regex1.sub(
+                        '',
+                        val.replace(inv_serie, '')))
+                else:
+                    inv.inv_number = int(regex1.sub(
+                        '', val))
         return True
 
     @api.multi

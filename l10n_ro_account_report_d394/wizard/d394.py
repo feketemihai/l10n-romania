@@ -21,6 +21,7 @@
 ##############################################################################
 
 import base64
+import re
 
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning as UserError
@@ -194,7 +195,9 @@ class d394_new_report(models.TransientModel):
                     ('state', 'in', ['open', 'paid']),
                     ('period_id', '=', self.period_id.id),
                     ('fiscal_receipt', '=', False),
-                    ('company_id', '=', self.company_id.id)
+                    '|',
+                    ('company_id', '=', self.company_id.id),
+                    ('company_id', 'in', self.company_id.child_ids.ids)
                 ])
         if invoices:
             partners = self.env['res.partner'].browse(
@@ -238,9 +241,11 @@ class d394_new_report(models.TransientModel):
         comp_curr = company.currency_id
         payments = []
         where = [
-            ('company_id', '=', company.id),
             ('state', 'in', ['open', 'paid']),
-            ('date_invoice', '<=', period.date_stop)
+            ('date_invoice', '<=', period.date_stop),
+            '|',
+            ('company_id', '=', self.company_id.id),
+            ('company_id', 'in', self.company_id.child_ids.ids)
         ]
         invoices = invoice_obj.search(where,
                                       order="type desc, date_invoice, number")
@@ -909,11 +914,11 @@ class d394_new_report(models.TransientModel):
                 for line in op1['op11']:
                     code = line['codPR']
                     new_code = obj_d394_code.search([('name', '=', code)])
-                    if new_code and new_code.parent_id:
-                        new_code = code.parent_id
+                    if new_code and new_code[0].parent_id:
+                        new_code = new_code[0].parent_id
                     if rez_detaliu:
                         for val in rez_detaliu:
-                            if new_code.name in val.d.values():
+                            if new_code.name in val.values():
                                 if op1['tip'] == 'L':
                                     val['nrLiv'] += int(
                                         round(line['nrFactPR']))
@@ -1095,6 +1100,7 @@ class d394_new_report(models.TransientModel):
             oper_type = op1s[0]['tip']
             cota_amount = int(op1s[0]['cota'])
             rezumat2['cota'] = op1s[0]['cota']
+            # To review
             rezumat2['bazaFSLcod'] = 0
             rezumat2['TVAFSLcod'] = 0
             rezumat2['bazaFSL'] = 0
@@ -1103,8 +1109,25 @@ class d394_new_report(models.TransientModel):
             rezumat2['TVAFSA'] = 0
             rezumat2['bazaFSAI'] = 0
             rezumat2['TVAFSAI'] = 0
+
             rezumat2['bazaBFAI'] = 0
             rezumat2['TVABFAI'] = 0
+
+            rezumat2['bazaL_PF'] = 0
+            rezumat2['tvaL_PF'] = 0
+
+            fr_inv = domain = "r.operation_type == 'L' and \
+                r.fiscal_receipt is True"
+            inv_lines = self._get_inv_lines(invoices, cota_amount, domain)
+            if inv_lines:
+                rezumat2['bazaBFAI'] = int(round(sum(
+                    line.price_subtotal for line in inv_lines if \
+                    not line.invoice_id.journal_id.fiscal_receipt)))
+                rezumat2['TVABFAI'] = int(round(sum(
+                    line.price_normal_taxes and \
+                    line.price_normal_taxes or line.price_taxes \
+                    for line in inv_lines if \
+                    not line.invoice_id.journal_id.fiscal_receipt)))
             rezumat2['nrFacturiL'] = int(round(sum(
                 op['nrFact'] for op in op1s if op['tip'] in ('L', 'V'))))
             rezumat2['bazaL'] = int(round(sum(
@@ -1206,15 +1229,266 @@ class d394_new_report(models.TransientModel):
         self.ensure_one()
         rezumat2 = []
         cotas = set([x['cota'] for x in op1] + [5, 9, 20])
-        print cotas
         for cota in cotas:
             op1s = [x for x in op1 if x['cota'] == cota]
             rezumat2.append(self.generate_rezumat2(cota, invoices, op1s, op2))
         return rezumat2
 
     @api.multi
+    def _get_inv_series(self):
+        self.ensure_one()
+        obj_seq = self.env['ir.sequence']
+        obj_invoice = self.env['account.invoice']
+        regex = re.compile('[^a-zA-Z]')
+        ctx = self._context.copy()
+        ctx['fiscalyear_id'] = self.period_id.fiscalyear_id.id
+        invoices = obj_invoice.search([
+                    ('state', '!=', 'draft'),
+                    ('period_id', '=', self.period_id.id),
+                    ('fiscal_receipt', '=', False),
+                    '|',
+                    ('company_id', '=', self.company_id.id),
+                    ('company_id', 'in', self.company_id.child_ids.ids),
+                    '|',
+                    ('type', 'in', ('out_invoice', 'out_refund')),
+                    ('journal_id.sequence_type', 'in',
+                     ('autoinv1', 'autoinv2'))
+                ])
+        seq_ids = set(invoices.mapped('journal_id.sequence_id.id'))
+        sequences = obj_seq.browse(seq_ids)
+        seq_dict = []
+        for sequence in sequences:
+            serie = sequence._interpolate(
+                sequence.prefix,
+                sequence.with_context(ctx)._interpolation_dict_context())
+            nr_init = sequence.number_first
+            nr_last = sequence.number_last
+            for line in sequence.fiscal_ids:
+                if line.fiscalyear_id.id == self.period_id.fiscalyear_id.id:
+                    nr_init = line.number_first
+                    nr_last = line.number_last
+                    break
+            partner = sequence.partner_id
+            tip = 1
+            seq = {
+                'tip': tip,
+                'serieI': regex.sub('', serie),
+                'nrI': nr_init,
+                'nrF': nr_last
+            }
+            if partner:
+                seq['den'] = partner.name
+                seq['cui'] = partner._split_vat(
+                    partner.vat)[1]
+            seq_dict.append(seq)
+            seq1 = seq.copy()
+            if sequence.sequence_type == 'normal':
+                tip = 2
+            elif sequence.sequence_type == 'autoinv1':
+                tip = 3
+            else:
+                tip = 4
+            inv = invoices.filtered(lambda r: \
+                r.journal_id.sequence_id.id == sequence.id).sorted(
+                    key=lambda k: k.inv_number)
+            seq1['tip'] = tip
+            seq1['nrI'] = inv[0].inv_number
+            seq1['nrF'] = inv[-1].inv_number
+            seq_dict.append(seq1)
+        return seq_dict
+
+    @api.multi
+    def _generate_lista(self):
+        self.ensure_one()
+        obj_tax = self.env['account.tax']
+        obj_invoice = self.env['account.invoice']
+        obj_inv_line = self.env['account.invoice.line']
+        comp_curr = self.company_id.currency_id
+        caens = ['1071', '4520', '4730', '47761', '47762', '4932', '55101',
+                 '55102', '55103', '5630', '0812', '9313', '9602', '9603']
+        lista = []
+        invoices = obj_invoice.search([
+                    ('type', 'in', ['out_invoice', 'out_refund']),
+                    ('state', 'in', ['open', 'paid']),
+                    ('period_id', '=', self.period_id.id),
+                    ('fiscal_receipt', '=', False),
+                    '|',
+                    ('company_id', '=', self.company_id.id),
+                    ('company_id', 'in', self.company_id.child_ids.ids)
+                ])
+        companies = set(invoices.mapped('company_id.id'))
+        for company in self.env['res.company'].browse(companies):
+            if company.codcaen.code.zfill(4) in caens:
+                comp_inv = invoices.filtered(
+                    lambda r: r.company_id.id == company.id)
+                cotas = []
+                for invoice in comp_inv:
+                    cotas += set([tax.id for tax in invoice.tax_ids])
+                cotas = set(cotas)
+                for cota in obj_tax.browse(cotas):
+                    cota_amount = 0
+                    if cota.type == 'percent':
+                        cota_amount = int(cota.amount * 100)
+                    elif cota.type == 'amount':
+                        cota_amount = int(cota.amount)
+                    cota_inv = comp_inv.filtered(
+                        lambda r: cota.id in r.tax_ids.ids)
+                    inv_lines = obj_inv_line.search([
+                        ('invoice_id', 'in', cota_inv.ids)])
+                    bazab = bazas = tvab = tvas = 0
+                    for line in inv_lines:
+                        inv_curr = line.invoice_id.currency_id
+                        inv_date = line.invoice_id.date_invoice
+                        if line.product_id.type in ('product', 'consumables'):
+                            bazab += inv_curr.with_context(
+                                {'date': inv_date}).compute(
+                                 line.price_subtotal, comp_curr)
+                            tvab += inv_curr.with_context(
+                                {'date': inv_date}).compute(
+                                line.price_normal_taxes and \
+                                line.price_normal_taxes or \
+                                line.price_taxes, comp_curr)
+                        else:
+                            bazas += inv_curr.with_context(
+                                {'date': inv_date}).compute(
+                                 line.price_subtotal, comp_curr)
+                            tvas += inv_curr.with_context(
+                                {'date': inv_date}).compute(
+                                line.price_normal_taxes and \
+                                line.price_normal_taxes or \
+                                line.price_taxes, comp_curr)
+                    if bazab != 0:
+                        bdict = {
+                            'caen': company.codcaen.code.zfill(4),
+                            'cota': cota_amount,
+                            'operat': 1,
+                            'valoare': int(round(bazab)),
+                            'tva': int(round(tvab))
+                        }
+                        lista.append(bdict)
+                    if bazas != 0:
+                        sdict = {
+                            'caen': company.codcaen.code.zfill(4),
+                            'cota': cota_amount,
+                            'operat': 2,
+                            'valoare': int(round(bazas)),
+                            'tva': int(round(tvas))
+                        }
+                        lista.append(sdict)
+        return lista
+
+    @api.multi
+    def _generate_facturi(self):
+        self.ensure_one()
+        obj_inv_line = self.env['account.invoice.line']
+        obj_invoice = self.env['account.invoice']
+        obj_period = self.env['account.period']
+        comp_curr = self.company_id.currency_id
+        facturi = []
+        invoices1 = obj_invoice.search([
+                    ('fiscal_receipt', '=', False),
+                    ('state', '!=', 'draft'),
+                    ('period_id', '=', self.period_id.id),
+                    '|',
+                    ('company_id', '=', self.company_id.id),
+                    ('company_id', 'in', self.company_id.child_ids.ids)
+                ])
+        invoices = invoices1.filtered(lambda r:
+            r.amount_total < 0 or r.state == 'cancel' or \
+            r.journal_id.sequence_type in ('autoinv1', 'autoinv2'))
+        for inv in invoices:
+            baza24 = baza20 = baza19 = baza9 = baza5 = 0
+            tva24 = tva20 = tva19 = tva9 = tva5 = 0
+            inv_curr = inv.currency_id
+            inv_date = inv.date_invoice
+            inv_type = False
+            if inv.type in ('out_invoice', 'out_refund'):
+                if inv.state == 'cancel':
+                    inv_type = 2
+                elif inv.amount_total < 0:
+                    inv_type = 1
+                elif inv.journal_id.sequence_type == 'autoinv1':
+                    inv_type = 3
+            elif inv.journal_id.sequence_type == 'autoinv2':
+                inv_type = 4
+            if inv_type:
+                for line in inv.invoice_line:
+                    cotas = [tax for tax in line.invoice_line_tax_id]
+                    for cota in cotas:
+                        cota_amount = 0
+                        if cota.type == 'percent':
+                            cota_amount = int(cota.amount * 100)
+                        elif cota.type == 'amount':
+                            cota_amount = int(cota.amount)
+                        if cota_amount in (5, 9, 19, 20, 24):
+                            if cota_amount == 24:
+                                baza24 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_subtotal, comp_curr)
+                                tva24 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_normal_taxes and \
+                                    line.price_normal_taxes or \
+                                    line.price_taxes, comp_curr)
+                            elif cota_amount == 20:
+                                baza20 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_subtotal, comp_curr)
+                                tva20 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_normal_taxes and \
+                                    line.price_normal_taxes or \
+                                    line.price_taxes, comp_curr)
+                            elif cota_amount == q9:
+                                bazaq9 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_subtotal, comp_curr)
+                                tvaq9 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_normal_taxes and \
+                                    line.price_normal_taxes or \
+                                    line.price_taxes, comp_curr)
+                            elif cota_amount == 9:
+                                baza9 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_subtotal, comp_curr)
+                                tva9 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_normal_taxes and \
+                                    line.price_normal_taxes or \
+                                    line.price_taxes, comp_curr)
+                            elif cota_amount == 5:
+                                baza5 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_subtotal, comp_curr)
+                                tva5 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_normal_taxes and \
+                                    line.price_normal_taxes or \
+                                    line.price_taxes, comp_curr)
+                new_dict = {
+                    'tip_factura': inv_type,
+                    'serie': inv.inv_serie,
+                    'nr': inv.inv_number,
+                }
+                if inv_type == 3:
+                    new_dict.update({
+                        'baza24': int(round(baza24)),
+                        'baza20': int(round(baza20)),
+                        'baza19': int(round(baza19)),
+                        'baza9': int(round(baza9)),
+                        'baza5': int(round(baza5)),
+                        'tva5': int(round(tva20)),
+                        'tva9': int(round(tva9)),
+                        'tva19': int(round(tva19)),
+                        'tva20': int(round(tva20)),
+                        'tva24': int(round(tva24))
+                    })
+                facturi.append(new_dict)
+        return facturi
+
+    @api.multi
     def _get_datas(self):
-        """"""
         self.ensure_one()
         ctx = dict(self._context)
         obj_invoice = self.env['account.invoice']
@@ -1336,7 +1610,9 @@ class d394_new_report(models.TransientModel):
                     ('state', 'in', ['open', 'paid']),
                     ('period_id', '=', period.id),
                     ('fiscal_receipt', '=', False),
-                    ('company_id', '=', company.id)
+                    '|',
+                    ('company_id', '=', self.company_id.id),
+                    ('company_id', 'in', self.company_id.child_ids.ids)
                 ])
         if invoices:
             xmldict.update({
@@ -1345,20 +1621,23 @@ class d394_new_report(models.TransientModel):
 
         op1 = self._get_op1(invoices)
         invoices1 = obj_invoice.search([
-                    ('date_invoice', '>=', fields.Date.from_string(
-                        period.code[3:] + '-01-01')),
-                    ('date_invoice', '<=', period.date_stop),
                     ('type', 'in', ('out_invoice', 'out_refund')),
                     ('fiscal_receipt', '=', True),
+                    ('journal_id.fiscal_receipt', '=', True),
                     ('state', 'in', ['open', 'paid']),
                     ('period_id', '=', period.id),
-                    ('company_id', '=', company.id)
+                    '|',
+                    ('company_id', '=', self.company_id.id),
+                    ('company_id', 'in', self.company_id.child_ids.ids)
                 ])
         op2 = self._get_op2(invoices1)
         payments = self._get_payments()
         informatii = self._generate_informatii(invoices, payments, op1, op2)
         rezumat1 = self._generate_rezumat1(invoices, payments, op1, op2)
-        rezumat2 = self._generate_rezumat2(invoices, payments, op1, op2)
+        rezumat2 = self._generate_rezumat2(invoices1, payments, op1, op2)
+        serieFacturi = self._get_inv_series()
+        lista = self._generate_lista()
+        facturi = self._generate_facturi()
         totalPlataA = 0
         totalPlataA += informatii['nrCui1'] + informatii['nrCui2'] + \
             informatii['nrCui3'] + informatii['nrCui4']
@@ -1369,6 +1648,9 @@ class d394_new_report(models.TransientModel):
             'informatii': informatii,
             'rezumat1': rezumat1,
             'rezumat2': rezumat2,
+            'serieFacturi': serieFacturi,
+            'lista': lista,
+            'facturi': facturi,
             'op1': op1,
             'op2': op2,
         })
@@ -1380,7 +1662,7 @@ class d394_new_report(models.TransientModel):
     @api.multi
     def create_xml(self):
         self.ensure_one()
-        self._update_partners()
+        #self._update_partners()
         ctx = dict(self._context)
         mod_obj = self.env['ir.model.data']
         xml_data = self._get_datas()
@@ -1422,6 +1704,24 @@ xmlns="mfp:anaf:dgti:d394t:declaratie:v3" """
         for client in xml_data['rezumat2']:
             data_file += """
 <rezumat2 """
+            for key, val in client.iteritems():
+                data_file += """%s="%s" """ % (key, val)
+            data_file += """/>"""
+        for client in xml_data['serieFacturi']:
+            data_file += """
+<serieFacturi """
+            for key, val in client.iteritems():
+                data_file += """%s="%s" """ % (key, val)
+            data_file += """/>"""
+        for client in xml_data['lista']:
+            data_file += """
+<lista """
+            for key, val in client.iteritems():
+                data_file += """%s="%s" """ % (key, val)
+            data_file += """/>"""
+        for client in xml_data['facturi']:
+            data_file += """
+<facturi """
             for key, val in client.iteritems():
                 data_file += """%s="%s" """ % (key, val)
             data_file += """/>"""

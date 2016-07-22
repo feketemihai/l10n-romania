@@ -10,6 +10,7 @@
 		    <field name="sequence_id" position="after">
 		          <field name="fiscal_receipt"/>
 		          <field name="sequence_type" readonly="True"/>
+		          <field name="partner_id" attrs="{'invisible':[('sequence_type','=', 'normal')], 'required':[('sequence_type','!=', 'normal')]}"/>
 		    </field>                    
 		</field>
 	</record>

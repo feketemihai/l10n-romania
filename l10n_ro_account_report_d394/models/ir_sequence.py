@@ -35,3 +35,5 @@ class IRSequence(models.Model):
     sequence_type = fields.Selection(SEQUENCE_TYPE, default='normal')
     number_first = fields.Integer('Serie First Number')
     number_last = fields.Integer('Serie Last Number')
+    partner_id = fields.Many2one('res.partner', 'Partner')
+    
