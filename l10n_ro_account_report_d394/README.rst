@@ -10,8 +10,7 @@ Module in designed from ANAF specifications available at
 
 https://chat.anaf.ro/d394.nsf
 
-Module depends on many modules which are adding needed fields and methods
-to print the report.
+Module depends on many modules which are adding needed fields and methods to print the report.
 
 Installation
 ============
@@ -28,7 +27,7 @@ Usage
 =====
 
 In the Accounting -> Reporting -> Legal Reports -> Accounting Reports
-you have a new menu called D394. At launch of the wizard, Odoo will 
+you have a new menu called D394. At launch of the wizard, Odoo will
 print the D394 based on the operations inputed.
 
 More configuration and doc about it in `D394.rst <https://github.com/feketemihai/l10n-romania/l10n_ro_account_report_d394/D394.rst>`_.
