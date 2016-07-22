@@ -45,7 +45,7 @@ Fields added:
 Fields added:
 
 * Fiscal Receipt - Field to mark the journal as fiscal receipts journal.
-.. _`Sequence Type`:
+.. _`sequence-type`:
 * _Sequence Type - Selection field to choose the type of invoicing:
 
   * Normal invoicing
