@@ -32,9 +32,9 @@ The field in completed at module install/update from data file.
 Fields added:
 
 * Sequence Type - Selection field to choose the type of invoicing:
-  - Normal invoicing
-  - Autoinvoicing emmited by supplier (Customer Invoice)
-  - Autoinvoicing emitted by company (Supplier Invoice)
+  * Normal invoicing
+  * Autoinvoicing emmited by supplier (Customer Invoice)
+  * Autoinvoicing emitted by company (Supplier Invoice)
 * Serie First Number - First number of sequence at the beggining of
   fiscalyear - available in internal decision about ordering.
 * Serie Last Number - Last number of sequence at the beggining of
