@@ -52,7 +52,7 @@ Fields added:
   * Autoinvoicing emitted by company (Supplier Invoice)
   Field is related to Sequence Type field from Journal Sequence.
 * Partner - In autoinvoicing, the field in storing the partner associated
-  with this sequence.
+with this sequence.
   Field is related to Partner field from Journal Sequence.
 
 `Account Invoice <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/account_invoice.py>`_.
