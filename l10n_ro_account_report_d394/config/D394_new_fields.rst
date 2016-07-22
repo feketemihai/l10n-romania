@@ -7,10 +7,7 @@ Romania - D394 Account Report
 
 Version 3 - starting from 01.07.2016
 
-Since the modification done on the D394 report vy ANAF, there are some 
-configuration needed to be able to print the correct report from Odoo.
-
-`Companies <https://github.com/feketemihai/l10n-romania/l10n_ro_account_report_d394/models/res_company.py>`_.
+`Companies <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/res_company.py>`_.
 
 Fields added:
 
@@ -19,7 +16,7 @@ Fields added:
   represented by another partner.
 * Fiscal representative - Partner representing the company.
 
-`Country states <https://github.com/feketemihai/l10n-romania/l10n_ro_account_report_d394/models/res_country_states.py>`_.
+`Country states <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/res_country_states.py>`_.
 
 Fields added:
 
@@ -27,7 +24,7 @@ Fields added:
 
 The field in completed at module install/update from data file.
 
-`Sequences <https://github.com/feketemihai/l10n-romania/l10n_ro_account_report_d394/models/ir_sequence.py>`_.
+`Sequences <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/ir_sequence.py>`_.
 
 Fields added:
 

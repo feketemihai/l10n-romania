@@ -1,0 +1,14 @@
+.. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
+    :alt: License: AGPL-3
+
+=============================
+Romania - D394 Account Report
+=============================
+
+Version 3 - starting from 01.07.2016
+
+Since the modification done on the D394 report by ANAF, there are some 
+configurations needed to be able to print the correct report from Odoo.
+
+`Fields added <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/config/D394_new_fields.rst>`_.
+
