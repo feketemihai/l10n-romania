@@ -16,7 +16,7 @@ Fields added:
 
 * ANAF Crosschecking - option to allow ANAF crosschecking
 * Is Fiscal representative - boolean field to know if the company is fiscal
-represented by another partner
+  represented by another partner
 * Fiscal representative - Partner representing the company
 
 `Country states <https://github.com/feketemihai/l10n-romania/l10n_ro_account_report_d394/models/res_country_states.py>`_.
@@ -36,8 +36,8 @@ Fields added:
   - Autoinvoicing emmited by supplier (Customer Invoice)
   - Autoinvoicing emitted by company (Supplier Invoice)
 * Serie First Number - First number of sequence at the beggining of
-fiscalyear - available in internal decision about ordering
+  fiscalyear - available in internal decision about ordering
 * Serie Last Number - Last number of sequence at the beggining of
-fiscalyear - available in internal decision about ordering
+  fiscalyear - available in internal decision about ordering
 * Partner - In autoinvoicing, the field in storing the partner associated
-with this sequence
+  with this sequence
