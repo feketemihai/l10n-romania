@@ -63,7 +63,6 @@ class AccountInvoice(models.Model):
                     val = inv.supplier_invoice_number
                 else:
                     val = inv.internal_number
-                print val
                 inv_serie = regex.sub('', val)
                 inv.inv_serie = inv_serie
                 if inv_serie:
@@ -112,6 +111,9 @@ class AccountInvoice(models.Model):
                          ('National' in inv.fiscal_position.name)):
                     if inv.special_taxes:
                         oper_type = 'LS'
+                    elif partner.country_id and \
+                            partner.country_id.id != country_ro.id:
+                        oper_type = 'V'
                     else:
                         oper_type = 'L'
                 else:
@@ -152,8 +154,10 @@ class AccountInvoice(models.Model):
         for inv in self:
             check = False
             taxes = []
-            if not inv.fiscal_position or ('National' in \
-                    inv.fiscal_position.name):
+            if not inv.fiscal_position or (('National' in \
+                    inv.fiscal_position.name) or ('Invers' in \
+                    inv.fiscal_position.name)  or ('Scutit' in \
+                    inv.fiscal_position.name)):
                 for line in inv.invoice_line:
                     taxes += [tax.id for tax in line.invoice_line_tax_id]
             else:
@@ -175,11 +179,14 @@ class AccountInvoice(models.Model):
                 check = True
         return check
 
-    origin_type = fields.Selection(ORIGIN_TYPE, default='1')
+    origin_type = fields.Selection(ORIGIN_TYPE, default='1',
+                                   string='Origin Type')
     sequence_type = fields.Selection(SEQUENCE_TYPE,
-                                     related='journal_id.sequence_type')
+                                     related='journal_id.sequence_type',
+                                     string='Sequence Type')
     operation_type = fields.Selection(OPERATION_TYPE,
-                                      compute='_get_operation_type')
+                                      compute='_get_operation_type',
+                                      string='Operation Type')
     inv_serie = fields.Char('Invoice Serie',
                             compute="_get_inv_number")
     inv_number = fields.Char('Invoice Number',
@@ -189,7 +196,7 @@ class AccountInvoice(models.Model):
     special_taxes = fields.Boolean('Special Taxation')
     tax_ids = fields.Many2many('account.tax',
                                compute="_get_tax_ids",
-                               'Normal Taxes')
+                               string='Normal Taxes')
 
     @api.multi
     def onchange_journal_id(self, journal_id=False):

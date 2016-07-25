@@ -21,6 +21,7 @@
     'data': ['data/394_codes.xml',
              'data/res_country_state.xml',
              'views/d394_code_view.xml',
+             'views/product_view.xml',
              'views/account_invoice_view.xml',
              'views/account_journal_view.xml',
              'views/ir_sequence_view.xml',

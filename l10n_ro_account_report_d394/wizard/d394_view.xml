@@ -10,12 +10,12 @@
                         <separator string="D394 Declaration" colspan="4"/>
                         <notebook colspan="4">
                             <page string="General Information">
-								<field name="company_id" nolabel="1" colspan="4"/>
+                                <field name="company_id" nolabel="1" colspan="4"/>
                                 <newline/>
                                 <separator string="Period" colspan="4"/>
                                 <field name="period_id" nolabel="1" colspan="4"/>
                                 <separator string="ANAF Options" colspan="4"/>
-                                <label for="anaf_cross_opt"/>                    
+                                <label for="anaf_cross_opt"/>
                                 <field name="anaf_cross_opt"/>
                                 <label for="anaf_cross_new_opt"/>
                                 <field name="anaf_cross_new_opt" attrs="{'invisible': [('anaf_cross_opt','!=',False)]}"/>

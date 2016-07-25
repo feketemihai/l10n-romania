@@ -7,29 +7,29 @@ Romania - D394 Account Report
 
 Version 3 - starting from 01.07.2016
 
+Fields added
+============
+
+
 `Companies <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/res_company.py>`_.
 ===========================================================================================================================
-
-Fields added:
 
 * ANAF Crosschecking - option to allow ANAF crosschecking.
 * Is Fiscal representative - boolean field to know if the company is fiscal
   represented by another partner.
 * Fiscal representative - Partner representing the company.
 
-`Country states <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/res_country_states.py>`_.
-=======================================================================================================================================
 
-Fields added:
+`Country states <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/res_country_state.py>`_.
+======================================================================================================================================
 
 * Order Code - Country state order.
 
 The field in completed/updated at module install/update from data file.
 
+
 `Sequences <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/ir_sequence.py>`_.
 ===========================================================================================================================
-
-Fields added:
 
 * Sequence Type - Selection field to choose the type of invoicing:
 
@@ -43,10 +43,9 @@ Fields added:
 * Partner - In autoinvoicing, the field in storing the partner associated
   with this sequence.
 
+
 `Account Journals <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/account_journal.py>`_.
 ======================================================================================================================================
-
-Fields added:
 
 * Fiscal Receipt - Field to mark the journal as fiscal receipts journal.
 * Sequence Type - Selection field to choose the type of invoicing:
@@ -58,10 +57,9 @@ Fields added:
 * Partner - In autoinvoicing, the field in storing the partner associated with this sequence.
   Field is related to Partner field from Journal Sequence.
 
+
 `Account Invoice <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/account_invoice.py>`_.
 =====================================================================================================================================
-
-Fields added:
 
 * Operation Type - Computed field to get operation type specified in ANAF specification.
   Options availables are:
@@ -73,7 +71,7 @@ Fields added:
   * AI - VAT on Payment Supplier Invoice
   * V - Inverse Taxation Customer Invoice
   * C - Inverse Taxation Supplier Invoice
-  * N - Fizical Persons Supplier Invoice
+  * N - Individuals Supplier Invoice
 * Sequence Type - Selection field to choose the type of invoicing:
 
   * Normal invoicing
@@ -84,9 +82,16 @@ Fields added:
   Options availables are:
 
   * 1 - Romanian Companies with Vat Subjected
-  * 2 - Romanian Companies without Vat Subjected or Fizical Persons
+  * 2 - Romanian Companies without Vat Subjected or individuals
   * 3 - EU Partnes
   * 4 - Extra EU Partnes
+* Origin Type - Selection field for type of aquisition from individuals
+  Options availables are:
+
+  * 1 - Invoice
+  * 2 - Slip
+  * 3 - Trading Book
+  * 4 - Contract
 * Special Taxation - Boolean field to mark the invoices with Special Taxation, e.g.
   Tourism, Second hand goods reseller...
 * Invoice Serie - Computed field to get the serie of the invoice
@@ -96,6 +101,7 @@ Fields added:
 * Normal Taxes - On invoices with fiscal position different than National,
   the field computes the normal taxes associated with invoice line products,
   to easily fetch the vat quotas in D394.
+
 
 `D394 codes <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/models/d394_code.py>`_.
 ==========================================================================================================================

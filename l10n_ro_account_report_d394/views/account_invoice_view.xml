@@ -12,10 +12,10 @@
             <field name="arch" type="xml">
                 <field name="fiscal_position" position="before">
                     <field name="special_taxes"/>
-                </field>                
+                </field>
                 <page string="Payments" position="after">
                     <page string="D394 Info">
-						<group>
+                        <group>
                             <group>
                                 <field name="operation_type"/>
                                 <field name="sequence_type"/>
@@ -23,7 +23,7 @@
                             </group>
                             <group>
                                 <field name="inv_serie"/>
-                                <field name="inv_number"/>                                
+                                <field name="inv_number"/>
                             </group>
                         </group>
                         <field name="tax_ids" widget="many2many_tags"/>
@@ -39,14 +39,14 @@
             <field name="arch" type="xml">
                 <field name="fiscal_position" position="before">
                     <field name="special_taxes"/>
-                </field>                
+                </field>
                 <field name="partner_id" position="after">
-					<field name="partner_type" invisible="1"/>
-					<field name="origin_type" attrs="{'invisible': [('partner_type','!=','2')]}"/>
+                    <field name="partner_type" invisible="1"/>
+                    <field name="origin_type" attrs="{'invisible': [('partner_type','!=','2')]}"/>
                 </field>
                 <page string="Payments" position="after">
                     <page string="D394 Info">
-						<group>
+                        <group>
                             <group>
                                 <field name="operation_type"/>
                                 <field name="sequence_type"/>
@@ -54,7 +54,7 @@
                             </group>
                             <group>
                                 <field name="inv_serie"/>
-                                <field name="inv_number"/>                                
+                                <field name="inv_number"/>
                             </group>
                         </group>
                         <field name="tax_ids" widget="many2many_tags"/>

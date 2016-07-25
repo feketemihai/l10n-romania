@@ -20,4 +20,5 @@ class AccountJournal(models.Model):
         related='sequence_id.partner_id')
     sequence_type = fields.Selection(
         SEQUENCE_TYPE,
-        related='sequence_id.sequence_type')
+        related='sequence_id.sequence_type',
+        string='Sequence Type')

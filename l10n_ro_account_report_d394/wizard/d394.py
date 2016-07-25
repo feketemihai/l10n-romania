@@ -514,7 +514,10 @@ class d394_new_report(models.TransientModel):
                                         product = inv_line.product_id
                                         fp = invoice.fiscal_position
                                         tax = product.supplier_taxes_id
-                                        if not fp or ('National' in fp.name):
+                                        if not fp or (('National' in \
+                                                fp.name) or ('Invers' in \
+                                                fp.name)  or ('Scutit' in \
+                                                fp.name)):
                                             tax = inv_line.invoice_line_tax_id
                                             if cota.id in tax.ids:
                                                 filtered_inv_lines.append(
@@ -558,7 +561,10 @@ class d394_new_report(models.TransientModel):
                                 for inv_line in inv_lines:
                                     fp = inv_line.invoice_id.fiscal_position
                                     tax = inv_line.product_id.supplier_taxes_id
-                                    if not fp or ('National' in fp.name):
+                                    if not fp or (('National' in \
+                                            fp.name) or ('Invers' in \
+                                            fp.name)  or ('Scutit' in \
+                                            fp.name)):
                                         tax = inv_line.invoice_line_tax_id
                                         if cota.id in tax.ids:
                                             filtered_inv_lines.append(
@@ -646,7 +652,10 @@ class d394_new_report(models.TransientModel):
                             for inv_line in inv_lines:
                                 fp = inv_line.invoice_id.fiscal_position
                                 tax = inv_line.product_id.supplier_taxes_id
-                                if not fp or ('National' in fp.name):
+                                if not fp or (('National' in \
+                                        fp.name) or ('Invers' in \
+                                        fp.name)  or ('Scutit' in \
+                                        fp.name)):
                                     tax = inv_line.invoice_line_tax_id
                                     if cota.id in tax.ids:
                                         filtered_inv_lines.append(
@@ -668,11 +677,14 @@ class d394_new_report(models.TransientModel):
                                 baza += inv_curr.with_context(
                                     {'date': inv_date}).compute(
                                     line.price_subtotal, comp_curr)
-                                taxes += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_normal_taxes and \
-                                    line.price_normal_taxes or \
-                                    line.price_taxes, comp_curr)
+                                if line.invoice_id.operation_type in \
+                                        ('L', 'C', 'A', 'AI'):
+                                    taxes += inv_curr.with_context(
+                                        {'date': inv_date}).compute(
+                                        line.price_normal_taxes and \
+                                        line.price_normal_taxes or \
+                                        line.price_taxes, comp_curr)
+
                             new_dict = {
                                 'tip': oper_type,
                                 'tip_partener': partner_type,
@@ -689,7 +701,7 @@ class d394_new_report(models.TransientModel):
                         codes = inv_lines.mapped('product_id.d394_id')
                         op11 = []
                         if (partner_type == '1' and \
-                                oper_type in ('L', 'V', 'C', 'A', 'AI')) or \
+                                oper_type in ('V', 'C')) or \
                                 (partner_type == '2' and oper_type == 'N'):
                             for code in codes:
                                 new_code = code
@@ -722,11 +734,12 @@ class d394_new_report(models.TransientModel):
                                         baza1 += inv_curr.with_context(
                                             {'date': inv_date}).compute(
                                             line.price_subtotal, comp_curr)
-                                        taxes1 += inv_curr.with_context(
-                                            {'date': inv_date}).compute(
-                                            line.price_normal_taxes and \
-                                            line.price_normal_taxes or \
-                                            line.price_taxes, comp_curr)
+                                        if oper_type == 'C':
+                                            taxes1 += inv_curr.with_context(
+                                                {'date': inv_date}).compute(
+                                                line.price_normal_taxes and \
+                                                line.price_normal_taxes or \
+                                                line.price_taxes, comp_curr)
                                     op11.append({
                                         'codPR': code.name,
                                         'nrFactPR': nrFact,
@@ -740,6 +753,9 @@ class d394_new_report(models.TransientModel):
     @api.multi
     def _get_op2(self, invoices):
         self.ensure_one()
+        if fields.Date.from_string(self.period_id.date_start) <= \
+                fields.Date.from_string('2016-09-01'):
+            return []
         obj_inv_line = self.env['account.invoice.line']
         obj_period = self.env['account.period']
         comp_curr = self.company_id.currency_id
@@ -753,8 +769,8 @@ class d394_new_report(models.TransientModel):
                 len(set([invoice.journal_id.id for invoice in period_inv]))
             nrBF = len(period_inv)
             total = 0
-            baza20 = baza9 = baza5 = 0
-            tva20 = tva9 = tva5 = 0
+            baza20 = baza19 = baza9 = baza5 = 0
+            tva20 = tva19 = tva9 = tva5 = 0
             for invoice in period_inv:
                 cotas = [tax for tax in invoice.tax_ids]
                 for cota in cotas:
@@ -765,7 +781,7 @@ class d394_new_report(models.TransientModel):
                         cota_amount = int(cota.amount * 100)
                     elif cota.type == 'amount':
                         cota_amount = int(cota.amount)
-                    if cota_amount in (5, 9, 20):
+                    if cota_amount in (5, 9, 19, 20):
                         domain = [('invoice_id', 'in', cota_inv.ids)]
                         inv_lines = obj_inv_line.search(domain)
                         filtered_inv_lines = []
@@ -785,6 +801,15 @@ class d394_new_report(models.TransientModel):
                                     {'date': inv_date}).compute(
                                     line.price_subtotal, comp_curr)
                                 tva20 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_normal_taxes and \
+                                    line.price_normal_taxes or \
+                                    line.price_taxes, comp_curr)
+                            if cota_amount == 19:
+                                baza19 += inv_curr.with_context(
+                                    {'date': inv_date}).compute(
+                                    line.price_subtotal, comp_curr)
+                                tva19 += inv_curr.with_context(
                                     {'date': inv_date}).compute(
                                     line.price_normal_taxes and \
                                     line.price_normal_taxes or \
@@ -820,9 +845,11 @@ class d394_new_report(models.TransientModel):
                 'nrBF': int(round(nrBF)),
                 'total': int(round(total)),
                 'baza20': int(round(baza20)),
+                'baza19': int(round(baza19)),
                 'baza9': int(round(baza9)),
                 'baza5': int(round(baza5)),
                 'TVA20': int(round(tva20)),
+                'TVA19': int(round(tva19)),
                 'TVA9': int(round(tva9)),
                 'TVA5': int(round(tva5))})
         return op2
@@ -869,13 +896,13 @@ class d394_new_report(models.TransientModel):
                 op['nrFact'] for op in op1s if op['tip'] == 'AS')))
             rezumat1['bazaAS'] = int(round(sum(
                 op['baza'] for op in op1s if op['tip'] == 'AS')))
-        if (partner_type == '1') and (cota_amount != 0):
+        if (partner_type == '1') and (cota_amount == 0):
             rezumat1['facturiV'] = int(round(sum(
                 op['nrFact'] for op in op1s if op['tip'] == 'V')))
             rezumat1['bazaV'] = int(round(sum(
                 op['baza'] for op in op1s if op['tip'] == 'V')))
-            rezumat1['tvaV'] = int(round(sum(
-                op['tva'] for op in op1s if op['tip'] == 'V')))
+            #rezumat1['tvaV'] = int(round(sum(
+            #    op['tva'] for op in op1s if op['tip'] == 'V')))
         if (partner_type != '2') and (cota_amount != 0):
             rezumat1['facturiC'] = int(round(sum(
                 op['nrFact'] for op in op1s if op['tip'] == 'C')))
@@ -901,34 +928,34 @@ class d394_new_report(models.TransientModel):
                     if rez_detaliu:
                         for val in rez_detaliu:
                             if new_code.name in val.values():
-                                if op1['tip'] == 'L':
-                                    val['nrLiv'] += int(
-                                        round(line['nrFactPR']))
-                                    val['bazaLiv'] += int(
-                                        round(line['bazaPR']))
-                                    val['tvaLiv'] += int(
-                                        round(line['tvaPR']))
+                                #if op1['tip'] == 'L':
+                                #    val['nrLiv'] += int(
+                                #        round(line['nrFactPR']))
+                                #    val['bazaLiv'] += int(
+                                #        round(line['bazaPR']))
+                                #    val['tvaLiv'] += int(
+                                #        round(line['tvaPR']))
                                 if op1['tip'] == 'V':
                                     val['nrLivV'] += int(
                                         round(line['nrFactPR']))
                                     val['bazaLivV'] += int(
                                         round(line['bazaPR']))
-                                    val['tvaLivV'] += int(
-                                        round(line['tvaPR']))
-                                if op1['tip'] == 'A':
-                                    val['nrAchiz'] += int(
-                                        round(line['nrFactPR']))
-                                    val['bazaAchiz'] += int(
-                                        round(line['bazaPR']))
-                                    val['tvaAchiz'] += int(
-                                        round(line['tvaPR']))
-                                if op1['tip'] == 'AI':
-                                    val['nrAchizAI'] += int(
-                                        round(line['nrFactPR']))
-                                    val['bazaAchizAI'] += int(
-                                        round(line['bazaPR']))
-                                    val['tvaAchizAI'] += int(
-                                        round(line['tvaPR']))
+                                #    val['tvaLivV'] += int(
+                                #        round(line['tvaPR']))
+                                #if op1['tip'] == 'A':
+                                #    val['nrAchiz'] += int(
+                                #        round(line['nrFactPR']))
+                                #    val['bazaAchiz'] += int(
+                                #        round(line['bazaPR']))
+                                #    val['tvaAchiz'] += int(
+                                #        round(line['tvaPR']))
+                                #if op1['tip'] == 'AI':
+                                #    val['nrAchizAI'] += int(
+                                #        round(line['nrFactPR']))
+                                #    val['bazaAchizAI'] += int(
+                                #       round(line['bazaPR']))
+                                #    val['tvaAchizAI'] += int(
+                                #        round(line['tvaPR']))
                                 if op1['tip'] == 'C':
                                     val['nrAchizC'] += int(
                                         round(line['nrFactPR']))
@@ -944,47 +971,47 @@ class d394_new_report(models.TransientModel):
                             else:
                                 val = {}
                                 val['bun'] = new_code.name
-                                val['nrLiv'] = val['bazaLiv'] = \
-                                    val['tvaLiv'] = 0
-                                val['nrLivV'] = val['bazaLivV'] = \
-                                    val['tvaLivV'] = 0
-                                val['nrAchiz'] = val['bazaAchiz'] = \
-                                    val['tvaAchiz'] = 0
-                                val['nrAchizAI'] = val['bazaAchizAI'] = \
-                                    val['tvaAchizAI'] = 0
+                                #val['nrLiv'] = val['bazaLiv'] = \
+                                #    val['tvaLiv'] = 0
+                                val['nrLivV'] = val['bazaLivV'] = 0
+                                #    val['tvaLivV'] = 0
+                                #val['nrAchiz'] = val['bazaAchiz'] = \
+                                #    val['tvaAchiz'] = 0
+                                #val['nrAchizAI'] = val['bazaAchizAI'] = \
+                                #    val['tvaAchizAI'] = 0
                                 val['nrAchizC'] = val['bazaAchizC'] = \
                                     val['tvaAchizC'] = 0
                                 if partner_type == '2':
                                     val['nrN'] = val['valN'] = 0
 
-                                if op1['tip'] == 'L':
-                                    val['nrLiv'] += int(
-                                        round(line['nrFactPR']))
-                                    val['bazaLiv'] += int(
-                                        round(line['bazaPR']))
-                                    val['tvaLiv'] += int(
-                                        round(line['tvaPR']))
+                                #if op1['tip'] == 'L':
+                                #    val['nrLiv'] += int(
+                                #        round(line['nrFactPR']))
+                                #    val['bazaLiv'] += int(
+                                #        round(line['bazaPR']))
+                                #    val['tvaLiv'] += int(
+                                #        round(line['tvaPR']))
                                 if op1['tip'] == 'V':
                                     val['nrLivV'] += int(
                                         round(line['nrFactPR']))
                                     val['bazaLivV'] += int(
                                         round(line['bazaPR']))
-                                    val['tvaLivV'] += int(
-                                        round(line['tvaPR']))
-                                if op1['tip'] == 'A':
-                                    val['nrAchiz'] += int(
-                                        round(line['nrFactPR']))
-                                    val['bazaAchiz'] += int(
-                                        round(line['bazaPR']))
-                                    val['tvaAchiz'] += int(
-                                        round(line['tvaPR']))
-                                if op1['tip'] == 'AI':
-                                    val['nrAchizAI'] += int(
-                                        round(line['nrFactPR']))
-                                    val['bazaAchizAI'] += int(
-                                        round(line['bazaPR']))
-                                    val['tvaAchizAI'] += int(
-                                        round(line['tvaPR']))
+                                #    val['tvaLivV'] += int(
+                                #        round(line['tvaPR']))
+                                #if op1['tip'] == 'A':
+                                #    val['nrAchiz'] += int(
+                                #        round(line['nrFactPR']))
+                                #    val['bazaAchiz'] += int(
+                                #        round(line['bazaPR']))
+                                #    val['tvaAchiz'] += int(
+                                #        round(line['tvaPR']))
+                                #if op1['tip'] == 'AI':
+                                #    val['nrAchizAI'] += int(
+                                #        round(line['nrFactPR']))
+                                #    val['bazaAchizAI'] += int(
+                                #        round(line['bazaPR']))
+                                #    val['tvaAchizAI'] += int(
+                                #        round(line['tvaPR']))
                                 if op1['tip'] == 'C':
                                     val['nrAchizC'] += int(
                                         round(line['nrFactPR']))
@@ -1001,35 +1028,35 @@ class d394_new_report(models.TransientModel):
                     else:
                         val = {}
                         val['bun'] = new_code.name
-                        val['nrLiv'] = val['bazaLiv'] = \
-                            val['tvaLiv'] = 0
-                        val['nrLivV'] = val['bazaLivV'] = \
-                            val['tvaLivV'] = 0
-                        val['nrAchiz'] = val['bazaAchiz'] = \
-                            val['tvaAchiz'] = 0
-                        val['nrAchizAI'] = val['bazaAchizAI'] = \
-                            val['tvaAchizAI'] = 0
+                        #val['nrLiv'] = val['bazaLiv'] = \
+                        #    val['tvaLiv'] = 0
+                        val['nrLivV'] = val['bazaLivV'] = 0
+                        #    val['tvaLivV'] = 0
+                        #val['nrAchiz'] = val['bazaAchiz'] = \
+                        #    val['tvaAchiz'] = 0
+                        #val['nrAchizAI'] = val['bazaAchizAI'] = \
+                        #    val['tvaAchizAI'] = 0
                         val['nrAchizC'] = val['bazaAchizC'] = \
                             val['tvaAchizC'] = 0
                         if partner_type == '2':
                             val['nrN'] = val['valN'] = 0
 
-                        if op1['tip'] == 'L':
-                            val['nrLiv'] += int(round(line['nrFactPR']))
-                            val['bazaLiv'] += int(round(line['bazaPR']))
-                            val['tvaLiv'] += int(round(line['tvaPR']))
+                        #if op1['tip'] == 'L':
+                        #    val['nrLiv'] += int(round(line['nrFactPR']))
+                        #    val['bazaLiv'] += int(round(line['bazaPR']))
+                        #    val['tvaLiv'] += int(round(line['tvaPR']))
                         if op1['tip'] == 'V':
                             val['nrLivV'] += int(round(line['nrFactPR']))
                             val['bazaLivV'] += int(round(line['bazaPR']))
-                            val['tvaLivV'] += int(round(line['tvaPR']))
-                        if op1['tip'] == 'A':
-                            val['nrAchiz'] += int(round(line['nrFactPR']))
-                            val['bazaAchiz'] += int(round(line['bazaPR']))
-                            val['tvaAchiz'] += int(round(line['tvaPR']))
-                        if op1['tip'] == 'AI':
-                            val['nrAchizAI'] += int(round(line['nrFactPR']))
-                            val['bazaAchizAI'] += int(round(line['bazaPR']))
-                            val['tvaAchizAI'] += int(round(line['tvaPR']))
+                        #    val['tvaLivV'] += int(round(line['tvaPR']))
+                        #if op1['tip'] == 'A':
+                        #    val['nrAchiz'] += int(round(line['nrFactPR']))
+                        #    val['bazaAchiz'] += int(round(line['bazaPR']))
+                        #    val['tvaAchiz'] += int(round(line['tvaPR']))
+                        #if op1['tip'] == 'AI':
+                        #    val['nrAchizAI'] += int(round(line['nrFactPR']))
+                        #    val['bazaAchizAI'] += int(round(line['bazaPR']))
+                        #    val['tvaAchizAI'] += int(round(line['tvaPR']))
                         if op1['tip'] == 'C':
                             val['nrAchizC'] += int(round(line['nrFactPR']))
                             val['bazaAchizC'] += int(round(line['bazaPR']))
@@ -1255,8 +1282,8 @@ class d394_new_report(models.TransientModel):
             seq = {
                 'tip': tip,
                 'serieI': regex.sub('', serie),
-                'nrI': nr_init,
-                'nrF': nr_last
+                'nrI': str(nr_init),
+                'nrF': str(nr_last)
             }
             if partner:
                 seq['den'] = partner.name
@@ -1601,7 +1628,12 @@ class d394_new_report(models.TransientModel):
                 'op_efectuate': "1"
             })
 
-        op1 = self._get_op1(invoices)
+        if fields.Date.from_string(self.period_id.date_start) <= \
+                fields.Date.from_string('2016-09-01'):
+            op1 = [d for d in self._get_op1(invoices) if \
+                d['tip_partener'] == '1']
+        else:
+            op1 = self._get_op1(invoices)
         invoices1 = obj_invoice.search([
                     ('type', 'in', ('out_invoice', 'out_refund')),
                     ('fiscal_receipt', '=', True),
@@ -1644,7 +1676,7 @@ class d394_new_report(models.TransientModel):
     @api.multi
     def create_xml(self):
         self.ensure_one()
-        #self._update_partners()
+        self._update_partners()
         ctx = dict(self._context)
         mod_obj = self.env['ir.model.data']
         xml_data = self._get_datas()
