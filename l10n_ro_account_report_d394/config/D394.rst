@@ -11,8 +11,8 @@ Since the update done on the D394 report by ANAF, there are some
 modification in the database structure and some configurations 
 are needed to be able to print the correct report from Odoo.
 
-`Database Structure Update <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/config/D394_new_fields.rst>`_.
+`Database Structure Update <https://github.com/odoo-romania/l10n-romania/l10n_ro_account_report_d394/config/D394_new_fields.rst>`_.
 
-`Configuration needed <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/config/D394_config.rst>`_.
+`Configuration needed <https://github.com/odoo-romania/l10n-romania/l10n_ro_account_report_d394/config/D394_config.rst>`_.
 
-`Odoo Input Operations <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/config/D394_operations.rst>`_.
+`Odoo Input Operations <https://github.com/odoo-romania/l10n-romania/l10n_ro_account_report_d394/config/D394_operations.rst>`_.

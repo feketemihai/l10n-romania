@@ -30,7 +30,7 @@ In the Accounting -> Reporting -> Legal Reports -> Accounting Reports
 you have a new menu called D394. At launch of the wizard, Odoo will
 print the D394 based on the operations inputed.
 
-More configuration and doc about it in `D394.rst <https://github.com/feketemihai/l10n-romania/tree/new_d394/l10n_ro_account_report_d394/config/D394.rst>`_.
+More configuration and doc about it in `D394.rst <https://github.com/odoo-romania/l10n-romania/l10n_ro_account_report_d394/config/D394.rst>`_.
 
 Bug Tracker
 ===========
