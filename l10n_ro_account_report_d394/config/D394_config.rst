@@ -10,8 +10,8 @@ Version 3 - starting from 01.07.2016
 Configuration
 =============
 
-`Company`_.
-===========
+`Company`
+=========
 
 * If you have different CAEN code for subsidiaries, create one child company
 with the right CAEN code (No Separate Chart of Accounts), and linked invoices
@@ -42,15 +42,15 @@ create a new sequence (easier by duplicating the one associated with previous
 year) and complete de Serie First Number and Last Number.
 
 
-`Account Journals`_.
-====================
+`Account Journals`
+==================
 
 * Create one Journal with Fiscal Receipts checked for each POS
 (Cash Register/Fiscal Printer).
 
 
-`D394 codes`_.
-==============
+`D394 codes`
+============
   
 * Before printing the report, update products with the D394 codes, either
 from the product view in Accounting page, (the field is linked with Product Variants) or bulk
