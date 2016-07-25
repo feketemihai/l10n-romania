@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 import base64
+from dateutil.relativedelta import relativedelta
 import re
 
 from openerp import models, fields, api, _
@@ -22,6 +23,12 @@ class d394_new_report(models.TransientModel):
             return base64.encodestring(context['file_save'].encode('utf8'))
         return ''
 
+    @api.model
+    def _get_default_period(self):
+        new_date = fields.Date.from_string(fields.Date.today()) + relativedelta(months=-1)
+        period = self.env['account.period'].find(new_date)[:1]
+        return period.id
+
     @api.multi
     @api.depends('company_id', 'period_id')
     def _get_name(self):
@@ -37,137 +44,143 @@ class d394_new_report(models.TransientModel):
     name = fields.Char('File Name', compute='_get_name')
     msg = fields.Text('File created', readonly=True,
                       default='Save the File with '".xml"' extension.')
-    company_id = fields.Many2one('res.company', 'Company', required=True)
-    period_id = fields.Many2one('account.period', 'Period', required=True)
+    company_id = fields.Many2one(
+        'res.company', 'Company', required=True,
+        change_default=True,
+        default=lambda self: self.env['res.company']._company_default_get(
+            'l10n_ro_account_report_d394.d394_new.report'))
+    period_id = fields.Many2one('account.period', 'Period', required=True,
+                                change_default=True,
+                                default=_get_default_period)
     anaf_cross_opt = fields.Boolean('ANAF Crosschecking',
                                     related='company_id.anaf_cross_opt')
     anaf_cross_new_opt = fields.Boolean('Allow ANAF Crosschecking')
     solicit = fields.Boolean('Request VAT Reimbursment')
     achizitiiPE = fields.Boolean(
-        'Eolian Parks',
+        'Purchases of Eolian Parks',
         help='Achizitii de bunuri si servicii legate direct de'
              ' bunurile imobile: Parcuri Eoliene')
     achizitiiCR = fields.Boolean(
-        'Residential Buildings',
+        'Purchases of Residential Buildings',
         help='Achizitii de bunuri si servicii legate direct de'
              ' bunurile imobile: constructii rezidentiale')
     achizitiiCB = fields.Boolean(
-        'Office Buildings',
+        'Purchases of Office Buildings',
         help='Achizitii de bunuri si servicii legate direct de'
              ' bunurile imobile: cladiri de birouri')
     achizitiiCI = fields.Boolean(
-        'Industrial Buildings',
+        'Purchases of Industrial Buildings',
         help='Achizitii de bunuri si servicii legate direct de'
              ' bunurile imobile: constructii industriale')
     achizitiiA = fields.Boolean(
-        'Others',
+        'Purchases of Real Estates: Others',
         help='Achizitii de bunuri si servicii legate direct de'
              ' bunurile imobile: altele')
     achizitiiB24 = fields.Boolean(
-        'Industrial Buildings',
+        'Purchased Goods with 24% VAT',
         help='Achizitii de bunuri, cu exceptia celor legate direct'
-             ' de bunuri imobile cu cota 20%')
+             ' de bunuri imobile cu cota 24%')
     achizitiiB20 = fields.Boolean(
-        'Industrial Buildings',
+        'Purchased Goods with 20% VAT',
         help='Achizitii de bunuri, cu exceptia celor legate direct'
              ' de bunuri imobile cu cota 20%')
     achizitiiB19 = fields.Boolean(
-        'Industrial Buildings',
+        'Purchased Goods with 19% VAT',
         help='Achizitii de bunuri, cu exceptia celor legate direct'
-             ' de bunuri imobile cu cota 20%')
+             ' de bunuri imobile cu cota 19%')
     achizitiiB9 = fields.Boolean(
-        'Industrial Buildings',
+        'Purchased Goods with 9% VAT',
         help='Achizitii de bunuri, cu exceptia celor legate direct'
-             ' de bunuri imobile cu cota 20%')
+             ' de bunuri imobile cu cota 9%')
     achizitiiB5 = fields.Boolean(
-        'Industrial Buildings',
+        'Purchased Goods with 5% VAT',
         help='Achizitii de bunuri, cu exceptia celor legate direct'
-             ' de bunuri imobile cu cota 20%')
+             ' de bunuri imobile cu cota 5%')
     achizitiiS24 = fields.Boolean(
-        'Industrial Buildings',
+        'Purchased Services with 24% VAT',
         help='Achizitii de servicii, cu exceptia celor legate direct'
              ' de bunuri imobile cu cota 24%')
     achizitiiS20 = fields.Boolean(
-        'Industrial Buildings',
+        'Purchased Services with 20% VAT',
         help='Achizitii de servicii, cu exceptia celor legate direct'
-             ' de bunuri imobile cu cota 24%')
+             ' de bunuri imobile cu cota 20%')
     achizitiiS19 = fields.Boolean(
-        'Industrial Buildings',
+        'Purchased Services with 19% VAT',
         help='Achizitii de servicii, cu exceptia celor legate direct'
-             ' de bunuri imobile cu cota 24%')
+             ' de bunuri imobile cu cota 19%')
     achizitiiS9 = fields.Boolean(
-        'Industrial Buildings',
+        'Purchased Services with 9% VAT',
         help='Achizitii de servicii, cu exceptia celor legate direct'
-             ' de bunuri imobile cu cota 24%')
+             ' de bunuri imobile cu cota 9%')
     achizitiiS5 = fields.Boolean(
-        'Industrial Buildings',
+        'Purchased Services with 5% VAT',
         help='Achizitii de servicii, cu exceptia celor legate direct'
-             ' de bunuri imobile cu cota 24%')
+             ' de bunuri imobile cu cota 5%')
     importB = fields.Boolean(
-        'Industrial Buildings',
+        'Purchase Goods - Imports',
         help='Importuri de bunuri')
     acINecorp = fields.Boolean(
-        'Achizitii imobilizari necorporale',
+        'Purchase of Intangible Assets',
         help='Achizitii imobilizari necorporale')
     livrariBI = fields.Boolean(
-        'Industrial Buildings',
+        'Sales from Real Estates',
         help='Livrari de bunuri imobile')
     BUN24 = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Goods with 24% VAT',
         help='Livrari de bunuri, cu exceptia bunurilor'
              ' imobile cu cota de 24%')
     BUN20 = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Goods with 20% VAT',
         help='Livrari de bunuri, cu exceptia bunurilor'
-             ' imobile cu cota de 24%')
+             ' imobile cu cota de 20%')
     BUN19 = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Goods with 19% VAT',
         help='Livrari de bunuri, cu exceptia bunurilor'
-             ' imobile cu cota de 24%')
+             ' imobile cu cota de 19%')
     BUN9 = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Goods with 9% VAT',
         help='Livrari de bunuri, cu exceptia bunurilor'
-             ' imobile cu cota de 24%')
+             ' imobile cu cota de 9%')
     BUN5 = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Goods with 5% VAT',
         help='Livrari de bunuri, cu exceptia bunurilor'
-             ' imobile cu cota de 24%')
+             ' imobile cu cota de 5%')
     valoareScutit = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Goods exempt from VAT',
         help='Livrari de bunuri scutite de TVA')
     BunTI = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Goods with Inverse Taxation',
         help='Livrari de bunuri/prestari de servicii pt care'
              ' se aplica taxarea inversa')
     Prest24 = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Services with 24% VAT',
         help='Prestari de servicii cu cota de 24%')
     Prest20 = fields.Boolean(
-        'Industrial Buildings',
-        help='Prestari de servicii cu cota de 24%')
+        'Sales Services with 20% VAT',
+        help='Prestari de servicii cu cota de 20%')
     Prest19 = fields.Boolean(
-        'Industrial Buildings',
-        help='Prestari de servicii cu cota de 24%')
+        'Sales Services with 19% VAT',
+        help='Prestari de servicii cu cota de 19%')
     Prest9 = fields.Boolean(
-        'Industrial Buildings',
-        help='Prestari de servicii cu cota de 24%')
+        'Sales Services with 9% VAT',
+        help='Prestari de servicii cu cota de 9%')
     Prest5 = fields.Boolean(
-        'Industrial Buildings',
-        help='Prestari de servicii cu cota de 24%')
+        'Sales Services with 5% VAT',
+        help='Prestari de servicii cu cota de 5%')
     PrestScutit = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Services exempt from VAT',
         help='Prestari de servicii scutite de TVA')
     LIntra = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Goods - Intra-Community',
         help='Livrari intracomunitare de bunuri')
     PrestIntra = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Services - Intra-Community',
         help='Prestari intracomunitare de servicii')
     Export = fields.Boolean(
-        'Industrial Buildings',
+        'Sales Goods - Exports',
         help='Exporturi de bunuri')
     livINecorp = fields.Boolean(
-        'Industrial Buildings',
+        'Sales of Intangible Assets',
         help='Livrari imobilizari necorporale')
 
     @api.multi
