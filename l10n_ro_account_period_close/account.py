@@ -21,6 +21,7 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
+from openerp.exceptions import Warning as UserError
 
 class account_account(models.Model):
     _inherit = 'account.account'
@@ -86,7 +87,7 @@ class account_period_closing(models.Model):
     def close(self, date=None, period=None, journal=None):
         """ This method will create the closing move for the period selected"""
         if not period or not journal:
-            raise osv.except_osv('No period or journal defined')
+            raise UserError('No period or journal defined')
         closing = self[0]
         account_obj = self.env['account.account']
         ctx = dict(self._context)
@@ -179,12 +180,6 @@ class account_period_closing(models.Model):
                 old_balance = debit - (-1 * credit)
                 debit_acc = closing.debit_account_id
                 credit_acc = closing.credit_account_id
-                #new_amount = old_balance
-                print debit_acc.code
-                print credit_acc.code
-                print debit
-                print credit
-                print new_amount
                 if credit and debit:
                     if old_balance > 0:
                         debit_acc = closing.credit_account_id

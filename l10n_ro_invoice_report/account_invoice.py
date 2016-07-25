@@ -78,6 +78,11 @@ class account_invoice_line(models.Model):
             self.price_normal_taxes = self.invoice_id.currency_id.round(
                 self.price_normal_taxes)
 
+    @api.multi
+    def compute_all_price(self):
+        for line in self:
+            line._compute_price()
+
     price_unit_without_taxes = fields.Float(
         string='Unit Price without taxes',
         store=True, readonly=True, compute='_compute_price')

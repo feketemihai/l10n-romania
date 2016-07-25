@@ -34,23 +34,5 @@
             <field name="context">{'closing_id' : active_id, 'default_closing_id': active_id}</field>
             <field name="target">new</field>
        </record>
-
-		<act_window id="action_account_period_closing_wizard" name="Closings"
-			res_model="account.period.closing.wizard" src_model="account.period.closing"
-			view_mode="form" target="new" 
-			key2="client_action_multi"  multi="True"
-			context="{'closing_id' : active_id, 'default_closing_id': active_id}"/>
-  
-          <record id="view_account_period_close" model="ir.ui.view">
-            <field name="name">account.period.close.form</field>
-            <field name="model">account.period.close</field>
-            <field name="inherit_id" ref="account.view_account_period_close"/>
-            <field name="arch" type="xml">
-            	<field name="sure" position="after">
-            		<field name="date_move"/>
-					<field name="journal_id"/>
-            	</field>
-            </field>
-        </record>
 	</data>
 </openerp>
