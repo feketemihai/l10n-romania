@@ -50,17 +50,17 @@ The field in completed/updated at module install/update from data file.
   * Autoinvoicing emmited by supplier (Customer Invoice)
   * Autoinvoicing emitted by company (Supplier Invoice)
   
-Field is related to Sequence Type field from Journal Sequence.
+  Field is related to Sequence Type field from Journal Sequence.
 * Partner - In autoinvoicing, the field in storing the partner associated with this sequence.
   
-Field is related to Partner field from Journal Sequence.
+  Field is related to Partner field from Journal Sequence.
 
 
 `Account Invoice <https://github.com/odoo-romania/l10n-romania/tree/8.0/l10n_ro_account_report_d394/models/account_invoice.py>`_.
 =====================================================================================================================================
 
 * Operation Type - Computed field to get operation type specified in ANAF specification.
-Options availables are:
+  Options availables are:
 
   * L - Customer Invoice
   * A - Supplier Invoice
@@ -76,16 +76,16 @@ Options availables are:
   * Autoinvoicing emmited by supplier (Customer Invoice)
   * Autoinvoicing emitted by company (Supplier Invoice)
 
-Field is related to Sequence Type field from Journal and Journal Sequence.
+  Field is related to Sequence Type field from Journal and Journal Sequence.
 * Partner Type - Computed field to get partner type specified in ANAF specification.
-Options availables are:
+  Options availables are:
 
   * 1 - Romanian Companies with Vat Subjected
   * 2 - Romanian Companies without Vat Subjected or individuals
   * 3 - EU Partnes
   * 4 - Extra EU Partnes
 * Origin Type - Selection field for type of aquisition from individuals
-Options availables are:
+  Options availables are:
 
   * 1 - Invoice
   * 2 - Slip

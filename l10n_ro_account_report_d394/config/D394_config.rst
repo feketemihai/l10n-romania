@@ -40,6 +40,4 @@ Configuration
 `D394 codes`
 ============
   
-* Before printing the report, update products with the D394 codes, either from the product view in Accounting page, (the field is linked with Product Variants) or bulk
-method from Accounting -> Configuration -> Misceleaneous -> D394 Codes and
-update products linked with that code.
+* Before printing the report, update products with the D394 codes, either from the product view in Accounting page, (the field is linked with Product Variants) or bulk method from Accounting -> Configuration -> Misceleaneous -> D394 Codes and update products linked with that code.
