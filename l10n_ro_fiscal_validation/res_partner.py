@@ -175,8 +175,11 @@ VALUES
 
     @api.multi
     def update_vat_one(self):
-        self.check_vat_on_payment()
-        self.check_vat_subjected()
+        for partner in self:
+            partner.check_vat_on_payment()
+            partner.check_vat_subjected()
+            print partner.name + ' - TVA la Incasare: ' + str(partner.vat_on_payment) + ' - Platitor TVA: ' + str(partner.vat_subjected)
+        return True
 
     @api.one
     def button_get_partner_data(self):

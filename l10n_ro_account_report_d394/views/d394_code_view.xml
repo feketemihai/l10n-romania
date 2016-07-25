@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        
+
         <record id="view_report_d394_codes_form" model="ir.ui.view">
             <field name="name">report.394.code.form</field>
             <field name="model">report.394.code</field>
@@ -19,7 +19,7 @@
                 </form>
             </field>
         </record>
-        
+
         <record id="view_report_d394_codes_tree" model="ir.ui.view">
             <field name="name">report.394.code.tree</field>
             <field name="model">report.394.code</field>
@@ -31,7 +31,7 @@
                 </tree>
             </field>
         </record>
-        
+
         <record id="view_report_d394_codes_search" model="ir.ui.view">
             <field name="name">report.394.code.search</field>
             <field name="model">report.394.code</field>
@@ -43,7 +43,7 @@
                 </search>
             </field>
         </record>
-        
+
         <record id="action_report_d394_codes" model="ir.actions.act_window">
             <field name="name">D394 Codes</field>
             <field name="res_model">report.394.code</field>
@@ -60,6 +60,6 @@
         </record>
         <menuitem action="action_report_d394_codes" id="menu_action_report_d394_codes" parent="account.menu_configuration_misc" name="D394 Codes" sequence="30"/>
 
-        
+
     </data>
 </openerp>
