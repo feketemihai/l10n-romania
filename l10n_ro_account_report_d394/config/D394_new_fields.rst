@@ -11,7 +11,7 @@ Fields added
 ============
 
 
-`Companies <https://github.com/odoo-romania/l10n-romania/l10n_ro_account_report_d394/models/res_company.py>`_.
+`Companies <https://github.com/odoo-romania/l10n-romania/tree/8.0/l10n_ro_account_report_d394/models/res_company.py>`_.
 ===========================================================================================================================
 
 * ANAF Crosschecking - option to allow ANAF crosschecking.
@@ -20,7 +20,7 @@ Fields added
 * Fiscal representative - Partner representing the company.
 
 
-`Country states <https://github.com/odoo-romania/l10n-romania/l10n_ro_account_report_d394/models/res_country_state.py>`_.
+`Country states <https://github.com/odoo-romania/l10n-romania/tree/8.0/l10n_ro_account_report_d394/models/res_country_state.py>`_.
 ======================================================================================================================================
 
 * Order Code - Country state order.
@@ -28,7 +28,7 @@ Fields added
 The field in completed/updated at module install/update from data file.
 
 
-`Sequences <https://github.com/odoo-romania/l10n-romania/l10n_ro_account_report_d394/models/ir_sequence.py>`_.
+`Sequences <https://github.com/odoo-romania/l10n-romania/tree/8.0/l10n_ro_account_report_d394/models/ir_sequence.py>`_.
 ===========================================================================================================================
 
 * Sequence Type - Selection field to choose the type of invoicing:
@@ -44,7 +44,7 @@ The field in completed/updated at module install/update from data file.
   with this sequence.
 
 
-`Account Journals <https://github.com/odoo-romania/l10n-romania/l10n_ro_account_report_d394/models/account_journal.py>`_.
+`Account Journals <https://github.com/odoo-romania/l10n-romania/tree/8.0/l10n_ro_account_report_d394/models/account_journal.py>`_.
 ======================================================================================================================================
 
 * Fiscal Receipt - Field to mark the journal as fiscal receipts journal.
@@ -58,7 +58,7 @@ The field in completed/updated at module install/update from data file.
   Field is related to Partner field from Journal Sequence.
 
 
-`Account Invoice <https://github.com/odoo-romania/l10n-romania/l10n_ro_account_report_d394/models/account_invoice.py>`_.
+`Account Invoice <https://github.com/odoo-romania/l10n-romania/tree/8.0/l10n_ro_account_report_d394/models/account_invoice.py>`_.
 =====================================================================================================================================
 
 * Operation Type - Computed field to get operation type specified in ANAF specification.
@@ -103,7 +103,7 @@ The field in completed/updated at module install/update from data file.
   to easily fetch the vat quotas in D394.
 
 
-`D394 codes <https://github.com/odoo-romania/l10n-romania/l10n_ro_account_report_d394/models/d394_code.py>`_.
+`D394 codes <https://github.com/odoo-romania/l10n-romania/tree/8.0/l10n_ro_account_report_d394/models/d394_code.py>`_.
 ==========================================================================================================================
   
 * Parent Code - Added for hierarchical use of codes, useful in "Rezumat" tags in report.
