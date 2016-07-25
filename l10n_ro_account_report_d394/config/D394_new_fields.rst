@@ -15,8 +15,7 @@ Fields added
 ===========================================================================================================================
 
 * ANAF Crosschecking - option to allow ANAF crosschecking.
-* Is Fiscal representative - boolean field to know if the company is fiscal
-  represented by another partner.
+* Is Fiscal representative - boolean field to know if the company is fiscal represented by another partner.
 * Fiscal representative - Partner representing the company.
 
 
@@ -36,12 +35,9 @@ The field in completed/updated at module install/update from data file.
   * Normal invoicing
   * Autoinvoicing emmited by supplier (Customer Invoice)
   * Autoinvoicing emitted by company (Supplier Invoice)
-* Serie First Number - First number of sequence at the beggining of
-  fiscalyear - available in internal decision about ordering.
-* Serie Last Number - Last number of sequence at the beggining of
-  fiscalyear - available in internal decision about ordering.
-* Partner - In autoinvoicing, the field in storing the partner associated
-  with this sequence.
+* Serie First Number - First number of sequence at the beggining of fiscalyear - available in internal decision about ordering.
+* Serie Last Number - Last number of sequence at the beggining of fiscalyear - available in internal decision about ordering.
+* Partner - In autoinvoicing, the field in storing the partner associated with this sequence.
 
 
 `Account Journals <https://github.com/odoo-romania/l10n-romania/tree/8.0/l10n_ro_account_report_d394/models/account_journal.py>`_.
@@ -53,8 +49,10 @@ The field in completed/updated at module install/update from data file.
   * Normal invoicing
   * Autoinvoicing emmited by supplier (Customer Invoice)
   * Autoinvoicing emitted by company (Supplier Invoice)
+  
   Field is related to Sequence Type field from Journal Sequence.
 * Partner - In autoinvoicing, the field in storing the partner associated with this sequence.
+  
   Field is related to Partner field from Journal Sequence.
 
 
@@ -77,6 +75,7 @@ The field in completed/updated at module install/update from data file.
   * Normal invoicing
   * Autoinvoicing emmited by supplier (Customer Invoice)
   * Autoinvoicing emitted by company (Supplier Invoice)
+
   Field is related to Sequence Type field from Journal and Journal Sequence.
 * Partner Type - Computed field to get partner type specified in ANAF specification.
   Options availables are:
@@ -92,15 +91,10 @@ The field in completed/updated at module install/update from data file.
   * 2 - Slip
   * 3 - Trading Book
   * 4 - Contract
-* Special Taxation - Boolean field to mark the invoices with Special Taxation, e.g.
-  Tourism, Second hand goods reseller...
-* Invoice Serie - Computed field to get the serie of the invoice
-  splitted the invoice number/supplier invoice number.
-* Invoice Number - Computed field to get the number of the invoice
-  splitted the invoice number/supplier invoice number.
-* Normal Taxes - On invoices with fiscal position different than National,
-  the field computes the normal taxes associated with invoice line products,
-  to easily fetch the vat quotas in D394.
+* Special Taxation - Boolean field to mark the invoices with Special Taxation, e.g. Tourism, Second hand goods reseller...
+* Invoice Serie - Computed field to get the serie of the invoice splitted the invoice number/supplier invoice number.
+* Invoice Number - Computed field to get the number of the invoice splitted the invoice number/supplier invoice number.
+* Normal Taxes - On invoices with fiscal position different than National, the field computes the normal taxes associated with invoice line products, to easily fetch the vat quotas in D394.
 
 
 `D394 codes <https://github.com/odoo-romania/l10n-romania/tree/8.0/l10n_ro_account_report_d394/models/d394_code.py>`_.
