@@ -54,24 +54,26 @@ class AccountInvoice(models.Model):
                     inv_seq.prefix,
                     inv_seq.with_context(ctx)._interpolation_dict_context())
                 inv.inv_serie = regex.sub('', inv_serie)
-                inv.inv_number = int(regex1.sub(
-                    '',
-                    inv.internal_number.replace(inv_serie, '')))
+                if inv.internal_number:
+                    inv.inv_number = int(regex1.sub(
+                        '',
+                        inv.internal_number.replace(inv_serie, '')))
             else:
                 if inv.supplier_invoice_number and \
                         regex1.sub('', inv.supplier_invoice_number):
                     val = inv.supplier_invoice_number
                 else:
                     val = inv.internal_number
-                inv_serie = regex.sub('', val)
-                inv.inv_serie = inv_serie
-                if inv_serie:
-                    inv.inv_number = int(regex1.sub(
-                        '',
-                        val.replace(inv_serie, '')))
-                else:
-                    inv.inv_number = int(regex1.sub(
-                        '', val))
+                if val:
+                    inv_serie = regex.sub('', val)
+                    inv.inv_serie = inv_serie
+                    if inv_serie:
+                        inv.inv_number = int(regex1.sub(
+                            '',
+                            val.replace(inv_serie, '')))
+                    else:
+                        inv.inv_number = int(regex1.sub(
+                            '', val))
         return True
 
     @api.multi
