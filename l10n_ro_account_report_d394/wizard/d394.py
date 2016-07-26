@@ -197,7 +197,7 @@ class d394_new_report(models.TransientModel):
         if invoices:
             partners = self.env['res.partner'].browse(
                 set(invoices.mapped('partner_id.id')))
-            partners.update_vat_one()
+            partners._update_vat_all()
         return True
 
     @api.multi
@@ -766,8 +766,8 @@ class d394_new_report(models.TransientModel):
     @api.multi
     def _get_op2(self, invoices):
         self.ensure_one()
-        if fields.Date.from_string(self.period_id.date_start) <= \
-                fields.Date.from_string('2016-09-01'):
+        if fields.Date.from_string(self.period_id.date_start) < \
+                fields.Date.from_string('2016-10-01'):
             return []
         obj_inv_line = self.env['account.invoice.line']
         obj_period = self.env['account.period']
@@ -1151,11 +1151,11 @@ class d394_new_report(models.TransientModel):
                     for line in inv_lines if \
                     not line.invoice_id.journal_id.fiscal_receipt)))
             rezumat2['nrFacturiL'] = int(round(sum(
-                op['nrFact'] for op in op1s if op['tip'] in ('L', 'V'))))
+                op['nrFact'] for op in op1s if op['tip'] == 'L')))
             rezumat2['bazaL'] = int(round(sum(
-                op['baza'] for op in op1s if op['tip'] in ('L', 'V'))))
+                op['baza'] for op in op1s if op['tip'] == 'L')))
             rezumat2['tvaL'] = int(round(sum(
-                op['tva'] for op in op1s if op['tip'] in ('L', 'V'))))
+                op['tva'] for op in op1s if op['tip'] == 'L')))
             rezumat2['nrFacturiA'] = int(round(sum(
                 op['nrFact'] for op in op1s if op['tip'] in ('A', 'C'))))
             rezumat2['bazaA'] = int(round(sum(
@@ -1259,6 +1259,9 @@ class d394_new_report(models.TransientModel):
     @api.multi
     def _get_inv_series(self):
         self.ensure_one()
+        if fields.Date.from_string(self.period_id.date_start) < \
+                fields.Date.from_string('2016-10-01'):
+            return []
         obj_seq = self.env['ir.sequence']
         obj_invoice = self.env['account.invoice']
         regex = re.compile('[^a-zA-Z]')
@@ -1641,8 +1644,8 @@ class d394_new_report(models.TransientModel):
                 'op_efectuate': "1"
             })
 
-        if fields.Date.from_string(self.period_id.date_start) <= \
-                fields.Date.from_string('2016-09-01'):
+        if fields.Date.from_string(self.period_id.date_start) < \
+                fields.Date.from_string('2016-10-01'):
             op1 = [d for d in self._get_op1(invoices) if \
                 d['tip_partener'] == '1']
         else:

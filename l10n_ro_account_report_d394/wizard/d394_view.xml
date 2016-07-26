@@ -16,7 +16,8 @@
                                 <field name="period_id" colspan="4"/>
                                 <separator string="ANAF Options" colspan="4"/>
                                 <label for="anaf_cross_opt"/>
-                                <field name="anaf_cross_opt"/>
+                                <field name="anaf_cross_opt" readonly="1"/>
+                                <newline/>
                                 <label for="anaf_cross_new_opt"/>
                                 <field name="anaf_cross_new_opt" attrs="{'invisible': [('anaf_cross_opt','!=',False)]}"/>
                                 <separator string="VAT Reimbursement" colspan="4"/>
