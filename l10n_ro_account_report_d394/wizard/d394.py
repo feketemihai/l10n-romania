@@ -197,7 +197,7 @@ class d394_new_report(models.TransientModel):
         if invoices:
             partners = self.env['res.partner'].browse(
                 set(invoices.mapped('partner_id.id')))
-            partners._update_vat_all()
+            partners.update_vat_one()
         return True
 
     @api.multi
