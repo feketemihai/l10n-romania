@@ -1,30 +1,12 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
-#    (http://www.forbiom.eu).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-{
-    "name": "Romania - Account Reports",
-    "version": "1.0",
-    "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
-    "website": "http://www.forbiom.eu",
+# ©  2016 Forest and Biomass Romania
+# See README.rst file on addons root folder for license details
 
+{
+    "name": "Romania - D394 Account Report",
+    "version": "8.0.1.0.0",
+    "author": "Forest and Biomass Romania",
+    "website": "http://www.forbiom.eu",
     "category": "Romania Adaptation",
     "depends": [
         'account',
@@ -36,20 +18,14 @@
         'l10n_ro_contact_address',
         'l10n_ro_fiscal_validation',
     ],
-
-    "description": """
-Romania  - Accounting Reports
-------------------------------------------
-
-
-    """,
-
     'data': ['data/394_codes.xml',
              'data/res_country_state.xml',
              'views/d394_code_view.xml',
+             'views/product_view.xml',
              'views/account_invoice_view.xml',
              'views/account_journal_view.xml',
              'views/ir_sequence_view.xml',
+             'views/res_company_view.xml',
              'wizard/d394_view.xml',
              'security/ir.model.access.csv', ],
     'installable': True,

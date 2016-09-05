@@ -1,24 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2016 FOREST AND BIOMASS SERVICES ROMANIA SA
-#    (http://www.forbiom.eu).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2016 Forest and Biomass Romania
+# See README.rst file on addons root folder for license details
 
 import re
 from openerp import models, fields, api
@@ -63,7 +45,8 @@ class AccountInvoice(models.Model):
         regex = re.compile('[^a-zA-Z]')
         regex1 = re.compile('[^0-9]')
         for inv in self:
-            if inv.internal_number:
+            if inv.type in ('out_invoice', 'out_refund') or \
+                    inv.journal_id.sequence_type in ('autoinv1', 'autoinv2'):
                 inv_seq = inv.journal_id.sequence_id
                 ctx = self._context.copy()
                 ctx['fiscalyear_id'] = inv.period_id.fiscalyear_id.id
@@ -71,9 +54,26 @@ class AccountInvoice(models.Model):
                     inv_seq.prefix,
                     inv_seq.with_context(ctx)._interpolation_dict_context())
                 inv.inv_serie = regex.sub('', inv_serie)
-                inv.inv_number = regex1.sub(
-                    '',
-                    inv.internal_number.replace(inv_serie, ''))
+                if inv.internal_number:
+                    inv.inv_number = int(regex1.sub(
+                        '',
+                        inv.internal_number.replace(inv_serie, '')))
+            else:
+                if inv.supplier_invoice_number and \
+                        regex1.sub('', inv.supplier_invoice_number):
+                    val = inv.supplier_invoice_number
+                else:
+                    val = inv.internal_number
+                if val:
+                    inv_serie = regex.sub('', val)
+                    inv.inv_serie = inv_serie
+                    if inv_serie:
+                        inv.inv_number = int(regex1.sub(
+                            '',
+                            val.replace(inv_serie, '')))
+                    else:
+                        inv.inv_number = int(regex1.sub(
+                            '', val))
         return True
 
     @api.multi
@@ -102,6 +102,8 @@ class AccountInvoice(models.Model):
     @api.depends('state')
     def _get_operation_type(self):
         for inv in self:
+            partner = inv.partner_id
+            country_ro = self.env.ref('base.ro')
             if inv.type in ('out_invoice', 'out_refund'):
                 if inv.fiscal_position and \
                         ('Taxare Inversa' in inv.fiscal_position.name):
@@ -109,25 +111,40 @@ class AccountInvoice(models.Model):
                 elif not inv.fiscal_position or \
                         (inv.fiscal_position and \
                          ('National' in inv.fiscal_position.name)):
-                    if inv._check_special_taxes():
+                    if inv.special_taxes:
                         oper_type = 'LS'
+                    elif partner.country_id and \
+                            partner.country_id.id != country_ro.id:
+                        oper_type = 'V'
                     else:
                         oper_type = 'L'
                 else:
                     oper_type = 'L'
             else:
-                if not inv.partner_id.is_company and inv.origin_type:
+                if not partner.is_company and inv.origin_type:
                     oper_type = 'N'
                 elif inv.fiscal_position and \
-                        ('Taxare Inversa' in inv.fiscal_position.name):
+                        (('Taxare Inversa' in inv.fiscal_position.name) or \
+                         ('Comunitar' in inv.fiscal_position.name)):
                     oper_type = 'C'
+                elif inv.fiscal_position and  \
+                        ('Scutite' in inv.fiscal_position.name):
+                    if partner.country_id and \
+                            partner.country_id.id == country_ro.id:
+                        oper_type = 'A'
+                    else:
+                        oper_type = 'C'
                 elif not inv.fiscal_position or \
                         (inv.fiscal_position and
                          ('National' in inv.fiscal_position.name)):
-                    if inv._check_special_taxes():
+                    if inv.special_taxes:
                         oper_type = 'AS'
+                    elif inv.vat_on_payment:
+                        oper_type = 'AI'
                     else:
                         oper_type = 'A'
+                elif inv.vat_on_payment:
+                    oper_type = 'AI'
                 else:
                     oper_type = 'A'
             inv.operation_type = oper_type
@@ -139,15 +156,19 @@ class AccountInvoice(models.Model):
         for inv in self:
             check = False
             taxes = []
-            if not inv.fiscal_position or ('National' in inv.fiscal_position.name):
+            if not inv.fiscal_position or (('National' in \
+                    inv.fiscal_position.name) or ('Invers' in \
+                    inv.fiscal_position.name)  or ('Scutit' in \
+                    inv.fiscal_position.name)):
                 for line in inv.invoice_line:
                     taxes += [tax.id for tax in line.invoice_line_tax_id]
             else:
                 for line in inv.invoice_line:
-                    if inv.type in ('out_invoice','out_refund'):
+                    if inv.type in ('out_invoice', 'out_refund'):
                         taxes += [tax.id for tax in line.product_id.taxes_id]
                     else:
-                        taxes += [tax.id for tax in line.product_id.supplier_taxes_id]
+                        taxes += [tax.id for tax in \
+                            line.product_id.supplier_taxes_id]
             inv.tax_ids = taxes
         return True
 
@@ -160,25 +181,24 @@ class AccountInvoice(models.Model):
                 check = True
         return check
 
-    origin_type = fields.Selection(ORIGIN_TYPE, default='1')
+    origin_type = fields.Selection(ORIGIN_TYPE, default='1',
+                                   string='Origin Type')
     sequence_type = fields.Selection(SEQUENCE_TYPE,
                                      related='journal_id.sequence_type',
-                                     store=True)
+                                     string='Sequence Type')
     operation_type = fields.Selection(OPERATION_TYPE,
                                       compute='_get_operation_type',
-                                      store=True)
+                                      string='Operation Type')
     inv_serie = fields.Char('Invoice Serie',
-                            compute="_get_inv_number",
-                            store=True)
+                            compute="_get_inv_number")
     inv_number = fields.Char('Invoice Number',
-                             compute="_get_inv_number",
-                             store=True)
+                             compute="_get_inv_number")
     partner_type = fields.Char('D394 Partner Type',
-                               compute="_get_partner_type",
-                               store=True)
+                               compute="_get_partner_type")
+    special_taxes = fields.Boolean('Special Taxation')
     tax_ids = fields.Many2many('account.tax',
                                compute="_get_tax_ids",
-                               store=True)
+                               string='Normal Taxes')
 
     @api.multi
     def onchange_journal_id(self, journal_id=False):

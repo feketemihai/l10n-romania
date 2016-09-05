@@ -62,7 +62,7 @@
             <field name="name">35</field>
             <field name="description">servicii</field>
         </record>
-        
+
         <record id="1001" model="report.394.code">
             <field name="name">1001</field>
             <field name="description">Grau si meslin</field>
@@ -118,8 +118,8 @@
             <field name="description">Seminte de in, chiar sfaramate</field>
             <field name="parent_id" ref="21"/>
         </record>
-        
-        
-        
-	</data>
+
+
+
+    </data>
 </openerp>
