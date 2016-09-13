@@ -29,6 +29,12 @@ class d394_new_report(models.TransientModel):
         period = self.env['account.period'].find(new_date)[:1]
         return period.id
 
+    @api.onchange('period_id')
+    def _onchnage_period(self):
+        if self.period_id:
+           self.date_from = self.period_id.date_start
+           self.date_to = self.period_id.date_stop
+
     @api.multi
     @api.depends('company_id', 'period_id')
     def _get_name(self):
@@ -52,6 +58,8 @@ class d394_new_report(models.TransientModel):
     period_id = fields.Many2one('account.period', 'Period', required=True,
                                 change_default=True,
                                 default=_get_default_period)
+    date_from = fields.Date('Date From', required=True)
+    date_to = fields.Date('Date To', required=True)
     anaf_cross_opt = fields.Boolean('ANAF Crosschecking',
                                     related='company_id.anaf_cross_opt')
     anaf_cross_new_opt = fields.Boolean('Allow ANAF Crosschecking')
@@ -237,7 +245,7 @@ class d394_new_report(models.TransientModel):
         payments = []
         where = [
             ('state', 'in', ['open', 'paid']),
-            ('date_invoice', '<=', period.date_stop),
+            ('date_invoice', '<=', self.date_to),
             '|',
             ('company_id', '=', self.company_id.id),
             ('company_id', 'in', self.company_id.child_ids.ids)
@@ -248,7 +256,7 @@ class d394_new_report(models.TransientModel):
             ctx = {'date': inv1.date_invoice}
             if inv1.payment_ids:
                 for payment in inv1.payment_ids:
-                    if payment.period_id.id == period.id:
+                    if payment.period_id.id == period.id and payment.move_id.date <= self.date_to:
                         pay = {}
                         pay['type'] = inv1.type
                         pay['vat_on_payment'] = inv1.vat_on_payment
@@ -384,7 +392,7 @@ class d394_new_report(models.TransientModel):
 
         comm_partner = self.company_id.partner_id.commercial_partner_id
         ctx = dict(self._context)
-        ctx.update({'check_date': self.period_id.date_stop})
+        ctx.update({'check_date': self.date_to})
 
         if comm_partner.with_context(ctx)._check_vat_on_payment():
             informatii['tvaDed24'] = int(round(sum(
@@ -716,7 +724,7 @@ class d394_new_report(models.TransientModel):
                             }
                             if oper_type in ('A', 'L', 'C', 'AI'):
                                 new_dict['tva'] = int(round(taxes))
-                            
+
                         codes = inv_lines.mapped('product_id.d394_id')
                         op11 = []
                         if (partner_type == '1' and \
@@ -774,7 +782,7 @@ class d394_new_report(models.TransientModel):
     @api.multi
     def _get_op2(self, invoices):
         self.ensure_one()
-        if fields.Date.from_string(self.period_id.date_start) < \
+        if fields.Date.from_string(self.date_from) < \
                 fields.Date.from_string('2016-10-01'):
             return []
         obj_inv_line = self.env['account.invoice.line']
@@ -1083,7 +1091,7 @@ class d394_new_report(models.TransientModel):
                         #    val['nrAchizAI'] += int(round(line['nrFactPR']))
                         #    val['bazaAchizAI'] += int(round(line['bazaPR']))
                         #    val['tvaAchizAI'] += int(round(line['tvaPR']))
-                        if op1['tip'] == 'C' and op1['cota'] != 0:                                
+                        if op1['tip'] == 'C' and op1['cota'] != 0:
                             val['nrAchizC'] += int(round(line['nrFactPR']))
                             val['bazaAchizC'] += int(round(line['bazaPR']))
                             val['tvaAchizC'] += int(round(line['tvaPR']))
@@ -1272,7 +1280,7 @@ class d394_new_report(models.TransientModel):
     @api.multi
     def _get_inv_series(self):
         self.ensure_one()
-        if fields.Date.from_string(self.period_id.date_start) < \
+        if fields.Date.from_string(self.date_to) < \
                 fields.Date.from_string('2016-10-01'):
             return []
         obj_seq = self.env['ir.sequence']
@@ -1283,6 +1291,8 @@ class d394_new_report(models.TransientModel):
         invoices = obj_invoice.search([
                     ('state', '!=', 'draft'),
                     ('period_id', '=', self.period_id.id),
+                    ('date_invoice', '>=', self.date_from),
+                    ('date_invoice', '<=', self.date_to),
                     ('fiscal_receipt', '=', False),
                     '|',
                     ('company_id', '=', self.company_id.id),
@@ -1349,6 +1359,8 @@ class d394_new_report(models.TransientModel):
                     ('type', 'in', ['out_invoice', 'out_refund']),
                     ('state', 'in', ['open', 'paid']),
                     ('period_id', '=', self.period_id.id),
+                    ('date_invoice', '>=', self.date_from),
+                    ('date_invoice', '<=', self.date_to),
                     ('fiscal_receipt', '=', False),
                     '|',
                     ('company_id', '=', self.company_id.id),
@@ -1427,6 +1439,8 @@ class d394_new_report(models.TransientModel):
                     ('fiscal_receipt', '=', False),
                     ('state', '!=', 'draft'),
                     ('period_id', '=', self.period_id.id),
+                    ('date_invoice', '>=', self.date_from),
+                    ('date_invoice', '<=', self.date_to),
                     '|',
                     ('company_id', '=', self.company_id.id),
                     ('company_id', 'in', self.company_id.child_ids.ids)
@@ -1563,7 +1577,7 @@ class d394_new_report(models.TransientModel):
         period = self.period_id
         # Add period date in context for chacking VAT on Payment option
         ctx1 = ctx.copy()
-        ctx1.update({'check_date': self.period_id.date_stop})
+        ctx1.update({'check_date': self.date_to})
 
         xmldict.update({
             'informatii': [],
@@ -1648,6 +1662,8 @@ class d394_new_report(models.TransientModel):
                     ('state', 'in', ['open', 'paid']),
                     ('period_id', '=', period.id),
                     ('fiscal_receipt', '=', False),
+                    ('date_invoice', '>=', self.date_from),
+                    ('date_invoice', '<=', self.date_to),
                     '|',
                     ('company_id', '=', self.company_id.id),
                     ('company_id', 'in', self.company_id.child_ids.ids)
@@ -1669,6 +1685,8 @@ class d394_new_report(models.TransientModel):
                     ('journal_id.fiscal_receipt', '=', True),
                     ('state', 'in', ['open', 'paid']),
                     ('period_id', '=', period.id),
+                    ('date_invoice', '>=', self.date_from),
+                    ('date_invoice', '<=', self.date_to),
                     '|',
                     ('company_id', '=', self.company_id.id),
                     ('company_id', 'in', self.company_id.child_ids.ids)
@@ -1706,6 +1724,9 @@ class d394_new_report(models.TransientModel):
     def create_xml(self):
         self.ensure_one()
         #self._update_partners()
+        if self.date_from < self.period_id.date_start or self.date_from > self.period_id.date_stop or \
+                self.date_to < self.period_id.date_start or self.date_to > self.period_id.date_stop:
+            raise UserError(_('Dates selected must be in the same period.'))
         ctx = dict(self._context)
         mod_obj = self.env['ir.model.data']
         xml_data = self._get_datas()
@@ -1780,7 +1801,7 @@ xmlns="mfp:anaf:dgti:d394:declaratie:v3" """
                     data_file += """<op11 """
                     for key, val in line.iteritems():
                         data_file += """%s="%s" """ % (key, val)
-                    data_file += """/>"""                    
+                    data_file += """/>"""
                 data_file += """
 </op1>"""
             else:

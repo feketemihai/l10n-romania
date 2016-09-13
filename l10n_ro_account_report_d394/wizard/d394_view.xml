@@ -14,6 +14,10 @@
                                 <newline/>
                                 <separator string="Period" colspan="4"/>
                                 <field name="period_id" colspan="4"/>
+                                <group>
+                                    <field name="date_from"/>
+                                    <field name="date_to"/>
+                                </group>
                                 <separator string="ANAF Options" colspan="4"/>
                                 <label for="anaf_cross_opt"/>
                                 <field name="anaf_cross_opt" readonly="1"/>
