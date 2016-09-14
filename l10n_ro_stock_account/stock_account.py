@@ -156,6 +156,32 @@ class stock_move(osv.Model):
         'acc_move_line_ids': fields.one2many('account.move.line', 'stock_move_id', string='Account move lines'),
     }
 
+    # Update prices if the move is linked with a purchase order line and the
+    # purchase order is in a different currency then the company currency
+    def _update_move_price(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        product_uom = self.pool.get('product.uom')
+        for move in self.browse(cr, uid, ids, context=context):
+            if move.purchase_line_id:
+                order_line = move.purchase_line_id
+                price_unit = order_line.price_unit
+                if order_line.product_uom.id != order_line.product_id.uom_id.id:
+                    price_unit *= order_line.product_uom.factor / \
+                                  order_line.product_id.uom_id.factor
+                ctx = dict(context)
+                if move.picking_id:
+                    ctx.update({'date': move.picking_id.date})
+                else:
+                    ctx.update({'date': move.date})
+                if order_line.order_id.currency_id.id != move.company_id.currency_id.id:
+                    #we don't round the price_unit, as we may want to store the
+                    #standard price with more digits than allowed by the currency
+                    price_unit = self.pool.get('res.currency').compute(
+                    cr, uid, order_line.order_id.currency_id.id, move.company_id.currency_id.id,
+                    price_unit, round=False, context=ctx)
+                self.write(cr, uid, [move.id], {'price_unit': price_unit}, context=context)
+        return True
 
     # Fix date on stock move from stock picking
     def onchange_date(self, cr, uid, ids, date, date_expected, context=None):
@@ -205,6 +231,9 @@ class stock_move(osv.Model):
         return True
 
     def action_done(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        self._update_move_price(cr, uid, ids, context=context)
         res = super(stock_move, self).action_done(
             cr, uid, ids, context=context)
         for move in self.browse(cr, uid, ids, context=context):
