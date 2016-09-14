@@ -84,14 +84,13 @@ class purchase_journal(report_sxw.rml_parse):
             for inv1 in invoices:
                 vals = {}
                 vals['type'] = inv1.type
+                period1 = False
                 if inv1.vat_on_payment:
                     if inv1.payment_ids:
-                        period1 = inv1.payment_ids[0].period_id
                         for payment in inv1.payment_ids:
-                            if date_to < payment.move_id.date:
-                                period1 = payment.period_id
-
-                if (inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to) or (inv1.vat_on_payment and (datetime.strptime(inv1.date_invoice, '%Y-%m-%d') < (datetime.strptime(date_from, '%Y-%m-%d'))) and (inv1.state == 'open' or (inv1.state == 'paid' and (period1.date_stop >= date_from)))):
+                            if date_from <= payment.date and date_to >= payment.date:
+                                period1 = True
+                if (inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to) or (inv1.vat_on_payment and (datetime.strptime(inv1.date_invoice, '%Y-%m-%d') < (datetime.strptime(date_from, '%Y-%m-%d'))) and (inv1.state == 'open' or (inv1.state == 'paid' and period1))):
                     vals['total_base'] = vals['base_neex'] = vals['base_serv'] = vals['base_exig'] = vals['base_invers'] = vals['base_ded1'] = vals[
                         'base_ded2'] = vals['base_24'] = vals['base_20'] = vals['base_9'] = vals['base_5'] = vals['base_0'] = vals['base_import'] = vals['base_bun'] = 0.00
                     vals['total_vat'] = vals['tva_neex'] = vals['tva_24'] = vals['tva_20'] = vals['tva_9'] = vals['tva_5'] = vals[
@@ -156,6 +155,8 @@ class purchase_journal(report_sxw.rml_parse):
                                 elif ' 0' in tax_line.name and inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to:
                                     vals['base_0'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, context={'date': inv1.date_invoice})
+                        print total_base
+                        print base_neex
                         vals['base_neex'] = total_base - base_neex
                         vals['tva_neex'] = total_vat - tva_neex
                         if vals['tva_neex'] < 0.01 and vals['tva_neex'] > -0.01:
@@ -273,7 +274,7 @@ class purchase_journal(report_sxw.rml_parse):
                         vals['total_base'] = vals['total_vat'] = 0.00
                         if inv1.payment_ids:
                             for payment in inv1.payment_ids:
-                                if payment.period_id.id == period_id and inv1.date_invoice >= date_from and payment.move_id.date <= date_to:
+                                if payment.date >= date_from and payment.date <= date_to:
                                     pay = {}
                                     pay['base_exig'] = pay['tva_exig'] = 0.00
                                     pay['base_24'] = pay['base_20'] = pay[
