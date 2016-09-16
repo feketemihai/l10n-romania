@@ -145,7 +145,7 @@ class res_partner(models.Model):
                     })
                 except:
                     res = requests.get(
-                        'http://openapi.ro/api/companies/%s.json' % vat_number)
+                        'http://legacy.openapi.ro/api/companies/%s.json' % vat_number)
                     if res.status_code == 200:
                         res = res.json()
                         state = False
