@@ -11,8 +11,11 @@
                         <field name="closing_id"/>
                         <field name="company_id" invisible="1"/>					
                     </group>
-					<field name="date_move" colspan="2"/>
 					<field name="period_id" domain="[('company_id','=',company_id)]" colspan="2"/>
+					<group col="2" colspan="4">
+                        <field name="date_from"/>
+                        <field name="date_to"/>					
+                    </group>
 					<field name="journal_id" domain="[('company_id','=',company_id)]" colspan="4"/>
                     <field name="done" readonly="1"/>
                     <group col="2" colspan="4">

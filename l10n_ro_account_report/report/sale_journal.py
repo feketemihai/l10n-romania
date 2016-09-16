@@ -246,7 +246,7 @@ class sale_journal(report_sxw.rml_parse):
                     vals['total_base'] = vals['total_vat'] = 0.00
                     if inv1.payment_ids:
                         for payment in inv1.payment_ids:
-                            if payment.period_id.id == period_id and payment.move_id.date >= date_from and payment.move_id.date <= date_to:
+                            if payment.date >= date_from and payment.date <= date_to:
                                 pay = {}
                                 pay['base_exig'] = pay['tva_exig'] = 0.00
                                 pay['base_24'] = pay['base_20'] = pay['base_9'] = pay['base_5'] = 0.00

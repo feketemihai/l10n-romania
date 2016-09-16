@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
-
+from openerp.exceptions import Warning
 
 class account_period_closing_wizard(models.TransientModel):
     _name = "account.period.closing.wizard"
@@ -32,17 +32,21 @@ class account_period_closing_wizard(models.TransientModel):
         defaults = super(account_period_closing_wizard, self).default_get(fields)
         return defaults
     
-    @api.onchange('date_move')
-    def onchange_date(self):      
-        if self.date_move:
-            self.period_id = self.env['account.period'].find(self.date_move)[:1]    
+    @api.onchange('period_id')
+    def onchange_period(self):      
+        if self.period_id:
+            self.date_from = self.period_id.date_start
+            self.date_to = self.period_id.date_stop
     
     @api.one
     def do_close(self):
         wizard = self[0]
+        if wizard.date_from < wizard.period_id.date_start or wizard.date_from > self.period_id.date_stop or \
+                wizard.date_to < self.period_id.date_start or wizard.date_to > self.period_id.date_stop:
+            raise Warning(_('Dates selected must be in the same period.'))
         if not wizard.done:
             wizard.closing_id.close(
-                wizard.date_move, wizard.period_id.id, wizard.journal_id.id)
+                wizard.date_from, wizard.date_to, wizard.period_id.id, wizard.journal_id.id)
         return {'type': 'ir.actions.act_window_close'}
 
     closing_id = fields.Many2one(
@@ -53,7 +57,9 @@ class account_period_closing_wizard(models.TransientModel):
     )
     company_id = fields.Many2one(
         'res.company', related='closing_id.company_id', string='Company')
-    date_move = fields.Date('Closing Move Date', required=True, select=True)
+    date_from = fields.Date('Closing Date From', required=True, select=True)
+    date_to = fields.Date('Closing Date To', required=True, select=True,
+                          help='Created moves will have this as a date.')
     period_id = fields.Many2one(
         'account.period', 'Closing Period', required=True)
     journal_id = fields.Many2one(
