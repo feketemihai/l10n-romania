@@ -168,6 +168,7 @@ VALUES
 
     @api.one
     def check_vat_subjected(self):
+        
         if self.vat_on_payment:
             self.vat_subjected = True
         else:
@@ -177,8 +178,7 @@ VALUES
     def update_vat_one(self):
         for partner in self:
             partner.check_vat_on_payment()
-            partner.check_vat_subjected()
-            print partner.name + ' - TVA la Incasare: ' + str(partner.vat_on_payment) + ' - Platitor TVA: ' + str(partner.vat_subjected)
+        self.check_vat_subjected()
         return True
 
     @api.one

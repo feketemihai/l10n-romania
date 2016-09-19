@@ -144,31 +144,23 @@ class res_partner(models.Model):
                         'state_id': state,
                     })
                 except:
-                    res = requests.get(
-                        'http://legacy.openapi.ro/api/companies/%s.json' % vat_number)
+                    headers = {
+                        "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
+                        "Content-Type": "application/json;"
+                    }
+                    res = requests.post(
+                        'https://webservicesp.anaf.ro/PlatitorTvaRest/api/v1/',
+                        json=[{'cui': vat_number, 'data': fields.Date.today}],
+                        headers = headers)
                     if res.status_code == 200:
                         res = res.json()
-                        state = False
-                        if res['state']:
-                            jud = res['state'].title() or ''
-                            if jud.lower().startswith('municip'):
-                                jud = ' '.join(jud.split(' ')[1:])
-                            if jud != '':
-                                state = self.env['res.country.state'].search(
-                                    [('name', 'ilike', jud)])
-                                if state:
-                                    state = state[0].id
-                        self.write({
-                            'name': res['name'].upper(),
-                            'nrc': res['registration_id'] and res['registration_id'].upper() or '',
-                            'street': res['address'].title(),
-                            'city': res['city'].title(),
-                            'phone': res['phone'] and res['phone'] or '',
-                            'fax': res['fax'] and res['fax'] or '',
-                            'zip': res['zip'] and res['zip'] or '',
-                            'vat_subjected': bool(res['vat'] == '1'),
-                            'state_id': state,
-                        })
+                        if res['found'] and res['found'][0]:
+                            datas = res['found'][0]
+                            self.write({
+                                'name': datas['denumire'].upper(),
+                                'street': datas['adresa'].title(),
+                                'vat_subjected': bool(datas['tva'] == '1')
+                            })
             else:
                 try:
                     result = check_vies(part.vat)

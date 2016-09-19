@@ -116,7 +116,7 @@ class sale_journal(report_sxw.rml_parse):
                     total_base = total_vat = paid = 0.00
                     base_neex = tva_neex = 0.00
                     for payment in inv1.payment_ids:
-                        if payment.date >= date_from and payment.date <= date_to:
+                        if payment.date <= date_to:
                             paid += payment.credit or payment.debit
                             for line in payment.move_id.line_id:
                                 if (inv1.number in line.name) and (line.account_id.type == 'other') and line.tax_code_id and ((inv1.type in ['out_invoice', 'out_refund'] and ((inv1.amount_total > 0 and line.tax_amount > 0) or (inv1.amount_total < 0 and line.tax_amount < 0))) or (inv1.type in ['in_invoice', 'in_refund'] and ((inv1.amount_total > 0 and line.tax_amount > 0) or (inv1.amount_total < 0 and line.tax_amount < 0)))):
