@@ -153,7 +153,6 @@ class res_partner(models.Model):
                         json=[{'cui': vat_number, 'data': fields.Date.today()}],
                         headers = headers)
                     if res.status_code == 200:
-                        print res.text
                         res = res.json()
                         if res['found'] and res['found'][0]:
                             datas = res['found'][0]
@@ -163,7 +162,6 @@ class res_partner(models.Model):
                                     json=[{'cui': vat_number, 'data': datas['data_sfarsit']}],
                                     headers = headers)
                                 if res.status_code == 200:
-                                    print res.text
                                     res = res.json()
                                     if res['found'] and res['found'][0]:
                                         datas = res['found'][0]                            
