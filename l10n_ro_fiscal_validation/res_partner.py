@@ -178,7 +178,6 @@ VALUES
         for partner in self:
             partner.check_vat_on_payment()
             partner.check_vat_subjected()
-            print partner.name + ' - TVA la Incasare: ' + str(partner.vat_on_payment) + ' - Platitor TVA: ' + str(partner.vat_subjected)
         return True
 
     @api.one

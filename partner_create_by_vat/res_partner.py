@@ -145,19 +145,15 @@ class res_partner(models.Model):
                     })
                 except:
                     res = requests.get(
-                        'http://legacy.openapi.ro/api/companies/%s.json' % vat_number)
+                        'http://openapi.ro/api/companies/%s.json' % vat_number)
                     if res.status_code == 200:
                         res = res.json()
                         state = False
                         if res['state']:
-                            jud = res['state'].title() or ''
-                            if jud.lower().startswith('municip'):
-                                jud = ' '.join(jud.split(' ')[1:])
-                            if jud != '':
-                                state = self.env['res.country.state'].search(
-                                    [('name', 'ilike', jud)])
-                                if state:
-                                    state = state[0].id
+                            state = self.env['res.country.state'].search(
+                                [('name', '=', res['state'].title())])
+                            if state:
+                                state = state[0].id
                         self.write({
                             'name': res['name'].upper(),
                             'nrc': res['registration_id'] and res['registration_id'].upper() or '',
