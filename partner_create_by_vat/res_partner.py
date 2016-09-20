@@ -110,7 +110,7 @@ class res_partner(models.Model):
                     if 'Denumire platitor:' in result.keys():
                         name = result['Denumire platitor:'].upper()
                     if 'Adresa:' in result.keys():
-                        adresa = result['Adresa:'].title() or ''
+                        adresa = result['Adresa:'].encode('ascii', 'ignore').title() or ''
                     if nrc_key in result.keys():
                         nrc = result[nrc_key].replace(' ', '')
                         if nrc == '-/-/-':
@@ -123,7 +123,7 @@ class res_partner(models.Model):
                             jud = ' '.join(jud.split(' ')[1:])
                         if jud != '':
                             state = self.env['res.country.state'].search(
-                                [('name', 'ilike', jud.encode('latin1').decode('utf8'))])
+                                [('name', 'ilike', jud.encode('ascii', 'ignore'))])
                             if state:
                                 state = state[0].id
                     if 'Telefon:' in result.keys():
@@ -153,17 +153,20 @@ class res_partner(models.Model):
                         json=[{'cui': vat_number, 'data': fields.Date.today()}],
                         headers = headers)
                     if res.status_code == 200:
+                        print res.text
                         res = res.json()
                         if res['found'] and res['found'][0]:
                             datas = res['found'][0]
-                            if datas['data_sfarsit']:
+                            if datas['data_sfarsit'] and datas['data_sfarsit'] != ' ':
                                 res = requests.post(
                                    'https://webservicesp.anaf.ro:/PlatitorTvaRest/api/v1/ws/tva',
                                     json=[{'cui': vat_number, 'data': datas['data_sfarsit']}],
                                     headers = headers)
-                                res = res.json()
-                                if res['found'] and res['found'][0]:
-                                    datas = res['found'][0]                            
+                                if res.status_code == 200:
+                                    print res.text
+                                    res = res.json()
+                                    if res['found'] and res['found'][0]:
+                                        datas = res['found'][0]                            
                             self.write({
                                 'name': datas['denumire'].upper(),
                                 'street': datas['adresa'].title(),
