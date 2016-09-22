@@ -110,7 +110,7 @@ class res_partner(models.Model):
                     if 'Denumire platitor:' in result.keys():
                         name = result['Denumire platitor:'].upper()
                     if 'Adresa:' in result.keys():
-                        adresa = result['Adresa:'].encode('ascii', 'ignore').title() or ''
+                        adresa = result['Adresa:'].title() or ''
                     if nrc_key in result.keys():
                         nrc = result[nrc_key].replace(' ', '')
                         if nrc == '-/-/-':
@@ -118,12 +118,12 @@ class res_partner(models.Model):
                     if 'Codul postal:' in result.keys():
                         zip1 = result['Codul postal:'] or ''
                     if 'Judetul:' in result.keys():
-                        jud = result['Judetul:'].encode('ascii', 'ignore').title() or ''
+                        jud = result['Judetul:'].title() or ''
                         if jud.lower().startswith('municip'):
                             jud = ' '.join(jud.split(' ')[1:])
                         if jud != '':
                             state = self.env['res.country.state'].search(
-                                [('name', 'ilike', jud.encode('ascii', 'ignore'))])
+                                [('name', 'ilike', jud)])
                             if state:
                                 state = state[0].id
                     if 'Telefon:' in result.keys():
@@ -163,8 +163,21 @@ class res_partner(models.Model):
                                     headers = headers)
                                 if res.status_code == 200:
                                     res = res.json()
-                                    if res['found'] and res['found'][0]:
+                        if res['found'] and res['found'][0]:
                                         datas = res['found'][0]                            
+                        if res['notfound'] and res['notfound'][0]:
+                            datas = res['notfound'][0]
+                            if datas['data_sfarsit'] and datas['data_sfarsit'] != ' ':
+                                res = requests.post(
+                                   'https://webservicesp.anaf.ro:/PlatitorTvaRest/api/v1/ws/tva',
+                                    json=[{'cui': vat_number, 'data': datas['data_sfarsit']}],
+                                    headers = headers)
+                                if res.status_code == 200:
+                                    res = res.json()
+                                    if res['found'] and res['found'][0]:
+                                        datas = res['found'][0]
+                                    if res['notfound'] and res['notfound'][0]:
+                                        datas = res['notfound'][0]                            
                             self.write({
                                 'name': datas['denumire'].upper(),
                                 'street': datas['adresa'].title(),
