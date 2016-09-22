@@ -301,7 +301,7 @@ class stock_quant(osv.Model):
                 for acc_move_line in quant.acc_move_line_ids:
                     account = acc_move_line.account_id
                     if 'asset' in account.user_type.code and '331' not in account.code and account.id not in accounts:
-                        accounts.append(account_id.id)
+                        accounts.append(account.id)
             else:
                 if quant.history_ids:
                     for move in quant.history_ids:
