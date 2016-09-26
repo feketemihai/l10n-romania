@@ -155,7 +155,7 @@ VALUES
             vat_country, vat_number = self._split_vat(self.vat)
         if vat_number and vat_country and vat_country.upper() == 'RO':
             res = requests.get(
-                'http://openapi.ro/api/companies/' +
+                'http://legacy.openapi.ro/api/companies/' +
                 str(vat_number) +
                 '.json')
             if res.status_code == 200:
