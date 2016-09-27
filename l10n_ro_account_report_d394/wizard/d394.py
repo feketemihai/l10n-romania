@@ -7,7 +7,7 @@ from dateutil.relativedelta import relativedelta
 import re
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning as UserError
+from openerp.exceptions import Warning as UserError, RedirectWarning
 
 
 class d394_new_report(models.TransientModel):
@@ -30,7 +30,7 @@ class d394_new_report(models.TransientModel):
         return period.id
 
     @api.onchange('period_id')
-    def _onchnage_period(self):
+    def _onchange_period(self):
         if self.period_id:
            self.date_from = self.period_id.date_start
            self.date_to = self.period_id.date_stop
@@ -224,7 +224,10 @@ class d394_new_report(models.TransientModel):
                 lambda r: cota.id in r.tax_ids.ids)
             cota_amount = 0
             if cota.type == 'percent':
-                cota_amount = int(cota.amount * 100)
+                if cota.child_ids:
+                    cota_amount = int(abs(cota.child_ids[0].amount) * 100)
+                else:
+                    cota_amount = int(cota.amount * 100)
             elif cota.type == 'amount':
                 cota_amount = int(cota.amount)
             if cota_amount == sel_cota:
@@ -514,7 +517,10 @@ class d394_new_report(models.TransientModel):
                             lambda r: r.partner_id.id == partner.id)
                         cota_amount = 0
                         if cota.type == 'percent':
-                            cota_amount = int(cota.amount * 100)
+                            if cota.child_ids:
+                                cota_amount = int(abs(cota.child_ids[0].amount) * 100)
+                            else:
+                                cota_amount = int(cota.amount * 100)
                         elif cota.type == 'amount':
                             cota_amount = int(cota.amount)
                         if partner_type == '2':
@@ -807,7 +813,10 @@ class d394_new_report(models.TransientModel):
                         lambda r: cota.id in r.tax_ids.ids)
                     cota_amount = 0
                     if cota.type == 'percent':
-                        cota_amount = int(cota.amount * 100)
+                        if cota.child_ids:
+                            cota_amount = int(abs(cota.child_ids[0].amount) * 100)
+                        else:
+                            cota_amount = int(cota.amount * 100)
                     elif cota.type == 'amount':
                         cota_amount = int(cota.amount)
                     if cota_amount in (5, 9, 19, 20):
@@ -1063,7 +1072,8 @@ class d394_new_report(models.TransientModel):
                         val['bun'] = new_code.name
                         #val['nrLiv'] = val['bazaLiv'] = \
                         #    val['tvaLiv'] = 0
-                        val['nrLivV'] = val['bazaLivV'] = 0
+                        if op1['tip'] == 'V' and op1['cota'] == 0:
+                            val['nrLivV'] = val['bazaLivV'] = 0
                         #    val['tvaLivV'] = 0
                         #val['nrAchiz'] = val['bazaAchiz'] = \
                         #    val['tvaAchiz'] = 0
@@ -1378,7 +1388,10 @@ class d394_new_report(models.TransientModel):
                 for cota in obj_tax.browse(cotas):
                     cota_amount = 0
                     if cota.type == 'percent':
-                        cota_amount = int(cota.amount * 100)
+                        if cota.child_ids:
+                            cota_amount = int(abs(cota.child_ids[0].amount) * 100)
+                        else:
+                            cota_amount = int(cota.amount * 100)
                     elif cota.type == 'amount':
                         cota_amount = int(cota.amount)
                     cota_inv = comp_inv.filtered(
@@ -1469,7 +1482,10 @@ class d394_new_report(models.TransientModel):
                     for cota in cotas:
                         cota_amount = 0
                         if cota.type == 'percent':
-                            cota_amount = int(cota.amount * 100)
+                            if cota.child_ids:
+                                cota_amount = int(abs(cota.child_ids[0].amount) * 100)
+                            else:
+                                cota_amount = int(cota.amount * 100)
                         elif cota.type == 'amount':
                             cota_amount = int(cota.amount)
                         if cota_amount in (5, 9, 19, 20, 24):
@@ -1559,7 +1575,9 @@ class d394_new_report(models.TransientModel):
         if user.partner_id.function:
             function = user.partner_id.function
         else:
-            raise UserError(_('You need to define your Job Position.'))
+            action = self.env.ref('base.action_partner_other_form')
+            msg = _('You need to define your Job Position. \nPlease go to associated Partner.')
+            raise RedirectWarning(msg, action.with_context({'res_id': user.partner_id.id}).id, _('Go to the partner form.'))
         uid_name = user.partner_id.name.split()
         uid_fname = ' '.join(uid_name[:-1])
         uid_name = uid_name[-1]
