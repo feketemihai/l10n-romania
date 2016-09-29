@@ -33,7 +33,6 @@
         'l10n_ro_invoice_line_not_deductible',
         'l10n_ro_invoice_report',
         'l10n_ro_config',
-        'l10n_ro_account_report_d394',
     ],
 
     "description": """
@@ -54,9 +53,7 @@ Romania  - Accounting Reports
              'views/layouts.xml',
              'account_report.xml',
              'wizard/account_report_account_balance_view.xml',
-             'wizard/account_report_sale_purchase_journal_view.xml',
-             'wizard/d394_view.xml',
-             'security/ir.model.access.csv', ],
+             'wizard/account_report_sale_purchase_journal_view.xml',],
     'installable': True,
     'auto_install': False,
 }
