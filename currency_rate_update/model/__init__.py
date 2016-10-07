@@ -19,6 +19,8 @@
 #
 ##############################################################################
 
+
+from . import res_currency
 from . import currency_rate_update
 from . import company
-from . import res_currency
+

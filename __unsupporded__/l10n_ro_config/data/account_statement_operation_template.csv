@@ -1,0 +1,9 @@
+label,name,account_id,amount_type,amount
+Supplier Advance Payment,Supplier Advance Payment,409100,percentage_of_balance,100
+Customer Advance Payment,Customer Advance Payment,419000,percentage_of_balance,100
+Internal Transfer,Internal Transfer,581000,percentage_of_balance,100
+Bank Commision,Bank Commision,627000,percentage_of_balance,100
+Interest,Interest,766000,percentage_of_balance,100
+Payroll,Payroll,421000,percentage_of_balance,100
+General,General,635000,percentage_of_balance,100
+Pending Settlement,Pending Settlement,473000,percentage_of_balance,100

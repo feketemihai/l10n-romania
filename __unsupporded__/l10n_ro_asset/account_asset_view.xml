@@ -1,0 +1,201 @@
+<openerp>
+<data>
+
+     <!--
+        Asset Category
+     -->
+
+    <record model="ir.ui.view" id="view_account_asset_category_form">
+        <field name="name">account.asset.category.form</field>
+        <field name="model">account.asset.category</field>
+        <field name="inherit_id" ref='account_asset.view_account_asset_category_form'/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="code"/>
+            </field>
+            <field name="name" position="after">
+                <field name="type" widget="selection"/>
+                <field name="asset_type" widget="selection" attrs="{'invisible':[('type','=','view')], 'required':[('type','=','normal')]}"/>
+                <field name="sequence_id" attrs="{'invisible':[('type','=','view')], 'required':[('asset_type','=','fixed')]}"/>
+                <field name="parent_id" widget="selection"/>
+            </field>
+            <field name="method_number" position="before">
+                <field name="method_number_min" attrs="{'invisible':[('method_time','=','end')], 'required':[('method_time','=','number')]}"/>
+            </field>
+            <field name="account_expense_depreciation_id" position="after">
+                <field name="account_income_id" attrs="{'required':[('type','=','normal')]}"/>
+            </field>
+            <field name="account_asset_id" position="attributes">
+                <attribute name="attrs">{'required':[('type','=','normal')]}</attribute>
+            </field>
+            <field name="account_depreciation_id" position="attributes">
+                <attribute name="attrs">{'required':[('type','=','normal')]}</attribute>
+            </field>
+            <field name="account_expense_depreciation_id" position="attributes">
+                <attribute name="attrs">{'required':[('type','=','normal')]}</attribute>
+            </field>
+            <field name="journal_id" position="attributes">
+                <attribute name="attrs">{'required':[('type','=','normal')]}</attribute>
+            </field>
+            <xpath expr="/form/group/group[2]" position="attributes">
+                <attribute name="string">Accounting</attribute>
+                <attribute name="attrs">{'invisible':[('type','=','view')]}</attribute>
+            </xpath>
+            <group string="Depreciation Dates" position="attributes">
+                <attribute name="attrs">{'invisible':[('type','=','view')]}</attribute>
+            </group>
+            <group string="Depreciation Method" position="attributes">
+                <attribute name="attrs">{'invisible':[('type','=','view')]}</attribute>
+            </group>
+            <group string="Analytic Information" position="attributes">
+                <attribute name="attrs">{'invisible':[('type','=','view')]}</attribute>
+            </group>
+                    
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_asset_category_tree">
+        <field name="name">account.asset.category.tree</field>
+        <field name="model">account.asset.category</field>
+        <field name="inherit_id" ref='account_asset.view_account_asset_category_tree'/>
+        <field name="field_parent">child_ids</field>
+        <field name="arch" type="xml">
+            <tree string="Asset category" position="replace">
+                <tree string="Asset category" colors="blue:type == 'view';black:type == 'normal'">
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="code"/>
+                    <field name="parent_id"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="asset_type"/>
+                </tree>
+            </tree>            
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_asset_category_search">
+        <field name="name">account.asset.category.search</field>
+        <field name="model">account.asset.category</field>
+        <field name="inherit_id" ref='account_asset.view_account_asset_category_search'/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="parent_id"/>
+                <field name="asset_type"/>
+                <field name="type"/>
+                <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Category"/>
+                <group expand="0" string="Group By">
+                    <filter string="Company" icon="terp-folder-orange" domain="" context="{'group_by':'company_id'}"/>
+                    <filter string="Parent Category" icon="terp-folder-orange" domain="" context="{'group_by':'parent_id'}"/>
+                    <filter string="Asset Type" icon="terp-stock_symbol-selection" domain="" context="{'group_by':'asset_type'}"/>
+                    <filter string="Type" icon="terp-stock_symbol-selection" domain="" context="{'group_by':'type'}"/>
+                </group>
+            </field>
+        </field>
+    </record>
+
+    <!--
+        Asset
+     -->
+
+    <record model="ir.ui.view" id="view_account_asset_asset_form">
+        <field name="name">account.asset.asset.form</field>
+        <field name="model">account.asset.asset</field>
+        <field name="inherit_id" ref='account_asset.view_account_asset_asset_form'/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <field name="asset_type"/>
+            </field>
+            <field name="purchase_date" position="before">
+                <field name="entry_date" required="1"/>
+            </field>
+            <field name="code" position="before">
+                <field name="product_id"/>
+            </field>                
+            <xpath expr="/form/sheet/notebook/page[@string='General']" position="inside">
+                <group string="Stock Info" attrs="{'invisible':[('asset_type','=','service')]}">
+                    <field name="picking_id"/>
+                    <field name="stock_move_id"/>
+                    <field name="prodlot_id"/>
+                    <field name="inventory_number"/>
+                    <field name="inventory_value"/>
+                 </group>
+                 <group string="Invoice Info" attrs="{'invisible':[('asset_type','=','fixed')]}">
+                    <field name="invoice_id"/>
+                    <field name="inv_line_id"/>
+                 </group>
+            </xpath>
+            <page string="Depreciation Board" position="after">
+                <page string="Reevaluations">
+                    <field name="reevaluation_ids" context="{'asset_id': active_id}">
+                        <tree string="Reevaluations" colors="blue:(move_check == False);black:(move_check == True)">
+                            <field name="state" invisible="1"/>
+                            <field name="date"/>
+                            <field name="value_residual" readonly="1"/>
+                            <field name="new_value"/>
+                            <field name="diff_value" readonly="1"/>
+                            <field name="move_check"/>
+                            <button name="create_move" attrs="{'invisible':['|',('move_check','!=',False),('state','!=','draft')]}" icon="gtk-execute" string="Create Move" type="object"/>
+                        </tree>
+                        <form string="Reevaluations"> 
+                            <group>
+                                <group>
+                                    <field name="state" invisible="1"/>
+                                    <field name="type"/>
+                                    <field name="new_value"/>
+                                    <field name="move_id"/>
+                                    <field name="move_check"/>
+                                </group>
+                                <group>
+                                    <field name="date"/>
+                                    <field name="value_residual" readonly="1"/>
+                                    <field name="diff_value" readonly="1"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </page>    
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_account_asset_asset_tree">
+        <field name="name">account.asset.asset.tree</field>
+        <field name="model">account.asset.asset</field>
+        <field name="field_parent">child_ids</field>
+        <field name="inherit_id" ref='account_asset.view_account_asset_asset_tree'/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="before">
+                <field name="asset_type"/>
+            </field>
+            <field name="category_id" position="after">
+                <field name="product_id"/>
+                <field name="inventory_number"/>
+            </field>
+        </field>
+    </record>
+    
+    <record id="view_account_asset_search" model="ir.ui.view">
+        <field name="name">account.asset.asset.search</field>
+        <field name="model">account.asset.asset</field>
+        <field name="inherit_id" ref='account_asset.view_account_asset_search'/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="before">
+                <field name="asset_type"/>
+            </field>
+            <field name="category_id" position="after">
+                <field name="product_id"/>
+                <field name="inventory_number"/>
+            </field>
+            <filter string="Current" position="before">
+                <filter string="Asset Type" icon="terp-personal" domain="[]"  context="{'group_by':'asset_type'}"/>
+                <filter string="Category" icon="terp-personal" domain="[]"  context="{'group_by':'category_id'}"/>
+                <filter string="Product" icon="terp-personal" domain="[]"  context="{'group_by':'product_id'}"/>
+                <filter string="Partner" icon="terp-personal" domain="[]"  context="{'group_by':'partner_id'}"/>
+            </filter>
+        </field>
+    </record>
+                
+            
+</data>
+</openerp>

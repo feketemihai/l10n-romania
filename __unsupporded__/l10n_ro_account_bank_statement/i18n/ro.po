@@ -1,0 +1,56 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_account_bank_statement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-09 07:10+0000\n"
+"PO-Revision-Date: 2015-01-09 07:10+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_account_bank_statement
+#: code:addons/l10n_ro_account_bank_statement/account_bank_statement.py:68
+#, python-format
+msgid "A selected move line was already reconciled."
+msgstr "O miscare de pe linia selectata a fost deja reconciliată."
+
+#. module: l10n_ro_account_bank_statement
+#: model:ir.model,name:l10n_ro_account_bank_statement.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Linii Extras Cont"
+
+#. module: l10n_ro_account_bank_statement
+#: field:account.statement.operation.template,company_id:0
+msgid "Company"
+msgstr "Companie"
+
+#. module: l10n_ro_account_bank_statement
+#: model:ir.model,name:l10n_ro_account_bank_statement.model_account_statement_from_invoice_lines
+msgid "Entries by Statement from Invoices"
+msgstr "Inregistrări dupa Extrasul din facturi"
+
+#. module: l10n_ro_account_bank_statement
+#: code:addons/l10n_ro_account_bank_statement/account_bank_statement.py:60
+#: code:addons/l10n_ro_account_bank_statement/account_bank_statement.py:68
+#, python-format
+msgid "Error!"
+msgstr "Eroare!"
+
+#. module: l10n_ro_account_bank_statement
+#: model:ir.model,name:l10n_ro_account_bank_statement.model_account_statement_operation_template
+msgid "Preset for the lines that can be created in a bank statement reconciliation"
+msgstr "Sablon pentru liniile care pot fi create intr-o reconcilierea a extrasului de banca"
+
+#. module: l10n_ro_account_bank_statement
+#: code:addons/l10n_ro_account_bank_statement/account_bank_statement.py:60
+#, python-format
+msgid "The bank statement line was already reconciled."
+msgstr "Linia extrasului de cont a fost deja reconciliata."
+

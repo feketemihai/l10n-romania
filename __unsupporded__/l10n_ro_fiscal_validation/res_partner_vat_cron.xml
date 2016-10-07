@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.cron" id="ir_cron_partner_vat_update_every_day">
+            <field name="name">Partner VAT Update</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field><!-- it s every day -->
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'res.partner'"/>
+            <field name="function" eval="'_update_vat_all'"/>
+            <field name="args"></field>
+        </record>
+
+    </data>
+</openerp>

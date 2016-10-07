@@ -88,6 +88,7 @@ class RO_BNR_getter(Currency_getter_interface):
 
 
     def get_updated_all_year(self, currency_array, main_currency):
+        self.updated_currency = {}
         url = 'http://www.bnr.ro/files/xml/years/nbrfxrates'+ str(datetime.now().year)+'.xml'
         from lxml import etree
         _logger.debug("BNR currency rate service : connecting...")

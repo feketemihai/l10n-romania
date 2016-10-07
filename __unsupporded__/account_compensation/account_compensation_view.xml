@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_compensation_tree">
+            <field name="name">account.compensation.tree</field>
+            <field name="model">account.compensation</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';gray:state == 'cancel'" string="Compensation Entries">
+                    <field name="date"/>
+                    <field name="number"/>
+                    <field name="partner_id"/>
+                    <field name="journal_id" groups="account.group_account_user"/>
+                    <field name="period_id" invisible="context.get('visible', True)"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_compensation_line_form">
+            <field name="name">account.compensation.line.form</field>
+            <field name="model">account.compensation.line</field>
+            <field name="arch" type="xml">
+                <form string="Compensation Lines">
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="account_id"/>
+                        <field name="partner_id"/>
+                        <field name="amount"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- This general view is used in 
+             Invoicing - Journal Entries - Journal Vouchers -->
+        <record model="ir.ui.view" id="view_compensation_form">
+            <field name="name">account.compensation.form</field>
+            <field name="model">account.compensation</field>
+            <field name="arch" type="xml">
+                <form string="Accounting Compensation">
+                  <header>
+                      <button name="proforma_compensation" string="Post" states="draft" class="oe_highlight"/>
+                      <button name="cancel_compensation" string="Cancel Compensation" type="object" states="posted" confirm="Are you sure you want to unreconcile this record?"/>
+                      <button name="cancel_compensation" string="Cancel Compensation" states="draft,proforma" />
+                      <button name="action_cancel_draft" type="object" states="cancel" string="Set to Draft"/>
+                      <field name="state" widget="statusbar" statusbar_visible="draft,posted" statusbar_colors='{"proforma":"blue"}'/>
+                  </header>
+                  <sheet string="Accounting Compensation">
+                    <group col="4" colspan="4">
+                        <field name="partner_id" required="1" on_change="onchange_journal_compensation(line_ids, partner_id, journal_id)"/>
+                        <field name="date" on_change="onchange_date(date, currency_id, company_id)"/>
+                        <field name="journal_id" widget="selection" on_change="onchange_journal_compensation(line_ids, partner_id, journal_id)"/>
+                        <field name="name" colspan="2"/>
+                        <field name="company_id" widget="selection" on_change="onchange_company(partner_id, journal_id, currency_id, company_id)" groups="base.group_multi_company"/>
+                        <field name="number"/>
+                        <field name="currency_id" groups="base.group_multi_currency"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Compensation Entry">
+                            <field name="line_ids" invisible="1"/>
+                            <label for="line_dr_ids"/>
+                            <field name="line_dr_ids" context="{'journal_id':journal_id, 'partner_id':partner_id}" colspan="4" nolabel="1" height="140" on_change="onchange_line_ids(line_dr_ids, line_cr_ids, currency_id, context)">
+                                <tree string="Open Supplier Journal Entries" editable="bottom" colors="gray:amount==0">
+                                    <field name="move_line_id" context="{'journal_id':parent.journal_id, 'partner_id':parent.partner_id}"
+                                        on_change="onchange_move_line_id(move_line_id)"
+                                        domain="[('reconcile_id','=', False), ('partner_id','=',parent.partner_id)]"/>
+                                    <field name="account_id"/>
+                                    <field name="date_original" readonly="1"/>
+                                    <field name="date_due" readonly="1"/>
+                                    <field name="amount_original" readonly="1"/>
+                                    <field name="amount_unreconciled" readonly="1"/>
+                                    <field name="amount" sum="Total Allocation"/>
+                                </tree>
+                            </field>
+                            <label for="line_cr_ids"/>
+                            <field name="line_cr_ids" context="{'journal_id':journal_id, 'partner_id':partner_id}" on_change="onchange_line_ids(line_dr_ids, line_cr_ids, currency_id, context)">
+                                <tree string="Open Customer Journal Entries" editable="bottom" colors="gray:amount==0">
+                                    <field name="move_line_id" context="{'journal_id':parent.journal_id, 'partner_id':parent.partner_id}"
+                                        on_change="onchange_move_line_id(move_line_id)"
+                                        domain="[('reconcile_id','=', False), ('partner_id','=',parent.partner_id)]"/>
+                                    <field name="account_id"/>
+                                    <field name="date_original" readonly="1"/>
+                                    <field name="date_due" readonly="1"/>
+                                    <field name="amount_original" readonly="1"/>
+                                    <field name="amount_unreconciled" readonly="1"/>
+                                    <field name="amount" sum="Total Allocation"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group string="Internal Notes">
+                                    <field name="narration" nolabel="1" colspan="2"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Journal Items" attrs="{'invisible': [('state','!=','posted')]}">
+                            <group col="4">
+                                <field name="period_id"/>
+                            </group>
+                            <field name="move_ids" readonly="1">
+                               <tree string="Journal Items">
+                                   <field name="move_id"/>
+                                   <field name="ref"/>
+                                   <field name="date"/>
+                                   <field name="statement_id"/>
+                                   <field name="partner_id"/>
+                                   <field name="account_id"/>
+                                   <field name="name"/>
+                                   <field name="debit"/>
+                                   <field name="credit"/>
+                                   <field name="state"/>
+                                   <field name="reconcile_id"/>
+                               </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                  </sheet>
+                  <div class="oe_chatter">
+                      <field name="message_follower_ids" widget="mail_followers"/>
+                      <field name="message_ids" widget="mail_thread"/>
+                  </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_compensation_filter" model="ir.ui.view">
+            <field name="name">account.compensation.select</field>
+            <field name="model">account.compensation</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Search Compensation">
+                    <field name="number" string="Compensation"/>
+                    <field name="date"/>
+                    <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Draft Compensation"/>
+                    <filter icon="terp-camera_test" string="Posted" domain="[('state','=','posted')]" help="Posted Compensation"/>
+                    <separator/>
+                    <field name="partner_id" filter_domain="[('partner_id', 'child_of', self)]"/>
+                    <field name="journal_id" widget="selection" context="{'journal_id': self, 'set_visible':False}" /> <!-- Keep widget=selection on this field to pass numeric `self` value, which is not the case for regular m2o widgets! -->
+                    <field name="period_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Journal" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal_id'}"/>
+                        <filter string="Period" icon="terp-go-month" domain="[]" context="{'group_by':'period_id','visible':True}"/>
+                        <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Journal Vouchers -->
+        <record model="ir.actions.act_window" id="action_compensation_list">
+            <field name="name">Journal Compensation</field>
+            <field name="res_model">account.compensation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="view_compensation_tree"/>
+            <field name="search_view_id" ref="view_compensation_filter"/>
+        </record>
+        <record id="action_journal_compensation_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_compensation_list"/>
+        </record>
+        <record id="action_journal_compensation_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_compensation_form"/>
+            <field name="act_window_id" ref="action_compensation_list"/>
+        </record>
+        <menuitem action="action_compensation_list" id="menu_encode_entries_by_compensation" parent="account.menu_finance_entries" sequence="6" groups="base.group_no_one"/>
+
+        <act_window
+            id="act_journal_compensation_open"
+            name="Compensation Entries"
+            context="{'search_default_journal_id': active_id, 'default_journal_id': active_id}"
+            res_model="account.compensation"
+            src_model="account.journal"/>
+
+        <record model="ir.actions.act_window" id="action_review_compensation_list">
+            <field name="name">Compensation Entries</field>
+            <field name="res_model">account.compensation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="view_compensation_tree"/>
+            <field name="domain">[('state','=','posted')]</field>
+            <field name="context">{'state':'posted'}</field>
+            <field name="search_view_id" ref="view_compensation_filter"/>
+        </record>
+
+    </data>
+</openerp>

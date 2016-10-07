@@ -1,0 +1,544 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_config
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-08 14:47+0000\n"
+"PO-Revision-Date: 2015-01-08 14:47+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_config
+#: model:ir.model,name:l10n_ro_config.model_account_account
+msgid "Account"
+msgstr "Cont"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_account_compensation:0
+msgid "Account Compensation"
+msgstr "Compensare Parteneri"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_constrains:0
+msgid "Account Constrains"
+msgstr "Constrangeri Contabilitate"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Accounting"
+msgstr "Contabilitate"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Apply"
+msgstr "Aplica"
+
+#. module: l10n_ro_config
+#: field:res.company,property_asset_reevaluation_account_id:0
+#: field:l10n.ro.config.settings,property_asset_reevaluation_account_id:0
+msgid "Asset Reevaluation Account"
+msgstr "Cont Reevaluare Active"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_bank_statement:0
+msgid "Bank Statement Invoices"
+msgstr "Facturi in Extrase Bancare"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Cancel"
+msgstr "Anuleaza"
+
+#. module: l10n_ro_config
+#: model:ir.model,name:l10n_ro_config.model_res_company
+msgid "Companies"
+msgstr "Companii"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,company_id:0
+msgid "Company"
+msgstr "Compania"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Configure Romania Application"
+msgstr "Configureaza Aplicatii Romania"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_partner_create_by_vat:0
+msgid "Create Partners by VAT"
+msgstr "Creeaza Parteneri dupa CUI"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,create_uid:0
+msgid "Created by"
+msgstr "Creeat de"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,create_date:0
+msgid "Created on"
+msgstr "Creeat la"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_compensation_currency_update:0
+msgid "Currency Difference on Compensations"
+msgstr "Compensari - Diferente Curs Valutar"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_voucher_currency_update:0
+msgid "Currency Difference on Partial Payments/Receipts"
+msgstr "Chitante - Diferente Curs Valutar"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_currency_rate_update:0
+msgid "Currency Rate Update"
+msgstr "Actualizare Curs Valutar"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_currency_reevaluation:0
+msgid "Currency Reevaluation"
+msgstr "Reevaluare Solduri in Valuta"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Currency Update"
+msgstr "Actualizare Curs Valutar"
+
+#. module: l10n_ro_config
+#: field:res.company,property_customer_advance_account_id:0
+#: field:l10n.ro.config.settings,property_customer_advance_account_id:0
+msgid "Customer Advance Account"
+msgstr "Cont Avans Clineti"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "General"
+msgstr "General"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "General Features"
+msgstr "Caracteristici Generale"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,has_default_company:0
+msgid "Has default company"
+msgstr "Are companie implicita"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_ro_config
+#: field:res.company,asset_category_chart_installed:0
+#: field:l10n.ro.config.settings,asset_category_chart_installed:0
+msgid "Install Chart of Asset Category"
+msgstr "Instaleaza Plan de Mijloace Fixe"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_invoice_report:0
+msgid "Invoice and Voucher Report"
+msgstr "Rapoarte Factura si Chitanta"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualizare de catre"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima actualizare in "
+
+#. module: l10n_ro_config
+#: field:res.company,account_period_close_template_installed:0
+#: field:l10n.ro.config.settings,account_period_close_template_installed:0
+msgid "Load Account Period Close Templates"
+msgstr "Incarca Sabloane Inchidere Perioada"
+
+#. module: l10n_ro_config
+#: field:res.company,bank_statement_template_installed:0
+#: field:l10n.ro.config.settings,bank_statement_template_installed:0
+msgid "Load Bank Statement Templates"
+msgstr "Incarca Sabloane Operatiuni Extrase de Cont"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Localisation"
+msgstr "Localizare"
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_stock:0
+msgid "Methods of usage giving and consumption"
+msgstr "Metode de dare in folosinta si dare in consum"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_invoice_line_not_deductible:0
+msgid "Not Deductible Invoice Line"
+msgstr "Linie Factura Nedeductibila"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Partners"
+msgstr "Parteneri"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_fiscal_validation:0
+msgid "Partners Fiscal Validation"
+msgstr "Validari Fiscale Parteneri"
+
+#. module: l10n_ro_config
+#: field:res.company,property_stock_picking_payable_account_id:0
+#: field:l10n.ro.config.settings,property_stock_picking_payable_account_id:0
+msgid "Picking Account Payable"
+msgstr "Cont Avize Furnizori"
+
+#. module: l10n_ro_config
+#: field:res.company,property_stock_picking_receivable_account_id:0
+#: field:l10n.ro.config.settings,property_stock_picking_receivable_account_id:0
+msgid "Picking Account Receivable"
+msgstr "Cont Avize Clienti"
+
+#. module: l10n_ro_config
+#: help:account.account,uneligible_account_id:0
+msgid "Related account used for real registrations on a VAT on payment basis. Set the shadow account here"
+msgstr "Contul sugerat folosit pentru inregistrari cu TVA pe incasare. Setați contul de aici"
+
+#. module: l10n_ro_config
+#: help:account.tax.code,uneligible_tax_code_id:0
+msgid "Related tax code used for real registrations on a VAT on payment basis. Set the shadow tax code here"
+msgstr "Codul de Taxa sugerat folosit pentru inregistrari cu TVA pe incasare. Setați Codul de taxa aici"
+
+#. module: l10n_ro_config
+#: model:ir.ui.menu,name:l10n_ro_config.menu_account_config
+msgid "Romania"
+msgstr "Romania"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_period_close:0
+msgid "Romania Account Period Close"
+msgstr "Romania Inchidere Perioade Contabilitate"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_report:0
+msgid "Romania Accounting Reports"
+msgstr "Romania Rapoarte COntabile"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Romania Adaptation"
+msgstr "Adaptare Romania"
+
+#. module: l10n_ro_config
+#: model:ir.actions.act_window,name:l10n_ro_config.action_l10n_ro_config
+msgid "Romania Application"
+msgstr "Aplicatii Romania"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_asset:0
+msgid "Romanian Asset"
+msgstr "Romania Active"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_siruta:0
+msgid "Romanian Cities"
+msgstr "Romania Localitati"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_stock:0
+msgid "Romanian Stock"
+msgstr "Romania Stoc"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_stock_account:0
+msgid "Romanian Stock Accounting"
+msgstr "Romania Contabilitate Stoc"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_zipcode:0
+msgid "Romanian Zipcodes"
+msgstr "Romania Coduri Postale"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Select Company"
+msgstr "Selecteaza Compania"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Stock"
+msgstr "Stoc"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Stock & Stock Accounting"
+msgstr "Stoc & Contabilitate Stoc"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_stock_picking_report:0
+msgid "Stock Picking Report"
+msgstr "Rapoarte Operatiuni Stoc"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_account_storno:0
+msgid "Storno Accounting"
+msgstr "Contabilitate Storno"
+
+#. module: l10n_ro_config
+#: field:res.company,property_supplier_advance_account_id:0
+#: field:l10n.ro.config.settings,property_supplier_advance_account_id:0
+msgid "Supplier Advance Account"
+msgstr "Cont Avans Furnizori"
+
+#. module: l10n_ro_config
+#: model:ir.model,name:l10n_ro_config.model_account_tax_code
+msgid "Tax Code"
+msgstr "Cod Taxe"
+
+#. module: l10n_ro_config
+#: help:res.company,property_customer_advance_account_id:0
+#: help:l10n.ro.config.settings,property_customer_advance_account_id:0
+msgid "This account will be used as the customer advance account for the current partner on vouchers."
+msgstr "Acest cont va fi folosit pentru avansuri client pentru partenerul actual pe chitante."
+
+#. module: l10n_ro_config
+#: help:res.company,property_stock_picking_payable_account_id:0
+#: help:l10n.ro.config.settings,property_stock_picking_payable_account_id:0
+msgid "This account will be used as the payable account for the current partner on stock picking notice."
+msgstr "Acest cont va fi folosit ca un cont de plati pentru partenerul actual pe avize."
+
+#. module: l10n_ro_config
+#: help:res.company,property_stock_picking_receivable_account_id:0
+#: help:l10n.ro.config.settings,property_stock_picking_receivable_account_id:0
+msgid "This account will be used as the receivable account for the current partner on stock picking notice."
+msgstr "Acest cont va fi folosit ca un cont de incasari pentru partenerul actual pe avize."
+
+#. module: l10n_ro_config
+#: help:res.company,property_asset_reevaluation_account_id:0
+#: help:l10n.ro.config.settings,property_asset_reevaluation_account_id:0
+msgid "This account will be used as the reevaluation asset account."
+msgstr "Acest cont va fi folosit pentru reevaluari mijloace fixe."
+
+#. module: l10n_ro_config
+#: help:res.company,property_supplier_advance_account_id:0
+#: help:l10n.ro.config.settings,property_supplier_advance_account_id:0
+msgid "This account will be used as the supplier advance account for the current partner on vouchers."
+msgstr "Acest cont va fi folosit pentru avansuri furnizor pentru partenerul actual pe chitante."
+
+#. module: l10n_ro_config
+#: help:res.company,property_undeductible_account_id:0
+#: help:l10n.ro.config.settings,property_undeductible_account_id:0
+msgid "This account will be used as the undeductible expense account for account move line."
+msgstr "Acest cont va fi folosit pentru a inregistra a cheltuiala nedeductibila in nota contabila."
+
+#. module: l10n_ro_config
+#: help:res.company,property_undeductible_tax_account_id:0
+#: help:l10n.ro.config.settings,property_undeductible_tax_account_id:0
+msgid "This account will be used as the undeductible tax account for account move line."
+msgstr "Acest cont va fi folosit pentru a inregistra taxa aferenta unei cheltuieli nedeductibile in nota contabila."
+
+#. module: l10n_ro_config
+#: help:res.company,property_stock_usage_giving_account_id:0
+#: help:l10n.ro.config.settings,property_stock_usage_giving_account_id:0
+msgid "This account will be used as the usage giving account in account move line."
+msgstr "Acest cont va fi folosit pentru inregistrari dare in folosinta."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_period_close:0
+msgid "This allows you to close accounts on periods based on templates: Income, Expense, VAT..."
+msgstr "Acest modul va permite sa inchideti conturile periodic pe baza de sabloane: Venituri, Cheltuieli, TVA ..."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_partner_create_by_vat:0
+msgid "This allows you to create partners based on VAT:\n"
+"Romanian partners will be create based on Ministry of Finance / openapi.ro Webservices Datas\n"
+"European partners will be create based on VIES Website Datas (for countries that allow). \n"
+""
+msgstr "Acest modul vă permite sa creati parteneri pe baza CUI:\n"
+"Partenerii romani vor fi creati pe baza serviciilor de date ale Ministerului de Finante / openapi.ro\n"
+"Partenerii europeni vor fi creati pe baza datelor site-ului VIES (pentru tarile care permit).\n"
+""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_voucher_cash:0
+msgid "This allows you to directly input in Cash Statement payments/receipts from Pay Invoice."
+msgstr "Acest modul va permite sa introduceti direct în Registrul de Casa platile/incasarile din Plata Factura."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_compensation_currency_update:0
+msgid "This allows you to manage currency difference amounts on compensation."
+msgstr "Acest modul va permite sa gestionati diferentele de curs valutar in cazul compensarilor."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_voucher_currency_update:0
+msgid "This allows you to manage currency difference amounts on partial payments/receipts."
+msgstr "Acest modul va permite sa gestionati diferentele de curs valutar in cazul platilor/incasarilor partiale."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_currency_reevaluation:0
+msgid "This allows you to manage currency reevaluation of move lines recorded on foreign currency.\n"
+"To evaluate you have to check the \"Allow Reevaluation\" field on accounts."
+msgstr "Acest modul va permite sa gestionati reevaluare curs valutar pe miscarile contabile inregistrate pe valuta.\n"
+"Pentru a reevalua va trebui să bifati campul \"Permiteți Reevaluarea\" pe conturi."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_bank_statement:0
+msgid "This allows you to manage imports in bank statement line of the invoices only."
+msgstr "Acest modul va permite sa importati in extrase bancare numai a facturilor."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_invoice_line_not_deductible:0
+msgid "This allows you to manage not deductible supplier invoice line."
+msgstr "Acest modul va permite sa gestionati liniile din facturi furnizori nedeductibile."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_account_compensation:0
+msgid "This allows you to manage partners compensation on accounts marked to be reconciled."
+msgstr "Acest modul va permite sa gestionati compensarea partenerilor pe conturile marcate pentru a fi reconciliate"
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_siruta:0
+msgid "This allows you to manage the Romanian Zones, States, Communes, Cities:\n"
+"The address fields will contain city, commune, state, zone, country, zip."
+msgstr "Acest modul va permite sa gestionati Zonele, Judetele, Communele, Orasele din Romania:\n"
+"Campurile adresa vor contine oras, comuna, judet, zona, tara, cod postal."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_asset:0
+msgid "This allows you to manage the Romanian adaptation for assets, including:\n"
+"Split assets in fixed assets and services (financials).\n"
+"Fixed assets will be created / sold from stock moves, services assets from invoices,\n"
+"also include history of creation of the asset.\n"
+"Method of reevaluation of assets.Import of the Chart of Asset Categories according with the legislation"
+msgstr "Acest modul va permite sa gestionati adaptarea la Romania pentru mijloace fixe, inclusiv:\n"
+"Activele divizate in active imobilizate si servicii (Financiare).\n"
+"Mijloace fixe vor fi creeate / vandute din miscari stoc, activele din servicii din facturi,\n"
+"includ, de asemenea istoricul de creeare a mijlocului fix.\n"
+"Metoda de reevaluare a mijloacelor fixe.Importul Planului de Categorii Mijloace Fixe, bazat pe legislatie"
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_stock_account:0
+msgid "This allows you to manage the Romanian adaptation for stock, including:\n"
+"New stock accounts on location to allow moving entry in accounting based on the stock move.\n"
+"The account entry will be generated from stock move instead of stock quant, link with the generated \n"
+"account move lines on the picking\n"
+"Inventory account move lines..."
+msgstr "Acest modul va permite sa gestionati adaptarea la Romania pentru stoc, printre care:\n"
+"Noi conturi de stoc pe locatie, pentru a permite inregistrari in contabilitate pe baza miscarii de stoc.\n"
+"Inregistrarile contabile vor fi generate de miscarile de stoc în loc de cantitati stoc, legat cu generarea\n"
+"elementelor contabile pe livrari\n"
+"Elemente contabile la inventare ..."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_zipcode:0
+msgid "This allows you to manage the Romanian zipcodes on addreses:\n"
+"The address fields will be replaced by one location field including city, commune, state, zone, country, zip."
+msgstr "Acest modul va permite sa gestionati codurile postale romanești la adrese:\n"
+"Campurile din adresa vor fi înlocuite cu un camp locatie, inclusiv oras, comuna, judet, zona, tara, cod postal."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_account_storno:0
+msgid "This allows you to manage the storno behaviour in accounting."
+msgstr "Acest modul va permite sa gestionati contabilitatea storno."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_currency_rate_update:0
+msgid "This allows you to manage the update of currency rate based on different provider, use BNR site."
+msgstr "Acest modul va permite sa gestionati actualizari curs valutar din diferite servicii, folositi site-ul BNR."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_account_vat_on_payment:0
+msgid "This allows you to manage the vat on payment behaviour in accounting."
+msgstr "Acest modul va permite sa gestionati Tva la Incasare in contabilitate"
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_fiscal_validation:0
+msgid "This allows you to manage the vat subjected and vat on payment fields update:\n"
+"For Romanian partners based on ANAF data and www.openapi.ro webservice.\n"
+"For European partners based on VIES data."
+msgstr "Acest modul va permite sa gestionati actualizarea campurilor Declaratie de TVA si TVA la Incasare:\n"
+"Pentru partenerii romani pe baza datelor ANAF si serviciului www.openapi.ro.\n"
+"Pentru partenerii europeni pe baza datelor VIES."
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_stock_picking_report:0
+msgid "This allows you to print Reports for Reception and Delivery"
+msgstr "Acest modul va permite sa gestionati Rapoarte pentru Receptii si Livrari"
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_invoice_report:0
+msgid "This allows you to print invoice report based on romanian layout.\n"
+"Invoice includes voucher if payment is on the same day.\n"
+"Voucher report with amount in word"
+msgstr "Acest modul va permite sa printati Raport factura bazat pe aspectul romanesc.\n"
+"Factura include chitanta in cazul in care plata este in aceeasi zi.\n"
+"Raportul Chitanta cu valoare in litere"
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_report:0
+msgid "This allows you to print reports according to legislation like: Sale/Purchase Journals, Trial Balance, D394..\n"
+""
+msgstr "Acest modul va permite sa printati rapoarte in conformitate cu legislatia precum: Jurnal Vanzari/Cumparari, Balanta Verificare, D394..\n"
+""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_constrains:0
+msgid "This will remove the constrains related to account journal, accounts with secondary currency."
+msgstr "Acest modul va elimina constrangerile legate de jurnale contabile, conturi cu moneda secundara."
+
+#. module: l10n_ro_config
+#: field:res.company,property_undeductible_account_id:0
+#: field:l10n.ro.config.settings,property_undeductible_account_id:0
+msgid "Undeductible Account"
+msgstr "Cont Nedeductibil"
+
+#. module: l10n_ro_config
+#: field:res.company,property_undeductible_tax_account_id:0
+#: field:l10n.ro.config.settings,property_undeductible_tax_account_id:0
+msgid "Undeductible Tax Account"
+msgstr "Cont Taxa Nedeductibila"
+
+#. module: l10n_ro_config
+#: field:account.tax.code,uneligible_tax_code_id:0
+msgid "Uneligible Tax Code (VAT on payment)"
+msgstr "Cod Taxa Neexigibil (TVA la Incasare)"
+
+#. module: l10n_ro_config
+#: field:account.account,uneligible_account_id:0
+msgid "Unneligible Account (VAT on payment)"
+msgstr "Cont Neexigibil (TVA la Incasare)"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,siruta_update:0
+msgid "Update Siruta Data"
+msgstr "Actualizeaza date SIRUTA"
+
+#. module: l10n_ro_config
+#: field:res.company,property_stock_usage_giving_account_id:0
+#: field:l10n.ro.config.settings,property_stock_usage_giving_account_id:0
+msgid "Usage Giving Account"
+msgstr "Cont Dare in Folosinta"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_account_vat_on_payment:0
+msgid "Vat on Payment Accounting"
+msgstr "Contabilitate TVA la Incasare"
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_voucher_cash:0
+msgid "Voucher to Cash Statement"
+msgstr "Chitanta in Registru de Casa"
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "or"
+msgstr "sau"
+

@@ -1,0 +1,524 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_config
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-08 14:47+0000\n"
+"PO-Revision-Date: 2015-01-08 14:47+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_config
+#: model:ir.model,name:l10n_ro_config.model_account_account
+msgid "Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_account_compensation:0
+msgid "Account Compensation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_constrains:0
+msgid "Account Constrains"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Accounting"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Apply"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:res.company,property_asset_reevaluation_account_id:0
+#: field:l10n.ro.config.settings,property_asset_reevaluation_account_id:0
+msgid "Asset Reevaluation Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_bank_statement:0
+msgid "Bank Statement Invoices"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model,name:l10n_ro_config.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Configure Romania Application"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_partner_create_by_vat:0
+msgid "Create Partners by VAT"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_compensation_currency_update:0
+msgid "Currency Difference on Compensations"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_voucher_currency_update:0
+msgid "Currency Difference on Partial Payments/Receipts"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_currency_rate_update:0
+msgid "Currency Rate Update"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_currency_reevaluation:0
+msgid "Currency Reevaluation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Currency Update"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:res.company,property_customer_advance_account_id:0
+#: field:l10n.ro.config.settings,property_customer_advance_account_id:0
+msgid "Customer Advance Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Folder 'l10n-romania' must be at the same level as 'odoo' directory to update SIRUTA data."
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "General"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "General Features"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,has_default_company:0
+msgid "Has default company"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,id:0
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:res.company,asset_category_chart_installed:0
+#: field:l10n.ro.config.settings,asset_category_chart_installed:0
+msgid "Install Chart of Asset Category"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_invoice_report:0
+msgid "Invoice and Voucher Report"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:res.company,account_period_close_template_installed:0
+#: field:l10n.ro.config.settings,account_period_close_template_installed:0
+msgid "Load Account Period Close Templates"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:res.company,bank_statement_template_installed:0
+#: field:l10n.ro.config.settings,bank_statement_template_installed:0
+msgid "Load Bank Statement Templates"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Localisation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_stock:0
+msgid "Methods of usage giving and consumption"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_invoice_line_not_deductible:0
+msgid "Not Deductible Invoice Line"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Partners"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_fiscal_validation:0
+msgid "Partners Fiscal Validation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:res.company,property_stock_picking_payable_account_id:0
+#: field:l10n.ro.config.settings,property_stock_picking_payable_account_id:0
+msgid "Picking Account Payable"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:res.company,property_stock_picking_receivable_account_id:0
+#: field:l10n.ro.config.settings,property_stock_picking_receivable_account_id:0
+msgid "Picking Account Receivable"
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:account.account,uneligible_account_id:0
+msgid "Related account used for real registrations on a VAT on payment basis. Set the shadow account here"
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:account.tax.code,uneligible_tax_code_id:0
+msgid "Related tax code used for real registrations on a VAT on payment basis. Set the shadow tax code here"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.ui.menu,name:l10n_ro_config.menu_account_config
+msgid "Romania"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_period_close:0
+msgid "Romania Account Period Close"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_report:0
+msgid "Romania Accounting Reports"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Romania Adaptation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.actions.act_window,name:l10n_ro_config.action_l10n_ro_config
+msgid "Romania Application"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_asset:0
+msgid "Romanian Asset"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_siruta:0
+msgid "Romanian Cities"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_stock:0
+msgid "Romanian Stock"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_stock_account:0
+msgid "Romanian Stock Accounting"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_zipcode:0
+msgid "Romanian Zipcodes"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Select Company"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Stock"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "Stock & Stock Accounting"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_stock_picking_report:0
+msgid "Stock Picking Report"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_account_storno:0
+msgid "Storno Accounting"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:res.company,property_supplier_advance_account_id:0
+#: field:l10n.ro.config.settings,property_supplier_advance_account_id:0
+msgid "Supplier Advance Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: model:ir.model,name:l10n_ro_config.model_account_tax_code
+msgid "Tax Code"
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:res.company,property_customer_advance_account_id:0
+#: help:l10n.ro.config.settings,property_customer_advance_account_id:0
+msgid "This account will be used as the customer advance account for the current partner on vouchers."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:res.company,property_stock_picking_payable_account_id:0
+#: help:l10n.ro.config.settings,property_stock_picking_payable_account_id:0
+msgid "This account will be used as the payable account for the current partner on stock picking notice."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:res.company,property_stock_picking_receivable_account_id:0
+#: help:l10n.ro.config.settings,property_stock_picking_receivable_account_id:0
+msgid "This account will be used as the receivable account for the current partner on stock picking notice."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:res.company,property_asset_reevaluation_account_id:0
+#: help:l10n.ro.config.settings,property_asset_reevaluation_account_id:0
+msgid "This account will be used as the reevaluation asset account."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:res.company,property_supplier_advance_account_id:0
+#: help:l10n.ro.config.settings,property_supplier_advance_account_id:0
+msgid "This account will be used as the supplier advance account for the current partner on vouchers."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:res.company,property_undeductible_account_id:0
+#: help:l10n.ro.config.settings,property_undeductible_account_id:0
+msgid "This account will be used as the undeductible expense account for account move line."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:res.company,property_undeductible_tax_account_id:0
+#: help:l10n.ro.config.settings,property_undeductible_tax_account_id:0
+msgid "This account will be used as the undeductible tax account for account move line."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:res.company,property_stock_usage_giving_account_id:0
+#: help:l10n.ro.config.settings,property_stock_usage_giving_account_id:0
+msgid "This account will be used as the usage giving account in account move line."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_period_close:0
+msgid "This allows you to close accounts on periods based on templates: Income, Expense, VAT..."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_partner_create_by_vat:0
+msgid "This allows you to create partners based on VAT:\n"
+"Romanian partners will be create based on Ministry of Finance / openapi.ro Webservices Datas\n"
+"European partners will be create based on VIES Website Datas (for countries that allow). \n"
+""
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_voucher_cash:0
+msgid "This allows you to directly input in Cash Statement payments/receipts from Pay Invoice."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_compensation_currency_update:0
+msgid "This allows you to manage currency difference amounts on compensation."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_voucher_currency_update:0
+msgid "This allows you to manage currency difference amounts on partial payments/receipts."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_currency_reevaluation:0
+msgid "This allows you to manage currency reevaluation of move lines recorded on foreign currency.\n"
+"To evaluate you have to check the \"Allow Reevaluation\" field on accounts."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_bank_statement:0
+msgid "This allows you to manage imports in bank statement line of the invoices only."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_invoice_line_not_deductible:0
+msgid "This allows you to manage not deductible supplier invoice line."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_account_compensation:0
+msgid "This allows you to manage partners compensation on accounts marked to be reconciled."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_siruta:0
+msgid "This allows you to manage the Romanian Zones, States, Communes, Cities:\n"
+"The address fields will contain city, commune, state, zone, country, zip."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_asset:0
+msgid "This allows you to manage the Romanian adaptation for assets, including:\n"
+"Split assets in fixed assets and services (financials).\n"
+"Fixed assets will be created / sold from stock moves, services assets from invoices,\n"
+"also include history of creation of the asset.\n"
+"Method of reevaluation of assets.Import of the Chart of Asset Categories according with the legislation"
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_stock_account:0
+msgid "This allows you to manage the Romanian adaptation for stock, including:\n"
+"New stock accounts on location to allow moving entry in accounting based on the stock move.\n"
+"The account entry will be generated from stock move instead of stock quant, link with the generated \n"
+"account move lines on the picking\n"
+"Inventory account move lines..."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_zipcode:0
+msgid "This allows you to manage the Romanian zipcodes on addreses:\n"
+"The address fields will be replaced by one location field including city, commune, state, zone, country, zip."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_account_storno:0
+msgid "This allows you to manage the storno behaviour in accounting."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_currency_rate_update:0
+msgid "This allows you to manage the update of currency rate based on different provider, use BNR site."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_account_vat_on_payment:0
+msgid "This allows you to manage the vat on payment behaviour in accounting."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_fiscal_validation:0
+msgid "This allows you to manage the vat subjected and vat on payment fields update:\n"
+"For Romanian partners based on ANAF data and www.openapi.ro webservice.\n"
+"For European partners based on VIES data."
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_stock_picking_report:0
+msgid "This allows you to print Reports for Reception and Delivery"
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_invoice_report:0
+msgid "This allows you to print invoice report based on romanian layout.\n"
+"Invoice includes voucher if payment is on the same day.\n"
+"Voucher report with amount in word"
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_report:0
+msgid "This allows you to print reports according to legislation like: Sale/Purchase Journals, Trial Balance, D394..\n"
+""
+msgstr ""
+
+#. module: l10n_ro_config
+#: help:l10n.ro.config.settings,module_l10n_ro_account_constrains:0
+msgid "This will remove the constrains related to account journal, accounts with secondary currency."
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:res.company,property_undeductible_account_id:0
+#: field:l10n.ro.config.settings,property_undeductible_account_id:0
+msgid "Undeductible Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:account.tax.code,uneligible_tax_code_id:0
+msgid "Uneligible Tax Code (VAT on payment)"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:account.account,uneligible_account_id:0
+msgid "Unneligible Account (VAT on payment)"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,siruta_update:0
+msgid "Update Siruta Data"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:res.company,property_stock_usage_giving_account_id:0
+#: field:l10n.ro.config.settings,property_stock_usage_giving_account_id:0
+msgid "Usage Giving Account"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_account_vat_on_payment:0
+msgid "Vat on Payment Accounting"
+msgstr ""
+
+#. module: l10n_ro_config
+#: field:l10n.ro.config.settings,module_l10n_ro_account_voucher_cash:0
+msgid "Voucher to Cash Statement"
+msgstr ""
+
+#. module: l10n_ro_config
+#: view:l10n.ro.config.settings:l10n_ro_config.view_l10n_ro_config_settings
+msgid "or"
+msgstr ""
+
