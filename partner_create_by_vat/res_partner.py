@@ -29,8 +29,8 @@ import requests
 from stdnum.eu.vat import check_vies
 from lxml import html
 
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from odoo import models, fields, api, _
+from odoo.exceptions import Warning
 
 CEDILLATRANS = maketrans(u'\u015f\u0163\u015e\u0162'.encode(
     'utf8'), u'\u0219\u021b\u0218\u021a'.encode('utf8'))
