@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2014 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,34 +19,24 @@
 #
 ##############################################################################
 
-
-import time
-from openerp.report import report_sxw
-from openerp.osv import osv
-from openerp.tools import amount_to_text_en
-from amount_to_text_ro import *
+from odoo import models, fields, api, _
+import odoo.addons.decimal_precision as dp
 
 
-class report_voucher_print(report_sxw.rml_parse):
+class company(models.Model):
+    _inherit = 'res.company'
 
-    def __init__(self, cr, uid, name, context):
-        super(report_voucher_print, self).__init__(
-            cr, uid, name, context=context)
-        self.localcontext.update({
-            'time': time,
-            'convert': self._convert,
-        })
+    '''
+    share_capital  mutat in l10n_ro_config
+    share_capital = fields.Float(
+        string='Share Capital',
+        digits=dp.get_precision('Account'),
+        default=200
+    )
+    '''
 
-    def _convert(self, amount):
-        amt_ro = amount_to_text_ro(amount)
-        return amt_ro
-
-
-class report_voucher(osv.AbstractModel):
-    _name = 'report.l10n_ro_invoice_report.report_voucher'
-    _inherit = 'report.abstract_report'
-    _template = 'l10n_ro_invoice_report.report_voucher'
-    _wrapped_report_class = report_voucher_print
+    #stamp_image = fields.Binary(string='Stamp image')  # mutat in l10n_ro_config
+    watermark_image  = fields.Binary(string='Watermark image')
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

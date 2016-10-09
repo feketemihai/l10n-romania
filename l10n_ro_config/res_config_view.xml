@@ -209,7 +209,7 @@
             <field name="target">inline</field>
         </record>
 
-        <menuitem id="menu_account_config" name="Romania" parent="base.menu_config"
+        <menuitem id="menu_account_config" name="Romania" parent="account.menu_finance_configuration"
             sequence="14" action="action_l10n_ro_config"/>
     </data>
 </openerp>

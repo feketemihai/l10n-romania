@@ -21,8 +21,8 @@
 ##############################################################################
 
 
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+import odoo.addons.decimal_precision as dp
 
 
 class res_partner(models.Model):

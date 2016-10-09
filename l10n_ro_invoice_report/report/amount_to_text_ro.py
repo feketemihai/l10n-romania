@@ -23,7 +23,7 @@
 # ROMANA
 # -------------------------------------------------------------
 
-from openerp import _
+from odoo import _
 
 
 to_19 = ('zero',  'unu',   'doi',  'trei', 'patru',   'cinci',   'șase',

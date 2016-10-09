@@ -6,7 +6,7 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="account.view_partner_property_form"/>
             <field name="arch" type="xml">
-               <field name="last_reconciliation_date"  position="after">
+               <field name="property_account_payable_id"  position="after">
                       <field name="info_for_invoice" />  
                </field>
                

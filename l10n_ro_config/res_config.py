@@ -149,7 +149,7 @@ class l10n_ro_config_settings(models.TransientModel):
         # Hack: to avoid some nasty bug, related fields are not written upon record creation.
         # Hence we write on those fields here.
         vals = {}
-        for fname, field in self._columns.iteritems():
+        for fname, field in self._fields.iteritems():
             if isinstance(field, fields.Many2one) and fname in values:
                 vals[fname] = values[fname]
         self.write(vals)

@@ -19,24 +19,14 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+import odoo.addons.decimal_precision as dp
 
 
-class company(models.Model):
-    _inherit = 'res.company'
+class res_partner(models.Model):
+    _inherit = 'res.partner'
 
-    '''
-    share_capital  mutat in l10n_ro_config
-    share_capital = fields.Float(
-        string='Share Capital',
-        digits=dp.get_precision('Account'),
-        default=200
-    )
-    '''
-
-    #stamp_image = fields.Binary(string='Stamp image')  # mutat in l10n_ro_config
-    watermark_image  = fields.Binary(string='Watermark image')
+    info_for_invoice  = fields.Html(string='Additional info for invoice')
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
