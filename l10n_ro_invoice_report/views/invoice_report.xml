@@ -176,6 +176,7 @@
                 <t t-call="l10n_ro_invoice_report.invoice_layout">
                     <div class="page">
                         <div name="invoice_address" ></div>
+
                         <t t-set="nr_crt" t-value="1"/>
                         <t t-if="not currency_id">
                             <t t-set="currency_id" t-value="o.currency_id"/>
@@ -436,6 +437,10 @@
                                 <strong>Fiscal Position Remark:</strong>
                                 <span t-field="o.fiscal_position_id.note"/>
                             </p>
+                            <div name="reference"  t-if="o.reference and o.type == 'in_invoice'">
+                                <strong>Reference:</strong>
+                                <p t-field="o.reference"/>
+                            </div>
                         </div>
                     </div>
                 </t>

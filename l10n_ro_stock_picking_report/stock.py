@@ -22,11 +22,11 @@
  
 
 
-from openerp import models, fields, api, _
-from openerp.tools.translate import _
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
-from openerp import SUPERUSER_ID, api
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.tools.translate import _
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
+from odoo import SUPERUSER_ID, api
+import odoo.addons.decimal_precision as dp
 
 class res_partner(models.Model):
     _inherit = 'res.partner'
@@ -42,6 +42,11 @@ class stock_picking(models.Model):
 
     delegate_id =  fields.Many2one('res.partner', string='Delegate')
     mean_transp =  fields.Char(string='Mean transport', size=20)
+
+    invoice_state = fields.Selection([("invoiced", "Invoiced"),
+                                      ("2binvoiced", "To Be Invoiced"),
+                                      ("none", "Not Applicable")
+                                      ], string="Invoice Control")
 
     @api.onchange('delegate_id')
     def on_change_delegate_id(self):

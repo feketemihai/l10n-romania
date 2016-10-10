@@ -19,74 +19,34 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
-import openerp.addons.decimal_precision as dp
-from openerp import tools
+from odoo import api, fields, models, _
+import odoo.addons.decimal_precision as dp
+from odoo import tools
 
 
-class stock_balance(osv.osv):
+class stock_balance(models.Model):
     _name = "stock.balance"
     _description = "stock Stock balance"
     _auto = False
 
-    _columns = {
+    date = fields.Datetime('Date', readonly=True)
+    location_id = fields.Many2one('stock.location', 'Location', readonly=True, select=True)
+    categ_id = fields.Many2one('product.category', 'Category', readonly=True)
+    product_id = fields.Many2one('product.product', 'Product', readonly=True)
+    product_uom = fields.Many2one('product.uom', 'Unit of Measure', required=True)
+    qty_in = fields.Float('Qty In', digits=dp.get_precision('Product UoM'), readonly=True)
+    amount_in = fields.Float('Amount In', digits=dp.get_precision('Account'), readonly=True)
+    qty_out = fields.Float('Qty Out', digits=dp.get_precision('Product UoM'), readonly=True)
+    amount_out = fields.Float('Amount Out', digits=dp.get_precision('Account'), readonly=True)
+    product_qty = fields.Float('Quantity', digits_=dp.get_precision('Product UoM'), readonly=True)
+    amount = fields.Float('Amount', digits=dp.get_precision('Account'), readonly=True)
+    company_id = fields.Many2one('res.company', 'Company', readonly=True)
 
-        'date': fields.datetime('Date',  readonly=True),
- 
+    @api.model_cr
+    def init(self):
 
-        'location_id': fields.many2one(
-            'stock.location', 'Location', readonly=True, select=True),
-
-
-        'categ_id': fields.many2one(
-            'product.category', 'Category', readonly=True),
-        'product_id': fields.many2one(
-            'product.product', 'Product', readonly=True),
-        'product_uom': fields.many2one(
-            'product.uom', 'Unit of Measure', required=True),
-
-
-
-        'qty_in': fields.float(
-            'Qty In',
-            digits_compute=dp.get_precision('Product UoM'),
-            readonly=True
-        ),
-        'amount_in': fields.float(
-            'Amount In',
-            digits_compute=dp.get_precision('Account'),
-            readonly=True
-        ),
-
-        'qty_out': fields.float(
-            'Qty Out',
-            digits_compute=dp.get_precision('Product UoM'),
-            readonly=True
-        ),
-        'amount_out': fields.float(
-            'Amount Out',
-            digits_compute=dp.get_precision('Account'),
-            readonly=True
-        ),
-
-        'product_qty': fields.float(
-            'Quantity',
-            digits_compute=dp.get_precision('Product UoM'),
-            readonly=True
-        ),
-        'amount': fields.float(
-            'Amount',
-            digits_compute=dp.get_precision('Account'),
-            readonly=True
-        ),
-
-        'company_id': fields.many2one('res.company', 'Company', readonly=True),
-
-    }
-
-    def init(self, cr):
-        tools.sql.drop_view_if_exists(cr, 'stock_balance')
-        cr.execute("""
+        tools.drop_view_if_exists(self.env.cr, self._table)
+        self.env.cr.execute("""
          create or replace view stock_balance as (
 
 SELECT
@@ -139,6 +99,7 @@ SELECT
  GROUP BY smg.date,  smg.categ_id, smg.product_id,
  smg.location_id, smg.product_uom, smg.company_id
         )""")
+
 
 stock_balance()
 

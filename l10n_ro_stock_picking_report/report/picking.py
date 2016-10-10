@@ -21,12 +21,11 @@
 
 
 import time
-from openerp.report import report_sxw
-from openerp.osv import osv
+from odoo.report import report_sxw
+from odoo.osv import osv
 
 
 class picking_delivery(report_sxw.rml_parse):
-
     def __init__(self, cr, uid, name, context):
         super(picking_delivery, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
@@ -35,26 +34,23 @@ class picking_delivery(report_sxw.rml_parse):
             'get_totals': self._get_totals
         })
 
-     
-
     def _get_line(self, move_line):
         res = {'price': 0.0, 'amount': 0.0, 'tax': 0.0, 'amount_tax': 0.0}
         if move_line.procurement_id.sale_line_id:
             line = move_line.procurement_id.sale_line_id
 
-            cur_obj = self.pool.get('res.currency')
-            tax_obj = self.pool.get('account.tax')
-            cur = line.order_id.pricelist_id.currency_id
+            currency = line.order_id.pricelist_id.currency_id
 
-            taxes = tax_obj.compute_all(self.cr, self.uid, line.tax_id, line.price_unit,
-                                        move_line.product_uom_qty, line.product_id, line.order_id.partner_id)
-            res['amount'] = cur_obj.round( self.cr, self.uid, cur, taxes['total'])
+            taxes = line.taxes_id.compute_all(line.price_unit, currency=currency,
+                                              quantity=move_line.product_uom_qty, product=line.product_id,
+                                              partner=line.order_id.partner_id)
+            res['amount'] = currency.round(taxes['total'])
             if move_line.product_uom_qty <> 0:
-                res['price'] = cur_obj.round( self.cr, self.uid, cur, taxes['total']) / move_line.product_uom_qty
+                res['price'] = currency.round(taxes['total']) / move_line.product_uom_qty
             else:
                 res['price'] = 0.0
-            res['tax'] = cur_obj.round( self.cr, self.uid, cur, taxes['total_included'] - taxes['total'])
-            res['amount_tax'] = cur_obj.round( self.cr, self.uid, cur, taxes['total_included'])
+            res['tax'] = currency.round(taxes['total_included'] - taxes['total_excluded'])
+            res['amount_tax'] = currency.round(taxes['total_included'])
 
         return res
 
@@ -69,7 +65,6 @@ class picking_delivery(report_sxw.rml_parse):
 
 
 class picking_reception(report_sxw.rml_parse):
-
     def __init__(self, cr, uid, name, context):
         super(picking_reception, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
@@ -81,62 +76,64 @@ class picking_reception(report_sxw.rml_parse):
     def _get_line(self, move_line):
         res = {'price': 0.0, 'amount': 0.0, 'tax': 0.0,
                'amount_tax': 0.0, 'amount_sale': 0.0, 'margin': 0.0}
-        
-        tax_obj = self.pool.get('account.tax')
-        cur_obj = self.pool.get('res.currency')
-        
+
         if move_line.purchase_line_id:
             line = move_line.purchase_line_id
-                       
-            cur = line.order_id.pricelist_id.currency_id
 
-            taxes = tax_obj.compute_all(self.cr, self.uid, line.taxes_id, line.price_unit,
-                                        move_line.product_uom_qty, line.product_id, line.order_id.partner_id)
-            res['amount'] = cur_obj.round(  self.cr, self.uid, cur, taxes['total'])
+            currency = line.order_id.pricelist_id.currency_id
+
+            taxes = line.taxes_id.compute_all(line.price_unit, currency=currency,
+                                              quantity=move_line.product_uom_qty, product=line.product_id,
+                                              partner=line.order_id.partner_id)
+
+            res['amount'] = currency.round(taxes['total'])
             if move_line.product_uom_qty != 0.0:
-                res['price'] = cur_obj.round(  self.cr, self.uid, cur, taxes['total']) / move_line.product_uom_qty
+                res['price'] = currency.round(taxes['total']) / move_line.product_uom_qty
             else:
                 res['price'] = 0.0
-            res['tax'] = cur_obj.round( self.cr, self.uid, cur, taxes['total_included'] - taxes['total'])
-            res['amount_tax'] = cur_obj.round( self.cr, self.uid, cur, taxes['total_included'])
+            res['tax'] = currency.round(taxes['total_included'] - taxes['total_excluded'])
+            res['amount_tax'] = currency.round(taxes['total_included'])
 
-            taxes_sale = tax_obj.compute_all(
-                self.cr, self.uid, line.product_id.taxes_id, line.product_id.list_price, move_line.product_uom_qty, line.product_id)
-            res['amount_sale'] = cur_obj.round( self.cr, self.uid, cur, taxes_sale['total_included'])
+            taxes_sale = line.product_id.taxes_id.compute_all(line.product_id.list_price, currency=currency,
+                                                              quantity=move_line.product_uom_qty,
+                                                              product=line.product_id)
+            res['amount_sale'] = currency.round(taxes_sale['total_included'])
             if taxes['total_included'] != 0.0:
                 res['margin'] = 100 * (taxes_sale['total_included'] - taxes['total_included']) / taxes['total_included']
             else:
                 res['margin'] = 0.0
         else:
             # receptie fara comanda de aprovizionare
-            
+
             value = 0.0
             for quant in move_line.quant_ids:
                 value += quant.inventory_value
-            
-            cur = move_line.company_id.currency_id
-            
-            res['amount'] = cur_obj.round(self.cr, self.uid, cur, value)
-            if move_line.product_uom_qty != 0 :
-                res['price'] = cur_obj.round( self.cr, self.uid, cur, value) / move_line.product_uom_qty
+
+            currency = move_line.company_id.currency_id
+
+            res['amount'] = currency.round(value)
+            if move_line.product_uom_qty != 0:
+                res['price'] = currency.round(value) / move_line.product_uom_qty
             else:
                 res['price'] = 0.0
-                
-            taxes = tax_obj.compute_all(self.cr, self.uid, move_line.product_id.supplier_taxes_id, res['price'],
-                                        move_line.product_uom_qty, move_line.product_id, move_line.partner_id)
-            
-            
-            res['tax'] = cur_obj.round( self.cr, self.uid, cur, taxes['total_included'] - taxes['total'])
-            res['amount_tax'] = cur_obj.round( self.cr, self.uid, cur, taxes['total_included'])
 
-            taxes_sale = tax_obj.compute_all( self.cr, self.uid, move_line.product_id.taxes_id, move_line.product_id.list_price, 
-                                              move_line.product_uom_qty, move_line.product_id)
-            
-            res['amount_sale'] = cur_obj.round( self.cr, self.uid, cur, taxes_sale['total_included'])
+            taxes = move_line.product_id.supplier_taxes_id.compute_all(res['price'], currency=currency,
+                                                                       quantity=move_line.product_uom_qty,
+                                                                       product=move_line.product_id,
+                                                                       partner=move_line.partner_id)
+
+            res['tax'] = currency.round(taxes['total_included'] - taxes['total_excluded'])
+            res['amount_tax'] = currency.round(taxes['total_included'])
+
+            taxes_sale = move_line.product_id.taxes_id.compute_all(move_line.product_id.list_price, currency=currency,
+                                                                   quantity=move_line.product_uom_qty,
+                                                                   product=move_line.product_id)
+
+            res['amount_sale'] = currency.round(taxes_sale['total_included'])
             if taxes['total_included'] != 0.0:
-                res['margin'] = 100 * (taxes_sale['total_included'] -  taxes['total_included']) / taxes['total_included']
+                res['margin'] = 100 * (taxes_sale['total_included'] - taxes['total_included']) / taxes['total_included']
             else:
-                res['margin'] = 0.0             
+                res['margin'] = 0.0
         return res
 
     def _get_totals(self, move_lines):
@@ -162,19 +159,21 @@ class report_delivery_price(osv.AbstractModel):
     _template = 'l10n_ro_stock_picking_report.report_delivery_price'
     _wrapped_report_class = picking_delivery
 
+
 class report_consume_voucher(osv.AbstractModel):
     _name = 'report.l10n_ro_stock_picking_report.report_consume_voucher'
     _inherit = 'report.abstract_report'
     _template = 'l10n_ro_stock_picking_report.report_consume_voucher'
     _wrapped_report_class = picking_delivery
 
+
 class report_internal_transfer(osv.AbstractModel):
     _name = 'report.l10n_ro_stock_picking_report.report_internal_transfer'
     _inherit = 'report.abstract_report'
     _template = 'l10n_ro_stock_picking_report.report_internal_transfer'
-    _wrapped_report_class = picking_delivery   
-    
-    
+    _wrapped_report_class = picking_delivery
+
+
 class report_reception(osv.AbstractModel):
     _name = 'report.l10n_ro_stock_picking_report.report_reception'
     _inherit = 'report.abstract_report'
@@ -194,6 +193,5 @@ class report_reception_sale_price(osv.AbstractModel):
     _inherit = 'report.abstract_report'
     _template = 'l10n_ro_stock_picking_report.report_reception_sale_price'
     _wrapped_report_class = picking_reception
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

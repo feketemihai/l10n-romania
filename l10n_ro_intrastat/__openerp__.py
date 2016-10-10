@@ -28,7 +28,11 @@ Generates Intrastat XML report for declaration
 Based on invoices.
     """,
     'author': 'Dorin Hongu',
-    'depends': ['report_intrastat', 'sale_stock', 'account_accountant', 'l10n_ro'],
+    'depends': ['report_intrastat',
+                'account',
+                'sale_stock',
+                'account_accountant',
+                'l10n_ro'],
     'data': [
         
         #'data/report.intrastat.code.csv',

@@ -21,29 +21,30 @@
 ##############################################################################
 
 
-from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
+
+from odoo import models, fields, api
 
 
 class res_partner(models.Model):
     _inherit = 'res.partner'
-    mean_transp = fields.Char(  string='Mean transport')
+    mean_transp = fields.Char(string='Mean transport')
+
 
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
-
     delegate_id = fields.Many2one('res.partner', string='Delegate',
-                                  readonly=True, states={'draft': [('readonly', False)]}, domain=[('is_company', '=', False)])
- 
+                                  readonly=True, states={'draft': [('readonly', False)]},
+                                  domain=[('is_company', '=', False)])
 
-    mean_transp = fields.Char(  string='Mean transport', readonly=True,  states={'draft': [('readonly', False)]},)
-
+    mean_transp = fields.Char(string='Mean transport', readonly=True, states={'draft': [('readonly', False)]}, )
 
     @api.onchange('delegate_id')
     def on_change_delegate_id(self):
         if self.delegate_id:
-            self.mean_transp =  self.delegate_id.mean_transp
+            self.mean_transp = self.delegate_id.mean_transp
+
 
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
@@ -54,45 +55,40 @@ class account_invoice_line(models.Model):
                  'invoice_id.currency_id')
     def _compute_price(self):
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
-        taxes = self.invoice_line_tax_id.compute_all(
-            price, self.quantity, product=self.product_id,
-            partner=self.invoice_id.partner_id)
-        self.price_subtotal = taxes['total']
-        self.price_taxes = taxes['total_included'] - taxes['total']
-        taxes_unit = self.invoice_line_tax_id.compute_all(
-            price, 1, product=self.product_id,
-            partner=self.invoice_id.partner_id)
-        self.price_unit_without_taxes = taxes_unit['total']
+
+        currency = self.invoice_id.currency_id
+
+        taxes = self.invoice_line_tax_id.compute_all(price, currency=currency,
+                                                     quantity=self.quantity,
+                                                     product=self.product_id,
+                                                     partner=self.invoice_id.partner_id)
+        self.price_subtotal = taxes['total_excluded']
+        self.price_taxes = taxes['total_included'] - taxes['total_excluded']
+        taxes_unit = self.invoice_line_tax_id.compute_all(price, currency=currency,
+                                                          quantity=1, product=self.product_id,
+                                                          partner=self.invoice_id.partner_id)
+        self.price_unit_without_taxes = taxes_unit['total_excluded']
         # Compute normal taxes in case of Customer Invoices to have the value
         # in Inverse Taxation
         if self.invoice_id.type in ['out_invoice', 'out_refund']:
-            normal_taxes = self.product_id.taxes_id.compute_all(
-                price, self.quantity, product=self.product_id,
-                partner=self.invoice_id.partner_id)
-            self.price_normal_taxes = \
-                normal_taxes['total_included'] - normal_taxes['total']
+            normal_taxes = self.product_id.taxes_id.compute_all(price, currency=currency,
+                                                                quantity=self.quantity, product=self.product_id,
+                                                                partner=self.invoice_id.partner_id)
+            self.price_normal_taxes = normal_taxes['total_included'] - normal_taxes['total_excluded']
         if self.invoice_id:
-            self.price_subtotal = self.invoice_id.currency_id.round(
-                self.price_subtotal)
-            self.price_taxes = self.invoice_id.currency_id.round(
-                self.price_taxes)
-            self.price_unit_without_taxes = self.invoice_id.currency_id.round(
-                self.price_unit_without_taxes)
-            self.price_normal_taxes = self.invoice_id.currency_id.round(
-                self.price_normal_taxes)
-
- 
+            self.price_subtotal = self.invoice_id.currency_id.round(self.price_subtotal)
+            self.price_taxes = self.invoice_id.currency_id.round(self.price_taxes)
+            self.price_unit_without_taxes = self.invoice_id.currency_id.round(self.price_unit_without_taxes)
+            self.price_normal_taxes = self.invoice_id.currency_id.round(self.price_normal_taxes)
 
     sequence = fields.Integer(string='Sequence', default=1,
-        help="Gives the sequence of this line when displaying the invoice.")
+                              help="Gives the sequence of this line when displaying the invoice.")
 
     price_unit_without_taxes = fields.Float(string='Unit Price without taxes',
                                             store=True, readonly=True, compute='_compute_price')
 
     price_taxes = fields.Float(string='Taxes', digits=dp.get_precision('Account'),
                                store=True, readonly=True, compute='_compute_price')
- 
-    price_normal_taxes = fields.Float(
-        string='Normal Taxes', digits=dp.get_precision('Account'),
-        store=True, readonly=True, compute='_compute_price')
- 
+
+    price_normal_taxes = fields.Float(tring='Normal Taxes', digits=dp.get_precision('Account'),
+                                      store=True, readonly=True, compute='_compute_price')

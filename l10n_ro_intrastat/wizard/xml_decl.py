@@ -24,95 +24,81 @@ import xml.etree.ElementTree as ET
 from collections import namedtuple
 from datetime import datetime
 
-from openerp import exceptions, SUPERUSER_ID, tools
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+from odoo import exceptions, SUPERUSER_ID, tools
+from odoo import api, fields, models, _
+from odoo.tools.translate import _
 
 INTRASTAT_XMLNS = 'http://www.intrastat.ro/xml/InsSchema'
 
-class xml_decl(osv.TransientModel):
+class xml_decl(models.TransientModel):
     """
     Intrastat XML Declaration
     """
     _name = "l10n_ro_intrastat_xml.xml_decl"
     _description = 'Intrastat XML Declaration'
 
-    def _get_tax_code(self, cr, uid, context=None):
-        obj_tax_code = self.pool.get('account.tax.code')
-        obj_user = self.pool.get('res.users')
-        company_id = obj_user.browse(cr, uid, uid, context=context).company_id.id
-        tax_code_ids = obj_tax_code.search(cr, uid, [('company_id', '=', company_id),
-                                                     ('parent_id', '=', False)],
-                                           context=context)
+    def _get_tax_code(self):
+        obj_tax_code = self.env['account.tax']
+        obj_user = self.env['res.users']
+        company_id = self.env.user_id.company_id
+        tax_code_ids = obj_tax_code.search( [('company_id', '=', company_id),  ('parent_id', '=', False)] )
         return tax_code_ids and tax_code_ids[0] or False
 
-    def _get_def_monthyear(self, cr, uid, context=None):
-        td = datetime.strptime(fields.date.context_today(self, cr, uid, context=context),
-                               tools.DEFAULT_SERVER_DATE_FORMAT).date()
-        return td.strftime('%Y'), td.strftime('%m')
 
-    def _get_def_month(self, cr, uid, context=None):
-        return self._get_def_monthyear(cr, uid, context=context)[1]
+    def _default_get_month(self):
+        return fields.Date.from_string(fields.Date.context_today(self)).strftime('%m')
 
-    def _get_def_year(self, cr, uid, context=None):
-        return self._get_def_monthyear(cr, uid, context=context)[0]
+    def _default_get_year(self):
+        return fields.Date.from_string(fields.Date.context_today(self)).strftime('%Y')
 
-    _columns = {
-        'name': fields.char('File Name'),
-        'month': fields.selection([('01','January'), ('02','February'), ('03','March'),
+
+    name = fields.Char('File Name', default='intrastat.xml')
+    month = fields.Selection([('01','January'), ('02','February'), ('03','March'),
                                    ('04','April'), ('05','May'), ('06','June'), ('07','July'),
                                    ('08','August'), ('09','September'), ('10','October'),
-                                   ('11','November'), ('12','December')], 'Month', required=True),
-        'year': fields.char('Year', size=4, required=True),
-        'tax_code_id': fields.many2one('account.tax.code', 'Company Tax Chart',
-                                       domain=[('parent_id', '=', False)], required=True),
-        'type': fields.selection([('arrivals', 'Arrivals'),
+                                   ('11','November'), ('12','December')], 'Month', required=True, default=_default_get_month)
+    year = fields.Char('Year', size=4, required=True, default=_default_get_year)
+    tax_code_id = fields.Many2one('account.tax', 'Company Tax Chart',
+                                       domain=[('parent_id', '=', False)], required=True, default=_get_tax_code)
+    type = fields.Selection([('arrivals', 'Arrivals'),
                                       ('dispatches', 'Dispatches') ],
-                                     'Type', required=True),
+                                     'Type', required=True, default='arrivals')
 
-        'contact_id':fields.many2one('res.partner', 'Contact', domain=[('is_company', '=', False)], required=True),
-        'file_save': fields.binary('Intrastat Report File', readonly=True),
-        'state': fields.selection([('draft', 'Draft'), ('download', 'Download')], string="State"),
-    }
+    contact_id = fields.Many2one('res.partner', 'Contact', domain=[('is_company', '=', False)], required=True)
+    file_save = fields.Binary('Intrastat Report File', readonly=True)
+    state = fields.Selection([('draft', 'Draft'), ('download', 'Download')], string="State", default='draft')
 
-    _defaults = {
-        'type':'arrivals',
 
-        'name': 'intrastat.xml',
-        'tax_code_id': _get_tax_code,
-        'month': _get_def_month,
-        'year': _get_def_year,
-        'state': 'draft',
-    }
-    
-    def _company_warning(self, cr, uid, translated_msg, context=None):
+
+    @api.model
+    def _company_warning(self, translated_msg):
         """ Raise a error with custom message, asking user to configure company settings """
-        xmlid_mod = self.pool['ir.model.data']
-        action_id = xmlid_mod.xmlid_to_res_id(cr, uid, 'base.action_res_company_form')
         raise exceptions.RedirectWarning(
-            translated_msg, action_id, _('Go to company configuration screen'))
-            
-    def create_xml(self, cr, uid, ids, context=None):
+            translated_msg, self.env.ref('base.action_res_company_form').id, _('Go to company configuration screen'))
+
+
+    @api.multi
+    def create_xml(self):
         """Creates xml that is to be exported and sent to estate for partner vat intra.
         :return: Value for next action.
         :rtype: dict
         """
-        decl_datas = self.browse(cr, uid, ids[0])
+        decl_datas = self
         company = decl_datas.tax_code_id.company_id
         if not (company.partner_id and company.partner_id.country_id and
                 company.partner_id.country_id.id):
             self._company_warning(
-                cr, uid,
+
                 _('The country of your company is not set, '
                   'please make sure to configure it first.'),
-                context=context)
+                )
          
         if not company.vat:
             self._company_warning(
-                cr, uid,
+
                 _('The VAT of your company is not set, '
                   'please make sure to configure it first.'),
-                context=context)
+               )
         if len(decl_datas.year) != 4:
             raise exceptions.Warning(_('Year must be 4 digits number (YYYY)'))
 
@@ -183,21 +169,21 @@ class xml_decl(osv.TransientModel):
         
          
         if decl_datas.type == 'arrivals':
-            self._get_lines(cr, SUPERUSER_ID, ids, decl_datas, company,  dispatchmode=False, decl=decl,  context=context)
+            self.sudo()._get_lines( decl_datas, company,  dispatchmode=False, decl=decl)
            
         else:
-            self._get_lines(cr, SUPERUSER_ID, ids, decl_datas, company,  dispatchmode=True, decl=decl,  context=context)
+            self.sudo()._get_lines( decl_datas, company,  dispatchmode=True, decl=decl)
            
 
         #Get xml string with declaration
         data_file = ET.tostring(decl, encoding='UTF-8', method='xml')
 
         #change state of the wizard
-        self.write(cr, uid, ids,
+        self.write(
                    {'name': 'intrastat_%s%s.xml' % (decl_datas.year, decl_datas.month),
                     'file_save': base64.encodestring(data_file),
                     'state': 'download'},
-                   context=context)
+                   )
         return {
             'name': _('Save'),
             'context': context,
@@ -209,11 +195,12 @@ class xml_decl(osv.TransientModel):
             'res_id': ids[0],
         }
 
-    def _get_lines(self, cr, uid, ids, decl_datas, company, dispatchmode, decl, context=None):
-        intrastatcode_mod = self.pool['report.intrastat.code']
-        invoiceline_mod = self.pool['account.invoice.line']
-        product_mod = self.pool['product.product']
-        currency_mod  = self.pool['res.currency']
+    @api.multi
+    def _get_lines(self, decl_datas, company, dispatchmode, decl):
+        intrastatcode_mod = self.env['report.intrastat.code']
+        invoiceline_mod = self.env['account.invoice.line']
+        product_mod = self.env['product.product']
+        currency_mod  = self.env['res.currency']
          
 
         if dispatchmode:
@@ -261,12 +248,12 @@ class xml_decl(osv.TransientModel):
                 and to_char(account_period.date_start, 'MM')=%s
             """
 
-        cr.execute(sqlreq, (company.id, company.partner_id.country_id.code,
+        self.env.cr.execute(sqlreq, (company.id, company.partner_id.country_id.code,
                             company.partner_id.country_id.code, mode1, mode2,
                             decl_datas.year, decl_datas.month))
         lines = cr.fetchall()
         invoicelines_ids = [rec[0] for rec in lines]
-        invoicelines = invoiceline_mod.browse(cr, uid, invoicelines_ids, context=context)
+        invoicelines = invoiceline_mod.browse( invoicelines_ids)
         for inv_line in invoicelines:
 
             #Check type of transaction
@@ -303,9 +290,9 @@ class xml_decl(osv.TransientModel):
 
 
             #Check commodity codes
-            intrastat_id = product_mod.get_intrastat_recursively(  cr, uid, inv_line.product_id.id, context=context)
+            intrastat_id = product_mod.get_intrastat_recursively(  inv_line.product_id.id)
             if intrastat_id:
-                intrastatcode = intrastatcode_mod.browse(cr, uid, intrastat_id, context=context)
+                intrastatcode = intrastatcode_mod.browse( intrastat_id)
                 Cn8Code = intrastatcode.name
                 suppl_unit_code = intrastatcode.suppl_unit_code
             else:

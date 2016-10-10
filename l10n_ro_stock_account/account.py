@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from odoo import api, fields, models, _
 
 
 class account_move_line(models.Model):

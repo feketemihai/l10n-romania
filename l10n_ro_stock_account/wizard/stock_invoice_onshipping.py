@@ -19,8 +19,7 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+from odoo import api, fields, models, _
 
 JOURNAL_TYPE_MAP = {
     ('outgoing', 'customer'): ['sale'],
@@ -33,7 +32,7 @@ JOURNAL_TYPE_MAP = {
 }
 
 
-class stock_invoice_onshipping(osv.osv_memory):
+class stock_invoice_onshipping(models.TransientModel):
     _inherit = "stock.invoice.onshipping"
 
     def _get_journal_type(self, cr, uid, context=None):

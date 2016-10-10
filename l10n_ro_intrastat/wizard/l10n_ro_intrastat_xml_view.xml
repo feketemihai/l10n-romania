@@ -51,7 +51,7 @@
 
         <menuitem
             name="Intrastat Declaration"
-            parent="account.menu_finance_generic_reporting"
+            parent="account.account_management_menu"
             action="action_intrastat_xml_declaration"
             id="l10n_ro_intrastat_xml_declaration"
             groups="account.group_account_manager"/>

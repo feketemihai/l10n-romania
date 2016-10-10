@@ -20,18 +20,21 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+from odoo import models, fields
 
 
-class purchase_order(osv.osv):
+class purchase_order(models.Model):
     _inherit = 'purchase.order'
+
 
     def _prepare_order_line_move(self, cr, uid, order, order_line,
                                  picking_id, group_id, context=None):
-        ''' prepare the stock move data from the PO line. This function '''
-        ''' returns a list of dictionary ready to be used in stock.move's '''
-        ''' create()'''
+        '''
+        prepare the stock move data from the PO line. This function
+        returns a list of dictionary ready to be used in stock.move's
+        create()
+        '''
+
         res = super(purchase_order, self)._prepare_order_line_move(
             cr, uid, order, order_line, picking_id, group_id, context=context)
         product_uom = self.pool.get('product.uom')

@@ -97,7 +97,8 @@
 			<field name="act_window_id" ref="action_stock_balance"/>
 		</record>
 
-		<menuitem name="Balance for stock" action="action_stock_balance" id="menu_stock_balance_tree" parent="stock.next_id_61"/>
+		<menuitem name="Balance for stock" action="action_stock_balance" id="menu_stock_balance_tree"
+				  parent="stock.menu_warehouse_report"/>
 	</data>
 </openerp>
 

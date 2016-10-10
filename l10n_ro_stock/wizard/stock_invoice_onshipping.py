@@ -19,12 +19,11 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+from odoo import api, fields, models, _
 
 
-class stock_invoice_onshipping(osv.osv_memory):
-    _name = "stock.invoice.onshipping"
+class stock_invoice_onshipping(models.TransientModel):
+
     _inherit = "stock.invoice.onshipping"
 
     def _get_invoice_date(self, cr, uid, context=None):
@@ -68,14 +67,10 @@ class stock_invoice_onshipping(osv.osv_memory):
         return journal_type
     """
     
-    _columns = {
-        'invoice_date':   fields.date('Invoice Date'),
-    }
+    invoice_date = fields.Date('Invoice Date', default=_get_invoice_date)
 
-    _defaults = {
-        'invoice_date': _get_invoice_date,
-    }
-    
+
+
     
     # metoda asta este identica cu cea standard 
     """
