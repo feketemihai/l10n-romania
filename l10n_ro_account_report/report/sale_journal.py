@@ -296,24 +296,6 @@ class sale_journal(report_sxw.rml_parse):
                                 vals['payments'].sort(
                                     key=itemgetter("date", "number"))
 
-                    else:
-                        pay = {}
-                        pay['amount'] = pay['base_exig'] = pay[
-                            'tva_exig'] = 0.00
-                        pay['base_24'] = pay['base_20'] = pay['base_9'] = pay['base_5'] = 0.00
-                        pay['tva_24'] = pay['tva_20'] = pay['tva_9'] = pay['tva_5'] = 0.00
-                        pay['number'] = ''
-                        pay['date'] = ''
-                        vals['payments'].append(pay)
-                else:
-                    pay = {}
-                    pay['amount'] = pay['base_exig'] = pay['tva_exig'] = 0.00
-                    pay['base_24'] = pay['base_20'] = pay['base_9'] = pay['base_5'] = 0.00
-                    pay['tva_24'] = pay['tva_20'] = pay['tva_9'] = pay['tva_5'] = 0.00
-                    pay['number'] = ''
-                    pay['date'] = ''
-                    vals['payments'].append(pay)
-
                 if vals != {}:
                     inv.append(vals)
                 # Adding undeductible vat and inverse taxation colected VAT

@@ -88,9 +88,9 @@ class purchase_journal(report_sxw.rml_parse):
                 if inv1.vat_on_payment:
                     if inv1.payment_ids:
                         for payment in inv1.payment_ids:
-                            if date_from <= payment.date and date_to >= payment.date:
+                            if date_from <= payment.date:
                                 period1 = True
-                if (inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to) or (inv1.vat_on_payment and (datetime.strptime(inv1.date_invoice, '%Y-%m-%d') < (datetime.strptime(date_from, '%Y-%m-%d'))) and (inv1.state == 'open' or (inv1.state == 'paid' and period1))):
+                if (inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to) or (inv1.vat_on_payment and (datetime.strptime(inv1.date_invoice, '%Y-%m-%d') <= (datetime.strptime(date_to, '%Y-%m-%d'))) and (inv1.state == 'open' or (inv1.state == 'paid' and period1))):
                     vals['total_base'] = vals['base_neex'] = vals['base_serv'] = vals['base_exig'] = vals['base_invers'] = vals['base_ded1'] = vals[
                         'base_ded2'] = vals['base_24'] = vals['base_20'] = vals['base_9'] = vals['base_5'] = vals['base_0'] = vals['base_import'] = vals['base_bun'] = 0.00
                     vals['total_vat'] = vals['tva_neex'] = vals['tva_24'] = vals['tva_20'] = vals['tva_9'] = vals['tva_5'] = vals[
@@ -329,27 +329,8 @@ class purchase_journal(report_sxw.rml_parse):
                                     vals['tva_9'] += pay['tva_9']
                                     vals['base_5'] += pay['base_5']
                                     vals['tva_5'] += pay['tva_5']
-                                    print vals
                             vals['payments'].sort(
                                 key=itemgetter("date", "number"))
-                        else:
-                            pay = {}
-                            pay['number'] = pay['date'] = ''
-                            pay['amount'] = 0.00
-                            pay['base_exig'] = pay['tva_exig'] = 0.00
-                            pay['base_24'] = pay['base_20'] = pay[
-                                'base_9'] = pay['base_5'] = 0.00
-                            pay['tva_24'] = pay['tva_20'] = pay['tva_9'] = pay['tva_5'] = 0.00
-                            vals['payments'].append(pay)
-
-                    else:
-                        pay = {}
-                        pay['number'] = pay['date'] = ''
-                        pay['amount'] = 0.00
-                        pay['base_exig'] = pay['tva_exig'] = 0.00
-                        pay['base_24'] = pay['base_20'] = pay['base_9'] = pay['base_5'] = 0.00
-                        pay['tva_24'] = pay['tva_20'] = pay['tva_9'] = pay['tva_5'] = 0.00
-                        vals['payments'].append(pay)
                 if 'number' in vals.keys():
                     inv.append(vals)
 
