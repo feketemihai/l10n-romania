@@ -35,7 +35,6 @@ _logger = logging.getLogger(__name__)
 
 ANAF_URL = 'http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_%s.zip'
 
-
 class res_partner_anaf(models.Model):
     _name = "res.partner.anaf"
     _description = "ANAF History about VAT on Payment"
@@ -161,13 +160,14 @@ VALUES
             "Content-Type": "application/json;"
         }
         # Build list of vat numbers to be checked on ANAF
-        for partner in self:
+        partners = self.search([('vat', '!=', False)])
+        for partner in partners:
             if partner.vat:
                 vat_country, vat_number = partner._split_vat(partner.vat)
                 if vat_number and vat_country and vat_country.upper() == 'RO':
                     if partner.vat_on_payment:
                         partner.vat_subjected = True
-                    elif not partner.is_company:
+                    elif not partner.is_company or len(vat_number)>10:
                         partner.vat_subjected = False
                     else:
                         anaf_dict.append(partner.vat_number)
@@ -176,7 +176,7 @@ VALUES
         chunk = []
         chunks = []
         # Process 500 vat numbers once
-        n = 500
+        n = 499
         for x in range(0, len(anaf_dict), n):
             chunk = anaf_dict[x:x+n]
             chunks.append(chunk)
