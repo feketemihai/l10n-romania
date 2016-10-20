@@ -35,5 +35,9 @@ class account_tax(models.Model):
     _name = "account.tax"
     _inherit = "account.tax"
 
-    uneligible_tax_code_id = fields.Many2one('account.tax.code', 'Uneligible Tax Code (VAT on payment)',
-                                             help='Related tax code used for real registrations on a VAT on payment basis. Set the shadow tax code here')
+    #uneligible_tax_code_id = fields.Many2one('account.tax.code', 'Uneligible Tax Code (VAT on payment)',
+    #                                         help='Related tax code used for real registrations on a VAT on payment basis. Set the shadow tax code here')
+
+
+    uneligible_tax_code_id = fields.Many2one('account.tax', 'Uneligible Tax Code (VAT on payment)',
+                                         help='Related tax code used for real registrations on a VAT on payment basis. Set the shadow tax code here')

@@ -70,7 +70,7 @@ class account_invoice_line(models.Model):
                 'product_id': line.product_id.id,
                 'uos_id': line.uos_id.id,
                 'account_analytic_id': line.account_analytic_id.id,
-                'taxes': line.invoice_line_tax_id,
+                'taxes': line.invoice_line_tax_ids,
             }
         else:
             return super(account_invoice_line, self).move_line_get_item(line)
@@ -88,7 +88,7 @@ class account_invoice_line(models.Model):
                 mres = self.move_line_get_item(line)
                 mres['invl_id'] = line.id
                 tax_code_found = False
-                taxes = line.invoice_line_tax_id.compute_all(
+                taxes = line.invoice_line_tax_ids.compute_all(
                     (line.price_unit * (1.0 - (line.discount or 0.0) / 100.0)),
                     line.quantity, line.product_id, inv.partner_id)['taxes']
                 for tax in taxes:

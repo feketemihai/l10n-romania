@@ -196,7 +196,7 @@
                                 </tr>
                             </thead>
                             <tbody class="invoice_tbody">
-                                <tr t-foreach="o.invoice_line" t-as="l">
+                                <tr t-foreach="o.invoice_line_ids" t-as="l">
                                     <td>
                                         <t t-esc="nr_crt"/>
                                         <t t-set="nr_crt" t-value="nr_crt + 1"/>

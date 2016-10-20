@@ -297,7 +297,7 @@ class d394_report(osv.osv_memory):
                                                     context={'date':
                                                              inv.date_invoice}
                                                 ) or 0.00
-                                            if line.invoice_line_tax_id:
+                                            if line.invoice_line_tax_ids:
                                                 taxes = tax_obj.compute_all(
                                                         cr, uid,
                                                         line.product_id.taxes_id,

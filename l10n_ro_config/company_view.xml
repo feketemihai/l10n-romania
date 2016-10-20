@@ -12,7 +12,9 @@
 
                 <xpath expr="//notebook" position="inside">
                     <page string="Report">
-                        <field name="stamp_image" widget="image" options="{'size': [150, 150]}"/>
+                        <group>
+                            <field name="stamp_image" widget="image" options="{'size': [150, 150]}"/>
+                        </group>
                     </page>
                 </xpath>
             </field>
