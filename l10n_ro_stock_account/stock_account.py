@@ -269,6 +269,9 @@ class stock_move(osv.Model):
             else:
                 if move.location_dest_id.property_stock_account_input_location:
                     account_id = move.location_dest_id.property_stock_account_input_location and move.location_dest_id.property_stock_account_input_location.id
+        else:
+            if move.location_id.property_account_income_location:
+                account_id = move.location_id.property_account_income_location.id
         if move.picking_id and move.picking_id.notice:
             if inv_type in ('in_invoice', 'in_refund'):
                 account_id = move.company_id and move.company_id.property_stock_picking_payable_account_id and move.company_id.property_stock_picking_payable_account_id.id
