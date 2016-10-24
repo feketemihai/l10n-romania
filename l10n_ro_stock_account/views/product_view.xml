@@ -8,8 +8,8 @@
             <field name="inherit_id" ref="stock_account.view_category_property_form"/>
             <field name="arch" type="xml">
 
-                    <field name="property_stock_account_output_categ" position="after">
-						<field name="property_account_creditor_price_difference_categ"/>
+                    <field name="property_stock_account_output_categ_id" position="after">
+						<field name="property_account_creditor_price_difference_categ_id"/>
 					</field>
             
             </field>
@@ -22,7 +22,7 @@
             <field name="arch" type="xml">
              
                     <field name="property_stock_account_output" position="after">
-						<field name="property_account_creditor_price_difference"/>
+						<field name="property_account_creditor_price_difference_id"/>
 					</field>
                
             </field>
