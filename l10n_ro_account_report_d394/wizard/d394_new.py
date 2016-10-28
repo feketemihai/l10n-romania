@@ -966,141 +966,151 @@ class d394_new_report(models.TransientModel):
                     if new_code and new_code.parent_id:
                         new_code = new_code.parent_id
                     if rez_detaliu:
+                        found = False
                         for val in rez_detaliu:
-                            if new_code.name in val.values():
-                                #if op1['tip'] == 'L':
-                                #    val['nrLiv'] += int(
-                                #        round(line['nrFactPR']))
-                                #    val['bazaLiv'] += int(
-                                #        round(line['bazaPR']))
-                                #    val['tvaLiv'] += int(
-                                #        round(line['tvaPR']))
-                                if op1['tip'] == 'V' and op1['cota'] == 0:
-                                    val['nrLivV'] += int(
-                                        round(line['nrFactPR']))
-                                    val['bazaLivV'] += int(
-                                        round(line['bazaPR']))
-                                #    val['tvaLivV'] += int(
-                                #        round(line['tvaPR']))
-                                #if op1['tip'] == 'A':
-                                #    val['nrAchiz'] += int(
-                                #        round(line['nrFactPR']))
-                                #    val['bazaAchiz'] += int(
-                                #        round(line['bazaPR']))
-                                #    val['tvaAchiz'] += int(
-                                #        round(line['tvaPR']))
-                                #if op1['tip'] == 'AI':
-                                #    val['nrAchizAI'] += int(
-                                #        round(line['nrFactPR']))
-                                #    val['bazaAchizAI'] += int(
-                                #       round(line['bazaPR']))
-                                #    val['tvaAchizAI'] += int(
-                                #        round(line['tvaPR']))
-                                if op1['tip'] == 'C' and op1['cota'] != 0:
-                                    val['nrAchizC'] += int(
-                                        round(line['nrFactPR']))
-                                    val['bazaAchizC'] += int(
-                                        round(line['bazaPR']))
-                                    val['tvaAchizC'] += int(
-                                        round(line['tvaPR']))
-                                if op1['tip'] == 'N' and partner_type == '2':
-                                    val['nrN'] += int(
-                                        round(line['nrFactPR']))
-                                    val['valN'] += int(
-                                        round(line['bazaPR']))
-                            else:
-                                val = {}
-                                val['bun'] = new_code.name
-                                #val['nrLiv'] = val['bazaLiv'] = \
-                                #    val['tvaLiv'] = 0
-                                if op1['tip'] == 'V' and op1['cota'] == 0:
-                                    val['nrLivV'] = val['bazaLivV'] = 0
-                                #    val['tvaLivV'] = 0
-                                #val['nrAchiz'] = val['bazaAchiz'] = \
-                                #    val['tvaAchiz'] = 0
-                                #val['nrAchizAI'] = val['bazaAchizAI'] = \
-                                #    val['tvaAchizAI'] = 0
-                                if op1['tip'] == 'C' and op1['cota'] != 0:
-                                    val['nrAchizC'] = val['bazaAchizC'] = \
-                                    val['tvaAchizC'] = 0
-                                if partner_type == '2':
-                                    val['nrN'] = val['valN'] = 0
-
-                                #if op1['tip'] == 'L':
-                                #    val['nrLiv'] += int(
-                                #        round(line['nrFactPR']))
-                                #    val['bazaLiv'] += int(
-                                #        round(line['bazaPR']))
-                                #    val['tvaLiv'] += int(
-                                #        round(line['tvaPR']))
-                                if op1['tip'] == 'V' and op1['cota'] == 0:
-                                    val['nrLivV'] += int(
-                                        round(line['nrFactPR']))
-                                    val['bazaLivV'] += int(
-                                        round(line['bazaPR']))
-                                #    val['tvaLivV'] += int(
-                                #        round(line['tvaPR']))
-                                #if op1['tip'] == 'A':
-                                #    val['nrAchiz'] += int(
-                                #        round(line['nrFactPR']))
-                                #    val['bazaAchiz'] += int(
-                                #        round(line['bazaPR']))
-                                #    val['tvaAchiz'] += int(
-                                #        round(line['tvaPR']))
-                                #if op1['tip'] == 'AI':
-                                #    val['nrAchizAI'] += int(
-                                #        round(line['nrFactPR']))
-                                #    val['bazaAchizAI'] += int(
-                                #        round(line['bazaPR']))
-                                #    val['tvaAchizAI'] += int(
-                                #        round(line['tvaPR']))
-                                if op1['tip'] == 'C' and op1['cota'] != 0:
-                                    val['nrAchizC'] += int(
-                                        round(line['nrFactPR']))
-                                    val['bazaAchizC'] += int(
-                                        round(line['bazaPR']))
-                                    val['tvaAchizC'] += int(
-                                        round(line['tvaPR']))
-                                if op1['tip'] == 'N' and partner_type == '2':
-                                    val['nrN'] += int(
-                                        round(line['nrFactPR']))
-                                    val['valN'] += int(
-                                        round(line['bazaPR']))
-                                rez_detaliu.append(val)
+                            if new_code.name == val['bun']:
+                                found = True
+                        if found:
+                            for val in rez_detaliu:
+                                if new_code.name == val['bun']:
+                                    if op1['tip'] == 'L':
+                                        val['nrLiv'] += int(
+                                            round(line['nrFactPR']))
+                                        val['bazaLiv'] += int(
+                                            round(line['bazaPR']))
+                                        val['tvaLiv'] += int(
+                                            round(line['tvaPR']))
+                                    if op1['tip'] == 'V' and op1['cota'] == 0:
+                                        val['nrLivV'] += int(
+                                            round(line['nrFactPR']))
+                                        val['bazaLivV'] += int(
+                                            round(line['bazaPR']))
+                                    #    val['tvaLivV'] += int(
+                                    #        round(line['tvaPR']))
+                                    if op1['tip'] == 'A':
+                                        val['nrAchiz'] += int(
+                                            round(line['nrFactPR']))
+                                        val['bazaAchiz'] += int(
+                                            round(line['bazaPR']))
+                                        val['tvaAchiz'] += int(
+                                            round(line['tvaPR']))
+                                    if op1['tip'] == 'AI':
+                                        val['nrAchizAI'] += int(
+                                            round(line['nrFactPR']))
+                                        val['bazaAchizAI'] += int(
+                                           round(line['bazaPR']))
+                                        val['tvaAchizAI'] += int(
+                                            round(line['tvaPR']))
+                                    if op1['tip'] == 'C' and op1['cota'] != 0:
+                                        val['nrAchizC'] += int(
+                                            round(line['nrFactPR']))
+                                        val['bazaAchizC'] += int(
+                                            round(line['bazaPR']))
+                                        val['tvaAchizC'] += int(
+                                            round(line['tvaPR']))
+                                    if op1['tip'] == 'N' and partner_type == '2':
+                                        val['nrN'] += int(
+                                            round(line['nrFactPR']))
+                                        val['valN'] += int(
+                                            round(line['bazaPR']))
+                        else:
+                            val = {}
+                            val['bun'] = new_code.name
+                            if op1['tip'] == 'L':
+                                val['nrLiv'] = val['bazaLiv'] = \
+                                val['tvaLiv'] = 0
+                            if op1['tip'] == 'V' and op1['cota'] == 0:
+                                val['nrLivV'] = val['bazaLivV'] = 0
+                            #    val['tvaLivV'] = 0
+                            if op1['tip'] == 'A':
+                                val['nrAchiz'] = val['bazaAchiz'] = \
+                                val['tvaAchiz'] = 0
+                            if op1['tip'] == 'AI':
+                                val['nrAchizAI'] = val['bazaAchizAI'] = \
+                                val['tvaAchizAI'] = 0
+                            if op1['tip'] == 'C' and op1['cota'] != 0:
+                                val['nrAchizC'] = val['bazaAchizC'] = \
+                                val['tvaAchizC'] = 0
+                            if partner_type == '2':
+                                val['nrN'] = val['valN'] = 0
+                            if op1['tip'] == 'L':
+                                val['nrLiv'] += int(
+                                    round(line['nrFactPR']))
+                                val['bazaLiv'] += int(
+                                    round(line['bazaPR']))
+                                val['tvaLiv'] += int(
+                                    round(line['tvaPR']))
+                            if op1['tip'] == 'V' and op1['cota'] == 0:
+                                val['nrLivV'] += int(
+                                    round(line['nrFactPR']))
+                                val['bazaLivV'] += int(
+                                    round(line['bazaPR']))
+                            #    val['tvaLivV'] += int(
+                            #        round(line['tvaPR']))
+                            if op1['tip'] == 'A':
+                                val['nrAchiz'] += int(
+                                    round(line['nrFactPR']))
+                                val['bazaAchiz'] += int(
+                                    round(line['bazaPR']))
+                                val['tvaAchiz'] += int(
+                                    round(line['tvaPR']))
+                            if op1['tip'] == 'AI':
+                                val['nrAchizAI'] += int(
+                                    round(line['nrFactPR']))
+                                val['bazaAchizAI'] += int(
+                                    round(line['bazaPR']))
+                                val['tvaAchizAI'] += int(
+                                    round(line['tvaPR']))
+                            if op1['tip'] == 'C' and op1['cota'] != 0:
+                                val['nrAchizC'] += int(
+                                    round(line['nrFactPR']))
+                                val['bazaAchizC'] += int(
+                                    round(line['bazaPR']))
+                                val['tvaAchizC'] += int(
+                                    round(line['tvaPR']))
+                            if op1['tip'] == 'N' and partner_type == '2':
+                                val['nrN'] += int(
+                                    round(line['nrFactPR']))
+                                val['valN'] += int(
+                                    round(line['bazaPR']))
+                            rez_detaliu.append(val)
                     else:
                         val = {}
                         val['bun'] = new_code.name
-                        #val['nrLiv'] = val['bazaLiv'] = \
-                        #    val['tvaLiv'] = 0
+                        if op1['tip'] == 'L':
+                            val['nrLiv'] = val['bazaLiv'] = \
+                            val['tvaLiv'] = 0
                         if op1['tip'] == 'V' and op1['cota'] == 0:
                             val['nrLivV'] = val['bazaLivV'] = 0
                         #    val['tvaLivV'] = 0
-                        #val['nrAchiz'] = val['bazaAchiz'] = \
-                        #    val['tvaAchiz'] = 0
-                        #val['nrAchizAI'] = val['bazaAchizAI'] = \
-                        #    val['tvaAchizAI'] = 0
+                        if op1['tip'] == 'A':
+                            val['nrAchiz'] = val['bazaAchiz'] = \
+                            val['tvaAchiz'] = 0
+                        if op1['tip'] == 'AI':
+                            val['nrAchizAI'] = val['bazaAchizAI'] = \
+                            val['tvaAchizAI'] = 0
                         if op1['tip'] == 'C' and op1['cota'] != 0:
                             val['nrAchizC'] = val['bazaAchizC'] = \
                                 val['tvaAchizC'] = 0
                         if partner_type == '2':
                             val['nrN'] = val['valN'] = 0
 
-                        #if op1['tip'] == 'L':
-                        #    val['nrLiv'] += int(round(line['nrFactPR']))
-                        #    val['bazaLiv'] += int(round(line['bazaPR']))
-                        #    val['tvaLiv'] += int(round(line['tvaPR']))
+                        if op1['tip'] == 'L':
+                            val['nrLiv'] += int(round(line['nrFactPR']))
+                            val['bazaLiv'] += int(round(line['bazaPR']))
+                            val['tvaLiv'] += int(round(line['tvaPR']))
                         if op1['tip'] == 'V' and op1['cota'] == 0:
                             val['nrLivV'] += int(round(line['nrFactPR']))
                             val['bazaLivV'] += int(round(line['bazaPR']))
                         #    val['tvaLivV'] += int(round(line['tvaPR']))
-                        #if op1['tip'] == 'A':
-                        #    val['nrAchiz'] += int(round(line['nrFactPR']))
-                        #    val['bazaAchiz'] += int(round(line['bazaPR']))
-                        #    val['tvaAchiz'] += int(round(line['tvaPR']))
-                        #if op1['tip'] == 'AI':
-                        #    val['nrAchizAI'] += int(round(line['nrFactPR']))
-                        #    val['bazaAchizAI'] += int(round(line['bazaPR']))
-                        #    val['tvaAchizAI'] += int(round(line['tvaPR']))
+                        if op1['tip'] == 'A':
+                            val['nrAchiz'] += int(round(line['nrFactPR']))
+                            val['bazaAchiz'] += int(round(line['bazaPR']))
+                            val['tvaAchiz'] += int(round(line['tvaPR']))
+                        if op1['tip'] == 'AI':
+                            val['nrAchizAI'] += int(round(line['nrFactPR']))
+                            val['bazaAchizAI'] += int(round(line['bazaPR']))
+                            val['tvaAchizAI'] += int(round(line['tvaPR']))
                         if op1['tip'] == 'C' and op1['cota'] != 0:
                             val['nrAchizC'] += int(round(line['nrFactPR']))
                             val['bazaAchizC'] += int(round(line['bazaPR']))
@@ -1323,9 +1333,8 @@ class d394_new_report(models.TransientModel):
             nr_last = sequence.number_last
             for line in sequence.fiscal_ids:
                 if line.fiscalyear_id.id == self.period_id.fiscalyear_id.id:
-                    nr_init = line.number_first
-                    nr_last = line.number_last
-                    break
+                    nr_init = line.sequence_id.number_first
+                    nr_last = line.sequence_id.number_last
             partner = sequence.partner_id
             tip = 1
             seq = {
