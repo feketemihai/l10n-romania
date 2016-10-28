@@ -92,15 +92,16 @@ class account_period_closing(models.Model):
         account_obj = self.env['account.account']
         period_obj = self.env['account.period']
         period = period_obj.browse(period_id)
-        ctx = dict(self._context)
+        ctx = self.env.context.copy()
 
-        if period:
-            ctx['date_from'] = date_from
-            ctx['date_to'] = date_to
+        ctx['period_from'] = period_id
+        ctx['period_to'] = period_id
+        ctx['date_from'] = date_from
+        ctx['date_to'] = date_to
+        account_ids = closing.account_ids
         account_ids = closing.account_ids.with_context(
             ctx)._get_children_and_consol()
-        accounts = account_obj.browse(account_ids).with_context(
-            ctx).read(['name', 'balance'])
+        accounts = account_obj.browse(account_ids)
         move = self.env['account.move'].create({
             'date': date_to,
             'journal_id': journal_id,
@@ -110,15 +111,16 @@ class account_period_closing(models.Model):
         })
         amount = 0.0
         for account in accounts:
+            new_acc = account.with_context(ctx).read(['code', 'name', 'debit', 'credit', 'balance'])[0]
             if account['balance'] != 0.0:
-                check = account_obj.browse(account['id']).close_check
+                check = account.close_check
                 if closing.type == 'expense' and not check:
                     val = {
                         'name': 'Closing ' + closing.name,
                         'date': date_to,
                         'move_id': move[0].id,
-                        'account_id': account['id'],
-                        'credit': account['balance'] or 0.0,
+                        'account_id': account.id,
+                        'credit': new_acc['balance'] or 0.0,
                         'debit': 0.0,
                         'company_id': closing.company_id.id,
                         'journal_id': journal_id,
@@ -129,9 +131,9 @@ class account_period_closing(models.Model):
                         'name': 'Closing ' + closing.name,
                         'date': date_to,
                         'move_id': move[0].id,
-                        'account_id': account['id'],
+                        'account_id': account.id,
                         'credit': 0.0,
-                        'debit': (-1 * account['balance']) or 0.0,
+                        'debit': (-1 * new_acc['balance']) or 0.0,
                         'company_id': closing.company_id.id,
                         'journal_id': journal_id,
                         'period_id': period_id,
@@ -141,14 +143,14 @@ class account_period_closing(models.Model):
                         'name': 'Closing ' + closing.name,
                         'date': date_to,
                         'move_id': move[0].id,
-                        'account_id': account['id'],
-                        'credit': account['balance'] > 0.0 and account['balance'] or 0.0,
-                        'debit': account['balance'] < 0.0 and -account['balance'] or 0.0,
+                        'account_id': account.id,
+                        'credit': new_acc['balance'] > 0.0 and new_acc['balance'] or 0.0,
+                        'debit': new_acc['balance'] < 0.0 and -new_acc['balance'] or 0.0,
                         'company_id': closing.company_id.id,
                         'journal_id': journal_id,
                         'period_id': period_id,
                     }
-                amount += account['balance']
+                amount += new_acc['balance']
                 self.env['account.move.line'].create(val)
 
         diff_line = {
