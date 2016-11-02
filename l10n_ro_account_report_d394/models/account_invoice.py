@@ -40,7 +40,6 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.multi
-    @api.depends('state')
     def _get_inv_number(self):
         regex = re.compile('[^a-zA-Z]')
         regex1 = re.compile('[^0-9]')
@@ -77,7 +76,6 @@ class AccountInvoice(models.Model):
         return True
 
     @api.multi
-    @api.depends('state')
     def _get_partner_type(self):
         for inv in self:
             partner = inv.partner_id
@@ -99,7 +97,6 @@ class AccountInvoice(models.Model):
         return True
 
     @api.multi
-    @api.depends('state')
     def _get_operation_type(self):
         for inv in self:
             partner = inv.partner_id
@@ -151,15 +148,14 @@ class AccountInvoice(models.Model):
         return True
 
     @api.multi
-    @api.depends('state')
     def _get_tax_ids(self):
         for inv in self:
             check = False
             taxes = []
             if not inv.fiscal_position or (('National' in \
                     inv.fiscal_position.name) or ('Invers' in \
-                    inv.fiscal_position.name)  or ('Scutit' in \
-                    inv.fiscal_position.name)):
+                    inv.fiscal_position.name)  or (('Scutit' in \
+                    inv.fiscal_position.name) and inv.partner_type in ('1','2'))):
                 for line in inv.invoice_line:
                     taxes += [tax.id for tax in line.invoice_line_tax_id]
             else:
