@@ -211,32 +211,34 @@ class d394_new_report(models.TransientModel):
     @api.multi
     def _get_inv_lines(self, invoices, sel_cota, domain):
         obj_inv_line = self.env['account.invoice.line']
-        invs = invoices.filtered(lambda r: domain)
-        domain = [('invoice_id', 'in', invs.ids)]
-        inv_lines = obj_inv_line.search(domain)
-        cotas = []
-        for inv in invs:
-            cotas += [tax for tax in inv.tax_ids]
-        filtered_inv_lines = []
-        cota_amount = 0
-        for cota in cotas:
-            cota_inv = invs.filtered(
-                lambda r: cota.id in r.tax_ids.ids)
+        inv_lines = False
+        if invoices:
+            invs = invoices.filtered(lambda r: domain)
+            domain = [('invoice_id', 'in', invs.ids)]
+            inv_lines = obj_inv_line.search(domain)
+            cotas = []
+            for inv in invs:
+                cotas += [tax for tax in inv.tax_ids]
+            filtered_inv_lines = []
             cota_amount = 0
-            if cota.type == 'percent':
-                if cota.child_ids:
-                    cota_amount = int(abs(cota.child_ids[0].amount) * 100)
-                else:
-                    cota_amount = int(cota.amount * 100)
-            elif cota.type == 'amount':
-                cota_amount = int(cota.amount)
-            if cota_amount == sel_cota:
-                filtered_inv_lines = []
-                for inv_line in inv_lines:
-                    tax = inv_line.invoice_line_tax_id
-                    if cota.id in tax.ids:
-                        filtered_inv_lines.append(inv_line.id)
-        inv_lines = obj_inv_line.browse(filtered_inv_lines)
+            for cota in cotas:
+                cota_inv = invs.filtered(
+                    lambda r: cota.id in r.tax_ids.ids)
+                cota_amount = 0
+                if cota.type == 'percent':
+                    if cota.child_ids:
+                        cota_amount = int(abs(cota.child_ids[0].amount) * 100)
+                    else:
+                        cota_amount = int(cota.amount * 100)
+                elif cota.type == 'amount':
+                    cota_amount = int(cota.amount)
+                if cota_amount == sel_cota:
+                    filtered_inv_lines = []
+                    for inv_line in inv_lines:
+                        tax = inv_line.invoice_line_tax_id
+                        if cota.id in tax.ids:
+                            filtered_inv_lines.append(inv_line.id)
+            inv_lines = obj_inv_line.browse(filtered_inv_lines)
         return inv_lines
 
     @api.multi
@@ -588,10 +590,12 @@ class d394_new_report(models.TransientModel):
                                 for inv_line in inv_lines:
                                     fp = inv_line.invoice_id.fiscal_position
                                     tax = inv_line.product_id.supplier_taxes_id
+                                    inv = inv_line.invoice_id
                                     if not fp or (('National' in \
                                             fp.name) or ('Invers' in \
-                                            fp.name)  or ('Scutit' in \
-                                            fp.name)):
+                                            fp.name)  or (('Scutit' in \
+                                            inv.fiscal_position.name) and \
+                                            inv.partner_type in ('1','2'))):
                                         tax = inv_line.invoice_line_tax_id
                                         if cota.id in tax.ids:
                                             filtered_inv_lines.append(
@@ -679,10 +683,12 @@ class d394_new_report(models.TransientModel):
                             for inv_line in inv_lines:
                                 fp = inv_line.invoice_id.fiscal_position
                                 tax = inv_line.product_id.supplier_taxes_id
+                                inv = inv_line.invoice_id
                                 if not fp or (('National' in \
                                         fp.name) or ('Invers' in \
-                                        fp.name)  or ('Scutit' in \
-                                        fp.name)):
+                                        fp.name)  or (('Scutit' in \
+                                        inv.fiscal_position.name) and \
+                                        inv.partner_type in ('1','2'))):
                                     tax = inv_line.invoice_line_tax_id
                                     if cota.id in tax.ids:
                                         filtered_inv_lines.append(
@@ -709,7 +715,9 @@ class d394_new_report(models.TransientModel):
                                     taxes += inv_curr.with_context(
                                         {'date': inv_date}).compute(
                                         line.price_taxes, comp_curr)
-                                if line.invoice_id.operation_type == 'C':
+                                if (line.invoice_id.operation_type == 'C') or \
+                                   ((line.invoice_id.operation_type == 'L') and \
+                                    (line.invoice_id.partner_type in ('3', '4'))):
                                     taxes += inv_curr.with_context(
                                         {'date': inv_date}).compute(
                                         line.price_normal_taxes and \
@@ -903,7 +911,7 @@ class d394_new_report(models.TransientModel):
         rezumat1 = {}
         rezumat1['tip_partener'] = op1s[0]['tip_partener']
         rezumat1['cota'] = op1s[0]['cota']
-        if partner_type == '1' and cota_amount != 0:
+        if cota_amount != 0:
             rezumat1['facturiL'] = int(round(sum(
                 op['nrFact'] for op in op1s if op['tip'] == 'L')))
             rezumat1['bazaL'] = int(round(sum(
@@ -929,7 +937,7 @@ class d394_new_report(models.TransientModel):
                 op['baza'] for op in op1s if op['tip'] == 'AI')))
             rezumat1['tvaAI'] = int(round(sum(
                 op['tva'] for op in op1s if op['tip'] == 'AI')))
-        if partner_type == '1' and cota_amount == 0:
+        if partner_type in ('1','3','4') and cota_amount == 0:
             rezumat1['facturiAS'] = int(round(sum(
                 op['nrFact'] for op in op1s if op['tip'] == 'AS')))
             rezumat1['bazaAS'] = int(round(sum(
@@ -1700,13 +1708,14 @@ class d394_new_report(models.TransientModel):
                 'op_efectuate': "1"
             })
 
+        invoices1 = False
+        op2 = []
         if fields.Date.from_string(self.period_id.date_start) < \
                 fields.Date.from_string('2016-10-01'):
             op1 = [d for d in self._get_op1(invoices) if \
                 d['tip_partener'] == '1']
         else:
-            op1 = self._get_op1(invoices)
-        invoices1 = obj_invoice.search([
+            invoices1 = obj_invoice.search([
                     ('type', 'in', ('out_invoice', 'out_refund')),
                     ('fiscal_receipt', '=', True),
                     ('journal_id.fiscal_receipt', '=', True),
@@ -1718,7 +1727,8 @@ class d394_new_report(models.TransientModel):
                     ('company_id', '=', self.company_id.id),
                     ('company_id', 'in', self.company_id.child_ids.ids)
                 ])
-        op2 = self._get_op2(invoices1)
+            op1 = self._get_op1(invoices)
+            op2 = self._get_op2(invoices1)
         payments = self._get_payments()
         informatii = self._generate_informatii(invoices, payments, op1, op2)
         rezumat1 = self._generate_rezumat1(invoices, payments, op1, op2)
