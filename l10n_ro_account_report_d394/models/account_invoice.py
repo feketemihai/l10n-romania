@@ -128,7 +128,10 @@ class AccountInvoice(models.Model):
                         ('Scutite' in inv.fiscal_position.name):
                     if partner.country_id and \
                             partner.country_id.id == country_ro.id:
-                        oper_type = 'A'
+                        if inv.special_taxes:
+                            oper_type = 'AS'
+                        else:
+                            oper_type = 'A'
                     else:
                         oper_type = 'C'
                 elif not inv.fiscal_position or \
