@@ -204,5 +204,5 @@ class AccountInvoice(models.Model):
         res = super(AccountInvoice, self).onchange_journal_id(journal_id)
         if journal_id:
             journal = self.env['account.journal'].browse(journal_id)
-            res['value']['fiscal_receipt'] = bool(journal.fiscal_receipt)
+            res['value']['fiscal_receipt'] = journal.fiscal_receipt
         return res

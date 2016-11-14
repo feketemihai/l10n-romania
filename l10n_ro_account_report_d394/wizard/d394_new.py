@@ -1299,7 +1299,7 @@ class d394_new_report(models.TransientModel):
     def _generate_rezumat2(self, invoices, payments, op1, op2):
         self.ensure_one()
         rezumat2 = []
-        cotas = set([x['cota'] for x in op1 if x['cota'] != 0] + [5, 9, 20])
+        cotas = set([x['cota'] for x in op1 if x['cota'] != 0] + [5, 9, 19, 20])
         for cota in cotas:
             op1s = [x for x in op1 if x['cota'] == cota]
             rezumat2.append(self.generate_rezumat2(cota, invoices, op1s, op2))
