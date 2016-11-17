@@ -116,9 +116,6 @@ class purchase_journal(report_sxw.rml_parse):
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, context={'date': inv1.date_invoice})
                                     vals['total_vat'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.amount, context={'date': inv1.date_invoice})
-                                elif ' 0' in tax_line.name:
-                                    vals['base_0'] += currency_obj.compute(
-                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, context={'date': inv1.date_invoice})
                         else:
                             if inv1.partner_id.vat and 'RO' in inv1.partner_id.vat.upper():
                                 vals['base_0'] += currency_obj.compute(
@@ -163,10 +160,7 @@ class purchase_journal(report_sxw.rml_parse):
                     if inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to and inv1.tax_line:
                         for line in inv1.invoice_line:
                             if not line.invoice_line_tax_id:
-                                if (inv1.partner_id.vat and 'RO' in inv1.partner_id.vat.upper()) or not inv1.partner_id.vat:
-                                    vals['base_0'] += currency_obj.compute(
-                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, line.price_subtotal, context={'date': inv1.date_invoice}) or 0.00
-                                else:
+                                if (inv1.partner_id.vat and 'RO' not in inv1.partner_id.vat.upper()) or not inv1.partner_id.vat:
                                     vals['scutit'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, line.price_subtotal, context={'date': inv1.date_invoice}) or 0.00
                     base_24 = base_20 = base_9 = base_5 = base_0 = base_exig = tva_24 = tva_20 = tva_9 = tva_5 = tva_0 = tva_exig = 0.00

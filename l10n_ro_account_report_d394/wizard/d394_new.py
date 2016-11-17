@@ -1345,6 +1345,10 @@ class d394_new_report(models.TransientModel):
                     nr_last = line.sequence_id.number_last
             partner = sequence.partner_id
             tip = 1
+            if sequence.sequence_type == 'autoinv1':
+                tip = 3
+            elif sequence.sequence_type != 'normal':
+                tip = 4
             seq = {
                 'tip': tip,
                 'serieI': regex.sub('', serie),
@@ -1355,14 +1359,15 @@ class d394_new_report(models.TransientModel):
                 seq['den'] = partner.name
                 seq['cui'] = partner._split_vat(
                     partner.vat)[1]
-            seq_dict.append(seq)
+            if tip == 1:
+                seq_dict.append(seq)
             seq1 = seq.copy()
             if sequence.sequence_type == 'normal':
                 tip = 2
             elif sequence.sequence_type == 'autoinv1':
                 tip = 3
             else:
-                tip = 4
+                tip = 4            
             inv = invoices.filtered(lambda r: \
                 r.journal_id.sequence_id.id == sequence.id).sorted(
                     key=lambda k: k.inv_number)
