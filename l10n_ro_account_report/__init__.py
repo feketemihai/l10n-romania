@@ -20,6 +20,6 @@
 #
 ##############################################################################
 
-import product
+import account
 import report
 import wizard

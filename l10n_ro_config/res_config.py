@@ -41,10 +41,14 @@ class l10n_ro_config_settings(models.TransientModel):
                                            help='This allows you to manage the storno behaviour in accounting.')
     module_account_vat_on_payment = fields.Boolean('Vat on Payment Accounting',
                                                    help='This allows you to manage the vat on payment behaviour in accounting.')
+    module_account_compensation_vat_on_payment = fields.Boolean('Vat on Payment on Compensations',
+                                                   help='This allows you to manage the vat on payment behaviour in compensations.')
     module_currency_rate_update = fields.Boolean('Currency Rate Update',
                                                  help='This allows you to manage the update of currency rate based on different provider, use BNR site.')
     module_l10n_ro_account_bank_statement = fields.Boolean('Bank Statement Invoices',
                                                            help='This allows you to manage imports in bank statement line of the invoices only.')
+    module_l10n_ro_account_bank_statement_import_mt940_brd = fields.Boolean('Bank Statement Import from BRD',
+                                                                           help='This allows you to manage imports in bank statement from BRD statements.')
     module_l10n_ro_account_compensation_currency_update = fields.Boolean('Currency Difference on Compensations',
                                                                          help='This allows you to manage currency difference amounts on compensation.')
     module_l10n_ro_account_constrains = fields.Boolean('Account Constrains',
@@ -52,7 +56,9 @@ class l10n_ro_config_settings(models.TransientModel):
     module_l10n_ro_account_period_close = fields.Boolean('Romania Account Period Close',
                                                          help='This allows you to close accounts on periods based on templates: Income, Expense, VAT...')
     module_l10n_ro_account_report = fields.Boolean('Romania Accounting Reports',
-                                                   help='This allows you to print reports according to legislation like: Sale/Purchase Journals, Trial Balance, D394..\n')
+                                                   help='This allows you to print reports according to legislation like: Sale/Purchase Journals, Trial Balance..\n')
+    module_l10n_ro_account_report_d394 = fields.Boolean('Romania Accounting Reports - D394',
+                                                   help='This allows you to print D394 report.')
     module_l10n_ro_account_voucher_cash = fields.Boolean('Voucher to Cash Statement',
                                                          help='This allows you to directly input in Cash Statement payments/receipts from Pay Invoice.')
     module_l10n_ro_account_voucher_currency_update = fields.Boolean('Currency Difference on Partial Payments/Receipts',
@@ -97,6 +103,11 @@ class l10n_ro_config_settings(models.TransientModel):
                                                   help='This allows you to create partners based on VAT:\n'
                                                   'Romanian partners will be create based on Ministry of Finance / openapi.ro Webservices Datas\n'
                                                   'European partners will be create based on VIES Website Datas (for countries that allow). \n')
+    module_l10n_ro_partner_unique = fields.Boolean('Partners unique by Company, VAT, NRC',
+                                                  help='This allows you to set unique partners by company, VAT and NRC.')
+    module_l10n_ro_contact_address = fields.Boolean('Contacts Detailed Address',
+                                                   help='This allows you to set street name and number, block, staircase and apartment number for contacts.\n'
+                                                        'Module depends on web_readonly_bypass from OCA/web repo: https://github.com/OCA/web/tree/8.0/web_readonly_bypass')
     property_undeductible_account_id = fields.Many2one('account.account', related='company_id.property_undeductible_account_id',
                                                        string="Undeductible Account",
                                                        domain="[('type', '=', 'other'),('company_id','=',company_id)]",
@@ -117,6 +128,10 @@ class l10n_ro_config_settings(models.TransientModel):
                                                              string="Usage Giving Account",
                                                              domain="[('type', '=', 'other'),('company_id','=',company_id)]",
                                                              help="This account will be used as the usage giving account in account move line")
+    property_stock_picking_custody_account_id = fields.Many2one('account.account', related='company_id.property_stock_picking_custody_account_id',
+                                                                string="Picking Account Custody",
+                                                                domain="[('type', '=', 'payable'),('company_id','=',company_id)]",
+                                                                help="This account will be used as the extra trial balance payable account for the current partner on stock picking received in custody.")
     property_asset_reevaluation_account_id = fields.Many2one('account.account', related='company_id.property_asset_reevaluation_account_id',
                                                              string="Asset Reevaluation Account",
                                                              domain="[('type', '=', 'other'),('company_id','=',company_id)]",
@@ -179,8 +194,8 @@ class l10n_ro_config_settings(models.TransientModel):
         installed = self.env['ir.module.module'].search(
             [('name', '=', 'account_vat_on_payment'), ('state', '=', 'installed')])
         if installed:
-            tax_code_names = ('TVA 5%', 'TVA 9%', 'TVA 19%', 'TVA 24%',
-                              'Baza TVA 5%', 'Baza TVA 9%', 'Baza TVA 19%', 'Baza TVA 24%')
+            tax_code_names = ('TVA 5%', 'TVA 9%', 'TVA 19%', 'TVA 20%', 'TVA 24%',
+                              'Baza TVA 5%', 'Baza TVA 9%', 'Baza TVA 19%', 'Baza TVA 20%', 'Baza TVA 24%')
             tax_codes = self.env['account.tax.code'].search(
                 [('company_id', '=', self.company_id.id), ('name', 'in', tax_code_names)])
             unnelig_vat_colect_tax_code = self.env['account.tax.code'].search(
@@ -230,7 +245,8 @@ class l10n_ro_config_settings(models.TransientModel):
             [('name', '=', 'l10n_ro_invoice_line_not_deductible'), ('state', '=', 'installed')])
         if installed:
             tax_names = ('TVA deductibil 5%', 'TVA deductibil 9%',
-                         'TVA deductibil 19%', 'TVA deductibil 24%')
+                         'TVA deductibil 19%','TVA deductibil 20%',
+                         'TVA deductibil 24%')
             taxes = self.env['account.tax'].search(
                 [('company_id', '=', self.company_id.id), ('name', 'in', tax_names)])
             cols = [col[0] for col in self.env['account.tax']._columns.items()]

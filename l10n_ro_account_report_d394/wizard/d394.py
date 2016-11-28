@@ -211,7 +211,7 @@ class d394_report(osv.osv_memory):
                                                             inv.date_invoice}
                                                    ) or 0.00
                                 if any(i in tax_line.name for i in
-                                   ('24', ' 9', ' 5', ' 0')):
+                                   ('24', '20', ' 9', ' 5', ' 0')):
                                     baza += currency_obj.compute(
                                                 cr, uid,
                                                 inv.currency_id.id,
@@ -230,19 +230,11 @@ class d394_report(osv.osv_memory):
                                                 ) or 0.00
 
                             for line in inv.invoice_line:
-                                taxes = tax_obj.compute_all(
-                                            cr, uid,
-                                            line.product_id.taxes_id,
-                                            line.price_subtotal,
-                                            1,
-                                            product=line.product_id,
-                                            partner=line.invoice_id.partner_id)
                                 tvainv += currency_obj.compute(
                                               cr, uid,
                                               inv.currency_id.id,
                                               comp_currency,
-                                              taxes['total_included'] -
-                                              taxes['total'],
+                                              line.price_normal_taxes-line.price_taxes,
                                               context={'date':
                                                        inv.date_invoice}
                                               ) or 0.00
@@ -276,14 +268,10 @@ class d394_report(osv.osv_memory):
                     'tva': int(round(tva)),
                     'cereals': [],
                 })
-            if bazainv != 0:
+            if nrfactv != 0:
                 cer = {}
                 cereals = []
-                codes = self.pool.get('report.394.code').search(cr, uid, [(
-                    'name', 'in', (
-                        '10011000', '10011900', '10019110', '10019120',
-                        '10019900', '1002', '1003', '1005', '1201', '1205',
-                        '120600', '121291'))])
+                codes = self.pool.get('report.394.code').search(cr, uid, [])
                 if codes:
                     codes = [code394.id for code394 in self.pool.get(
                         'report.394.code').browse(cr, uid, codes)]
@@ -302,31 +290,31 @@ class d394_report(osv.osv_memory):
                                         if code in codes:
                                             cer[code]['baza'] += \
                                             currency_obj.compute(
-                                                cr, uid,
-                                                inv.currency_id.id,
-                                                comp_currency,
-                                                line.price_subtotal,
-                                                context={'date':
-                                                         inv.date_invoice}
-                                                ) or 0.00
-                                            if line.invoice_line_tax_id:
-                                                taxes = tax_obj.compute_all(
-                                                    cr, uid,
-                                                    line.product_id.taxes_id,
-                                                    line.price_subtotal,
-                                                    1,
-                                                    product=line.product_id,
-                                                    partner=inv.partner_id)
-                                                cer[code]['tva'] += \
-                                                currency_obj.compute(
                                                     cr, uid,
                                                     inv.currency_id.id,
                                                     comp_currency,
-                                                    taxes['total_included'] -
-                                                    taxes['total'],
+                                                    line.price_subtotal,
                                                     context={'date':
                                                              inv.date_invoice}
-                                                    ) or 0.00
+                                                ) or 0.00
+                                            if line.invoice_line_tax_id:
+                                                taxes = tax_obj.compute_all(
+                                                        cr, uid,
+                                                        line.product_id.taxes_id,
+                                                        line.price_subtotal,
+                                                        1,
+                                                        product=line.product_id,
+                                                        partner=inv.partner_id)
+                                                cer[code]['tva'] += \
+                                                    currency_obj.compute(
+                                                        cr, uid,
+                                                        inv.currency_id.id,
+                                                        comp_currency,
+                                                        taxes['total_included'] -
+                                                        taxes['total'],
+                                                        context={'date':
+                                                                 inv.date_invoice}
+                                                        ) or 0.00
                     for key in cer.iterkeys():
                         if cer[key]['baza'] != 0:
                             cereals.append(
@@ -461,14 +449,10 @@ class d394_report(osv.osv_memory):
                                             context={'date':
                                                      inv.date_invoice}
                                             ) or 0.00
-            if bazainv != 0:
+            if nrfactc != 0:
                 cer = {}
                 cereals = []
-                codes = self.pool.get('report.394.code').search(cr, uid, [(
-                    'name', 'in', (
-                        '10011000', '10011900', '10019110', '10019120',
-                        '10019900', '1002', '1003', '1005', '1201', '1205',
-                        '120600', '121291'))])
+                codes = self.pool.get('report.394.code').search(cr, uid, [])
                 if codes:
                     codes = [code394.id for code394 in self.pool.get(
                         'report.394.code').browse(cr, uid, codes)]
@@ -485,34 +469,33 @@ class d394_report(osv.osv_memory):
                                     if line.product_id.d394_id:
                                         code = line.product_id.d394_id.id
                                         prod_taxes = \
-                                        line.product_id.supplier_taxes_id
+                                            line.product_id.supplier_taxes_id
                                         if code in codes:
                                             cer[code]['baza'] += \
                                             currency_obj.compute(
-                                                    cr, uid,
-                                                    inv.currency_id.id,
-                                                    comp_currency,
-                                                    line.price_subtotal,
-                                                    context={'date':
-                                                             inv.date_invoice}
+                                                        cr, uid,
+                                                        inv.currency_id.id,
+                                                        comp_currency,
+                                                        line.price_subtotal,
+                                                        context={'date':
+                                                                 inv.date_invoice}
                                                     ) or 0.00
-                                            taxes = \
-                                            tax_obj.compute_all(
-                                                    cr, uid,
-                                                    prod_taxes,
-                                                    line.price_subtotal,
-                                                    1,
-                                                    product=line.product_id,
-                                                    partner=inv.partner_id)
+                                            taxes = tax_obj.compute_all(
+                                                        cr, uid,
+                                                        prod_taxes,
+                                                        line.price_subtotal,
+                                                        1,
+                                                        product=line.product_id,
+                                                        partner=inv.partner_id)
                                             cer[code]['tva'] += \
                                             currency_obj.compute(
-                                                    cr, uid,
-                                                    inv.currency_id.id,
-                                                    comp_currency,
-                                                    taxes['total_included'] -
-                                                    taxes['total'],
-                                                    context={'date':
-                                                             inv.date_invoice}
+                                                        cr, uid,
+                                                        inv.currency_id.id,
+                                                        comp_currency,
+                                                        taxes['total_included'] -
+                                                        taxes['total'],
+                                                        context={'date':
+                                                                 inv.date_invoice}
                                                     ) or 0.00
                     for key in cer.iterkeys():
                         if cer[key]['baza'] != 0:

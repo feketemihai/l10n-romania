@@ -10,7 +10,7 @@
 					<field name="merchandise_type"/>
 				</field>
                 <xpath expr="//group[@name='localization']" position="after">
-                    <group string="Accounting Information" attrs="{'invisible':[('usage','not in',('internal'))]}">
+                    <group string="Accounting Information" attrs="{'invisible':[('usage','not in',('internal','in_custody'))]}">
                         <field name="property_stock_account_input_location"/>
                         <field name="property_stock_account_output_location"/>
                         <field name="property_account_creditor_price_difference_location"/>
@@ -44,6 +44,20 @@
             <field name="arch" type="xml">
             	<group name="quants_grp" position="after">
 					<group name="acc_moves" string="Accounting Entries" colspan="4" groups="account.group_account_user">
+                        <field name="acc_move_line_ids" readonly="1"/>
+                    </group>
+				</group>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_stock_quant_account_form">
+            <field name="name">stock.quant.account.form</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_form"/>
+            <field name="arch" type="xml">
+                <group position="after">
+					<group name="acc_moves" string="Accounting Entries" colspan="4" groups="account.group_account_user">
+                        <field name="stock_account_ids" readonly="1"/>
                         <field name="acc_move_line_ids" readonly="1"/>
                     </group>
 				</group>

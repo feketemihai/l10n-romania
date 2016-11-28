@@ -47,14 +47,17 @@ class sale_journal(report_sxw.rml_parse):
                 ('company_id', '=', data['company_id'][0]),
                 ('state', 'in', ['open', 'paid']),
                 '|',
-                ('period_id', '=', data['periods'][0]),
+                '&',
+                ('date_invoice', '>=', data['date_from']),
+                ('date_invoice', '<=', data['date_to']),
                 ('vat_on_payment', '=', True),
-                ('date_invoice', '<=', period_obj.browse(
-                    self.cr,
-                    self.uid,
-                    data['periods'][0]).date_stop)
-            ]
+                ('date_invoice', '<=', data['date_to']),                    
+            ]                
+                
             period_id = data['periods'][0]
+            period = period_obj.browse(self.cr, self.uid, period_id)
+            date_from = data['date_from']
+            date_to = data['date_to']
             company_id = data['company_id'][0]
             inv_ids = invoice_obj.search(
                 self.cr,
@@ -66,9 +69,7 @@ class sale_journal(report_sxw.rml_parse):
             inv_ids = [inv_ids]
         # we create temp list that will be used for store invoices by type
         inv = lines = []
-        invoices = invoice_obj.browse(self.cr, self.uid, inv_ids)
-
-        period = period_obj.browse(self.cr, self.uid, period_id)
+        invoices = invoice_obj.browse(self.cr, self.uid, inv_ids)        
         user = self.pool.get('res.users').browse(self.cr, self.uid, self.uid)
         if not company_id:
             company_id = user.company_id and user.company_id.id
@@ -83,11 +84,11 @@ class sale_journal(report_sxw.rml_parse):
                 vals['type'] = inv1.type
                 vals['total_base'] = vals['base_neex'] = vals[
                     'base_exig'] = vals['base_ded1'] = vals[
-                    'base_ded2'] = vals['base_24'] = vals['base_9'] = vals[
-                    'base_5'] = vals['base_0'] = 0.00
+                    'base_ded2'] = vals['base_24'] = vals['base_20'] = vals[
+                    'base_9'] = vals['base_5'] = vals['base_0'] = 0.00
                 vals['total_vat'] = vals['tva_neex'] = vals[
-                    'tva_exig'] = vals['tva_24'] = vals['tva_9'] = vals[
-                    'tva_5'] = vals['tva_bun'] = vals['tva_serv'] = 0.00
+                    'tva_exig'] = vals['tva_24'] = vals['tva_20'] = vals[
+                    'tva_9'] = vals['tva_5'] = vals['tva_bun'] = vals['tva_serv'] = 0.00
                 vals['base_col'] = vals['tva_col'] = 0.00
                 vals['invers'] = vals['neimp'] = vals['others'] = vals[
                     'scutit1'] = vals['scutit2'] = 0.00
@@ -115,7 +116,7 @@ class sale_journal(report_sxw.rml_parse):
                     total_base = total_vat = paid = 0.00
                     base_neex = tva_neex = 0.00
                     for payment in inv1.payment_ids:
-                        if payment.date <= period.date_stop:
+                        if payment.date <= date_to:
                             paid += payment.credit or payment.debit
                             for line in payment.move_id.line_id:
                                 if (inv1.number in line.name) and (line.account_id.type == 'other') and line.tax_code_id and ((inv1.type in ['out_invoice', 'out_refund'] and ((inv1.amount_total > 0 and line.tax_amount > 0) or (inv1.amount_total < 0 and line.tax_amount < 0))) or (inv1.type in ['in_invoice', 'in_refund'] and ((inv1.amount_total > 0 and line.tax_amount > 0) or (inv1.amount_total < 0 and line.tax_amount < 0)))):
@@ -133,6 +134,9 @@ class sale_journal(report_sxw.rml_parse):
                                     self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice})
                                 total_vat += currency_obj.compute(
                                     self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.amount, dp, context={'date': inv1.date_invoice})
+                            elif ' 0' in tax_line.name and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to:
+                                vals['base_0'] += currency_obj.compute(
+                                    self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, context={'date': inv1.date_invoice})
                     vals['base_neex'] = total_base - base_neex
                     vals['tva_neex'] = total_vat - tva_neex
                     if vals['tva_neex'] < 0.01 and vals['tva_neex'] > -0.01:
@@ -151,6 +155,11 @@ class sale_journal(report_sxw.rml_parse):
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
                                     vals['tva_24'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.amount, dp, context={'date': inv1.date_invoice}) or 0.00
+                                if ' 20' in tax_line.name:
+                                    vals['base_20'] += currency_obj.compute(
+                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
+                                    vals['tva_20'] += currency_obj.compute(
+                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.amount, dp, context={'date': inv1.date_invoice}) or 0.00
                                 if ' 9' in tax_line.name:
                                     vals['base_9'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
@@ -164,7 +173,7 @@ class sale_journal(report_sxw.rml_parse):
                                 if ' 0' in tax_line.name:
                                     vals['base_0'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
-                                if (' 24' in tax_line.name) or (' 9' in tax_line.name) or (' 5' in tax_line.name):
+                                if (' 24' in tax_line.name) or (' 20' in tax_line.name) or (' 9' in tax_line.name) or (' 5' in tax_line.name):
                                     vals['base_exig'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
                                     vals['tva_exig'] += currency_obj.compute(
@@ -186,6 +195,11 @@ class sale_journal(report_sxw.rml_parse):
                                             self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
                                         vals['tva_24'] += currency_obj.compute(
                                             self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.amount, dp, context={'date': inv1.date_invoice}) or 0.00
+                                    if ' 20' in tax_line.name:
+                                        vals['base_20'] += currency_obj.compute(
+                                            self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
+                                        vals['tva_20'] += currency_obj.compute(
+                                            self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.amount, dp, context={'date': inv1.date_invoice}) or 0.00
                                     if ' 9' in tax_line.name:
                                         vals['base_9'] += currency_obj.compute(
                                             self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
@@ -199,7 +213,7 @@ class sale_journal(report_sxw.rml_parse):
                                     if ' 0' in tax_line.name:
                                         vals['base_0'] += currency_obj.compute(
                                             self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
-                                    if (' 24' in tax_line.name) or (' 9' in tax_line.name) or (' 5' in tax_line.name):
+                                    if (' 24' in tax_line.name) or (' 20' in tax_line.name) or (' 9' in tax_line.name) or (' 5' in tax_line.name):
                                         vals['total_base'] += currency_obj.compute(
                                             self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
                                         vals['total_vat'] += currency_obj.compute(
@@ -232,12 +246,11 @@ class sale_journal(report_sxw.rml_parse):
                     vals['total_base'] = vals['total_vat'] = 0.00
                     if inv1.payment_ids:
                         for payment in inv1.payment_ids:
-                            if payment.period_id.id == period_id:
+                            if payment.date >= date_from and payment.date <= date_to:
                                 pay = {}
-                                pay['base_exig'] = pay['tva_exig'] = pay[
-                                    'base_24'] = pay['base_9'] = pay['base_5'] = 0.00
-                                pay['tva_24'] = pay[
-                                    'tva_9'] = pay['tva_5'] = 0.00
+                                pay['base_exig'] = pay['tva_exig'] = 0.00
+                                pay['base_24'] = pay['base_20'] = pay['base_9'] = pay['base_5'] = 0.00
+                                pay['tva_24'] = pay['tva_20'] = pay['tva_9'] = pay['tva_5'] = 0.00
                                 pay['number'] = str(payment.move_id.name)
                                 pay['date'] = payment.move_id.date
                                 pay['amount'] = currency_obj.compute(self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, payment.credit or payment.debit, dp, context={
@@ -248,6 +261,11 @@ class sale_journal(report_sxw.rml_parse):
                                             pay['base_24'] += currency_obj.compute(self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, round(
                                                 (line.credit or line.debit) / 0.24), dp, context={'date': inv1.date_invoice}) or 0.00
                                             pay['tva_24'] += currency_obj.compute(self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, (
+                                                line.credit or line.debit), dp, context={'date': inv1.date_invoice}) or 0.00
+                                        if line.tax_code_id and ' 20' in line.tax_code_id.name:
+                                            pay['base_20'] += currency_obj.compute(self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, round(
+                                                (line.credit or line.debit) / 0.20), dp, context={'date': inv1.date_invoice}) or 0.00
+                                            pay['tva_20'] += currency_obj.compute(self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, (
                                                 line.credit or line.debit), dp, context={'date': inv1.date_invoice}) or 0.00
                                         if line.tax_code_id and ' 9' in line.tax_code_id.name:
                                             pay['base_9'] += currency_obj.compute(self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, round(
@@ -260,37 +278,30 @@ class sale_journal(report_sxw.rml_parse):
                                             pay['tva_5'] += currency_obj.compute(self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, (
                                                 line.credit or line.debit), dp, context={'date': inv1.date_invoice}) or 0.00
 
-                                pay['base_exig'] += pay['base_24'] + \
+                                pay['base_exig'] += pay['base_24'] + pay['base_20'] +\
                                     pay['base_9'] + pay['base_5']
-                                pay['tva_exig'] += pay['tva_24'] + \
+                                pay['tva_exig'] += pay['tva_24'] + pay['tva_20'] +\
                                     pay['tva_9'] + pay['tva_5']
                                 vals['payments'].append(pay)
+                                vals['total_base'] += pay['base_exig']
+                                vals['total_vat'] += pay['tva_exig']
+                                vals['base_24'] += pay['base_24']
+                                vals['tva_24'] += pay['tva_24']
+                                vals['base_20'] += pay['base_20']
+                                vals['tva_20'] += pay['tva_20']
+                                vals['base_9'] += pay['base_9']
+                                vals['tva_9'] += pay['tva_9']
+                                vals['base_5'] += pay['base_5']
+                                vals['tva_5'] += pay['tva_5']
                                 vals['payments'].sort(
                                     key=itemgetter("date", "number"))
-
-                    else:
-                        pay = {}
-                        pay['amount'] = pay['base_exig'] = pay[
-                            'tva_exig'] = 0.00
-                        pay['base_24'] = pay['base_9'] = pay['base_5'] = 0.00
-                        pay['tva_24'] = pay['tva_9'] = pay['tva_5'] = 0.00
-                        pay['number'] = ''
-                        pay['date'] = ''
-                        vals['payments'].append(pay)
-                else:
-                    pay = {}
-                    pay['amount'] = pay['base_exig'] = pay['tva_exig'] = 0.00
-                    pay['base_24'] = pay['base_9'] = pay['base_5'] = 0.00
-                    pay['tva_24'] = pay['tva_9'] = pay['tva_5'] = 0.00
-                    pay['number'] = ''
-                    pay['date'] = ''
-                    vals['payments'].append(pay)
 
                 if vals != {}:
                     inv.append(vals)
                 # Adding undeductible vat and inverse taxation colected VAT
                 # amount from purchase
-                if inv1.type in ['in_invoice', 'in_refund']:
+                            
+                if inv1.type in ['in_invoice', 'in_refund'] and inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to:
                     not_deductible = False
                     for inv_line in inv1.invoice_line:
                         if inv_line.not_deductible:
@@ -299,8 +310,8 @@ class sale_journal(report_sxw.rml_parse):
                         vals1 = {}
                         vals1['type'] = 'out_invoice'
                         vals1['total_base'] = vals1['base_neex'] = vals1['base_exig'] = vals1['base_ded1'] = vals1[
-                            'base_ded2'] = vals1['base_24'] = vals1['base_9'] = vals1['base_5'] = vals1['base_0'] = 0.00
-                        vals1['total_vat'] = vals1['tva_neex'] = vals1['tva_24'] = vals1['tva_9'] = vals1[
+                            'base_ded2'] = vals1['base_24'] = vals1['base_20'] = vals1['base_9'] = vals1['base_5'] = vals1['base_0'] = 0.00
+                        vals1['total_vat'] = vals1['tva_neex'] = vals1['tva_24'] = vals1['tva_20'] = vals1['tva_9'] = vals1[
                             'tva_5'] = vals1['tva_exig'] = vals1['tva_bun'] = vals1['tva_serv'] = 0.00
                         vals1['base_col'] = vals1['tva_col'] = 0.00
                         vals1['invers'] = vals1['neimp'] = vals1[
@@ -310,8 +321,8 @@ class sale_journal(report_sxw.rml_parse):
                         pay = {}
                         pay['amount'] = pay['base_exig'] = pay[
                             'tva_exig'] = 0.00
-                        pay['base_24'] = pay['base_9'] = pay['base_5'] = 0.00
-                        pay['tva_24'] = pay['tva_9'] = pay['tva_5'] = 0.00
+                        pay['base_24'] = pay['base_20'] = pay['base_9'] = pay['base_5'] = 0.00
+                        pay['tva_24'] = pay['tva_20'] = pay['tva_9'] = pay['tva_5'] = 0.00
                         pay['number'] = ''
                         pay['date'] = ''
                         vals1['payments'].append(pay)
@@ -344,6 +355,13 @@ class sale_journal(report_sxw.rml_parse):
                                     else:
                                         vals1['tva_24'] += currency_obj.compute(
                                             self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, line.tax_amount, context={'date': inv1.date_invoice}) or 0.00
+                                if ' 20' in line.tax_code_id.code:
+                                    if 'BAZA' in line.tax_code_id.code.upper():
+                                        vals1['base_20'] += currency_obj.compute(
+                                            self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, line.tax_amount, context={'date': inv1.date_invoice}) or 0.00
+                                    else:
+                                        vals1['tva_20'] += currency_obj.compute(
+                                            self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, line.tax_amount, context={'date': inv1.date_invoice}) or 0.00
                                 if ' 9' in line.tax_code_id.code:
                                     if 'BAZA' in line.tax_code_id.code.upper():
                                         vals1['base_9'] += currency_obj.compute(
@@ -366,8 +384,8 @@ class sale_journal(report_sxw.rml_parse):
                         vals1 = {}
                         vals1['type'] = 'out_invoice'
                         vals1['total_base'] = vals1['base_neex'] = vals1['base_exig'] = vals1['base_ded1'] = vals1[
-                            'base_ded2'] = vals1['base_24'] = vals1['base_9'] = vals1['base_5'] = vals1['base_0'] = 0.00
-                        vals1['total_vat'] = vals1['tva_neex'] = vals1['tva_24'] = vals1['tva_9'] = vals1[
+                            'base_ded2'] = vals1['base_24'] = vals1['base_20'] = vals1['base_9'] = vals1['base_5'] = vals1['base_0'] = 0.00
+                        vals1['total_vat'] = vals1['tva_neex'] = vals1['tva_24'] = vals1['tva_20'] = vals1['tva_9'] = vals1[
                             'tva_5'] = vals1['tva_exig'] = vals1['tva_bun'] = vals1['tva_serv'] = 0.00
                         vals1['base_col'] = vals1['tva_col'] = 0.00
                         vals1['invers'] = vals1['neimp'] = vals1[
@@ -377,8 +395,8 @@ class sale_journal(report_sxw.rml_parse):
                         pay = {}
                         pay['amount'] = pay['base_exig'] = pay[
                             'tva_exig'] = 0.00
-                        pay['base_24'] = pay['base_9'] = pay['base_5'] = 0.00
-                        pay['tva_24'] = pay['tva_9'] = pay['tva_5'] = 0.00
+                        pay['base_24'] = pay['base_20'] = pay['base_9'] = pay['base_5'] = 0.00
+                        pay['tva_24'] = pay['tva_20'] = pay['tva_9'] = pay['tva_5'] = 0.00
                         pay['number'] = ''
                         pay['date'] = ''
                         vals1['payments'].append(pay)

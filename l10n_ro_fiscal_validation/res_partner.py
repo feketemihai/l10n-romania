@@ -18,9 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
+import logging
 import os
 from datetime import date
+import time
 from subprocess import Popen, PIPE
 
 from zipfile import ZipFile
@@ -30,17 +31,9 @@ import requests
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 
-try:
-    import vatnumber
-except ImportError:
-    _logger.warning(
-        "VAT validation partially unavailable because the "
-        "`vatnumber` Python library cannot be found. Install it to support "
-        "more countries, for example with `easy_install vatnumber`.")
-    vatnumber = None
+_logger = logging.getLogger(__name__)
 
 ANAF_URL = 'http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_%s.zip'
-
 
 class res_partner_anaf(models.Model):
     _name = "res.partner.anaf"
@@ -75,7 +68,7 @@ class res_partner(models.Model):
         if history:
             self.anaf_history = [(6, 0, [line.id for line in history])]
 
-    vat_number = fields.Char('VAT', compute='_compute_vat')
+    vat_number = fields.Char('VAT', compute='_compute_vat', store=True)
     anaf_history = fields.One2many(
         'res.partner.anaf',
         compute='_compute_anaf_history',
@@ -158,39 +151,72 @@ VALUES
         self.vat_on_payment = self.with_context(ctx)._check_vat_on_payment()
 
     @api.multi
-    def _check_vat_subjected(self):
-        vat_s = vat_number = vat_country = False
-        if self.vat:
-            vat_country, vat_number = self.vat[
-                :2].lower(), self.vat[
-                2:].replace(
-                ' ', '')
-        if vat_number and vat_country and vat_country.upper() == 'RO':
-            res = requests.get(
-                'http://openapi.ro/api/companies/' +
-                str(vat_number) +
-                '.json')
+    def check_vat_subjected(self, check_date=False):
+        anaf_dict = []
+        if not check_date:
+            check_date = fields.Date.today()
+        headers = {
+            "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
+            "Content-Type": "application/json;"
+        }
+        # Build list of vat numbers to be checked on ANAF
+        partners = self.search([('vat', '!=', False)])
+        for partner in partners:
+            if partner.vat:
+                vat_country, vat_number = partner._split_vat(partner.vat)
+                if vat_number and vat_country and vat_country.upper() == 'RO':
+                    if partner.vat_on_payment:
+                        partner.vat_subjected = True
+                    elif not partner.is_company or len(vat_number)>10:
+                        partner.vat_subjected = False
+                    else:
+                        anaf_dict.append(partner.vat_number)
+                elif vat_number and vat_country:
+                    partner.vat_subjected = self.vies_vat_check(vat_country, vat_number)
+        chunk = []
+        chunks = []
+        # Process 500 vat numbers once
+        n = 499
+        for x in range(0, len(anaf_dict), n):
+            chunk = anaf_dict[x:x+n]
+            chunks.append(chunk)
+        for chunk in chunks:
+            anaf_ask = []
+            for item in chunk:
+                anaf_ask.append({'cui': int(item), 'data': check_date})
+            res = requests.post(
+                'https://webservicesp.anaf.ro/AsynchWebService/api/v1/ws/tva',
+                json=anaf_ask,
+                headers = headers)
             if res.status_code == 200:
                 res = res.json()
-                if res['vat'] == '1':
-                    vat_s = True
-        elif vat_number and vat_country:
-            if vatnumber is None:
-                return False
-            vat_s = vatnumber.check_vies(vat_country.upper() + vat_number)
-        return vat_s
-
-    @api.one
-    def check_vat_subjected(self):
-        if self.vat_on_payment:
-            self.vat_subjected = True
-        else:
-            self.vat_subjected = self._check_vat_subjected()
+                if res['correlationId']:
+                    time.sleep(3)
+                    resp = requests.get('https://webservicesp.anaf.ro/AsynchWebService/api/v1/ws/tva?id=%s' % res['correlationId'])
+                    if resp.status_code == 200:
+                        resp = resp.json()
+                        if resp['found']:
+                            for response in resp['found']:
+                                upd_partner = self.search([('vat_number', '=', response['cui'])])
+                                _logger.debug('Partner name %s, cui %s, vat subjected %s.' % (response['denumire'], response['cui'], response['tva'],))            
+                                if upd_partner:
+                                    upd_partner.write({'name': response['denumire'].upper(),
+                                                       'vat_subjected': bool(response['tva'])})
+                        if resp['notfound']:
+                            for response in resp['notfound']:
+                                upd_partner = self.search([('vat_number', '=', response['cui'])])
+                                _logger.debug('Partner name %s, cui %s, vat subjected %s.' % (response['denumire'], response['cui'], response['tva'],))            
+                                if upd_partner:
+                                    upd_partner.write({'name': response['denumire'].upper(),
+                                                       'vat_subjected': bool(response['tva'])})
+        return True
 
     @api.multi
     def update_vat_one(self):
-        self.check_vat_on_payment()
+        for partner in self:
+            partner.check_vat_on_payment()
         self.check_vat_subjected()
+        return True
 
     @api.one
     def button_get_partner_data(self):
@@ -205,7 +231,7 @@ VALUES
         self._insert_relevant_anaf_data(partners)
         for partner in partners:
             partner.check_vat_on_payment()
-            partner.check_vat_subjected()
+        self.check_vat_subjected()
 
     @api.model
     def _update_vat_all(self):

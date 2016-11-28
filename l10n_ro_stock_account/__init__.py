@@ -21,4 +21,6 @@
 ##############################################################################
 
 import account
+import purchase
 import stock_account
+import wizard

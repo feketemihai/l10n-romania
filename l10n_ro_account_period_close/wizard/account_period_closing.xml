@@ -11,13 +11,16 @@
                         <field name="closing_id"/>
                         <field name="company_id" invisible="1"/>					
                     </group>
-					<field name="date_move" colspan="2"/>
 					<field name="period_id" domain="[('company_id','=',company_id)]" colspan="2"/>
+					<group col="2" colspan="4">
+                        <field name="date_from"/>
+                        <field name="date_to"/>					
+                    </group>
 					<field name="journal_id" domain="[('company_id','=',company_id)]" colspan="4"/>
                     <field name="done" readonly="1"/>
                     <group col="2" colspan="4">
                         <button icon='gtk-cancel' special="cancel" string="Cancel" />
-                        <button name="close" string="Close" attrs="{'invisible':[('done', '=' ,True)]}" type="object" icon="gtk-ok"/>
+                        <button name="do_close" string="Close" attrs="{'invisible':[('done', '=' ,True)]}" type="object" icon="gtk-ok"/>
                     </group>
                 </form>
             </field>
@@ -31,7 +34,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="view_account_period_closing_wizard"/>
-            <field name="context">{'closing_id' : active_id}</field>
+            <field name="context">{'closing_id' : active_id, 'default_closing_id': active_id}</field>
             <field name="target">new</field>
        </record>
 	</data>

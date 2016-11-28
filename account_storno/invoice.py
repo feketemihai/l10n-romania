@@ -42,20 +42,21 @@ class account_invoice(models.Model):
         if self.journal_id.posting_policy == 'storno':
             credit = debit = 0.0
             if self.type in ('out_invoice', 'out_refund'):
-                if line.get('type', 'src') in ('dest'):
+                if line.get('type', 'src') == 'dest':
                     # for OUT_invoice dest (tot. amount goes to debit)
                     debit = line['price']
                 else:  # in('src','tax')
                     credit = line['price'] * (-1)
             else:  # in ('in_invoice', 'in_refund')
-                if line.get('type', 'src') in ('dest'):
+                if line.get('type', 'src') == 'dest':
                     credit = line['price'] * (-1)
                 else:
-                    debit = line['price']
-                    if (line['type'] == 'tax') and self.type == 'in_invoice' and line[
-                            'price'] < 0.00:
+                    if line.get('tax_amount',0) != 0 and line['tax_amount']<0 and line['price']>0 and line['quantity']>0:
                         credit = line['price'] * (-1)
-                        debit = 0.00
+                    elif line.get('tax_amount',0) != 0 and line['tax_amount']>0 and line['price']<0 and line['quantity']>0:
+                        credit = line['price'] * (-1)
+                    else:
+                        debit = line['price']
 
             res['debit'] = debit
             res['credit'] = credit
@@ -73,7 +74,7 @@ class account_invoice(models.Model):
             if self.journal_id.posting_policy == 'storno':
                 line2 = {}
                 for x, y, l in line:
-                    hash = self.inv_line_characteristic_hashcode(inv, l)
+                    hash = self.inv_line_characteristic_hashcode(l)
                     side = abs(l['credit']) > 0.0 and 'credit' or 'debit'
                     if l['credit'] == 0.00 and l['debit'] == 0:
                         tmp_c = '-'.join((hash, 'credit'))
@@ -92,3 +93,43 @@ class account_invoice(models.Model):
                 for key, val in line2.items():
                     line.append((0, 0, val))
         return line
+        
+    @api.one
+    @api.depends(
+        'state', 'currency_id', 'invoice_line.price_subtotal',
+        'move_id.line_id.account_id.type',
+        'move_id.line_id.amount_residual',
+        # Fixes the fact that move_id.line_id.amount_residual, being not stored and old API, doesn't trigger recomputation
+        'move_id.line_id.reconcile_id',
+        'move_id.line_id.amount_residual_currency',
+        'move_id.line_id.currency_id',
+        'move_id.line_id.reconcile_partial_id.line_partial_ids.invoice.type',
+    )
+    # An invoice's residual amount is the sum of its unreconciled move lines and,
+    # for partially reconciled move lines, their residual amount divided by the
+    # number of times this reconciliation is used in an invoice (so we split
+    # the residual amount between all invoice)
+    def _compute_residual(self):
+        self.residual = 0.0
+        # Each partial reconciliation is considered only once for each invoice it appears into,
+        # and its residual amount is divided by this number of invoices
+        partial_reconciliations_done = []
+        residual = 0.00
+        for line in self.sudo().move_id.line_id:
+            if line.account_id.id == self.account_id.id:
+                # Get the correct line residual amount
+                if line.currency_id == self.currency_id:
+                    line_amount = line.currency_id and line.amount_residual_currency or line.amount_residual
+                else:
+                    from_currency = line.company_id.currency_id.with_context(date=line.date)
+                    line_amount = from_currency.compute(line.amount_residual, self.currency_id)
+                # For partially reconciled lines, split the residual amount
+                if line.reconcile_partial_id:
+                    partial_reconciliation_invoices = set()
+                    for pline in line.reconcile_partial_id.line_partial_ids:
+                        if pline.invoice and self.type == pline.invoice.type:
+                            partial_reconciliation_invoices.update([pline.invoice.id])
+                    line_amount = self.currency_id.round(line_amount / len(partial_reconciliation_invoices))
+                    partial_reconciliations_done.append(line.reconcile_partial_id.id)
+                residual += line_amount
+        self.residual = residual

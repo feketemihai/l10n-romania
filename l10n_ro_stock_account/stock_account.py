@@ -96,6 +96,7 @@ class stock_location(osv.Model):
             ('procurement', 'Procurement'),
             ('production', 'Production'),
             ('transit', 'Transit Location'),
+            ('in_custody', 'In Custody'),
             ('usage_giving', 'Usage Giving'),
             ('consume', 'Consume')],
             'Location Type', required=True,
@@ -107,6 +108,9 @@ class stock_location(osv.Model):
                        \n* Procurement: Virtual location serving as temporary counterpart for procurement operations when the source (supplier or production) is not known yet. This location should be empty when the procurement scheduler has finished running.
                        \n* Production: Virtual counterpart location for production operations: this location consumes the raw material and produces finished products
                        \n* Transit Location: Counterpart location that should be used in inter-companies or inter-warehouses operations
+                       \n* In Custody: Virtual location for products received in custody
+                       \n* Usage Giving: Virtual location for products given in usage
+                       \n* In Custody: Virtual location for products consumed beside production.
                       """, select=True),
         'merchandise_type': fields.selection([("store", "Store"), ("warehouse", "Warehouse")], "Merchandise type"),
         'property_stock_account_input_location': fields.property(
@@ -152,6 +156,32 @@ class stock_move(osv.Model):
         'acc_move_line_ids': fields.one2many('account.move.line', 'stock_move_id', string='Account move lines'),
     }
 
+    # Update prices if the move is linked with a purchase order line and the
+    # purchase order is in a different currency then the company currency
+    def _update_move_price(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        product_uom = self.pool.get('product.uom')
+        for move in self.browse(cr, uid, ids, context=context):
+            if move.purchase_line_id:
+                order_line = move.purchase_line_id
+                price_unit = order_line.price_unit
+                if order_line.product_uom.id != order_line.product_id.uom_id.id:
+                    price_unit *= order_line.product_uom.factor / \
+                                  order_line.product_id.uom_id.factor
+                ctx = dict(context)
+                if move.picking_id:
+                    ctx.update({'date': move.picking_id.date})
+                else:
+                    ctx.update({'date': move.date})
+                if order_line.order_id.currency_id.id != move.company_id.currency_id.id:
+                    #we don't round the price_unit, as we may want to store the
+                    #standard price with more digits than allowed by the currency
+                    price_unit = self.pool.get('res.currency').compute(
+                    cr, uid, order_line.order_id.currency_id.id, move.company_id.currency_id.id,
+                    price_unit, round=False, context=ctx)
+                self.write(cr, uid, [move.id], {'price_unit': price_unit}, context=context)
+        return True
 
     # Fix date on stock move from stock picking
     def onchange_date(self, cr, uid, ids, date, date_expected, context=None):
@@ -163,7 +193,7 @@ class stock_move(osv.Model):
         if ids:
             move = self.browse(cr, uid, ids[0], context=context)
             if move.picking_id:
-                date_expected = move.picking_id.date 
+                date_expected = move.picking_id.date
         super(stock_move, self).onchange_date(cr, uid, ids, date, date_expected, context=context)
 
 
@@ -187,6 +217,7 @@ class stock_move(osv.Model):
                         for line in lines:
                             line_vals = line[2]
                             line_vals['stock_move_id'] = move.id
+                            line_vals['stock_quant_id'] = quant.id
                             acc_move_lines += [(0, 0, line_vals)]
             if acc_move_lines != []:
                 move_id = acc_move_obj.create(cr, uid, {'journal_id': journal_id,
@@ -200,22 +231,25 @@ class stock_move(osv.Model):
         return True
 
     def action_done(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        self._update_move_price(cr, uid, ids, context=context)
         res = super(stock_move, self).action_done(
             cr, uid, ids, context=context)
         for move in self.browse(cr, uid, ids, context=context):
             if move.picking_id:
-                self.write(cr, uid, [move.id], {'date': move.picking_id.date})
+                self.write(cr, uid, [move.id], {'date': move.picking_id.date}, context=context)
             if not move.acc_move_id:
                 self.create_account_move_lines(
                     cr, uid, [move.id], context=context)
         return res
 
     def action_cancel(self, cr, uid, ids, context=None):
-        acc_move_obj = self.pool.get('account.move.line')
+        acc_move_obj = self.pool.get('account.move')
         for move in self.browse(cr, uid, ids, context=context):
             if move.acc_move_id:
-                acc_move_obj.cancel(cr, uid, [move.acc_move_id.id])
-                acc_move_obj.unlink(cr, uid, [move.acc_move_id.id])
+                acc_move_obj.button_cancel(cr, uid, [move.acc_move_id.id], context=context)
+                acc_move_obj.unlink(cr, uid, [move.acc_move_id.id], context=context)
         return super(stock_move, self).action_cancel(cr, uid, ids, context=context)
 
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
@@ -235,6 +269,9 @@ class stock_move(osv.Model):
             else:
                 if move.location_dest_id.property_stock_account_input_location:
                     account_id = move.location_dest_id.property_stock_account_input_location and move.location_dest_id.property_stock_account_input_location.id
+        else:
+            if move.location_id.property_account_income_location:
+                account_id = move.location_id.property_account_income_location.id
         if move.picking_id and move.picking_id.notice:
             if inv_type in ('in_invoice', 'in_refund'):
                 account_id = move.company_id and move.company_id.property_stock_picking_payable_account_id and move.company_id.property_stock_picking_payable_account_id.id
@@ -256,9 +293,42 @@ class stock_move(osv.Model):
 
 
 class stock_quant(osv.Model):
-    _name = "stock.quant"
     _inherit = "stock.quant"
 
+    def _get_stock_account(self, cr, uid, ids, field_name, args, context=None):
+        res = {}
+        for quant in self.browse(cr, uid, ids, context=context):
+            res[quant.id] = []
+            accounts= []
+            if quant.acc_move_line_ids:
+                for acc_move_line in quant.acc_move_line_ids:
+                    account = acc_move_line.account_id
+                    if 'asset' in account.user_type.code and '331' not in account.code and account.id not in accounts:
+                        accounts.append(account.id)
+            else:
+                if quant.history_ids:
+                    for move in quant.history_ids:
+                        if move.acc_move_line_ids:
+                            for acc_move_line in move.acc_move_line_ids:
+                                account = acc_move_line.account_id
+                                if 'asset' in account.user_type.code and '331' not in account.code and account.id not in accounts:
+                                    accounts.append(account.id)
+                        else:
+                            if move.purchase_line_id:
+                                inv_line = self.pool['account.invoice.line'].search(cr, uid, [('purchase_line_id', '=', move.purchase_line_id.id)], context=context)
+                                if inv_line:
+                                    for line in self.pool['account.invoice.line'].browse(cr, uid, inv_line, context=context):
+                                         if line.account_id.id not in accounts:
+                                             accounts.append(line.account_id.id)
+            if accounts:
+                res[quant.id] = [acc for acc in accounts]
+        return res
+
+
+    _columns = {
+        'acc_move_line_ids': fields.one2many('account.move.line', 'stock_quant_id', string='Account move lines'),
+        'stock_account_ids': fields.function(_get_stock_account, type='many2many', relation='account.account', string='Stock Account'),
+    }
 
     def _account_entry_move(self, cr, uid, quants, move, context=None):
         """
@@ -357,11 +427,19 @@ class stock_quant(osv.Model):
         if not move.picking_id.notice and move.location_id.usage == 'customer' and move.location_dest_id.usage == 'internal':
             ctx['type'] = 'delivery_refund'
 
+        # Change context to create account moves for cost of goods received in custody - extra trial balance
+        # of refund (e.g. 8033 = 899)
+        if not move.picking_id.notice and move.location_id.usage == 'supplier' and move.location_dest_id.usage == 'in_custody':
+            ctx['type'] = 'receive_custody'
+        if not move.picking_id.notice and move.location_id.usage == 'in_custody' and move.location_dest_id.usage == 'internal':
+            ctx['type'] = 'custody_to_stock'
+
         if not move.picking_id.notice and move.location_id.usage == 'internal' and move.location_dest_id.usage not in ('supplier', 'transit'):
             # Change context to create account moves for cost of goods
             # delivered  (e.g. 607 = 371)
             ctx['notice'] = False
-            ctx['type'] = 'delivery'
+            if move.location_dest_id.usage != 'internal':
+                ctx['type'] = 'delivery'
             # Change context to create account moves for collected VAT in case
             # of minus in inventory  (e.g. 635 = 4427)
             if move.location_dest_id.usage == 'inventory':
@@ -556,6 +634,13 @@ class stock_quant(osv.Model):
         journal_id, acc_src, acc_dest, acc_valuation = super(
             stock_quant, self)._get_accounting_data_for_valuation(cr, uid, move, context=context)
 
+        if move.location_id.usage == 'internal' and move.location_dest_id.usage == 'internal':
+            acc_dest = False
+            acc_dest = move.product_id.property_stock_account_input and move.product_id.property_stock_account_input.id or False
+            if not acc_dest:
+                acc_dest = move.product_id.categ_id.property_stock_account_input_categ and move.product_id.categ_id.property_stock_account_input_categ.id or False
+
+
         if move.location_id.property_stock_account_output_location:
             acc_src = move.location_id.property_stock_account_output_location.id
         if move.location_dest_id.property_stock_account_input_location:
@@ -572,6 +657,18 @@ class stock_quant(osv.Model):
                     acc_src = move.product_id.categ_id.property_account_income_categ and move.product_id.categ_id.property_account_income_categ.id
                 if move.location_id.property_account_income_location:
                     acc_src = move.location_id.property_account_income_location.id
+            if move_type == 'usage_giving':
+                # Change the account to the usage giving one defined in
+                # company: usualy 8035
+                acc_src = acc_dest = move.company_id.property_stock_usage_giving_account_id and move.company_id.property_stock_usage_giving_account_id.id or False
+            if move_type == 'receive_custody':
+                # Change the account to the receive in custody payable account
+                # company: usualy 899
+                acc_src = move.company_id.property_stock_picking_custody_account_id and move.company_id.property_stock_picking_custody_account_id.id or False
+            if move_type == 'custody_to_stock':
+                # Change the account to the receive in custody payable account
+                # company: usualy 899
+                acc_dest = move.company_id.property_stock_picking_custody_account_id and move.company_id.property_stock_picking_custody_account_id.id or False
             if move_type == 'usage_giving':
                 # Change the account to the usage giving one defined in
                 # company: usualy 8035
@@ -612,7 +709,7 @@ class stock_quant(osv.Model):
                 if move.product_id.taxes_id and move.product_id.taxes_id[0].account_collected_id:
                     acc_src = move.product_id.taxes_id[
                         0].account_collected_id.id or False
-                if move.company_id.property_account_undeductible:
+                if move.company_id.property_undeductible_tax_account_id:
                     acc_dest = move.company_id and move.company_id.property_undeductible_tax_account_id and move.company_id.property_undeductible_tax_account_id.id or False
             if move_type == 'reception_diff':
                 # Receptions in location with inventory kept at list price
@@ -680,7 +777,7 @@ class stock_picking(osv.Model):
 
     _columns = {
         'acc_move_line_ids': fields.one2many('account.move.line', 'stock_picking_id', string='Generated accounting lines'),
-        'notice': fields.boolean('Is a notice', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}),               
+        'notice': fields.boolean('Is a notice', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}),
     }
 
     _defaults = {
