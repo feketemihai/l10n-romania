@@ -357,9 +357,9 @@ class d394_new_report(models.TransientModel):
         informatii['incasari_i2'] = sum(
             op['total'] for op in op2 if op['tip_op2'] == 'I2')
         informatii['nrFacturi_terti'] = len(
-            set(invoices.filtered(lambda r: r.sequence_type == 'autoinv1')))
-        informatii['nrFacturi_benef'] = len(
             set(invoices.filtered(lambda r: r.sequence_type == 'autoinv2')))
+        informatii['nrFacturi_benef'] = len(
+            set(invoices.filtered(lambda r: r.sequence_type == 'autoinv1')))
         informatii['nrFacturi'] = len(invoices)
         informatii['nrFacturiL_PF'] = len(
             set(invoices.filtered(lambda r: r.operation_type == 'L' and \
@@ -878,18 +878,12 @@ class d394_new_report(models.TransientModel):
                                     line.price_normal_taxes and \
                                     line.price_normal_taxes or \
                                     line.price_taxes, comp_curr)
-                            total += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_subtotal + \
-                                    line.price_normal_taxes and \
-                                    line.price_normal_taxes or \
-                                    line.price_taxes, comp_curr)
             op2.append({
                 'tip_op2': oper_type,
                 'luna': int(period.code[:2]),
                 'nrAMEF': int(round(nrAMEF)),
                 'nrBF': int(round(nrBF)),
-                'total': int(round(total)),
+                'total': int(round(baza20+baza19+baza9+baza5)),
                 'baza20': int(round(baza20)),
                 'baza19': int(round(baza19)),
                 'baza9': int(round(baza9)),
