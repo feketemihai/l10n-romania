@@ -525,6 +525,7 @@ class d394_new_report(models.TransientModel):
                                 cota_amount = int(cota.amount * 100)
                         elif cota.type == 'amount':
                             cota_amount = int(cota.amount)
+                        inv_lines = []
                         if partner_type == '2':
                             if oper_type == 'N':
                                 doc_types = [
@@ -676,7 +677,7 @@ class d394_new_report(models.TransientModel):
                                 if partner.vat:
                                     new_dict['cuiP'] = partner._split_vat(
                                         partner.vat)[1]
-                        else:
+                        elif partner_type != '2' and cota_amount != 0:
                             domain = [('invoice_id', 'in', part_invoices.ids)]
                             inv_lines = obj_inv_line.search(domain)
                             filtered_inv_lines = []
@@ -739,58 +740,59 @@ class d394_new_report(models.TransientModel):
                             if oper_type in ('A', 'L', 'C', 'AI'):
                                 new_dict['tva'] = int(round(taxes))
 
-                        codes = inv_lines.mapped('product_id.d394_id')
-                        op11 = []
-                        if (partner_type == '1' and \
-                                oper_type in ('V', 'C')) or \
-                                (partner_type == '2' and oper_type == 'N'):
-                            for code in codes:
-                                new_code = code
-                                if code.parent_id:
-                                    new_code = code.parent_id
-                                cod_lines = []
-                                if partner_type == '1':
-                                    cod_lines = [
-                                        line for line in inv_lines.filtered(
-                                            lambda r:
-                                            r.product_id.d394_id.id == code.id\
-                                            and new_code.name <= '31')
-                                    ]
-                                else:
-                                    cod_lines = [
-                                        line for line in inv_lines.filtered(
-                                            lambda r:
-                                            r.product_id.d394_id.id == code.id)
-                                    ]
-                                if cod_lines:
-                                    nrFact = len(set([
-                                        line.invoice_id.id for line in \
-                                        inv_lines.filtered(lambda r: \
-                                        r.product_id.d394_id.id == code.id)]))
-                                    baza1 = 0
-                                    taxes1 = 0
-                                    for line in inv_lines:
-                                        inv_curr = line.invoice_id.currency_id
-                                        inv_date = line.invoice_id.date_invoice
-                                        baza1 += inv_curr.with_context(
-                                            {'date': inv_date}).compute(
-                                            line.price_subtotal, comp_curr)
-                                        if oper_type == 'C':
-                                            taxes1 += inv_curr.with_context(
+                        if inv_lines:
+                            codes = inv_lines.mapped('product_id.d394_id')
+                            op11 = []
+                            if (partner_type == '1' and \
+                                    oper_type in ('V', 'C')) or \
+                                    (partner_type == '2' and oper_type == 'N'):
+                                for code in codes:
+                                    new_code = code
+                                    if code.parent_id:
+                                        new_code = code.parent_id
+                                    cod_lines = []
+                                    if partner_type == '1':
+                                        cod_lines = [
+                                            line for line in inv_lines.filtered(
+                                                lambda r:
+                                                r.product_id.d394_id.id == code.id\
+                                                and new_code.name <= '31')
+                                        ]
+                                    else:
+                                        cod_lines = [
+                                            line for line in inv_lines.filtered(
+                                                lambda r:
+                                                r.product_id.d394_id.id == code.id)
+                                        ]
+                                    if cod_lines:
+                                        nrFact = len(set([
+                                            line.invoice_id.id for line in \
+                                            inv_lines.filtered(lambda r: \
+                                            r.product_id.d394_id.id == code.id)]))
+                                        baza1 = 0
+                                        taxes1 = 0
+                                        for line in inv_lines:
+                                            inv_curr = line.invoice_id.currency_id
+                                            inv_date = line.invoice_id.date_invoice
+                                            baza1 += inv_curr.with_context(
                                                 {'date': inv_date}).compute(
-                                                line.price_normal_taxes and \
-                                                line.price_normal_taxes or \
-                                                line.price_taxes, comp_curr)
-                                    op11_dict = {
-                                        'codPR': code.name,
-                                        'nrFactPR': nrFact,
-                                        'bazaPR': int(round(baza1))
-                                    }
-                                    if oper_type in ('A', 'L', 'C', 'AI'):
-                                        op11_dict['tvaPR'] = int(round(taxes1))
-                                    op11.append(op11_dict)
-                        new_dict['op11'] = op11
-                        op1.append(new_dict)
+                                                line.price_subtotal, comp_curr)
+                                            if oper_type == 'C':
+                                                taxes1 += inv_curr.with_context(
+                                                    {'date': inv_date}).compute(
+                                                    line.price_normal_taxes and \
+                                                    line.price_normal_taxes or \
+                                                    line.price_taxes, comp_curr)
+                                        op11_dict = {
+                                            'codPR': code.name,
+                                            'nrFactPR': nrFact,
+                                            'bazaPR': int(round(baza1))
+                                        }
+                                        if oper_type in ('A', 'L', 'C', 'AI'):
+                                            op11_dict['tvaPR'] = int(round(taxes1))
+                                        op11.append(op11_dict)
+                            new_dict['op11'] = op11
+                            op1.append(new_dict)
         return op1
 
     @api.multi
@@ -1361,7 +1363,7 @@ class d394_new_report(models.TransientModel):
             elif sequence.sequence_type == 'autoinv1':
                 tip = 3
             else:
-                tip = 4            
+                tip = 4
             inv = invoices.filtered(lambda r: \
                 r.journal_id.sequence_id.id == sequence.id).sorted(
                     key=lambda k: k.inv_number)

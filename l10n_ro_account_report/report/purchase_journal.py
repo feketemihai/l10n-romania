@@ -144,14 +144,25 @@ class purchase_journal(report_sxw.rml_parse):
 
                         if inv1.tax_line:
                             for tax_line in inv1.tax_line:
-                                if ' 0' not in tax_line.name:
+                                if ' 0' not in tax_line.name and 'SCUT' not in tax_line.name.upper():
                                     total_base += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice})
                                     total_vat += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.amount, dp, context={'date': inv1.date_invoice})
-                                elif ' 0' in tax_line.name and inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to:
+                                if ' 0' in tax_line.name and inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to:
                                     vals['base_0'] += currency_obj.compute(
-                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, context={'date': inv1.date_invoice})
+                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice})
+                                if 'scut' in tax_line.name and inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to:
+                                    vals['scutit'] += currency_obj.compute(
+                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
+                                    
+                        for inv_line in inv1.invoice_line:
+                            if not inv_line.invoice_line_tax_id and inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to:
+                                vals['scutit'] += currency_obj.compute(
+                                    self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, inv_line.price_subtotal, dp, context={'date': inv1.date_invoice}) or 0.00
+                                total_base += currency_obj.compute(
+                                    self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, inv_line.price_subtotal, dp, context={'date': inv1.date_invoice})
+                                    
                         vals['base_neex'] = total_base - base_neex
                         vals['tva_neex'] = total_vat - tva_neex
                         if vals['tva_neex'] < 0.01 and vals['tva_neex'] > -0.01:
@@ -160,9 +171,8 @@ class purchase_journal(report_sxw.rml_parse):
                     if inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to and inv1.tax_line:
                         for line in inv1.invoice_line:
                             if not line.invoice_line_tax_id:
-                                if (inv1.partner_id.vat and 'RO' not in inv1.partner_id.vat.upper()) or not inv1.partner_id.vat:
-                                    vals['scutit'] += currency_obj.compute(
-                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, line.price_subtotal, context={'date': inv1.date_invoice}) or 0.00
+                                vals['scutit'] += currency_obj.compute(
+                                    self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, line.price_subtotal, context={'date': inv1.date_invoice}) or 0.00
                     base_24 = base_20 = base_9 = base_5 = base_0 = base_exig = tva_24 = tva_20 = tva_9 = tva_5 = tva_0 = tva_exig = 0.00
                     for tax_line in inv1.tax_line:
                         if not inv1.vat_on_payment:
@@ -224,6 +234,9 @@ class purchase_journal(report_sxw.rml_parse):
                                             self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.amount, context={'date': inv1.date_invoice}) or 0.00
                                     if ' 0' in tax_line.name:
                                         vals['base_0'] += currency_obj.compute(
+                                            self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, context={'date': inv1.date_invoice}) or 0.00
+                                    if 'scut' in tax_line.name:
+                                        vals['scutit'] += currency_obj.compute(
                                             self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, context={'date': inv1.date_invoice}) or 0.00
                                     if (' 24' in tax_line.name) or (' 20' in tax_line.name) or (' 9' in tax_line.name) or (' 5' in tax_line.name):
                                         vals['base_exig'] += currency_obj.compute(
