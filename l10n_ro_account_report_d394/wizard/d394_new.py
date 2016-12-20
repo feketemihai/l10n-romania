@@ -677,7 +677,7 @@ class d394_new_report(models.TransientModel):
                                 if partner.vat:
                                     new_dict['cuiP'] = partner._split_vat(
                                         partner.vat)[1]
-                        elif partner_type != '2' and cota_amount != 0:
+                        elif (' 0' not in cota.name) or (partner_type == '2' and 'SCUT' not in cota.name.upper()):
                             domain = [('invoice_id', 'in', part_invoices.ids)]
                             inv_lines = obj_inv_line.search(domain)
                             filtered_inv_lines = []
