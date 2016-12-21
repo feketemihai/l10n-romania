@@ -677,7 +677,7 @@ class d394_new_report(models.TransientModel):
                                 if partner.vat:
                                     new_dict['cuiP'] = partner._split_vat(
                                         partner.vat)[1]
-                        elif (' 0' not in cota.name) or (partner_type == '2' and 'SCUT' not in cota.name.upper()):
+                        else:
                             domain = [('invoice_id', 'in', part_invoices.ids)]
                             inv_lines = obj_inv_line.search(domain)
                             filtered_inv_lines = []
@@ -689,12 +689,13 @@ class d394_new_report(models.TransientModel):
                                         fp.name) or ('Invers' in \
                                         fp.name)  or (('Scutit' in \
                                         inv.fiscal_position.name) and \
-                                        inv.partner_type in ('1','2'))):
+                                        inv.partner_type == '2')):
                                     tax = inv_line.invoice_line_tax_id
                                     if cota.id in tax.ids:
                                         filtered_inv_lines.append(
                                             inv_line.id)
-                                else:
+                                elif not fp or ('Scutit' not in \
+                                        inv.fiscal_position.name):
                                     inv_type = inv_line.invoice_id.type
                                     if inv_type in ('out_invoice',
                                                     'out_refund'):

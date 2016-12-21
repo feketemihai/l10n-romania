@@ -111,11 +111,16 @@ class purchase_journal(report_sxw.rml_parse):
                     if not inv1.vat_on_payment and not inv1.fiscal_position or (inv1.fiscal_position and ('National' in inv1.fiscal_position.name)):
                         if inv1.tax_line:
                             for tax_line in inv1.tax_line:
-                                if ' 0' not in tax_line.name:
+                                if ' 0' not in tax_line.name or 'SCUTIT' not in tax_line.name :
                                     vals['total_base'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, context={'date': inv1.date_invoice})
                                     vals['total_vat'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.amount, context={'date': inv1.date_invoice})
+                            for line in inv1.invoice_line:
+                                if not line.invoice_line_tax_id:
+                                    vals['base_0'] += currency_obj.compute(
+                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, line.price_subtotal, context={'date': inv1.date_invoice}) or 0.00
+                    
                         else:
                             if inv1.partner_id.vat and 'RO' in inv1.partner_id.vat.upper():
                                 vals['base_0'] += currency_obj.compute(
@@ -168,11 +173,6 @@ class purchase_journal(report_sxw.rml_parse):
                         if vals['tva_neex'] < 0.01 and vals['tva_neex'] > -0.01:
                             vals['base_neex'] = vals['tva_neex'] = 0.00
 
-                    if inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to and inv1.partner_id.vat and 'RO' in inv1.partner_id.vat.upper():
-                        for line in inv1.invoice_line:
-                            if not line.invoice_line_tax_id:
-                                vals['base_0'] += currency_obj.compute(
-                                    self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, line.price_subtotal, context={'date': inv1.date_invoice}) or 0.00
                     base_24 = base_20 = base_9 = base_5 = base_0 = base_exig = tva_24 = tva_20 = tva_9 = tva_5 = tva_0 = tva_exig = 0.00
                     for tax_line in inv1.tax_line:
                         if not inv1.vat_on_payment:
@@ -259,7 +259,10 @@ class purchase_journal(report_sxw.rml_parse):
                                                                                     company.currency_id.id, tax_line.amount, context={'date': inv1.date_invoice}) or 0.00
 
                             if inv1.fiscal_position and ('Scutite' in inv1.fiscal_position.name):
-                                if 'SCUTIT' in tax_line.name.upper():
+                                if inv1.partner_id.vat and 'RO' in inv1.partner_id.vat.upper():
+                                    vals['base_0'] += currency_obj.compute(
+                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, inv1.amount_total, context={'date': inv1.date_invoice}) or 0.00
+                                else:
                                     vals['scutit'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, context={'date': inv1.date_invoice}) or 0.00
 
