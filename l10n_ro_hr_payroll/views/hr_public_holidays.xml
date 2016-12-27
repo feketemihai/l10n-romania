@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="hr_public_holidays_form" model="ir.ui.view">
+            <field name="name">hr.public.holidays.form</field>
+            <field name="model">hr.holidays.public</field>
+            <field name="priority" eval="10"/>
+            <field name="arch" type="xml">
+                <form string="Public Holidays" attrs="{'edit': [('state', 'not in', ('approve','close'))]}">
+                    <header>
+                        <button name="signal_approve" type="workflow" states="draft" string="Approve" class="oe_highlight" />
+                        <button name="signal_decline" type="workflow" states="draft,approve" string="Decline" class="oe_highlight" />
+                        <button name="signal_close" type="workflow" states="approve" string="Close" class="oe_highlight" />
+                        <button string="Reset to Draft" name="set_to_draft" states="decline" type="object" groups="base.group_hr_manager"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,approve,closed" />
+                    </header>
+                    <group colspan="4">
+                        <group col="2">
+                            <field name="category_id"/>
+                            <field name="holiday_status_id"/>
+                        </group>
+                        <group col="2">
+                            <field name="year"/>
+                            <field name="country_id"/>
+                        </group>
+                        <group string="Public Holidays" colspan="4" col="1">
+                            <field name="line_ids" nolabel="1"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

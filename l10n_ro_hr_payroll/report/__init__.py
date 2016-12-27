@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
-#    (http://www.forbiom.eu).
+#     Author:  Adrian Vasile <adrian.vasile@gmail.com>
+#    Copyright (C) 2014 Adrian Vasile
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,28 +19,3 @@
 #
 ##############################################################################
 
-{
-    "name": "Romania - Human Resources",
-    "version": "1.0",
-    "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
-    "website": "http://www.forbiom.eu",
-    "category": "Romania Adaptation",
-    "depends": ['hr', 'hr_contract', 'l10n_ro_config'],
-    "description": """
-Romania  - Human Resources
---------------------------
-
-
-    """,
-
-    "data": [
-        "data/caen.xml",
-            "data/hr_job.xml",
-            "data/insurance_type.xml",
-            "hr_employee_view.xml",
-            "hr_contract_view.xml",
-            "res_company_view.xml",
-            "security/ir.model.access.csv",
-    ],
-    "installable": True
-}

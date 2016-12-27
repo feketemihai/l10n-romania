@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="view_payroll_config_page_payrolltaxes_form" model="ir.ui.view">
+            <field name="name">view.payroll.config.page.payrolltaxes.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="l10n_ro_hr.view_payroll_config_page_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@string='CAEN Configuration']" position="after">
+                    <group colspan="4" string="Company Payroll Taxes">
+                        <field name="payroll_taxes" context="{'company_id': active_id}" nolabel="1"/>
+                    </group>
+                    <group string="Other" colspan="4">
+                        <field name="meal_voucher_value"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_res_company_payrolltaxes_tree" model="ir.ui.view">
+            <field name="name">view.res.company.payrolltaxes.tree</field>
+            <field name="model">res.company.payrolltaxes</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>
