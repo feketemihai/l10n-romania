@@ -141,7 +141,7 @@ class account_voucher(models.Model):
                     line.reconcile_partial_id.unlink()
                     if len(move_lines) >= 2:
                         print "TODO reconcile_partial"
-
+                        #todo: de gasit in 10 functia ecivantenta pt reconcile_partial
                         #move_line_pool.reconcile_partial(cr, uid, move_lines, 'auto', context=context)
                         move_lines.reconcile_partial('auto')
         return super(account_voucher, self).cancel_voucher()

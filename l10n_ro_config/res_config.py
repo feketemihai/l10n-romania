@@ -20,8 +20,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, tools, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, tools, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
 
 import csv
 import os
@@ -101,39 +101,39 @@ class l10n_ro_config_settings(models.TransientModel):
                                                   help='This allows you to set unique partners by company, VAT and NRC.')
     property_undeductible_account_id = fields.Many2one('account.account', related='company_id.property_undeductible_account_id',
                                                        string="Undeductible Account",
-                                                       domain="[('type', '=', 'other'),('company_id','=',company_id)]",
+                                                       domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
                                                        help="This account will be used as the undeductible expense account for account move line.")
     property_undeductible_tax_account_id = fields.Many2one('account.account', related='company_id.property_undeductible_tax_account_id',
                                                        string="Undeductible Tax Account",
-                                                       domain="[('type', '=', 'other'),('company_id','=',company_id)]",
+                                                       domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
                                                        help="This account will be used as the undeductible tax account for account move line.")
     property_stock_picking_payable_account_id = fields.Many2one('account.account', related='company_id.property_stock_picking_payable_account_id',
                                                                 string="Picking Account Payable",
-                                                                domain="[('type', '=', 'payable'),('company_id','=',company_id)]",
+                                                                domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",
                                                                 help="This account will be used as the payable account for the current partner on stock picking notice")
     property_stock_picking_receivable_account_id = fields.Many2one('account.account', related='company_id.property_stock_picking_receivable_account_id',
                                                                    string="Picking Account Receivable",
-                                                                   domain="[('type', '=', 'receivable'),('company_id','=',company_id)]",
+                                                                   domain="[('internal_type', '=', 'receivable'),('company_id','=',company_id)]",
                                                                    help="This account will be used as the receivable account for the current partner on stock picking notice")
     property_stock_usage_giving_account_id = fields.Many2one('account.account', related='company_id.property_stock_usage_giving_account_id',
                                                              string="Usage Giving Account",
-                                                             domain="[('type', '=', 'other'),('company_id','=',company_id)]",
+                                                             domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
                                                              help="This account will be used as the usage giving account in account move line")
     property_stock_picking_custody_account_id = fields.Many2one('account.account', related='company_id.property_stock_picking_custody_account_id',
                                                                 string="Picking Account Custody",
-                                                                domain="[('type', '=', 'payable'),('company_id','=',company_id)]",
+                                                                domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",
                                                                 help="This account will be used as the extra trial balance payable account for the current partner on stock picking received in custody.")
     property_asset_reevaluation_account_id = fields.Many2one('account.account', related='company_id.property_asset_reevaluation_account_id',
                                                              string="Asset Reevaluation Account",
-                                                             domain="[('type', '=', 'other'),('company_id','=',company_id)]",
+                                                             domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
                                                              help="This account will be used as the reevaluation asset account.")
     property_customer_advance_account_id = fields.Many2one('account.account', related='company_id.property_customer_advance_account_id',
                                                            string="Customer Advance Account",
-                                                           domain="[('type', '=', 'receivable'),('company_id','=',company_id)]",
+                                                           domain="[('internal_type', '=', 'receivable'),('company_id','=',company_id)]",
                                                            help="This account will be used as the customer advance account for the current partner on vouchers.")
     property_supplier_advance_account_id = fields.Many2one('account.account', related='company_id.property_supplier_advance_account_id',
                                                            string="Supplier Advance Account",
-                                                           domain="[('type', '=', 'payable'),('company_id','=',company_id)]",
+                                                           domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",
                                                            help="This account will be used as the supplier advance account for the current partner on vouchers.")
     siruta_update = fields.Boolean('Update Siruta Data')
     asset_category_chart_installed = fields.Boolean(

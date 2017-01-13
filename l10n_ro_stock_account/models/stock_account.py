@@ -306,8 +306,8 @@ class stock_move(models.Model):
                 # Change the accounts with the vat one (442700) and
                 # undeductible one defined in company (usualy 635000) to suit
                 # move: 635000 = 442700
-                if move.product_id.taxes_id and move.product_id.taxes_id[0].account_collected_id:
-                    acc_src = move.product_id.taxes_id[0].account_collected_id
+                if move.product_id.taxes_id and move.product_id.taxes_id[0].account_id:
+                    acc_src = move.product_id.taxes_id[0].account_id
                 if move.company_id.property_undeductible_tax_account_id:
                     acc_dest = move.company_id and move.company_id.property_undeductible_tax_account_id
             if move_type == 'reception_diff':
@@ -386,8 +386,11 @@ class stock_move(models.Model):
         debit_line_vals['stock_move_id'] = move.id
         credit_line_vals['stock_move_id'] = move.id
 
-        debit_line_vals['stock_picking_id'] = move.picking_id.id
-        credit_line_vals['stock_picking_id'] = move.picking_id.id
+        if move.picking_id:
+            debit_line_vals['stock_picking_id'] = move.picking_id.id
+            credit_line_vals['stock_picking_id'] = move.picking_id.id
+
+
 
         currency_obj = self.env['res.currency']
 
@@ -415,7 +418,7 @@ class stock_move(models.Model):
                     taxes = move.product_id.taxes_id.compute_all(valuation_amount, product=move.product_id)
 
                 if taxes:
-                    tax = taxes.taxes[0]
+                    tax = taxes['taxes'][0]
                     if context.get('type') in ('reception_diff', 'reception_diff_vat'):
                         # Receptions in location with inventory kept at list
                         # price
@@ -475,8 +478,9 @@ class stock_move(models.Model):
             if move.product_id.taxes_id:
                 taxes = move.product_id.taxes_id.compute_all(valuation_amount, product=move.product_id)
 
+
             if taxes:
-                tax = taxes.taxes[0]
+                tax = taxes['taxes'][0]
                 if context.get('type') == 'inventory_exp':
                     credit_line_vals['tax_code_id'] = tax['id']
                     credit_line_vals['tax_amount'] = valuation_amount
@@ -495,6 +499,7 @@ class stock_move(models.Model):
             valuation_amount = cost
             if move.procurement_id and move.procurement_id.sale_line_id:
                 sale_line = move.procurement_id.sale_line_id
+                # cum sa fie alt produs in livrare
                 if move.product_id.id != sale_line.product_id.id:
                     price_invoice = self.env['product.pricelist'].price_get([sale_line.order_id.pricelist_id.id],
                                                                             move.product_id.id,

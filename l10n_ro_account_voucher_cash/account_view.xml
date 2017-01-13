@@ -8,7 +8,8 @@
 		    <field name="inherit_id" ref="account.view_account_journal_form" />
 		    <field name="arch" type="xml">
 		        <field name="sequence_id" position="after">
-		            <field name="receipts_sequence_id" groups="account.group_account_manager"  attrs="{'required':[('type','in',('cash'))],'invisible':[('type','not in',('cash'))]}"/>
+		            <field name="receipts_sequence_id" groups="account.group_account_manager"
+						   attrs="{'required':[('type','in',('cash'))],'invisible':[('type','not in',('cash'))]}"/>
 		        </field>
 		    </field>
 	    </record>

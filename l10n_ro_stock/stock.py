@@ -28,12 +28,10 @@ class stock_warehouse(models.Model):
     _name = "stock.warehouse"
     _inherit = "stock.warehouse"
 
-
     wh_consume_loc_id = fields.Many2one('stock.location', 'Consume Location')
     wh_usage_loc_id = fields.Many2one('stock.location', 'Usage Giving Location')
     consume_type_id = fields.Many2one('stock.picking.type', 'Consume Type')
     usage_type_id = fields.Many2one('stock.picking.type', 'Usage Giving Type')
-
 
     # Change warehouse methods for create to add the consume and usage giving
     # operations.
@@ -45,7 +43,7 @@ class stock_warehouse(models.Model):
         picking_type_obj = self.env['stock.picking.type']
         # create new sequences
         cons_seq_id = seq_obj.sudo.create({'name': warehouse.name + _(' Sequence consume'),
-                                             'prefix': warehouse.code + '/CONS/', 'padding': 5})
+                                           'prefix': warehouse.code + '/CONS/', 'padding': 5})
         usage_seq_id = seq_obj.sudo.create({'name': warehouse.name + _(' Sequence usage'),
                                             'prefix': warehouse.code + '/USAGE/', 'padding': 5})
 
@@ -64,7 +62,7 @@ class stock_warehouse(models.Model):
         color = 0
         # put flashy colors first
         available_colors = [c % 9 for c in range(3, 12)]
-        all_used_colors = self.env['stock.picking.type'].search_read( [(
+        all_used_colors = self.env['stock.picking.type'].search_read([(
             'warehouse_id', '!=', False), ('color', '!=', False)], ['color'], order='color')
         # don't use sets to preserve the list order
         for x in all_used_colors:
@@ -98,19 +96,18 @@ class stock_warehouse(models.Model):
         warehouse.write(vals)
         return super(stock_warehouse, self).create_sequences_and_picking_types()
 
-
     @api.model
     def create(self, vals):
 
         location_obj = self.env['stock.location']
         # create all location
-        cons_location_id = location_obj.create( {
+        cons_location_id = location_obj.create({
             'name': 'Consume',
             'usage': 'consume',
             'active': True,
         })
         vals['wh_consume_loc_id'] = cons_location_id
-        usage_location_id = location_obj.create( {
+        usage_location_id = location_obj.create({
             'name': 'Usage Giving',
             'usage': 'usage_giving',
             'active': True,
@@ -118,15 +115,13 @@ class stock_warehouse(models.Model):
         vals['wh_usage_loc_id'] = usage_location_id.id
         warehouse = super(stock_warehouse, self).create(vals)
 
-
-        locons_location_idcation_obj.write( {'location_id': warehouse.view_location_id.id})
-        usage_location_id.write( { 'location_id': warehouse.view_location_id.id})
-        return new_id
+        cons_location_id.write({'location_id': warehouse.view_location_id.id})
+        usage_location_id.write({'location_id': warehouse.view_location_id.id})
+        return warehouse
 
 
 class stock_move(models.Model):
     _name = "stock.move"
     _inherit = "stock.move"
 
-    picking_type_code = fields.Selection(related='picking_type_id.code',  string='Picking Type Code')
-
+    picking_type_code = fields.Selection(related='picking_type_id.code', string='Picking Type Code')

@@ -1,6 +1,6 @@
 <openerp>
 	<data>
-		
+		<!-- Nu mai este in 10 :(
 		<record model="ir.ui.view" id="view_vendor_receipt_dialog_form">
             <field name="name">account.voucher.receipt.dialog.form</field>
             <field name="model">account.voucher</field>
@@ -17,5 +17,6 @@
 				</data>
             </field>
         </record>
+        -->
 	</data>
 </openerp>
