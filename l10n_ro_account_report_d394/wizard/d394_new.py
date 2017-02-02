@@ -515,6 +515,7 @@ class d394_new_report(models.TransientModel):
                     partners = cota_inv.mapped('partner_id.id')
                     #[invoice.partner_id for invoice in cota_inv]
                     for partner in obj_partner.browse(partners):
+                        new_oper_type = oper_type
                         part_invoices = cota_inv.filtered(
                             lambda r: r.partner_id.id == partner.id)
                         cota_amount = 0
@@ -525,9 +526,11 @@ class d394_new_report(models.TransientModel):
                                 cota_amount = int(cota.amount * 100)
                         elif cota.type == 'amount':
                             cota_amount = int(cota.amount)
+                        if new_oper_type == 'A' and 'Ti-ach' in cota.description:
+                            new_oper_type = 'C'
                         inv_lines = []
                         if partner_type == '2':
-                            if oper_type == 'N':
+                            if new_oper_type == 'N':
                                 doc_types = [
                                     inv.origin_type for inv in part_invoices]
                                 for doc_type in doc_types:
@@ -571,7 +574,7 @@ class d394_new_report(models.TransientModel):
                                             line.price_subtotal, comp_curr)
                                     taxes = 0
                                     new_dict = {
-                                        'tip': oper_type,
+                                        'tip': new_oper_type,
                                         'tip_partener': partner_type,
                                         'cota': cota_amount,
                                         'denP': partner.name.replace(
@@ -625,7 +628,7 @@ class d394_new_report(models.TransientModel):
                                         line.price_normal_taxes or \
                                         line.price_taxes, comp_curr)
                                 new_dict = {
-                                    'tip': oper_type,
+                                    'tip': new_oper_type,
                                     'tip_partener': partner_type,
                                     'cota': cota_amount,
                                     'denP': partner.name.replace(
@@ -712,13 +715,13 @@ class d394_new_report(models.TransientModel):
                                 baza += inv_curr.with_context(
                                     {'date': inv_date}).compute(
                                     line.price_subtotal, comp_curr)
-                                if line.invoice_id.operation_type in \
+                                if new_oper_type in \
                                         ('L', 'A', 'AI'):
                                     taxes += inv_curr.with_context(
                                         {'date': inv_date}).compute(
                                         line.price_taxes, comp_curr)
-                                if (line.invoice_id.operation_type == 'C') or \
-                                   ((line.invoice_id.operation_type == 'L') and \
+                                if (new_oper_type == 'C') or \
+                                   ((new_oper_type == 'L') and \
                                     (line.invoice_id.partner_type in ('3', '4'))):
                                     taxes += inv_curr.with_context(
                                         {'date': inv_date}).compute(
@@ -727,7 +730,7 @@ class d394_new_report(models.TransientModel):
                                         line.price_taxes, comp_curr)
 
                             new_dict = {
-                                'tip': oper_type,
+                                'tip': new_oper_type,
                                 'tip_partener': partner_type,
                                 'cota': cota_amount,
                                 'cuiP': partner.vat and \
@@ -745,8 +748,8 @@ class d394_new_report(models.TransientModel):
                             codes = inv_lines.mapped('product_id.d394_id')
                             op11 = []
                             if (partner_type == '1' and \
-                                    oper_type in ('V', 'C')) or \
-                                    (partner_type == '2' and oper_type == 'N'):
+                                    new_oper_type in ('V', 'C')) or \
+                                    (partner_type == '2' and new_oper_type == 'N'):
                                 for code in codes:
                                     new_code = code
                                     if code.parent_id:
@@ -1239,6 +1242,19 @@ class d394_new_report(models.TransientModel):
                     x['tip_op2'] == 'I2')))
                 rezumat2['tva_incasari_i2'] = int(round(sum(
                     x['TVA9'] for x in op2 if \
+                    x['tip_op2'] == 'I2')))
+            if cota_amount == 19:
+                rezumat2['baza_incasari_i1'] = int(round(sum(
+                    x['baza19'] for x in op2 if \
+                    x['tip_op2'] == 'I1')))
+                rezumat2['tva_incasari_i1'] = int(round(sum(
+                    x['TVA19'] for x in op2 if \
+                    x['tip_op2'] == 'I1')))
+                rezumat2['baza_incasari_i2'] = int(round(sum(
+                    x['baza19'] for x in op2 if \
+                    x['tip_op2'] == 'I2')))
+                rezumat2['tva_incasari_i2'] = int(round(sum(
+                    x['TVA19'] for x in op2 if \
                     x['tip_op2'] == 'I2')))
             if cota_amount == 20:
                 rezumat2['baza_incasari_i1'] = int(round(sum(
@@ -1869,4 +1885,4 @@ xmlns="mfp:anaf:dgti:d394:declaratie:v3" """
             'type': 'ir.actions.act_window',
             'target': 'new',
             'res_id': self.id,
-        }
+}
