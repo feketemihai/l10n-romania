@@ -164,7 +164,7 @@ class res_partner(models.Model):
                                 if res.status_code == 200:
                                     res = res.json()
                         if res['found'] and res['found'][0]:
-                                        datas = res['found'][0]                            
+                            datas = res['found'][0]                            
                         if res['notfound'] and res['notfound'][0]:
                             datas = res['notfound'][0]
                             if datas['data_sfarsit'] and datas['data_sfarsit'] != ' ':
@@ -178,11 +178,11 @@ class res_partner(models.Model):
                                         datas = res['found'][0]
                                     if res['notfound'] and res['notfound'][0]:
                                         datas = res['notfound'][0]                            
-                            self.write({
-                                'name': datas['denumire'].upper(),
-                                'street': datas['adresa'].title(),
-                                'vat_subjected': bool(datas['tva'])
-                            })                    
+                        self.write({
+                            'name': datas['denumire'].upper(),
+                            'street': datas['adresa'].title(),
+                            'vat_subjected': bool(datas['tva'])
+                        })                    
             else:
                 try:
                     result = check_vies(part.vat)
