@@ -55,9 +55,9 @@ def getMfinante(cod):
     result = dict()
     for tr in table.iterchildren():
         key = ' '.join([x.strip() for x in tr.getchildren()[
-                       0].text_content().split('\n') if x.strip() != ''])
+            0].text_content().split('\n') if x.strip() != ''])
         val = ' '.join([x.strip() for x in tr.getchildren()[
-                       1].text_content().split('\n') if x.strip() != ''])
+            1].text_content().split('\n') if x.strip() != ''])
         result[key] = val.encode('utf8').translate(CEDILLATRANS).decode('utf8')
     return result
 
@@ -69,6 +69,42 @@ class res_partner(models.Model):
     name = fields.Char('Name', required=True, select=True, default=' ')
     vat_subjected = fields.Boolean()
 
+    @api.one
+    @api.constrains('is_company', 'vat', 'parent_id', 'company_id')
+    def check_vat_unique(self):
+        if not self.vat:
+            return True
+
+        if not self.is_company:
+            return True
+
+        # get first parent
+        parent = self
+        while parent.parent_id:
+            parent = parent.parent_id
+
+        same_vat_partners = self.search([
+            ('is_company', '=', True),
+            ('vat', '=', self.vat),
+            ('vat', '!=', False),
+            ('company_id', '=', self.company_id.id),
+        ])
+
+        if same_vat_partners:
+            related_partners = self.search([
+                ('id', 'child_of', parent.id),
+                ('company_id', '=', self.company_id.id),
+            ])
+            same_vat_partners = self.search([
+                ('id', 'in', same_vat_partners.ids),
+                ('id', 'not in', related_partners.ids),
+                ('company_id', '=', self.company_id.id),
+            ])
+            if same_vat_partners:
+                raise Warning(
+                    _('Partner vat must be unique per company except on partner with parent/childe relationship. ' +
+                      'Partners with same vat and not related, are: %s!') % (
+                        ', '.join(x.name for x in same_vat_partners)))
 
     @api.one
     def button_get_partner_data(self):
@@ -76,19 +112,21 @@ class res_partner(models.Model):
             return bool(len(part.name.strip()) > 2 and
                         part.name.strip().upper()[:2] == 'RO' and
                         part.name.strip()[2:].isdigit())
+
         part = self[0]
 
         vat = part.vat
         if vat:
-            self.write({'vat': part.vat.upper().replace(" ","")})
-        elif part.name and len(part.name.strip())>2 and part.name.strip().upper()[:2]=='RO' and part.name.strip()[2:].isdigit():
-            self.write( {'vat': part.name.upper().replace(" ","")})
+            self.write({'vat': part.vat.upper().replace(" ", "")})
+        elif part.name and len(part.name.strip()) > 2 and part.name.strip().upper()[:2] == 'RO' and part.name.strip()[
+                                                                                                    2:].isdigit():
+            self.write({'vat': part.name.upper().replace(" ", "")})
         if not part.vat and part.name:
             try:
-                vat_country, vat_number = self._split_vat(part.name.upper().replace(" ",""))
+                vat_country, vat_number = self._split_vat(part.name.upper().replace(" ", ""))
                 valid = self.vies_vat_check(vat_country, vat_number)
                 if valid:
-                    self.write( {'vat': part.name.upper().replace(" ","")})
+                    self.write({'vat': part.name.upper().replace(" ", "")})
             except:
                 raise Warning(_("No VAT number found"))
 
@@ -124,8 +162,7 @@ class res_partner(models.Model):
                         if jud.lower().startswith('municip'):
                             jud = ' '.join(jud.split(' ')[1:])
                         if jud != '':
-                            state = self.env['res.country.state'].search(
-                                [('name', 'ilike', jud)])
+                            state = self.env['res.country.state'].search([('name', 'ilike', jud)])
                             if state:
                                 state = state[0].id
                     if 'Telefon:' in result.keys():
@@ -146,27 +183,53 @@ class res_partner(models.Model):
                         'state_id': state,
                     })
                 except:
-                    res = requests.get(
-                        'http://openapi.ro/api/companies/%s.json' % vat_number)
-                    if res.status_code == 200:
-                        res = res.json()
-                        state = False
-                        if res['state']:
-                            state = self.env['res.country.state'].search(
-                                [('name', '=', res['state'].title())])
-                            if state:
-                                state = state[0].id
-                        self.write({
-                            'name': res['name'].upper(),
-                            'nrc': res['registration_id'] and res['registration_id'].upper() or '',
-                            'street': res['address'].title(),
-                            'city': res['city'].title(),
-                            'phone': res['phone'] and res['phone'] or '',
-                            'fax': res['fax'] and res['fax'] or '',
-                            'zip': res['zip'] and res['zip'] or '',
-                            'vat_subjected': bool(res['vat'] == '1'),
-                            'state_id': state,
-                        })
+                    openapi_key = self.env['ir.config_parameter'].get_param(key="openapi_key", default=False)
+                    if openapi_key:
+                        headers = {
+                            "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
+                            "Content-Type": "application/json;",
+                            'x-api-key': openapi_key
+                        }
+                        res = requests.get('https://api.openapi.ro/api/companies/%s' % vat_number,
+                                           headers=headers)
+                        if res.status_code == 200:
+                            res = res.json()
+                            state = False
+                            if res['judet']:
+                                state = self.env['res.country.state'].search([('name', '=', res['judet'].title())])
+                                if state:
+                                    state = state[0].id
+                            self.write({
+                                'name': res['denumire'],
+                                'nrc': res['numar_reg_com'] or '',
+                                'street': res['adresa'].title(),
+
+                                'phone': res['telefon'] and res['telefon'] or '',
+                                'fax': res['fax'] and res['fax'] or '',
+                                'zip': res['cod_postal'] and res['cod_postal'] or '',
+                                'vat_subjected': bool(res['tva']),
+                                'state_id': state,
+                            })
+                    else:
+                        res = requests.get('http://legacy.openapi.ro/api/companies/%s.json' % vat_number)
+                        if res.status_code == 200:
+                            res = res.json()
+                            state = False
+                            if res['state']:
+                                state = self.env['res.country.state'].search([('name', '=', res['state'].title())])
+                                if state:
+                                    state = state[0].id
+                            self.write({
+                                'name': res['name'],
+                                'nrc': res['registration_id'] and res['registration_id'].upper() or '',
+                                'street': res['address'].title(),
+                                'city': res['city'].title(),
+                                'phone': res['phone'] and res['phone'] or '',
+                                'fax': res['fax'] and res['fax'] or '',
+                                'zip': res['zip'] and res['zip'] or '',
+                                'vat_subjected': bool(res['vat'] == '1'),
+                                'state_id': state,
+                            })
             else:
                 try:
                     result = check_vies(part.vat)
@@ -174,11 +237,11 @@ class res_partner(models.Model):
                         self.write({
                             'name': unicode(result.name).upper(),
                             'is_company': True,
-                            'vat_subjected':  True
+                            'vat_subjected': True
                         })
                     if (not part.street and
                             result.address and
-                            result.address != '---'):
+                                result.address != '---'):
                         self.write({
                             'street': unicode(result.address).title()
                         })
