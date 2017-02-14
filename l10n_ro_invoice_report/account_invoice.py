@@ -85,6 +85,7 @@ class account_invoice_line(models.Model):
 
     price_unit_without_taxes = fields.Float(
         string='Unit Price without taxes',
+        digits= dp.get_precision('Product Price'),
         store=True, readonly=True, compute='_compute_price')
     price_taxes = fields.Float(
         string='Taxes', digits=dp.get_precision('Account'),

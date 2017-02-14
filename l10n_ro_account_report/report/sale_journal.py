@@ -459,6 +459,49 @@ class sale_journal(report_sxw.rml_parse):
                                                                                     company.currency_id.id, tax_line.amount, context={'date': inv1.date_invoice}) or 0.00
                         vals1['total'] = vals1['base_col']
                         inv.append(vals1)
+                    elif not inv1.fiscal_position and not inv1.vat_on_payment and 'RO' in inv1.partner_id.vat.upper(): 
+                        vals1 = {}
+                        vals1['type'] = 'out_invoice'
+                        vals1['total_base'] = vals1['base_neex'] = vals1['base_exig'] = vals1['base_ded1'] = vals1[
+                            'base_ded2'] = vals1['base_24'] = vals1['base_20'] = vals1['base_19'] = vals1['base_9'] = vals1['base_5'] = vals1['base_0'] = 0.00
+                        vals1['total_vat'] = vals1['tva_neex'] = vals1['tva_24'] = vals1['tva_20'] = vals1['tva_19'] = vals1['tva_9'] = vals1[
+                            'tva_5'] = vals1['tva_exig'] = vals1['tva_bun'] = vals1['tva_serv'] = 0.00
+                        vals1['base_col'] = vals1['tva_col'] = 0.00
+                        vals1['invers'] = vals1['neimp'] = vals1[
+                            'others'] = vals1['scutit1'] = vals1['scutit2'] = 0.00
+                        vals1['payments'] = []
+                        vals1['vat_on_payment'] = '0'
+                        pay = {}
+                        pay['amount'] = pay['base_exig'] = pay[
+                            'tva_exig'] = 0.00
+                        pay['base_24'] = pay['base_20'] = pay['base_19'] = pay['base_9'] = pay['base_5'] = 0.00
+                        pay['tva_24'] = pay['tva_20'] = pay['tva_19'] = pay['tva_9'] = pay['tva_5'] = 0.00
+                        pay['number'] = ''
+                        pay['date'] = ''
+                        vals1['payments'].append(pay)
+                        vals1[
+                            'number'] = inv1.supplier_invoice_number or inv1.origin
+                        vals1['date'] = inv1.date_invoice
+                        vals1['partner'] = inv1.partner_id.name
+                        vals1['vat'] = ''
+                        if inv1.partner_id.vat:
+                            if inv1.partner_id.vat_subjected:
+                                vals1['vat'] = inv1.partner_id.vat
+                            else:
+                                vals1['vat'] = inv1.partner_id.vat[2:]
+                        vals1['total'] = 0.00
+                        vals1['total_base'] = 0.00
+                        vals1['total_vat'] = 0.00
+                        vals1['base_col'] = vals1['tva_col'] = 0.00
+                        for tax_line in inv1.tax_line:
+                            if 'Ti-ach-c' in tax_line.name:
+                                vals1['base_col'] += currency_obj.compute(
+                                    self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, context={'date': inv1.date_invoice}) or 0.00
+                                vals1['tva_col'] += (-1) * currency_obj.compute(self.cr, self.uid, inv1.currency_id.id,
+                                                                                company.currency_id.id, tax_line.amount, context={'date': inv1.date_invoice}) or 0.00
+                        vals1['total'] = vals1['base_col'] 
+                        if vals1['base_col'] != 0.00:
+                            inv.append(vals1)                              
 
         lines = [inv1 for inv1 in inv if inv1['type']
                  in ['out_invoice', 'out_refund']]
