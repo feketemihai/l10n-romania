@@ -45,10 +45,11 @@ Funftionalitati
     "data": [
         'views/invoice_report.xml',
         'views/voucher_report.xml',
+        'views/payment_report.xml',
         'company_view.xml',
         'account_invoice_view.xml',
         'account_voucher_report.xml',
-        'res_partner_view.xml',
+        # 'res_partner_view.xml',
     ],
     "active": False,
     "installable": True,

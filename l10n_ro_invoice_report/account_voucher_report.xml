@@ -8,5 +8,13 @@
             report_type="qweb-pdf"
             name="l10n_ro_invoice_report.report_voucher" 
             file="l10n_ro_invoice_report.report_voucher"    />
+
+        <report
+            string="Payment"
+            id="action_report_payment"
+            model="account.payment"
+            report_type="qweb-pdf"
+            name="l10n_ro_invoice_report.report_payment"
+            file="l10n_ro_invoice_report.report_payment"    />
     </data>
 </openerp>
