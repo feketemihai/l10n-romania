@@ -66,7 +66,7 @@ class res_partner(models.Model):
     _name = "res.partner"
     _inherit = "res.partner"
 
-    name = fields.Char('Name', required=True, select=True, default=' ')
+    name = fields.Char('Name', required=True, index=True, default=' ')
     vat_subjected = fields.Boolean()
 
     @api.one

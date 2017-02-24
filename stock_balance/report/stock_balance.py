@@ -30,7 +30,7 @@ class stock_balance(models.Model):
     _auto = False
 
     date = fields.Datetime('Date', readonly=True)
-    location_id = fields.Many2one('stock.location', 'Location', readonly=True, select=True)
+    location_id = fields.Many2one('stock.location', 'Location', readonly=True, index=True)
     categ_id = fields.Many2one('product.category', 'Category', readonly=True)
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
     product_uom = fields.Many2one('product.uom', 'Unit of Measure', required=True)

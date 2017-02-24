@@ -54,19 +54,23 @@ class account_invoice_line(models.Model):
                  'product_id', 'invoice_id.partner_id',
                  'invoice_id.currency_id')
     def _compute_price(self):
+
+        super(account_invoice_line, self)._compute_price()
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
 
-        currency = self.invoice_id.currency_id
+        currency = self.invoice_id and self.invoice_id.currency_id or None
 
-        taxes = self.invoice_line_tax_ids.compute_all(price, currency=currency,
-                                                     quantity=self.quantity,
-                                                     product=self.product_id,
-                                                     partner=self.invoice_id.partner_id)
-        self.price_subtotal = taxes['total_excluded']
-        self.price_taxes = taxes['total_included'] - taxes['total_excluded']
-        taxes_unit = self.invoice_line_tax_ids.compute_all(price, currency=currency,
-                                                          quantity=1, product=self.product_id,
+        taxes = False
+        if self.invoice_line_tax_ids:
+            taxes = self.invoice_line_tax_ids.compute_all(price, currency, self.quantity, product=self.product_id,
                                                           partner=self.invoice_id.partner_id)
+        if taxes:
+            self.price_subtotal = taxes['total_excluded']
+            self.price_taxes = taxes['total_included'] - taxes['total_excluded']
+
+        taxes_unit = self.invoice_line_tax_ids.compute_all(price, currency=currency,
+                                                           quantity=1, product=self.product_id,
+                                                           partner=self.invoice_id.partner_id)
         self.price_unit_without_taxes = taxes_unit['total_excluded']
         # Compute normal taxes in case of Customer Invoices to have the value
         # in Inverse Taxation

@@ -91,7 +91,7 @@ class stock_location(models.Model):
                        \n* In Custody: Virtual location for products received in custody
                        \n* Usage Giving: Virtual location for products given in usage
                        \n* In Custody: Virtual location for products consumed beside production.
-                      """, select=True)
+                      """, index=True)
 
     merchandise_type = fields.Selection([("store", "Store"), ("warehouse", "Warehouse")], string="Merchandise type",
                                         default="warehouse")
