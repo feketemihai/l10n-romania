@@ -26,6 +26,7 @@ import time
 
 from string import maketrans
 import requests
+import json
 from urllib2 import Request, urlopen
 from stdnum.eu.vat import check_vies
 from lxml import html
