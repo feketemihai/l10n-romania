@@ -26,6 +26,7 @@ import time
 
 from string import maketrans
 import requests
+from urllib2 import Request, urlopen
 from stdnum.eu.vat import check_vies
 from lxml import html
 
@@ -190,9 +191,14 @@ class res_partner(models.Model):
                             "Content-Type": "application/json;",
                             'x-api-key': openapi_key
                         }
-                        res = requests.get('https://api.openapi.ro/api/companies/%s' % vat_number,
-                                           headers=headers)
-                        if res.status_code == 200:
+                        #res = requests.get('https://api.openapi.ro/api/companies/%s' % vat_number,
+                         #                  headers=headers)
+                        request = Request('https://api.openapi.ro/api/companies/%s' % vat_number, headers=headers)
+                        response = urlopen(request)
+                        status_code = response.getcode()
+                        #if res.status_code == 200:
+                        if status_code == 200:
+                            res = response.read()
                             res = res.json()
                             state = False
                             if res['judet']:
