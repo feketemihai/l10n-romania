@@ -198,8 +198,8 @@ class res_partner(models.Model):
                         status_code = response.getcode()
                         #if res.status_code == 200:
                         if status_code == 200:
-                            res = response.read()
                             #res = res.json()
+                            res = json.loads(response.read())
                             state = False
                             if res['judet']:
                                 state = self.env['res.country.state'].search([('name', '=', res['judet'].title())])
