@@ -20,7 +20,23 @@
 ##############################################################################
 
 
-from openerp import models, fields, api
+from odoo import models, fields, api
+
+
+class res_currency(models.Model):
+    _inherit = 'res.currency'
+
+    rate_inv = fields.Float( string='Inverse Rate',   compute="_compute_rate_inv", digits=(12, 4) )
+
+
+    @api.one
+    @api.depends('rate')
+    def _compute_rate_inv(self):
+        if self.rate != 0:
+            self.rate_inv = 1 / self.rate
+        else:
+            self.rate_inv = 0
+
 
 
 class res_currency_rate(models.Model):

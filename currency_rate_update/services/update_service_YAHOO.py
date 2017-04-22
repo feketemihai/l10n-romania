@@ -1,41 +1,42 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (c) 2009 CamptoCamp. All rights reserved.
-#    @author Nicolas Bessi
-#
-#    Abstract class to fetch rates from Yahoo Financial
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2009 Camptocamp
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from .currency_getter_interface import Currency_getter_interface
+from .currency_getter_interface import CurrencyGetterInterface
 
 
-class YAHOO_getter(Currency_getter_interface):
-
+class YAHOOGetter(CurrencyGetterInterface):
     """Implementation of Currency_getter_factory interface
     for Yahoo finance service
     """
+    code = 'YAHOO'
+    name = 'Yahoo Finance'
+
+    supported_currency_array = [
+        "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN",
+        "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL",
+        "BSD", "BTN", "BWP", "BYR", "BZD", "CAD", "CDF", "CHF", "CLF", "CLP",
+        "CNH", "CNY", "COP", "CRC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP",
+        "DZD", "EGP", "ERN", "ETB", "EUR", "FJD", "FKP", "GBP", "GEL", "GHS",
+        "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF",
+        "IDR", "IEP", "ILS", "INR", "IQD", "IRR", "ISK", "JMD", "JOD", "JPY",
+        "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK",
+        "LBP", "LKR", "LRD", "LSL", "LTL", "LVL", "LYD", "MAD", "MDL", "MGA",
+        "MKD", "MMK", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MXV",
+        "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB",
+        "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB",
+        "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS",
+        "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP",
+        "TRY", "TTD", "TWD", "TZS", "UAH", "UGX", "USD", "UYU", "UZS", "VEF",
+        "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XCP", "XDR", "XOF",
+        "XPD", "XPF", "XPT", "YER", "ZAR", "ZMW", "ZWL"]
 
     def get_updated_currency(self, currency_array, main_currency,
                              max_delta_days):
         """implementation of abstract method of curreny_getter_interface"""
         self.validate_cur(main_currency)
         url = ('http://download.finance.yahoo.com/d/'
-               'quotes.txt?s="%s"=X&f=sl1c1abg')
+               'quotes.csv?s=%s=X&f=sl1c1abg')
         if main_currency in currency_array:
             currency_array.remove(main_currency)
         for curr in currency_array:
@@ -47,4 +48,4 @@ class YAHOO_getter(Currency_getter_interface):
             else:
                 raise Exception('Could not update the %s' % (curr))
 
-        return self.updated_currency, self.log_info, False
+        return self.updated_currency, self.log_info

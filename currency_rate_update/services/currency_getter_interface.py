@@ -1,35 +1,17 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (c) 2009 CamptoCamp. All rights reserved.
-#    @author Nicolas Bessi
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2008-2016 Camptocamp
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
 
 from datetime import datetime
-from openerp import fields
-from openerp.exceptions import except_orm
+from odoo import fields, _
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
 
 class AbstractClassError(Exception):
-
     def __str__(self):
         return 'Abstract Class'
 
@@ -38,7 +20,6 @@ class AbstractClassError(Exception):
 
 
 class AbstractMethodError(Exception):
-
     def __str__(self):
         return 'Abstract Method'
 
@@ -47,7 +28,6 @@ class AbstractMethodError(Exception):
 
 
 class UnknowClassError(Exception):
-
     def __str__(self):
         return 'Unknown Class'
 
@@ -56,7 +36,6 @@ class UnknowClassError(Exception):
 
 
 class UnsuportedCurrencyError(Exception):
-
     def __init__(self, value):
         self.curr = value
 
@@ -67,9 +46,55 @@ class UnsuportedCurrencyError(Exception):
         return 'Unsupported currency %s' % self.curr
 
 
-class Currency_getter_interface(object):
+class CurrencyGetterType(type):
+    """ Meta class for currency getters.
+        Automaticaly registers new curency getter on class definition
+    """
+    getters = {}
 
-    "Abstract class of currency getter"
+    def __new__(mcs, name, bases, attrs):
+        cls = super(CurrencyGetterType, mcs).__new__(mcs, name, bases, attrs)
+        if getattr(cls, 'code', None):
+            mcs.getters[cls.code] = cls
+        return cls
+
+    @classmethod
+    def get(mcs, code, *args, **kwargs):
+        """ Get getter by code
+        """
+        return mcs.getters[code](*args, **kwargs)
+
+
+class CurrencyGetterInterface(object):
+    """ Abstract class of currency getter
+
+        To create new getter, just subclass this class
+        and define class variables 'code' and 'name'
+        and implement *get_updated_currency* method
+
+        For example::
+
+            from odoo.addons.currency_rate_update \
+                import CurrencyGetterInterface
+
+            class MySuperCurrencyGetter(CurrencyGetterInterface):
+                code = "MSCG"
+                name = "My Currency Rates"
+                supported_currency_array = ['USD', 'EUR']
+
+                def get_updated_currency(self, currency_array, main_currency,
+                                         max_delta_days):
+                    # your code that fills self.updated_currency
+
+                    # and return result
+                    return self.updated_currency, self.log_info
+
+    """
+    __metaclass__ = CurrencyGetterType
+
+    # attributes required for currency getters
+    code = None  # code for service selection
+    name = None  # displayed name
 
     log_info = " "
 
@@ -97,7 +122,8 @@ class Currency_getter_interface(object):
     # Updated currency this arry will contain the final result
     updated_currency = {}
 
-    def get_updated_currency(self, currency_array, main_currency,  max_delta_days):
+    def get_updated_currency(self, currency_array, main_currency,
+                             max_delta_days):
         """Interface method that will retrieve the currency
            This function has to be reinplemented in child
         """
@@ -117,9 +143,11 @@ class Currency_getter_interface(object):
             objfile.close()
             return rawfile
         except ImportError:
-            raise except_orm('Error !', self.service + 'Unable to import urllib !' )
+            raise UserError(
+                _('Unable to import urllib.'))
         except IOError:
-            raise except_orm(  'Error !', self.service + 'Web Service does not exist !'   )
+            raise UserError(
+                _('Web Service does not exist (%s)!') % url)
 
     def check_rate_date(self, rate_date, max_delta_days):
         """Check date constrains. rate_date must be of datetime type"""
@@ -128,19 +156,19 @@ class Currency_getter_interface(object):
             raise Exception(
                 'The rate timestamp %s is %d days away from today, '
                 'which is over the limit (%d days). '
-                'Rate not updated in Odoo.' % (rate_date,  days_delta,  max_delta_days)
+                'Rate not updated in Odoo.' % (rate_date,
+                                               days_delta,
+                                               max_delta_days)
             )
 
         # We always have a warning when rate_date != today
         if rate_date.date() != datetime.today().date():
             rate_date_str = fields.Date.to_string(rate_date)
-            msg = "The rate timestamp %s is not today's date %s" %   (rate_date_str, fields.Date.today())
+            msg = "The rate timestamp %s is not today's date %s" % \
+                (rate_date_str, fields.Date.today())
             self.log_info = ("\n WARNING : %s") % msg
             _logger.warning(msg)
 
 
-    def get_updated_all_year(self, currency_array, main_currency):
-        """Interface method that will retrieve the currency
-           This function has to be reinplemented in child
-        """
-        raise AbstractMethodError
+    def run_update_all_year(self):
+        pass

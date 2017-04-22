@@ -1,39 +1,28 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (c) 2009 CamptoCamp. All rights reserved.
-#    @author Nicolas Bessi
-#
-#    Abstract class to fetch rates from European Central Bank
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-from .currency_getter_interface import Currency_getter_interface
+# © 2009 Camptocamp
+# © 2009 Grzegorz Grzelak
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from .currency_getter_interface import CurrencyGetterInterface
 
 from datetime import datetime
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from lxml import etree
 
 import logging
 _logger = logging.getLogger(__name__)
 
 
-class ECB_getter(Currency_getter_interface):
-
+class ECBGetter(CurrencyGetterInterface):
     """Implementation of Currency_getter_factory interface
     for ECB service
     """
+    code = 'ECB'
+    name = 'European Central Bank'
+    supported_currency_array = [
+        "AUD", "BGN", "BRL", "CAD", "CHF", "CNY", "CZK", "DKK", "EUR", "GBP",
+        "HKD", "HRK", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "LTL", "MXN",
+        "MYR", "NOK", "NZD", "PHP", "PLN", "RON", "RUB", "SEK", "SGD", "THB",
+        "TRY", "USD", "ZAR"]
 
     def rate_retrieve(self, dom, ns, curr):
         """Parse a dom node to retrieve-
@@ -60,8 +49,6 @@ class ECB_getter(Currency_getter_interface):
         # We do not want to update the main currency
         if main_currency in currency_array:
             currency_array.remove(main_currency)
-        # Move to new XML lib cf Launchpad bug #645263
-        from lxml import etree
         _logger.debug("ECB currency rate service : connecting...")
         rawfile = self.get_url(url)
         dom = etree.fromstring(rawfile)
@@ -72,8 +59,9 @@ class ECB_getter(Currency_getter_interface):
         }
         rate_date = dom.xpath('/gesmes:Envelope/def:Cube/def:Cube/@time',
                               namespaces=ecb_ns)[0]
-        rate_date_datetime = datetime.strptime(rate_date,
-                                               DEFAULT_SERVER_DATE_FORMAT)
+        # Don't use DEFAULT_SERVER_DATE_FORMAT here, because it's
+        # the format of the XML of ECB, not the format of Odoo server !
+        rate_date_datetime = datetime.strptime(rate_date, '%Y-%m-%d')
         self.check_rate_date(rate_date_datetime, max_delta_days)
         # We dynamically update supported currencies
         self.supported_currency_array = dom.xpath(
@@ -101,4 +89,4 @@ class ECB_getter(Currency_getter_interface):
             _logger.debug(
                 "Rate retrieved : 1 %s = %s %s" % (main_currency, rate, curr)
             )
-        return self.updated_currency, self.log_info,rate_date_datetime
+        return self.updated_currency, self.log_info

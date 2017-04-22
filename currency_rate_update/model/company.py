@@ -1,30 +1,20 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Copyright (c) 2009 CamptoCamp. All rights reserved.
-#    @author Nicolas Bessi
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2009-2016 Camptocamp
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api
 
 
 class res_company(models.Model):
+    _inherit = "res.company"
 
-    """override company to add currency update"""
+    # Activate the currency update
+    auto_currency_up = fields.Boolean(
+        string='Automatic Currency Rates Download', default=True,
+        help="Automatic download of currency rates for this company")
+
+
+    """
 
     @api.multi
     def _compute_multi_curr_enable(self):
@@ -36,16 +26,9 @@ class res_company(models.Model):
 
     @api.one
     def button_refresh_currency(self):
-        """Refresh the currencies rates !!for all companies now"""
         self.services_to_use.refresh_currency()
 
-    _inherit = "res.company"
-    _name = "res.company"
 
-    # Activate the currency update
-    auto_currency_up = fields.Boolean(
-        string='Automatic Update',
-        help="Automatical update of the currencies for this company")
     # Function field that allows to know the
     # multi company currency implementation
     multi_company_currency_enable = fields.Boolean(
@@ -59,3 +42,6 @@ class res_company(models.Model):
                 'currency.rate.update.service',
                 'company_id',
                 string='Currency update services')
+
+
+    """

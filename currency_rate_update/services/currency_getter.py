@@ -85,3 +85,7 @@ class Currency_getter_factory():
             return class_def()
         else:
             raise UnknowClassError
+
+
+    def run_update_all_year(self):
+        pass
