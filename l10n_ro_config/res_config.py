@@ -39,8 +39,8 @@ class l10n_ro_config_settings(models.TransientModel):
                                                  help='This allows you to manage partners compensation on accounts marked to be reconciled.')
     module_account_storno = fields.Boolean('Storno Accounting',
                                            help='This allows you to manage the storno behaviour in accounting.')
-    module_account_vat_on_payment = fields.Boolean('Vat on Payment Accounting',
-                                                   help='This allows you to manage the vat on payment behaviour in accounting.')
+    #module_account_vat_on_payment = fields.Boolean('Vat on Payment Accounting',
+    #                                               help='This allows you to manage the vat on payment behaviour in accounting.')
     module_currency_rate_update = fields.Boolean('Currency Rate Update',
                                                  help='This allows you to manage the update of currency rate based on different provider, use BNR site.')
     module_l10n_ro_account_bank_statement = fields.Boolean('Bank Statement Invoices',
@@ -99,6 +99,7 @@ class l10n_ro_config_settings(models.TransientModel):
                                                   'European partners will be create based on VIES Website Datas (for countries that allow). \n')
     module_l10n_ro_partner_unique = fields.Boolean('Partners unique by Company, VAT, NRC',
                                                   help='This allows you to set unique partners by company, VAT and NRC.')
+    """
     property_undeductible_account_id = fields.Many2one('account.account', related='company_id.property_undeductible_account_id',
                                                        string="Undeductible Account",
                                                        domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
@@ -107,6 +108,7 @@ class l10n_ro_config_settings(models.TransientModel):
                                                        string="Undeductible Tax Account",
                                                        domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
                                                        help="This account will be used as the undeductible tax account for account move line.")
+    """
     property_stock_picking_payable_account_id = fields.Many2one('account.account', related='company_id.property_stock_picking_payable_account_id',
                                                                 string="Picking Account Payable",
                                                                 domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",
@@ -182,8 +184,8 @@ class l10n_ro_config_settings(models.TransientModel):
             os.path.dirname(os.path.abspath(__file__)), 'data')
         account_obj = self.env['account.account']
         # Load VAT on Payment Configuration
-        installed = self.env['ir.module.module'].search(
-            [('name', '=', 'account_vat_on_payment'), ('state', '=', 'installed')])
+        """
+        installed = self.env['ir.module.module'].search(  [('name', '=', 'account_vat_on_payment'), ('state', '=', 'installed')])
         if installed:
             tax_code_names = ('TVA 5%', 'TVA 9%', 'TVA 19%', 'TVA 20%', 'TVA 24%',
                               'Baza TVA 5%', 'Baza TVA 9%', 'Baza TVA 19%', 'Baza TVA 20%', 'Baza TVA 24%')
@@ -210,11 +212,10 @@ class l10n_ro_config_settings(models.TransientModel):
                                         0].id
                             else:
                                 if 'colectat' in tax_code.code:
-                                    tax_code.uneligible_tax_code_id = unnelig_vat_colect_tax_code[
-                                        0].id
+                                    tax_code.uneligible_tax_code_id = unnelig_vat_colect_tax_code[ 0].id
                                 else:
-                                    tax_code.uneligible_tax_code_id = unnelig_vat_deduct_tax_code[
-                                        0].id
+                                    tax_code.uneligible_tax_code_id = unnelig_vat_deduct_tax_code[ 0].id
+
             unnelig_colect_account = account_obj.search(
                 [('company_id', '=', self.company_id.id), ('code', 'ilike', '442810')])
             colect_account = account_obj.search(
@@ -223,17 +224,18 @@ class l10n_ro_config_settings(models.TransientModel):
                 [('company_id', '=', self.company_id.id), ('code', 'ilike', '442820')])
             deduct_account = account_obj.search(
                 [('company_id', '=', self.company_id.id), ('code', 'ilike', '442600')])
+
             if unnelig_colect_account and colect_account:
                 if not colect_account[0].uneligible_account_id:
-                    colect_account[
-                        0].uneligible_account_id = unnelig_colect_account[0].id
+                    colect_account[0].uneligible_account_id = unnelig_colect_account[0].id
             if unnelig_deduct_account and deduct_account:
                 if not deduct_account[0].uneligible_account_id:
-                    deduct_account[
-                        0].uneligible_account_id = unnelig_deduct_account[0].id
+                    deduct_account[ 0].uneligible_account_id = unnelig_deduct_account[0].id
+        """
+        #-------------
         # Load Undeductible VAT Configuration
-        installed = self.env['ir.module.module'].search(
-            [('name', '=', 'l10n_ro_invoice_line_not_deductible'), ('state', '=', 'installed')])
+        installed = self.env['ir.module.module'].search(  [('name', '=', 'l10n_ro_invoice_line_not_deductible'),
+                                                           ('state', '=', 'installed')])
         if installed:
             tax_names = ('TVA deductibil 5%', 'TVA deductibil 9%',
                          'TVA deductibil 19%','TVA deductibil 20%',
@@ -248,6 +250,7 @@ class l10n_ro_config_settings(models.TransientModel):
                             [('company_id', '=', self.company_id.id), ('name', 'ilike', tax.name.replace('deductibil', 'colectat'))])
                         if not_deduct_tax:
                             tax.not_deductible_tax_id = not_deduct_tax[0].id
+
         # Load Chart of Asset Category
         installed = self.env['ir.module.module'].search(
             [('name', '=', 'l10n_ro_asset'), ('state', '=', 'installed')])

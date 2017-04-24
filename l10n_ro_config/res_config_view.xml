@@ -31,10 +31,12 @@
 								<field name="module_account_storno" class="oe_inline"/>
 								<label for="module_account_storno"/>
 							</div>
+							<!--
 							<div>
 								<field name="module_account_vat_on_payment" class="oe_inline"/>
 								<label for="module_account_vat_on_payment"/>
 							</div>
+							-->
 							<div>
 								<field name="module_account_compensation" class="oe_inline"/>
 								<label for="module_account_compensation"/>

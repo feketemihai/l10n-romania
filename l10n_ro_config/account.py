@@ -20,8 +20,10 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 
+"""
+se gesesc in modulul standard account_tax_cash_basis
 
 class account_account(models.Model):
     _name = "account.account"
@@ -41,3 +43,7 @@ class account_tax(models.Model):
 
     uneligible_tax_code_id = fields.Many2one('account.tax', 'Uneligible Tax Code (VAT on payment)',
                                          help='Related tax code used for real registrations on a VAT on payment basis. Set the shadow tax code here')
+
+
+
+"""

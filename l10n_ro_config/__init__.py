@@ -21,5 +21,5 @@
 ##############################################################################
 
 import res_company
-import account
+#import account
 import res_config
