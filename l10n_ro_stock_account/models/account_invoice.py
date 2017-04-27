@@ -13,5 +13,11 @@ class AccountInvoice(models.Model):
         if line.product_id.purchase_method == 'receive':
             #data['account_id'] = line.company_id.property_stock_picking_receivable_account_id.id or data['account_id']
             data['account_id'] = line.company_id.property_stock_picking_payable_account_id.id or data['account_id']
+        else:
+            if line.product_id.type == 'product':
+                data['account_id'] = line.product_id.property_stock_account_input or \
+                                     line.product_id.categ_id.property_stock_account_input_categ_id or \
+                                     data['account_id']
+
         return data
 

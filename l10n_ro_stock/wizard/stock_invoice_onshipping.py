@@ -26,6 +26,7 @@ class stock_invoice_onshipping(models.TransientModel):
 
     _inherit = "stock.invoice.onshipping"
 
+    # modtoda aceasta nu mai este apelata in 10
     def _get_invoice_date(self, cr, uid, context=None):
         if context is None:
             context = {}
@@ -35,7 +36,8 @@ class stock_invoice_onshipping(models.TransientModel):
         vals = []
         pick = pickings and pickings[0]
         return pick.date
-    
+
+    invoice_date = fields.Date('Invoice Date', default=_get_invoice_date)
     
     # metoda asta o fi buna pentru stornarea in rosu !
     """
@@ -67,7 +69,7 @@ class stock_invoice_onshipping(models.TransientModel):
         return journal_type
     """
     
-    invoice_date = fields.Date('Invoice Date', default=_get_invoice_date)
+
 
 
 

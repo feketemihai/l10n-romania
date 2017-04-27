@@ -31,7 +31,7 @@ JOURNAL_TYPE_MAP = {
     ('incoming', 'transit'): ['purchase', 'sale_refund'],
 }
 
-
+#frumos in 10 nu mai exita!!!
 class stock_invoice_onshipping(models.TransientModel):
     _inherit = "stock.invoice.onshipping"
 

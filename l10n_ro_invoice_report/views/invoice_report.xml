@@ -135,7 +135,7 @@
                             <span t-field="o.number"/>
                         </t>
                         <t t-if="not o.number">
-                            <span t-field="o.internal_number"/>
+                            <span t-field="o.move_name"/>
                         </t>
                         <span>/</span>
                         <span t-field="o.date_invoice"/>

@@ -99,7 +99,7 @@ class l10n_ro_config_settings(models.TransientModel):
                                                   'European partners will be create based on VIES Website Datas (for countries that allow). \n')
     module_l10n_ro_partner_unique = fields.Boolean('Partners unique by Company, VAT, NRC',
                                                   help='This allows you to set unique partners by company, VAT and NRC.')
-    """
+
     property_undeductible_account_id = fields.Many2one('account.account', related='company_id.property_undeductible_account_id',
                                                        string="Undeductible Account",
                                                        domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
@@ -108,7 +108,7 @@ class l10n_ro_config_settings(models.TransientModel):
                                                        string="Undeductible Tax Account",
                                                        domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
                                                        help="This account will be used as the undeductible tax account for account move line.")
-    """
+
     property_stock_picking_payable_account_id = fields.Many2one('account.account', related='company_id.property_stock_picking_payable_account_id',
                                                                 string="Picking Account Payable",
                                                                 domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",

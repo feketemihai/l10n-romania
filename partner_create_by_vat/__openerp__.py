@@ -30,6 +30,8 @@
 Partner create by VAT
 ---------------------
 Fetches Partner data from openapi/mfinante or VIES
+
+Pentru preluare date partener de pe OpenAPI.ro trebuie adaugata cheia in 'openapi_key' din parametrii sistemului
     """,
 
     'data': ['res_partner_view.xml',

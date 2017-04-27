@@ -21,7 +21,6 @@
 ##############################################################################
 
 from odoo import api, fields, models, _
-from odoo import SUPERUSER_ID
 
 
 class stock_warehouse(models.Model):
@@ -62,8 +61,8 @@ class stock_warehouse(models.Model):
         color = 0
         # put flashy colors first
         available_colors = [c % 9 for c in range(3, 12)]
-        all_used_colors = self.env['stock.picking.type'].search_read([(
-            'warehouse_id', '!=', False), ('color', '!=', False)], ['color'], order='color')
+        all_used_colors = self.env['stock.picking.type'].search_read([('warehouse_id', '!=', False),
+                                                                      ('color', '!=', False)], ['color'], order='color')
         # don't use sets to preserve the list order
         for x in all_used_colors:
             if x['color'] in available_colors:

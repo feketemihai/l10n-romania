@@ -21,29 +21,31 @@
 ##############################################################################
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 
-
+"""
 class product_category(models.Model):
     _name = "product.category"
     _inherit = "product.category"
 
+
+    # exista acest camp standard in modulul purchase
     property_account_creditor_price_difference_categ_id = fields.Many2one('account.account',
                                                                           string="Price Difference Account",
                                                                           help="This account will be used to value price difference between purchase price and cost price.",
                                                                           company_dependent=True)
-
+"""
 
 class ProductTemplate(models.Model):
     _name = "product.template"
     _inherit = "product.template"
 
-    property_account_creditor_price_difference_id = fields.Many2one('account.account',
-                                                                    string="Price Difference Account",
-                                                                    help="This account will be used to value price difference between purchase price and cost price.",
-                                                                    company_dependent=True)
+    #property_account_creditor_price_difference_id = fields.Many2one('account.account',
+    #                                                                string="Price Difference Account",
+    #                                                                help="This account will be used to value price difference between purchase price and cost price.",
+    #                                                                company_dependent=True)
 
     # ok
+    # nu cred ca mai este nevoie de codul urmator !
     @api.multi
     def get_product_accounts(self, fiscal_pos=None):
         """ Add the stock journal related to product to the result of super()
@@ -125,6 +127,10 @@ class stock_move(models.Model):
 
     acc_move_id = fields.Many2one('account.move', string='Account move', copy=False)
     acc_move_line_ids = fields.One2many('account.move.line', 'stock_move_id', string='Account move lines')
+
+
+
+
 
     @api.onchange('date')
     def onchange_date(self):
@@ -223,7 +229,6 @@ class stock_move(models.Model):
         return res
     '''
 
-
     # metoda rescrisa
     @api.multi
     def _get_accounting_data_for_valuation(self):
@@ -314,11 +319,12 @@ class stock_move(models.Model):
                 # Receptions in location with inventory kept at list price
                 # Change the accounts with the price difference one (3x8) to
                 # suit move: 3xx = 3x8
-                acc_src = move.product_id.property_account_creditor_price_difference_id
+                acc_src = move.product_id.property_account_creditor_price_difference
                 if not acc_src:
-                    acc_src = move.product_id.categ_id.property_account_creditor_price_difference_categ_id
+                    acc_src = move.product_id.categ_id.property_account_creditor_price_difference_categ
                 if move.location_dest_id.property_account_creditor_price_difference_location_id:
                     acc_src = move.location_dest_id.property_account_creditor_price_difference_location_id
+            """
             if move_type == 'reception_diff_vat':
                 # Receptions in location with inventory kept at list price
                 # Change the accounts with the uneligible vat one (442810) to
@@ -328,15 +334,17 @@ class stock_move(models.Model):
                     acc_src = move.product_id.taxes_id[0].account_collected_id.uneligible_account_id
                 else:
                     acc_src = False
+            """
             if move_type == 'delivery_diff':
                 # Deliveries from location with inventory kept at list price
                 # Change the accounts with the price difference one (3x8) to
                 # suit move: 3x8 = 3xx
-                acc_dest = move.product_id.property_account_creditor_price_difference_id
+                acc_dest = move.product_id.property_account_creditor_price_difference
                 if not acc_dest:
-                    acc_dest = move.product_id.categ_id.property_account_creditor_price_difference_categ_id
+                    acc_dest = move.product_id.categ_id.property_account_creditor_price_difference_categ
                 if move.location_dest_id.property_account_creditor_price_difference_location_id:
                     acc_dest = move.location_dest_id.property_account_creditor_price_difference_location_id
+            """
             if move_type == 'delivery_diff_vat':
                 # Deliveries from location with inventory kept at list price
                 # Change the accounts with the uneligible vat one (442810) to
@@ -346,6 +354,7 @@ class stock_move(models.Model):
                     acc_dest = move.product_id.taxes_id[0].account_collected_id.uneligible_account_id
                 else:
                     acc_dest = False
+            """
 
         # If it is a notice, check if picking type is incoming or outgoing and
         # replace the stock accounts with the payable / receivable notice
@@ -390,16 +399,14 @@ class stock_move(models.Model):
             debit_line_vals['stock_picking_id'] = move.picking_id.id
             credit_line_vals['stock_picking_id'] = move.picking_id.id
 
-
-
         currency_obj = self.env['res.currency']
 
         # Calculate VAT base and amount for price differences and associate it
         # to account move lines
         context = self.env.context
 
-        if context.get('type', False) and context.get('type') in ( 'reception_diff', 'reception_diff_vat',
-                                                                   'delivery_diff', 'delivery_diff_vat'):
+        if context.get('type', False) and context.get('type') in ('reception_diff', 'reception_diff_vat',
+                                                                  'delivery_diff', 'delivery_diff_vat'):
             if context.get('force_valuation_amount'):
                 valuation_amount = context.get('force_valuation_amount')
             else:
@@ -477,7 +484,6 @@ class stock_move(models.Model):
             taxes = []
             if move.product_id.taxes_id:
                 taxes = move.product_id.taxes_id.compute_all(valuation_amount, product=move.product_id)
-
 
             if taxes:
                 tax = taxes['taxes'][0]
@@ -583,15 +589,15 @@ class stock_quant(models.Model):
                 ctx['force_company'] = company_from.id
 
         # Put notice in context if the picking is a notice
-        #ctx['notice'] = move.picking_id and move.picking_id.notice
+        # ctx['notice'] = move.picking_id and move.picking_id.notice
 
         ctx['notice'] = False
 
-        if (move.location_id.usage == 'internal' and move.location_dest_id.usage == 'supplier') or  \
+        if (move.location_id.usage == 'internal' and move.location_dest_id.usage == 'supplier') or \
                 (move.location_id.usage == 'supplier' and move.location_dest_id.usage == 'internal'):
             ctx['notice'] = move.product_id.purchase_method == 'receive'
 
-        if (move.location_id.usage == 'internal' and move.location_dest_id.usage == 'customer') or  \
+        if (move.location_id.usage == 'internal' and move.location_dest_id.usage == 'customer') or \
                 (move.location_id.usage == 'customer' and move.location_dest_id.usage == 'internal'):
             ctx['notice'] = move.product_id.invoice_policy == 'delivery'
 
@@ -619,7 +625,8 @@ class stock_quant(models.Model):
                         self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
             # Create moves for outgoing from stock
             if (move.location_dest_id.usage != 'internal' or
-                    ( move.location_dest_id.usage == 'internal' and move.location_dest_id.merchandise_type != 'store')) and \
+                    (
+                            move.location_dest_id.usage == 'internal' and move.location_dest_id.merchandise_type != 'store')) and \
                     (move.location_id.usage == 'internal' and move.location_id.merchandise_type == 'store'):
                 ctx['type'] = 'delivery_diff'
                 move = move.with_context(ctx)
@@ -634,7 +641,7 @@ class stock_quant(models.Model):
                     self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
 
         # Create account moves for deliveries with notice (e.g. 418 = 707)
-        if ctx['notice']and move.location_id.usage == 'internal' and move.location_dest_id.usage == 'customer':
+        if ctx['notice'] and move.location_id.usage == 'internal' and move.location_dest_id.usage == 'customer':
             ctx['type'] = 'delivery_notice'
             move = move.with_context(ctx)
             journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
@@ -729,7 +736,8 @@ class stock_picking(models.Model):
     _inherit = 'stock.picking'
 
     acc_move_line_ids = fields.One2many('account.move.line', 'stock_picking_id', string='Generated accounting lines')
-    #notice = fields.Boolean('Is a notice', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]},
+
+    # notice = fields.Boolean('Is a notice', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]},
     #                        default=False)
 
     @api.multi
@@ -786,6 +794,7 @@ class stock_picking(models.Model):
         self.write({'notice': False})
         return res
     '''
+
 
 class stock_inventory(models.Model):
     _name = "stock.inventory"
