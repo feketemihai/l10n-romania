@@ -23,10 +23,10 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
-from openerp.tools import float_compare
-from openerp.tools.translate import _
-import openerp.addons.decimal_precision as dp
+from odoo.osv import fields, osv
+from odoo.tools import float_compare
+from odoo.tools.translate import _
+import odoo.addons.decimal_precision as dp
 
 
 class account_account(osv.Model):

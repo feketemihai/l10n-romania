@@ -22,4 +22,6 @@
 
 import account_report_account_balance
 import account_report_sale_purchase_journal
-import d394
+import account_report_partner_statement
+import account_report_common
+ 

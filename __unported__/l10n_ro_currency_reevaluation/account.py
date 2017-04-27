@@ -22,9 +22,9 @@
 import itertools
 from lxml import etree
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
 
 
 class account_account(models.Model):
@@ -37,7 +37,7 @@ class account_move_line(models.Model):
 
     currency_reevaluation = fields.Boolean("Currency reevaluation")
 
-from openerp.osv import osv, fields
+from odoo.osv import osv, fields
 
 class account_move_line(osv.Model):
     _inherit = "account.move.line"

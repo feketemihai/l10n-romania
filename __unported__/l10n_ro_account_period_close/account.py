@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 
 
 class account_move(models.Model):
@@ -62,7 +62,7 @@ class account_period_closing(models.Model):
         if self.type and self.type in ('income', 'expense'):
             user_types = self.env['account.account.type'].search( [('code', '=', self.type)])
             self.account_ids = self.env['account.account'].search([
-                ('user_type', 'in', [x.id for x in user_types]),
+                ('user_type_id', 'in', [x.id for x in user_types]),
                 ('type', '!=', 'view'),
                 ('company_id', '=', self.company_id.id)
             ])

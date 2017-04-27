@@ -28,14 +28,14 @@ from zipfile import ZipFile
 from StringIO import StringIO
 import requests
 
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from odoo import models, fields, api, _
+from odoo.exceptions import Warning
 
 import logging
 #Get the logger
 _logger = logging.getLogger(__name__)
 
-from openerp.api import Environment
+from odoo.api import Environment
 import threading
 
 ANAF_URL = 'http://static.anaf.ro/static/10/Anaf/TVA_incasare/ultim_%s.zip'

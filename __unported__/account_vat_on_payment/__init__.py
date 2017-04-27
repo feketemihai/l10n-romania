@@ -20,8 +20,6 @@
 #
 ##############################################################################
 
-import res_partner
-import company
-import account
-import account_invoice
+
+
 import account_voucher

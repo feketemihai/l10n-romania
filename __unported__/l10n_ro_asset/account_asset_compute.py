@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from odoo.osv import osv, fields
 
 import time
 import datetime

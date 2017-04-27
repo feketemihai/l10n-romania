@@ -24,10 +24,10 @@
 ##############################################################################
 
 import time
-from openerp.osv import fields, osv
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
+from odoo.osv import fields, osv
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
 
 
 class account_invoice(models.Model):
@@ -67,7 +67,7 @@ class account_invoice(models.Model):
             invoice.write(
                 {'type': self._journal_invoice_type_dict()[invoice.journal_id.type]})
             if invoice.journal_id.posting_policy == 'storno':
-                for inv_line in invoice.invoice_line:
+                for inv_line in invoice.invoice_line_ids:
                     inv_line.write({'quantity': inv_line.quantity * (-1)})
                 for tax_line in invoice.tax_line:
                     if tax_line.manual or True:

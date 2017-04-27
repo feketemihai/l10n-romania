@@ -20,20 +20,24 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
-# from openerp.tools import float_compare
-from openerp.tools.translate import _
-import openerp.addons.decimal_precision as dp
+from odoo import api, fields, models, _
+
+# from odoo.tools import float_compare
+from odoo.tools.translate import _
+import odoo.addons.decimal_precision as dp
 
 
-class account_voucher(osv.Model):
+class account_voucher(models.Model):
     _inherit = "account.voucher"
 
-    _columns = {
-        'line_total': fields.float('Lines Total', digits_compute=dp.get_precision('Account'), readonly=True),
-    }
 
-    def is_vat_on_payment(self, voucher):
+    line_total = fields.Float(string='Lines Total', digits=dp.get_precision('Account'), readonly=True)
+
+
+    @api.multi
+    def is_vat_on_payment(self):
+        self.ensure_one()
+        voucher = self
         vat_on_p = 0
         valid_lines = 0
         if voucher.type in ('payment', 'receipt'):
@@ -44,9 +48,9 @@ class account_voucher(osv.Model):
                         vat_on_p += 1
         return vat_on_p
 
-    def action_move_line_create(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
+    @api.multi
+    def action_move_line_create(self):
+
         inv_pool = self.pool.get('account.invoice')
         journal_pool = self.pool.get('account.journal')
         move_line_pool = self.pool.get('account.move.line')
@@ -55,25 +59,21 @@ class account_voucher(osv.Model):
         tax_obj = self.pool.get('account.tax')
         currency_obj = self.pool.get('res.currency')
         res = False
-        for voucher in self.browse(cr, uid, ids, context):
+        for voucher in self:
             entry_posted = voucher.journal_id.entry_posted
             # disable the 'skip draft state' option because "mixed" entry
             # (shadow + real) won't pass validation. Anyway every entry will be
             # posted later (if 'entry_posted' is enabled)
             if entry_posted:
-                journal_pool.write(
-                    cr, uid, voucher.journal_id.id, {'entry_posted': False})
-            res = super(account_voucher, self).action_move_line_create(
-                cr, uid, [voucher.id], context)
+                voucher.journal_id.write( {'entry_posted': False})
+            res = super(account_voucher, voucher).action_move_line_create()
             # because 'move_id' has been updated by 'action_move_line_create'
             voucher.refresh()
             if entry_posted:
-                journal_pool.write(
-                    cr, uid, voucher.journal_id.id, {'entry_posted': True})
+                voucher.journal_id.write(  {'entry_posted': True})
             if self.is_vat_on_payment(voucher):
                 lines_to_create = []
-                amounts_by_invoice = self.allocated_amounts_grouped_by_invoice(
-                    cr, uid, voucher, context)
+                amounts_by_invoice = voucher.allocated_amounts_grouped_by_invoice()
                 for inv_id in amounts_by_invoice:
                     invoice = inv_pool.browse(cr, uid, inv_id, context)
                     for acc_move_line in invoice.move_id.line_id:
@@ -118,19 +118,18 @@ class account_voucher(osv.Model):
             move_pool.post(cr, uid, [voucher.move_id.id], context=context)
         return res
 
-    def balance_move(self, cr, uid, move_id, context=None):
-        currency_obj = self.pool.get('res.currency')
-        move = self.pool.get('account.move').browse(cr, uid, move_id, context)
+    @api.model
+    def balance_move(self, move_id):
+        currency_obj = self.env['res.currency']
+        move = self.env['account.move'].browse(  move_id )
         amount = 0.0
         for line in move.line_id:
             amount += line.debit - line.credit
-        amount = currency_obj.round(
-            cr, uid, move.company_id.currency_id, amount)
+        amount = currency_obj.round( cr, uid, move.company_id.currency_id, amount)
         # check if balance differs for more than 1 decimal according to account
         # decimal precision
         if abs(amount * 10 ** dp.get_precision('Account')(cr)[1]) > 1:
-            raise osv.except_osv(_('Error'), _(
-                'The generated payment entry is unbalanced for more than 1 decimal'))
+            raise osv.except_osv(_('Error'), _( 'The generated payment entry is unbalanced for more than 1 decimal'))
         if not currency_obj.is_zero(cr, uid, move.company_id.currency_id, amount):
             for line in move.line_id:
                 # adjust the first move line that's not receivable, payable or
@@ -151,9 +150,9 @@ class account_voucher(osv.Model):
                     break
         return amount
 
-    def voucher_move_line_create(self, cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=None):
-        res = super(account_voucher, self).voucher_move_line_create(
-            cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context)
+    @api.model
+    def voucher_move_line_create(self,  voucher_id, line_total, move_id, company_currency, current_currency ):
+        res = super(account_voucher, self).voucher_move_line_create( voucher_id, line_total, move_id, company_currency, current_currency )
         self.write(cr, uid, voucher_id, {'line_total': res[0]}, context)
         return res
 
@@ -165,7 +164,10 @@ class account_voucher(osv.Model):
                 res += inv_move_line.debit or inv_move_line.credit
         return res
 
-    def allocated_amounts_grouped_by_invoice(self, cr, uid, voucher, context=None):
+
+
+    @api.multi
+    def allocated_amounts_grouped_by_invoice(self):
         '''
 
         this method builds a dictionary in the following form
@@ -189,11 +191,11 @@ class account_voucher(osv.Model):
         If more than one invoice is paid with this voucher, we distribute write-off equally (if allowed)
 
         '''
+        self.ensure_one()
+        voucher = self
         res = {}
-        company_currency = super(account_voucher, self)._get_company_currency(
-            cr, uid, voucher.id, context)
-        current_currency = super(account_voucher, self)._get_current_currency(
-            cr, uid, voucher.id, context)
+        company_currency = super(account_voucher, self)._get_company_currency( voucher.id )
+        current_currency = super(account_voucher, self)._get_current_currency( voucher.id )
         for line in voucher.line_ids:
             if line.amount and line.move_line_id and line.move_line_id.invoice:
                 if line.move_line_id.invoice.id not in res:
@@ -203,10 +205,7 @@ class account_voucher(osv.Model):
                         'write-off': 0.0, }
                 current_amount = line.amount
                 if company_currency != current_currency:
-                    current_amount = super(account_voucher, self)._convert_amount(
-                        cr, uid, line.amount, voucher.id, context)
-                res[line.move_line_id.invoice.id][
-                    'allocated'] += current_amount
-                res[line.move_line_id.invoice.id][
-                    'total'] = self.get_invoice_total(line.move_line_id.invoice)
+                    current_amount = super(account_voucher, self)._convert_amount( line.amount, voucher.id )
+                res[line.move_line_id.invoice.id][ 'allocated'] += current_amount
+                res[line.move_line_id.invoice.id][  'total'] = self.get_invoice_total(line.move_line_id.invoice)
         return res

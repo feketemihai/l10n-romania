@@ -32,9 +32,9 @@
     'depends': ['base', 'account'],
     'data': [
             'security/ir.model.access.csv',
-        'security/account_security.xml',
-        'account_period_close_view.xml',
-        'wizard/account_period_closing.xml',
+            'security/account_security.xml',
+            'account_period_close_view.xml',
+            'wizard/account_period_closing.xml',
     ],
     'installable': True,
 }

@@ -24,8 +24,8 @@ import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
 
 
 class account_asset_asset(models.Model):
@@ -54,7 +54,7 @@ class account_asset_asset(models.Model):
                 _('You cannot have a service asset without a link to the supplier invoice line.'))
 
 
-from openerp.osv import osv, fields
+from odoo.osv import osv, fields
 
 
 class stock_move(osv.osv):

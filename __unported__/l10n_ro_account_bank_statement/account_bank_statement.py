@@ -21,9 +21,9 @@
 ##############################################################################
 
 
-from openerp.osv import osv
-from openerp.tools import float_is_zero
-from openerp.tools.translate import _
+from odoo.osv import osv
+from odoo.tools import float_is_zero
+from odoo.tools.translate import _
 
 from datetime import datetime
 

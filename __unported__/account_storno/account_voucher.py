@@ -23,10 +23,10 @@
 #
 ##############################################################################
 import time
-from openerp.osv import fields, osv, orm
-from openerp.tools.translate import _
+from odoo.osv import fields, osv, orm
+from odoo.tools.translate import _
 
-import openerp.addons.decimal_precision as dp
+import odoo.addons.decimal_precision as dp
 
 
 class account_voucher(osv.Model):

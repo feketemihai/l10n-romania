@@ -21,7 +21,7 @@
 
 import time
 
-from openerp.osv import fields, osv
+from odoo.osv import fields, osv
 
 
 class account_statement_from_invoice_lines(osv.osv_memory):

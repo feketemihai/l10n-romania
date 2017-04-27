@@ -24,9 +24,9 @@
 import itertools
 from lxml import etree
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
 
 
 class account_invoice(models.Model):
@@ -83,7 +83,7 @@ class account_invoice_line(models.Model):
         currency = inv.currency_id.with_context(date=inv.date_invoice)
         company_currency = inv.company_id.currency_id
 
-        for line in inv.invoice_line:
+        for line in inv.invoice_line_ids:
             if line.not_deductible:
                 mres = self.move_line_get_item(line)
                 mres['invl_id'] = line.id

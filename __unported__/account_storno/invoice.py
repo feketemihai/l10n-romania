@@ -27,9 +27,9 @@
 import itertools
 from lxml import etree
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
 
 
 class account_invoice(models.Model):
@@ -96,7 +96,7 @@ class account_invoice(models.Model):
         
     @api.one
     @api.depends(
-        'state', 'currency_id', 'invoice_line.price_subtotal',
+        'state', 'currency_id', 'invoice_line_ids.price_subtotal',
         'move_id.line_id.account_id.type',
         'move_id.line_id.amount_residual',
         # Fixes the fact that move_id.line_id.amount_residual, being not stored and old API, doesn't trigger recomputation

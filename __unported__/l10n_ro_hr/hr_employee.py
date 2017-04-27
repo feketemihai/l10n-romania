@@ -20,8 +20,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-from openerp.exceptions import ValidationError
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 from stdnum.ro.cnp import get_birth_date, is_valid as validate_cnp
 from datetime import timedelta, date
 
@@ -83,14 +83,14 @@ class hr_employee_related(models.Model):
     _name = 'hr.employee.related'
     _description = "Employee person in care or are coinsured"
 
-    @api.one
+
     @api.onchange('ssnid')
     @api.constrains('ssnid')
     def _validate_ssnid(self):
         if self.ssnid and not validate_cnp(self.ssnid):
             raise ValidationError('Invalid SSN number')
 
-    @api.one
+
     @api.depends('name')
     def _first_name(self):
         try:
@@ -162,7 +162,7 @@ class hr_employee(models.Model):
         except:
             self.first_name = ''
 
-    @api.one
+
     @api.onchange('ssnid')
     @api.constrains('ssnid')
     def _ssnid_birthday_gender(self):

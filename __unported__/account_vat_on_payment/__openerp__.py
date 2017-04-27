@@ -44,9 +44,9 @@
     'website': 'http://www.agilebg.com',
     'data': [
         # 'vat_on_payment.xml',
-        'company_view.xml',
-        'res_partner_view.xml',
-        'account_view.xml',
+        'views/company_view.xml',
+        'views/res_partner_view.xml',
+        'views/account_view.xml',
     ],
     'test': [],  # TODO YAML tests
     'installable': True,

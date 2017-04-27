@@ -24,11 +24,11 @@
 import time
 from lxml import etree
 
-from openerp.osv import fields, osv
-import openerp.addons.decimal_precision as dp
-from openerp.tools.translate import _
-from openerp.tools import float_compare
-import openerp
+from odoo.osv import fields, osv
+import odoo.addons.decimal_precision as dp
+from odoo.tools.translate import _
+from odoo.tools import float_compare
+import odoo
 
 
 class account_compensation(osv.osv):

@@ -22,8 +22,8 @@
 
 import base64
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+from odoo.osv import fields, osv
+from odoo.tools.translate import _
 
 
 class d394_report(osv.osv_memory):
@@ -229,7 +229,7 @@ class d394_report(osv.osv_memory):
                                                          inv.date_invoice}
                                                 ) or 0.00
 
-                            for line in inv.invoice_line:
+                            for line in inv.invoice_line_ids:
                                 tvainv += currency_obj.compute(
                                               cr, uid,
                                               inv.currency_id.id,
@@ -284,7 +284,7 @@ class d394_report(osv.osv_memory):
                         if inv.partner_id.id == cui[key]:
                             if inv.fiscal_position and ('Taxare Inversa' in
                                inv.fiscal_position.name):
-                                for line in inv.invoice_line:
+                                for line in inv.invoice_line_ids:
                                     if line.product_id.d394_id:
                                         code = line.product_id.d394_id.id
                                         if code in codes:
@@ -465,7 +465,7 @@ class d394_report(osv.osv_memory):
                         if inv.partner_id.id == cui[key]:
                             if inv.fiscal_position and \
                             ('Taxare Inversa' in inv.fiscal_position.name):
-                                for line in inv.invoice_line:
+                                for line in inv.invoice_line_ids:
                                     if line.product_id.d394_id:
                                         code = line.product_id.d394_id.id
                                         prod_taxes = \

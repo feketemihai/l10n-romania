@@ -20,8 +20,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -130,7 +130,7 @@ class currency_reevaluation(models.TransientModel):
                         eval_account = income_acc
                         debit = abs(amount)
                         credit = 0.00
-                        if account.user_type.code in ['payable', 'liability']:
+                        if account.user_type_id.code in ['payable', 'liability']:
                             partner_id = line.partner_id.id
                         else:
                             partner_id = False
@@ -138,7 +138,7 @@ class currency_reevaluation(models.TransientModel):
                         eval_account = expense_acc
                         debit = 0.00
                         credit = abs(amount)
-                        if account.user_type.code in ['payable', 'liability']:
+                        if account.user_type_id.code in ['payable', 'liability']:
                             partner_id = False
                         else:
                             partner_id = line.partner_id.id

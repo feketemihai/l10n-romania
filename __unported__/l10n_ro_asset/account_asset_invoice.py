@@ -24,10 +24,10 @@ import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
-from openerp.osv import osv
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
+from odoo.osv import osv
 
 
 class account_asset_asset(models.Model):
@@ -100,7 +100,7 @@ class account_invoice(models.Model):
     def action_cancel(self):
         asset_obj = self.env['account.asset.asset']
         for inv in self:
-            for inv_line in inv.invoice_line:
+            for inv_line in inv.invoice_line_ids:
                 if inv_line.asset_category_id and inv_line.asset_ids:
                     for asset in inv_line.asset_ids:
                         if asset.state != 'draft':

@@ -25,9 +25,9 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
-from openerp import SUPERUSER_ID, api
+from odoo.osv import fields, osv
+from odoo.tools.translate import _
+from odoo import SUPERUSER_ID, api
 
 # ----------------------------------------------------------
 # Stock Move
