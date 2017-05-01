@@ -21,6 +21,7 @@
 ##############################################################################
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError, ValidationError
 
 """
 class product_category(models.Model):
@@ -153,9 +154,16 @@ class stock_move(models.Model):
             self.date_expected = self.picking_id.date
         super(stock_move, self).onchange_date()
 
-    # metoda locala si daca o folosesc se dubleaza inrefistrarile din ntele contabile
+    # metoda locala si daca o folosesc se dubleaza inregistrarile din notele contabile
     @api.multi
     def create_account_move_lines(self):
+        for move in self:
+            acc_move_id = self.env['account.move']
+            if not move.acc_move_id:
+                for acc_move in move.acc_move_line_ids:
+                    acc_move_id = acc_move.move_id
+                move.write({'acc_move_id':acc_move_id.id})
+
         if 1 == 1:
             return
         for move in self:
@@ -369,6 +377,9 @@ class stock_move(models.Model):
         self.ensure_one()
         move = self
         res = super(stock_move, self)._prepare_account_move_line(qty, cost, credit_account_id, debit_account_id)
+
+        if not res:
+            return res
         debit_line_vals = res[0][2]
         credit_line_vals = res[1][2]
 
@@ -378,6 +389,11 @@ class stock_move(models.Model):
         if move.picking_id:
             debit_line_vals['stock_picking_id'] = move.picking_id.id
             credit_line_vals['stock_picking_id'] = move.picking_id.id
+
+        if move.inventory_id:
+            debit_line_vals['stock_inventory_id'] = move.inventory_id.id
+            credit_line_vals['stock_inventory_id'] = move.inventory_id.id
+
 
         currency_obj = self.env['res.currency']
 
@@ -722,6 +738,7 @@ class stock_picking(models.Model):
     notice = fields.Boolean('Is a notice', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]},
                             default=False)
 
+    """
     @api.multi
     def get_account_move_lines(self):
         for pick in self:
@@ -732,6 +749,7 @@ class stock_picking(models.Model):
             if acc_move_lines:
                 acc_move_lines.write({'stock_picking_id': pick.id})
         return True
+    """
 
     @api.multi
     def do_transfer(self):
@@ -739,7 +757,7 @@ class stock_picking(models.Model):
         for pick in self:
             pick.write({'date_done': pick.date})
         res = super(stock_picking, self).do_transfer()
-        self.get_account_move_lines()
+        #self.get_account_move_lines()
         return res
 
     @api.multi
@@ -747,7 +765,7 @@ class stock_picking(models.Model):
         for pick in self:
             pick.write({'date_done': pick.date})
         res = super(stock_picking, self).action_done()
-        self.get_account_move_lines()
+        #self.get_account_move_lines()
         return res
 
     @api.multi
@@ -778,29 +796,32 @@ class stock_picking(models.Model):
     '''
 
 
-class stock_inventory(models.Model):
-    _name = "stock.inventory"
+class StockInventory(models.Model):
     _inherit = "stock.inventory"
 
     acc_move_line_ids = fields.One2many('account.move.line', 'stock_inventory_id', string='Generated accounting lines')
 
+    """
     @api.multi
     def get_account_move_lines(self):
         for inv in self:
             acc_move_lines = self.env['account.move.line']
             for move in inv.move_ids:
                 if move.acc_move_id:
-                    acc_move_lines |= move.acc_move_id.line_id
+                    acc_move_lines |= move.acc_move_id.line_ids
 
             if acc_move_lines:
                 acc_move_lines.write({'stock_inventory_id': inv.id})
         return True
 
+
     @api.multi
-    def post_inventory(self, ):
-        res = super(stock_inventory, self).post_inventory()
+    def post_inventory(self):
+        res = super(StockInventory, self).post_inventory()
         self.get_account_move_lines()
         return res
+    """
+
 
     @api.multi
     def action_cancel_draft(self):
@@ -809,4 +830,11 @@ class stock_inventory(models.Model):
                 if move.acc_move_id:
                     move.acc_move_id.cancel()
                     move.acc_move_id.unlink()
-        return super(stock_inventory, self).action_cancel_draft()
+        return super(StockInventory, self).action_cancel_draft()
+
+
+    @api.multi
+    def unlink(self):
+        if any(inv.state not in ('draft', 'cancel') for inv in self):
+            raise UserError(_('You can only delete draft inventory.'))
+        return super(StockInventory, self).unlink()
