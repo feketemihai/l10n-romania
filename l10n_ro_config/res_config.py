@@ -111,11 +111,11 @@ class l10n_ro_config_settings(models.TransientModel):
 
     property_stock_picking_payable_account_id = fields.Many2one('account.account', related='company_id.property_stock_picking_payable_account_id',
                                                                 string="Picking Account Payable",
-                                                                domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",
+                                                                domain="[('company_id','=',company_id)]",
                                                                 help="This account will be used as the payable account for the current partner on stock picking notice")
     property_stock_picking_receivable_account_id = fields.Many2one('account.account', related='company_id.property_stock_picking_receivable_account_id',
                                                                    string="Picking Account Receivable",
-                                                                   domain="[('internal_type', '=', 'receivable'),('company_id','=',company_id)]",
+                                                                   domain="[('company_id','=',company_id)]",
                                                                    help="This account will be used as the receivable account for the current partner on stock picking notice")
     property_stock_usage_giving_account_id = fields.Many2one('account.account', related='company_id.property_stock_usage_giving_account_id',
                                                              string="Usage Giving Account",

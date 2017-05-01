@@ -38,6 +38,9 @@ Main features include:
     **~*~**
 Modulul conține adaptarea mișcărilor contabile bazate pe mișcările de stoc.
 
+
+OMFP 1802/2014
+
     """,
 
     'data': [

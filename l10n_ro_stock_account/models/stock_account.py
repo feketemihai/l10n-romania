@@ -35,6 +35,7 @@ class product_category(models.Model):
                                                                           company_dependent=True)
 """
 
+''''
 class ProductTemplate(models.Model):
     _name = "product.template"
     _inherit = "product.template"
@@ -46,6 +47,7 @@ class ProductTemplate(models.Model):
 
     # ok
     # nu cred ca mai este nevoie de codul urmator !
+
     @api.multi
     def get_product_accounts(self, fiscal_pos=None):
         """ Add the stock journal related to product to the result of super()
@@ -67,6 +69,23 @@ class ProductTemplate(models.Model):
                          'property_stock_valuation_account_id': account_valuation})
 
         return accounts
+'''
+
+
+class stock_pack_operation(models.Model):
+    _inherit = "stock.pack.operation"
+
+    # todo: de adaugat functia de pentru preluare pret_unitar
+    price_unit = fields.Float('Unit Price',
+                              compute='_compute_price_unit')  # pentru a se putea modifica pretul in receptie????
+
+    def _compute_price_unit(self):
+        price_unit = 0.0
+        if self.linked_move_operation_ids:
+            for move in self.linked_move_operation_ids:
+                price_unit += move.price_unit
+            price_unit = price_unit / len(self.linked_move_operation_ids)
+        self.price_unit = price_unit
 
 
 # ----------------------------------------------------------
@@ -128,24 +147,20 @@ class stock_move(models.Model):
     acc_move_id = fields.Many2one('account.move', string='Account move', copy=False)
     acc_move_line_ids = fields.One2many('account.move.line', 'stock_move_id', string='Account move lines')
 
-
-
-
-
     @api.onchange('date')
     def onchange_date(self):
         if self.picking_id:
             self.date_expected = self.picking_id.date
         super(stock_move, self).onchange_date()
 
-    # metoda locala
+    # metoda locala si daca o folosesc se dubleaza inrefistrarile din ntele contabile
     @api.multi
     def create_account_move_lines(self):
         if 1 == 1:
             return
         for move in self:
-
-            period_id = self.env.context.get('force_period', self.env['account.period'].find(move.date))
+            # in  cersiunea 10 nu se mai utilizeaza perioada trebuie inlocuita cu data contabila
+            # period_id = self.env.context.get('force_period', self.env['account.period'].find(move.date))
 
             journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
             acc_move_lines = []
@@ -160,7 +175,7 @@ class stock_move(models.Model):
             if acc_move_lines != []:
                 move_id = self.env['account.move'].create({'journal_id': journal_id,
                                                            'line_id': acc_move_lines,
-                                                           'period_id': period_id,
+                                                           # 'period_id': period_id,
                                                            'date': move.date,
                                                            'ref': move.name,
                                                            'name': move.picking_id and move.picking_id.name or '/'
@@ -187,47 +202,7 @@ class stock_move(models.Model):
                 acc_move_obj.unlink([move.acc_move_id.id])
         return super(stock_move, self).action_cancel()
 
-    # metoda locala sau se poate in 10 are alt nume
-    '''
-    @api.multi
-    def _get_invoice_line_vals(self, partner, inv_type):
-        move = self
-        res = super(stock_move, self)._get_invoice_line_vals(partner, inv_type)
 
-        # For receptions, get the stock account, instead of the expense one.
-        account_id = res['account_id']
-        if inv_type in ('in_invoice', 'in_refund'):
-            account_id = move.product_id.property_stock_account_input and move.product_id.property_stock_account_input.id
-            if not account_id:
-                account_id = move.product_id.categ_id.property_stock_account_input_categ and move.product_id.categ_id.property_stock_account_input_categ.id
-            if move.origin_returned_move_id:
-                if move.location_id.property_stock_account_input_location:
-                    account_id = move.location_id.property_stock_account_input_location and move.location_id.property_stock_account_input_location.id
-            else:
-                if move.location_dest_id.property_stock_account_input_location:
-                    account_id = move.location_dest_id.property_stock_account_input_location and move.location_dest_id.property_stock_account_input_location.id
-        if move.picking_id and move.picking_id.notice:
-            if inv_type in ('in_invoice', 'in_refund'):
-                account_id = move.company_id and move.company_id.property_stock_picking_payable_account_id and move.company_id.property_stock_picking_payable_account_id.id
-            else:
-                account_id = move.company_id and move.company_id.property_stock_picking_receivable_account_id and move.company_id.property_stock_picking_receivable_account_id.id
-        fiscal_position = partner.property_account_position
-        account_id = fiscal_position.map_account(account_id)
-        res['account_id'] = account_id
-
-        # If it is a returned stock move, change quantity in invoice with minus
-        # (probably to be done in account_storno)
-
-        if move.origin_returned_move_id:
-            account_storno = False
-            ir_module = self.env['ir.module.module']
-            module = ir_module.search([('name', '=', 'account_storno')])
-            if module:
-                account_storno = module.state in ('installed', 'to install', 'to upgrade')
-            if account_storno:
-                res['quantity'] = -1 * res['quantity']
-        return res
-    '''
 
     # metoda rescrisa
     @api.multi
@@ -280,19 +255,23 @@ class stock_move(models.Model):
                 # company: usualy 8035
                 acc_src = acc_dest = move.company_id.property_stock_usage_giving_account_id
             if move_type == 'delivery':
-                # Change the account to the expense one (6xx) to suit move: 6xx
-                # = 3xx
+                # Change the account to the expense one (6xx) to suit move: 6xx = 3xx
                 acc_dest = move.product_id.property_account_expense_id
                 if not acc_dest:
                     acc_dest = move.product_id.categ_id.property_account_expense_categ_id
+                # daca nu e cont de cheltuiala este contul de iesire din stoc produse finite 711 = 334
+
+                if not acc_dest:
+                    acc_dest = move.product_id.property_stock_account_output or move.product_id.categ_id.property_stock_account_output_categ_id
+
                 if move.location_id.property_account_expense_location_id:
                     acc_dest = move.location_id.property_account_expense_location_id
             if move_type == 'inventory':
                 # Inventory in plus
                 # Change the account to the expense one (6xx) to suit move: 3xx = 6xx
-                acc_src = move.product_id.property_account_expense_id
+                acc_src = move.product_id.property_account_expense_id or move.product_id.categ_id.property_account_expense_categ_id
                 if not acc_src:
-                    acc_src = move.product_id.categ_id.property_account_expense_categ_id
+                    acc_src = move.product_id.property_stock_account_input or move.product_id.categ_id.property_stock_account_input_categ_id
                 if move.location_dest_id.property_account_expense_location_id:
                     acc_src = move.location_dest_id.property_account_expense_location_id
             if move_type in ('inventory_exp', 'delivery_refund'):
@@ -381,6 +360,7 @@ class stock_move(models.Model):
 
         return journal_id, acc_src, acc_dest, acc_valuation
 
+    # metoda mostenita !!
     def _prepare_account_move_line(self, qty, cost, credit_account_id, debit_account_id):
         """
         Generate the account.move.line values to post to track the stock valuation difference due to the
@@ -572,8 +552,8 @@ class stock_quant(models.Model):
             return False
 
         location_from = move.location_id
-        location_to = self[
-            0].location_id  # TDE FIXME: as the accounting is based on this value, should probably check all location_to to be the same
+        # location_to = self[0].location_id  # TDE FIXME: as the accounting is based on this value, should probably check all location_to to be the same
+        location_to = move.location_dest_id
         company_from = location_from.usage == 'internal' and location_from.company_id or False
         company_to = location_to and (location_to.usage == 'internal') and location_to.company_id or False
 
@@ -589,9 +569,9 @@ class stock_quant(models.Model):
                 ctx['force_company'] = company_from.id
 
         # Put notice in context if the picking is a notice
-        # ctx['notice'] = move.picking_id and move.picking_id.notice
+        ctx['notice'] = move.picking_id and move.picking_id.notice
 
-        ctx['notice'] = False
+        # ctx['notice'] = False
 
         if (move.location_id.usage == 'internal' and move.location_dest_id.usage == 'supplier') or \
                 (move.location_id.usage == 'supplier' and move.location_dest_id.usage == 'internal'):
@@ -737,8 +717,10 @@ class stock_picking(models.Model):
 
     acc_move_line_ids = fields.One2many('account.move.line', 'stock_picking_id', string='Generated accounting lines')
 
-    # notice = fields.Boolean('Is a notice', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]},
-    #                        default=False)
+    # prin acest camp se indica daca un produs care e stocabil trece prin contul 408 / 418 la achizitie sau vanzare
+    # receptie/ livrare in baza de aviz
+    notice = fields.Boolean('Is a notice', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]},
+                            default=False)
 
     @api.multi
     def get_account_move_lines(self):
