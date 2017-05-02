@@ -21,7 +21,7 @@ class AccountInvoice(models.Model):
                 else:  # daca nu este stocabil trebuie sa fie un cont de cheltuiala
                     data['account_id'] = line.company_id.property_stock_picking_payable_account_id.id or \
                                          line.product_id.property_account_expense_id.id or \
-                                         line.product_id.categ_id.property_account_expense_id_categ_id.id or \
+                                         line.product_id.categ_id.property_account_expense_categ_id.id or \
                                          data['account_id']
             else:
                 if line.product_id.type == 'product':
