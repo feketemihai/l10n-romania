@@ -51,8 +51,8 @@ class account_invoice_line(models.Model):
 
     @api.one
     @api.depends('price_unit', 'discount', 'invoice_line_tax_ids', 'quantity',
-                 'product_id', 'invoice_id.partner_id',
-                 'invoice_id.currency_id')
+                 'product_id', 'invoice_id.partner_id', 'invoice_id.currency_id', 'invoice_id.company_id',
+                 'invoice_id.date_invoice')
     def _compute_price(self):
 
         super(account_invoice_line, self)._compute_price()
@@ -64,13 +64,15 @@ class account_invoice_line(models.Model):
         if self.invoice_line_tax_ids:
             taxes = self.invoice_line_tax_ids.compute_all(price, currency, self.quantity, product=self.product_id,
                                                           partner=self.invoice_id.partner_id)
+
         if taxes:
-            self.price_subtotal = taxes['total_excluded']
-            self.price_taxes = taxes['total_included'] - taxes['total_excluded']
+            self.price_subtotal = taxes['total_excluded'] if taxes else self.quantity * price
+            self.price_taxes = taxes['total_included'] - self.price_subtotal
 
         taxes_unit = self.invoice_line_tax_ids.compute_all(price, currency=currency,
                                                            quantity=1, product=self.product_id,
                                                            partner=self.invoice_id.partner_id)
+
         self.price_unit_without_taxes = taxes_unit['total_excluded']
         # Compute normal taxes in case of Customer Invoices to have the value
         # in Inverse Taxation
@@ -79,20 +81,20 @@ class account_invoice_line(models.Model):
                                                                 quantity=self.quantity, product=self.product_id,
                                                                 partner=self.invoice_id.partner_id)
             self.price_normal_taxes = normal_taxes['total_included'] - normal_taxes['total_excluded']
+        # aplicare rotunjiri . asta nu trebuie facuta in functie de config
         if self.invoice_id:
             self.price_subtotal = self.invoice_id.currency_id.round(self.price_subtotal)
             self.price_taxes = self.invoice_id.currency_id.round(self.price_taxes)
             self.price_unit_without_taxes = self.invoice_id.currency_id.round(self.price_unit_without_taxes)
             self.price_normal_taxes = self.invoice_id.currency_id.round(self.price_normal_taxes)
 
-    sequence = fields.Integer(string='Sequence', default=1,
-                              help="Gives the sequence of this line when displaying the invoice.")
+    sequence = fields.Integer(default=1)
 
-    price_unit_without_taxes = fields.Float(string='Unit Price without taxes',
-                                            store=True, readonly=True, compute='_compute_price')
+    price_unit_without_taxes = fields.Float(string='Unit Price without taxes', store=True, readonly=True,
+                                            compute='_compute_price')
 
-    price_taxes = fields.Float(string='Taxes', digits=dp.get_precision('Account'),
-                               store=True, readonly=True, compute='_compute_price')
+    price_taxes = fields.Float(string='Taxes', digits=dp.get_precision('Account'), store=True, readonly=True,
+                               compute='_compute_price')
 
-    price_normal_taxes = fields.Float(tring='Normal Taxes', digits=dp.get_precision('Account'),
-                                      store=True, readonly=True, compute='_compute_price')
+    price_normal_taxes = fields.Float(tring='Normal Taxes', digits=dp.get_precision('Account'), store=True,
+                                      readonly=True, compute='_compute_price')
