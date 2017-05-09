@@ -775,7 +775,7 @@ class d394_new_report(models.TransientModel):
                                             r.product_id.d394_id.id == code.id)]))
                                         baza1 = 0
                                         taxes1 = 0
-                                        for line in inv_lines:
+                                        for line in cod_lines:
                                             inv_curr = line.invoice_id.currency_id
                                             inv_date = line.invoice_id.date_invoice
                                             baza1 += inv_curr.with_context(
