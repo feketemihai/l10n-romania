@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-24 15:27+0000\n"
-"PO-Revision-Date: 2015-02-24 15:27+0000\n"
+"POT-Creation-Date: 2017-05-09 07:51+0000\n"
+"PO-Revision-Date: 2017-05-09 07:51+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -73,6 +73,12 @@ msgid "Delegate:"
 msgstr ""
 
 #. module: l10n_ro_invoice_report
+#: field:report.account.report_invoice,display_name:0
+#: field:report.l10n_ro_invoice_report.report_voucher_translate,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Elaborate:"
 msgstr ""
@@ -84,7 +90,7 @@ msgstr ""
 
 #. module: l10n_ro_invoice_report
 #: field:report.account.report_invoice,id:0
-#: field:report.l10n_ro_invoice_report.report_voucher,id:0
+#: field:report.l10n_ro_invoice_report.report_voucher_translate,id:0
 msgid "ID"
 msgstr ""
 
@@ -109,6 +115,12 @@ msgid "Invoice circulate without signature and stamp according to the law 227/20
 msgstr ""
 
 #. module: l10n_ro_invoice_report
+#: field:report.account.report_invoice,__last_update:0
+#: field:report.l10n_ro_invoice_report.report_voucher_translate,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Mean Transport:"
 msgstr ""
@@ -127,6 +139,11 @@ msgstr ""
 #. module: l10n_ro_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Name:"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: field:account.invoice.line,price_normal_taxes:0
+msgid "Normal Taxes"
 msgstr ""
 
 #. module: l10n_ro_invoice_report

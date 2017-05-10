@@ -43,9 +43,9 @@ class report_voucher_print(report_sxw.rml_parse):
 
 
 class report_voucher(osv.AbstractModel):
-    _name = 'report.l10n_ro_invoice_report.report_voucher'
+    _name = 'report.l10n_ro_invoice_report.report_voucher_translate'
     _inherit = 'report.abstract_report'
-    _template = 'l10n_ro_invoice_report.report_voucher'
+    _template = 'l10n_ro_invoice_report.report_voucher_translate'
     _wrapped_report_class = report_voucher_print
 
 

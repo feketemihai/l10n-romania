@@ -6,7 +6,9 @@
             id="action_report_voucher" 
             model="account.voucher" 
             report_type="qweb-pdf"
-            name="l10n_ro_invoice_report.report_voucher" 
-            file="l10n_ro_invoice_report.report_voucher"    />
+            name="l10n_ro_invoice_report.report_voucher_translate" 
+            file="l10n_ro_invoice_report.report_voucher_translate"
+            attachment_use="True"
+            attachment="(object.state in ('posted')) and ('CH'+(object.number or '').replace('/','')+'.pdf')"/>
     </data>
 </openerp>

@@ -142,6 +142,7 @@ class res_partner(models.Model):
                         'zip': zip1 or '',
                         'vat_subjected': vat_s or False,
                         'state_id': state,
+                        'lang': 'ro_RO',
                     })                                
                 except:
                     headers = {
@@ -181,7 +182,8 @@ class res_partner(models.Model):
                         self.write({
                             'name': datas['denumire'].upper(),
                             'street': datas['adresa'].title(),
-                            'vat_subjected': bool(datas['tva'])
+                            'vat_subjected': bool(datas['tva']),
+                            'lang': 'ro_RO',
                         })                    
             else:
                 try:
