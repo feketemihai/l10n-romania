@@ -42,7 +42,7 @@ class account_voucher(osv.osv):
         ctx1 = context.copy()
         amount1 = round(currency_obj._get_conversion_rate(
             cr, uid, line.move_line_id.currency_id, line.move_line_id.company_id.currency_id, ctx1) * abs(line.amount), 2)
-        if datetime.strptime(line.move_line_id.date, "%Y-%m-%d").month == datetime.strptime(line.compensation_id.date, "%Y-%m-%d").month:
+        if datetime.strptime(line.move_line_id.date, "%Y-%m-%d").month == datetime.strptime(line.voucher_id.date, "%Y-%m-%d").month:
             # get current currency rate
             date1 = datetime.strptime(line.move_line_id.date, "%Y-%m-%d")
             ctx1.update({'date': date1})
@@ -52,7 +52,7 @@ class account_voucher(osv.osv):
         else:
             ctx2 = context.copy()
             date2 = datetime.strptime(
-                line.compensation_id.period_id.date_start, "%Y-%m-%d")
+                line.voucher_id.period_id.date_start, "%Y-%m-%d")
             ctx2.update({'date': date2})
             amount2 = round(currency_obj._get_conversion_rate(
                 cr, uid, line.move_line_id.currency_id, line.move_line_id.company_id.currency_id, ctx2) * abs(line.amount), 2)
