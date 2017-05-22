@@ -361,10 +361,7 @@ class d394_new_report(models.TransientModel):
         informatii['nrFacturi_benef'] = len(
             set(invoices.filtered(lambda r: r.sequence_type == 'autoinv1')))
         informatii['nrFacturi'] = len(invoices)
-        informatii['nrFacturiL_PF'] = len(
-            set(invoices.filtered(lambda r: r.operation_type == 'L' and \
-                                            r.partner_type == '2' and \
-                                            r.amount_total <= 10000)))
+        informatii['nrFacturiL_PF'] = 0
         informatii['nrFacturiLS_PF'] = len(
             set(invoices.filtered(lambda r: r.operation_type == 'LS' and \
                                             r.partner_type == '2' and \
