@@ -47,8 +47,8 @@
 							<div>
 								<group col="2">
 									<group>
-										<field name="property_customer_advance_account_id"/>
-										<field name="property_supplier_advance_account_id"/>
+										<field name="property_customer_advance_account_id" placeholder="419"/>
+										<field name="property_supplier_advance_account_id" placeholder="4091"/>
 									</group>
 									<group>
 									</group>
@@ -63,7 +63,7 @@
 								<label for="module_l10n_ro_invoice_line_not_deductible"/>
 								<group attrs="{'invisible': [('module_l10n_ro_invoice_line_not_deductible', '&lt;&gt;', True)]}" col="2">
 									<group>
-										<field name="property_undeductible_account_id"/>
+										<field name="property_undeductible_account_id" placeholder="635"/>
 										<field name="property_undeductible_tax_account_id"/>
 									</group>
 									<group>
@@ -142,9 +142,9 @@
 								<label for="module_l10n_ro_stock_account"/>
 								<group attrs="{'invisible': [('module_l10n_ro_stock_account', '&lt;&gt;', True)]}" col="2">
 									<group>
-										<field name="property_stock_picking_receivable_account_id"/>
-										<field name="property_stock_picking_payable_account_id"/>
-										<field name="property_stock_usage_giving_account_id"/>
+										<field name="property_stock_picking_receivable_account_id" placeholder="418"/>
+										<field name="property_stock_picking_payable_account_id" placeholder="408"/>
+										<field name="property_stock_usage_giving_account_id" placeholder="8035"/>
 										<field name="property_stock_picking_custody_account_id"/>
 									</group>
 									<group>

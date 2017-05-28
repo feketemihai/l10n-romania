@@ -135,8 +135,8 @@ class Currency_rate_update_service(models.Model):
             currencies = []
             currency_list = supported_currency_array
             company_id = False
-            if self.company_id.multi_company_currency_enable:
-                company_id = self.company_id.id
+            #if self.company_id.multi_company_currency_enable:
+            #    company_id = self.company_id.id
             if self.service == 'ECB_getter':
                 currency_list = ECB_supported_currency_array
             if self.service == 'RO_BNR_getter':

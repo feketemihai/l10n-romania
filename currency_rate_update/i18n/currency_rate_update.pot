@@ -181,10 +181,6 @@ msgstr ""
 msgid "Month(s)"
 msgstr ""
 
-#. module: currency_rate_update
-#: field:res.company,multi_company_currency_enable:0
-msgid "Multi company currency"
-msgstr ""
 
 #. module: currency_rate_update
 #: selection:currency.rate.update.service,service:0
@@ -227,10 +223,7 @@ msgstr ""
 msgid "Week(s)"
 msgstr ""
 
-#. module: currency_rate_update
-#: help:res.company,multi_company_currency_enable:0
-msgid "When this option is unchecked it will allow users to set a distinct currency updates on each company."
-msgstr ""
+
 
 #. module: currency_rate_update
 #: selection:currency.rate.update.service,service:0
