@@ -186,13 +186,13 @@ class xml_decl(models.TransientModel):
                    )
         return {
             'name': _('Save'),
-            'context': context,
+            'context': self.env.context,
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'l10n_ro_intrastat_xml.xml_decl',
             'type': 'ir.actions.act_window',
             'target': 'new',
-            'res_id': ids[0],
+            'res_id': self.id,
         }
 
     @api.multi
@@ -251,7 +251,7 @@ class xml_decl(models.TransientModel):
         self.env.cr.execute(sqlreq, (company.id, company.partner_id.country_id.code,
                             company.partner_id.country_id.code, mode1, mode2,
                             decl_datas.year, decl_datas.month))
-        lines = cr.fetchall()
+        lines = self.env.cr.fetchall()
         invoicelines_ids = [rec[0] for rec in lines]
         invoicelines = invoiceline_mod.browse( invoicelines_ids)
         for inv_line in invoicelines:
@@ -314,11 +314,14 @@ class xml_decl(models.TransientModel):
             if inv_line.price_unit and inv_line.quantity:
                 amount = inv_line.price_unit * inv_line.quantity
                 if inv_line.invoice_id.currency_id.id != company.currency_id.id:
-                   new_context =  dict(context)
+                   #todo: de convertit in newapi
+                   new_context =  dict(self.env.context)
                    new_context['date'] = inv_line.invoice_id.date_invoice
                    amount = currency_mod.compute(cr, uid, inv_line.invoice_id.currency_id.id, company.currency_id.id, amount,new_context)
             else:
                 amount = 0
+
+            # todo: de convertit in newapi
             weight = (inv_line.product_id.weight_net or 0.0) * \
                 self.pool.get('product.uom')._compute_qty(cr, uid, inv_line.uos_id.id, inv_line.quantity, inv_line.product_id.uom_id.id)
             if (not inv_line.uos_id.category_id or not inv_line.product_id.uom_id.category_id
