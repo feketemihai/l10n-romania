@@ -71,7 +71,7 @@
                                     <span>Payment disposal:</span>
                                     <t t-set="amount" t-value="-o.amount"/>
                                 </t> 
-								<span t-field="o.number" /> /  <span t-field="o.date" />
+								<span t-field="o.number" /> /  <span t-field="o.date" t-options='{"widget": "date"}'/>
 							</h2>
 
 
