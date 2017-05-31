@@ -53,6 +53,18 @@
 					<field name="location_id" />
 					<field name="categ_id" />
 					<field name="product_id" />
+
+					<filter string="This Month" name="month"
+                            domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+								     ('date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+
+                    <filter string="Previous Month" name="prev_month"
+                            domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
+							    	 ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+
+
 					<group expand="0" string="Extended Filters..." >
 						<field name="company_id" groups="base.group_multi_company"/>
 						<field name="date"/>
@@ -76,7 +88,7 @@
 			<field name="name">Balance for stock</field>
 			<field name="res_model">stock.balance</field>
 			<field name="view_type">form</field>
-			<field name="view_mode">graph,tree</field>
+			<field name="view_mode">graph,pivot</field>
 			<field name="view_id" ref="view_stock_balance_tree"/>
 			<field name="search_view_id" ref="view_stock_balance_filter"/>
 			<field name="help">This reporting allows you to analyse stock movements.</field>
