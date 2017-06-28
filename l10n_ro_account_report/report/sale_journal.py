@@ -150,6 +150,9 @@ class sale_journal(report_sxw.rml_parse):
                             self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, inv1.amount_tax, dp, context={'date': inv1.date_invoice})
                         for tax_line in inv1.tax_line:
                             if not inv1.vat_on_payment:
+                                if 'INVERS' in tax_line.name.upper():
+                                    vals['invers'] += currency_obj.compute(
+                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
                                 if ' 24' in tax_line.name:
                                     vals['base_24'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00

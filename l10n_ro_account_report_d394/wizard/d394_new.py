@@ -20,20 +20,22 @@ class d394_new_report(models.TransientModel):
 
     def _get_xml_data(self):
         if self._context.get('file_save', False):
-            return base64.encodestring(context['file_save'].encode('utf8'))
+            return base64.encodestring(
+                self._context.get('file_save').encode('utf8'))
         return ''
 
     @api.model
     def _get_default_period(self):
-        new_date = fields.Date.from_string(fields.Date.today()) + relativedelta(months=-1)
+        new_date = fields.Date.from_string(
+            fields.Date.today()) + relativedelta(months=-1)
         period = self.env['account.period'].find(new_date)[:1]
         return period.id
 
     @api.onchange('period_id')
     def _onchange_period(self):
         if self.period_id:
-           self.date_from = self.period_id.date_start
-           self.date_to = self.period_id.date_stop
+            self.date_from = self.period_id.date_start
+            self.date_to = self.period_id.date_stop
 
     @api.multi
     @api.depends('company_id', 'period_id')
@@ -195,13 +197,13 @@ class d394_new_report(models.TransientModel):
     def _update_partners(self):
         self.ensure_one()
         invoices = self.env['account.invoice'].search([
-                    ('state', 'in', ['open', 'paid']),
-                    ('period_id', '=', self.period_id.id),
-                    ('fiscal_receipt', '=', False),
-                    '|',
-                    ('company_id', '=', self.company_id.id),
-                    ('company_id', 'in', self.company_id.child_ids.ids)
-                ])
+            ('state', 'in', ['open', 'paid']),
+            ('period_id', '=', self.period_id.id),
+            ('fiscal_receipt', '=', False),
+            '|',
+            ('company_id', '=', self.company_id.id),
+            ('company_id', 'in', self.company_id.child_ids.ids)
+        ])
         if invoices:
             partners = self.env['res.partner'].browse(
                 set(invoices.mapped('partner_id.id')))
@@ -261,7 +263,8 @@ class d394_new_report(models.TransientModel):
             ctx = {'date': inv1.date_invoice}
             if inv1.payment_ids:
                 for payment in inv1.payment_ids:
-                    if payment.period_id.id == period.id and payment.move_id.date <= self.date_to:
+                    if payment.period_id.id == period.id and  \
+                            payment.move_id.date <= self.date_to:
                         pay = {}
                         pay['type'] = inv1.type
                         pay['vat_on_payment'] = inv1.vat_on_payment
@@ -276,60 +279,60 @@ class d394_new_report(models.TransientModel):
                                         ' 24' in line.tax_code_id.name:
                                     pay['base_24'] += \
                                         inv1.currency_id.with_context(
-                                            ctx).compute((line.credit or \
+                                            ctx).compute((line.credit or
                                                           line.debit) / 0.24,
                                                          comp_curr)
                                     pay['tva_24'] += \
                                         inv1.currency_id.with_context(
-                                            ctx).compute((line.credit or \
+                                            ctx).compute((line.credit or
                                                           line.debit),
                                                          comp_curr)
                                 if line.tax_code_id and \
                                         ' 20' in line.tax_code_id.name:
                                     pay['base_20'] += \
                                         inv1.currency_id.with_context(
-                                             ctx).compute((line.credit or \
-                                                           line.debit) / 0.20,
-                                                          comp_curr)
+                                            ctx).compute((line.credit or
+                                                          line.debit) / 0.20,
+                                                         comp_curr)
                                     pay['tva_20'] += \
                                         inv1.currency_id.with_context(
-                                            ctx).compute((line.credit or \
+                                            ctx).compute((line.credit or
                                                           line.debit),
                                                          comp_curr)
                                 if line.tax_code_id and \
                                         ' 19' in line.tax_code_id.name:
                                     pay['base_19'] += \
                                         inv1.currency_id.with_context(
-                                            ctx).compute((line.credit or \
+                                            ctx).compute((line.credit or
                                                           line.debit) / 0.09,
                                                          comp_curr)
                                     pay['tva_19'] += \
                                         inv1.currency_id.with_context(
-                                            ctx).compute((line.credit or \
+                                            ctx).compute((line.credit or
                                                           line.debit),
                                                          comp_curr)
                                 if line.tax_code_id and \
                                         ' 9' in line.tax_code_id.name:
                                     pay['base_9'] += \
                                         inv1.currency_id.with_context(
-                                            ctx).compute((line.credit or \
+                                            ctx).compute((line.credit or
                                                           line.debit) / 0.09,
                                                          comp_curr)
                                     pay['tva_9'] += \
                                         inv1.currency_id.with_context(
-                                            ctx).compute((line.credit or \
+                                            ctx).compute((line.credit or
                                                           line.debit),
                                                          comp_curr)
                                 if line.tax_code_id and \
                                         ' 5' in line.tax_code_id.name:
                                     pay['base_5'] += \
                                         inv1.currency_id.with_context(
-                                            ctx).compute((line.credit or \
+                                            ctx).compute((line.credit or
                                                           line.debit) / 0.05,
                                                          comp_curr)
                                     pay['tva_5'] += \
                                         inv1.currency_id.with_context(
-                                            ctx).compute((line.credit or \
+                                            ctx).compute((line.credit or
                                                           line.debit),
                                                          comp_curr)
                         for field in ('base_24', 'base_20', 'base_19',
@@ -363,34 +366,34 @@ class d394_new_report(models.TransientModel):
         informatii['nrFacturi'] = len(invoices)
         informatii['nrFacturiL_PF'] = 0
         informatii['nrFacturiLS_PF'] = len(
-            set(invoices.filtered(lambda r: r.operation_type == 'LS' and \
-                                            r.partner_type == '2' and \
-                                            r.amount_total <= 10000)))
+            set(invoices.filtered(lambda r: r.operation_type == 'LS' and
+                                  r.partner_type == '2' and
+                                  r.amount_total <= 10000)))
         informatii['val_LS_PF'] = int(round(sum(
             inv.amount_total for inv in invoices.filtered(
-                lambda r: r.operation_type == 'LS' and \
-                          r.partner_type == '2' and \
-                          r.amount_total <= 10000))))
-        informatii['tvaDedAI24'] = int(round(sum(
-            op['tva_24'] for op in payments if \
-                op['type'] in ('in_invoice', 'in_refund') and \
-                op['vat_on_payment'] is True)))
+                lambda r: r.operation_type == 'LS' and
+                r.partner_type == '2' and
+                r.amount_total <= 10000))))
+        informatii['tvaDedAI24'] = int(
+            round(sum(op['tva_24'] for op in payments if
+                      op['type'] in ('in_invoice', 'in_refund') and
+                      op['vat_on_payment'] is True)))
         informatii['tvaDedAI20'] = int(round(sum(
-            op['tva_20'] for op in payments if \
-                op['type'] in ('in_invoice', 'in_refund') and \
-                op['vat_on_payment'] is True)))
+            op['tva_20'] for op in payments if
+            op['type'] in ('in_invoice', 'in_refund') and
+            op['vat_on_payment'] is True)))
         informatii['tvaDedAI19'] = int(round(sum(
-            op['tva_19'] for op in payments if \
-                op['type'] in ('in_invoice', 'in_refund') and \
-                op['vat_on_payment'] is True)))
+            op['tva_19'] for op in payments if
+            op['type'] in ('in_invoice', 'in_refund') and
+            op['vat_on_payment'] is True)))
         informatii['tvaDedAI9'] = int(round(sum(
-            op['tva_9'] for op in payments if \
-                op['type'] in ('in_invoice', 'in_refund') and \
-                op['vat_on_payment'] is True)))
+            op['tva_9'] for op in payments if
+            op['type'] in ('in_invoice', 'in_refund') and
+            op['vat_on_payment'] is True)))
         informatii['tvaDedAI5'] = int(round(sum(
-            op['tva_5'] for op in payments if \
-                op['type'] in ('in_invoice', 'in_refund') and \
-                op['vat_on_payment'] is True)))
+            op['tva_5'] for op in payments if
+            op['type'] in ('in_invoice', 'in_refund') and
+            op['vat_on_payment'] is True)))
 
         comm_partner = self.company_id.partner_id.commercial_partner_id
         ctx = dict(self._context)
@@ -398,45 +401,45 @@ class d394_new_report(models.TransientModel):
 
         if comm_partner.with_context(ctx)._check_vat_on_payment():
             informatii['tvaDed24'] = int(round(sum(
-                op['tva_24'] for op in payments if \
-                    op['type'] in ('in_invoice', 'in_refund') and \
-                    op['vat_on_payment'] is False)))
+                op['tva_24'] for op in payments if
+                op['type'] in ('in_invoice', 'in_refund') and
+                op['vat_on_payment'] is False)))
             informatii['tvaDed20'] = int(round(sum(
-                op['tva_20'] for op in payments if \
-                    op['type'] in ('in_invoice', 'in_refund') and \
-                    op['vat_on_payment'] is False)))
+                op['tva_20'] for op in payments if
+                op['type'] in ('in_invoice', 'in_refund') and
+                op['vat_on_payment'] is False)))
             informatii['tvaDed19'] = int(round(sum(
-                op['tva_19'] for op in payments if \
-                    op['type'] in ('in_invoice', 'in_refund') and \
-                    op['vat_on_payment'] is False)))
+                op['tva_19'] for op in payments if
+                op['type'] in ('in_invoice', 'in_refund') and
+                op['vat_on_payment'] is False)))
             informatii['tvaDed9'] = int(round(sum(
-                op['tva_9'] for op in payments if \
-                    op['type'] in ('in_invoice', 'in_refund') and \
-                    op['vat_on_payment'] is False)))
+                op['tva_9'] for op in payments if
+                op['type'] in ('in_invoice', 'in_refund') and
+                op['vat_on_payment'] is False)))
             informatii['tvaDed5'] = int(round(sum(
-                op['tva_5'] for op in payments if \
-                    op['type'] in ('in_invoice', 'in_refund') and \
-                    op['vat_on_payment'] is False)))
+                op['tva_5'] for op in payments if
+                op['type'] in ('in_invoice', 'in_refund') and
+                op['vat_on_payment'] is False)))
             informatii['tvaCol24'] = int(round(sum(
-                op['tva_24'] for op in payments if \
-                    op['type'] in ('out_invoice', 'out_refund') and \
-                    op['vat_on_payment'] is True)))
+                op['tva_24'] for op in payments if
+                op['type'] in ('out_invoice', 'out_refund') and
+                op['vat_on_payment'] is True)))
             informatii['tvaCol20'] = int(round(sum(
-                op['tva_20'] for op in payments if \
-                    op['type'] in ('out_invoice', 'out_refund') and \
-                    op['vat_on_payment'] is True)))
+                op['tva_20'] for op in payments if
+                op['type'] in ('out_invoice', 'out_refund') and
+                op['vat_on_payment'] is True)))
             informatii['tvaCol19'] = int(round(sum(
-                op['tva_19'] for op in payments if \
-                    op['type'] in ('out_invoice', 'out_refund') and \
-                    op['vat_on_payment'] is True)))
+                op['tva_19'] for op in payments if
+                op['type'] in ('out_invoice', 'out_refund') and
+                op['vat_on_payment'] is True)))
             informatii['tvaCol9'] = int(round(sum(
-                op['tva_9'] for op in payments if \
-                    op['type'] in ('out_invoice', 'out_refund') and \
-                    op['vat_on_payment'] is True)))
+                op['tva_9'] for op in payments if
+                op['type'] in ('out_invoice', 'out_refund') and
+                op['vat_on_payment'] is True)))
             informatii['tvaCol5'] = int(round(sum(
-                op['tva_5'] for op in payments if \
-                    op['type'] in ('out_invoice', 'out_refund') and \
-                    op['vat_on_payment'] is True)))
+                op['tva_5'] for op in payments if
+                op['type'] in ('out_invoice', 'out_refund') and
+                op['vat_on_payment'] is True)))
         informatii['incasari_ag'] = 0
         informatii['costuri_ag'] = 0
         informatii['marja_ag'] = 0
@@ -487,6 +490,48 @@ class d394_new_report(models.TransientModel):
 
     @api.multi
     def _get_op1(self, invoices):
+        def adauga_op1(op1, new):
+            if op1:
+                try:
+                    found = next(
+                        index for (index, old) in enumerate(op1) if
+                        old.get('tip') == new['tip'] and
+                        old.get('tip_partener') == new['tip_partener'] and
+                        old.get('cota') == new['cota'] and
+                        old.get('cuiP') == new['cuiP'])
+                except:
+                    found = None
+                if found is not None:
+                    old = op1[found]
+                    old['nrFact'] += new['nrFact']
+                    old['baza'] += new['baza']
+                    if 'tva' in old.keys():
+                        old['tva'] += new['tva']
+                    if new['op11']:
+                        if old['op11']:
+                            for new11 in new['op11']:
+                                try:
+                                    found11 = next(
+                                        index for (index, old11)
+                                        in enumerate(old['op11']) if
+                                        old11.get('codPR') == new11['codPR'])
+                                except:
+                                    found11 = None
+                                if found11 is not None:
+                                    old11 = old['op11'][found11]
+                                    old11['nrFactPR'] += new11['nrFactPR']
+                                    old11['bazaPR'] += new11['bazaPR']
+                                    if 'tvaPR' in old11.keys():
+                                        old11['tvaPR'] += new11['tvaPR']
+                                else:
+                                    old['op11'].append(new11)
+                        else:
+                            old['op11'].append(new['op11'])
+                else:
+                    op1.append(new)
+            else:
+                op1.append(new)
+            return op1
         self.ensure_one()
         obj_inv_line = self.env['account.invoice.line']
         obj_partner = self.env['res.partner']
@@ -510,7 +555,6 @@ class d394_new_report(models.TransientModel):
                     cota_inv = part_type_inv.filtered(
                         lambda r: cota.id in r.tax_ids.ids)
                     partners = cota_inv.mapped('partner_id.id')
-                    #[invoice.partner_id for invoice in cota_inv]
                     for partner in obj_partner.browse(partners):
                         new_oper_type = oper_type
                         part_invoices = cota_inv.filtered(
@@ -518,13 +562,18 @@ class d394_new_report(models.TransientModel):
                         cota_amount = 0
                         if cota.type == 'percent':
                             if cota.child_ids:
-                                cota_amount = int(abs(cota.child_ids[0].amount) * 100)
+                                cota_amount = int(
+                                    abs(cota.child_ids[0].amount) * 100)
                             else:
                                 cota_amount = int(cota.amount * 100)
                         elif cota.type == 'amount':
                             cota_amount = int(cota.amount)
-                        if new_oper_type == 'A' and 'Ti-ach' in cota.description:
+                        if new_oper_type == 'A' and \
+                                'Ti-ach' in cota.description:
                             new_oper_type = 'C'
+                        if new_oper_type == 'L' and \
+                                'Ti-livr' in cota.description:
+                            new_oper_type = 'V'
                         inv_lines = []
                         if partner_type == '2':
                             if new_oper_type == 'N':
@@ -544,10 +593,10 @@ class d394_new_report(models.TransientModel):
                                         product = inv_line.product_id
                                         fp = invoice.fiscal_position
                                         tax = product.supplier_taxes_id
-                                        if not fp or (('National' in \
-                                                fp.name) or ('Invers' in \
-                                                fp.name)  or ('Scutit' in \
-                                                fp.name)):
+                                        if not fp or (
+                                                ('National' in fp.name) or
+                                                ('Invers' in fp.name) or
+                                                ('Scutit' in fp.name)):
                                             tax = inv_line.invoice_line_tax_id
                                             if cota.id in tax.ids:
                                                 filtered_inv_lines.append(
@@ -568,17 +617,17 @@ class d394_new_report(models.TransientModel):
                                         inv_date = line.invoice_id.date_invoice
                                         baza += inv_curr.with_context(
                                             {'date': inv_date}).compute(
-                                            line.price_subtotal, comp_curr)
+                                                line.price_subtotal, comp_curr)
                                     taxes = 0
                                     new_dict = {
                                         'tip': new_oper_type,
                                         'tip_partener': partner_type,
                                         'cota': cota_amount,
                                         'denP': partner.name.replace(
-                                             '&', '-').replace('"', ''),
-                                        'nrFact': len(set([
-                                            line.invoice_id.id for \
-                                            line in inv_lines])),
+                                            '&', '-').replace('"', ''),
+                                        'nrFact': len(set(
+                                            [line.invoice_id.id for
+                                             line in inv_lines])),
                                         'baza': int(round(baza)),
                                         'tip_document': doc_type,
                                     }
@@ -592,11 +641,12 @@ class d394_new_report(models.TransientModel):
                                     fp = inv_line.invoice_id.fiscal_position
                                     tax = inv_line.product_id.supplier_taxes_id
                                     inv = inv_line.invoice_id
-                                    if not fp or (('National' in \
-                                            fp.name) or ('Invers' in \
-                                            fp.name)  or (('Scutit' in \
-                                            inv.fiscal_position.name) and \
-                                            inv.partner_type in ('1','2'))):
+                                    if not fp or (
+                                            ('National' in fp.name) or
+                                            ('Invers' in fp.name) or
+                                            (('Scutit' in
+                                              inv.fiscal_position.name) and
+                                             inv.partner_type in ('1', '2'))):
                                         tax = inv_line.invoice_line_tax_id
                                         if cota.id in tax.ids:
                                             filtered_inv_lines.append(
@@ -618,20 +668,20 @@ class d394_new_report(models.TransientModel):
                                     inv_date = line.invoice_id.date_invoice
                                     baza += inv_curr.with_context(
                                         {'date': inv_date}).compute(
-                                        line.price_subtotal, comp_curr)
+                                            line.price_subtotal, comp_curr)
                                     taxes += inv_curr.with_context(
                                         {'date': inv_date}).compute(
-                                        line.price_normal_taxes and \
-                                        line.price_normal_taxes or \
-                                        line.price_taxes, comp_curr)
+                                            line.price_normal_taxes and
+                                            line.price_normal_taxes or
+                                            line.price_taxes, comp_curr)
                                 new_dict = {
                                     'tip': new_oper_type,
                                     'tip_partener': partner_type,
                                     'cota': cota_amount,
                                     'denP': partner.name.replace(
-                                         '&', '-').replace('"', ''),
+                                        '&', '-').replace('"', ''),
                                     'nrFact': len(set([
-                                        line.invoice_id.id for \
+                                        line.invoice_id.id for
                                         line in inv_lines])),
                                     'baza': int(round(baza)),
                                     'tva': int(round(taxes)),
@@ -685,17 +735,18 @@ class d394_new_report(models.TransientModel):
                                 fp = inv_line.invoice_id.fiscal_position
                                 tax = inv_line.product_id.supplier_taxes_id
                                 inv = inv_line.invoice_id
-                                if not fp or (('National' in \
-                                        fp.name) or ('Invers' in \
-                                        fp.name)  or (('Scutit' in \
-                                        inv.fiscal_position.name) and \
-                                        inv.partner_type == '2')):
+                                if not fp or (
+                                        ('National' in fp.name) or
+                                        ('Invers' in fp.name) or
+                                        (('Scutit' in
+                                          inv.fiscal_position.name) and
+                                         inv.partner_type == '2')):
                                     tax = inv_line.invoice_line_tax_id
                                     if cota.id in tax.ids:
                                         filtered_inv_lines.append(
                                             inv_line.id)
-                                elif not fp or ('Scutit' not in \
-                                        inv.fiscal_position.name):
+                                elif not fp or ('Scutit' not in
+                                                inv.fiscal_position.name):
                                     inv_type = inv_line.invoice_id.type
                                     if inv_type in ('out_invoice',
                                                     'out_refund'):
@@ -711,42 +762,43 @@ class d394_new_report(models.TransientModel):
                                 inv_date = line.invoice_id.date_invoice
                                 baza += inv_curr.with_context(
                                     {'date': inv_date}).compute(
-                                    line.price_subtotal, comp_curr)
+                                        line.price_subtotal, comp_curr)
                                 if new_oper_type in \
                                         ('L', 'A', 'AI'):
                                     taxes += inv_curr.with_context(
                                         {'date': inv_date}).compute(
-                                        line.price_taxes, comp_curr)
+                                            line.price_taxes, comp_curr)
                                 if (new_oper_type == 'C') or \
-                                   ((new_oper_type == 'L') and \
-                                    (line.invoice_id.partner_type in ('3', '4'))):
+                                   ((new_oper_type == 'L') and
+                                    (line.invoice_id.partner_type in
+                                     ('3', '4'))):
                                     taxes += inv_curr.with_context(
                                         {'date': inv_date}).compute(
-                                        line.price_normal_taxes and \
-                                        line.price_normal_taxes or \
-                                        line.price_taxes, comp_curr)
+                                            line.price_normal_taxes and
+                                            line.price_normal_taxes or
+                                            line.price_taxes, comp_curr)
 
                             new_dict = {
                                 'tip': new_oper_type,
                                 'tip_partener': partner_type,
                                 'cota': cota_amount,
-                                'cuiP': partner.vat and \
-                                    partner._split_vat(partner.vat)[1] or '-',
+                                'cuiP': partner.vat and partner._split_vat(
+                                    partner.vat)[1] or '-',
                                 'denP': partner.name.replace(
                                     '&', '-').replace('"', ''),
                                 'nrFact': len(part_invoices),
                                 'baza': int(round(baza)),
                                 'op11': []
                             }
-                            if oper_type in ('A', 'L', 'C', 'AI'):
+                            if new_oper_type in ('A', 'L', 'C', 'AI'):
                                 new_dict['tva'] = int(round(taxes))
 
                         if inv_lines:
                             codes = inv_lines.mapped('product_id.d394_id')
                             op11 = []
-                            if (partner_type == '1' and \
-                                    new_oper_type in ('V', 'C')) or \
-                                    (partner_type == '2' and new_oper_type == 'N'):
+                            if (partner_type == '1' and new_oper_type in (
+                                    'V', 'C')) or (partner_type == '2' and
+                                                   new_oper_type == 'N'):
                                 for code in codes:
                                     new_code = code
                                     if code.parent_id:
@@ -754,46 +806,59 @@ class d394_new_report(models.TransientModel):
                                     cod_lines = []
                                     if partner_type == '1':
                                         cod_lines = [
-                                            line for line in inv_lines.filtered(
+                                            line for line in
+                                            inv_lines.filtered(
                                                 lambda r:
-                                                r.product_id.d394_id.id == code.id\
-                                                and new_code.name <= '31')
+                                                r.product_id.d394_id.id ==
+                                                code.id and
+                                                new_code.name <= '31')
                                         ]
                                     else:
                                         cod_lines = [
-                                            line for line in inv_lines.filtered(
+                                            line for line in
+                                            inv_lines.filtered(
                                                 lambda r:
-                                                r.product_id.d394_id.id == code.id)
+                                                r.product_id.d394_id.id ==
+                                                code.id)
                                         ]
                                     if cod_lines:
                                         nrFact = len(set([
-                                            line.invoice_id.id for line in \
-                                            inv_lines.filtered(lambda r: \
-                                            r.product_id.d394_id.id == code.id)]))
+                                            line.invoice_id.id for line in
+                                            inv_lines.filtered(
+                                                lambda r:
+                                                r.product_id.d394_id.id ==
+                                                code.id)]))
                                         baza1 = 0
                                         taxes1 = 0
                                         for line in cod_lines:
-                                            inv_curr = line.invoice_id.currency_id
-                                            inv_date = line.invoice_id.date_invoice
+                                            inv_curr = \
+                                                line.invoice_id.currency_id
+                                            inv_date = \
+                                                line.invoice_id.date_invoice
                                             baza1 += inv_curr.with_context(
                                                 {'date': inv_date}).compute(
-                                                line.price_subtotal, comp_curr)
-                                            if oper_type == 'C':
-                                                taxes1 += inv_curr.with_context(
-                                                    {'date': inv_date}).compute(
-                                                    line.price_normal_taxes and \
-                                                    line.price_normal_taxes or \
-                                                    line.price_taxes, comp_curr)
+                                                    line.price_subtotal,
+                                                    comp_curr)
+                                            new_taxes = inv_curr.with_context(
+                                                {'date': inv_date}).compute(
+                                                    line.price_normal_taxes and
+                                                    line.price_normal_taxes or
+                                                    line.price_taxes,
+                                                    comp_curr)
+                                            if new_oper_type == 'C':
+                                                taxes1 += new_taxes
                                         op11_dict = {
                                             'codPR': code.name,
                                             'nrFactPR': nrFact,
                                             'bazaPR': int(round(baza1))
                                         }
-                                        if oper_type in ('A', 'L', 'C', 'AI'):
-                                            op11_dict['tvaPR'] = int(round(taxes1))
+                                        if new_oper_type in (
+                                                'A', 'L', 'C', 'AI'):
+                                            op11_dict['tvaPR'] = \
+                                                int(round(taxes1))
                                         op11.append(op11_dict)
                             new_dict['op11'] = op11
-                            op1.append(new_dict)
+                            op1 = adauga_op1(op1, new_dict)
         return op1
 
     @api.multi
@@ -825,7 +890,8 @@ class d394_new_report(models.TransientModel):
                     cota_amount = 0
                     if cota.type == 'percent':
                         if cota.child_ids:
-                            cota_amount = int(abs(cota.child_ids[0].amount) * 100)
+                            cota_amount = int(
+                                abs(cota.child_ids[0].amount) * 100)
                         else:
                             cota_amount = int(cota.amount * 100)
                     elif cota.type == 'amount':
@@ -845,42 +911,26 @@ class d394_new_report(models.TransientModel):
                         for line in inv_lines:
                             inv_curr = line.invoice_id.currency_id
                             inv_date = line.invoice_id.date_invoice
+                            new_base = inv_curr.with_context(
+                                {'date': inv_date}).compute(
+                                    line.price_subtotal, comp_curr)
+                            new_taxes = inv_curr.with_context(
+                                {'date': inv_date}).compute(
+                                    line.price_normal_taxes and
+                                    line.price_normal_taxes or
+                                    line.price_taxes, comp_curr)
                             if cota_amount == 20:
-                                baza20 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_subtotal, comp_curr)
-                                tva20 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_normal_taxes and \
-                                    line.price_normal_taxes or \
-                                    line.price_taxes, comp_curr)
+                                baza20 += new_base
+                                tva20 += new_taxes
                             if cota_amount == 19:
-                                baza19 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_subtotal, comp_curr)
-                                tva19 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_normal_taxes and \
-                                    line.price_normal_taxes or \
-                                    line.price_taxes, comp_curr)
+                                baza19 += new_base
+                                tva19 += new_taxes
                             elif cota_amount == 9:
-                                baza9 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_subtotal, comp_curr)
-                                tva9 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_normal_taxes and \
-                                    line.price_normal_taxes or \
-                                    line.price_taxes, comp_curr)
+                                baza9 += new_base
+                                tva9 += new_taxes
                             elif cota_amount == 5:
-                                baza5 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_subtotal, comp_curr)
-                                tva5 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_normal_taxes and \
-                                    line.price_normal_taxes or \
-                                    line.price_taxes, comp_curr)
+                                baza5 += new_base
+                                tva5 += new_taxes
             op2.append({
                 'tip_op2': oper_type,
                 'luna': int(period.code[:2]),
@@ -934,7 +984,7 @@ class d394_new_report(models.TransientModel):
                 op['baza'] for op in op1s if op['tip'] == 'AI')))
             rezumat1['tvaAI'] = int(round(sum(
                 op['tva'] for op in op1s if op['tip'] == 'AI')))
-        if partner_type in ('1','3','4') and cota_amount == 0:
+        if partner_type in ('1', '3', '4') and cota_amount == 0:
             rezumat1['facturiAS'] = int(round(sum(
                 op['nrFact'] for op in op1s if op['tip'] == 'AS')))
             rezumat1['bazaAS'] = int(round(sum(
@@ -944,7 +994,7 @@ class d394_new_report(models.TransientModel):
                 op['nrFact'] for op in op1s if op['tip'] == 'V')))
             rezumat1['bazaV'] = int(round(sum(
                 op['baza'] for op in op1s if op['tip'] == 'V')))
-            #rezumat1['tvaV'] = int(round(sum(
+            # rezumat1['tvaV'] = int(round(sum(
             #    op['tva'] for op in op1s if op['tip'] == 'V')))
         if (partner_type != '2') and (cota_amount != 0):
             rezumat1['facturiC'] = int(round(sum(
@@ -959,15 +1009,15 @@ class d394_new_report(models.TransientModel):
             rezumat1['document_N'] = op1s[0]['tip_document']
             rezumat1['bazaN'] = int(round(sum(
                 op['baza'] for op in op1s.filtered(
-                lambda r: r['tip'] == 'N'))))
+                    lambda r: r['tip'] == 'N'))))
         rez_detaliu = []
         for op1 in op1s:
             if op1['op11']:
                 for line in op1['op11']:
                     code = line['codPR']
                     new_code = obj_d394_code.search([('name', '=', code)])
-                    if len(new_code)>=2:
-                           new_code = new_code[0]
+                    if len(new_code) >= 2:
+                        new_code = new_code[0]
                     if new_code and new_code.parent_id:
                         new_code = new_code.parent_id
                     if rez_detaliu:
@@ -1003,7 +1053,7 @@ class d394_new_report(models.TransientModel):
                                         val['nrAchizAI'] += int(
                                             round(line['nrFactPR']))
                                         val['bazaAchizAI'] += int(
-                                           round(line['bazaPR']))
+                                            round(line['bazaPR']))
                                         val['tvaAchizAI'] += int(
                                             round(line['tvaPR']))
                                     if op1['tip'] == 'C' and op1['cota'] != 0:
@@ -1013,7 +1063,8 @@ class d394_new_report(models.TransientModel):
                                             round(line['bazaPR']))
                                         val['tvaAchizC'] += int(
                                             round(line['tvaPR']))
-                                    if op1['tip'] == 'N' and partner_type == '2':
+                                    if op1['tip'] == 'N' and \
+                                            partner_type == '2':
                                         val['nrN'] += int(
                                             round(line['nrFactPR']))
                                         val['valN'] += int(
@@ -1022,19 +1073,19 @@ class d394_new_report(models.TransientModel):
                             val = {}
                             val['bun'] = new_code.name
                             if op1['tip'] == 'L':
-                                val['nrLiv'] = val['bazaLiv'] = \
+                                val['nrLiv'] = val['bazaLiv'] = 0
                                 val['tvaLiv'] = 0
                             if op1['tip'] == 'V' and op1['cota'] == 0:
                                 val['nrLivV'] = val['bazaLivV'] = 0
                             #    val['tvaLivV'] = 0
                             if op1['tip'] == 'A':
-                                val['nrAchiz'] = val['bazaAchiz'] = \
+                                val['nrAchiz'] = val['bazaAchiz'] = 0
                                 val['tvaAchiz'] = 0
                             if op1['tip'] == 'AI':
-                                val['nrAchizAI'] = val['bazaAchizAI'] = \
+                                val['nrAchizAI'] = val['bazaAchizAI'] = 0
                                 val['tvaAchizAI'] = 0
                             if op1['tip'] == 'C' and op1['cota'] != 0:
-                                val['nrAchizC'] = val['bazaAchizC'] = \
+                                val['nrAchizC'] = val['bazaAchizC'] = 0
                                 val['tvaAchizC'] = 0
                             if partner_type == '2':
                                 val['nrN'] = val['valN'] = 0
@@ -1083,20 +1134,20 @@ class d394_new_report(models.TransientModel):
                         val = {}
                         val['bun'] = new_code.name
                         if op1['tip'] == 'L':
-                            val['nrLiv'] = val['bazaLiv'] = \
+                            val['nrLiv'] = val['bazaLiv'] = 0
                             val['tvaLiv'] = 0
                         if op1['tip'] == 'V' and op1['cota'] == 0:
                             val['nrLivV'] = val['bazaLivV'] = 0
                         #    val['tvaLivV'] = 0
                         if op1['tip'] == 'A':
-                            val['nrAchiz'] = val['bazaAchiz'] = \
+                            val['nrAchiz'] = val['bazaAchiz'] = 0
                             val['tvaAchiz'] = 0
                         if op1['tip'] == 'AI':
-                            val['nrAchizAI'] = val['bazaAchizAI'] = \
+                            val['nrAchizAI'] = val['bazaAchizAI'] = 0
                             val['tvaAchizAI'] = 0
                         if op1['tip'] == 'C' and op1['cota'] != 0:
-                            val['nrAchizC'] = val['bazaAchizC'] = \
-                                val['tvaAchizC'] = 0
+                            val['nrAchizC'] = val['bazaAchizC'] = 0
+                            val['tvaAchizC'] = 0
                         if partner_type == '2':
                             val['nrN'] = val['valN'] = 0
 
@@ -1132,28 +1183,29 @@ class d394_new_report(models.TransientModel):
         rezumat1 = []
         partner_types = set([x['tip_partener'] for x in op1])
         for partner_type in partner_types:
-            cotas = set([x['cota'] for x in op1 \
-                if x['tip_partener'] == partner_type])
+            cotas = set([x['cota'] for x in op1
+                         if x['tip_partener'] == partner_type])
             for cota in cotas:
                 op1s = []
                 if partner_type == '2':
-                    doc_types = set([x['tip_document'] for \
-                        x in op1 if x['tip_partener'] == partner_type and \
-                        x['tip'] == 'N'])
+                    doc_types = set([x['tip_document'] for
+                                     x in op1 if x['tip_partener'] ==
+                                     partner_type and
+                                     x['tip'] == 'N'])
                     for doc_type in doc_types:
-                        op1s = [x for x in op1 if \
-                            x['tip_partener'] == partner_type and \
-                            x['cota'] == cota and \
-                            x['tip_document'] == doc_type]
+                        op1s = [x for x in op1 if
+                                x['tip_partener'] == partner_type and
+                                x['cota'] == cota and
+                                x['tip_document'] == doc_type]
                     if op1s:
                         rezumat1.append(self.generate_rezumat1(invoices, op1s))
-                    op1s = [x for x in op1 if \
-                            x['tip_partener'] == partner_type and \
-                            x['cota'] == cota and \
+                    op1s = [x for x in op1 if
+                            x['tip_partener'] == partner_type and
+                            x['cota'] == cota and
                             x['tip'] != 'N']
                 else:
-                    op1s = [x for x in op1 if \
-                            x['tip_partener'] == partner_type and \
+                    op1s = [x for x in op1 if
+                            x['tip_partener'] == partner_type and
                             x['cota'] == cota]
                 if op1s:
                     rezumat1.append(self.generate_rezumat1(invoices, op1s))
@@ -1189,12 +1241,12 @@ class d394_new_report(models.TransientModel):
             inv_lines = self._get_inv_lines(invoices, cota_amount, domain)
             if inv_lines:
                 rezumat2['bazaBFAI'] = int(round(sum(
-                    line.price_subtotal for line in inv_lines if \
+                    line.price_subtotal for line in inv_lines if
                     not line.invoice_id.journal_id.fiscal_receipt)))
                 rezumat2['TVABFAI'] = int(round(sum(
-                    line.price_normal_taxes and \
-                    line.price_normal_taxes or line.price_taxes \
-                    for line in inv_lines if \
+                    line.price_normal_taxes and
+                    line.price_normal_taxes or line.price_taxes
+                    for line in inv_lines if
                     not line.invoice_id.journal_id.fiscal_receipt)))
             rezumat2['nrFacturiL'] = int(round(sum(
                 op['nrFact'] for op in op1s if op['tip'] == 'L')))
@@ -1216,67 +1268,59 @@ class d394_new_report(models.TransientModel):
                 op['tva'] for op in op1s if op['tip'] == 'AI')))
             if cota_amount == 5:
                 rezumat2['baza_incasari_i1'] = int(round(sum(
-                    x['baza5'] for x in op2 if \
+                    x['baza5'] for x in op2 if
                     x['tip_op2'] == 'I1')))
                 rezumat2['tva_incasari_i1'] = int(round(sum(
-                    x['TVA5'] for x in op2 if \
+                    x['TVA5'] for x in op2 if
                     x['tip_op2'] == 'I1')))
                 rezumat2['baza_incasari_i2'] = int(round(sum(
-                    x['baza5'] for x in op2 if \
+                    x['baza5'] for x in op2 if
                     x['tip_op2'] == 'I2')))
                 rezumat2['tva_incasari_i2'] = int(round(sum(
-                    x['TVA5'] for x in op2 if \
+                    x['TVA5'] for x in op2 if
                     x['tip_op2'] == 'I2')))
             if cota_amount == 9:
                 rezumat2['baza_incasari_i1'] = int(round(sum(
-                    x['baza9'] for x in op2 if \
+                    x['baza9'] for x in op2 if
                     x['tip_op2'] == 'I1')))
                 rezumat2['tva_incasari_i1'] = int(round(sum(
-                    x['TVA9'] for x in op2 if \
+                    x['TVA9'] for x in op2 if
                     x['tip_op2'] == 'I1')))
                 rezumat2['baza_incasari_i2'] = int(round(sum(
-                    x['baza9'] for x in op2 if \
+                    x['baza9'] for x in op2 if
                     x['tip_op2'] == 'I2')))
                 rezumat2['tva_incasari_i2'] = int(round(sum(
-                    x['TVA9'] for x in op2 if \
+                    x['TVA9'] for x in op2 if
                     x['tip_op2'] == 'I2')))
             if cota_amount == 19:
                 rezumat2['baza_incasari_i1'] = int(round(sum(
-                    x['baza19'] for x in op2 if \
+                    x['baza19'] for x in op2 if
                     x['tip_op2'] == 'I1')))
                 rezumat2['tva_incasari_i1'] = int(round(sum(
-                    x['TVA19'] for x in op2 if \
+                    x['TVA19'] for x in op2 if
                     x['tip_op2'] == 'I1')))
                 rezumat2['baza_incasari_i2'] = int(round(sum(
-                    x['baza19'] for x in op2 if \
+                    x['baza19'] for x in op2 if
                     x['tip_op2'] == 'I2')))
                 rezumat2['tva_incasari_i2'] = int(round(sum(
-                    x['TVA19'] for x in op2 if \
+                    x['TVA19'] for x in op2 if
                     x['tip_op2'] == 'I2')))
             if cota_amount == 20:
                 rezumat2['baza_incasari_i1'] = int(round(sum(
-                    x['baza20'] for x in op2 if \
+                    x['baza20'] for x in op2 if
                     x['tip_op2'] == 'I1')))
                 rezumat2['tva_incasari_i1'] = int(round(sum(
-                    x['TVA20'] for x in op2 if \
+                    x['TVA20'] for x in op2 if
                     x['tip_op2'] == 'I1')))
                 rezumat2['baza_incasari_i2'] = int(round(sum(
-                    x['baza20'] for x in op2 if \
+                    x['baza20'] for x in op2 if
                     x['tip_op2'] == 'I2')))
                 rezumat2['tva_incasari_i2'] = int(round(sum(
-                    x['TVA20'] for x in op2 if \
+                    x['TVA20'] for x in op2 if
                     x['tip_op2'] == 'I2')))
             domain = "r.operation_type == 'L' and \
                 r.partner_type == '2' and r.amount_total <= 10000"
             inv_lines = self._get_inv_lines(invoices, cota_amount, domain)
-
-            if inv_lines:
-                rezumat2['bazaL_PF'] = int(round(sum(
-                    line.price_subtotal for line in inv_lines)))
-                rezumat2['tvaL_PF'] = int(round(sum(
-                    line.price_normal_taxes and \
-                    line.price_normal_taxes or line.price_taxes \
-                    for line in inv_lines)))
         else:
             rezumat2['cota'] = sel_cota
             rezumat2['bazaFSLcod'] = 0
@@ -1309,7 +1353,8 @@ class d394_new_report(models.TransientModel):
     def _generate_rezumat2(self, invoices, payments, op1, op2):
         self.ensure_one()
         rezumat2 = []
-        cotas = set([x['cota'] for x in op1 if x['cota'] != 0] + [5, 9, 19, 20])
+        cotas = set([x['cota'] for x in op1 if
+                     x['cota'] != 0] + [5, 9, 19, 20])
         for cota in cotas:
             op1s = [x for x in op1 if x['cota'] == cota]
             rezumat2.append(self.generate_rezumat2(cota, invoices, op1s, op2))
@@ -1327,19 +1372,18 @@ class d394_new_report(models.TransientModel):
         ctx = self._context.copy()
         ctx['fiscalyear_id'] = self.period_id.fiscalyear_id.id
         invoices = obj_invoice.search([
-                    ('state', '!=', 'draft'),
-                    ('period_id', '=', self.period_id.id),
-                    ('date_invoice', '>=', self.date_from),
-                    ('date_invoice', '<=', self.date_to),
-                    ('fiscal_receipt', '=', False),
-                    '|',
-                    ('company_id', '=', self.company_id.id),
-                    ('company_id', 'in', self.company_id.child_ids.ids),
-                    '|',
-                    ('type', 'in', ('out_invoice', 'out_refund')),
-                    ('journal_id.sequence_type', 'in',
-                     ('autoinv1', 'autoinv2'))
-                ])
+            ('state', '!=', 'draft'),
+            ('period_id', '=', self.period_id.id),
+            ('date_invoice', '>=', self.date_from),
+            ('date_invoice', '<=', self.date_to),
+            ('fiscal_receipt', '=', False),
+            '|',
+            ('company_id', '=', self.company_id.id),
+            ('company_id', 'in', self.company_id.child_ids.ids),
+            '|',
+            ('type', 'in', ('out_invoice', 'out_refund')),
+            ('journal_id.sequence_type', 'in', ('autoinv1', 'autoinv2'))
+        ])
         seq_ids = set(invoices.mapped('journal_id.sequence_id.id'))
         sequences = obj_seq.browse(seq_ids)
         seq_dict = []
@@ -1378,7 +1422,8 @@ class d394_new_report(models.TransientModel):
                 tip = 3
             else:
                 tip = 4
-            inv = invoices.filtered(lambda r: \
+            inv = invoices.filtered(
+                lambda r:
                 r.journal_id.sequence_id.id == sequence.id).sorted(
                     key=lambda k: k.inv_number)
             seq1['tip'] = tip
@@ -1398,16 +1443,16 @@ class d394_new_report(models.TransientModel):
                  '55102', '55103', '5630', '0812', '9313', '9602', '9603']
         lista = []
         invoices = obj_invoice.search([
-                    ('type', 'in', ['out_invoice', 'out_refund']),
-                    ('state', 'in', ['open', 'paid']),
-                    ('period_id', '=', self.period_id.id),
-                    ('date_invoice', '>=', self.date_from),
-                    ('date_invoice', '<=', self.date_to),
-                    ('fiscal_receipt', '=', False),
-                    '|',
-                    ('company_id', '=', self.company_id.id),
-                    ('company_id', 'in', self.company_id.child_ids.ids)
-                ])
+            ('type', 'in', ['out_invoice', 'out_refund']),
+            ('state', 'in', ['open', 'paid']),
+            ('period_id', '=', self.period_id.id),
+            ('date_invoice', '>=', self.date_from),
+            ('date_invoice', '<=', self.date_to),
+            ('fiscal_receipt', '=', False),
+            '|',
+            ('company_id', '=', self.company_id.id),
+            ('company_id', 'in', self.company_id.child_ids.ids)
+        ])
         companies = set(invoices.mapped('company_id.id'))
         for company in self.env['res.company'].browse(companies):
             if company.codcaen.code.zfill(4) in caens:
@@ -1421,7 +1466,8 @@ class d394_new_report(models.TransientModel):
                     cota_amount = 0
                     if cota.type == 'percent':
                         if cota.child_ids:
-                            cota_amount = int(abs(cota.child_ids[0].amount) * 100)
+                            cota_amount = int(
+                                abs(cota.child_ids[0].amount) * 100)
                         else:
                             cota_amount = int(cota.amount * 100)
                     elif cota.type == 'amount':
@@ -1437,21 +1483,21 @@ class d394_new_report(models.TransientModel):
                         if line.product_id.type in ('product', 'consumables'):
                             bazab += inv_curr.with_context(
                                 {'date': inv_date}).compute(
-                                 line.price_subtotal, comp_curr)
+                                    line.price_subtotal, comp_curr)
                             tvab += inv_curr.with_context(
                                 {'date': inv_date}).compute(
-                                line.price_normal_taxes and \
-                                line.price_normal_taxes or \
-                                line.price_taxes, comp_curr)
+                                    line.price_normal_taxes and
+                                    line.price_normal_taxes or
+                                    line.price_taxes, comp_curr)
                         else:
                             bazas += inv_curr.with_context(
                                 {'date': inv_date}).compute(
-                                 line.price_subtotal, comp_curr)
+                                    line.price_subtotal, comp_curr)
                             tvas += inv_curr.with_context(
                                 {'date': inv_date}).compute(
-                                line.price_normal_taxes and \
-                                line.price_normal_taxes or \
-                                line.price_taxes, comp_curr)
+                                    line.price_normal_taxes and
+                                    line.price_normal_taxes or
+                                    line.price_taxes, comp_curr)
                     if bazab != 0:
                         bdict = {
                             'caen': company.codcaen.code.zfill(4),
@@ -1481,17 +1527,18 @@ class d394_new_report(models.TransientModel):
         comp_curr = self.company_id.currency_id
         facturi = []
         invoices1 = obj_invoice.search([
-                    ('fiscal_receipt', '=', False),
-                    ('state', '!=', 'draft'),
-                    ('period_id', '=', self.period_id.id),
-                    ('date_invoice', '>=', self.date_from),
-                    ('date_invoice', '<=', self.date_to),
-                    '|',
-                    ('company_id', '=', self.company_id.id),
-                    ('company_id', 'in', self.company_id.child_ids.ids)
-                ])
-        invoices = invoices1.filtered(lambda r:
-            r.amount_total < 0 or r.state == 'cancel' or \
+            ('fiscal_receipt', '=', False),
+            ('state', '!=', 'draft'),
+            ('period_id', '=', self.period_id.id),
+            ('date_invoice', '>=', self.date_from),
+            ('date_invoice', '<=', self.date_to),
+            '|',
+            ('company_id', '=', self.company_id.id),
+            ('company_id', 'in', self.company_id.child_ids.ids)
+        ])
+        invoices = invoices1.filtered(
+            lambda r:
+            r.amount_total < 0 or r.state == 'cancel' or
             r.journal_id.sequence_type in ('autoinv1', 'autoinv2'))
         for inv in invoices:
             baza24 = baza20 = baza19 = baza9 = baza5 = 0
@@ -1515,57 +1562,36 @@ class d394_new_report(models.TransientModel):
                         cota_amount = 0
                         if cota.type == 'percent':
                             if cota.child_ids:
-                                cota_amount = int(abs(cota.child_ids[0].amount) * 100)
+                                cota_amount = int(
+                                    abs(cota.child_ids[0].amount) * 100)
                             else:
                                 cota_amount = int(cota.amount * 100)
                         elif cota.type == 'amount':
                             cota_amount = int(cota.amount)
                         if cota_amount in (5, 9, 19, 20, 24):
+                            new_base = inv_curr.with_context(
+                                {'date': inv_date}).compute(
+                                    line.price_subtotal, comp_curr)
+                            new_taxes = inv_curr.with_context(
+                                {'date': inv_date}).compute(
+                                    line.price_normal_taxes and
+                                    line.price_normal_taxes or
+                                    line.price_taxes, comp_curr)
                             if cota_amount == 24:
-                                baza24 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_subtotal, comp_curr)
-                                tva24 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_normal_taxes and \
-                                    line.price_normal_taxes or \
-                                    line.price_taxes, comp_curr)
+                                baza24 += new_base
+                                tva24 += new_taxes
                             elif cota_amount == 20:
-                                baza20 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_subtotal, comp_curr)
-                                tva20 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_normal_taxes and \
-                                    line.price_normal_taxes or \
-                                    line.price_taxes, comp_curr)
-                            elif cota_amount == q9:
-                                bazaq9 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_subtotal, comp_curr)
-                                tvaq9 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_normal_taxes and \
-                                    line.price_normal_taxes or \
-                                    line.price_taxes, comp_curr)
+                                baza20 += new_base
+                                tva20 += new_taxes
+                            elif cota_amount == 19:
+                                baza19 += new_base
+                                tva19 += new_taxes
                             elif cota_amount == 9:
-                                baza9 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_subtotal, comp_curr)
-                                tva9 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_normal_taxes and \
-                                    line.price_normal_taxes or \
-                                    line.price_taxes, comp_curr)
+                                baza9 += new_base
+                                tva9 += new_taxes
                             elif cota_amount == 5:
-                                baza5 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_subtotal, comp_curr)
-                                tva5 += inv_curr.with_context(
-                                    {'date': inv_date}).compute(
-                                    line.price_normal_taxes and \
-                                    line.price_normal_taxes or \
-                                    line.price_taxes, comp_curr)
+                                baza5 += new_base
+                                tva5 += new_taxes
                 new_dict = {
                     'tip_factura': inv_type,
                     'serie': inv.inv_serie,
@@ -1608,8 +1634,11 @@ class d394_new_report(models.TransientModel):
             function = user.partner_id.function
         else:
             action = self.env.ref('base.action_partner_other_form')
-            msg = _('You need to define your Job Position. \nPlease go to associated Partner.')
-            raise RedirectWarning(msg, action.with_context({'res_id': user.partner_id.id}).id, _('Go to the partner form.'))
+            msg = _('You need to define your Job Position. '
+                    '\nPlease go to associated Partner.')
+            raise RedirectWarning(msg, action.with_context(
+                {'res_id': user.partner_id.id}).id, _(
+                    'Go to the partner form.'))
         uid_name = user.partner_id.name.split()
         uid_fname = ' '.join(uid_name[:-1])
         uid_name = uid_name[-1]
@@ -1709,15 +1738,15 @@ class d394_new_report(models.TransientModel):
             })
 
         invoices = obj_invoice.search([
-                    ('state', 'in', ['open', 'paid']),
-                    ('period_id', '=', period.id),
-                    ('fiscal_receipt', '=', False),
-                    ('date_invoice', '>=', self.date_from),
-                    ('date_invoice', '<=', self.date_to),
-                    '|',
-                    ('company_id', '=', self.company_id.id),
-                    ('company_id', 'in', self.company_id.child_ids.ids)
-                ])
+            ('state', 'in', ['open', 'paid']),
+            ('period_id', '=', period.id),
+            ('fiscal_receipt', '=', False),
+            ('date_invoice', '>=', self.date_from),
+            ('date_invoice', '<=', self.date_to),
+            '|',
+            ('company_id', '=', self.company_id.id),
+            ('company_id', 'in', self.company_id.child_ids.ids)
+        ])
         if invoices:
             xmldict.update({
                 'op_efectuate': "1"
@@ -1727,21 +1756,21 @@ class d394_new_report(models.TransientModel):
         op2 = []
         if fields.Date.from_string(self.period_id.date_start) < \
                 fields.Date.from_string('2016-10-01'):
-            op1 = [d for d in self._get_op1(invoices) if \
-                d['tip_partener'] == '1']
+            op1 = [d for d in self._get_op1(
+                invoices) if d['tip_partener'] == '1']
         else:
             invoices1 = obj_invoice.search([
-                    ('type', 'in', ('out_invoice', 'out_refund')),
-                    ('fiscal_receipt', '=', True),
-                    ('journal_id.fiscal_receipt', '=', True),
-                    ('state', 'in', ['open', 'paid']),
-                    ('period_id', '=', period.id),
-                    ('date_invoice', '>=', self.date_from),
-                    ('date_invoice', '<=', self.date_to),
-                    '|',
-                    ('company_id', '=', self.company_id.id),
-                    ('company_id', 'in', self.company_id.child_ids.ids)
-                ])
+                ('type', 'in', ('out_invoice', 'out_refund')),
+                ('fiscal_receipt', '=', True),
+                ('journal_id.fiscal_receipt', '=', True),
+                ('state', 'in', ['open', 'paid']),
+                ('period_id', '=', period.id),
+                ('date_invoice', '>=', self.date_from),
+                ('date_invoice', '<=', self.date_to),
+                '|',
+                ('company_id', '=', self.company_id.id),
+                ('company_id', 'in', self.company_id.child_ids.ids)
+            ])
             op1 = self._get_op1(invoices)
             op2 = self._get_op2(invoices1)
         payments = self._get_payments()
@@ -1775,9 +1804,11 @@ class d394_new_report(models.TransientModel):
     @api.multi
     def create_xml(self):
         self.ensure_one()
-        #self._update_partners()
-        if self.date_from < self.period_id.date_start or self.date_from > self.period_id.date_stop or \
-                self.date_to < self.period_id.date_start or self.date_to > self.period_id.date_stop:
+        # self._update_partners()
+        if self.date_from < self.period_id.date_start or \
+                self.date_from > self.period_id.date_stop or \
+                self.date_to < self.period_id.date_start or \
+                self.date_to > self.period_id.date_stop:
             raise UserError(_('Dates selected must be in the same period.'))
         ctx = dict(self._context)
         mod_obj = self.env['ir.model.data']
@@ -1882,4 +1913,4 @@ xmlns="mfp:anaf:dgti:d394:declaratie:v3" """
             'type': 'ir.actions.act_window',
             'target': 'new',
             'res_id': self.id,
-}
+        }

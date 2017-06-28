@@ -377,6 +377,8 @@ class stock_quant(osv.Model):
         # Create account moves for price difference and uneligible VAT is inventory of one the location is kept at list price.
         # To do : intercompany moves.
         if (move.location_id.usage == 'internal' and move.location_id.merchandise_type == 'store') or (move.location_dest_id.usage == 'internal' and move.location_dest_id.merchandise_type == 'store'):
+            if move.picking_id and move.picking_id.notice and move.location_id.usage == 'internal' and move.location_dest_id.usage == 'supplier':
+               ctx['type'] = 'reception_notice_refund'
             # Create moves for entry to stock location with merchandise type ==
             # store
             if (move.location_id.usage != 'internal' or (move.location_id.usage == 'internal' and move.location_id.merchandise_type != 'store')) and (move.location_dest_id.usage == 'internal' and move.location_dest_id.merchandise_type == 'store'):
@@ -426,11 +428,23 @@ class stock_quant(osv.Model):
         # of refund (e.g. 371 = 607)
         if not move.picking_id.notice and move.location_id.usage == 'customer' and move.location_dest_id.usage == 'internal':
             ctx['type'] = 'delivery_refund'
+            journal_id, acc_src, acc_dest, acc_valuation = self._get_accounting_data_for_valuation(
+                cr, uid, move, context=ctx)
+
+            if acc_src and acc_dest and acc_src != acc_dest:
+                res += self._create_account_move_line(
+                    cr, uid, quants, move, acc_src, acc_dest,   journal_id, context=ctx)
+            # Change context to create account moves for cost of goods sold
+            # (e.g. 371 = 607)
+            ctx['notice'] = False
+            ctx['type'] = 'delivery_refund'
 
         # Change context to create account moves for cost of goods received in custody - extra trial balance
         # of refund (e.g. 8033 = 899)
         if not move.picking_id.notice and move.location_id.usage == 'supplier' and move.location_dest_id.usage == 'in_custody':
             ctx['type'] = 'receive_custody'
+        if not move.picking_id.notice and move.location_dest_id.usage == 'supplier' and move.location_id.usage == 'in_custody':
+            ctx['type'] = 'receive_custody_refund'
         if not move.picking_id.notice and move.location_id.usage == 'in_custody' and move.location_dest_id.usage == 'internal':
             ctx['type'] = 'custody_to_stock'
 
@@ -452,6 +466,10 @@ class stock_quant(osv.Model):
                 # Change context to create account moves for minus in inventory
                 # (e.g. 607 = 371 with VAT collected based)
                 ctx['type'] = 'inventory_exp'
+            # Change context to create account moves for in custody
+            # of refund (e.g. 899 = 8033)
+            if move.location_dest_id.usage == 'in_custody':
+                ctx['type'] = 'custody_to_stock_refund'
             # Change context to create account moves for usage giving  (e.g.
             # 8035 = 8035)
             if move.location_dest_id.usage == 'usage_giving':
@@ -467,9 +485,20 @@ class stock_quant(osv.Model):
 
         # Change context to create account moves for plus in inventory  (e.g.
         # -607 = -371)
-        if not move.picking_id.notice and move.location_id.usage == 'inventory' and move.location_dest_id.usage == 'internal':
+        if not move.picking_id.notice and move.location_id.usage not in ('supplier', 'transit') and move.location_dest_id.usage == 'internal':
             ctx['notice'] = False
-            ctx['type'] = 'inventory'
+            if move.location_id.usage == 'inventory':
+                ctx['type'] = 'inventory'
+            else:
+                if move.location_id.usage == 'usage_giving':
+                    ctx['type'] = 'usage_giving'
+                    journal_id, acc_src, acc_dest, acc_valuation = self._get_accounting_data_for_valuation(
+                        cr, uid, move, context=ctx)
+                    if acc_src and acc_dest and ctx['type'] == 'usage_giving':
+                        ctx['type'] = 'usage_giving_refund'
+                    res += self._create_account_move_line(
+                            cr, uid, quants, move, acc_src, acc_dest, journal_id, context=ctx)
+                ctx['type'] = 'delivery_refund'
 
         journal_id, acc_src, acc_dest, acc_valuation = self._get_accounting_data_for_valuation(
             cr, uid, move, context=ctx)
@@ -594,7 +623,7 @@ class stock_quant(osv.Model):
                         'amount'] < 0 and -1 * round(tax['amount'], 2) or 0.00
 
         # Change the amounts to be with minus in case of delivery refund
-        if context.get('type', False) and context.get('type') == 'delivery_refund':
+        if context.get('type', False) and (context.get('type') in ( 'delivery_notice', 'delivery_notice_refund')):
             debit_line_vals['debit'] = -1 * debit_line_vals['debit']
             debit_line_vals['credit'] = -1 * debit_line_vals['credit']
             credit_line_vals['credit'] = -1 * credit_line_vals['credit']
@@ -619,7 +648,22 @@ class stock_quant(osv.Model):
             debit_line_vals['credit'] = 0.00
             credit_line_vals['credit'] = valuation_amount
             credit_line_vals['debit'] = 0.00
-
+        # Change the amounts to be with minus in case of delivery refund
+        if context.get('type', False) and (context.get('type') in ( 'delivery_refund', 'delivery_notice_refund','reception_notice_refund','usage_giving_refund','receive_custody_refund','custody_to_stock_refund')):
+            ir_module = self.pool['ir.module.module']
+            account_storno = False
+            mod_ids = ir_module.search(cr, uid, [('name', '=', 'account_storno')])
+            if mod_ids:
+                module = ir_module.browse(cr, uid, mod_ids[0], context)
+                account_storno = module.state in ('installed', 'to install', 'to upgrade')
+            if account_storno:
+                debit_line_vals['debit'] = -1 * debit_line_vals['debit']
+                debit_line_vals['credit'] = -1 * debit_line_vals['credit']
+                credit_line_vals['credit'] = -1 * credit_line_vals['credit']
+                credit_line_vals['debit'] = -1 * credit_line_vals['debit']
+            else:
+                debit_line_vals['debit'], debit_line_vals['credit'] = debit_line_vals['credit'], debit_line_vals['debit']
+                credit_line_vals['credit'], credit_line_vals['debit'] =  credit_line_vals['debit'], credit_line_vals['credit']
         return [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
 
     def _get_accounting_data_for_valuation(self, cr, uid, move, context=None):
@@ -649,7 +693,7 @@ class stock_quant(osv.Model):
         # Change accounts to suit romanian stock account moves.
         if context.get('type', False):
             move_type = context.get('type')
-            if move_type == 'delivery_notice':
+            if move_type == 'delivery_notice' or move_type == 'delivery_notice_refund':
                 # Change the account to the income one (70x) to suit move 418 =
                 # 70x
                 acc_src = move.product_id.property_account_income and move.product_id.property_account_income.id or False
@@ -665,10 +709,16 @@ class stock_quant(osv.Model):
                 # Change the account to the receive in custody payable account
                 # company: usualy 899
                 acc_src = move.company_id.property_stock_picking_custody_account_id and move.company_id.property_stock_picking_custody_account_id.id or False
+            if move_type == 'receive_custody_refund':
+                # Change the account to the receive in custody payable account
+                # company: usualy 899
+                acc_dest = move.company_id.property_stock_picking_custody_account_id and move.company_id.property_stock_picking_custody_account_id.id or False
             if move_type == 'custody_to_stock':
                 # Change the account to the receive in custody payable account
                 # company: usualy 899
                 acc_dest = move.company_id.property_stock_picking_custody_account_id and move.company_id.property_stock_picking_custody_account_id.id or False
+            if move_type == 'custody_to_stock_refund':
+                acc_src = move.company_id.property_stock_picking_custody_account_id and move.company_id.property_stock_picking_custody_account_id.id or False
             if move_type == 'usage_giving':
                 # Change the account to the usage giving one defined in
                 # company: usualy 8035
@@ -752,14 +802,19 @@ class stock_quant(osv.Model):
         # replace the stock accounts with the payable / receivable notice
         # accounts
         if context.get('notice', False):
-            if move.location_id.usage == 'supplier':
-                acc_src = move.company_id and move.company_id.property_stock_picking_payable_account_id and move.company_id.property_stock_picking_payable_account_id.id
-            if move.location_dest_id.usage == 'supplier':
-                acc_dest = move.company_id and move.company_id.property_stock_picking_payable_account_id and move.company_id.property_stock_picking_payable_account_id.id
-            if move.location_dest_id.usage == 'customer':
+            if  move_type == 'delivery_notice_refund':
                 acc_dest = move.company_id and move.company_id.property_stock_picking_receivable_account_id and move.company_id.property_stock_picking_receivable_account_id.id
-            if move.location_id.usage == 'customer':
-                acc_src = move.company_id and move.company_id.property_stock_picking_receivable_account_id and move.company_id.property_stock_picking_receivable_account_id.id
+            elif move_type == 'reception_notice_refund':
+                acc_src = move.company_id and move.company_id.property_stock_picking_payable_account_id and move.company_id.property_stock_picking_payable_account_id.id
+            else:
+                if move.location_id.usage == 'supplier':
+                    acc_src = move.company_id and move.company_id.property_stock_picking_payable_account_id and move.company_id.property_stock_picking_payable_account_id.id
+                if move.location_dest_id.usage == 'supplier':
+                    acc_dest = move.company_id and move.company_id.property_stock_picking_payable_account_id and move.company_id.property_stock_picking_payable_account_id.id
+                if move.location_dest_id.usage == 'customer':
+                    acc_dest = move.company_id and move.company_id.property_stock_picking_receivable_account_id and move.company_id.property_stock_picking_receivable_account_id.id
+                if move.location_id.usage == 'customer':
+                    acc_src = move.company_id and move.company_id.property_stock_picking_receivable_account_id and move.company_id.property_stock_picking_receivable_account_id.id
 
         return journal_id, acc_src, acc_dest, acc_valuation
 
@@ -818,11 +873,10 @@ class stock_picking(osv.Model):
 
     def action_cancel(self, cr, uid, ids, context=None):
         acc_move_obj = self.pool.get('account.move')
-        acc_move_line_obj = self.pool.get('account.move.line')
         for pick in self.browse(cr, uid, ids, context=context):
             for move in pick.move_lines:
                 if move.acc_move_id:
-                    acc_move_obj.cancel(cr, uid, [move.acc_move_id.id])
+                    acc_move_obj.button_cancel(cr, uid, [move.acc_move_id.id])
                     acc_move_obj.unlink(cr, uid, [move.acc_move_id.id])
         return super(stock_picking, self).action_cancel(cr, uid, ids, context=context)
 
@@ -831,7 +885,7 @@ class stock_picking(osv.Model):
         for pick in self.browse(cr, uid, ids, context=context):
             for move in pick.move_lines:
                 if move.acc_move_id:
-                    acc_move_obj.cancel(cr, uid, [move.acc_move_id.id])
+                    acc_move_obj.button_cancel(cr, uid, [move.acc_move_id.id])
                     acc_move_obj.unlink(cr, uid, [move.acc_move_id.id])
         return super(stock_picking, self).action_unlink(cr, uid, ids, context=context)
 
