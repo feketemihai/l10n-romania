@@ -107,6 +107,7 @@
                 <field name="asset_type"/>
             </field>
             <field name="purchase_date" position="before">
+                <field name="active"/>
                 <field name="entry_date" required="1"/>
             </field>
             <field name="code" position="before">

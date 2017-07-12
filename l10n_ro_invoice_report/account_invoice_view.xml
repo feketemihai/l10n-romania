@@ -10,7 +10,8 @@
             <field name="arch" type="xml">
                <field name="user_id" position="after">
                       <field name="delegate_id"  />
-                      <field name="mean_transp" colspan="2" />              
+                      <field name="mean_transp" colspan="2" />
+                      <field name="internal_number" attrs="{'readonly':False, 'invisible': [('state','&lt;&gt;', 'draft')]}"/>
                </field>
             </field>
         </record>
