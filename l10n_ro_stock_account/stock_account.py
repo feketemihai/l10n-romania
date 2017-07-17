@@ -485,7 +485,7 @@ class stock_quant(osv.Model):
 
         # Change context to create account moves for plus in inventory  (e.g.
         # -607 = -371)
-        if not move.picking_id.notice and move.location_id.usage not in ('supplier', 'transit', 'in_custody', 'internal') and move.location_dest_id.usage == 'internal':
+        if not move.picking_id.notice and move.location_id.usage not in ('supplier', 'transit', 'in_custody', 'internal', 'production') and move.location_dest_id.usage == 'internal':
             ctx['notice'] = False
             if move.location_id.usage == 'inventory':
                 ctx['type'] = 'inventory'
