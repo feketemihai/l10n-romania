@@ -95,11 +95,15 @@ class res_partner(models.Model):
         if part.vat_subjected:
             self.write({'vat_subjected': False})
         if vat_number and vat_country:
-            self.write({
-                'is_company': True,
-                'country_id': self.env['res.country'].search(
-                    [('code', 'ilike', vat_country)])[0].id
-            })
+            if vat_country == 'el':
+                country_code = 'GR'
+            else:
+                country_code = vat_country
+            self.is_company = True
+            country = self.env['res.country'].search(
+                [('code', 'ilike', country_code)])
+            if country:
+                self.country_id = country[0].id
             if vat_country == 'ro':
                 try:
                     nrc_key = 'Numar de inmatriculare la Registrul Comertului:'

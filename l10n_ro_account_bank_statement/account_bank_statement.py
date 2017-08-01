@@ -264,6 +264,7 @@ class account_bank_statement_line(osv.osv):
                             move_id,
                             context=context)
                         diff_move['account_id'] = mv_line_dict['account_id']
+                        diff_move['currency_reevaluation'] = True
                         diff_move['diff_move'] = True
                         to_create.append(diff_move)
                     if credit_at_old_rate - credit_at_current_rate:
@@ -282,6 +283,7 @@ class account_bank_statement_line(osv.osv):
                             move_id,
                             context=context)
                         diff_move['account_id'] = mv_line_dict['account_id']
+                        diff_move['currency_reevaluation'] = True
                         diff_move['diff_move'] = True
                         to_create.append(diff_move)
                 else:
