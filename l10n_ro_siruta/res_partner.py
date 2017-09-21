@@ -26,6 +26,11 @@ from odoo import models, fields, api
 class res_partner(models.Model):
     _inherit = "res.partner"
 
+    city_id = fields.Many2one('res.country.city', string='City', ondelete='set null', index=True)
+    city = fields.Char(related='city_id.name', string='City', store=True)
+    commune_id = fields.Many2one('res.country.commune', string='City/Commune', ondelete='set null', index=True)
+    zone_id = fields.Many2one('res.country.zone', string='Zone', ondelete='set null', index=True)
+
     @api.onchange('city_id')
     def _onchange_city_id(self):
         if self.city_id:
@@ -34,10 +39,25 @@ class res_partner(models.Model):
             self.zone_id = self.city_id.zone_id.id
             self.country_id = self.city_id.country_id.id
 
-    city_id = fields.Many2one(
-        'res.country.city', string='City', ondelete='set null', index=True)
-    city = fields.Char(related='city_id.name', string='City', store=True)
-    commune_id = fields.Many2one(
-        'res.country.commune', string='City/Commune', ondelete='set null', index=True)
-    zone_id = fields.Many2one(
-        'res.country.zone', string='Zone', ondelete='set null', index=True)
+    @api.onchange('commune_id')
+    def _onchange_commune_id(self):
+        if self.city_id.commune_id != self.commune_id:
+            self.city_id = False
+
+        if self.commune_id:
+            domain = [('commune_id', '=', self.commune_id.id)]
+        else:
+            domain = []
+        return {'domain': {'city_id': domain}}
+
+
+
+    @api.onchange('state_id')
+    def _onchange_state_id(self):
+        if self.commune_id.state_id != self.state_id:
+            self.commune_id = False
+        if self.state_id:
+            domain = [('state_id', '=', self.state_id.id)]
+        else:
+            domain = []
+        return {'domain': {'commune_id': domain}}

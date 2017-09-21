@@ -32,7 +32,7 @@ class res_country_zone(models.Model):
         args = args or []
         recs = self.browse()
         if name:
-            recs = self.search([('name', '=', name)] + args, limit=limit)
+            recs = self.search([('name', operator, name)] + args, limit=limit)
         if not recs:
             recs = self.search(
                 [('country_id.name', operator, name)] + args, limit=limit)
@@ -53,7 +53,7 @@ class res_country_state(models.Model):
         args = args or []
         recs = self.browse()
         if name:
-            recs = self.search([('name', '=', name)] + args, limit=limit)
+            recs = self.search([('name', operator, name)] + args, limit=limit)
         if not recs:
             recs = self.search(
                 [('zone_id.name', operator, name)] + args, limit=limit)
@@ -68,8 +68,7 @@ class res_country_state(models.Model):
             self.country_id = self.zone_id.country_id.id
 
     zone_id = fields.Many2one('res.country.zone', string='Zone')
-    commune_ids = fields.One2many(
-        'res.country.commune', 'state_id', string='Cities/Communes')
+    commune_ids = fields.One2many( 'res.country.commune', 'state_id', string='Cities/Communes')
     city_ids = fields.One2many('res.country.city', 'state_id', string='Cities')
     siruta = fields.Char('Siruta')
 
@@ -83,7 +82,7 @@ class res_country_commune(models.Model):
         args = args or []
         recs = self.browse()
         if name:
-            recs = self.search([('name', '=', name)] + args, limit=limit)
+            recs = self.search([('name', operator, name)] + args, limit=limit)
         if not recs:
             recs = self.search(
                 [('state_id.name', operator, name)] + args, limit=limit)
@@ -123,7 +122,7 @@ class res_country_city(models.Model):
         args = args or []
         recs = self.browse()
         if name:
-            recs = self.search([('name', '=', name)] + args, limit=limit)
+            recs = self.search([('name', operator, name)] + args, limit=limit)
         if not recs:
             recs = self.search(
                 [('commune_id.name', operator, name)] + args, limit=limit)

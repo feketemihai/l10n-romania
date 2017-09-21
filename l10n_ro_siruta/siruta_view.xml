@@ -94,7 +94,7 @@
         <field name="act_window_id" ref="action_commune"/>
     </record>        
 
-    <menuitem name="Country communes" groups="base.group_no_one" action="action_commune" parent="base.menu_localisation" id="menu_commune"/>
+    <menuitem name="Country communes" groups="base.group_no_one" action="action_commune" parent="sales_team.menu_localisation" id="menu_commune"/>
 
     <!--City-->
 
@@ -165,7 +165,7 @@
         <field name="act_window_id" ref="action_city"/>
     </record>        
 
-    <menuitem name="Cities" groups="base.group_no_one" action="action_city" parent="base.menu_localisation" id="menu_city"/>    
+    <menuitem name="Cities" groups="base.group_no_one" action="action_city" parent="sales_team.menu_localisation" id="menu_city"/>
 
     <!--Zones-->
 
@@ -228,6 +228,6 @@
         <field name="act_window_id" ref="action_zone"/>
     </record>        
 
-    <menuitem name="Country Zones" groups="base.group_no_one" action="action_zone" parent="base.menu_localisation" id="menu_zone"/>
+    <menuitem name="Country Zones" groups="base.group_no_one" action="action_zone" parent="sales_team.menu_localisation" id="menu_zone"/>
     </data>
 </openerp>
