@@ -12,18 +12,23 @@
             <field name="arch" type="xml">
                 <field name="city" position="replace">
                     <field name="city" invisible="1"/>
-                    <field name="city_id" placeholder="City" class="o_address_city"  style="width: 50%%"
+                    <field name="city_id" placeholder="City" class="o_address_city"
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
-                    <field name="commune_id" class="o_address_city" placeholder="City/Commune"  style="width: 50%%"
+                    <field name="commune_id" class="o_address_commune" placeholder="City/Commune"
                            options='{"no_open": True}'
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
                 </field>
-                <field name="zip" position="before">
-                    <field name="zone_id" class="o_address_state" style="width: 50%%" placeholder="Zone" options='{"no_open": True}'
+                <field name="country_id" position="before">
+                    <field name="zone_id" class="o_address_zone" placeholder="Zone" options='{"no_open": True}'
                             attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
 
                 </field>
                 <!--
+                street   street2
+                city_id  commune_id
+                state_id   zip
+                zone_id  country_id
+
                 <div class="o_address_format" position="replace">
                     <div class="o_address_format">
                         <field name="city" invisible="1"/>

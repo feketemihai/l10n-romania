@@ -29,17 +29,21 @@ Links between country - zone - state - commune - cities.
 Partner address fields extended with zone and commune.
 City field from partners is related to city_id.name.
 Fields are added in partner and partner contact forms.""",
+
     "depends": ["base", "sales_team"],
     "data": [
-        'partner_view.xml',
-        'siruta_view.xml',
+        'views/partner_view.xml',
+        'views/siruta_view.xml',
+        'views/assets.xml',
         'security/ir.model.access.csv',
-        'res.country.state.csv',
+        'data/l10n_ro/res.country.state.csv',
         'data/res.country.zone.csv',
         'data/res.country.state.csv',
 
         #
         # 'data/res_country_state.xml',
+
+        # Load big data
          'data/res.country.commune.csv',
          'data/res.country.city.csv',
     ],
