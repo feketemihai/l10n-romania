@@ -70,28 +70,23 @@ class stock_warehouse(models.Model):
         if available_colors:
             color = available_colors[0]
 
-        consume_type_id = picking_type_obj.create({
-            'name': _('Consume'),
-            'warehouse_id': warehouse.id,
-            'code': 'internal',
-            'sequence_id': cons_seq_id,
-            'default_location_src_id': wh_stock_loc.id,
-            'default_location_dest_id': cons_stock_loc.id,
-            'sequence': max_sequence + 1,
-            'color': color})
-        usage_type_id = picking_type_obj.create({
-            'name': _('Usage'),
-            'warehouse_id': warehouse.id,
-            'code': 'internal',
-            'sequence_id': usage_seq_id,
-            'default_location_src_id': wh_stock_loc.id,
-            'default_location_dest_id': usage_stock_loc.id,
-            'sequence': max_sequence + 4,
-            'color': color})
-        vals = {
-            'consume_type_id': consume_type_id.id,
-            'usage_type_id': usage_type_id.id,
-        }
+        consume_type_id = picking_type_obj.create({'name': _('Consume'),
+                                                   'warehouse_id': warehouse.id,
+                                                   'code': 'internal',
+                                                   'sequence_id': cons_seq_id,
+                                                   'default_location_src_id': wh_stock_loc.id,
+                                                   'default_location_dest_id': cons_stock_loc.id,
+                                                   'sequence': max_sequence + 1,
+                                                   'color': color})
+        usage_type_id = picking_type_obj.create({'name': _('Usage'),
+                                                 'warehouse_id': warehouse.id,
+                                                 'code': 'internal',
+                                                 'sequence_id': usage_seq_id,
+                                                 'default_location_src_id': wh_stock_loc.id,
+                                                 'default_location_dest_id': usage_stock_loc.id,
+                                                 'sequence': max_sequence + 4,
+                                                 'color': color})
+        vals = {'consume_type_id': consume_type_id.id, 'usage_type_id': usage_type_id.id,  }
         warehouse.write(vals)
         return super(stock_warehouse, self).create_sequences_and_picking_types()
 
@@ -100,17 +95,12 @@ class stock_warehouse(models.Model):
 
         location_obj = self.env['stock.location']
         # create all location
-        cons_location_id = location_obj.create({
-            'name': 'Consume',
-            'usage': 'consume',
-            'active': True,
-        })
+        cons_location_id = location_obj.create({'name': 'Consume', 'usage': 'consume', 'active': True, })
         vals['wh_consume_loc_id'] = cons_location_id
-        usage_location_id = location_obj.create({
-            'name': 'Usage Giving',
-            'usage': 'usage_giving',
-            'active': True,
-        })
+        usage_location_id = location_obj.create({'name': 'Usage Giving',
+                                                 'usage': 'usage_giving',
+                                                 'active': True,
+                                                 })
         vals['wh_usage_loc_id'] = usage_location_id.id
         warehouse = super(stock_warehouse, self).create(vals)
 
