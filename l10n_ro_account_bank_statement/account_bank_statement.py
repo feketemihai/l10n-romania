@@ -187,13 +187,11 @@ class account_bank_statement_line(osv.osv):
                     debit_at_current_rate = self.pool['res.currency'].round(
                         cr, uid,
                         company_currency,
-                        mv_line_dict['debit'] / st_line_currency_rate,
-                        context=ctx)
+                        mv_line_dict['debit'] / st_line_currency_rate)
                     credit_at_current_rate = self.pool['res.currency'].round(
                         cr, uid,
                         company_currency,
-                        mv_line_dict['credit'] / st_line_currency_rate,
-                        context=ctx)
+                        mv_line_dict['credit'] / st_line_currency_rate)
                 elif st_line.currency_id:
                     debit_at_current_rate = currency_obj.compute(
                         cr, uid,
