@@ -21,7 +21,7 @@
 ##############################################################################
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
 
 """
 class product_category(models.Model):
@@ -77,8 +77,7 @@ class stock_pack_operation(models.Model):
     _inherit = "stock.pack.operation"
 
     # todo: de adaugat functia de pentru preluare pret_unitar
-    price_unit = fields.Float('Unit Price',
-                              compute='_compute_price_unit')  # pentru a se putea modifica pretul in receptie????
+    price_unit = fields.Float('Unit Price', compute='_compute_price_unit')  # pentru a se putea modifica pretul in receptie????
 
     def _compute_price_unit(self):
         price_unit = 0.0
@@ -311,17 +310,16 @@ class stock_move(models.Model):
                     acc_src = move.product_id.categ_id.property_account_creditor_price_difference_categ
                 if move.location_dest_id.property_account_creditor_price_difference_location_id:
                     acc_src = move.location_dest_id.property_account_creditor_price_difference_location_id
-            """
+
             if move_type == 'reception_diff_vat':
                 # Receptions in location with inventory kept at list price
                 # Change the accounts with the uneligible vat one (442810) to
                 # suit move: 3xx = 442810
-                if move.product_id.taxes_id and move.product_id.taxes_id[0].account_collected_id and \
-                        move.product_id.taxes_id[0].account_collected_id.uneligible_account_id:
-                    acc_src = move.product_id.taxes_id[0].account_collected_id.uneligible_account_id
+                if move.product_id.supplier_taxes_id and move.product_id.supplier_taxes_id[0].cash_basis_account:
+                    acc_src = move.product_id.supplier_taxes_id[0].cash_basis_account
                 else:
                     acc_src = False
-            """
+
             if move_type == 'delivery_diff':
                 # Deliveries from location with inventory kept at list price
                 # Change the accounts with the price difference one (3x8) to
@@ -331,17 +329,16 @@ class stock_move(models.Model):
                     acc_dest = move.product_id.categ_id.property_account_creditor_price_difference_categ
                 if move.location_dest_id.property_account_creditor_price_difference_location_id:
                     acc_dest = move.location_dest_id.property_account_creditor_price_difference_location_id
-            """
+
             if move_type == 'delivery_diff_vat':
                 # Deliveries from location with inventory kept at list price
                 # Change the accounts with the uneligible vat one (442810) to
                 # suit move: 442810 = 3xx
-                if move.product_id.taxes_id and move.product_id.taxes_id[0].account_collected_id and \
-                        move.product_id.taxes_id[0].account_collected_id.uneligible_account_id:
-                    acc_dest = move.product_id.taxes_id[0].account_collected_id.uneligible_account_id
+                if move.product_id.taxes_id and move.product_id.taxes_id[0].cash_basis_account:
+                    acc_src = move.product_id.taxes_id[0].cash_basis_account
                 else:
                     acc_dest = False
-            """
+
 
         # If it is a notice, check if picking type is incoming or outgoing and
         # replace the stock accounts with the payable / receivable notice
@@ -352,14 +349,16 @@ class stock_move(models.Model):
             elif move_type == 'reception_notice_refund':
                 acc_src = move.company_id and move.company_id.property_stock_picking_payable_account_id
             else:
-                if move.location_id.usage == 'supplier':
-                    acc_src = move.company_id and move.company_id.property_stock_picking_payable_account_id
-                if move.location_dest_id.usage == 'supplier':
-                    acc_dest = move.company_id and move.company_id.property_stock_picking_payable_account_id
-                if move.location_dest_id.usage == 'customer':
-                    acc_dest = move.company_id and move.company_id.property_stock_picking_receivable_account_id
-                if move.location_id.usage == 'customer':
-                    acc_src = move.company_id and move.company_id.property_stock_picking_receivable_account_id
+                if move.company_id.property_stock_picking_payable_account_id:
+                    if move.location_id.usage == 'supplier':
+                        acc_src = move.company_id.property_stock_picking_payable_account_id
+                    if move.location_dest_id.usage == 'supplier':
+                        acc_dest = move.company_id.property_stock_picking_payable_account_id
+                if move.company_id.property_stock_picking_receivable_account_id:
+                    if move.location_dest_id.usage == 'customer':
+                        acc_dest = move.company_id.property_stock_picking_receivable_account_id
+                    if move.location_id.usage == 'customer':
+                        acc_src = move.company_id.property_stock_picking_receivable_account_id
 
         if acc_src and not isinstance(acc_src, int):
             acc_src = acc_src.id
@@ -589,13 +588,14 @@ class stock_quant(models.Model):
 
         # ctx['notice'] = False
 
-        if (move.location_id.usage == 'internal' and move.location_dest_id.usage == 'supplier') or \
-                (move.location_id.usage == 'supplier' and move.location_dest_id.usage == 'internal'):
-            ctx['notice'] = move.product_id.purchase_method == 'receive'
+        if ctx['notice']:
+            if (move.location_id.usage == 'internal' and move.location_dest_id.usage == 'supplier') or \
+                    (move.location_id.usage == 'supplier' and move.location_dest_id.usage == 'internal'):
+                ctx['notice'] = move.product_id.purchase_method == 'receive'
 
-        if (move.location_id.usage == 'internal' and move.location_dest_id.usage == 'customer') or \
-                (move.location_id.usage == 'customer' and move.location_dest_id.usage == 'internal'):
-            ctx['notice'] = move.product_id.invoice_policy == 'delivery'
+            if (move.location_id.usage == 'internal' and move.location_dest_id.usage == 'customer') or \
+                    (move.location_id.usage == 'customer' and move.location_dest_id.usage == 'internal'):
+                ctx['notice'] = move.product_id.invoice_policy == 'delivery'
 
         if ctx['notice'] and move.location_id.usage == 'internal' and move.location_dest_id.usage == 'supplier':
             ctx['type'] = 'reception_notice_refund'
@@ -621,8 +621,7 @@ class stock_quant(models.Model):
                         self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
             # Create moves for outgoing from stock
             if (move.location_dest_id.usage != 'internal' or
-                    (
-                            move.location_dest_id.usage == 'internal' and move.location_dest_id.merchandise_type != 'store')) and \
+                    (move.location_dest_id.usage == 'internal' and move.location_dest_id.merchandise_type != 'store')) and \
                     (move.location_id.usage == 'internal' and move.location_id.merchandise_type == 'store'):
                 ctx['type'] = 'delivery_diff'
                 move = move.with_context(ctx)
