@@ -245,23 +245,23 @@ class stock_move(models.Model):
                 acc_src = move.product_id.property_account_income_id or move.product_id.categ_id.property_account_income_categ_id
                 if move.location_id.property_account_income_location_id:
                     acc_src = move.location_id.property_account_income_location_id
-            if move_type == 'usage_giving':
+            elif move_type == 'usage_giving':
                 # Change the account to the usage giving one defined in
                 # company: usualy 8035
                 acc_src = acc_dest = move.company_id.property_stock_usage_giving_account_id
-            if move_type == 'receive_custody':
+            elif move_type == 'receive_custody':
                 # Change the account to the receive in custody payable account
                 # company: usualy 899
                 acc_src = move.company_id.property_stock_picking_custody_account_id
-            if move_type == 'custody_to_stock':
+            elif move_type == 'custody_to_stock':
                 # Change the account to the receive in custody payable account
                 # company: usualy 899
                 acc_dest = move.company_id.property_stock_picking_custody_account_id
-            if move_type == 'usage_giving':
+            elif move_type == 'usage_giving':
                 # Change the account to the usage giving one defined in
                 # company: usualy 8035
                 acc_src = acc_dest = move.company_id.property_stock_usage_giving_account_id
-            if move_type == 'delivery':
+            elif move_type == 'delivery':
                 # Change the account to the expense one (6xx) to suit move: 6xx = 3xx
                 acc_dest = move.product_id.property_account_expense_id
                 if not acc_dest:
@@ -273,7 +273,7 @@ class stock_move(models.Model):
 
                 if move.location_id.property_account_expense_location_id:
                     acc_dest = move.location_id.property_account_expense_location_id
-            if move_type == 'inventory':
+            elif move_type == 'inventory':
                 # Inventory in plus
                 # Change the account to the expense one (6xx) to suit move: 3xx = 6xx
                 acc_src = move.product_id.property_account_expense_id or move.product_id.categ_id.property_account_expense_categ_id
@@ -281,7 +281,7 @@ class stock_move(models.Model):
                     acc_src = move.product_id.property_stock_account_input or move.product_id.categ_id.property_stock_account_input_categ_id
                 if move.location_dest_id.property_account_expense_location_id:
                     acc_src = move.location_dest_id.property_account_expense_location_id
-            if move_type in ('inventory_exp', 'delivery_refund'):
+            elif move_type in ('inventory_exp', 'delivery_refund'):
                 # Inventory with minus and return of delivery
                 # Change the account to the expense one (6xx) to suit move: 6xx
                 # = 3xx
@@ -292,7 +292,7 @@ class stock_move(models.Model):
                     acc_dest = move.product_id.categ_id.property_account_expense_categ_id
                 if move.location_id.property_account_expense_location_id:
                     acc_dest = move.location_id.property_account_expense_location_id
-            if move_type == 'inventory_vat':
+            elif move_type == 'inventory_vat':
                 # Inventory with minus - collect vat
                 # Change the accounts with the vat one (442700) and
                 # undeductible one defined in company (usualy 635000) to suit
@@ -301,7 +301,7 @@ class stock_move(models.Model):
                     acc_src = move.product_id.taxes_id[0].account_id
                 if move.company_id.property_undeductible_tax_account_id:
                     acc_dest = move.company_id and move.company_id.property_undeductible_tax_account_id
-            if move_type == 'reception_diff':
+            elif move_type == 'reception_diff':
                 # Receptions in location with inventory kept at list price
                 # Change the accounts with the price difference one (3x8) to
                 # suit move: 3xx = 3x8
@@ -311,7 +311,7 @@ class stock_move(models.Model):
                 if move.location_dest_id.property_account_creditor_price_difference_location_id:
                     acc_src = move.location_dest_id.property_account_creditor_price_difference_location_id
 
-            if move_type == 'reception_diff_vat':
+            elif move_type == 'reception_diff_vat':
                 # Receptions in location with inventory kept at list price
                 # Change the accounts with the uneligible vat one (442810) to
                 # suit move: 3xx = 442810
@@ -320,7 +320,7 @@ class stock_move(models.Model):
                 else:
                     acc_src = False
 
-            if move_type == 'delivery_diff':
+            elif move_type == 'delivery_diff':
                 # Deliveries from location with inventory kept at list price
                 # Change the accounts with the price difference one (3x8) to
                 # suit move: 3x8 = 3xx
@@ -330,12 +330,12 @@ class stock_move(models.Model):
                 if move.location_dest_id.property_account_creditor_price_difference_location_id:
                     acc_dest = move.location_dest_id.property_account_creditor_price_difference_location_id
 
-            if move_type == 'delivery_diff_vat':
+            elif move_type == 'delivery_diff_vat':
                 # Deliveries from location with inventory kept at list price
                 # Change the accounts with the uneligible vat one (442810) to
                 # suit move: 442810 = 3xx
                 if move.product_id.taxes_id and move.product_id.taxes_id[0].cash_basis_account:
-                    acc_src = move.product_id.taxes_id[0].cash_basis_account
+                    acc_dest = move.product_id.taxes_id[0].cash_basis_account
                 else:
                     acc_dest = False
 
@@ -577,10 +577,10 @@ class stock_quant(models.Model):
         # Create Journal Entry for stock moves
         ctx = self.env.context.copy()
         if company_to:
-            if move.location_id.usage in ('supplier', 'customer'):
+            if location_from.usage in ('supplier', 'customer'):
                 ctx['force_company'] = company_to.id
         if company_from:
-            if move.location_dest_id.usage in ('supplier', 'customer'):
+            if location_to.usage in ('supplier', 'customer'):
                 ctx['force_company'] = company_from.id
 
         # Put notice in context if the picking is a notice
@@ -589,40 +589,40 @@ class stock_quant(models.Model):
         # ctx['notice'] = False
 
         if ctx['notice']:
-            if (move.location_id.usage == 'internal' and move.location_dest_id.usage == 'supplier') or \
-                    (move.location_id.usage == 'supplier' and move.location_dest_id.usage == 'internal'):
+            if (location_from.usage == 'internal' and location_to.usage == 'supplier') or \
+                    (location_from.usage == 'supplier' and location_to.usage == 'internal'):
                 ctx['notice'] = move.product_id.purchase_method == 'receive'
 
-            if (move.location_id.usage == 'internal' and move.location_dest_id.usage == 'customer') or \
-                    (move.location_id.usage == 'customer' and move.location_dest_id.usage == 'internal'):
+            if (location_from.usage == 'internal' and location_to.usage == 'customer') or \
+                    (location_from.usage == 'customer' and location_to.usage == 'internal'):
                 ctx['notice'] = move.product_id.invoice_policy == 'delivery'
 
-        if ctx['notice'] and move.location_id.usage == 'internal' and move.location_dest_id.usage == 'supplier':
+        if ctx['notice'] and location_from.usage == 'internal' and location_to.usage == 'supplier':
             ctx['type'] = 'reception_notice_refund'
 
         # Create account moves for price difference and uneligible VAT is inventory of one the location is kept at list price.
         # To do : intercompany moves.
-        if (move.location_id.usage == 'internal' and move.location_id.merchandise_type == 'store') \
-                or (move.location_dest_id.usage == 'internal' and move.location_dest_id.merchandise_type == 'store'):
+        if (location_from.usage == 'internal' and location_from.merchandise_type == 'store') \
+                or (location_to.usage == 'internal' and location_to.merchandise_type == 'store'):
             # Create moves for entry to stock location with merchandise type ==  store
-            if (move.location_id.usage != 'internal' or
-                    (move.location_id.usage == 'internal' and move.location_id.merchandise_type != 'store')) and \
-                    (move.location_dest_id.usage == 'internal' and move.location_dest_id.merchandise_type == 'store'):
+            if (location_from.usage != 'internal' or
+                    (location_from.usage == 'internal' and location_from.merchandise_type != 'store')) and \
+                    (location_to.usage == 'internal' and location_to.merchandise_type == 'store'):
                 ctx['type'] = 'reception_diff'
                 move = move.with_context(ctx)
                 journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
                 if acc_src and acc_dest and acc_src != acc_dest:
                     self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
                 ctx['type'] = 'reception_diff_vat'
-                if move.location_id.usage != 'supplier':
+                if location_from.usage != 'supplier':
                     move = move.with_context(ctx)
                     journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
                     if acc_src and acc_dest and acc_src != acc_dest:
                         self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
             # Create moves for outgoing from stock
-            if (move.location_dest_id.usage != 'internal' or
-                    (move.location_dest_id.usage == 'internal' and move.location_dest_id.merchandise_type != 'store')) and \
-                    (move.location_id.usage == 'internal' and move.location_id.merchandise_type == 'store'):
+            if (location_to.usage != 'internal' or
+                    (location_to.usage == 'internal' and location_to.merchandise_type != 'store')) and \
+                    (location_from.usage == 'internal' and location_from.merchandise_type == 'store'):
                 ctx['type'] = 'delivery_diff'
                 move = move.with_context(ctx)
                 journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
@@ -636,7 +636,7 @@ class stock_quant(models.Model):
                     self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
 
         # Create account moves for deliveries with notice (e.g. 418 = 707)
-        if ctx['notice'] and move.location_id.usage == 'internal' and move.location_dest_id.usage == 'customer':
+        if ctx['notice'] and location_from.usage == 'internal' and location_to.usage == 'customer':
             ctx['type'] = 'delivery_notice'
             move = move.with_context(ctx)
             journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
@@ -649,7 +649,7 @@ class stock_quant(models.Model):
             ctx['type'] = 'delivery'
 
         # Create account moves for refund deliveries with notice (e.g. 707 = 418)
-        if ctx['notice'] and move.location_id.usage == 'customer' and move.location_dest_id.usage == 'internal':
+        if ctx['notice'] and location_from.usage == 'customer' and location_to.usage == 'internal':
             ctx['type'] = 'delivery_notice_refund'
             move = move.with_context(ctx)
             journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
@@ -664,26 +664,26 @@ class stock_quant(models.Model):
 
         # Change context to create account moves for cost of goods sold in case
         # of refund (e.g. 371 = 607)
-        if not ctx['notice'] and move.location_id.usage == 'customer' and move.location_dest_id.usage == 'internal':
+        if not ctx['notice'] and location_from.usage == 'customer' and location_to.usage == 'internal':
             ctx['type'] = 'delivery_refund'
 
         # Change context to create account moves for cost of goods received in custody - extra trial balance
         # of refund (e.g. 8033 = 899)
-        if not ctx['notice'] and move.location_id.usage == 'supplier' and move.location_dest_id.usage == 'in_custody':
+        if not ctx['notice'] and location_from.usage == 'supplier' and location_to.usage == 'in_custody':
             ctx['type'] = 'receive_custody'
-        if not ctx['notice'] and move.location_id.usage == 'in_custody' and move.location_dest_id.usage == 'internal':
+        if not ctx['notice'] and location_from.usage == 'in_custody' and location_to.usage == 'internal':
             ctx['type'] = 'custody_to_stock'
 
-        if not ctx['notice'] and move.location_id.usage == 'internal' and move.location_dest_id.usage not in (
+        if not ctx['notice'] and location_from.usage == 'internal' and location_to.usage not in (
                 'supplier', 'transit'):
             # Change context to create account moves for cost of goods
             # delivered  (e.g. 607 = 371)
             ctx['notice'] = False
-            if move.location_dest_id.usage != 'internal':
+            if location_to.usage != 'internal':
                 ctx['type'] = 'delivery'
             # Change context to create account moves for collected VAT in case
             # of minus in inventory  (e.g. 635 = 4427)
-            if move.location_dest_id.usage == 'inventory':
+            if location_to.usage == 'inventory':
                 ctx['type'] = 'inventory_vat'
                 move = move.with_context(ctx)
                 journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
@@ -695,7 +695,7 @@ class stock_quant(models.Model):
                 ctx['type'] = 'inventory_exp'
             # Change context to create account moves for usage giving  (e.g.
             # 8035 = 8035)
-            if move.location_dest_id.usage == 'usage_giving':
+            if location_to.usage == 'usage_giving':
                 ctx['type'] = 'usage_giving'
                 move = move.with_context(ctx)
                 journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
@@ -708,7 +708,7 @@ class stock_quant(models.Model):
 
         # Change context to create account moves for plus in inventory  (e.g.
         # -607 = -371)
-        if not ctx['notice'] and move.location_id.usage == 'inventory' and move.location_dest_id.usage == 'internal':
+        if not ctx['notice'] and location_from.usage == 'inventory' and location_to.usage == 'internal':
             ctx['notice'] = False
             ctx['type'] = 'inventory'
         move = move.with_context(ctx)

@@ -12,14 +12,14 @@ class AccountInvoice(models.Model):
         data = super(AccountInvoice, self)._prepare_invoice_line_from_po_line(line)
         if self.type in ['in_invoice','in_refund']:
 
-            if line.product_id.purchase_method == 'receive': # receptia in baza cantitatilor primite
+            if line.product_id.purchase_method == 'receive':     # receptia in baza cantitatilor primite
                 if line.product_id.type == 'product':
-                    ok = False
-                    for move in line.move_ids:
-                        if move.acc_move_id:
-                            ok = True
+                    notice = False
+                    for picking in line.order_id.picking_ids:
+                        if picking.notice:
+                            notice = True
 
-                    if ok :  # daca e stocabil si exista un doc facut
+                    if notice :  # daca e stocabil si exista un document facut
                         data['account_id'] = line.company_id.property_stock_picking_payable_account_id.id or \
                                              line.product_id.property_stock_account_input.id or \
                                              line.product_id.categ_id.property_stock_account_input_categ_id.id or \
@@ -30,8 +30,7 @@ class AccountInvoice(models.Model):
                                              data['account_id']
 
                 else:  # daca nu este stocabil trebuie sa fie un cont de cheltuiala
-                    data['account_id'] = line.company_id.property_stock_picking_payable_account_id.id or \
-                                         line.product_id.property_account_expense_id.id or \
+                    data['account_id'] = line.product_id.property_account_expense_id.id or \
                                          line.product_id.categ_id.property_account_expense_categ_id.id or \
                                          data['account_id']
             else:
