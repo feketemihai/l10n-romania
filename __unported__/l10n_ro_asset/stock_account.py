@@ -38,6 +38,7 @@ class stock_move(osv.osv):
     _name = "stock.move"
     _inherit = "stock.move"
 
+    # todo: de rescris in new api
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
         res = super(stock_move, self)._get_invoice_line_vals(
             cr, uid, move, partner, inv_type, context=context)

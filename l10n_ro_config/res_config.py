@@ -138,12 +138,9 @@ class l10n_ro_config_settings(models.TransientModel):
                                                            domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",
                                                            help="This account will be used as the supplier advance account for the current partner on vouchers.")
     siruta_update = fields.Boolean('Update Siruta Data')
-    asset_category_chart_installed = fields.Boolean(
-        'Install Chart of Asset Category', related='company_id.asset_category_chart_installed')
-    bank_statement_template_installed = fields.Boolean(
-        'Load Bank Statement Templates', related='company_id.bank_statement_template_installed')
-    account_period_close_template_installed = fields.Boolean(
-        'Load Account Period Close Templates', related='company_id.account_period_close_template_installed')
+    asset_category_chart_installed = fields.Boolean( 'Install Chart of Asset Category', related='company_id.asset_category_chart_installed')
+    bank_statement_template_installed = fields.Boolean( 'Load Bank Statement Templates', related='company_id.bank_statement_template_installed')
+    account_period_close_template_installed = fields.Boolean(  'Load Account Period Close Templates', related='company_id.account_period_close_template_installed')
 
     @api.model
     def create(self, values):

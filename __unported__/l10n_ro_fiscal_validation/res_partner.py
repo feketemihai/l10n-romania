@@ -100,10 +100,7 @@ class res_partner(models.Model):
         istoric = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), 'data', 'istoric.txt')
         vat_regex = '^[0-9]+#(%s)#' % '|'.join(vat_numbers)
-        anaf_data = Popen(
-            ['egrep', vat_regex, istoric],
-            stdout=PIPE
-        )
+        anaf_data = Popen(            ['egrep', vat_regex, istoric],            stdout=PIPE        )
         (process_lines, err) = anaf_data.communicate()
         process_lines = [x.split('#') for x in process_lines.split()]
         lines = self.env['res.partner.anaf'].search([ ('id', 'in', [int(x[0]) for x in process_lines])])
@@ -231,8 +228,3 @@ class res_partner(models.Model):
             time.sleep(5)
         _logger.info( "End Update All")
             
-
- 
-
-
- 
