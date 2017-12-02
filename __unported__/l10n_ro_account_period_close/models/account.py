@@ -21,27 +21,27 @@
 ##############################################################################
 
 from odoo import models, fields, api, _
-
+from odoo.exceptions import   Warning
 
 class account_move(models.Model):
     _inherit = 'account.move'
 
-    close_id = fields.Many2one('account.period.closing', 'Closed Account Period')    
-         
+    close_id = fields.Many2one('account.period.closing', 'Closed Account Period')
+
 
 class account_period_closing(models.Model):
     _name = 'account.period.closing'
     _description = 'Account Period Closing'
 
     name = fields.Char('Name', required=True)
-    company_id = fields.Many2one( 'res.company', string='Company', required=True)
+    company_id = fields.Many2one('res.company', string='Company', required=True)
     type = fields.Selection(
         [
             ('income', 'Incomes'),
             ('expense', 'Expenses'),
             ('selected', 'Selected')
         ], string='Type', required=True)
-    account_ids = fields.Many2many(  'account.account', string='Accounts to close', select=True)
+    account_ids = fields.Many2many('account.account', string='Accounts to close', select=True)
     debit_account_id = fields.Many2one(
         'account.account',
         'Closing account, debit',
@@ -60,7 +60,7 @@ class account_period_closing(models.Model):
     def _onchange_type(self):
         account_ids = False
         if self.type and self.type in ('income', 'expense'):
-            user_types = self.env['account.account.type'].search( [('code', '=', self.type)])
+            user_types = self.env['account.account.type'].search([('code', '=', self.type)])
             self.account_ids = self.env['account.account'].search([
                 ('user_type_id', 'in', [x.id for x in user_types]),
                 ('type', '!=', 'view'),
@@ -73,7 +73,7 @@ class account_period_closing(models.Model):
     def close(self, date=None, period=None, journal=None):
         """ This method will create the closing move for the period selected"""
         if not period or not journal:
-            raise osv.except_osv('No period or journal defined')
+            raise Warning(_('No period or journal defined'))
         closing = self[0]
         account_obj = self.env['account.account']
         ctx = dict(self._context)
@@ -86,7 +86,7 @@ class account_period_closing(models.Model):
         move = self.env['account.move'].create({
             'date': date,
             'journal_id': journal,
-            'period_id': period,
+            #'period_id': period,
             'close_id': closing.id,
             'company_id': closing.company_id.id
         })
@@ -103,7 +103,7 @@ class account_period_closing(models.Model):
                         'debit': 0.0,
                         'company_id': closing.company_id.id,
                         'journal_id': journal,
-                        'period_id': period,
+                        #'period_id': period,
                     }
                 elif closing.type == 'income':
                     val = {
@@ -115,7 +115,7 @@ class account_period_closing(models.Model):
                         'debit': (-1 * account['balance']) or 0.0,
                         'company_id': closing.company_id.id,
                         'journal_id': journal,
-                        'period_id': period,
+                        #'period_id': period,
                     }
                 else:
                     val = {
@@ -127,7 +127,7 @@ class account_period_closing(models.Model):
                         'debit': account['balance'] < 0.0 and -account['balance'] or 0.0,
                         'company_id': closing.company_id.id,
                         'journal_id': journal,
-                        'period_id': period,
+                        #'period_id': period,
                     }
                 sum += account['balance']
                 self.env['account.move.line'].create(val)
@@ -140,9 +140,8 @@ class account_period_closing(models.Model):
             'debit': sum >= 0.0 and sum or 0.0,
             'company_id': closing.company_id.id,
             'journal_id': journal,
-            'period_id': period,
+            #'period_id': period,
         }
         self.env['account.move.line'].create(diff_line)
         return True
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

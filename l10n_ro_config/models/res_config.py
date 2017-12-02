@@ -1,33 +1,13 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
-#    (http://www.forbiom.eu).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2015 Forest and Biomass Services Romania
+# See README.rst file on addons root folder for license details
 
-from odoo import models, fields, api, tools, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-
-import csv
+from odoo import models, fields, api, tools
 import os
+import csv
 
 
-class l10n_ro_config_settings(models.TransientModel):
+class RomaniaConfigSettings(models.TransientModel):
     _name = 'l10n.ro.config.settings'
     _inherit = 'res.config.settings'
 
@@ -39,8 +19,7 @@ class l10n_ro_config_settings(models.TransientModel):
                                                  help='This allows you to manage partners compensation on accounts marked to be reconciled.')
     module_account_storno = fields.Boolean('Storno Accounting',
                                            help='This allows you to manage the storno behaviour in accounting.')
-    #module_account_vat_on_payment = fields.Boolean('Vat on Payment Accounting',
-    #                                               help='This allows you to manage the vat on payment behaviour in accounting.')
+
     module_currency_rate_update = fields.Boolean('Currency Rate Update',
                                                  help='This allows you to manage the update of currency rate based on different provider, use BNR site.')
     module_l10n_ro_account_bank_statement = fields.Boolean('Bank Statement Invoices',
@@ -100,6 +79,8 @@ class l10n_ro_config_settings(models.TransientModel):
     module_l10n_ro_partner_unique = fields.Boolean('Partners unique by Company, VAT, NRC',
                                                   help='This allows you to set unique partners by company, VAT and NRC.')
 
+
+
     property_undeductible_account_id = fields.Many2one('account.account', related='company_id.property_undeductible_account_id',
                                                        string="Undeductible Account",
                                                        domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
@@ -144,7 +125,7 @@ class l10n_ro_config_settings(models.TransientModel):
 
     @api.model
     def create(self, values):
-        id = super(l10n_ro_config_settings, self).create(values)
+        id = super(RomaniaConfigSettings, self).create(values)
         # Hack: to avoid some nasty bug, related fields are not written upon record creation.
         # Hence we write on those fields here.
         vals = {}
@@ -154,7 +135,7 @@ class l10n_ro_config_settings(models.TransientModel):
         self.write(vals)
         return id
 
-    @api.multi
+    @api.onchange('company_id')
     def onchange_company_id(self, company_id):
         # update related fields
         values = {}
@@ -176,59 +157,36 @@ class l10n_ro_config_settings(models.TransientModel):
 
     @api.multi
     def execute(self):
-        res = super(l10n_ro_config_settings, self).execute()
+        res = super(RomaniaConfigSettings, self).execute()
         data_dir = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), 'data')
+
+
+        # Load SIRUTA datas if field is checked
+        wiz = self[0]
+        if wiz.siruta_update:
+            # First check if module is installed
+            installed = self.env['ir.module.module'].search(
+                [('name', '=', 'l10n_ro_siruta'),
+                 ('state', '=', 'installed')])
+            if installed:
+                path = data_dir + '/l10n_ro_siruta/'
+                files = ['res.country.zone.csv',
+                         'res.country.state.csv',
+                         'res.country.commune.csv',
+                         'res.country.city.csv']
+                for file1 in files:
+                    with tools.file_open(path + file1) as fp:
+                        tools.convert_csv_import(self._cr,
+                                                 'l10n_ro_config',
+                                                 file1,
+                                                 fp.read(),
+                                                 {},
+                                                 mode="init",
+                                                 noupdate=True)
+
         account_obj = self.env['account.account']
-        # Load VAT on Payment Configuration
-        """
-        installed = self.env['ir.module.module'].search(  [('name', '=', 'account_vat_on_payment'), ('state', '=', 'installed')])
-        if installed:
-            tax_code_names = ('TVA 5%', 'TVA 9%', 'TVA 19%', 'TVA 20%', 'TVA 24%',
-                              'Baza TVA 5%', 'Baza TVA 9%', 'Baza TVA 19%', 'Baza TVA 20%', 'Baza TVA 24%')
-            tax_codes = self.env['account.tax.code'].search(
-                [('company_id', '=', self.company_id.id), ('name', 'in', tax_code_names)])
-            unnelig_vat_colect_tax_code = self.env['account.tax.code'].search(
-                [('company_id', '=', self.company_id.id), ('name', '=', 'TVA Neexigibil Colectat')])
-            unnelig_base_vat_colect_tax_code = self.env['account.tax.code'].search(
-                [('company_id', '=', self.company_id.id), ('name', '=', 'Baza TVA Neexigibil Colectat')])
-            unnelig_vat_deduct_tax_code = self.env['account.tax.code'].search(
-                [('company_id', '=', self.company_id.id), ('name', '=', 'TVA Neexigibil Deductibil')])
-            unnelig_base_vat_deduct_tax_code = self.env['account.tax.code'].search(
-                [('company_id', '=', self.company_id.id), ('name', '=', 'Baza TVA Neexigibil Deductibil')])
-            if unnelig_vat_colect_tax_code and unnelig_base_vat_colect_tax_code and unnelig_vat_deduct_tax_code and unnelig_base_vat_deduct_tax_code:
-                if tax_codes:
-                    for tax_code in tax_codes:
-                        if not tax_code.uneligible_tax_code_id:
-                            if 'Baza' in tax_code.name:
-                                if 'colectat' in tax_code.code:
-                                    tax_code.uneligible_tax_code_id = unnelig_base_vat_colect_tax_code[
-                                        0].id
-                                else:
-                                    tax_code.uneligible_tax_code_id = unnelig_base_vat_deduct_tax_code[
-                                        0].id
-                            else:
-                                if 'colectat' in tax_code.code:
-                                    tax_code.uneligible_tax_code_id = unnelig_vat_colect_tax_code[ 0].id
-                                else:
-                                    tax_code.uneligible_tax_code_id = unnelig_vat_deduct_tax_code[ 0].id
 
-            unnelig_colect_account = account_obj.search(
-                [('company_id', '=', self.company_id.id), ('code', 'ilike', '442810')])
-            colect_account = account_obj.search(
-                [('company_id', '=', self.company_id.id), ('code', 'ilike', '442700')])
-            unnelig_deduct_account = account_obj.search(
-                [('company_id', '=', self.company_id.id), ('code', 'ilike', '442820')])
-            deduct_account = account_obj.search(
-                [('company_id', '=', self.company_id.id), ('code', 'ilike', '442600')])
-
-            if unnelig_colect_account and colect_account:
-                if not colect_account[0].uneligible_account_id:
-                    colect_account[0].uneligible_account_id = unnelig_colect_account[0].id
-            if unnelig_deduct_account and deduct_account:
-                if not deduct_account[0].uneligible_account_id:
-                    deduct_account[ 0].uneligible_account_id = unnelig_deduct_account[0].id
-        """
         #-------------
         # Load Undeductible VAT Configuration
         installed = self.env['ir.module.module'].search(  [('name', '=', 'l10n_ro_invoice_line_not_deductible'),

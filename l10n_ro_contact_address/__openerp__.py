@@ -22,7 +22,7 @@
 {
     "name": "Contacts Detailed Address",
     "summary": "Introduces separate fields for street name and number, block, staircase and apartment number.",
-    "version": "8.0.1.0.0",
+    "version": "10.0.1.0.0",
     "author": "Forest and Biomass Services Romania,Odoo Community Association (OCA)",
     "website": "https://forbiom.eu",
     "category": 'Tools',

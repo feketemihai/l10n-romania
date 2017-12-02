@@ -1,36 +1,28 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
-#    (http://www.forbiom.eu).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2015 Forest and Biomass Services Romania
+# See README.rst file on addons root folder for license details
+
 {
-    "name": "Romania - Siruta",
-    "version": "1.0",
-    "author": "FOREST AND BIOMASS SERVICES ROMANIA SA",
-    "category": "Generic Modules/Base",
-    "description": """Creates models for storing zones, communes.
+    'name': 'Romania - Siruta',
+    'summary': 'Romania - Siruta',
+    'version': '10.0.1.0.0',
+    'category': 'Localization',
+    "description": """
+Creates models for storing zones, communes.
 Links between country - zone - state - commune - cities.
 Partner address fields extended with zone and commune.
 City field from partners is related to city_id.name.
-Fields are added in partner and partner contact forms.""",
+Fields are added in partner and partner contact forms.
 
-    "depends": ["base", "sales_team"],
+""",
+    'author': 'Forest and Biomass Services Romania, '
+              'Odoo Community Association (OCA)',
+    'website': 'https://www.forbiom.eu',
+    'license': 'AGPL-3',
+    'application': False,
+    'installable': True,
+    'depends': ["base", "sales_team"],
+
     "data": [
         'views/partner_view.xml',
         'views/siruta_view.xml',
@@ -44,8 +36,10 @@ Fields are added in partner and partner contact forms.""",
         # 'data/res_country_state.xml',
 
         # Load big data
-         'data/res.country.commune.csv',
-         'data/res.country.city.csv',
+        'data/res.country.commune.csv',
+        'data/res.country.city.csv',
+        'data/res_partner.yml',
     ],
-    "installable": True
+    'images': ['static/description/customer.png',
+               'static/description/address.png']
 }
