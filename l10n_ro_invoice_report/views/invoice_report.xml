@@ -209,7 +209,7 @@
                                             <t t-set="quantity" t-value="-1*l.quantity"/>
                                         </t>
                                         <span t-if="quantity" id="quantity" t-esc="formatLang(quantity)"/>
-                                        <span t-field="l.uos_id" groups="product.group_uom"/>
+                                        <span t-field="l.uom_id" groups="product.group_uom"/>
                                     </td>
                                     <td class="text-right">
                                         <t t-set="price_unit_without_taxes" t-value="l.price_unit_without_taxes"/>
