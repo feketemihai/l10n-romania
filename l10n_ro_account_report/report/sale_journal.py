@@ -242,10 +242,6 @@ class sale_journal(report_sxw.rml_parse):
                                 if 'INTRACOMUNITAR' in tax_line.name:
                                     vals['base_ded1'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
-                            if inv1.fiscal_position and ('Extra-Comunitar' in inv1.fiscal_position.name):
-                                if 'INVERS' in tax_line.name.upper():
-                                    vals['others'] += currency_obj.compute(
-                                        self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, inv1.amount_total, dp, context={'date': inv1.date_invoice})
                             if inv1.fiscal_position and ('Scutite' in inv1.fiscal_position.name):
                                 if 'SCUTIT' in tax_line.name.upper():
                                     vals['scutit2'] += currency_obj.compute(
@@ -254,7 +250,10 @@ class sale_journal(report_sxw.rml_parse):
                                 if 'INVERS' in tax_line.name.upper():
                                     vals['neimp'] += currency_obj.compute(
                                         self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, tax_line.base, dp, context={'date': inv1.date_invoice}) or 0.00
-
+                    elif inv1.fiscal_position and ('Extra-Comunitar' in inv1.fiscal_position.name):
+                        vals['others'] = currency_obj.compute(
+                            self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, inv1.amount_untaxed, dp, context={'date': inv1.date_invoice})
+                            
                 if inv1.vat_on_payment:
                     vals['total_base'] = vals['total_vat'] = 0.00
                     if inv1.payment_ids:
