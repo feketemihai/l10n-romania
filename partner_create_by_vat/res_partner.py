@@ -23,6 +23,7 @@
 
 import datetime
 import time
+import re
 
 from string import maketrans
 import requests
@@ -111,10 +112,12 @@ class res_partner(models.Model):
                     result = getMfinante(vat_number)
                     name = nrc = adresa = tel = fax = False
                     zip1 = vat_s = state = False
+                    city = False
                     if 'Denumire platitor:' in result.keys():
                         name = result['Denumire platitor:'].upper()
                     if 'Adresa:' in result.keys():
                         adresa = result['Adresa:'].title() or ''
+                        city=re.split(r'(\w*\d+\w*|,|:|;)',adresa)[-1].strip()
                     if nrc_key in result.keys():
                         nrc = result[nrc_key].replace(' ', '')
                         if nrc == '-/-/-':
@@ -141,6 +144,7 @@ class res_partner(models.Model):
                         'name': name or '',
                         'nrc': nrc or '',
                         'street': adresa or '',
+                        'city': city or '' ,
                         'phone': tel or '',
                         'fax': fax or '',
                         'zip': zip1 or '',
