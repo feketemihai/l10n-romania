@@ -15,7 +15,7 @@
     "data": [
         "data/cron.xml",
         "views/currency_rate_update.xml",
-        "views/account_config_settings.xml",
+       # "views/account_config_settings.xml",
         "security/rule.xml",
         "security/ir.model.access.csv",
         "views/res_currency_view.xml",

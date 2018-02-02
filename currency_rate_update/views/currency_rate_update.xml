@@ -58,6 +58,6 @@
     </record>
 
     <menuitem id="currency_rate_update_menu" action="currency_rate_update_action"
-        parent="account.menu_config_multi_currency" sequence="30"/>
+        parent="account.account_account_menu" sequence="30"/>
 
 </odoo>
