@@ -72,7 +72,7 @@ class ProductTemplate(models.Model):
         return accounts
 '''
 
-
+""" nu mai exista in 11.0
 class stock_pack_operation(models.Model):
     _inherit = "stock.pack.operation"
 
@@ -86,7 +86,7 @@ class stock_pack_operation(models.Model):
                 price_unit += move.price_unit
             price_unit = price_unit / len(self.linked_move_operation_ids)
         self.price_unit = price_unit
-
+"""
 
 # ----------------------------------------------------------
 # Stock Location

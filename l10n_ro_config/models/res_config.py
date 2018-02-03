@@ -8,7 +8,7 @@ import csv
 
 
 class RomaniaConfigSettings(models.TransientModel):
-    _name = 'l10n.ro.config.settings'
+
     _inherit = 'res.config.settings'
 
     company_id = fields.Many2one('res.company', 'Company', change_default=True,
@@ -136,24 +136,23 @@ class RomaniaConfigSettings(models.TransientModel):
         return id
 
     @api.onchange('company_id')
-    def onchange_company_id(self, company_id):
+    def onchange_company_id(self):
         # update related fields
         values = {}
+        company_id = self.company_id.id
         if company_id:
-            company = self.env['res.company'].browse(company_id)
+            company = self.company_id
             # update romanian configuration accounts
-            values.update({
-                'property_undeductible_account_id': company.property_undeductible_account_id and company.property_undeductible_account_id.id or False,
-                'property_stock_picking_payable_account_id': company.property_stock_picking_payable_account_id and company.property_stock_picking_payable_account_id.id or False,
-                'property_stock_picking_receivable_account_id': company.property_stock_picking_receivable_account_id and company.property_stock_picking_receivable_account_id.id or False,
-                'property_stock_usage_giving_account_id': company.property_stock_usage_giving_account_id and company.property_stock_usage_giving_account_id.id or False,
-                'property_asset_reevaluation_account_id': company.property_asset_reevaluation_account_id and company.property_asset_reevaluation_account_id.id or False,
-                'property_customer_advance_account_id': company.property_customer_advance_account_id and company.property_customer_advance_account_id.id or False,
-                'property_supplier_advance_account_id': company.property_supplier_advance_account_id and company.property_supplier_advance_account_id.id or False,
-                'asset_category_chart_installed': company.asset_category_chart_installed,
-                'bank_statement_template_installed': company.bank_statement_template_installed,
-            })
-        return {'value': values}
+            self.property_undeductible_account_id = company.property_undeductible_account_id and company.property_undeductible_account_id.id or False
+            self.property_stock_picking_payable_account_id = company.property_stock_picking_payable_account_id and company.property_stock_picking_payable_account_id.id or False
+            self.property_stock_picking_receivable_account_id = company.property_stock_picking_receivable_account_id and company.property_stock_picking_receivable_account_id.id or False
+            self.property_stock_usage_giving_account_id = company.property_stock_usage_giving_account_id and company.property_stock_usage_giving_account_id.id or False
+            self.property_asset_reevaluation_account_id = company.property_asset_reevaluation_account_id and company.property_asset_reevaluation_account_id.id or False
+            self.property_customer_advance_account_id = company.property_customer_advance_account_id and company.property_customer_advance_account_id.id or False
+            self.property_supplier_advance_account_id = company.property_supplier_advance_account_id and company.property_supplier_advance_account_id.id or False
+            self.asset_category_chart_installed = company.asset_category_chart_installed
+            self.bank_statement_template_installed = company.bank_statement_template_installed
+
 
     @api.multi
     def execute(self):
