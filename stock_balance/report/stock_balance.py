@@ -65,13 +65,14 @@ SELECT
     sm.location_id, pt.categ_id, sm.product_id, pu.id AS product_uom,
     0 AS qty_in, 0 AS amount_in,
     COALESCE(sum(((sm.product_qty * pu.factor) / pu2.factor)), 0.0) AS qty_out,
-    sum((q.qty * q.cost)) AS amount_out, sm.company_id
+    sum(sm.remaining_value) AS amount_out, sm.company_id
   FROM stock_move sm
-    LEFT JOIN stock_quant_move_rel ON  stock_quant_move_rel.move_id = sm.id
-    LEFT JOIN stock_quant q ON  stock_quant_move_rel.quant_id = q.id
+    LEFT JOIN stock_move_line sml  ON   sml.move_id = sm.id
+        LEFT JOIN stock_quant_package ON  stock_quant_package.id = sml.result_package_id
+            LEFT JOIN stock_quant q ON  stock_quant_package.id = q.package_id
     LEFT JOIN product_product pp ON  sm.product_id = pp.id
-    LEFT JOIN product_template pt ON  pp.product_tmpl_id = pt.id
-    LEFT JOIN product_uom pu ON  pt.uom_id = pu.id
+        LEFT JOIN product_template pt ON  pp.product_tmpl_id = pt.id
+            LEFT JOIN product_uom pu ON  pt.uom_id = pu.id
     LEFT JOIN product_uom pu2 ON  sm.product_uom = pu2.id
 
   WHERE ( sm.state  = 'done' )
@@ -83,11 +84,13 @@ SELECT
         sm.location_dest_id AS location_id, pt.categ_id, sm.product_id,
         pu.id AS product_uom,
         COALESCE(sum(((sm.product_qty*pu.factor)/pu2.factor)), 0.0) AS qty_in,
-        sum((q.qty * q.cost)) AS amount_in,
+        sum( sm.remaining_value ) AS amount_in,
+       
         0 AS qty_out, 0 AS amount_out, sm.company_id
     FROM  stock_move sm
-        LEFT JOIN stock_quant_move_rel ON  stock_quant_move_rel.move_id = sm.id
-        LEFT JOIN stock_quant q ON  stock_quant_move_rel.quant_id = q.id
+        LEFT JOIN stock_move_line sml  ON   sml.move_id = sm.id
+        LEFT JOIN stock_quant_package ON  stock_quant_package.id = sml.result_package_id
+            LEFT JOIN stock_quant q ON  stock_quant_package.id = q.package_id
         LEFT JOIN product_product pp ON  sm.product_id = pp.id
         LEFT JOIN product_template pt ON  pp.product_tmpl_id = pt.id
         LEFT JOIN product_uom pu ON  pt.uom_id = pu.id
@@ -99,6 +102,8 @@ SELECT
  GROUP BY smg.date,  smg.categ_id, smg.product_id,
  smg.location_id, smg.product_uom, smg.company_id
         )""")
+
+        # amount_in era calculat din sum((q.quantity * q.cost)) AS amount_in
 
 
 

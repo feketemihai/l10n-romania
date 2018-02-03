@@ -27,6 +27,8 @@
     "website": "",
     "description": """
     Stock Balance
+    
+    - Trebuie testat  in 11 
     """,
 
     "category": "Generic Modules",
