@@ -65,7 +65,7 @@ SELECT
     sm.location_id, pt.categ_id, sm.product_id, pu.id AS product_uom,
     0 AS qty_in, 0 AS amount_in,
     COALESCE(sum(((sm.product_qty * pu.factor) / pu2.factor)), 0.0) AS qty_out,
-    sum(sm.remaining_value) AS amount_out, sm.company_id
+    sum(sm.value) AS amount_out, sm.company_id
   FROM stock_move sm
     LEFT JOIN stock_move_line sml  ON   sml.move_id = sm.id
         LEFT JOIN stock_quant_package ON  stock_quant_package.id = sml.result_package_id
@@ -84,7 +84,7 @@ SELECT
         sm.location_dest_id AS location_id, pt.categ_id, sm.product_id,
         pu.id AS product_uom,
         COALESCE(sum(((sm.product_qty*pu.factor)/pu2.factor)), 0.0) AS qty_in,
-        sum( sm.remaining_value ) AS amount_in,
+        sum( sm.value ) AS amount_in,
        
         0 AS qty_out, 0 AS amount_out, sm.company_id
     FROM  stock_move sm
