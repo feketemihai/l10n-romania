@@ -19,8 +19,8 @@
 #
 ##############################################################################
 
-import account_config_settings
-import res_currency
+from . import account_config_settings
+from . import res_currency
 
 
 from . import currency_rate_update

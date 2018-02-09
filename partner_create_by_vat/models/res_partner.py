@@ -7,19 +7,42 @@ import requests
 from odoo import models, api, fields, _
 from odoo.exceptions import Warning
 
-from string import maketrans
+
+
+try:
+    # For Python 3.0 and later
+    from urllib.request import Request,urlopen
+except ImportError:
+    # Fall back to Python 2's urllib2
+    from urllib2 import Request, urlopen
 
 import json
-from urllib2 import Request, urlopen
+
 from stdnum.eu.vat import check_vies
 from lxml import html
+import unicodedata
 
-CEDILLATRANS = maketrans(u'\u015f\u0163\u015e\u0162'.encode('utf8'), u'\u0219\u021b\u0218\u021a'.encode('utf8'))
+#from string import maketrans
+
+#CEDILLATRANS = maketrans(u'\u015f\u0163\u015e\u0162'.encode('utf8'), u'\u0219\u021b\u0218\u021a'.encode('utf8'))
+
+
 
 headers = {
     "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
     "Content-Type": "application/json;"
 }
+
+
+def unaccent( text):
+    text = text.replace(u'\u015f',u'\u0219')
+    text = text.replace(u'\u0163', u'\u021b')
+    text = text.replace(u'\u015e', u'\u0218')
+    text = text.replace(u'\u0162', u'\u021a')
+    text = unicodedata.normalize('NFD', text)
+    text = text.encode('ascii', 'ignore')
+    text = text.decode("utf-8")
+    return str(text)
 
 
 class ResPartner(models.Model):
@@ -46,11 +69,10 @@ class ResPartner(models.Model):
         table = htm.xpath("//div[@id='main']//center/table")[0]
         result = dict()
         for tr in table.iterchildren():
-            key = ' '.join([x.strip() for x in tr.getchildren()[
-                0].text_content().split('\n') if x.strip() != ''])
-            val = ' '.join([x.strip() for x in tr.getchildren()[
-                1].text_content().split('\n') if x.strip() != ''])
-            result[key] = val.encode('utf8').translate(CEDILLATRANS).decode('utf8')
+            key = ' '.join([x.strip() for x in tr.getchildren()[ 0].text_content().split('\n') if x.strip() != ''])
+            val = ' '.join([x.strip() for x in tr.getchildren()[ 1].text_content().split('\n') if x.strip() != ''])
+            result[key] = unaccent(val)
+            #result[key] = val.encode('utf8') .translate(CEDILLATRANS).decode('utf8')
         return result
 
     @api.model
@@ -154,13 +176,10 @@ class ResPartner(models.Model):
                 if not any([x in line for x in listabr]):
                     addr = line.strip().title()
             for line in lines:
-                line = line.encode('utf8').translate(
-                    CEDILLATRANS).decode('utf8')
+                line = unaccent(line) #line.encode('utf8').translate(CEDILLATRANS).decode('utf8')
                 if 'JUD.' in line:
                     state = self.env['res.country.state'].search(
-                        [('name',
-                          '=',
-                          line.replace('JUD.', '').strip().title())])
+                        [('name', '=', line.replace('JUD.', '').strip().title())])
                     if state:
                         res['state_id'] = state[0].id
                 if 'MUN.' in line:
@@ -320,7 +339,7 @@ class ResPartner(models.Model):
                 'country_id': self.env['res.country'].search([('code', 'ilike', vat_country)])[0].id
             })
             if vat_country == 'ro':
-
+                values = {}
                 try:
                     '''
                     result = self._get_Mfinante(vat_number)
@@ -330,24 +349,24 @@ class ResPartner(models.Model):
                     '''
                     result = self._get_Anaf(vat_number)
                     if result:
-                        res = self._Anaf_to_Odoo(result)
+                        values = self._Anaf_to_Odoo(result)
                 except:
                     values = self._get_Openapi(vat_number)
 
-                    if values:
-                        self.write(values)
+                if values:
+                    self.write(values)
 
             else:
                 try:
                     result = check_vies(part.vat)
                     if result.name and result.name != '---':
                         self.write({
-                            'name': unicode(result.name).upper(),
+                            'name': result.name.upper(), #unicode(result.name).upper(),
                             'is_company': True,
                             'vat_subjected': True
                         })
                     if (not part.street and result.address and result.address != '---'):
-                        self.write({'street': unicode(result.address).title()})
+                        self.write({'street': result.address.title()})      # unicode(result.address).title()})
                     self.write({'vat_subjected': result.valid})
                 except:
                     self.write({

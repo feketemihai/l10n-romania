@@ -21,8 +21,8 @@
 #
 ##############################################################################
 
-import account
-import purchase
-import stock_account
-import account_invoice
-import sale
+from . import account
+from . import purchase
+from . import stock_account
+from . import account_invoice
+from . import sale

@@ -25,7 +25,7 @@ import time
 from datetime import datetime
 from odoo import api, models
 from odoo.tools import formatLang
-from amount_to_text_ro import *
+from . import amount_to_text_ro
 
 
 class ReportVoucherPrint(models.AbstractModel):

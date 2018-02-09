@@ -26,7 +26,7 @@ import time
 from datetime import datetime
 from odoo import api, models
 from odoo.tools import formatLang
-from amount_to_text_ro import *
+from . import  amount_to_text_ro
 
 class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
     _name = 'report.account.report_invoice_with_payments'
@@ -58,7 +58,7 @@ class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
     def _with_discount(self, invoice):
         res = False
         for line in invoice.invoice_line_ids:
-            if line.discount <> 0.0:
+            if line.discount != 0.0:
                 res = True
         return res
 
@@ -100,7 +100,7 @@ class ReportInvoicePrint(models.AbstractModel):
     def _with_discount(self, invoice):
         res = False
         for line in invoice.invoice_line_ids:
-            if line.discount <> 0.0:
+            if line.discount != 0.0:
                 res = True
         return res
 
