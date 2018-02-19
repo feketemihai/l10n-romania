@@ -167,8 +167,6 @@ class purchase_journal(report_sxw.rml_parse):
                             if not inv_line.invoice_line_tax_id and inv1.period_id.id == period_id and inv1.date_invoice >= date_from and inv1.date_invoice <= date_to:
                                 vals['base_0'] += currency_obj.compute(
                                     self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, inv_line.price_subtotal, dp, context={'date': inv1.date_invoice}) or 0.00
-                                total_base += currency_obj.compute(
-                                    self.cr, self.uid, inv1.currency_id.id, company.currency_id.id, inv_line.price_subtotal, dp, context={'date': inv1.date_invoice})
                                     
                         vals['base_neex'] = total_base - base_neex
                         vals['tva_neex'] = total_vat - tva_neex
