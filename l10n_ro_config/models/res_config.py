@@ -123,6 +123,7 @@ class RomaniaConfigSettings(models.TransientModel):
     bank_statement_template_installed = fields.Boolean( 'Load Bank Statement Templates', related='company_id.bank_statement_template_installed')
     account_period_close_template_installed = fields.Boolean(  'Load Account Period Close Templates', related='company_id.account_period_close_template_installed')
 
+    '''
     @api.model
     def create(self, values):
         id = super(RomaniaConfigSettings, self).create(values)
@@ -134,6 +135,7 @@ class RomaniaConfigSettings(models.TransientModel):
                 vals[fname] = values[fname]
         self.write(vals)
         return id
+    '''
 
     @api.onchange('company_id')
     def onchange_company_id(self):
