@@ -7,6 +7,9 @@ import logging
 from datetime import datetime
 from odoo import fields, _
 from odoo.exceptions import UserError
+from future.utils import with_metaclass
+
+
 
 _logger = logging.getLogger(__name__)
 
@@ -65,7 +68,7 @@ class CurrencyGetterType(type):
         return mcs.getters[code](*args, **kwargs)
 
 
-class CurrencyGetterInterface(object):
+class CurrencyGetterInterface(with_metaclass(CurrencyGetterType, object)):
     """ Abstract class of currency getter
 
         To create new getter, just subclass this class

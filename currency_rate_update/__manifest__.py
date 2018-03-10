@@ -12,6 +12,11 @@
         "base",
         "account",  # Added to ensure account security groups are present
     ],
+    'external_dependencies': {
+        'python': [
+            'future',
+        ],
+    },
     "data": [
         "data/cron.xml",
         "views/currency_rate_update.xml",
