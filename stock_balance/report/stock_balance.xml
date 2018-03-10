@@ -31,7 +31,7 @@
 	        <field name="name">stock.balance.graph</field>
 			<field name="model">stock.balance</field>
 	        <field name="arch" type="xml">
-	            <graph string="Balance for stock" type="pivot" >
+	            <graph string="Balance for stock"   >
 	                <field name="location_id" type="row"/>
 	                <field name="product_id" type="row"/>	                
 	                <field name="qty_in" type="measure"/>
@@ -41,6 +41,24 @@
 	                <field name="product_qty" type="measure"/>
 	                <field name="amount" type="measure"/>
 	            </graph>
+	        </field>
+    	</record>
+
+
+		<record id="view_stock_balance_pivot" model="ir.ui.view">
+	        <field name="name">stock.balance.pivot</field>
+			<field name="model">stock.balance</field>
+	        <field name="arch" type="xml">
+	            <pivot string="Balance for stock" >
+	                <field name="location_id" type="row"/>
+	                <field name="product_id" type="row"/>
+	                <field name="qty_in" type="measure"/>
+	                <field name="amount_in" type="measure"/>
+	                <field name="qty_out" type="measure"/>
+	                <field name="amount_out" type="measure"/>
+	                <field name="product_qty" type="measure"/>
+	                <field name="amount" type="measure"/>
+	            </pivot>
 	        </field>
     	</record>
 		

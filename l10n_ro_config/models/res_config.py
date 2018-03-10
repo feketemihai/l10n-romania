@@ -7,7 +7,7 @@ import os
 import csv
 
 
-class RomaniaConfigSettings(models.TransientModel):
+class ResConfigSettings(models.TransientModel):
 
     _inherit = 'res.config.settings'
 
@@ -119,23 +119,7 @@ class RomaniaConfigSettings(models.TransientModel):
                                                            domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",
                                                            help="This account will be used as the supplier advance account for the current partner on vouchers.")
     siruta_update = fields.Boolean('Update Siruta Data')
-    asset_category_chart_installed = fields.Boolean( 'Install Chart of Asset Category', related='company_id.asset_category_chart_installed')
-    bank_statement_template_installed = fields.Boolean( 'Load Bank Statement Templates', related='company_id.bank_statement_template_installed')
-    account_period_close_template_installed = fields.Boolean(  'Load Account Period Close Templates', related='company_id.account_period_close_template_installed')
 
-    '''
-    @api.model
-    def create(self, values):
-        id = super(RomaniaConfigSettings, self).create(values)
-        # Hack: to avoid some nasty bug, related fields are not written upon record creation.
-        # Hence we write on those fields here.
-        vals = {}
-        for fname, field in self._fields.iteritems():
-            if isinstance(field, fields.Many2one) and fname in values:
-                vals[fname] = values[fname]
-        self.write(vals)
-        return id
-    '''
 
     @api.onchange('company_id')
     def onchange_company_id(self):
@@ -158,14 +142,15 @@ class RomaniaConfigSettings(models.TransientModel):
 
     @api.multi
     def execute(self):
-        res = super(RomaniaConfigSettings, self).execute()
+        self.ensure_one()
+        res = super(ResConfigSettings, self).execute()
         data_dir = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), 'data')
 
 
         # Load SIRUTA datas if field is checked
-        wiz = self[0]
-        if wiz.siruta_update:
+
+        if self.siruta_update:
             # First check if module is installed
             installed = self.env['ir.module.module'].search(
                 [('name', '=', 'l10n_ro_siruta'),
@@ -186,187 +171,7 @@ class RomaniaConfigSettings(models.TransientModel):
                                                  mode="init",
                                                  noupdate=True)
 
-        account_obj = self.env['account.account']
 
-        #-------------
-        # Load Undeductible VAT Configuration
-        installed = self.env['ir.module.module'].search(  [('name', '=', 'l10n_ro_invoice_line_not_deductible'),
-                                                           ('state', '=', 'installed')])
-        if installed:
-            tax_names = ('TVA deductibil 5%', 'TVA deductibil 9%',
-                         'TVA deductibil 19%','TVA deductibil 20%',
-                         'TVA deductibil 24%')
-            taxes = self.env['account.tax'].search(
-                [('company_id', '=', self.company_id.id), ('name', 'in', tax_names)])
-            cols = [col[0] for col in self.env['account.tax']._columns.items()]
-            if 'not_deductible_tax_id' in cols and taxes:
-                for tax in taxes:
-                    if not tax.not_deductible_tax_id:
-                        not_deduct_tax = self.env['account.tax'].search(
-                            [('company_id', '=', self.company_id.id), ('name', 'ilike', tax.name.replace('deductibil', 'colectat'))])
-                        if not_deduct_tax:
-                            tax.not_deductible_tax_id = not_deduct_tax[0].id
 
-        # Load Chart of Asset Category
-        installed = self.env['ir.module.module'].search(
-            [('name', '=', 'l10n_ro_asset'), ('state', '=', 'installed')])
-        if installed:
-            categ_obj = self.env['account.asset.category']
-            wiz = self[0]
-            if wiz.asset_category_chart_installed:
-                asset_categ = categ_obj.search(
-                    [('name', '=', 'Catalog Mijloace Fixe'), ('company_id', '=', wiz.company_id.id)])
-                if not asset_categ:
-                    journal_obj = self.env['account.journal']
-                    journal_id = journal_obj.search(
-                        [('code', '=', 'AMORT'), ('company_id', '=', wiz.company_id.id)])
-                    # Search for Amortization Journal on company, if doesn't
-                    # exist create it.
-                    if not journal_id:
-                        default_account_id = account_obj.search(
-                            [('code', '=', '681100'), ('company_id', '=', wiz.company_id.id)])
-                        if default_account_id:
-                            journal_id = journal_obj.create({"name": 'Jurnal amortizare', "code": 'AMORT',
-                                                             "type": 'general', "user_id": self.env.user.id,
-                                                             "default_credit_account_id": default_account_id[0].id,
-                                                             "default_debit_account_id": default_account_id[0].id,
-                                                             "company_id": wiz.company_id.id})
-                    journal_id = journal_id[0].id
-                    # Search for inventory sequence for fixed asset, if doesn't
-                    # exist create it
-                    inv_sequence_id = self.env['ir.sequence'].search(
-                        [('name', '=', 'Inventar Mijloace Fixe'), ('company_id', '=', wiz.company_id.id)])
-                    if not inv_sequence_id:
-                        inv_sequence_id = self.env['ir.sequence'].create({"name": 'Inventar Mijloace Fixe',
-                                                                          "padding": 6, "implementation": 'no_gap',
-                                                                          "number_next": 1, "number_increment": 1,
-                                                                          "prefix": 'INV/', "company_id": wiz.company_id.id})
-                    inv_sequence_id = inv_sequence_id[0].id
-                    f = open(
-                        os.path.join(data_dir, 'categoriiactive.csv'), 'rb')
-                    try:
-
-                        categorii = csv.DictReader(f)
-                    # id,parent_id,code,name,type,asset_type,method_number_min,method_number,account_asset_id,account_depreciation_id,account_expense_id,account_income_id,method,method_time,method_period
-                        for row in categorii:
-                            categ = categ_obj.search(
-                                [('code', '=', row['code']), ('company_id', '=', wiz.company_id.id)])
-                            if not categ:
-                                if row['parent_code']:
-                                    parent_category_id = categ_obj.search(
-                                        [('code', '=', row['parent_code']), ('company_id', '=', wiz.company_id.id)])
-                                    if parent_category_id:
-                                        parent_category_id = parent_category_id[
-                                            0].id
-                                    else:
-                                        parent_category_id = False
-                                else:
-                                    parent_category_id = False
-                                if row['type'] == 'normal':
-                                    account_asset_id = account_obj.search(
-                                        [('code', '=', row['account_asset_id']), ('company_id', '=', wiz.company_id.id)])
-                                    account_depreciation_id = account_obj.search(
-                                        [('code', '=', row['account_depreciation_id']), ('company_id', '=', wiz.company_id.id)])
-                                    account_expense_id = account_obj.search(
-                                        [('code', '=', row['account_expense_id']), ('company_id', '=', wiz.company_id.id)])
-                                    account_income_id = account_obj.search(
-                                        [('code', '=', row['account_income_id']), ('company_id', '=', wiz.company_id.id)])
-                                    categ = categ_obj.create({
-                                        'parent_id': parent_category_id,
-                                        'code': row['code'],
-                                        'name': row['name'],
-                                        'type': row['type'],
-                                        'asset_type': row['asset_type'],
-                                        'method_number_min': row['method_number_min'],
-                                        'method_number': row['method_number'],
-                                        'sequence_id': row['asset_type'] == 'fixed' and inv_sequence_id or False,
-                                        'account_asset_id': account_asset_id and account_asset_id[0].id or False,
-                                        'account_depreciation_id': account_depreciation_id and account_depreciation_id[0].id or False,
-                                        'account_expense_depreciation_id': account_expense_id and account_expense_id[0].id or False,
-                                        'account_income_id': account_income_id and account_income_id[0].id or False,
-                                        'method': row['method'],
-                                        'method_time': row['method_time'],
-                                        'method_period': row['method_period']
-                                    })
-                                else:
-                                    categ = categ_obj.create({
-                                        'parent_id': parent_category_id,
-                                        'code': row['code'],
-                                        'name': row['name'],
-                                        'type': row['type'],
-                                        'asset_type': row['asset_type'],
-                                    })
-                    finally:
-                        f.close()
-        # Load Bank Statement Operation Templates
-        installed = self.env['ir.module.module'].search(
-            [('name', '=', 'l10n_ro_account_bank_statement'), ('state', '=', 'installed')])
-        if installed:
-            statement_obj = self.env['account.statement.operation.template']
-            wiz = self[0]
-            if wiz.bank_statement_template_installed:
-                statements = statement_obj.search(
-                    [('company_id', '=', wiz.company_id.id)])
-                if not statements:
-                    f = open(
-                        os.path.join(data_dir, 'account_statement_operation_template.csv'), 'rb')
-                    try:
-                        operations = csv.DictReader(f)
-                        for row in operations:
-                            account_id = account_obj.search(
-                                [('code', '=', row['account_id']), ('company_id', '=', wiz.company_id.id)])
-                            if account_id:
-                                statement_obj.create({
-                                    'label': row['label'],
-                                    'name': row['name'],
-                                    'account_id': account_id[0].id,
-                                    'amount_type': row['amount_type'],
-                                    'amount': row['amount'],
-                                    'company_id': wiz.company_id.id,
-                                })
-                    finally:
-                        f.close()
-        # Load Account Period Templates
-        installed = self.env['ir.module.module'].search(
-            [('name', '=', 'l10n_ro_account_period_close'), ('state', '=', 'installed')])
-        if installed:
-            closing_obj = self.env['account.period.closing']
-            wiz = self[0]
-            if wiz.account_period_close_template_installed:
-                closings = closing_obj.search(
-                    [('company_id', '=', wiz.company_id.id)])
-                if not closings:
-                    f = open(
-                        os.path.join(data_dir, 'account_period_close_templates.csv'), 'rb')
-                    try:
-                        operations = csv.DictReader(f)
-                        for row in operations:
-                            debit_account_id = account_obj.search(
-                                [('code', '=', row['debit_account_id']), ('company_id', '=', wiz.company_id.id)])
-                            credit_account_id = account_obj.search(
-                                [('code', '=', row['credit_account_id']), ('company_id', '=', wiz.company_id.id)])
-                            new_accounts = []
-                            if row['account_ids']:
-                                accounts = row['account_ids'].split(",")
-                                for account in accounts:
-                                    comp_account = account_obj.search(
-                                        [('code', '=', account), ('company_id', '=', wiz.company_id.id)])
-                                    if comp_account:
-                                        new_accounts.append(comp_account[0].id)
-                            if debit_account_id and credit_account_id:
-                                template = closing_obj.create({
-                                    'name': row['name'],
-                                    'debit_account_id': debit_account_id[0].id,
-                                    'credit_account_id': credit_account_id[0].id,
-                                    'type': row['type'],
-                                    'account_ids': [(6, 0, new_accounts)],
-                                    'company_id': wiz.company_id.id,
-                                })
-                                if row['type'] in ('income', 'expense'):
-                                    template._onchange_type()
-                    finally:
-                        f.close()
         return res
 
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

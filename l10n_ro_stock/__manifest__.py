@@ -22,20 +22,12 @@
 ##############################################################################
 {
     "name": "Romania - Stock",
-    "version": "1.0",
+    'version': '11.0.1.0.0',
+    'category': 'Localization',
     "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category": "Warehouse",
     "depends": ['stock'],
-    "description": """
-Localization - Stock for Romania
-------------------------------------------
-
-Main features include:
-    - Ease the process of Consume and Usage Giving - adds location and picking type for every newly created warehouse.
-    - Date of the invoice is the date of the first processed picking.
-    """,
-
     'data': ['views/stock_view.xml', ],
     'installable': True,
     'active': False,

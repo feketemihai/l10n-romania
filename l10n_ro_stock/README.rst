@@ -2,16 +2,11 @@
    :target: https://www.gnu.org/licenses/agpl
    :alt: License: AGPL-3
 
-===============================
-Romania - Partner Create by VAT
-===============================
+===============
+Romania - Stock
+===============
 
-This module allows you to create the partners (companies) based on their
-VAT number. It will complete the name, address of the partner from ANAF
-webservice.
-
-ANAF
-https://webservicesp.anaf.ro/PlatitorTvaRest/api/v3/
+Ease the process of Consume and Usage Giving - adds location and picking type for every newly created warehouse.
 
 Installation
 ============
@@ -21,23 +16,21 @@ To install this module, you need to:
 * clone the branch 11.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
-* search for "Romania - Partner Create by VAT" in your addons
+* search for "Romania - Stock in your addons
 * install the module
-
-To retrieve partner data from OpenAPI.ro, you must add the key to 'openapi_key' from the system parameters
 
 Usage
 =====
 
-Put the VAT number in the partner's form and save the new record
-
-* If it'a a romanian company, the first source used is the ANAF.
-* If it's not a romanian company, will use the datas from VIES Webservice if they are available.
-
+Set Multi-Warehouse and Multi-Step Routes in Stock configuration and edit warehouse.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/177/11.0
+
+Known issues / Roadmap
+======================
+
 
 Bug Tracker
 ===========
@@ -59,7 +52,6 @@ Contributors
 
 * Fekete Mihai <feketemihai@gmail.com>
 * Dorin Hongu <dhongu@gmail.com>
-* Adrian Vasile <adrian.vasile@gmail.com>
 
 Do not contact contributors directly about support or help with technical issues.
 
