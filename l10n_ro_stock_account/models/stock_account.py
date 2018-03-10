@@ -23,70 +23,8 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
-"""
-class product_category(models.Model):
-    _name = "product.category"
-    _inherit = "product.category"
 
 
-    # exista acest camp standard in modulul purchase
-    property_account_creditor_price_difference_categ_id = fields.Many2one('account.account',
-                                                                          string="Price Difference Account",
-                                                                          help="This account will be used to value price difference between purchase price and cost price.",
-                                                                          company_dependent=True)
-"""
-
-''''
-class ProductTemplate(models.Model):
-    _name = "product.template"
-    _inherit = "product.template"
-
-    #property_account_creditor_price_difference_id = fields.Many2one('account.account',
-    #                                                                string="Price Difference Account",
-    #                                                                help="This account will be used to value price difference between purchase price and cost price.",
-    #                                                                company_dependent=True)
-
-    # ok
-    # nu cred ca mai este nevoie de codul urmator !
-
-    @api.multi
-    def get_product_accounts(self, fiscal_pos=None):
-        """ Add the stock journal related to product to the result of super()
-        @return: dictionary which contains all needed information regarding stock accounts and journal and super (income+expense accounts)
-        """
-        accounts = super(ProductTemplate, self).get_product_accounts(fiscal_pos=fiscal_pos)
-
-        stock_input_acc = self.property_stock_account_input or self.categ_id.property_stock_account_input_categ_id
-
-        stock_output_acc = self.property_stock_account_output or self.categ_id.property_stock_account_output_categ_id
-
-        journal_id = self.categ_id.property_stock_journal or False
-
-        account_valuation = self.categ_id.property_stock_valuation_account_id or False
-
-        accounts.update({'stock_account_input': stock_input_acc,
-                         'stock_account_output': stock_output_acc,
-                         'stock_journal': journal_id,
-                         'property_stock_valuation_account_id': account_valuation})
-
-        return accounts
-'''
-
-""" nu mai exista in 11.0
-class stock_pack_operation(models.Model):
-    _inherit = "stock.pack.operation"
-
-    # todo: de adaugat functia de pentru preluare pret_unitar
-    price_unit = fields.Float('Unit Price', compute='_compute_price_unit')  # pentru a se putea modifica pretul in receptie????
-
-    def _compute_price_unit(self):
-        price_unit = 0.0
-        if self.linked_move_operation_ids:
-            for move in self.linked_move_operation_ids:
-                price_unit += move.price_unit
-            price_unit = price_unit / len(self.linked_move_operation_ids)
-        self.price_unit = price_unit
-"""
 
 # ----------------------------------------------------------
 # Stock Location
@@ -161,7 +99,7 @@ class stock_move(models.Model):
             if not move.acc_move_id:
                 for acc_move in move.acc_move_line_ids:
                     acc_move_id = acc_move.move_id
-                move.write({'acc_move_id':acc_move_id.id})
+                move.write({'acc_move_id': acc_move_id.id})
 
         if 1 == 1:
             return
@@ -182,7 +120,7 @@ class stock_move(models.Model):
             if acc_move_lines != []:
                 move_id = self.env['account.move'].create({'journal_id': journal_id,
                                                            'line_id': acc_move_lines,
-                                                           # 'period_id': period_id,
+
                                                            'date': move.date,
                                                            'ref': move.name,
                                                            'name': move.picking_id and move.picking_id.name or '/'
@@ -208,8 +146,6 @@ class stock_move(models.Model):
                 acc_move_obj.button_cancel([move.acc_move_id.id])
                 acc_move_obj.unlink([move.acc_move_id.id])
         return super(stock_move, self).action_cancel()
-
-
 
     # metoda rescrisa
     @api.multi
@@ -339,7 +275,6 @@ class stock_move(models.Model):
                 else:
                     acc_dest = False
 
-
         # If it is a notice, check if picking type is incoming or outgoing and
         # replace the stock accounts with the payable / receivable notice
         # accounts
@@ -367,6 +302,11 @@ class stock_move(models.Model):
 
         return journal_id, acc_src, acc_dest, acc_valuation
 
+    def _create_account_move_line(self, credit_account_id, debit_account_id, journal_id):
+        if credit_account_id != debit_account_id:
+            super(stock_move, self)._create_account_move_line(credit_account_id, debit_account_id, journal_id)
+
+
     # metoda mostenita !!
     def _prepare_account_move_line(self, qty, cost, credit_account_id, debit_account_id):
         """
@@ -393,7 +333,6 @@ class stock_move(models.Model):
             debit_line_vals['stock_inventory_id'] = move.inventory_id.id
             credit_line_vals['stock_inventory_id'] = move.inventory_id.id
 
-
         currency_obj = self.env['res.currency']
 
         # Calculate VAT base and amount for price differences and associate it
@@ -405,7 +344,7 @@ class stock_move(models.Model):
             if context.get('force_valuation_amount'):
                 valuation_amount = context.get('force_valuation_amount')
             else:
-                valuation_amount = move.product_id.cost_method == 'real' and cost or move.product_id.standard_price
+                valuation_amount = move.product_id.cost_method == 'fifo' and cost / qty or move.product_id.standard_price
             list_price = move.product_id.list_price or 0.00
             if list_price <= valuation_amount:
                 raise UserWarning(_(
@@ -471,7 +410,7 @@ class stock_move(models.Model):
             if context.get('force_valuation_amount'):
                 valuation_amount = context.get('force_valuation_amount')
             else:
-                valuation_amount = move.product_id.cost_method == 'real' and cost or move.product_id.standard_price
+                valuation_amount = move.product_id.cost_method == 'fifo' and cost or move.product_id.standard_price
             # the standard_price of the product may be in another decimal precision, or not compatible with the coinage of
             # the company currency... so we need to use round() before creating
             # the accounting entries.
@@ -539,38 +478,22 @@ class stock_move(models.Model):
 
         return [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
 
-
-# ----------------------------------------------------------
-# Stock Quant
-# ----------------------------------------------------------
-
-
-class stock_quant(models.Model):
-    _name = "stock.quant"
-    _inherit = "stock.quant"
-
-    # metoda rescrisa
-    def _account_entry_move(self, move):
+    def _account_entry_move(self):
         """ Accounting Valuation Entries """
+        self.ensure_one()
+        move = self
 
-        quants = self
-
-        if move.product_id.type != 'product' or move.product_id.valuation != 'real_time':
+        if self.product_id.type != 'product':
             # no stock valuation for consumable products
             return False
-
-        if any(quant.owner_id or quant.qty <= 0 for quant in self):
-            # if the quant isn't owned by the company, we don't make any valuation en
-            # we don't make any stock valuation for negative quants because the valuation is already made for the counterpart.
-            # At that time the valuation will be made at the product cost price and afterward there will be new accounting entries
-            # to make the adjustments when we know the real cost price.
+        if self.restrict_partner_id:
+            # if the move isn't owned by the company, we don't make any valuation
             return False
 
-        location_from = move.location_id
-        # location_to = self[0].location_id  # TDE FIXME: as the accounting is based on this value, should probably check all location_to to be the same
-        location_to = move.location_dest_id
-        company_from = location_from.usage == 'internal' and location_from.company_id or False
-        company_to = location_to and (location_to.usage == 'internal') and location_to.company_id or False
+        location_from = self.location_id
+        location_to = self.location_dest_id
+        company_from = self._is_out() and self.mapped('move_line_ids.location_id.company_id') or False
+        company_to = self._is_in() and self.mapped('move_line_ids.location_dest_id.company_id') or False
 
         # in case of routes making the link between several warehouse of the same company, the transit location belongs
         # to this company, so we don't need to create accounting entries
@@ -582,11 +505,8 @@ class stock_quant(models.Model):
         if company_from:
             if location_to.usage in ('supplier', 'customer'):
                 ctx['force_company'] = company_from.id
-
         # Put notice in context if the picking is a notice
         ctx['notice'] = move.picking_id and move.picking_id.notice
-
-        # ctx['notice'] = False
 
         if ctx['notice']:
             if (location_from.usage == 'internal' and location_to.usage == 'supplier') or \
@@ -612,13 +532,13 @@ class stock_quant(models.Model):
                 move = move.with_context(ctx)
                 journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
                 if acc_src and acc_dest and acc_src != acc_dest:
-                    self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
+                    move._create_account_move_line(acc_src, acc_dest, journal_id)
                 ctx['type'] = 'reception_diff_vat'
                 if location_from.usage != 'supplier':
                     move = move.with_context(ctx)
                     journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
                     if acc_src and acc_dest and acc_src != acc_dest:
-                        self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
+                        move._create_account_move_line(acc_src, acc_dest, journal_id)
             # Create moves for outgoing from stock
             if (location_to.usage != 'internal' or
                     (location_to.usage == 'internal' and location_to.merchandise_type != 'store')) and \
@@ -627,13 +547,13 @@ class stock_quant(models.Model):
                 move = move.with_context(ctx)
                 journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
                 if acc_src and acc_dest and acc_src != acc_dest:
-                    self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
+                    move._create_account_move_line(acc_src, acc_dest, journal_id)
 
                 ctx['type'] = 'delivery_diff_vat'
                 move = move.with_context(ctx)
                 journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
                 if acc_src and acc_dest and acc_src != acc_dest:
-                    self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
+                    move._create_account_move_line(acc_src, acc_dest, journal_id)
 
         # Create account moves for deliveries with notice (e.g. 418 = 707)
         if ctx['notice'] and location_from.usage == 'internal' and location_to.usage == 'customer':
@@ -641,7 +561,7 @@ class stock_quant(models.Model):
             move = move.with_context(ctx)
             journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
             if acc_src and acc_dest and acc_src != acc_dest:
-                self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
+                move._create_account_move_line(acc_src, acc_dest, journal_id)
 
             # Change context to create account moves for cost of goods sold
             # (e.g. 607 = 371)
@@ -655,7 +575,7 @@ class stock_quant(models.Model):
             journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
 
             if acc_src and acc_dest and acc_src != acc_dest:
-                self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
+                move._create_account_move_line(acc_src, acc_dest, journal_id)
 
             # Change context to create account moves for cost of goods sold
             # (e.g. 371 = 607)
@@ -688,7 +608,7 @@ class stock_quant(models.Model):
                 move = move.with_context(ctx)
                 journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
                 if acc_src and acc_dest and acc_src != acc_dest:
-                    self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
+                    move._create_account_move_line(acc_src, acc_dest, journal_id)
 
                 # Change context to create account moves for minus in inventory
                 # (e.g. 607 = 371 with VAT collected based)
@@ -700,7 +620,7 @@ class stock_quant(models.Model):
                 move = move.with_context(ctx)
                 journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
                 if acc_src and acc_dest and ctx['type'] == 'usage_giving':
-                    self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
+                    move._create_account_move_line(acc_src, acc_dest, journal_id)
 
                 # Change context to create account moves for cost of goods
                 # delivered  (e.g. 607 = 371)
@@ -714,16 +634,9 @@ class stock_quant(models.Model):
         move = move.with_context(ctx)
         journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
         if acc_src and acc_dest and acc_src != acc_dest:
-            self.with_context(ctx)._create_account_move_line(move, acc_src, acc_dest, journal_id)
+            move._create_account_move_line(acc_src, acc_dest, journal_id)
 
-    # metoda standard rescrisa
-    """
-    def _create_account_move_line(self, move, credit_account_id, debit_account_id, journal_id):
-        res = []
-        for quant in self:
-            res += self._prepare_account_move_line(move, quant.qty, quant.cost, credit_account_id, debit_account_id)
-        return res
-    """
+        super(stock_move, self)._account_entry_move()
 
 
 class stock_picking(models.Model):
@@ -756,7 +669,7 @@ class stock_picking(models.Model):
         for pick in self:
             pick.write({'date_done': pick.date})
         res = super(stock_picking, self).do_transfer()
-        #self.get_account_move_lines()
+        # self.get_account_move_lines()
         return res
 
     @api.multi
@@ -764,7 +677,7 @@ class stock_picking(models.Model):
         for pick in self:
             pick.write({'date_done': pick.date})
         res = super(stock_picking, self).action_done()
-        #self.get_account_move_lines()
+        # self.get_account_move_lines()
         return res
 
     @api.multi
@@ -821,7 +734,6 @@ class StockInventory(models.Model):
         return res
     """
 
-
     @api.multi
     def action_cancel_draft(self):
         for inv in self:
@@ -830,7 +742,6 @@ class StockInventory(models.Model):
                     move.acc_move_id.cancel()
                     move.acc_move_id.unlink()
         return super(StockInventory, self).action_cancel_draft()
-
 
     @api.multi
     def unlink(self):
