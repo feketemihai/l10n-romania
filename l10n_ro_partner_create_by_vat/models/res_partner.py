@@ -49,8 +49,8 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     vat_subjected = fields.Boolean('VAT Legal Statement')
-
-
+    split_vat = fields.Boolean('Split VAT')
+    vat_on_payment = fields.Boolean('VAT on Payment')
 
     @api.model
     def _get_Anaf(self, cod):
@@ -59,8 +59,8 @@ class ResPartner(models.Model):
             res = res.json()
         if res['found'] and res['found'][0]:
             result = res['found'][0]
-            if result['data_sfarsit'] and result['data_sfarsit'] != ' ':
-                res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': result['data_sfarsit']}], headers=headers)
+            if result['data_sfarsit_ScpTVA'] and result['data_sfarsit_ScpTVA'] != ' ':
+                res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': result['data_sfarsit_ScpTVA']}], headers=headers)
                 if res.status_code == 200:
                     res = res.json()
         if res['found'] and res['found'][0]:
@@ -68,8 +68,8 @@ class ResPartner(models.Model):
         # Check if the partner was deactived
         if res['notfound'] and res['notfound'][0]:
             result = res['notfound'][0]
-            if result['data_sfarsit'] and result['data_sfarsit'] != ' ':
-                res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': result['data_sfarsit']}], headers=headers)
+            if result['data_sfarsit_ScpTVA'] and result['data_sfarsit_ScpTVA'] != ' ':
+                res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': result['data_sfarsit_ScpTVA']}], headers=headers)
                 if res.status_code == 200:
                     res = res.json()
                     if res['found'] and res['found'][0]:
@@ -80,8 +80,10 @@ class ResPartner(models.Model):
 
     @api.model
     def _Anaf_to_Odoo(self, result):
-        res = {'name': result['denumire'].upper(),
+        res = {'name': result['denumire'],
                'vat_subjected': result['scpTVA'],
+               'split_vat':result['statusSplitTVA'],
+               'vat_on_payment': result['statusTvaIncasare'],
                'company_type': 'company'}
         addr = ''
         if result['adresa']:

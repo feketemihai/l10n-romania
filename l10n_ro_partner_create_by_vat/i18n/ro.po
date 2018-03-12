@@ -15,18 +15,30 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: partner_create_by_vat
-#: view:res.partner:partner_create_by_vat.view_partner_form
+#. module: l10n_ro_partner_create_by_vat
+#: view:res.partner:l10n_ro_partner_create_by_vat.view_partner_form
 msgid "Get Partner Data"
 msgstr "Preia Date Partener"
 
-#. module: partner_create_by_vat
-#: model:ir.model,name:partner_create_by_vat.model_res_partner
+#. module: l10n_ro_partner_create_by_vat
+#: model:ir.model,name:l10n_ro_partner_create_by_vat.model_res_partner
 msgid "Partner"
 msgstr "Partener"
 
-#. module: partner_create_by_vat
-#: view:res.partner:partner_create_by_vat.view_partner_form
+#. module: l10n_ro_partner_create_by_vat
+#: view:res.partner:l10n_ro_partner_create_by_vat.view_partner_form
 msgid "e.g. BE0477472701"
 msgstr "e.g. BE0477472701"
+
+#. module: l10n_ro_partner_create_by_vat
+#: view:res.partner:l10n_ro_partner_create_by_vat.view_partner_form
+#: field:res.partner,vat_on_payment:0
+msgid "VAT on Payment"
+msgstr "TVA la Încasare"
+
+#. module: l10n_ro_partner_create_by_vat
+#: view:res.partner:l10n_ro_partner_create_by_vat.view_partner_form
+#: field:res.partner,split_vat:0
+msgid "Split VAT"
+msgstr "Split TVA"
 
