@@ -136,8 +136,7 @@ class ResConfigSettings(models.TransientModel):
             self.property_asset_reevaluation_account_id = company.property_asset_reevaluation_account_id and company.property_asset_reevaluation_account_id.id or False
             self.property_customer_advance_account_id = company.property_customer_advance_account_id and company.property_customer_advance_account_id.id or False
             self.property_supplier_advance_account_id = company.property_supplier_advance_account_id and company.property_supplier_advance_account_id.id or False
-            self.asset_category_chart_installed = company.asset_category_chart_installed
-            self.bank_statement_template_installed = company.bank_statement_template_installed
+
 
 
     @api.multi

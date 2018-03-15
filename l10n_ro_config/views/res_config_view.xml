@@ -173,34 +173,12 @@
                                     </group>
                                 </group>
                             </div>
-                            <div>
-                                <field name="module_l10n_ro_account_bank_statement" class="oe_inline"/>
-                                <label for="module_l10n_ro_account_bank_statement"/>
-                                <group attrs="{'invisible': [('module_l10n_ro_account_bank_statement', '&lt;&gt;', True)]}"
-                                       col="2">
-                                    <group>
-                                        <field name="bank_statement_template_installed"/>
-                                    </group>
-                                    <group>
-                                    </group>
-                                </group>
-                            </div>
+
                             <div>
                                 <field name="module_l10n_ro_account_voucher_cash" class="oe_inline"/>
                                 <label for="module_l10n_ro_account_voucher_cash"/>
                             </div>
-                            <div>
-                                <field name="module_l10n_ro_asset" class="oe_inline"/>
-                                <label for="module_l10n_ro_asset"/>
-                                <group attrs="{'invisible': [('module_l10n_ro_asset', '&lt;&gt;', True)]}" col="2">
-                                    <group>
-                                        <field name="property_asset_reevaluation_account_id"/>
-                                        <field name="asset_category_chart_installed"/>
-                                    </group>
-                                    <group>
-                                    </group>
-                                </group>
-                            </div>
+
                             <div>
                                 <field name="module_l10n_ro_account_voucher_currency_update" class="oe_inline"/>
                                 <label for="module_l10n_ro_account_voucher_currency_update"/>
@@ -216,14 +194,6 @@
                             <div>
                                 <field name="module_l10n_ro_account_period_close" class="oe_inline"/>
                                 <label for="module_l10n_ro_account_period_close"/>
-                                <group attrs="{'invisible': [('module_l10n_ro_account_period_close', '&lt;&gt;', True)]}"
-                                       col="2">
-                                    <group>
-                                        <field name="account_period_close_template_installed"/>
-                                    </group>
-                                    <group>
-                                    </group>
-                                </group>
                             </div>
                             <div>
                                 <field name="module_l10n_ro_invoice_report" class="oe_inline"/>

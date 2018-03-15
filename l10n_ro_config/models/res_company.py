@@ -78,6 +78,4 @@ class res_company(models.Model):
         string="Supplier Advance Account",
         domain="[('internal_type', '=', 'payable')]",
         help="This account will be used as the supplier advance account for the current partner on vouchers.")
-    asset_category_chart_installed = fields.Boolean('Install Chart of Asset Category')
-    bank_statement_template_installed = fields.Boolean('Load Bank Statement Templates')
-    account_period_close_template_installed = fields.Boolean('Load Account Period Close Templates')
+
