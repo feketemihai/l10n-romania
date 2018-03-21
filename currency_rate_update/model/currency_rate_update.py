@@ -226,7 +226,7 @@ class CurrencyRateUpdateService(models.Model):
 
         curr_to_fetch = map(lambda x: x.name, self.currency_to_update)
         itmes = getter.get_updated_all_year(curr_to_fetch, main_currency.name)
-        for rate_name, res in itmes.iteritems():
+        for rate_name, res in itmes.items():
             for curr in self.currency_to_update:
                 if curr.id == main_currency.id:
                     continue

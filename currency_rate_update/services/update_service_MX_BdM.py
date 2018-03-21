@@ -33,13 +33,13 @@ class MX_BdMGetter(CurrencyGetterInterface):
                'BMXC_canal=pagos&BMXC_idioma=es')
 
         from xml.dom.minidom import parse
-        from StringIO import StringIO
+        from io import BytesIO
 
         logger = logging.getLogger(__name__)
         logger.debug("Banxico currency rate service : connecting...")
         rawfile = self.get_url(url)
 
-        dom = parse(StringIO(rawfile))
+        dom = parse(BytesIO(rawfile))
         logger.debug("Banxico sent a valid XML file")
 
         value = dom.getElementsByTagName('cb:value')[0]
