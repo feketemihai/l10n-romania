@@ -224,18 +224,21 @@ class CurrencyRateUpdateService(models.Model):
 
         getter = CurrencyGetterType.get(self.service)
 
-        curr_to_fetch = map(lambda x: x.name, self.currency_to_update)
+        #curr_to_fetch = map(lambda x: x.name, self.currency_to_update)
+        curr_to_fetch = self.currency_to_update.mapped('name')
+
         itmes = getter.get_updated_all_year(curr_to_fetch, main_currency.name)
         for rate_name, res in itmes.items():
-            for curr in self.currency_to_update:
-                if curr.id == main_currency.id:
-                    continue
-                do_create = True
-                for rate in curr.rate_ids:
-                    if rate.name == rate_name:
-                        rate.rate = res[curr.name]
-                        do_create = False
-                        break
-                if do_create:
-                    vals = {'currency_id': curr.id, 'rate': res[curr.name], 'name': rate_name}
-                    self.env['res.currency.rate'].create(vals)
+            if res:
+                for curr in self.currency_to_update:
+                    if curr.id == main_currency.id:
+                        continue
+                    do_create = True
+                    for rate in curr.rate_ids:
+                        if rate.name == rate_name:
+                            rate.rate = res[curr.name]
+                            do_create = False
+                            break
+                    if do_create:
+                        vals = {'currency_id': curr.id, 'rate': res[curr.name], 'name': rate_name}
+                        self.env['res.currency.rate'].create(vals)

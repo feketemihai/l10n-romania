@@ -140,8 +140,11 @@ class CurrencyGetterInterface(with_metaclass(CurrencyGetterType, object)):
     def get_url(self, url):
         """Return a string of a get url query"""
         try:
-            import urllib
-            objfile = urllib.urlopen(url)
+            import urllib.request
+            import urllib.parse
+            import urllib.error
+            objfile = urllib.request.urlopen(url)
+
             rawfile = objfile.read()
             objfile.close()
             return rawfile
