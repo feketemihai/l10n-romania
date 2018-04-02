@@ -24,6 +24,8 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 
+import openerp.addons.decimal_precision as dp
+
 
 class product_category(osv.Model):
     _name = "product.category"
@@ -154,6 +156,7 @@ class stock_move(osv.Model):
     _columns = {
         'acc_move_id': fields.many2one('account.move', string='Account move', copy=False),
         'acc_move_line_ids': fields.one2many('account.move.line', 'stock_move_id', string='Account move lines'),
+        'price_unit': fields.float('Unit Price', required=True, digits_compute= dp.get_precision('Product Price')),        
     }
 
     # Update prices if the move is linked with a purchase order line and the
@@ -163,7 +166,7 @@ class stock_move(osv.Model):
             context = {}
         product_uom = self.pool.get('product.uom')
         for move in self.browse(cr, uid, ids, context=context):
-            if move.purchase_line_id:
+            if move.purchase_line_id and not move.split_from:
                 order_line = move.purchase_line_id
                 price_unit = order_line.price_unit
                 if order_line.product_uom.id != order_line.product_id.uom_id.id:
@@ -285,6 +288,24 @@ class stock_move(osv.Model):
         # (probably to be done in account_storno)
         if move.origin_returned_move_id:
             res['quantity'] = -1 * res['quantity']
+        return res
+        
+    def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
+        res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
+        if inv_type == 'in_invoice' and move.purchase_line_id:
+            purchase_line = move.purchase_line_id
+            res['invoice_line_tax_id'] = [(6, 0, [x.id for x in purchase_line.taxes_id])]
+            if move.purchase_line_id.price_unit <> move.price_unit:
+                res['price_unit'] = move.price_unit
+            else:
+                res['price_unit'] = purchase_line.price_unit
+        elif inv_type == 'in_refund' and move.origin_returned_move_id.purchase_line_id:
+            purchase_line = move.origin_returned_move_id.purchase_line_id
+            res['invoice_line_tax_id'] = [(6, 0, [x.id for x in purchase_line.taxes_id])]
+            if move.origin_returned_move_id.purchase_line_id.price_unit <> move.price_unit:
+                res['price_unit'] = move.price_unit
+            else:
+                res['price_unit'] = purchase_line.price_unit
         return res
 
 # ----------------------------------------------------------
