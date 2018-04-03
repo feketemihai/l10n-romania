@@ -284,14 +284,6 @@ class stock_move(osv.Model):
         account_id = fp_obj.map_account(cr, uid, fiscal_position, account_id)
         res['account_id'] = account_id
 
-        # If it is a returned stock move, change quantity in invoice with minus
-        # (probably to be done in account_storno)
-        if move.origin_returned_move_id:
-            res['quantity'] = -1 * res['quantity']
-        return res
-        
-    def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
-        res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
         if inv_type == 'in_invoice' and move.purchase_line_id:
             purchase_line = move.purchase_line_id
             res['invoice_line_tax_id'] = [(6, 0, [x.id for x in purchase_line.taxes_id])]
@@ -306,8 +298,12 @@ class stock_move(osv.Model):
                 res['price_unit'] = move.price_unit
             else:
                 res['price_unit'] = purchase_line.price_unit
+        # If it is a returned stock move, change quantity in invoice with minus
+        # (probably to be done in account_storno)
+        if move.origin_returned_move_id:
+            res['quantity'] = -1 * res['quantity']
         return res
-
+        
 # ----------------------------------------------------------
 # Stock Quant
 # ----------------------------------------------------------
