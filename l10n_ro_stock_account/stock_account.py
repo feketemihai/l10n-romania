@@ -156,7 +156,7 @@ class stock_move(osv.Model):
     _columns = {
         'acc_move_id': fields.many2one('account.move', string='Account move', copy=False),
         'acc_move_line_ids': fields.one2many('account.move.line', 'stock_move_id', string='Account move lines'),
-        'price_unit': fields.float('Unit Price', required=True, digits_compute= dp.get_precision('Product Price')),        
+        'price_unit': fields.float('Unit Price', digits_compute= dp.get_precision('Product Price')),
     }
 
     # Update prices if the move is linked with a purchase order line and the
