@@ -90,20 +90,20 @@ class stock_warehouse(models.Model):
         warehouse.write(vals)
         return super(stock_warehouse, self).create_sequences_and_picking_types()
 
-    @api.model
-    def create(self, vals):
-
-        location_obj = self.env['stock.location']
-        # create all location
-        cons_location_id = location_obj.create({'name': 'Consume', 'usage': 'consume', 'active': True })
-        vals['wh_consume_loc_id'] = cons_location_id.id
-        usage_location_id = location_obj.create({'name': 'Usage Giving', 'usage': 'usage_giving', 'active': True })
-        vals['wh_usage_loc_id'] = usage_location_id.id
-        warehouse = super(stock_warehouse, self).create(vals)
-
-        cons_location_id.write({'location_id': warehouse.view_location_id.id})
-        usage_location_id.write({'location_id': warehouse.view_location_id.id})
-        return warehouse
+    # @api.model
+    # def create(self, vals):
+    #
+    #     # location_obj = self.env['stock.location']
+    #     # # create all location
+    #     # cons_location_id = location_obj.create({'name': 'Consume', 'usage': 'consume', 'active': True })
+    #     # vals['wh_consume_loc_id'] = cons_location_id.id
+    #     # usage_location_id = location_obj.create({'name': 'Usage Giving', 'usage': 'usage_giving', 'active': True })
+    #     # vals['wh_usage_loc_id'] = usage_location_id.id
+    #     warehouse = super(stock_warehouse, self).create(vals)
+    #
+    #     # cons_location_id.write({'location_id': warehouse.view_location_id.id})
+    #     # usage_location_id.write({'location_id': warehouse.view_location_id.id})
+    #     return warehouse
 
 
 class stock_move(models.Model):
