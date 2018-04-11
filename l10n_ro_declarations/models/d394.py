@@ -61,19 +61,14 @@ class D394Report(models.TransientModel):
                 if item.partner_id.vat:
                     tag.text = item.partner_id.vat.replace('RO', '')
 
-                sub3 = etree.SubElement(sub1, "sub3")
-
-                tag = etree.SubElement(sub3, "nrFacturi")
+                tag = etree.SubElement(sub2, "nrfact")
                 tag.text = str(item.invoice_count)
 
-                tag = etree.SubElement(sub3, "baza")
-                tag.text = str(item.net)
+                tag = etree.SubElement(sub2, "baza")
+                tag.text = str(round(item.net, 0))
 
-                tag = etree.SubElement(sub3, "tva")
-                tag.text = str(item.tax)
-
-                tag = etree.SubElement(sub3, "seq3")
-                tag.text = '1'
+                tag = etree.SubElement(sub2, "tva")
+                tag.text = str(round(item.tax, 0))
 
                 seq += 1
             tag = etree.Element("tip1")
