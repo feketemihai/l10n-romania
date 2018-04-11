@@ -23,9 +23,10 @@
         <field name="view_mode">tree,pivot</field>
     </record>
 
+    <!--
     <menuitem id="menu_action_d394" name="D394"
               action="action_D394"
               parent="l10n_ro.account_reports_ro_statements_menu" groups="account.group_account_user"/>
-
+    -->
 
 </odoo>
