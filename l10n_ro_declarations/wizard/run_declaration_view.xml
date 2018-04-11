@@ -18,7 +18,9 @@
                 </group>
             </group>
             <footer>
-                    <button name="button_execute" string="Execute"  type="object" default_focus="1" class="oe_highlight"/>
+                 <button name="button_show" string="Show"  type="object" default_focus="1" class="oe_highlight"/>
+                or
+                    <button name="button_execute" string="Execute"  type="object"  />
                     or
                     <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>

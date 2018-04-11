@@ -19,6 +19,7 @@
 
     "data": [
         'views/declarations_view.xml',
+        'views/d394_view.xml',
         'wizard/run_declaration_view.xml'
     ],
 

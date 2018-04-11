@@ -36,6 +36,18 @@ class RunDeclaration(models.TransientModel):
                 res['declaration_id'] = declaration.id
         return res
 
+
+    def get_report(self):
+        model = self.env['l10n_ro.%s_report' % self.declaration_id.code.lower()]
+
+        report = model.create({
+            'company_id': self.company_id.id,
+            'date_from': self.date_from,
+            'date_to': self.date_to
+        })
+        report.compute_data_for_report()
+        return report
+
     @api.onchange('date_range_id')
     def onchange_date_range_id(self):
         """Handle date range change."""
@@ -43,11 +55,20 @@ class RunDeclaration(models.TransientModel):
         self.date_to = self.date_range_id.date_end
 
     @api.multi
+    def button_show(self):
+        report = self.get_report()
+        return report.show_report()
+
+
+    @api.multi
     def button_execute(self):
-        url = '/declarations/%s/%s_data.xdp' % (self.id, self.declaration_id.code)
+
+        report = self.get_report()
+        url = '/declarations/%s/%s/%s_data.xdp' % (self.id,report.id,self.declaration_id.code)
         action = {
             "type": "ir.actions.act_url",
             "url": url,
             "target": "new",
         }
+        # todo: este o alta metoda de a obtine fisierul ?
         return action

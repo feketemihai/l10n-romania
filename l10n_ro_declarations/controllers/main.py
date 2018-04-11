@@ -11,11 +11,8 @@ import base64
 
 class Declarations(http.Controller):
 
-    @http.route(['/declarations/<int:run_id>/<string:filename>',
-                 '/declarations/<int:run_id>',
-                 '/declarations/<string:filename>'
-                 ], type='http', auth="user")
-    def get_declarations(self, run_id, filename, **kwargs):
+    @http.route(['/declarations/<int:run_id>/<int:report_id>/<string:filename>' ], type='http', auth="user")
+    def get_declarations(self, filename, run_id=None, report_id=None, **kwargs):
 
         if run_id:
             run_declaration = request.env['l10n_ro.run.declaration'].browse(run_id)
@@ -27,6 +24,8 @@ class Declarations(http.Controller):
                 code = filename.split('.')[0]
             run_declaration = request.env['l10n_ro.run.declaration'].with_context(declaration_code=code).create({})
 
+        model = request.env['l10n_ro.%s_report' % run_declaration.declaration_id.code.lower()]
+        report = model.browse(report_id)
 
         if run_declaration and  run_declaration.declaration_id.data_xdp:
             xml_file = base64.b64decode(run_declaration.declaration_id.data_xdp)
@@ -35,6 +34,9 @@ class Declarations(http.Controller):
             data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static', 'file')
             xml_file = os.path.join(data_dir, filename)
             xml_doc = etree.parse(xml_file)
+
+
+
 
         tag_an = xml_doc.xpath('//an_r')
         if tag_an:
@@ -86,6 +88,7 @@ class Declarations(http.Controller):
             if tag_functie_declar and not tag_functie_declar[0].text:
                 tag_functie_declar[0].text = request.env.user.partner_id.function or ''
 
+        xml_doc = report.xml_processing(xml_doc)
 
         declaration = '<?xml version="1.0" encoding="UTF-8"?><?xfa generator="XFA2_4" APIVersion="3.6.14289.0"?>'
         content = etree.tostring(xml_doc, encoding='utf8', xml_declaration=False)

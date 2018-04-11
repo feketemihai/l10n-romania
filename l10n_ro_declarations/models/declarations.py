@@ -16,3 +16,5 @@ class Declaration(models.Model):
                                  default=lambda self: self.env.user.company_id)
 
     data_xdp = fields.Binary(string='XDP file')
+
+
