@@ -48,6 +48,7 @@ def unaccent(text):
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    nrc = fields.Char(string='NRC', help='Registration number at the Registry of Commerce')
     vat_subjected = fields.Boolean('VAT Legal Statement')
     split_vat = fields.Boolean('Split VAT')
     vat_on_payment = fields.Boolean('VAT on Payment')
@@ -254,7 +255,8 @@ class ResPartner(models.Model):
             except:
                 raise Warning(_("No VAT number found"))
 
-        vat_country, vat_number = self._split_vat(part.vat)
+
+        vat_country, vat_number = part.vat[:2].lower(), part.vat[2:].replace(' ', '')
 
         if part.vat_subjected:
             self.write({'vat_subjected': False})
