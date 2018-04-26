@@ -72,7 +72,7 @@ class ResConfigSettings(models.TransientModel):
     module_l10n_ro_zipcode = fields.Boolean('Romanian Zipcodes',
                                             help='This allows you to manage the Romanian zipcodes on addreses:\n'
                                             'The address fields will be replaced by one location field including city, commune, state, zone, country, zip.')
-    module_partner_create_by_vat = fields.Boolean('Create Partners by VAT',
+    module_l10n_ro_partner_create_by_vat = fields.Boolean('Create Partners by VAT',
                                                   help='This allows you to create partners based on VAT:\n'
                                                   'Romanian partners will be create based on Ministry of Finance / openapi.ro Webservices Datas\n'
                                                   'European partners will be create based on VIES Website Datas (for countries that allow). \n')
