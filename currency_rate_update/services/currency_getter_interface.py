@@ -8,6 +8,7 @@ from datetime import datetime
 from odoo import fields, _
 from odoo.exceptions import UserError
 from future.utils import with_metaclass
+import sys
 
 
 
@@ -140,10 +141,15 @@ class CurrencyGetterInterface(with_metaclass(CurrencyGetterType, object)):
     def get_url(self, url):
         """Return a string of a get url query"""
         try:
-            import urllib.request
-            import urllib.parse
-            import urllib.error
-            objfile = urllib.request.urlopen(url)
+            if sys.version_info[0]<3:
+                from urllib2 import urlopen
+                objfile = urlopen(url)
+            else:
+                import urllib.request
+                import urllib.parse
+                import urllib.error
+                objfile = urllib.request.urlopen(url)
+
 
             rawfile = objfile.read()
             objfile.close()

@@ -198,17 +198,19 @@ class stock_move(models.Model):
                 # company: usualy 8035
                 acc_src = acc_dest = move.company_id.property_stock_usage_giving_account_id
             elif move_type == 'delivery':
-                # Change the account to the expense one (6xx) to suit move: 6xx = 3xx
-                acc_dest = move.product_id.property_account_expense_id
-                if not acc_dest:
-                    acc_dest = move.product_id.categ_id.property_account_expense_categ_id
-                # daca nu e cont de cheltuiala este contul de iesire din stoc produse finite 711 = 334
+                # in anglo_saxon_accounting miscarea de stoc se face pe documentrul de facutra
+                if not self.company_id.anglo_saxon_accounting:
+                    # Change the account to the expense one (6xx) to suit move: 6xx = 3xx
+                    acc_dest = move.product_id.property_account_expense_id
+                    if not acc_dest:
+                        acc_dest = move.product_id.categ_id.property_account_expense_categ_id
+                    # daca nu e cont de cheltuiala este contul de iesire din stoc produse finite 711 = 334
 
-                if not acc_dest:
-                    acc_dest = move.product_id.property_stock_account_output or move.product_id.categ_id.property_stock_account_output_categ_id
+                    if not acc_dest:
+                        acc_dest = move.product_id.property_stock_account_output or move.product_id.categ_id.property_stock_account_output_categ_id
 
-                if move.location_id.property_account_expense_location_id:
-                    acc_dest = move.location_id.property_account_expense_location_id
+                    if move.location_id.property_account_expense_location_id:
+                        acc_dest = move.location_id.property_account_expense_location_id
             elif move_type == 'inventory':
                 # Inventory in plus
                 # Change the account to the expense one (6xx) to suit move: 3xx = 6xx
