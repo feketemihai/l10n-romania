@@ -233,7 +233,7 @@ class ResPartner(models.Model):
                         ', '.join(x.name for x in same_vat_partners)))
 
 
-    def split_vat(self, vat):
+    def _vat_split(self, vat):
         vat = vat.replace(" ", "")
         if vat[:2].isdigit():
             vat_country ='ro'
@@ -264,7 +264,7 @@ class ResPartner(models.Model):
 
         if not part.vat and part.name:
             try:
-                vat_country, vat_number = self.split_vat(part.name.upper().replace(" ", ""))
+                vat_country, vat_number = self._vat_split(part.name.upper().replace(" ", ""))
                 valid = self.vies_vat_check(vat_country, vat_number)
                 if valid:
                     self.write({'vat': part.name.upper().replace(" ", "")})
@@ -272,7 +272,7 @@ class ResPartner(models.Model):
                 raise Warning(_("No VAT number found"))
 
 
-        vat_country, vat_number = self.split_vat(part.vat)
+        vat_country, vat_number = self._vat_split(part.vat)
 
         if part.vat_subjected:
             self.write({'vat_subjected': False})

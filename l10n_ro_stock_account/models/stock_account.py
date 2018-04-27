@@ -347,6 +347,7 @@ class stock_move(models.Model):
                 valuation_amount = context.get('force_valuation_amount')
             else:
                 valuation_amount = move.product_id.cost_method == 'fifo' and cost / qty or move.product_id.standard_price
+                valuation_amount = abs(valuation_amount)
             list_price = move.product_id.list_price or 0.00
             if list_price <= valuation_amount:
                 raise UserWarning(_(
@@ -355,7 +356,7 @@ class stock_move(models.Model):
                 # the standard_price of the product may be in another decimal precision, or not compatible with the coinage of
                 # the company currency... so we need to use round() before
                 # creating the accounting entries.
-                valuation_amount = list_price * qty - move.company_id.currency_id.round(valuation_amount * qty)
+                valuation_amount = list_price * abs(qty) - move.company_id.currency_id.round(valuation_amount * abs(qty))
                 taxes = []
                 if move.product_id.taxes_id:
                     taxes = move.product_id.taxes_id.compute_all(valuation_amount, product=move.product_id)
@@ -368,7 +369,7 @@ class stock_move(models.Model):
                         if context.get('type') == 'reception_diff':
                             # debit_line_vals['tax_code_id'] = self.pool.get('account.tax.code').browse(cr, uid, tax['base_code_id']).uneligible_tax_code_id and \
                             #                                 self.pool.get('account.tax.code').browse(cr, uid, tax['base_code_id']).uneligible_tax_code_id.id or False
-                            debit_line_vals['tax_code_id'] = tax['id']
+                            debit_line_vals['tax_code_id'] = tax['id']  # todo: de verificat campul
                             debit_line_vals['tax_amount'] = valuation_amount
                             debit_line_vals['debit'] = valuation_amount
                             debit_line_vals['credit'] = 0.00
