@@ -232,6 +232,17 @@ class ResPartner(models.Model):
                       'Partners with same vat and not related, are: %s!') % (
                         ', '.join(x.name for x in same_vat_partners)))
 
+
+    def split_vat(self, vat):
+        vat = vat.replace(" ", "")
+        if vat[:2].isdigit():
+            vat_country ='ro'
+            vat_number  = vat
+        else:
+            vat_country, vat_number = vat[:2].lower(), vat[2:]
+        return vat_country, vat_number
+
+
     @api.multi
     def button_get_partner_data(self):
         def _check_vat_ro(vat):
@@ -253,14 +264,15 @@ class ResPartner(models.Model):
 
         if not part.vat and part.name:
             try:
-                vat_country, vat_number = self._split_vat(part.name.upper().replace(" ", ""))
+                vat_country, vat_number = self.split_vat(part.name.upper().replace(" ", ""))
                 valid = self.vies_vat_check(vat_country, vat_number)
                 if valid:
                     self.write({'vat': part.name.upper().replace(" ", "")})
             except:
                 raise Warning(_("No VAT number found"))
 
-        vat_country, vat_number = part.vat[:2].lower(), part.vat[2:].replace(' ', '')
+
+        vat_country, vat_number = self.split_vat(part.vat)
 
         if part.vat_subjected:
             self.write({'vat_subjected': False})
@@ -280,6 +292,8 @@ class ResPartner(models.Model):
                     values.update( self._Anaf_to_Odoo(result))
 
                 if values:
+                    if not values['vat_subjected']:
+                        values['vat'] = self.vat.replace('RO','')
                     self.write(values)
 
             else:
