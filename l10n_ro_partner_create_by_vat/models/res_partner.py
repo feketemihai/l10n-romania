@@ -90,8 +90,8 @@ class ResPartner(models.Model):
         addr = ''
         if result['adresa']:
             result['adresa'] = result['adresa'].replace('MUNICIPIUL', 'MUN.')
-            result['adresa'] = result['adresa'].replace('ORȘ.', 'ORS.')
-            result['adresa'] = result['adresa'].replace('ORŞ.', 'ORS.')
+            result['adresa'] = result['adresa'].replace(u'ORȘ.', 'ORS.')
+            result['adresa'] = result['adresa'].replace(u'ORŞ.', 'ORS.')
             lines = [x for x in result['adresa'].split(",") if x]
             nostreet = True
             listabr = ['JUD.', 'MUN.', 'ORS.', 'COM.',
