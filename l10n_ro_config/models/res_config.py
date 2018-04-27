@@ -15,6 +15,9 @@ class ResConfigSettings(models.TransientModel):
                                  default=lambda self: self.env['res.company']._company_default_get('l10n.ro.config.settings'))
     has_default_company = fields.Boolean('Has default company', readonly=True, change_default=True,
                                          default=lambda self: bool(self.env['res.company'].search_count([]) == 1))
+
+    anglo_saxon_accounting = fields.Boolean(related='company_id.anglo_saxon_accounting')
+
     module_account_compensation = fields.Boolean('Account Compensation',
                                                  help='This allows you to manage partners compensation on accounts marked to be reconciled.')
     module_account_storno = fields.Boolean('Storno Accounting',

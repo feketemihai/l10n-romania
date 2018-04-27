@@ -25,7 +25,6 @@ import unicodedata
 # CEDILLATRANS = maketrans(u'\u015f\u0163\u015e\u0162'.encode('utf8'), u'\u0219\u021b\u0218\u021a'.encode('utf8'))
 
 
-
 headers = {
     "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
     "Content-Type": "application/json;"
@@ -61,7 +60,8 @@ class ResPartner(models.Model):
         if res['found'] and res['found'][0]:
             result = res['found'][0]
             if result['data_sfarsit_ScpTVA'] and result['data_sfarsit_ScpTVA'] != ' ':
-                res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': result['data_sfarsit_ScpTVA']}], headers=headers)
+                res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': result['data_sfarsit_ScpTVA']}],
+                                    headers=headers)
                 if res.status_code == 200:
                     res = res.json()
         if res['found'] and res['found'][0]:
@@ -70,7 +70,8 @@ class ResPartner(models.Model):
         if res['notfound'] and res['notfound'][0]:
             result = res['notfound'][0]
             if result['data_sfarsit_ScpTVA'] and result['data_sfarsit_ScpTVA'] != ' ':
-                res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': result['data_sfarsit_ScpTVA']}], headers=headers)
+                res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': result['data_sfarsit_ScpTVA']}],
+                                    headers=headers)
                 if res.status_code == 200:
                     res = res.json()
                     if res['found'] and res['found'][0]:
@@ -83,7 +84,7 @@ class ResPartner(models.Model):
     def _Anaf_to_Odoo(self, result):
         res = {'name': result['denumire'],
                'vat_subjected': result['scpTVA'],
-               'split_vat':result['statusSplitTVA'],
+               'split_vat': result['statusSplitTVA'],
                'vat_on_payment': result['statusTvaIncasare'],
                'company_type': 'company'}
         addr = ''
@@ -91,7 +92,7 @@ class ResPartner(models.Model):
             result['adresa'] = result['adresa'].replace('MUNICIPIUL', 'MUN.')
             lines = [x for x in result['adresa'].split(",") if x]
             nostreet = True
-            listabr = ['JUD.', 'MUN.', 'ORŞ.', 'COM.',
+            listabr = ['JUD.', 'MUN.', 'ORȘ.', 'COM.',
                        'STR.', 'NR.', 'ET.', 'AP.']
             for line in lines:
                 if 'STR.' in line:
@@ -243,9 +244,13 @@ class ResPartner(models.Model):
         vat = part.vat
         if vat:
             self.write({'vat': part.vat.upper().replace(" ", "")})
-        elif part.name and len(part.name.strip()) > 2 and part.name.strip().upper()[:2] == 'RO' and part.name.strip()[
-                                                                                                    2:].isdigit():
+        elif part.name and len(part.name.strip()) > 2 and \
+                part.name.strip().upper()[:2] == 'RO' and \
+                part.name.strip()[2:].isdigit():
             self.write({'vat': part.name.upper().replace(" ", "")})
+        elif  part.name.strip().isdigit():
+            self.write({'vat': 'RO'+part.name.upper().replace(" ", "")})
+
         if not part.vat and part.name:
             try:
                 vat_country, vat_number = self._split_vat(part.name.upper().replace(" ", ""))
@@ -254,7 +259,6 @@ class ResPartner(models.Model):
                     self.write({'vat': part.name.upper().replace(" ", "")})
             except:
                 raise Warning(_("No VAT number found"))
-
 
         vat_country, vat_number = part.vat[:2].lower(), part.vat[2:].replace(' ', '')
 
@@ -266,13 +270,14 @@ class ResPartner(models.Model):
                 'country_id': self.env['res.country'].search([('code', 'ilike', vat_country)])[0].id
             })
             if vat_country == 'ro':
-                values = {}
                 try:
-                    result = self._get_Anaf(vat_number)
-                    if result:
-                        values = self._Anaf_to_Odoo(result)
-                except:
                     values = self._get_Openapi(vat_number)
+                except:
+                    values = {}
+
+                result = self._get_Anaf(vat_number)
+                if result:
+                    values.update( self._Anaf_to_Odoo(result))
 
                 if values:
                     self.write(values)

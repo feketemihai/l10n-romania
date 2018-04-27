@@ -13,7 +13,7 @@
     'license': 'AGPL-3',
     'application': False,
     'installable': True,
-    'depends': ['l10n_ro'],
+    'depends': ['l10n_ro','sale'],
     'data': [
         'views/res_config_view.xml',
 
