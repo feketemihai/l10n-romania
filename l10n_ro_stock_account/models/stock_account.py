@@ -77,6 +77,12 @@ class stock_location(models.Model):
                                                            help="This account will be used to value outgoing stock using cost price.",
                                                            company_dependent=True)
 
+    # def _should_be_valued(self):
+    #     if self.merchandise_type == 'store':
+    #         return True
+    #     else:
+    #         return super(stock_location, self)._should_be_valued()
+        
 
 class stock_move(models.Model):
     _name = "stock.move"
@@ -85,13 +91,23 @@ class stock_move(models.Model):
     acc_move_id = fields.Many2one('account.move', string='Account move', copy=False)
     acc_move_line_ids = fields.One2many('account.move.line', 'stock_move_id', string='Account move lines')
 
+
+    # def _is_in(self):
+    #     for move_line in self.move_line_ids.filtered(lambda ml: not ml.owner_id):
+    #         if move_line.location_dest_id.merchandise_type == 'store':
+    #             return True
+    #         if not move_line.location_id._should_be_valued() and move_line.location_dest_id._should_be_valued():
+    #             return True
+    #     return False
+
+
     @api.onchange('date')
     def onchange_date(self):
         if self.picking_id:
             self.date_expected = self.picking_id.date
         super(stock_move, self).onchange_date()
 
-    # metoda locala si daca o folosesc se dubleaza inregistrarile din notele contabile
+
     @api.multi
     def create_account_move_lines(self):
         for move in self:
@@ -101,32 +117,7 @@ class stock_move(models.Model):
                     acc_move_id = acc_move.move_id
                 move.write({'acc_move_id': acc_move_id.id})
 
-        if 1 == 1:
-            return
-        for move in self:
-            # in  cersiunea 10 nu se mai utilizeaza perioada trebuie inlocuita cu data contabila
-            # period_id = self.env.context.get('force_period', self.env['account.period'].find(move.date))
-
-            journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
-            acc_move_lines = []
-            if move.state == 'done':
-                for quant in move.quant_ids:
-                    lines = quant._account_entry_move(move)
-                    if lines:
-                        for line in lines:
-                            line_vals = line[2]
-                            line_vals['stock_move_id'] = move.id
-                            acc_move_lines += [(0, 0, line_vals)]
-            if acc_move_lines != []:
-                move_id = self.env['account.move'].create({'journal_id': journal_id,
-                                                           'line_id': acc_move_lines,
-
-                                                           'date': move.date,
-                                                           'ref': move.name,
-                                                           'name': move.picking_id and move.picking_id.name or '/'
-                                                           }, )
-                move.write({'acc_move_id': move_id.id})
-        return True
+        
 
     @api.multi
     def action_done(self):
@@ -166,11 +157,15 @@ class stock_move(models.Model):
 
         if move.location_id.usage == 'internal' and move.location_dest_id.usage == 'internal':
             acc_dest = move.product_id.property_stock_account_input or move.product_id.categ_id.property_stock_account_input_categ_id
+            if not move.value:
+                move.write({'value':move.price_unit * move.product_qty})
 
         if move.location_id.property_stock_account_output_location_id:
             acc_src = move.location_id.property_stock_account_output_location_id
         if move.location_dest_id.property_stock_account_input_location_id:
             acc_dest = move.location_dest_id.property_stock_account_input_location_id
+
+
 
         # Change accounts to suit romanian stock account moves.
         move_type = self.env.context.get('type', '')
@@ -369,8 +364,8 @@ class stock_move(models.Model):
                         if context.get('type') == 'reception_diff':
                             # debit_line_vals['tax_code_id'] = self.pool.get('account.tax.code').browse(cr, uid, tax['base_code_id']).uneligible_tax_code_id and \
                             #                                 self.pool.get('account.tax.code').browse(cr, uid, tax['base_code_id']).uneligible_tax_code_id.id or False
-                            debit_line_vals['tax_code_id'] = tax['id']  # todo: de verificat campul
-                            debit_line_vals['tax_amount'] = valuation_amount
+                            #debit_line_vals['tax_code_id'] = tax['id']  # todo: de verificat campul poate e tax_line_id
+                            #debit_line_vals['tax_amount'] = valuation_amount  # de verificat poate e tax_base_amount
                             debit_line_vals['debit'] = valuation_amount
                             debit_line_vals['credit'] = 0.00
                             credit_line_vals['credit'] = valuation_amount
@@ -378,8 +373,8 @@ class stock_move(models.Model):
                         else:
                             # debit_line_vals['tax_code_id'] = self.pool.get('account.tax.code').browse(cr, uid, tax['tax_code_id']).uneligible_tax_code_id and \
                             #                                 self.pool.get( 'account.tax.code').browse(cr, uid, tax['tax_code_id']).uneligible_tax_code_id.id or False
-                            debit_line_vals['tax_code_id'] = tax['id']
-                            debit_line_vals['tax_amount'] = tax['amount']
+                            #debit_line_vals['tax_code_id'] = tax['id']
+                            #debit_line_vals['tax_amount'] = tax['amount']
                             debit_line_vals['debit'] = tax['amount'] > 0 and round(tax['amount'], 2) or 0.00
                             debit_line_vals['credit'] = tax['amount'] < 0 and -1 * round(tax['amount'], 2) or 0.00
                             credit_line_vals['credit'] = tax['amount'] > 0 and round(tax['amount'], 2) or 0.00
@@ -390,8 +385,8 @@ class stock_move(models.Model):
                         if context.get('type') == 'delivery_diff':
                             # credit_line_vals['tax_code_id'] = self.pool.get('account.tax.code').browse(cr, uid, tax[ 'base_code_id']).uneligible_tax_code_id and \
                             #                                  self.pool.get( 'account.tax.code').browse(cr, uid, tax['base_code_id']).uneligible_tax_code_id.id or False
-                            debit_line_vals['tax_code_id'] = tax['id']
-                            credit_line_vals['tax_amount'] = valuation_amount
+                            #debit_line_vals['tax_code_id'] = tax['id']
+                            #credit_line_vals['tax_amount'] = valuation_amount
                             debit_line_vals['debit'] = valuation_amount
                             debit_line_vals['credit'] = 0.00
                             credit_line_vals['credit'] = valuation_amount
@@ -399,8 +394,8 @@ class stock_move(models.Model):
                         else:
                             # credit_line_vals['tax_code_id'] = self.pool.get('account.tax.code').browse(cr, uid, tax['tax_code_id']).uneligible_tax_code_id and \
                             #                                  self.pool.get( 'account.tax.code').browse(cr, uid, tax['tax_code_id']).uneligible_tax_code_id.id or False
-                            debit_line_vals['tax_code_id'] = tax['id']
-                            credit_line_vals['tax_amount'] = tax['amount']
+                            #debit_line_vals['tax_code_id'] = tax['id']
+                            #credit_line_vals['tax_amount'] = tax['amount']
                             debit_line_vals['debit'] = tax['amount'] > 0 and round(tax['amount'], 2) or 0.00
                             debit_line_vals['credit'] = tax['amount'] < 0 and -1 * round(tax['amount'], 2) or 0.00
                             credit_line_vals['credit'] = tax['amount'] > 0 and round(tax['amount'], 2) or 0.00
@@ -636,8 +631,11 @@ class stock_move(models.Model):
             ctx['type'] = 'inventory'
         move = move.with_context(ctx)
         journal_id, acc_src, acc_dest, acc_valuation = move._get_accounting_data_for_valuation()
-        if acc_src and acc_dest and acc_src != acc_dest:
-            move._create_account_move_line(acc_src, acc_dest, journal_id)
+        if location_from.usage == 'production' or location_to.usage == 'production':
+            pass
+        else:
+            if acc_src and acc_dest and acc_src != acc_dest:
+                move._create_account_move_line(acc_src, acc_dest, journal_id)
 
         super(stock_move, self)._account_entry_move()
 

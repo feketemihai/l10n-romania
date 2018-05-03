@@ -90,8 +90,8 @@ class ResPartner(models.Model):
         addr = ''
         if result['adresa']:
             result['adresa'] = result['adresa'].replace('MUNICIPIUL', 'MUN.')
-            result['adresa'] = result['adresa'].replace('ORȘ.', 'ORS.')
-            result['adresa'] = result['adresa'].replace('ORŞ.', 'ORS.')
+            result['adresa'] = result['adresa'].replace(u'ORȘ.', 'ORS.')
+            result['adresa'] = result['adresa'].replace(u'ORŞ.', 'ORS.')
             lines = [x for x in result['adresa'].split(",") if x]
             nostreet = True
             listabr = ['JUD.', 'MUN.', 'ORS.', 'COM.',
@@ -113,11 +113,11 @@ class ResPartner(models.Model):
                     if state:
                         res['state_id'] = state[0].id
                 if 'MUN.' in line:
-                    city = line.replace('MUN.', '').strip().title()
+                    city = line.replace('MUN.', ' ').strip().title()
                 elif 'ORS.' in line:
-                    city = line.replace('ORS.', '').strip().title()
+                    city = line.replace('ORS.', ' ').strip().title()
                 elif 'COM.' in line:
-                    sat = line.replace('SAT ', '').strip().title().split(" ")
+                    sat = line.replace('SAT ', ' ').strip().title().split(" ")
                     city = ''
                     for satname in sat:
                         if '.' not in satname:
