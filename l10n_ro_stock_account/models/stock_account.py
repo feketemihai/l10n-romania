@@ -88,7 +88,8 @@ class stock_move(models.Model):
     _name = "stock.move"
     _inherit = "stock.move"
 
-    acc_move_id = fields.Many2one('account.move', string='Account move', copy=False)
+    # Exista standard account_move_ids
+    # acc_move_id = fields.Many2one('account.move', string='Account move', copy=False)
     acc_move_line_ids = fields.One2many('account.move.line', 'stock_move_id', string='Account move lines')
 
 
@@ -108,14 +109,7 @@ class stock_move(models.Model):
         super(stock_move, self).onchange_date()
 
 
-    @api.multi
-    def create_account_move_lines(self):
-        for move in self:
-            acc_move_id = self.env['account.move']
-            if not move.acc_move_id:
-                for acc_move in move.acc_move_line_ids:
-                    acc_move_id = acc_move.move_id
-                move.write({'acc_move_id': acc_move_id.id})
+
 
         
 
@@ -125,17 +119,15 @@ class stock_move(models.Model):
         for move in self:
             if move.picking_id:
                 move.write({'date': move.picking_id.date})
-            if not move.acc_move_id:
-                move.create_account_move_lines()
+
         return res
 
     @api.multi
     def action_cancel(self):
-        acc_move_obj = self.env['account.move']
         for move in self:
-            if move.acc_move_id:
-                acc_move_obj.button_cancel([move.acc_move_id.id])
-                acc_move_obj.unlink([move.acc_move_id.id])
+            if move.account_move_ids :
+                move.account_move_ids.button_cancel()
+                move.account_move_ids.unlink()
         return super(stock_move, self).action_cancel()
 
     # metoda rescrisa
@@ -685,18 +677,18 @@ class stock_picking(models.Model):
     def action_cancel(self):
         for pick in self:
             for move in pick.move_lines:
-                if move.acc_move_id:
-                    move.acc_move_id.button_cancel()
-                    move.acc_move_id.unlink()
+                if move.account_move_ids :
+                    move.account_move_ids .button_cancel()
+                    move.account_move_ids .unlink()
         return super(stock_picking, self).action_cancel()
 
     @api.multi
     def action_unlink(self, cr, uid, ids, context=None):
         for pick in self.browse:
             for move in pick.move_lines:
-                if move.acc_move_id:
-                    move.acc_move_id.button_cancel()
-                    move.acc_move_id.unlink()
+                if move.account_move_ids :
+                    move.account_move_ids.button_cancel()
+                    move.account_move_ids.unlink()
         return super(stock_picking, self).action_unlink()
 
     # nu cred ca mai exista in 10.0
@@ -714,6 +706,16 @@ class StockInventory(models.Model):
 
     acc_move_line_ids = fields.One2many('account.move.line', 'stock_inventory_id', string='Generated accounting lines')
 
+    @api.multi
+    def post_inventory(self):
+        res = super(StockInventory, self).post_inventory()
+        for inv in self:
+            acc_move_line_ids = self.env['account.move.line']
+            for move in inv.move_ids:
+                for acc_move in move.account_move_ids:
+                    acc_move_line_ids |= acc_move.line_ids
+            acc_move_line_ids.write({'stock_inventory_id':inv.id})
+        return res
     """
     @api.multi
     def get_account_move_lines(self):
@@ -739,9 +741,9 @@ class StockInventory(models.Model):
     def action_cancel_draft(self):
         for inv in self:
             for move in inv.move_ids:
-                if move.acc_move_id:
-                    move.acc_move_id.cancel()
-                    move.acc_move_id.unlink()
+                if move.account_move_ids:
+                    move.account_move_ids.cancel()
+                    move.account_move_ids.unlink()
         return super(StockInventory, self).action_cancel_draft()
 
     @api.multi

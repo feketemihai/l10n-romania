@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_account
-#: field:stock.move,acc_move_id:0
+#: field:stock.move,account_move_ids:0
 msgid "Account move"
 msgstr ""
 
