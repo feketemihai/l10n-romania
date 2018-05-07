@@ -54,16 +54,20 @@ class stock_location(models.Model):
 
     merchandise_type = fields.Selection([("store", "Store"), ("warehouse", "Warehouse")], string="Merchandise type",
                                         default="warehouse")
-    property_stock_account_input_location_id = fields.Many2one('account.account',
-                                                               string='Stock Input Account',
-                                                               help="When doing real-time inventory valuation, counterpart journal items for all incoming stock moves will be posted in this account, unless "
-                                                                    "there is a specific valuation account set on the source location. When not set on the product, the one from the product category is used.",
-                                                               company_dependent=True)
-    property_stock_account_output_location_id = fields.Many2one('account.account',
-                                                                string='Stock Output Account',
-                                                                help="When doing real-time inventory valuation, counterpart journal items for all outgoing stock moves will be posted in this account, unless "
-                                                                     "there is a specific valuation account set on the destination location. When not set on the product, the one from the product category is used.",
-                                                                company_dependent=True)
+
+    # locatiile sunt dependente de companie. de ce urmatoarele campuri sunt si ele depdenente de companie ?
+    # campul standard valuation_in_account_id nu este company_dependent
+    # property_stock_account_input_location_id = fields.Many2one('account.account',
+    #                                                            string='Stock Input Account',
+    #                                                            help="When doing real-time inventory valuation, counterpart journal items for all incoming stock moves will be posted in this account, unless "
+    #                                                                 "there is a specific valuation account set on the source location. When not set on the product, the one from the product category is used.",
+    #                                                            company_dependent=True)
+    # campul standard este valuation_out_account_id
+    # property_stock_account_output_location_id = fields.Many2one('account.account',
+    #                                                             string='Stock Output Account',
+    #                                                             help="When doing real-time inventory valuation, counterpart journal items for all outgoing stock moves will be posted in this account, unless "
+    #                                                                  "there is a specific valuation account set on the destination location. When not set on the product, the one from the product category is used.",
+    #                                                             company_dependent=True)
     property_account_creditor_price_difference_location_id = fields.Many2one('account.account',
                                                                              string="Price Difference Account",
                                                                              help="This account will be used to value price difference between purchase price and cost price.",
@@ -77,11 +81,7 @@ class stock_location(models.Model):
                                                            help="This account will be used to value outgoing stock using cost price.",
                                                            company_dependent=True)
 
-    # def _should_be_valued(self):
-    #     if self.merchandise_type == 'store':
-    #         return True
-    #     else:
-    #         return super(stock_location, self)._should_be_valued()
+
         
 
 class stock_move(models.Model):
@@ -93,13 +93,7 @@ class stock_move(models.Model):
     acc_move_line_ids = fields.One2many('account.move.line', 'stock_move_id', string='Account move lines')
 
 
-    # def _is_in(self):
-    #     for move_line in self.move_line_ids.filtered(lambda ml: not ml.owner_id):
-    #         if move_line.location_dest_id.merchandise_type == 'store':
-    #             return True
-    #         if not move_line.location_id._should_be_valued() and move_line.location_dest_id._should_be_valued():
-    #             return True
-    #     return False
+
 
 
     @api.onchange('date')
@@ -110,16 +104,12 @@ class stock_move(models.Model):
 
 
 
-
-        
-
     @api.multi
     def action_done(self):
         res = super(stock_move, self).action_done()
         for move in self:
             if move.picking_id:
                 move.write({'date': move.picking_id.date})
-
         return res
 
     @api.multi
@@ -152,10 +142,10 @@ class stock_move(models.Model):
             if not move.value:
                 move.write({'value':move.price_unit * move.product_qty})
 
-        if move.location_id.property_stock_account_output_location_id:
-            acc_src = move.location_id.property_stock_account_output_location_id
-        if move.location_dest_id.property_stock_account_input_location_id:
-            acc_dest = move.location_dest_id.property_stock_account_input_location_id
+        if move.location_id.valuation_out_account_id:
+            acc_src = move.location_id.valuation_out_account_id
+        if move.location_dest_id.valuation_in_account_id:
+            acc_dest = move.location_dest_id.valuation_in_account_id
 
 
 
@@ -204,12 +194,13 @@ class stock_move(models.Model):
                 acc_src = move.product_id.property_account_expense_id or move.product_id.categ_id.property_account_expense_categ_id
                 if not acc_src:
                     acc_src = move.product_id.property_stock_account_input or move.product_id.categ_id.property_stock_account_input_categ_id
+                if move.location_id.property_account_expense_location_id:
+                    acc_src = move.location_id.property_account_expense_location_id
                 if move.location_dest_id.property_account_expense_location_id:
                     acc_src = move.location_dest_id.property_account_expense_location_id
             elif move_type in ('inventory_exp', 'delivery_refund'):
                 # Inventory with minus and return of delivery
-                # Change the account to the expense one (6xx) to suit move: 6xx
-                # = 3xx
+                # Change the account to the expense one (6xx) to suit move: 6xx  = 3xx
                 if move_type == 'delivery_refund':
                     acc_src = acc_dest
                 acc_dest = move.product_id.property_account_expense_id
@@ -427,8 +418,8 @@ class stock_move(models.Model):
         # invoice
         if context.get('type', False) and (context.get('type') in ('delivery_notice', 'delivery_notice_refund')):
             valuation_amount = cost
-            if move.procurement_id and move.procurement_id.sale_line_id:
-                sale_line = move.procurement_id.sale_line_id
+            if move.sale_line_id:
+                sale_line = move.sale_line_id
                 # cum sa fie alt produs in livrare
                 if move.product_id.id != sale_line.product_id.id:
                     price_invoice = self.env['product.pricelist'].price_get([sale_line.order_id.pricelist_id.id],
@@ -616,8 +607,7 @@ class stock_move(models.Model):
                 # delivered  (e.g. 607 = 371)
                 ctx['type'] = 'delivery'
 
-        # Change context to create account moves for plus in inventory  (e.g.
-        # -607 = -371)
+        # Change context to create account moves for plus in inventory  (e.g. -607 = -371)
         if not ctx['notice'] and location_from.usage == 'inventory' and location_to.usage == 'internal':
             ctx['notice'] = False
             ctx['type'] = 'inventory'

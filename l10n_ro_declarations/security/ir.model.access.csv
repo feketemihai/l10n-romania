@@ -1,2 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_l10n_ro_declaration,access_l10n_ro_declaration,model_l10n_ro_declaration,account.group_account_manager,1,0,0,0
+access_l10n_ro_declaration,access_l10n_ro_declaration,model_l10n_ro_declaration,account.group_account_manager,1,1,1,1
+access_l10n_ro_declaration,access_l10n_ro_declaration,model_l10n_ro_declaration,,1,0,0,0
+
+
