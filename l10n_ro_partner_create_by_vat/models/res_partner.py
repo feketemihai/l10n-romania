@@ -94,17 +94,18 @@ class ResPartner(models.Model):
             result['adresa'] = result['adresa'].replace(u'ORŞ.', 'ORS.')
             lines = [x for x in result['adresa'].split(",") if x]
             nostreet = True
-            listabr = ['JUD.', 'MUN.', 'ORS.', 'COM.',
-                       'STR.', 'NR.', 'ET.', 'AP.']
+            # listabr = ['JUD.', 'MUN.', 'ORS.', 'COM.',
+            #            'STR.', 'NR.', 'ET.', 'AP.']
             for line in lines:
                 if 'STR.' in line:
                     nostreet = False
+                    addr = line
                     break
             if nostreet:
                 addr = 'Principala'
-            for line in lines:
-                if not any([x in line for x in listabr]):
-                    addr = line.strip().title()
+            # for line in lines:
+            #     if not any([x in line for x in listabr]):
+            #         addr = line.strip().title()
             for line in lines:
                 line = unaccent(line)  # line.encode('utf8').translate(CEDILLATRANS).decode('utf8')
                 if 'JUD.' in line:
@@ -125,8 +126,8 @@ class ResPartner(models.Model):
                         else:
                             break
                     city = city.strip()
-                if 'STR.' in line:
-                    addr += line.replace('STR.', '').strip().title()
+                # if 'STR.' in line:
+                #     addr += line.replace('STR.', '').strip().title()
                 if 'NR.' in line:
                     addr += ' ' + line.replace('NR.', '').strip().title()
                 if 'AP.' in line:
@@ -140,7 +141,7 @@ class ResPartner(models.Model):
     def _get_Openapi(self, cod):
 
         result = {}
-        openapi_key = self.env['ir.config_parameter'].get_param(key="openapi_key", default=False)
+        openapi_key = self.env['ir.config_parameter'].sudo().get_param(key="openapi_key", default=False)
         if openapi_key:
             headers = {
                 "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
