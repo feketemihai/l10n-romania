@@ -198,8 +198,7 @@ class CurrencyRateUpdateService(models.Model):
                     midnight = time(0, 0)
                     next_run = (datetime.combine(
                         fields.Date.from_string(srv.next_run),
-                        midnight) +
-                                _intervalTypes[str(srv.interval_type)]
+                        midnight) + _intervalTypes[str(srv.interval_type)]
                                 (srv.interval_number)).date()
                     srv.next_run = next_run
         return True
@@ -233,12 +232,10 @@ class CurrencyRateUpdateService(models.Model):
                 for curr in self.currency_to_update:
                     if curr.id == main_currency.id:
                         continue
-                    do_create = True
-                    for rate in curr.rate_ids:
-                        if rate.name == rate_name:
-                            rate.rate = res[curr.name]
-                            do_create = False
-                            break
-                    if do_create:
+
+                    rate = curr.rate_ids.filtered(lambda r: r.name == rate_name)
+                    if rate:
+                        rate.rate = res[curr.name]
+                    else:
                         vals = {'currency_id': curr.id, 'rate': res[curr.name], 'name': rate_name}
                         self.env['res.currency.rate'].create(vals)

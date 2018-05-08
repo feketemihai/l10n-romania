@@ -53,6 +53,7 @@ class RO_BNRGetter(CurrencyGetterInterface):
         adminch_ns = {'def': 'http://www.bnr.ro/xsd'}
         rate_date = dom.xpath('/def:DataSet/def:Body/def:Cube/@date', namespaces=adminch_ns)[0]
         rate_date_datetime = datetime.strptime(rate_date, '%Y-%m-%d') + timedelta(days=1)
+
         self.check_rate_date(rate_date_datetime, max_delta_days)
         # we dynamically update supported currencies
         self.supported_currency_array = dom.xpath("/def:DataSet/def:Body/" + "def:Cube/def:Rate/@currency",
@@ -115,6 +116,8 @@ class RO_BNRGetter(CurrencyGetterInterface):
                     else:
                         rate = main_rate * curr_data['rate_ref'] / curr_data['rate_currency']
                 curr_rate_in_date[curr] = rate
+
             rate_date_datetime = datetime.strptime(rate_date, '%Y-%m-%d') + timedelta(days=1)
+            rate_date_datetime = rate_date_datetime.strftime('%Y-%m-%d')
             self.updated_currency[rate_date_datetime] = curr_rate_in_date
         return self.updated_currency
