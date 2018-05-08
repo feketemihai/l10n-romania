@@ -72,7 +72,7 @@ msgid "Configure Romania Application"
 msgstr "Configureaza Aplicatii Romania"
 
 #. module: l10n_ro_config
-#: field:l10n.ro.config.settings,module_partner_create_by_vat:0
+#: field:l10n.ro.config.settings,module_l10n_ro_partner_create_by_vat:0
 msgid "Create Partners by VAT"
 msgstr "Creeaza Parteneri dupa CUI"
 
@@ -357,7 +357,7 @@ msgid "This allows you to close accounts on periods based on templates: Income, 
 msgstr "Acest modul va permite sa inchideti conturile periodic pe baza de sabloane: Venituri, Cheltuieli, TVA ..."
 
 #. module: l10n_ro_config
-#: help:l10n.ro.config.settings,module_partner_create_by_vat:0
+#: help:l10n.ro.config.settings,module_l10n_ro_partner_create_by_vat:0
 msgid "This allows you to create partners based on VAT:\n"
 "Romanian partners will be create based on Ministry of Finance / openapi.ro Webservices Datas\n"
 "European partners will be create based on VIES Website Datas (for countries that allow). \n"
