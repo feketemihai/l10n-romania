@@ -26,5 +26,5 @@
 
     "active": False,
     "installable": True,
-    'application': True,
+    'application': False,
 }
