@@ -105,7 +105,7 @@
                                 </div>
                                 <div>
                                     <span t-foreach="o.tax_line_ids" t-as="t">
-                                        <span t-field="t.name"/>
+                                        <span t-field="t.description"/>
                                     </span>
                                 </div>
                             </td>

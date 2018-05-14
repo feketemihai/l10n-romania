@@ -91,7 +91,8 @@ class AccountInvoiceLine(models.Model):
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
-        if self.product_id and self.product_id.type == 'product':
+
+        if self.product_id and self.product_id.type == 'product' and not self.env.context.get('from_pos_order',False):
             raise UserError(_('Changing the stored product is not allowed!'))
         return super(AccountInvoiceLine, self)._onchange_product_id()
 
