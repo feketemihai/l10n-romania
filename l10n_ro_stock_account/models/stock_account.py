@@ -286,7 +286,7 @@ class StockMove(models.Model):
         valuation_amount = move.value
         if move.sale_line_id:
             sale_line = move.sale_line_id
-            price_invoice = sale_line.price_subtotal / sale_line.product_qty
+            price_invoice = sale_line.price_subtotal / sale_line.product_uom_qty
             valuation_amount = price_invoice * abs(self.product_qty)
             valuation_amount = sale_line.order_id.currency_id.compute(valuation_amount, move.company_id.currency_id)
 
