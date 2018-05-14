@@ -242,14 +242,18 @@ class StockMove(models.Model):
 
         # the standard_price of the product may be in another decimal precision, or not compatible with the coinage of
         # the company currency... so we need to use round() before  creating the accounting entries.
-        valuation_amount = list_price * abs(qty) - move.company_id.currency_id.round(cost_price * abs(qty))
+        stock_value = move.company_id.currency_id.round(cost_price * abs(qty))
+        valuation_amount = list_price * abs(qty) - stock_value
         uneligible_tax = 0
 
         if taxes_ids:
-            taxes = taxes_ids.compute_all(valuation_amount, product=move.product_id)
+            # tva la valoarea de vanzare
+            taxes = taxes_ids.compute_all(move.product_id.list_price, product=move.product_id, quantity=abs(qty))
             uneligible_tax = taxes['total_included'] - taxes['total_excluded']
 
-        move = move.with_context(force_valuation_amount=valuation_amount)
+
+
+        move = move.with_context(force_valuation_amount=valuation_amount, forced_quantity=0.0)
         if refund:
             acc_src, acc_dest = acc_dest, acc_src
 
@@ -261,7 +265,7 @@ class StockMove(models.Model):
             else:
                 acc_dest = move.company_id.tax_cash_basis_journal_id.default_debit_account_id
 
-            move = move.with_context(force_valuation_amount=uneligible_tax)
+            move = move.with_context(force_valuation_amount=uneligible_tax, forced_quantity=0.0)
             if acc_src and acc_dest:
                 move._create_account_move_line(acc_src, acc_dest, journal_id)
 
@@ -317,12 +321,7 @@ class StockMove(models.Model):
             return True
         return super(StockMove, self)._is_dropshipped()
 
-    # def _action_done(self):
-    #     res = super(StockMove, self)._action_done()
-    #     for move in res.filtered(lambda m: m.product_id.valuation == 'real_time' and not (m._is_in() or m._is_out() or m._is_dropshipped())):
-    #         move._account_entry_move()
-    #
-    #     return res
+
 
 
 class stock_picking(models.Model):
