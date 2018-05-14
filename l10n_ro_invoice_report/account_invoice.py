@@ -77,7 +77,8 @@ class account_invoice_line(models.Model):
         # Compute normal taxes in case of Customer Invoices to have the value
         # in Inverse Taxation
         if self.invoice_id.type in ['out_invoice', 'out_refund']:
-            normal_taxes = self.product_id.taxes_id.compute_all(price, currency=currency,
+            taxes_ids = self.product_id.taxes_id.filtered(lambda r: r.company_id == self.invoice_id.company_id)
+            normal_taxes = taxes_ids.compute_all(price, currency=currency,
                                                                 quantity=self.quantity, product=self.product_id,
                                                                 partner=self.invoice_id.partner_id)
             self.price_normal_taxes = normal_taxes['total_included'] - normal_taxes['total_excluded']

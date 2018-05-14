@@ -97,6 +97,8 @@ class AccountInvoiceLine(models.Model):
 
     @api.onchange('quantity')
     def _onchange_quantity(self):
+        if self.invoice_id.type in ['in_refund','out_refund']:
+            return
         if self.product_id and self.product_id.type == 'product':
 
             if self.purchase_line_id:
