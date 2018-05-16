@@ -115,7 +115,9 @@ class StockMove(models.Model):
             credit_account_id = credit_account_id.id
         if debit_account_id and not isinstance(debit_account_id, int):
             debit_account_id = debit_account_id.id
-        if credit_account_id != debit_account_id:
+
+        permit_same_account = self.env.context.get('permit_same_account', False)
+        if credit_account_id != debit_account_id or permit_same_account:
             super(StockMove, self)._create_account_move_line(credit_account_id, debit_account_id, journal_id)
 
     def get_move_type(self):
@@ -173,7 +175,7 @@ class StockMove(models.Model):
         self.ensure_one()
         move = self
 
-        move_type = move.get_move_type()
+        move_type = self.env.context.get('move_type', move.get_move_type())
 
         if 'reception' in move_type and 'notice' in move_type:
             acc_src = move.company_id.property_stock_picking_payable_account_id
@@ -196,11 +198,22 @@ class StockMove(models.Model):
         use_date = fields.Datetime.context_timestamp(self, timestamp=fields.Datetime.from_string(self.date))
         use_date = fields.Date.to_string(use_date)
 
-        move = self.with_context(force_period_date=use_date)
+        move_type = self.get_move_type()
+        move = self.with_context(force_period_date=use_date, move_type=move_type)
 
         super(StockMove, move)._account_entry_move()
 
-        move_type = move.get_move_type()
+        if 'transfer' in move_type:
+            move._create_account_stock_to_stock(refund=True)
+            move._create_account_stock_to_stock(refund=False)
+
+        if 'transit_out' in move_type:
+            move._create_account_stock_to_stock(refund=True)
+
+        if 'transit_in' in move_type:
+            move._create_account_stock_to_stock(refund=False)
+
+
 
         if 'delivery' in move_type and 'notice' in move_type:  # livrare pe baza de aviz de facut nota contabila 418 = 70x
             move._create_account_delivery_notice(refund='refund' in move_type)
@@ -208,6 +221,18 @@ class StockMove(models.Model):
             move._create_account_reception_in_store(refund='refund' in move_type)
         if 'delivery' in move_type and 'store' in move_type:
             move._create_account_delivery_from_store(refund='refund' in move_type)
+
+    def _create_account_stock_to_stock(self, refund):
+        journal_id, acc_src, acc_dest, acc_valuation = self._get_accounting_data_for_valuation()
+        forced_quantity = self.product_qty if not refund else -1 * self.product_qty
+        move = self.with_context(forced_quantity=forced_quantity, permit_same_account=True)
+        if refund:
+            move._create_account_move_line(acc_valuation, acc_dest,  journal_id)
+        else:
+            move._create_account_move_line(acc_src, acc_valuation, journal_id)
+
+
+
 
     def _create_account_reception_in_store(self, refund):
         '''
@@ -225,7 +250,8 @@ class StockMove(models.Model):
             acc_src = move.product_id.categ_id.property_account_creditor_price_difference_categ
         if move.location_dest_id.property_account_creditor_price_difference_location_id:
             acc_src = move.location_dest_id.property_account_creditor_price_difference_location_id
-
+        if not acc_src:
+            raise UserError(_('Configuration error. Please configure the price difference account on the product or its category to process this operation.'))
         qty = move.product_qty
         cost_price = move.product_id.cost_method == 'fifo' and move.value / qty or move.product_id.standard_price
         cost_price = abs(cost_price)
@@ -249,7 +275,8 @@ class StockMove(models.Model):
         if taxes_ids:
             # tva la valoarea de vanzare
             taxes = taxes_ids.compute_all(move.product_id.list_price, product=move.product_id, quantity=abs(qty))
-            uneligible_tax = taxes['total_included'] - taxes['total_excluded']
+            round_diff = taxes['total_excluded'] - valuation_amount - stock_value
+            uneligible_tax = taxes['total_included'] - taxes['total_excluded'] + round_diff
 
 
 
@@ -305,6 +332,7 @@ class StockMove(models.Model):
 
         if not res:
             return res
+        move_type = self.env.context.get('move_type', move.get_move_type())
 
         for acl in res:
             acl[2]['stock_move_id'] = move.id
@@ -312,6 +340,8 @@ class StockMove(models.Model):
                 acl[2]['stock_picking_id'] = move.picking_id.id
             if move.inventory_id:
                 acl[2]['stock_inventory_id'] = move.inventory_id.id
+            if 'store' in move_type and acl[2]['quantity'] == 0:
+                acl[2]['ref'] = False
 
         return res
 
