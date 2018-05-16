@@ -97,7 +97,7 @@ class ResPartner(models.Model):
             # listabr = ['JUD.', 'MUN.', 'ORS.', 'COM.',
             #            'STR.', 'NR.', 'ET.', 'AP.']
             for line in lines:
-                if 'STR.' in line:
+                if 'STR.' in line or 'CAL.' in line or 'BLD.' in line:
                     nostreet = False
                     addr = line
                     break
@@ -129,9 +129,11 @@ class ResPartner(models.Model):
                 # if 'STR.' in line:
                 #     addr += line.replace('STR.', '').strip().title()
                 if 'NR.' in line:
-                    addr += ' ' + line.replace('NR.', '').strip().title()
+                    addr += ' ' + line.strip().title()
+                if 'BL.' in line:
+                    addr += ' ' + line.strip().title()
                 if 'AP.' in line:
-                    addr += '/' + line.replace('AP.', '').strip().title()
+                    addr += ' ' + line.strip().title()
             if city:
                 res['city'] = city.replace('-', ' ').title()
         res['street'] = addr.strip()
