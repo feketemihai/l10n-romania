@@ -336,6 +336,10 @@ class StockMove(models.Model):
 
         for acl in res:
             acl[2]['stock_move_id'] = move.id
+            if move.location_id.usage == 'internal' and  move.location_dest_id.usage != 'internal':
+                acl[2]['stock_location_id'] = move.location_id.id
+            elif move.location_id.usage != 'internal' and move.location_dest_id.usage == 'internal':
+                acl[2]['stock_location_id'] = move.location_dest_id.id
             if move.picking_id:
                 acl[2]['stock_picking_id'] = move.picking_id.id
             if move.inventory_id:

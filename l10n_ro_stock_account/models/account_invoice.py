@@ -6,11 +6,32 @@ from odoo.tools.float_utils import float_compare
 from odoo.exceptions import AccessError, UserError
 
 
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    @api.model
+    def _convert_prepared_anglosaxon_line(self, line, partner):
+        res = super(ProductProduct, self)._convert_prepared_anglosaxon_line( line, partner)
+        res['stock_location_id'] = line.get('stock_location_id', False)
+        return res
+
+
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
+    stock_location_id = fields.Many2one('stock.location', readonly=True, states={'draft': [('readonly', False)]})
+
+
+    @api.onchange('purchase_id')
+    def purchase_order_change(self):
+        if not self.stock_location_id:
+            self.stock_location_id = self.purchase_id.picking_type_id.default_location_dest_id
+        res = super(AccountInvoice, self).purchase_order_change()
+        return res
+
     def _prepare_invoice_line_from_po_line(self, line):
         data = super(AccountInvoice, self)._prepare_invoice_line_from_po_line(line)
+
         if self.type in ['in_invoice', 'in_refund']:
 
             if line.product_id.purchase_method == 'receive':  # receptia in baza cantitatilor primite
@@ -42,48 +63,19 @@ class AccountInvoice(models.Model):
 
         return data
 
+    @api.model
+    def invoice_line_move_line_get(self):
+        res = super(AccountInvoice, self).invoice_line_move_line_get()
+        for line in res:
+            line['stock_location_id'] = self.stock_location_id.id
+        return res
 
-# metoda locala sau se poate in 10 are alt nume
-'''
-@api.multi
-def _get_invoice_line_vals(self, partner, inv_type):
-    move = self
-    res = super(stock_move, self)._get_invoice_line_vals(partner, inv_type)
-
-    # For receptions, get the stock account, instead of the expense one.
-    account_id = res['account_id']
-    if inv_type in ('in_invoice', 'in_refund'):
-        account_id = move.product_id.property_stock_account_input and move.product_id.property_stock_account_input.id
-        if not account_id:
-            account_id = move.product_id.categ_id.property_stock_account_input_categ and move.product_id.categ_id.property_stock_account_input_categ.id
-        if move.origin_returned_move_id:
-            if move.location_id.property_stock_account_input_location:
-                account_id = move.location_id.property_stock_account_input_location and move.location_id.property_stock_account_input_location.id
-        else:
-            if move.location_dest_id.property_stock_account_input_location:
-                account_id = move.location_dest_id.property_stock_account_input_location and move.location_dest_id.property_stock_account_input_location.id
-    if move.picking_id and move.picking_id.notice:
-        if inv_type in ('in_invoice', 'in_refund'):
-            account_id = move.company_id and move.company_id.property_stock_picking_payable_account_id and move.company_id.property_stock_picking_payable_account_id.id
-        else:
-            account_id = move.company_id and move.company_id.property_stock_picking_receivable_account_id and move.company_id.property_stock_picking_receivable_account_id.id
-    fiscal_position = partner.property_account_position
-    account_id = fiscal_position.map_account(account_id)
-    res['account_id'] = account_id
-
-    # If it is a returned stock move, change quantity in invoice with minus
-    # (probably to be done in account_storno)
-
-    if move.origin_returned_move_id:
-        account_storno = False
-        ir_module = self.env['ir.module.module']
-        module = ir_module.search([('name', '=', 'account_storno')])
-        if module:
-            account_storno = module.state in ('installed', 'to install', 'to upgrade')
-        if account_storno:
-            res['quantity'] = -1 * res['quantity']
-    return res
-'''
+    # @api.multi
+    # def finalize_invoice_move_lines(self, move_lines):
+    #     move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(move_lines)
+    #     for move_line in move_lines:
+    #         move_line[2]['stock_location_id'] = self.stock_location_id.id
+    #     return move_lines
 
 
 class AccountInvoiceLine(models.Model):
@@ -92,13 +84,13 @@ class AccountInvoiceLine(models.Model):
     @api.onchange('product_id')
     def _onchange_product_id(self):
 
-        if self.product_id and self.product_id.type == 'product' and not self.env.context.get('from_pos_order',False):
+        if self.product_id and self.product_id.type == 'product' and not self.env.context.get('from_pos_order', False):
             raise UserError(_('Changing the stored product is not allowed!'))
         return super(AccountInvoiceLine, self)._onchange_product_id()
 
     @api.onchange('quantity')
     def _onchange_quantity(self):
-        if self.invoice_id.type in ['in_refund','out_refund']:
+        if self.invoice_id.type in ['in_refund', 'out_refund']:
             return
         if self.product_id and self.product_id.type == 'product':
 
