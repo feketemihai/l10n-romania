@@ -101,6 +101,11 @@
                                                    class="col-md-3 o_light_label"/>
                                             <field name="property_stock_picking_custody_account_id" placeholder=""/>
                                         </div>
+                                        <div class="row mt16">
+                                            <label for="property_stock_transfer_account_id"
+                                                   class="col-md-3 o_light_label"/>
+                                            <field name="property_stock_transfer_account_id" placeholder="482"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

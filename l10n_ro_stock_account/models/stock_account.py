@@ -209,9 +209,14 @@ class StockMove(models.Model):
         journal_id, acc_src, acc_dest, acc_valuation = self._get_accounting_data_for_valuation()
         forced_quantity = self.product_qty if not refund else -1 * self.product_qty
         move = self.with_context(forced_quantity=forced_quantity, permit_same_account=True)
+
         if refund:
+            if acc_valuation == acc_dest:
+                acc_dest = move.company_id.property_stock_transfer_account_id
             move._create_account_move_line(acc_valuation, acc_dest,  journal_id)
         else:
+            if acc_valuation == acc_dest:
+                acc_src = move.company_id.property_stock_transfer_account_id
             move._create_account_move_line(acc_src, acc_valuation, journal_id)
 
 

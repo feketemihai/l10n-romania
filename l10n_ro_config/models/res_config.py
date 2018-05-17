@@ -121,7 +121,14 @@ class ResConfigSettings(models.TransientModel):
                                                            string="Supplier Advance Account",
                                                            domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",
                                                            help="This account will be used as the supplier advance account for the current partner on vouchers.")
+
+    property_stock_transfer_account_id = fields.Many2one('account.account',
+                                                         related='company_id.property_stock_transfer_account_id',
+                                                         string="Stock Transfer Account")
+
     siruta_update = fields.Boolean('Update Siruta Data')
+
+
 
 
     @api.onchange('company_id')
@@ -139,7 +146,7 @@ class ResConfigSettings(models.TransientModel):
             self.property_asset_reevaluation_account_id = company.property_asset_reevaluation_account_id and company.property_asset_reevaluation_account_id.id or False
             self.property_customer_advance_account_id = company.property_customer_advance_account_id and company.property_customer_advance_account_id.id or False
             self.property_supplier_advance_account_id = company.property_supplier_advance_account_id and company.property_supplier_advance_account_id.id or False
-
+            self.property_stock_transfer_account_id = company.property_stock_transfer_account_id and company.property_stock_transfer_account_id.id or False
 
 
     @api.multi
