@@ -1,19 +1,13 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# ©  2008-2018 Fekete Mihai <mihai.fekete@forbiom.eu>
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models, _
 from odoo.tools.float_utils import float_compare
 from odoo.exceptions import AccessError, UserError
 
 
-class ProductProduct(models.Model):
-    _inherit = "product.product"
-
-    @api.model
-    def _convert_prepared_anglosaxon_line(self, line, partner):
-        res = super(ProductProduct, self)._convert_prepared_anglosaxon_line( line, partner)
-        res['stock_location_id'] = line.get('stock_location_id', False)
-        return res
 
 
 class AccountInvoice(models.Model):

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# ©  2008-2018 Fekete Mihai <mihai.fekete@forbiom.eu>
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models, _
 from odoo.tools.float_utils import float_compare

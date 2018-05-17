@@ -1,25 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#              Dorin Hongu <dhongu@gmail.com>
-#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
-#    (http://www.forbiom.eu).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2008-2018 Fekete Mihai <mihai.fekete@forbiom.eu>
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
@@ -96,7 +78,7 @@ class DailyStockReport(models.TransientModel):
                                        aml.company_id=%s AND 
                                        aml.date >= %s AND aml.date  <= %s AND
                                        stock_location_id = %s AND
-                                       quantity >= 0 
+                                       (aml.debit  -  aml.credit) >= 0 
                               GROUP BY aml.product_id, aml.account_id"""
         params = (self.env.user.company_id.id, self.date_from, self.date_to, self.location_id.id)
 
@@ -114,7 +96,7 @@ class DailyStockReport(models.TransientModel):
                                                aml.company_id=%s AND 
                                                aml.date >= %s AND aml.date  <= %s AND
                                                stock_location_id = %s AND
-                                               quantity < 0 
+                                               (aml.debit  -  aml.credit) < 0 
                                       GROUP BY aml.product_id, aml.account_id"""
         params = (self.env.user.company_id.id, self.date_from, self.date_to, self.location_id.id)
 
