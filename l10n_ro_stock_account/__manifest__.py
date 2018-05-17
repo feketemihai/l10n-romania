@@ -32,7 +32,9 @@
         'views/stock_view.xml',
         'views/stock_account_view.xml',
         'views/product_view.xml',
-        'views/account_invoice_view.xml'
+        'views/account_invoice_view.xml',
+        'report/daily_stock_report_view.xml',
+        'report/daily_stock_report_template.xml'
     ],
     'installable': True,
     'active': False,

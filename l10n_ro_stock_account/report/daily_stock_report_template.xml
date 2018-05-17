@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="action_report_daily_stock_report"
+                string="Daily stock report"
+                model='l10n_ro.daily_stock_report'
+                report_type="qweb-html"
+                file="l10n_ro_stock_account.document_daily_stock_report"
+                name="l10n_ro_stock_account.document_daily_stock_report"
+        />
+
+
+        <template id="document_daily_stock_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <t t-call="l10n_ro_stock_account.report_address_company"/>
+                        <div class="page">
+                            <h1>Daily stock report</h1>
+                            <h3>
+                                <span>From Date:</span>
+                                <span t-field="o.date_from" t-options='{"widget": "date"}'/>
+                                <t t-if="o.date_from != o.date_to">
+                                    <span>To date</span>
+                                    <span t-field="o.date_to"/>
+                                </t>
+                            </h3>
+                            <h3>
+                                <span>Location:</span>
+                                <span t-field="o.location_id"/>
+                            </h3>
+                            <t t-if="o.mode=='ref'">
+                                <table class="table table-condensed table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <strong>Type</strong>
+                                            </th>
+                                            <th>
+                                                <strong>Ref</strong>
+                                            </th>
+                                            <th class="text-right">
+                                                <strong>Amount</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <t t-set="total" t-value="0.0"/>
+                                    <tbody>
+
+                                        <tr t-foreach="o.line_ref_ids" t-as="ref">
+                                            <t t-set="total" t-value="total + ref.amount"/>
+                                            <td>
+                                                <span t-field="ref.type"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="ref.ref"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="ref.amount"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                <div class="row">
+                                    <div class="col-xs-4 pull-right">
+                                        <table class="table table-condensed">
+
+                                            <tr class="border-black">
+                                                <td>
+                                                    <strong>Total</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="total"
+                                                          t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="o.mode=='product'">
+                                <table class="table table-condensed table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <strong>Type</strong>
+                                            </th>
+                                            <th>
+                                                <strong>Product</strong>
+                                            </th>
+                                            <th class="text-right">
+                                                <strong>Quantity</strong>
+                                            </th>
+                                            <th class="text-right">
+                                                <strong>Amount</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <t t-set="total" t-value="0.0"/>
+                                    <tbody>
+
+                                        <tr t-foreach="o.line_product_ids" t-as="line">
+                                            <t t-set="total" t-value="total + line.amount"/>
+                                            <td>
+                                                <span t-field="line.type"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.product_id"/>
+                                            </td>
+                                             <td class="text-right">
+                                                <span t-field="line.quantity"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.amount"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                <div class="row">
+                                    <div class="col-xs-4 pull-right">
+                                        <table class="table table-condensed">
+
+                                            <tr class="border-black">
+                                                <td>
+                                                    <strong>Total</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="total"
+                                                          t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+        <template id="report_address_company">
+            <div class="row">
+                <div class="col-xs-5">
+                    <div>
+
+                        <strong>Company:</strong>
+                        <strong t-field="res_company.partner_id.name"/>
+
+
+                    </div>
+
+                    <div>
+                        <strong>Address:</strong>
+                        <address t-field="res_company.partner_id"
+                                 t-options='{"widget": "contact", "fields": ["address","phone", "fax"], "no_marker": false, "no_tag_br": true}'/>
+                    </div>
+
+                </div>
+            </div>
+            <small>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div t-foreach="res_company.partner_id.bank_ids" t-as="bank">
+
+                            <span t-if="bank.bank_name">
+                                <strong>Bank:</strong>
+                                <span t-field="bank.bank_name"/>
+                            </span>
+                            <span t-if="bank.acc_number">
+                                <strong>Account:</strong>
+                                <span t-field="bank.acc_number"/>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+            </small>
+
+
+            <div class="row">
+                <div class="col-xs-5">
+                    <div t-if="res_company.partner_id.vat">
+                        <strong>CIF:</strong>
+                        <span t-field="res_company.partner_id.vat"/>
+                    </div>
+                    <div t-if="res_company.partner_id.nrc">
+                        <strong>NRC:</strong>
+                        <span t-field="res_company.partner_id.nrc"/>
+                    </div>
+
+                    <div i-if="res_company.share_capital">
+                        <strong>Share Capital:</strong>
+                        <span t-field="res_company.share_capital"/>
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+            <br/>
+        </template>
+
+    </data>
+</odoo>
