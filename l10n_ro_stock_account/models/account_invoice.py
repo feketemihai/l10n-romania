@@ -60,17 +60,17 @@ class AccountInvoice(models.Model):
     @api.model
     def invoice_line_move_line_get(self):
         res = super(AccountInvoice, self).invoice_line_move_line_get()
+
+        # char daca nu este sistem anglo saxon diferentele de pret dintre receptie si factura trebuie inregistrate
+        if not self.env.user.company_id.anglo_saxon_accounting:
+            if self.type in ['in_invoice', 'in_refund']:
+                for i_line in self.invoice_line_ids:
+                    res.extend(self._anglo_saxon_purchase_move_lines(i_line, res))
+
         for line in res:
             line['stock_location_id'] = self.stock_location_id.id
+
         return res
-
-    # @api.multi
-    # def finalize_invoice_move_lines(self, move_lines):
-    #     move_lines = super(AccountInvoice, self).finalize_invoice_move_lines(move_lines)
-    #     for move_line in move_lines:
-    #         move_line[2]['stock_location_id'] = self.stock_location_id.id
-    #     return move_lines
-
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
