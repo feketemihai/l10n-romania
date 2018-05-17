@@ -79,5 +79,5 @@ class res_company(models.Model):
         domain="[('internal_type', '=', 'payable')]",
         help="This account will be used as the supplier advance account for the current partner on vouchers.")
 
-    property_stock_transfer_account_id = fields.Many2one('account.account',   string="Stock Transfer Account")
+    # property_stock_transfer_account_id = fields.Many2one('account.account',   string="Stock Transfer Account")
 
