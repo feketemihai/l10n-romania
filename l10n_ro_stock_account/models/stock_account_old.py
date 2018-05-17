@@ -331,7 +331,7 @@ class stock_move(models.Model):
                 valuation_amount = abs(valuation_amount)
             list_price = move.product_id.list_price or 0.00
             if list_price <= valuation_amount:
-                raise UserWarning(_(
+                raise UserError(_(
                     "You cannot receive products if list price is lower than cost price. Please update list price to suit to be upper than %s." % valuation_amount))
             else:
                 # the standard_price of the product may be in another decimal precision, or not compatible with the coinage of

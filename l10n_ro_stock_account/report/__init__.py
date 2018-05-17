@@ -2,6 +2,7 @@
 ##############################################################################
 #
 #     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
+#              Dorin Hongu <dhongu@gmail.com>
 #    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
 #    (http://www.forbiom.eu).
 #
@@ -20,6 +21,5 @@
 #
 ##############################################################################
 
-from . import models
-from . import wizard
-from . import report
+
+from . import daily_stock_report

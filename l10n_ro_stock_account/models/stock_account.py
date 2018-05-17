@@ -263,7 +263,7 @@ class StockMove(models.Model):
             list_price = taxes['total_excluded']
 
         if list_price <= cost_price:
-            raise UserWarning(_(
+            raise UserError(_(
                 "You cannot receive products if list price is lower than cost price. Please update list price to suit to be upper than %s." % cost_price))
 
         # the standard_price of the product may be in another decimal precision, or not compatible with the coinage of
@@ -345,7 +345,7 @@ class StockMove(models.Model):
             if move.inventory_id:
                 acl[2]['stock_inventory_id'] = move.inventory_id.id
             if 'store' in move_type and acl[2]['quantity'] == 0:
-                acl[2]['ref'] = False
+                acl[2]['ref'] = move.reference
 
         return res
 
