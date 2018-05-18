@@ -257,10 +257,7 @@ class MT940(object):
         """get transaction values"""
         self.current_statement['transactions'].append({})
         self.current_transaction = self.current_statement['transactions'][-1]
-        self.current_transaction['date'] = datetime.strptime(
-            data[:6],
-            '%y%m%d'
-        )
+        self.current_transaction['date'] = datetime.strptime(  data[:6],   '%y%m%d'  )
 
     def handle_tag_62F(self, data):
         """Get ending balance, statement date and id.
@@ -277,24 +274,22 @@ class MT940(object):
         file. The last one counts.
         """
 
-        self.current_statement['balance_end_real'] = str2amount(
-            data[0],
-            data[10:]
-        )
+        self.current_statement['balance_end_real'] = str2amount(  data[0], data[10:] )
         self.current_statement['date'] = datetime.strptime(data[1:7], '%y%m%d')
 
         # Only replace logically empty (only whitespace or zeroes) id's:
         # But do replace statement_id's added before (therefore starting
         # with local_account), because we need the date on the last 62F
         # record.
-        statement_name = self.current_statement['name'] or ''
-        test_empty_id = re.sub(r'[\s0]', '', statement_name)
-        is_account_number = statement_name.startswith(self.account_number)
-        if not test_empty_id or is_account_number:
-            self.current_statement['name'] = '%s-%s' % (
-                self.account_number,
-                self.current_statement['date'].strftime('%Y-%m-%d'),
-            )
+        if self.account_number:
+            statement_name = self.current_statement['name'] or ''
+            test_empty_id = re.sub(r'[\s0]', '', statement_name)
+            is_account_number = statement_name.startswith(self.account_number)
+            if not test_empty_id or is_account_number:
+                self.current_statement['name'] = '%s-%s' % (
+                    self.account_number,
+                    self.current_statement['date'].strftime('%Y-%m-%d'),
+                )
 
     def handle_tag_64(self, data):
         """get current balance in currency"""
