@@ -8,13 +8,7 @@ import csv
 
 
 class ResConfigSettings(models.TransientModel):
-
     _inherit = 'res.config.settings'
-
-    company_id = fields.Many2one('res.company', 'Company', change_default=True,
-                                 default=lambda self: self.env['res.company']._company_default_get('l10n.ro.config.settings'))
-    has_default_company = fields.Boolean('Has default company', readonly=True, change_default=True,
-                                         default=lambda self: bool(self.env['res.company'].search_count([]) == 1))
 
     anglo_saxon_accounting = fields.Boolean(related='company_id.anglo_saxon_accounting')
 
@@ -41,83 +35,90 @@ class ResConfigSettings(models.TransientModel):
                                                                     help='This allows you to manage currency difference amounts on partial payments/receipts.')
     module_l10n_ro_asset = fields.Boolean('Romanian Asset',
                                           help='This allows you to manage the Romanian adaptation for assets, including:\n'
-                                          'Split assets in fixed assets and services (financials).\n'
-                                          'Fixed assets will be created / sold from stock moves, services assets from invoices,\n'
-                                          'also include history of creation of the asset.\n'
-                                          'Method of reevaluation of assets.'
-                                          'Import of the Chart of Asset Categories according with the legislation')
+                                               'Split assets in fixed assets and services (financials).\n'
+                                               'Fixed assets will be created / sold from stock moves, services assets from invoices,\n'
+                                               'also include history of creation of the asset.\n'
+                                               'Method of reevaluation of assets.'
+                                               'Import of the Chart of Asset Categories according with the legislation')
     module_l10n_ro_currency_reevaluation = fields.Boolean('Currency Reevaluation',
                                                           help='This allows you to manage currency reevaluation of move lines recorded on foreign currency.\n'
-                                                          'To evaluate you have to check the "Allow Reevaluation" field on accounts.')
+                                                               'To evaluate you have to check the "Allow Reevaluation" field on accounts.')
     module_l10n_ro_fiscal_validation = fields.Boolean('Partners Fiscal Validation',
                                                       help='This allows you to manage the vat subjected and vat on payment fields update:\n'
-                                                      'For Romanian partners based on ANAF data and www.openapi.ro webservice.\n'
-                                                      'For European partners based on VIES data.')
+                                                           'For Romanian partners based on ANAF data and www.openapi.ro webservice.\n'
+                                                           'For European partners based on VIES data.')
     module_l10n_ro_invoice_line_not_deductible = fields.Boolean('Not Deductible Invoice Line',
                                                                 help='This allows you to manage not deductible supplier invoice line.')
     module_l10n_ro_invoice_report = fields.Boolean('Invoice and Voucher Report',
                                                    help='This allows you to print invoice report based on romanian layout.\n'
-                                                   'Invoice includes voucher if payment is on the same day.\n'
-                                                   'Voucher report with amount in word')
+                                                        'Invoice includes voucher if payment is on the same day.\n'
+                                                        'Voucher report with amount in word')
     module_l10n_ro_siruta = fields.Boolean('Romanian Cities',
                                            help='This allows you to manage the Romanian Zones, States, Communes, Cities:\n'
-                                           'The address fields will contain city, commune, state, zone, country, zip.')
+                                                'The address fields will contain city, commune, state, zone, country, zip.')
     module_l10n_ro_stock = fields.Boolean('Romanian Stock',
                                           help='Methods of usage giving and consumption')
     module_l10n_ro_stock_account = fields.Boolean('Romanian Stock Accounting',
                                                   help='This allows you to manage the Romanian adaptation for stock, including:\n'
-                                                  'New stock accounts on location to allow moving entry in accounting based on the stock move.\n'
-                                                  'The account entry will be generated from stock move instead of stock quant, link with the generated \n'
-                                                  'account move lines on the picking\n'
-                                                  'Inventory account move lines...')
+                                                       'New stock accounts on location to allow moving entry in accounting based on the stock move.\n'
+                                                       'The account entry will be generated from stock move instead of stock quant, link with the generated \n'
+                                                       'account move lines on the picking\n'
+                                                       'Inventory account move lines...')
     module_l10n_ro_stock_picking_report = fields.Boolean('Stock Picking Report',
                                                          help='This allows you to print Reports for Reception and Delivery')
     module_l10n_ro_zipcode = fields.Boolean('Romanian Zipcodes',
                                             help='This allows you to manage the Romanian zipcodes on addreses:\n'
-                                            'The address fields will be replaced by one location field including city, commune, state, zone, country, zip.')
+                                                 'The address fields will be replaced by one location field including city, commune, state, zone, country, zip.')
     module_l10n_ro_partner_create_by_vat = fields.Boolean('Create Partners by VAT',
-                                                  help='This allows you to create partners based on VAT:\n'
-                                                  'Romanian partners will be create based on Ministry of Finance / openapi.ro Webservices Datas\n'
-                                                  'European partners will be create based on VIES Website Datas (for countries that allow). \n')
+                                                          help='This allows you to create partners based on VAT:\n'
+                                                               'Romanian partners will be create based on Ministry of Finance / openapi.ro Webservices Datas\n'
+                                                               'European partners will be create based on VIES Website Datas (for countries that allow). \n')
     module_l10n_ro_partner_unique = fields.Boolean('Partners unique by Company, VAT, NRC',
-                                                  help='This allows you to set unique partners by company, VAT and NRC.')
+                                                   help='This allows you to set unique partners by company, VAT and NRC.')
 
-
-
-    property_undeductible_account_id = fields.Many2one('account.account', related='company_id.property_undeductible_account_id',
+    property_undeductible_account_id = fields.Many2one('account.account',
+                                                       related='company_id.property_undeductible_account_id',
                                                        string="Undeductible Account",
                                                        domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
                                                        help="This account will be used as the undeductible expense account for account move line.")
-    property_undeductible_tax_account_id = fields.Many2one('account.account', related='company_id.property_undeductible_tax_account_id',
-                                                       string="Undeductible Tax Account",
-                                                       domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
-                                                       help="This account will be used as the undeductible tax account for account move line.")
+    property_undeductible_tax_account_id = fields.Many2one('account.account',
+                                                           related='company_id.property_undeductible_tax_account_id',
+                                                           string="Undeductible Tax Account",
+                                                           domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
+                                                           help="This account will be used as the undeductible tax account for account move line.")
 
-    property_stock_picking_payable_account_id = fields.Many2one('account.account', related='company_id.property_stock_picking_payable_account_id',
+    property_stock_picking_payable_account_id = fields.Many2one('account.account',
+                                                                related='company_id.property_stock_picking_payable_account_id',
                                                                 string="Picking Account Payable",
                                                                 domain="[('company_id','=',company_id)]",
                                                                 help="This account will be used as the payable account for the current partner on stock picking notice")
-    property_stock_picking_receivable_account_id = fields.Many2one('account.account', related='company_id.property_stock_picking_receivable_account_id',
+    property_stock_picking_receivable_account_id = fields.Many2one('account.account',
+                                                                   related='company_id.property_stock_picking_receivable_account_id',
                                                                    string="Picking Account Receivable",
                                                                    domain="[('company_id','=',company_id)]",
                                                                    help="This account will be used as the receivable account for the current partner on stock picking notice")
-    property_stock_usage_giving_account_id = fields.Many2one('account.account', related='company_id.property_stock_usage_giving_account_id',
+    property_stock_usage_giving_account_id = fields.Many2one('account.account',
+                                                             related='company_id.property_stock_usage_giving_account_id',
                                                              string="Usage Giving Account",
                                                              domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
                                                              help="This account will be used as the usage giving account in account move line")
-    property_stock_picking_custody_account_id = fields.Many2one('account.account', related='company_id.property_stock_picking_custody_account_id',
+    property_stock_picking_custody_account_id = fields.Many2one('account.account',
+                                                                related='company_id.property_stock_picking_custody_account_id',
                                                                 string="Picking Account Custody",
                                                                 domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",
                                                                 help="This account will be used as the extra trial balance payable account for the current partner on stock picking received in custody.")
-    property_asset_reevaluation_account_id = fields.Many2one('account.account', related='company_id.property_asset_reevaluation_account_id',
+    property_asset_reevaluation_account_id = fields.Many2one('account.account',
+                                                             related='company_id.property_asset_reevaluation_account_id',
                                                              string="Asset Reevaluation Account",
                                                              domain="[('internal_type', '=', 'other'),('company_id','=',company_id)]",
                                                              help="This account will be used as the reevaluation asset account.")
-    property_customer_advance_account_id = fields.Many2one('account.account', related='company_id.property_customer_advance_account_id',
+    property_customer_advance_account_id = fields.Many2one('account.account',
+                                                           related='company_id.property_customer_advance_account_id',
                                                            string="Customer Advance Account",
                                                            domain="[('internal_type', '=', 'receivable'),('company_id','=',company_id)]",
                                                            help="This account will be used as the customer advance account for the current partner on vouchers.")
-    property_supplier_advance_account_id = fields.Many2one('account.account', related='company_id.property_supplier_advance_account_id',
+    property_supplier_advance_account_id = fields.Many2one('account.account',
+                                                           related='company_id.property_supplier_advance_account_id',
                                                            string="Supplier Advance Account",
                                                            domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",
                                                            help="This account will be used as the supplier advance account for the current partner on vouchers.")
@@ -128,34 +129,12 @@ class ResConfigSettings(models.TransientModel):
 
     siruta_update = fields.Boolean('Update Siruta Data')
 
-
-
-
-    @api.onchange('company_id')
-    def onchange_company_id(self):
-        # update related fields
-        values = {}
-        company_id = self.company_id.id
-        if company_id:
-            company = self.company_id
-            # update romanian configuration accounts
-            self.property_undeductible_account_id = company.property_undeductible_account_id and company.property_undeductible_account_id.id or False
-            self.property_stock_picking_payable_account_id = company.property_stock_picking_payable_account_id and company.property_stock_picking_payable_account_id.id or False
-            self.property_stock_picking_receivable_account_id = company.property_stock_picking_receivable_account_id and company.property_stock_picking_receivable_account_id.id or False
-            self.property_stock_usage_giving_account_id = company.property_stock_usage_giving_account_id and company.property_stock_usage_giving_account_id.id or False
-            self.property_asset_reevaluation_account_id = company.property_asset_reevaluation_account_id and company.property_asset_reevaluation_account_id.id or False
-            self.property_customer_advance_account_id = company.property_customer_advance_account_id and company.property_customer_advance_account_id.id or False
-            self.property_supplier_advance_account_id = company.property_supplier_advance_account_id and company.property_supplier_advance_account_id.id or False
-            self.property_stock_transfer_account_id = company.property_stock_transfer_account_id and company.property_stock_transfer_account_id.id or False
-
-
     @api.multi
     def execute(self):
         self.ensure_one()
         res = super(ResConfigSettings, self).execute()
         data_dir = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), 'data')
-
 
         # Load SIRUTA datas if field is checked
 
@@ -180,7 +159,4 @@ class ResConfigSettings(models.TransientModel):
                                                  mode="init",
                                                  noupdate=True)
 
-
-
         return res
-

@@ -22,6 +22,14 @@ class ProductTemplate(models.Model):
 
 
     @api.multi
+    def get_product_accounts(self, fiscal_pos=None):
+        res = super(ProductTemplate, self).get_product_accounts(fiscal_pos)
+        fix_stock_input = self.env.context.get('fix_stock_input')
+        if fix_stock_input:
+            res['stock_input'] = fix_stock_input
+        return res
+
+    @api.multi
     def do_change_list_price(self, new_price):
         """ Changes the Standard Price of Product and creates an account move accordingly."""
         AccountMove = self.env['account.move']

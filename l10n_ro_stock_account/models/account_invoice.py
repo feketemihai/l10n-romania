@@ -60,12 +60,16 @@ class AccountInvoice(models.Model):
     @api.model
     def invoice_line_move_line_get(self):
         res = super(AccountInvoice, self).invoice_line_move_line_get()
-
+        account_id = self.company_id.property_stock_picking_payable_account_id
         # char daca nu este sistem anglo saxon diferentele de pret dintre receptie si factura trebuie inregistrate
         if not self.env.user.company_id.anglo_saxon_accounting:
             if self.type in ['in_invoice', 'in_refund']:
                 for i_line in self.invoice_line_ids:
-                    res.extend(self._anglo_saxon_purchase_move_lines(i_line, res))
+                    if account_id and i_line.account_id == account_id:
+                        i_line = i_line.with_context(fix_stock_input=account_id)
+                    diff_line = self._anglo_saxon_purchase_move_lines(i_line, res)
+                    # todo: de adauga in configurare o valoare limita pentru diferente de pret
+                    res.extend(diff_line)
 
         for line in res:
             line['stock_location_id'] = self.stock_location_id.id
