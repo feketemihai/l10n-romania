@@ -49,13 +49,44 @@ class account_invoice(models.Model):
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
 
+
+
+    sequence = fields.Integer(default=1)
+
+    price_unit_without_taxes = fields.Float(string='Unit Price without taxes', store=True, readonly=True,
+                                            compute='_compute_price')
+
+    price_taxes = fields.Float(string='Taxes', digits=dp.get_precision('Account'), store=True, readonly=True,
+                               compute='_compute_price')
+
+    price_normal_taxes = fields.Float(tring='Normal Taxes', digits=dp.get_precision('Account'), store=True,
+                                      readonly=True, compute='_compute_price')
+
+
+    """
+    # campurile standard
+    price_unit = fields.Float(string='Unit Price', required=True, digits=dp.get_precision('Product Price'))
+    price_subtotal = fields.Monetary(string='Amount',
+        store=True, readonly=True, compute='_compute_price', help="Total amount without taxes")
+    price_total = fields.Monetary(string='Amount',
+        store=True, readonly=True, compute='_compute_price', help="Total amount with taxes")
+    price_subtotal_signed = fields.Monetary(string='Amount Signed', currency_field='company_currency_id',
+        store=True, readonly=True, compute='_compute_price',
+        help="Total amount in the currency of the company, negative for credit note.")
+    """
+
     @api.one
     @api.depends('price_unit', 'discount', 'invoice_line_tax_ids', 'quantity',
-                 'product_id', 'invoice_id.partner_id', 'invoice_id.currency_id', 'invoice_id.company_id',
-                 'invoice_id.date_invoice')
+        'product_id', 'invoice_id.partner_id', 'invoice_id.currency_id', 'invoice_id.company_id',
+        'invoice_id.date_invoice', 'invoice_id.date')
     def _compute_price(self):
 
         super(account_invoice_line, self)._compute_price()
+        # if self.price_subtotal:
+        #      self.price_unit_without_taxes = self.price_subtotal / self.quantity
+        #      self.price_taxes = (self.price_total - self.price_subtotal ) / self.quantity
+
+        #Versiunea mai complexa
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
 
         currency = self.invoice_id and self.invoice_id.currency_id or None
@@ -65,6 +96,7 @@ class account_invoice_line(models.Model):
             taxes = self.invoice_line_tax_ids.compute_all(price, currency, self.quantity, product=self.product_id,
                                                           partner=self.invoice_id.partner_id)
 
+        # de ce se seteaza cele doua valori ? nu au fost setate in
         if taxes:
             self.price_subtotal = taxes['total_excluded'] if taxes else self.quantity * price
             self.price_taxes = taxes['total_included'] - self.price_subtotal
@@ -89,13 +121,3 @@ class account_invoice_line(models.Model):
             self.price_unit_without_taxes = self.invoice_id.currency_id.round(self.price_unit_without_taxes)
             self.price_normal_taxes = self.invoice_id.currency_id.round(self.price_normal_taxes)
 
-    sequence = fields.Integer(default=1)
-
-    price_unit_without_taxes = fields.Float(string='Unit Price without taxes', store=True, readonly=True,
-                                            compute='_compute_price')
-
-    price_taxes = fields.Float(string='Taxes', digits=dp.get_precision('Account'), store=True, readonly=True,
-                               compute='_compute_price')
-
-    price_normal_taxes = fields.Float(tring='Normal Taxes', digits=dp.get_precision('Account'), store=True,
-                                      readonly=True, compute='_compute_price')

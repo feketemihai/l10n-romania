@@ -55,7 +55,7 @@ class ReportPaymentPrint(models.AbstractModel):
         return formatLang(self.env, value, *args)
 
     def _convert(self, amount):
-        amt_ro = amount_to_text_ro(amount)
+        amt_ro = amount_to_text_ro.amount_to_text_ro(abs(amount))
         return amt_ro
 
 

@@ -22,7 +22,7 @@
 
 {
     "name": "Romania - Invoice Report",
-    "version": "1.0",
+    "version": "2.0",
     "author": "Dorin Hongu",
     "website": "",
 
@@ -35,6 +35,7 @@ Funftionalitati
  - factura contine: pretul fara tva, valoare si valoare tva
  - La factura au fost adugate campurile delegat si mijloc de transport
  - la partener se poate adauga un text aditinonal care apara pe facura
+ - tiparire plata / incasare / dispozitie de plata
 
     """,
 
@@ -46,10 +47,10 @@ Funftionalitati
         'views/invoice_report.xml',
         'views/voucher_report.xml',
         'views/payment_report.xml',
-        'company_view.xml',
-        'account_invoice_view.xml',
-        'account_voucher_report.xml',
-        # 'res_partner_view.xml',
+        'views/company_view.xml',
+        'views/account_invoice_view.xml',
+        'views/account_voucher_report.xml',
+        # 'views/res_partner_view.xml',
     ],
     "active": False,
     "installable": True,

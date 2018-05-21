@@ -46,7 +46,7 @@ msgstr "<span>Nume:</span>"
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "<span>Payment disposal:</span>"
-msgstr "<span>Payment disposal:</span>"
+msgstr "<span>Dispoziție de plată:</span>"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
@@ -68,12 +68,12 @@ msgstr "<span>TVA la incasare</span>"
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "<span>Voucher:</span>"
-msgstr "<span>Voucher:</span>"
+msgstr "<span>Chitanță:</span>"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "<strong>Account:</strong>"
-msgstr "<strong>Account:</strong>"
+msgstr "<strong>Valoare:</strong>"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
@@ -288,7 +288,7 @@ msgstr "Pagina:"
 #. module: l10n_ro_invoice_report
 #: model:ir.actions.report,name:l10n_ro_invoice_report.action_report_payment
 msgid "Payment"
-msgstr "Plată"
+msgstr "Plată/Încasare"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line_price_normal_taxes
@@ -311,6 +311,12 @@ msgstr "Cantitate"
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "Received from:"
 msgstr "Primit de la:"
+
+#. module: l10n_ro_invoice_report
+#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
+msgid "For:"
+msgstr "Pentru:"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
@@ -357,7 +363,7 @@ msgstr "Preț unitar"
 #. module: l10n_ro_invoice_report
 #: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line_price_unit_without_taxes
 msgid "Unit Price without taxes"
-msgstr "Unit Price without taxes"
+msgstr "Preț unitar fără TVA"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
@@ -367,7 +373,7 @@ msgstr "TVA:"
 #. module: l10n_ro_invoice_report
 #: model:ir.actions.report,name:l10n_ro_invoice_report.action_report_voucher
 msgid "Voucher"
-msgstr "Voucher"
+msgstr "Chitanță"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_res_company_watermark_image
