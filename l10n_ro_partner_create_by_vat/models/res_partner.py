@@ -88,6 +88,7 @@ class ResPartner(models.Model):
                'vat_on_payment': result['statusTvaIncasare'],
                'company_type': 'company'}
         addr = ''
+        city = ''
         if result['adresa']:
             result['adresa'] = result['adresa'].replace('MUNICIPIUL', 'MUN.')
             result['adresa'] = result['adresa'].replace(u'ORȘ.', 'ORS.')
@@ -97,12 +98,12 @@ class ResPartner(models.Model):
             # listabr = ['JUD.', 'MUN.', 'ORS.', 'COM.',
             #            'STR.', 'NR.', 'ET.', 'AP.']
             for line in lines:
-                if 'STR.' in line or 'CAL.' in line or 'BLD.' in line:
+                if 'STR.' in line or 'CAL.' in line or 'BLD.' in line or 'B-DUL' in line:
                     nostreet = False
                     addr = line
                     break
             if nostreet:
-                addr = 'Principala'
+                addr = ''
             # for line in lines:
             #     if not any([x in line for x in listabr]):
             #         addr = line.strip().title()
@@ -137,6 +138,7 @@ class ResPartner(models.Model):
             if city:
                 res['city'] = city.replace('-', ' ').title()
         res['street'] = addr.strip()
+        res['street2'] = result['adresa']
         return res
 
     @api.model
@@ -144,60 +146,39 @@ class ResPartner(models.Model):
 
         result = {}
         openapi_key = self.env['ir.config_parameter'].sudo().get_param(key="openapi_key", default=False)
-        if openapi_key:
-            headers = {
-                "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
-                "Content-Type": "application/json;",
-                'x-api-key': openapi_key
+
+        headers = {
+            "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
+            "Content-Type": "application/json;",
+            'x-api-key': openapi_key
+        }
+
+        request = Request('https://api.openapi.ro/api/companies/%s' % cod, headers=headers)
+        response = urlopen(request)
+        status_code = response.getcode()
+
+        if status_code == 200:
+
+            res = json.loads(response.read())
+            state = False
+            if res['judet']:
+                state = self.env['res.country.state'].search([('name', '=', res['judet'].title())])
+                if state:
+                    state = state[0].id
+
+            result = {
+                'name': res['denumire'],
+                'nrc': res['numar_reg_com'] or '',
+                'street': res['adresa'].title(),
+
+                'phone': res['telefon'] and res['telefon'] or '',
+                'fax': res['fax'] and res['fax'] or '',
+                'zip': res['cod_postal'] and res['cod_postal'] or '',
+                'vat_subjected': bool(res['tva']),
+                'state_id': state,
+                'company_type': 'company'
             }
 
-            request = Request('https://api.openapi.ro/api/companies/%s' % cod, headers=headers)
-            response = urlopen(request)
-            status_code = response.getcode()
-
-            if status_code == 200:
-
-                res = json.loads(response.read())
-                state = False
-                if res['judet']:
-                    state = self.env['res.country.state'].search([('name', '=', res['judet'].title())])
-                    if state:
-                        state = state[0].id
-
-                result = {
-                    'name': res['denumire'],
-                    'nrc': res['numar_reg_com'] or '',
-                    'street': res['adresa'].title(),
-
-                    'phone': res['telefon'] and res['telefon'] or '',
-                    'fax': res['fax'] and res['fax'] or '',
-                    'zip': res['cod_postal'] and res['cod_postal'] or '',
-                    'vat_subjected': bool(res['tva']),
-                    'state_id': state,
-                    'company_type': 'company'
-                }
-        else:
-            res = requests.get('http://legacy.openapi.ro/api/companies/%s.json' % cod)
-            if res.status_code == 200:
-                res = res.json()
-                state = False
-                if res['state']:
-                    state = self.env['res.country.state'].search([('name', '=', res['state'].title())])
-                    if state:
-                        state = state[0].id
-
-                result = {
-                    'name': res['name'],
-                    'nrc': res['registration_id'] and res['registration_id'].upper() or '',
-                    'street': res['address'].title(),
-                    'city': res['city'].title(),
-                    'phone': res['phone'] and res['phone'] or '',
-                    'fax': res['fax'] and res['fax'] or '',
-                    'zip': res['zip'] and res['zip'] or '',
-                    'vat_subjected': bool(res['vat'] == '1'),
-                    'state_id': state,
-                    'company_type': 'company'
-                }
 
         return result
 
