@@ -46,6 +46,17 @@ class account_invoice(models.Model):
             self.mean_transp = self.delegate_id.mean_transp
 
 
+    # anularea facturilor cu zero
+    @api.multi
+    def action_invoice_cancel(self):
+        for invoice in self:
+            if invoice.amount_total == 0.0 and invoice.state == 'paid':
+                invoice.state = 'open'
+                # invoice.write({'state':'open'})
+
+        return super(account_invoice, self).action_invoice_cancel()
+
+
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
 
