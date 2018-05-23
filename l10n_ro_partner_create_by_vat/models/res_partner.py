@@ -108,10 +108,11 @@ class ResPartner(models.Model):
             #     if not any([x in line for x in listabr]):
             #         addr = line.strip().title()
             for line in lines:
-                line = unaccent(line)  # line.encode('utf8').translate(CEDILLATRANS).decode('utf8')
+                # line = unaccent(line)  # line.encode('utf8').translate(CEDILLATRANS).decode('utf8')
                 if 'JUD.' in line:
+                    name = line.replace('JUD.', '').strip().title()
                     state = self.env['res.country.state'].search(
-                        [('name', '=', line.replace('JUD.', '').strip().title())])
+                        [('name', '=', name)])
                     if state:
                         res['state_id'] = state[0].id
                 if 'MUN.' in line:
