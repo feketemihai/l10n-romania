@@ -2,9 +2,17 @@
 <odoo>
     <data>
 
+        <report
+            string="Payment"
+            id="action_report_statement_line"
+            model="account.bank.statement.line"
+            report_type="qweb-pdf"
+            name="l10n_ro_invoice_report.report_statement_line"
+            file="l10n_ro_invoice_report.report_statement_line"    />
 
 
-        <template id="report_payment">
+
+        <template id="report_statement_line">
 
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -68,25 +76,25 @@
 
                             <h2>
 
-                                <t t-if="o.payment_type=='inbound'">
+                                <t t-if="o.amount&gt;0">
                                     <span>Voucher:</span>
 
                                 </t>
-                                <t t-if="o.payment_type=='outbound'">
+                                <t t-if="o.amount&lt;0">
                                     <span>Payment disposal:</span>
 
                                 </t>
                                 <span t-field="o.name"/>
                                 /
-                                <span t-field="o.payment_date"/>
+                                <span t-field="o.date"/>
                             </h2>
 
 
                             <table class="table table-condensed">
                                 <tr>
 
-                                    <td t-if="o.payment_type=='inbound'">Received from:</td>
-                                    <td t-if="o.payment_type=='outbound'">For:</td>
+                                    <td t-if="o.amount&gt;0">Received from:</td>
+                                    <td t-if="o.amount&lt;0">For:</td>
                                     <td>
                                         <span t-field="o.partner_id.name"/>
                                     </td>
@@ -94,20 +102,20 @@
                                 <tr>
                                     <td>Amount:</td>
                                     <td>
-                                        <span t-field="o.amount"/>
+                                        <span t-esc="formatLang(abs(o.amount))"/>
                                         <span t-field="o.currency_id.symbol"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Amount (in words):</td>
                                     <td>
-                                        <span t-esc="convert(o.amount)"/>
+                                        <span t-esc="convert(abs(o.amount))"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Representing:</td>
                                     <td>
-                                        <span t-field="o.communication"/>
+                                        <span t-field="o.name"/>
                                     </td>
                                 </tr>
                             </table>
