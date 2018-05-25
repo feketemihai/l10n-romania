@@ -16,7 +16,7 @@ class D000Report(models.AbstractModel):
 
     def show_report(self):
         self.ensure_one()
-        action = self.env.ref('l10n_ro_declarations.action_%s' % self._code)
+        action = self.env.ref('%s.action_%s' % (self._module, self._code))
         vals = action.read()[0]
         vals['domain'] = [('report_id', '=', self.id)]
         return vals

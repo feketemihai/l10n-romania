@@ -40,9 +40,9 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_action_declaration" name="Declarations"
-              action="action_declaration_view_menu"
-              parent="l10n_ro.account_reports_ro_statements_menu" groups="account.group_account_user"/>
+        <menuitem id="l10n_ro_declarations.menu_action_declaration" name="Declarations"
+              action="l10n_ro_declarations.action_declaration_view_menu"
+              parent="base.reporting_menuitem" />
 
 
 </odoo>

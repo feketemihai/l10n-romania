@@ -14,12 +14,11 @@
 
     "category": "Generic Modules",
     "depends": [
-        'account','l10n_ro'
+       'date_range'
     ],
 
     "data": [
         'views/declarations_view.xml',
-        'views/d394_view.xml',
         'wizard/run_declaration_view.xml',
         'security/ir.model.access.csv'
     ],
