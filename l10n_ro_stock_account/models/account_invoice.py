@@ -83,7 +83,7 @@ class AccountInvoiceLine(models.Model):
     def _onchange_product_id(self):
 
         if self.product_id and self.product_id.type == 'product' and not self.env.context.get('from_pos_order', False):
-            raise UserError(_('Changing the stored product is not allowed!'))
+            raise UserError(_('It is not allowed to change a stored product!'))
         return super(AccountInvoiceLine, self)._onchange_product_id()
 
     @api.onchange('quantity')
@@ -110,6 +110,6 @@ class AccountInvoiceLine(models.Model):
                 qty = self.purchase_line_id.product_uom._compute_quantity(qty, self.uom_id)
 
                 if qty < self.quantity:
-                    raise UserError(_('Can not record an invoice for a larger quantity of %s') % str(qty))
+                    raise UserError(_('It is not allowed to record an invoice for a quantity bigger than %s') % str(qty))
             else:
-                raise UserError(_('Changing quantity of the stored product is not allowed!'))
+                raise UserError(_('It is not allowed to change the quantity of a stored product!'))
