@@ -69,7 +69,14 @@ class AccountInvoice(models.Model):
                         i_line = i_line.with_context(fix_stock_input=account_id)
                     diff_line = self._anglo_saxon_purchase_move_lines(i_line, res)
                     # todo: de adauga in configurare o valoare limita pentru diferente de pret
-                    res.extend(diff_line)
+                    ok = False
+                    for diff in diff_line:
+                        if abs(diff['price_unit']*diff['quantity'])>2:
+                            raise UserError(_('Diferenta de pret la produsul %s') % i_line.product_id.name)
+                        if diff['price_unit'] != 0:
+                            ok = True
+                    if ok:
+                        res.extend(diff_line)
 
         for line in res:
             line['stock_location_id'] = self.stock_location_id.id
@@ -88,6 +95,7 @@ class AccountInvoiceLine(models.Model):
 
     @api.onchange('quantity')
     def _onchange_quantity(self):
+        message = ''
         if self.invoice_id.type in ['in_refund', 'out_refund']:
             return
         if self.product_id and self.product_id.type == 'product':
@@ -112,4 +120,8 @@ class AccountInvoiceLine(models.Model):
                 if qty < self.quantity:
                     raise UserError(_('It is not allowed to record an invoice for a quantity bigger than %s') % str(qty))
             else:
-                raise UserError(_('It is not allowed to change the quantity of a stored product!'))
+                message = _('It is not indicated to change the quantity of a stored product!')
+        if message:
+            return {
+                'warning': {'title': "Warning", 'message': message},
+            }
