@@ -39,7 +39,7 @@
         </record>
 
 
-        <record id="view_picking_form" model="ir.ui.view">
+        <record id="view_picking_account_form" model="ir.ui.view">
             <field name="name">stock.picking.form.notice</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
@@ -50,8 +50,15 @@
                         <field nolabel="1" name="acc_move_line_ids" readonly="1"/>
                     </page>
                 </page>
+                <xpath expr="//field[@name='move_lines']//field[@name='name']" position="after">
+                    <field name="picking_type_code" invisible="1"/>
+                    <field name="price_unit" attrs="{'invisible': [('picking_type_code','!=','incoming')]}"/>
+                </xpath>
             </field>
         </record>
+
+
+
 
         <!-- nu mai este necesar ca in 11 exista un buton pentru afisare note contabile -->
 <!--

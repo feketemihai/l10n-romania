@@ -11,9 +11,7 @@
                 <xpath expr="//field[@name='module_currency_rate_live']" position="replace">
                     <field name="module_currency_rate_update"/>
                 </xpath>
-                <xpath expr="//label[@name='module_currency_rate_live']" position="replace">
-                    <label for="module_currency_rate_update"/>
-                </xpath>
+
 
                 <xpath expr="//div[hasclass('settings')]" position="inside">
                     <div class="app_settings_block" data-string="Romania" string="Romania" data-key="l10n_ro_config"
