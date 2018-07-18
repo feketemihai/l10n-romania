@@ -11,6 +11,8 @@
         </t>
     </template>
 
+
+
     <template id="l10n_ro_report_D300.l10n_ro_report_d300_base">
         <div class="page data_table">
             <t t-set="title">Decont TVA - D300</t>

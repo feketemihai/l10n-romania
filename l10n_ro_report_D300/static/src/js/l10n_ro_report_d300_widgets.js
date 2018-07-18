@@ -4,6 +4,8 @@ odoo.define('l10n_ro_report_D300.l10n_ro_report_d300_widget', function
 
 var Widget = require('web.Widget');
 
+
+
 var D300ReportWidget = Widget.extend({
     events: {
         'click .o_l10n_ro_report_d300_web_action': 'boundLink',
