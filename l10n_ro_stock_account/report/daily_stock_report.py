@@ -15,8 +15,8 @@ class DailyStockReport(models.TransientModel):
     location_id = fields.Many2one('stock.location', domain="[('usage','=','internal'),('company_id','=',company_id)]", required=True)
 
     date_range_id = fields.Many2one('date.range', string='Date range')
-    date_from = fields.Date('Start Date', required=True)
-    date_to = fields.Date('End Date', required=True)
+    date_from = fields.Date('Start Date', required=True, default=fields.Date.today)
+    date_to = fields.Date('End Date', required=True, default=fields.Date.today)
     company_id = fields.Many2one('res.company', string='Company',
                                  default=lambda self: self.env.user.company_id)
     mode = fields.Selection([('product', 'Product'), ('ref', 'Reference')], default='ref', string='Detail mode')
@@ -27,14 +27,14 @@ class DailyStockReport(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         res = super(DailyStockReport, self).default_get(fields_list)
-        today = fields.Date.context_today(self)
-        today = fields.Date.from_string(today)
-
-        from_date = (today + relativedelta(day=1, months=0, days=0))
-        to_date = (today + relativedelta(day=1, months=1, days=-1))
-
-        res['date_from'] = fields.Date.to_string(from_date)
-        res['date_to'] = fields.Date.to_string(to_date)
+        # today = fields.Date.context_today(self)
+        # today = fields.Date.from_string(today)
+        #
+        # from_date = (today + relativedelta(day=1, months=0, days=0))
+        # to_date = (today + relativedelta(day=1, months=1, days=-1))
+        #
+        # res['date_from'] = fields.Date.to_string(from_date)
+        # res['date_to'] = fields.Date.to_string(to_date)
         return res
 
     @api.onchange('date_range_id')

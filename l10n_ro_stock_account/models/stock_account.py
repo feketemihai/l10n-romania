@@ -140,9 +140,15 @@ class StockMove(models.Model):
         elif location_from.usage == 'internal' and location_to.usage == 'internal':
             move_type = 'transfer'
         elif location_from.usage == 'internal' and location_to.usage == 'transit':
-            move_type = 'transit_out'
+            if move.picking_id.partner_id.commercial_partner_id != move.company_id.partner_id:
+                move_type = 'delivery'
+            else:
+                move_type = 'transit_out'
         elif location_from.usage == 'transit' and location_to.usage == 'internal':
-            move_type = 'transit_in'
+            if move.picking_id.partner_id.commercial_partner_id != move.company_id.partner_id:
+                move_type = 'reception'
+            else:
+                move_type = 'transit_in'
 
         if location_from.merchandise_type == 'store' or location_to.merchandise_type == 'store':
             move_type += '_store'
