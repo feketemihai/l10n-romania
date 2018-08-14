@@ -105,7 +105,7 @@ class ResConfigSettings(models.TransientModel):
     property_stock_picking_custody_account_id = fields.Many2one('account.account',
                                                                 related='company_id.property_stock_picking_custody_account_id',
                                                                 string="Picking Account Custody",
-                                                                domain="[('internal_type', '=', 'payable'),('company_id','=',company_id)]",
+                                                                domain="[('company_id','=',company_id)]",
                                                                 help="This account will be used as the extra trial balance payable account for the current partner on stock picking received in custody.")
     property_asset_reevaluation_account_id = fields.Many2one('account.account',
                                                              related='company_id.property_asset_reevaluation_account_id',

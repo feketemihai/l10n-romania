@@ -19,7 +19,7 @@ class PosOrder(models.Model):
 
     @api.multi
     def action_pos_order_invoice(self):
-        return super(PosOrder, self.with_context(from_pos_order=True)).action_pos_order_invoice()
+        return super(PosOrder, self.with_context(allowed_change_product=True)).action_pos_order_invoice()
 
 class PosOrderLine(models.Model):
     _inherit = "pos.order.line"
