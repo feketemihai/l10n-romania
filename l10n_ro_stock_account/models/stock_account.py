@@ -193,12 +193,12 @@ class StockMove(models.Model):
         super(StockMove, move)._account_entry_move()
 
         if 'transfer' in move_type:
-            move._create_account_stock_to_stock(refund=True)
-            move._create_account_stock_to_stock(refund=False)
+            move.with_context(stock_location_id=move.location_id.id)._create_account_stock_to_stock(refund=False)
+            move.with_context(stock_location_id=move.location_dest_id.id)._create_account_stock_to_stock(refund=True)
+
 
         if 'transit_out' in move_type:
             move._create_account_stock_to_stock(refund=True)
-
         if 'transit_in' in move_type:
             move._create_account_stock_to_stock(refund=False)
 
@@ -207,7 +207,7 @@ class StockMove(models.Model):
         if 'delivery' in move_type and 'notice' in move_type:  # livrare pe baza de aviz de facut nota contabila 418 = 70x
             move._create_account_delivery_notice(refund='refund' in move_type)
         if ('reception' in move_type or 'transfer' in move_type or 'transit_in' in move_type) and 'store' in move_type:
-            move._create_account_reception_in_store(refund='refund' in move_type)
+            move.with_context(stock_location_id=move.location_dest_id.id)._create_account_reception_in_store(refund='refund' in move_type)
         if 'delivery' in move_type and 'store' in move_type:
             move._create_account_delivery_from_store(refund='refund' in move_type)
 
@@ -218,13 +218,13 @@ class StockMove(models.Model):
 
         if refund:
             if acc_valuation == acc_dest:
-                acc_dest = move.company_id.property_stock_transfer_account_id
-            move._create_account_move_line(acc_valuation, acc_dest,  journal_id)
+                acc_src = move.company_id.property_stock_transfer_account_id
+            aml = move._create_account_move_line(acc_src, acc_valuation, journal_id)
         else:
             if acc_valuation == acc_dest:
-                acc_src = move.company_id.property_stock_transfer_account_id
-            move._create_account_move_line(acc_src, acc_valuation, journal_id)
-
+                acc_dest = move.company_id.property_stock_transfer_account_id
+            aml = move._create_account_move_line(acc_valuation, acc_dest,  journal_id)
+        return aml
 
 
 
@@ -328,12 +328,17 @@ class StockMove(models.Model):
             return res
         move_type = self.env.context.get('move_type', move.get_move_type())
 
+        location_id = self.env.context.get('stock_location_id',False)
+
         for acl in res:
             acl[2]['stock_move_id'] = move.id
-            if move.location_id.usage == 'internal' and  move.location_dest_id.usage != 'internal':
-                acl[2]['stock_location_id'] = move.location_id.id
-            elif move.location_id.usage != 'internal' and move.location_dest_id.usage == 'internal':
-                acl[2]['stock_location_id'] = move.location_dest_id.id
+            if location_id:
+                acl[2]['stock_location_id'] = location_id
+            else:
+                if move.location_id.usage == 'internal' and  move.location_dest_id.usage != 'internal':
+                    acl[2]['stock_location_id'] = move.location_id.id
+                elif move.location_id.usage != 'internal' and move.location_dest_id.usage == 'internal':
+                    acl[2]['stock_location_id'] = move.location_dest_id.id
             if move.picking_id:
                 acl[2]['stock_picking_id'] = move.picking_id.id
             if move.inventory_id:
