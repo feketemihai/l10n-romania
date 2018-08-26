@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <field name="name" position="after">
                    <field name="picking_type_code" invisible="1"/>
-                    <field name="price_unit" attrs="{'invisible': [('picking_type_code','!=','incoming')]}"/>
+                    <!--<field name="price_unit" attrs="{'invisible': [('picking_type_code','!=','incoming')]}"/>-->
                 </field>
             </field>
         </record> 
@@ -21,7 +21,7 @@
             <field name="arch" type="xml">
                 <field name="product_uom" position="after">
                     <field name="picking_type_code" invisible="1"/>
-                    <field name="price_unit" attrs="{'readonly': [('picking_type_code','!=','incoming')]}"/>
+                    <!--<field name="price_unit" attrs="{'readonly': [('picking_type_code','!=','incoming')]}"/>-->
                 </field>
             </field>
         </record> 
