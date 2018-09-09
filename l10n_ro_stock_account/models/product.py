@@ -24,6 +24,12 @@ class ProductTemplate(models.Model):
     @api.multi
     def get_product_accounts(self, fiscal_pos=None):
         res = super(ProductTemplate, self).get_product_accounts(fiscal_pos)
+        notice = self.env.context.get('notice')
+        if notice and self.purchase_method == 'receive' and self.type == 'product' :
+            res['stock_input'] = self.env.user.company_id.property_stock_picking_payable_account_id.id or \
+                                 self.property_stock_account_input.id or \
+                                 self.categ_id.property_stock_account_input_categ_id.id
+
         fix_stock_input = self.env.context.get('fix_stock_input')
         if fix_stock_input:
             res['stock_input'] = fix_stock_input
