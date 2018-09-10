@@ -51,12 +51,12 @@ class res_company(models.Model):
     property_stock_picking_payable_account_id = fields.Many2one(
         'account.account',
         string="Picking Account Payable",
-        domain="[('internal_type', '=', 'payable')]",
+        domain="[('internal_type', 'in', ['payable','other'])]",
         help="This account will be used as the payable account for the current partner on stock picking notice.")
     property_stock_picking_receivable_account_id = fields.Many2one(
         'account.account',
         string="Picking Account Receivable",
-        domain="[('internal_type', '=', 'receivable')]",
+        domain="[('internal_type', 'in', ['receivable','other'])]",
         help="This account will be used as the receivable account for the current partner on stock picking notice.")
     property_stock_picking_custody_account_id = fields.Many2one(
         'account.account',
@@ -71,12 +71,12 @@ class res_company(models.Model):
     property_customer_advance_account_id = fields.Many2one(
         'account.account',
         string="Customer Advance Account",
-        domain="[('internal_type', '=', 'receivable')]",
+        domain="[('internal_type', 'in', ['receivable','other'])]",
         help="This account will be used as the customer advance account for the current partner on vouchers.")
     property_supplier_advance_account_id = fields.Many2one(
         'account.account',
         string="Supplier Advance Account",
-        domain="[('internal_type', '=', 'payable')]",
+        domain="[('internal_type', 'in', ['payable','other'])]",
         help="This account will be used as the supplier advance account for the current partner on vouchers.")
 
     property_stock_transfer_account_id = fields.Many2one('account.account',   string="Stock Transfer Account")

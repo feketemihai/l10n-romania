@@ -51,7 +51,8 @@ class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
 
 
     def _convert(self, amount):
-        amt_ro = amount_to_text_ro(amount)
+        # todo: de folosit libraria num2words dupa ce o sa aiba si limba romana
+        amt_ro = amount_to_text_ro.amount_to_text_ro(amount)
         return amt_ro
 
 
