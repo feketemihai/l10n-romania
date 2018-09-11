@@ -2,6 +2,7 @@
 <odoo>
     <data>
 
+
         <report
             string="Payment"
             id="action_report_statement_line"
@@ -10,9 +11,55 @@
             name="l10n_ro_invoice_report.report_statement_line"
             file="l10n_ro_invoice_report.report_statement_line"    />
 
+        <report
+            string="Voucher"
+            id="action_report_statement_voucher"
+            model="account.bank.statement.line"
+            report_type="qweb-pdf"
+            name="l10n_ro_invoice_report.report_statement_voucher"
+            file="l10n_ro_invoice_report.report_statement_voucher"    />
+
+
+        <report
+            string="Cash collection"
+            id="action_report_statement_collection"
+            model="account.bank.statement.line"
+            report_type="qweb-pdf"
+            name="l10n_ro_invoice_report.report_statement_collection"
+            file="l10n_ro_invoice_report.report_statement_collection"    />
+
+        <report
+            string="Payment disposal"
+            id="action_report_statement_payment"
+            model="account.bank.statement.line"
+            report_type="qweb-pdf"
+            name="l10n_ro_invoice_report.report_statement_payment"
+            file="l10n_ro_invoice_report.report_statement_payment"    />
+
+
+        <template id="report_statement_voucher">
+            <t t-set="type" t-value="'voucher'"/>
+            <t t-call="l10n_ro_invoice_report.report_statement_print"/>
+        </template>
+
+        <template id="report_statement_payment">
+            <t t-set="type" t-value="'payment'"/>
+            <t t-call="l10n_ro_invoice_report.report_statement_print"/>
+        </template>
+
+        <template id="report_statement_collection">
+            <t t-set="type" t-value="'collection'"/>
+            <t t-call="l10n_ro_invoice_report.report_statement_print"/>
+        </template>
 
 
         <template id="report_statement_line">
+            <t t-set="type" t-value="''"/>
+            <t t-call="l10n_ro_invoice_report.report_statement_print"/>
+        </template>
+
+
+        <template id="report_statement_print">
 
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -32,8 +79,6 @@
 
                                 <div class="col-xs-5 col-xs-offset-2">
                                     <div>
-
-
                                         <strong t-field="o.partner_id.name"/>
                                     </div>
                                     <div>
@@ -75,14 +120,23 @@
                             <br/>
 
                             <h2>
-
-                                <t t-if="o.amount&gt;0">
-                                    <span>Voucher:</span>
-
+                                <t t-if="type==''">
+                                    <t t-if="o.amount&gt;0">
+                                        <t t-set="type" t-value="'collection'"/>
+                                    </t>
+                                     <t t-if="o.amount&lt;0">
+                                         <t t-set="type" t-value="'payment'"/>
+                                     </t>
                                 </t>
-                                <t t-if="o.amount&lt;0">
-                                    <span>Payment disposal:</span>
 
+                                <t t-if="type=='collection'">
+                                    <span>Cash collection:</span>
+                                </t>
+                                <t t-if="type=='payment'">
+                                    <span>Payment disposal:</span>
+                                </t>
+                                <t t-if="type=='voucher'">
+                                    <span>Voucher:</span>
                                 </t>
                                 <span t-field="o.name"/>
                                 /
@@ -92,7 +146,6 @@
 
                             <table class="table table-condensed">
                                 <tr>
-
                                     <td t-if="o.amount&gt;0">Received from:</td>
                                     <td t-if="o.amount&lt;0">For:</td>
                                     <td>

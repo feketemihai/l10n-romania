@@ -89,3 +89,16 @@ class ReportStatementLinePrint(models.AbstractModel):
     def _convert(self, amount):
         amt_ro = amount_to_text_ro.amount_to_text_ro(abs(amount))
         return amt_ro
+
+
+class ReportStatementLineVoucher(ReportStatementLinePrint):
+    _name = 'report.l10n_ro_invoice_report.report_statement_voucher'
+    _template = 'l10n_ro_invoice_report.report_statement_voucher'
+
+class ReportStatementLinePayment(ReportStatementLinePrint):
+    _name = 'report.l10n_ro_invoice_report.report_statement_payment'
+    _template = 'l10n_ro_invoice_report.report_statement_payment'
+
+class ReportStatementLineCollection(ReportStatementLinePrint):
+    _name = 'report.l10n_ro_invoice_report.report_statement_collection'
+    _template = 'l10n_ro_invoice_report.report_statement_collection'

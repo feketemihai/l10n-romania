@@ -63,30 +63,36 @@
 							<br />
 
 							<h2>
-                                <t t-if="o.amount&gt;0">
+                                <t t-if="o.payment_type=='inbound'">
                                     <span>Voucher:</span>
                                     <t t-set="amount" t-value="o.amount"/>
                                 </t>
-                                <t t-if="o.amount&lt;0">
+                                <t t-if="o.payment_type=='outbound'">
                                     <span>Payment disposal:</span>
                                     <t t-set="amount" t-value="-o.amount"/>
-                                </t> 
+                                </t>
+								<t t-if="o.payment_type=='transfer'">
+									<span>Transfer:</span>
+                                    <t t-set="amount" t-value="o.amount"/>
+								</t>
 								<span t-field="o.number" /> /  <span t-field="o.date" t-options='{"widget": "date"}'/>
 							</h2>
 
 
 							<table class="table table-condensed">
 								<tr>
-									<td t-if="o.amount&gt;0">Received from:</td>
-									<td t-if="o.amount&lt;0">For:</td> 
+									<td t-if="o.payment_type=='inbound'">Received from:</td>
+									<td t-if="o.payment_type=='outbound'">For:</td>
+									<td t-if="o.payment_type=='transfer'">To:</td>
 									<td>
 										<span t-field="o.partner_id.name" />
+										<span t-field="o.destination_journal.name" />
 									</td>
 								</tr>
 								<tr>
 									<td>Amount:</td>
 									<td>
-										<span t-esc="amount"/> <span t-field="o.currency_id.symbol"/>
+										<span t-esc="amount"/>
 									</td>
 								</tr>
 								<tr>
