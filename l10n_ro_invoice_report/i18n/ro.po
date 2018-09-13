@@ -20,7 +20,13 @@ msgstr ""
 msgid ",\n"
 "                                            <span>amount</span>"
 msgstr ",\n"
-"                                            <span>amount</span>"
+"                                            <span>suma</span>"
+
+#. module: l10n_ro_invoice_report
+#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid "amount"
+msgstr "suma"
+
 
 #. module: l10n_ro_invoice_report
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
