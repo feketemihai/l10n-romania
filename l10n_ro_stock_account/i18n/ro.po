@@ -33,7 +33,7 @@ msgstr "<span>Până la data</span>"
 #. module: l10n_ro_stock_account
 #: model:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
 msgid "<strong>Account:</strong>"
-msgstr "<strong>Valoare:</strong>"
+msgstr "<strong>Cont:</strong>"
 
 #. module: l10n_ro_stock_account
 #: model:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company

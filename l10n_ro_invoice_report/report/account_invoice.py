@@ -44,7 +44,8 @@ class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
             'docs': self.env[report.model].browse(docids),
             'convert': self._convert,
             'with_discount': self._with_discount,
-            'formatLang': self._formatLang
+            'formatLang': self._formatLang,
+            'get_pickings':self._get_pickings,
         }
 
     def _formatLang(self, value, *args):
@@ -64,6 +65,18 @@ class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
                 res = True
         return res
 
+    def _get_pickings(self, invoice):
+        pickings = self.env['stock.picking']
+        for line in invoice.invoice_line_ids:
+            for sale_line in line.sale_line_ids:
+                for move in sale_line.move_ids:
+                    if move.picking_id.state == 'done':
+                        pickings |= move.picking_id
+            if line.purchase_line_id:
+                for move in line.purchase_line_id.move_ids:
+                    if move.picking_id.state == 'done':
+                        pickings |= move.picking_id
+        return pickings
 
 
 class ReportInvoicePrint(ReportInvoiceWithPaymentsPrint):

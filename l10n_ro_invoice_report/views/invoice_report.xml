@@ -42,16 +42,19 @@
 
                             <small>
                                 <div t-foreach="res_company.partner_id.bank_ids" t-as="bank">
-
-                                    <span t-if="bank.bank_name">
-                                        <strong>Bank:</strong>
-                                        <span t-field="bank.bank_name"/>
-                                    </span>
-                                    <span t-if="bank.acc_number">
-                                        <strong>Account:</strong>
-                                        <span t-field="bank.acc_number"/>
-                                    </span>
-
+                                    <t t-set="counts" t-value="0"/>
+                                    <t t-set="bank_currency" t-value="bank.currency_id or res_company.currency_id"/>
+                                    <t t-if="bank_currency == o.currency_id and counts&lt;3">
+                                        <span t-if="bank.bank_name">
+                                            <strong>Bank:</strong>
+                                            <span t-field="bank.bank_name"/>
+                                        </span>
+                                        <span t-if="bank.acc_number">
+                                            <strong>Account:</strong>
+                                            <span t-field="bank.acc_number"/>
+                                        </span>
+                                        <t t-set="counts" t-value="counts+1"/>
+                                    </t>
                                 </div>
                             </small>
 
@@ -163,6 +166,7 @@
 
             <t t-if="o and 'company_id' in o">
                 <t t-set="company" t-value="o.company_id.sudo()"/>
+                <t t-set="res_company" t-value="o.company_id.sudo()"/>
             </t>
             <t t-if="not o or not 'company_id' in o">
                 <t t-set="company" t-value="res_company"/>
@@ -210,6 +214,30 @@
                         <t t-if="not currency_id">
                             <t t-set="currency_id" t-value="o.currency_id"/>
                         </t>
+
+                        <div class="row" t-if="o.type == 'out_invoice'">
+                            <t t-set="pickings" t-value="get_pickings(o)"/>
+
+                            <div class="col-xs-12" t-if="pickings" >
+                                <span>Deliveries:</span>
+                                <t t-foreach="pickings" t-as="d">
+                                    <span t-field="d.name"/>
+                                </t>
+                            </div>
+                        </div>
+
+                        <div class="row" t-if="o.type == 'in_invoice'">
+                            <t t-set="pickings" t-value="get_pickings(o)"/>
+
+                            <div class="col-xs-12" t-if="pickings" >
+                                <span>Receptions:</span>
+                                <t t-foreach="pickings" t-as="d">
+                                    <span t-field="d.name"/>
+                                </t>
+                            </div>
+                        </div>
+
+
                         <table class="table table-condensed  table-bordered">
                             <thead>
                                 <tr>
@@ -322,8 +350,10 @@
                                                 </t>
 
                                                 <span id="amount_untaxeds">
-                                                    <span t-esc="formatLang(amount_untaxeds)"/>
-                                                    <span t-field="currency_id.symbol"/>
+                                                    <!--<span t-esc="formatLang(amount_untaxeds)"/>-->
+                                                    <!--<span t-field="currency_id.symbol"/>-->
+                                                    <span t-esc="amount_untaxeds"
+                                                      t-options='{"widget": "monetary", "display_currency": currency_id}'/>
                                                 </span>
                                             </td>
                                         </tr>
@@ -336,8 +366,10 @@
                                                 </t>
 
                                                 <span id="amount_tax">
-                                                    <span t-esc="formatLang(amount_tax)"/>
-                                                    <span t-field="currency_id.symbol"/>
+                                                    <!--<span t-esc="formatLang(amount_tax)"/>-->
+                                                    <!--<span t-field="currency_id.symbol"/>-->
+                                                    <span t-esc="amount_tax"
+                                                      t-options='{"widget": "monetary", "display_currency": currency_id}'/>
                                                 </span>
 
                                             </td>
@@ -354,8 +386,11 @@
                                                 </t>
 
                                                 <span id="amount_total">
-                                                    <span t-esc="formatLang(amount_total)"/>
-                                                    <span t-field="currency_id.symbol"/>
+
+                                                   <!-- <span t-esc="formatLang(amount_total)"/>
+                                                    <span t-field="currency_id.symbol"/>-->
+                                                    <span t-esc="amount_total"
+                                                      t-options='{"widget": "monetary", "display_currency": currency_id}'/>
                                                 </span>
 
                                                 <div t-if="currency_id!=res_company.currency_id">
@@ -472,10 +507,10 @@
                                 <strong>Payment Term:</strong>
                                 <span t-field="o.payment_term_id.note"/>
                             </p>
-                            <p t-if="o.fiscal_position_id.note">
+                   <!--         <p t-if="o.fiscal_position_id.note">
                                 <strong>Fiscal Position Remark:</strong>
                                 <span t-field="o.fiscal_position_id.note"/>
-                            </p>
+                            </p>-->
                             <div name="reference" t-if="o.reference and o.type == 'in_invoice'">
                                 <strong>Reference:</strong>
                                 <p t-field="o.reference"/>
