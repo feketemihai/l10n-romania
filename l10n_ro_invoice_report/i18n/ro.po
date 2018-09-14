@@ -20,7 +20,13 @@ msgstr ""
 msgid ",\n"
 "                                            <span>amount</span>"
 msgstr ",\n"
-"                                            <span>amount</span>"
+"                                            <span>suma</span>"
+
+#. module: l10n_ro_invoice_report
+#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid "amount"
+msgstr "suma"
+
 
 #. module: l10n_ro_invoice_report
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
@@ -86,7 +92,7 @@ msgstr "<span>Chitanță:</span>"
 #. module: l10n_ro_invoice_report
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "<strong>Account:</strong>"
-msgstr "<strong>Valoare:</strong>"
+msgstr "<strong>Cont:</strong>"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
@@ -113,6 +119,17 @@ msgstr "<strong>CIF:</strong>"
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "<strong>Comment:</strong>"
 msgstr "<strong>Comentariu:</strong>"
+
+#. module: l10n_ro_invoice_report
+#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid "<span>Deliveries:</span>"
+msgstr "<span>Avize:</span>"
+
+
+#. module: l10n_ro_invoice_report
+#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid "<span>Receptions:</span>"
+msgstr "<span>Recepții:</span>"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
