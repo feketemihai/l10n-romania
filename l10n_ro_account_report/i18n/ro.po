@@ -76,7 +76,7 @@ msgstr "<strong>Utilizator</strong>:\n"
 
 #. module: l10n_ro_account_report
 #: model:ir.ui.view,arch_db:l10n_ro_account_report.report_statement
-msgid "Adresa:"
+msgid "Address:"
 msgstr "Adresa:"
 
 #. module: l10n_ro_account_report
