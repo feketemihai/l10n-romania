@@ -10,7 +10,7 @@
             file="l10n_ro_invoice_report.report_voucher"    />
 
         <report
-            string="Payment"
+            string="Voucher / Payment"
             id="action_report_payment"
             model="account.payment"
             report_type="qweb-pdf"
