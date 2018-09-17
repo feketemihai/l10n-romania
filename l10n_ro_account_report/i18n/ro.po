@@ -55,12 +55,13 @@ msgstr "<strong>Data</strong>:\n"
 msgid "<strong>Sold Final:</strong>"
 msgstr "<strong>Sold Final:</strong>"
 
+
 #. module: l10n_ro_account_report
 #: model:ir.ui.view,arch_db:l10n_ro_account_report.report_statement
-msgid "<strong>Starting Balance</strong>:\n"
-"                                    <br/>"
-msgstr "<strong>Sold inițial</strong>:\n"
-"                                    <br/>"
+msgid "<strong>Starting Balance</strong>"
+msgstr "<strong>Sold inițial</strong>"
+
+
 
 #. module: l10n_ro_account_report
 #: model:ir.ui.view,arch_db:l10n_ro_account_report.report_statement
@@ -73,6 +74,12 @@ msgid "<strong>User</strong>:\n"
 "                                    <br/>"
 msgstr "<strong>Utilizator</strong>:\n"
 "                                    <br/>"
+
+
+#. module: l10n_ro_account_report
+#: model:ir.ui.view,arch_db:l10n_ro_account_report.report_statement
+msgid "Company:"
+msgstr "Societatea comerciala:"
 
 #. module: l10n_ro_account_report
 #: model:ir.ui.view,arch_db:l10n_ro_account_report.report_statement
@@ -134,10 +141,7 @@ msgstr "Încasare"
 msgid "Ref"
 msgstr "Referință"
 
-#. module: l10n_ro_account_report
-#: model:ir.ui.view,arch_db:l10n_ro_account_report.report_statement
-msgid "Societatea comerciala:"
-msgstr "Societatea comerciala:"
+
 
 #. module: l10n_ro_account_report
 #: model:ir.ui.view,arch_db:l10n_ro_account_report.report_statement

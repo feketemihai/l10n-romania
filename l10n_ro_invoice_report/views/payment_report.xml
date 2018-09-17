@@ -112,7 +112,20 @@
                                 <tr>
                                     <td>Representing:</td>
                                     <td>
-                                        <span t-field="o.communication"/>
+
+                                        <t t-set="communication" t-value="''"/>
+                                        <t t-if="o.invoice_ids">
+                                           <t t-foreach="o.invoice_ids" t-as="i">
+                                               <t t-set="communication" t-value="communication + i.number"/>
+                                               <span t-field="i.number"/> <span>from date:</span>
+
+                                               <span t-field="i.date_invoice"/>
+                                           </t>
+                                        </t>
+                                        <t t-if="communication != o.communication">
+                                            <span t-field="o.communication"/>
+                                        </t>
+
                                     </td>
                                 </tr>
                             </table>

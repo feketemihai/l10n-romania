@@ -6,12 +6,9 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.internal_layout">
                         <div class="page">
-                            <div class="text-left">Societatea comerciala:
-
-                                <strong t-esc="res_company.name"></strong>
-
+                            <div class="text-left">Company:
+                                <strong t-esc="res_company.name"/>
                             </div>
-
                             <div>
                                 <strong>Address:</strong>
                                 <address t-field="res_company.partner_id"

@@ -398,7 +398,7 @@ msgstr "Reprezentând contravaloarea facturii"
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
 msgid "Representing:"
-msgstr "Reprezentând:"
+msgstr "Reprezentând c/v:"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice

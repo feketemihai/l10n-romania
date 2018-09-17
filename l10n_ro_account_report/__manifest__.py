@@ -8,7 +8,7 @@
 
     "category": "Romania Adaptation",
     "depends": [
-        'account',
+        'account','date_range',
     ],
 
     "description": """
@@ -19,8 +19,10 @@ Romania  - Accounting Reports
     """,
 
     'data': [
-        'views/account_statement_report.xml',
-        'views/report_statement.xml'
+        'views/account_report.xml',
+        'views/report_statement.xml',
+        'views/report_sale_purchase_journal.xml',
+        'wizard/account_report_sale_purchase_journal_view.xml',
     ],
 
     'installable': True,

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_sale_purchase_journal">
+            <t t-call="web.html_container">
+
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div>
+                            <strong>Company:</strong>
+                            <span t-esc="res_company.name"/>
+                        </div>
+                        <div>
+                            <strong>Address:</strong>
+                            <address t-field="res_company.partner_id"
+                                     t-options='{"widget": "contact", "fields": ["address","phone", "fax"], "no_marker": false, "no_tag_br": true}'/>
+                        </div>
+                        <div t-if="res_company.partner_id.vat">
+                            <strong>CIF:</strong>
+                            <span t-field="res_company.partner_id.vat"/>
+                        </div>
+                        <div t-if="res_company.partner_id.nrc">
+                            <strong>NRC:</strong>
+                            <span t-field="res_company.partner_id.nrc"/>
+                        </div>
+
+
+                        <t t-if="data['journal'] == 'purchase'">
+                            <h2>Purchase journal</h2>
+                        </t>
+                        <t t-if="data['journal'] == 'sale'">
+                            <h2>Sale journal</h2>
+                        </t>
+                        <h4>
+                            <span>From date:</span><span t-esc="data['date_from']"/><span> to date:</span><span t-esc="data['date_to']"/>
+                        </h4>
+
+                        <table class="table table-condensed table-bordered">
+                            <thead>
+                                <tr>
+                                    <th colspan="1" class="text-center">Nr Crt</th>
+                                    <th colspan="2" class="text-center">Document</th>
+                                    <th colspan="2" class="text-center">Partner</th>
+
+                                    <th colspan="3" class="text-center">Total</th>
+
+                                </tr>
+                                <tr>
+                                    <th colspan="1" class="text-center"></th>
+                                    <th colspan="1" class="text-center">Number</th>
+                                    <th colspan="1" class="text-center">Date</th>
+                                    <th colspan="1" class="text-center">Name</th>
+                                    <th colspan="1" class="text-center">Fiscal code</th>
+
+                                    <th colspan="1" class="text-center">Total</th>
+                                    <th colspan="1" class="text-center">Base</th>
+                                    <th colspan="1" class="text-center">VAT</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="inv_index" t-value="0"/>
+                                <tr t-foreach="docs" t-as="o">
+                                    <td><span t-esc="inv_index + 1"/></td>
+                                    <td>
+                                        <span t-field="o.number"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.date_invoice"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.commercial_partner_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.commercial_partner_id.vat"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.amount_total"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.amount_untaxed"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.amount_tax"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+
+        </template>
+    </data>
+</odoo>
