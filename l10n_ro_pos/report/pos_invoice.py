@@ -20,9 +20,15 @@ class PosInvoiceReport(models.AbstractModel):
             'time': time,
             'convert': self._convert,
             'with_discount': self._with_discount,
-            'formatLang': self._formatLang
+            'formatLang': self._formatLang,
+            'get_pickings': self._get_pickings,
         })
         return values
+
+
+    def _get_pickings(self, invoice):
+        pickings = self.env['stock.picking']
+        return pickings
 
 
     def _formatLang(self, value, *args):
