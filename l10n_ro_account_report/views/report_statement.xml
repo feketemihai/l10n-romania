@@ -89,7 +89,7 @@
                                     <t t-set="sold_inc" t-value="0.0"/>
                                     <t t-set="sold_plt" t-value="0.0"/>
                                     <t t-set="index_l" t-value="1"/>
-                                    <tr t-foreach="o.line_ids" t-as="line">
+                                    <tr t-foreach="o.line_ids.sorted(key=lambda r: (r.sequence, r.id))" t-as="line">
                                         <td>
                                             <span t-esc="index_l"/>
                                         </td>

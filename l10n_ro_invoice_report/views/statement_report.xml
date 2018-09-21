@@ -172,7 +172,7 @@
                                 <tr>
                                     <td>Representing:</td>
                                     <td>
-                                        <span t-field="o.name"/>
+                                        <span t-field="o.ref"/>
                                     </td>
                                 </tr>
                             </table>
