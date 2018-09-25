@@ -53,6 +53,23 @@ class ResPartner(models.Model):
     vat_on_payment = fields.Boolean('VAT on Payment')
 
     @api.model
+    def create(self, vals):
+
+        partner = super(ResPartner, self).create(vals)
+        if 'name' in vals:
+            name = vals['name'].lower().strip()
+            if 'ro' in name:
+                name = name.replace('ro', '')
+            if name.isdigit():
+                try:
+                    partner.button_get_partner_data()
+                except:
+                    pass
+
+        return partner
+
+
+    @api.model
     def _get_Anaf(self, cod):
         res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': fields.Date.today()}], headers=headers)
         if res.status_code == 200:
