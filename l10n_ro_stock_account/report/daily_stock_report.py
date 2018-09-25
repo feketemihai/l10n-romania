@@ -47,6 +47,10 @@ class DailyStockReport(models.TransientModel):
     @api.multi
     def do_compute(self):
         self.env['account.move.line'].check_access_rights('read')
+
+        lines = self.env['l10n_ro.daily_stock_report.line'].search([('report_id', '=', self.id)])
+        lines.unlink()
+
         stock_init = {}
 
         stock_in = {}
