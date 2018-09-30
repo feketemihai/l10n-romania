@@ -15,6 +15,34 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+
+#. module: l10n_ro_config
+#: model:ir.ui.view,arch_db:base.banks
+msgid "<strong>Bank:</strong>"
+msgstr "<strong>Banca:</strong>"
+
+
+#. module: l10n_ro_config
+#: model:ir.ui.view,arch_db:base.banks
+msgid "<strong>Account:</strong>"
+msgstr "<strong>Cont:</strong>"
+
+
+#. module: l10n_ro_config
+#: model:ir.ui.view,arch_db:base.report_address_company
+msgid "<strong>Company</strong>"
+msgstr "<strong>Compania</strong>"
+
+#. module: l10n_ro_config
+#: model:ir.ui.view,arch_db:base.report_address_company
+msgid "<strong>Address:</strong>"
+msgstr "<strong>Adresa:</strong>"
+
+#. module: l10n_ro_config
+#: model:ir.ui.view,arch_db:base.report_address_company
+msgid "<strong>Share Capital:</strong>"
+msgstr "<strong>Capital social:</strong>"
+
 #. module: l10n_ro_config
 #: model:ir.model,name:l10n_ro_config.model_account_account
 msgid "Account"

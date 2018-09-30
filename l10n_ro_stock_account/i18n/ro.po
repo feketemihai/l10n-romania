@@ -90,6 +90,17 @@ msgstr "<strong>Capital social:</strong>"
 msgid "<strong>Total</strong>"
 msgstr "<strong>Total</strong>"
 
+
+#. module: l10n_ro_stock_account
+#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+msgid "<strong>Total In</strong>"
+msgstr "<strong>Total intări</strong>"
+
+#. module: l10n_ro_stock_account
+#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+msgid "<strong>Total Out</strong>"
+msgstr "<strong>Total ieșiri</strong>"
+
 #. module: l10n_ro_stock_account
 #: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<strong>Type</strong>"
@@ -397,6 +408,15 @@ msgstr "Sold"
 #, python-format
 msgid "Standard Price changed  - %s"
 msgstr "Modificare preț standard  - %s"
+
+
+#. module: l10n_ro_stock_account
+#: code:addons/l10n_ro_stock_account/models/product.py:101
+#: code:addons/l10n_ro_stock_account/models/product.py:108
+#, python-format
+msgid "List Price changed  - %s"
+msgstr "Modificare preț vanzare  - %s"
+
 
 #. module: l10n_ro_stock_account
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_l10n_ro_daily_stock_report_date_from

@@ -92,20 +92,20 @@ class ProductTemplate(models.Model):
                     else:
                         debit_account_id = product_accounts[product.id]['stock_valuation'].id
                         credit_account_id = account_id.id
-
+                    name = self.env.context.get('ref', _('List Price changed  - %s') % (product.display_name))
                     move_vals = {
                         'journal_id': product_accounts[product.id]['stock_journal'].id,
                         'company_id': location.company_id.id,
                         'ref':ref,
                         'line_ids': [(0, 0, {
-                            'name': _('Standard Price changed  - %s') % (product.display_name),
+                            'name': name,
                             'account_id': debit_account_id,
                             'debit': abs(diff * qty_available),
                             'credit': 0,
                             'product_id':product.id,
                             'stock_location_id':location.id,
                         }), (0, 0, {
-                            'name': _('Standard Price changed  - %s') % (product.display_name),
+                            'name': name,
                             'account_id': credit_account_id,
                             'debit': 0,
                             'credit': abs(diff * qty_available),

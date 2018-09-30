@@ -2,15 +2,41 @@
 <odoo>
     <data>
 
-         <template id="report_address_company">
-            <t t-set="res_company" t-value="o.company_id"/>
+        <template id="base.banks">
+            <small>
+                <t t-set="currency_id" t-value="res_company.currency_id"/>
+                <t t-if="'currency_id' in o._fields">
+                    <t t-set="currency_id" t-value="o.currency_id"/>
+                </t>
+                <t t-set="counts" t-value="0"/>
+                <div t-foreach="partner_id.bank_ids.filtered(lambda r: r.footer)" t-as="bank">
+
+                    <t t-set="bank_currency" t-value="bank.currency_id or res_company.currency_id"/>
+                    <t t-if="bank_currency == currency_id and counts&lt;3">
+                        <span t-if="bank.bank_name">
+                            <strong>Bank:</strong>
+                            <span t-field="bank.bank_name"/>
+                        </span>
+                        <span t-if="bank.acc_number">
+                            <strong>Account:</strong>
+                            <span t-field="bank.acc_number"/>
+                        </span>
+                        <t t-set="counts" t-value="counts+1"/>
+                    </t>
+                </div>
+            </small>
+        </template>
+
+
+        <template id="base.report_address_company">
+            <t t-if="'company_id' in o._fields">
+                <t t-set="res_company" t-value="o.company_id"/>
+            </t>
+
             <div class="row">
                 <div class="col-xs-5">
                     <div>
-                        <div t-if="o.picking_type_id.code=='outgoing' and o.partner_id">
-                            <strong>Company</strong>
-                        </div>
-
+                        <strong>Company</strong>
                     </div>
                     <strong t-field="res_company.partner_id.name"/>
                     <div>
@@ -24,26 +50,8 @@
             <small>
                 <div class="row">
                     <div class="col-xs-6">
-
-                         <small>
-                                <div t-foreach="res_company.partner_id.bank_ids" t-as="bank">
-                                    <t t-set="counts" t-value="0"/>
-                                    <t t-set="bank_currency" t-value="bank.currency_id or res_company.currency_id"/>
-                                    <t t-if="bank_currency == o.currency_id and counts&lt;3">
-                                        <span t-if="bank.bank_name">
-                                            <strong>Bank:</strong>
-                                            <span t-field="bank.bank_name"/>
-                                        </span>
-                                        <span t-if="bank.acc_number">
-                                            <strong>Account:</strong>
-                                            <span t-field="bank.acc_number"/>
-                                        </span>
-                                        <t t-set="counts" t-value="counts+1"/>
-                                    </t>
-                                </div>
-                         </small>
-
-
+                        <t t-set="partner_id" t-value="res_company.partner_id"/>
+                        <t t-call="base.banks"/>
                     </div>
                 </div>
             </small>

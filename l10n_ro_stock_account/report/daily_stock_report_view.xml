@@ -72,7 +72,7 @@
         <field name="name">Daily Stock Report</field>
         <field name="res_model">l10n_ro.daily_stock_report.ref</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree</field>
         <field name="domain">[('report_id','=',active_id)]</field>
     </record>
 

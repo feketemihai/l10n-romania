@@ -41,23 +41,8 @@
                                          t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;,&quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: false, &quot;no_tag_br&quot;: true}"/>
                             </div>
 
-                            <small>
-                                <div t-foreach="res_company.partner_id.bank_ids" t-as="bank">
-                                    <t t-set="counts" t-value="0"/>
-                                    <t t-set="bank_currency" t-value="bank.currency_id or res_company.currency_id"/>
-                                    <t t-if="bank_currency == o.currency_id and counts&lt;3">
-                                        <span t-if="bank.bank_name">
-                                            <strong>Bank:</strong>
-                                            <span t-field="bank.bank_name"/>
-                                        </span>
-                                        <span t-if="bank.acc_number">
-                                            <strong>Account:</strong>
-                                            <span t-field="bank.acc_number"/>
-                                        </span>
-                                        <t t-set="counts" t-value="counts+1"/>
-                                    </t>
-                                </div>
-                            </small>
+                            <t t-set="partner_id" t-value="res_company.partner_id"/>
+                            <t t-call="base.banks"/>
 
                         </td>
                         <td width="50%">
@@ -73,18 +58,10 @@
                                 <address t-field="o.commercial_partner_id"
                                          t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: false, &quot;no_tag_br&quot;: true}"/>
                             </div>
-                            <small>
-                                <div t-foreach="o.commercial_partner_id.bank_ids" t-as="bank">
-                                    <span t-if="bank.bank_name">
-                                        <strong>Bank:</strong>
-                                        <span t-field="bank.bank_name"/>
-                                    </span>
-                                    <span t-if="bank.acc_number">
-                                        <strong>Account:</strong>
-                                        <span t-field="bank.acc_number"/>
-                                    </span>
-                                </div>
-                            </small>
+
+                            <t t-set="partner_id" t-value="o.commercial_partner_id"/>
+                            <t t-call="base.banks"/>
+
 
                         </td>
                     </tr>
