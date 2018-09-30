@@ -17,6 +17,13 @@ class PosOrder(models.Model):
         return True
 
 
+    def _prepare_invoice(self):
+        res = super(PosOrder, self)._prepare_invoice()
+        res['reference'] =  self.pos_reference
+        res['pos_ref'] = self.pos_reference
+        return res
+
+
     @api.multi
     def action_pos_order_invoice(self):
         return super(PosOrder, self.with_context(allowed_change_product=True)).action_pos_order_invoice()
