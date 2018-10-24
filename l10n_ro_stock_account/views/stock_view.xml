@@ -27,7 +27,7 @@
         </record> 
                            
 
-
+        <!--
         <record id="view_stock_product_tree2" model="ir.ui.view">
             <field name="name">product.product.tree</field>
             <field name="model">product.product</field>
@@ -38,7 +38,7 @@
                 </field>
             </field>
         </record>
-
+        -->
 
         <!--<record id="view_stock_quant_tree" model="ir.ui.view">-->
             <!--<field name="name">product.quant.tree</field>-->
