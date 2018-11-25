@@ -66,6 +66,10 @@ class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
         return res
 
     def _get_pickings(self, invoice):
+
+        if not self.env['ir.module.module'].search([('name', '=', 'stock'), ('state', '=', 'installed')]):
+            return False
+
         pickings = self.env['stock.picking']
         for line in invoice.invoice_line_ids:
             for sale_line in line.sale_line_ids:
