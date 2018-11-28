@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="purchse_tally_form" model="ir.ui.view">
+			<field name="name">Purchase Tally</field>
+			<field name="model">purchase_tally.tally</field>
+			<field name="arch" type="xml">
+				<form string="Enter Meter Readings">
+                    <group name="partner" colspan="2" col="2">
+                        <group name="partner1">
+                            <field name="partner_id" domain="[('supplier', '=', True)]" invisible="1"/>
+                            <field name="partner_name" required="1"/>
+                            <field name="partner_surname" required="1"/>
+                        </group>
+                        <group name="partner2">
+                            <field name="partner_address" required="1"/>
+                            <field name="partner_ci" required="1"/>
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Produse">
+                            <field name="tally_lines" colspan="4" nolabel="1">
+                                <tree string="Produse" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" domain="[('purchase_ok', '=', True)]"/>
+                                    <field name="product_qty" required="1"/>
+                                    <field name="product_uom"/>
+                                    <field name="name" invisible="1"/>
+                                    <field name="price_unit"/>
+                                    <field name="price_subtotal" sum="price_total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+						<button name="create_tally" string="_Apply" type="object" class="oe_highlight" />
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_new_tally" name="Borderou achizitie"
+                    res_model="purchase_tally.tally" src_model="purchase.order"
+                    view_mode="form" multi="False" target="new"  />
+
+        <menuitem name="Achizitii" id="purchases_tally_pos" parent="point_of_sale.menu_point_root"/>
+
+        <menuitem name="Borderou achizitie" id="purchase_tally_wz" action="action_new_tally"
+                  parent="l10n_ro_purchase_tally.purchases_tally_pos"/>
+
+    </data>
+</odoo>

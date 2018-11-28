@@ -29,7 +29,8 @@
     ],
     "data": [
         "views/stock_picking_report.xml",
-        "data/report_format.xml"
+        "data/report_format.xml",
+        "wizard/tally_wizard.xml"
     ],
     "description": """
 
