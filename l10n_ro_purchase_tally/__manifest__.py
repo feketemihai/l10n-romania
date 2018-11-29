@@ -29,10 +29,10 @@
         "deltatech_contact"
     ],
     "data": [
-        "data/report_format.xml",
         "views/stock_picking_report.xml",
         "wizard/tally_wizard.xml",
         "data/ir_sequence.xml",
+        "data/report_format.xml",
     ],
     "description": """
 
