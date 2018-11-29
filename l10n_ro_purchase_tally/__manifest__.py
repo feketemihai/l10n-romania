@@ -30,9 +30,9 @@
     ],
     "data": [
         "data/report_format.xml",
-        "data/ir_sequence.xml",
         "views/stock_picking_report.xml",
-        "wizard/tally_wizard.xml"
+        "wizard/tally_wizard.xml",
+        "data/ir_sequence.xml",
     ],
     "description": """
 
