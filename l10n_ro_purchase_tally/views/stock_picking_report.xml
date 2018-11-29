@@ -5,6 +5,9 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs.filtered(lambda record: record.picking_type_code == 'incoming')" t-as="o">
                     <t t-call="web.external_layout">
+                        <div class="page">
+                            <span t-field="o.name"/>
+                        </div>
                         <!--
                         <div class="page">
                             <t t-call="l10n_ro_stock_picking_report.report_address"/>

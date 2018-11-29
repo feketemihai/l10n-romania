@@ -25,11 +25,13 @@
     "website": "https://terrabit.ro",
     "depends": [
         "purchase",
-        "l10n_ro_stock_picking_report"
+        "l10n_ro_stock_picking_report",
+        "deltatech_contact"
     ],
     "data": [
-        "views/stock_picking_report.xml",
         "data/report_format.xml",
+        "data/ir_sequence.xml",
+        "views/stock_picking_report.xml",
         "wizard/tally_wizard.xml"
     ],
     "description": """

@@ -21,6 +21,13 @@
 from odoo import models, fields, api, _
 from odoo.addons import decimal_precision as dp
 from odoo.exceptions import UserError
+from datetime import datetime
+
+# Adaugare camp la purchase_order pentru diferentiere
+class PurchaseOrder(models.Model):
+    _inherit = 'purchase.order'
+
+    is_tally = fields.Boolean('Is tally')
 
 class CreatePurchaseTally(models.TransientModel):
     _name = "purchase_tally.tally"
@@ -31,15 +38,69 @@ class CreatePurchaseTally(models.TransientModel):
     partner_surname = fields.Char(string='Prenume')
     partner_address = fields.Char(string='Adresa')
     partner_ci = fields.Char(string="Serie si nr CI")
-
+    picking_type = fields.Many2one('stock.picking.type')
     tally_lines = fields.One2many('purchase_tally.tally.item','purchase_tally_id')
 
     @api.multi
     def create_tally(self):
-        for line in self.tally_lines:
+        # if self.tally_lines:
+        for line in self.tally_lines: # verificare linii
             if line.price_subtotal <= 0:
-                raise UserError(_('Nu se pot achizitiona produse cu valoare2 0!'))
-        pass
+                raise UserError(_('Nu se pot achizitiona produse cu valoare 0!'))
+
+        # Cautare/creare partener
+        partner = self.env['res.partner'].with_context(active_test=False).search([('id_nr','=',self.partner_ci)])
+        if not partner:
+            values = {
+                'name': self.partner_name + ' ' + self.partner_surname,
+                'street': self.partner_address,
+                'id_nr': self.partner_ci,
+                'company_type': 'person',
+                'email': '@',
+                'supplier': True,
+                'customer': False,
+                'active': False
+            }
+            partner = self.env['res.partner'].create(values)
+
+        # Creare comanda achizitie
+        values = {
+            'is_tally': True,
+            'partner_id': partner.id,
+            'date_planned': datetime.today().strftime('%Y-%m-%d %H:%M:%S'),
+            'picking_type_id': self.picking_type.id,
+            'partner_ref': self.env['ir.sequence'].next_by_code('purchase_tally.tally')
+        }
+        purchase_order = self.env['purchase.order'].create(values)
+
+        # Creare linii comanda de achizitie
+        for line in self.tally_lines:
+            values = {
+                'order_id': purchase_order.id,
+                'product_id': line.product_id.id,
+                'name': line.product_id.name,
+                'product_qty': line.product_qty,
+                'price_unit': line.price_unit,
+                'product_uom': line.product_uom.id,
+                'date_planned': datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+            }
+            self.env['purchase.order.line'].create(values)
+
+        # Confirmare comanda achizitie
+        purchase_order.button_confirm()
+
+        # Confirmare pickings
+        for picking in purchase_order.picking_ids:
+            for move_line in picking.move_lines:
+                move_line.quantity_done = move_line.product_uom_qty
+            picking.button_validate()
+
+        # Setare comanda achizitie pe nimic de facturat
+        purchase_order.write({'invoice_status': 'no'})
+
+        # TODO: Print pickings
+
+        # TODO: Close wizard
 
 
 class PurchaseTallyItems(models.TransientModel):
