@@ -15,6 +15,7 @@
                         <group name="partner2">
                             <field name="partner_address" required="1"/>
                             <field name="partner_ci" required="1"/>
+                            <field name="picking_type" required="1"/>
                         </group>
                     </group>
                     <notebook colspan="4">

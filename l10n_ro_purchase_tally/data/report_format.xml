@@ -10,7 +10,7 @@
             <field name="margin_right">5</field>
             <field name="header_spacing">25</field>
             <field name="dpi">90</field>
-            <field name="report_ids" eval="[(6, 0, [ref('l10n_ro_purchase_tally.action_report_tally')])]"/>
+            <field name="report_ids" eval="[(6, 0, [ref('l10n_ro_stock_picking_report.report_tally')])]"/>
         </record>
     </data>
 </odoo>
