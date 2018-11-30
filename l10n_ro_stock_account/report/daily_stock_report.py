@@ -55,17 +55,22 @@ class DailyStockReport(models.TransientModel):
 
         stock_in = {}
 
+
         stock_out = {}
 
         to_date = self.date_from
-        query = """SELECT aml.product_id, aml.account_id, sum(aml.debit) - sum(aml.credit), sum(quantity), array_agg(aml.id)
-                        FROM account_move_line AS aml
+        query = """SELECT aml.product_id, aml.account_id, sum(aml.debit) - sum(aml.credit), 
+                    sum(CASE WHEN stock_location_dest_id = %s THEN -1*quantity
+                        ELSE quantity
+                        END), 
+                    array_agg(aml.id)
+                        FROM account_move_line AS aml 
                             WHERE aml.product_id IS NOT NULL AND 
                                     aml.company_id=%s AND 
                                     aml.date < %s AND 
-                                    stock_location_id = %s
+                                   ( stock_location_id = %s OR stock_location_dest_id = %s) 
                             GROUP BY aml.product_id, aml.account_id """
-        params = (self.env.user.company_id.id, to_date, self.location_id.id)
+        params = (self.location_id.id, self.env.user.company_id.id, to_date, self.location_id.id, self.location_id.id)
 
         self.env.cr.execute(query, params=params)
 
@@ -76,15 +81,19 @@ class DailyStockReport(models.TransientModel):
             stock_init[(row[0], row[1])] = (row[2], row[3], list(row[4]))
         products = self.env['product.product'].browse(product_ids)
 
-        query = """SELECT aml.product_id, aml.account_id, sum(aml.debit) - sum(aml.credit), sum(quantity), array_agg(aml.id) 
+        query = """SELECT aml.product_id, aml.account_id, sum(aml.debit) - sum(aml.credit), 
+                        sum(CASE WHEN stock_location_dest_id = %s THEN -1*quantity
+                            ELSE quantity
+                            END), 
+                        array_agg(aml.id) 
                          FROM account_move_line AS aml
                               WHERE aml.product_id IS NOT NULL AND 
                                        aml.company_id=%s AND 
                                        aml.date >= %s AND aml.date  <= %s AND
-                                       stock_location_id = %s AND
+                                        ( stock_location_id = %s OR stock_location_dest_id = %s) AND
                                        (aml.debit  -  aml.credit) >= 0 
                               GROUP BY aml.product_id, aml.account_id"""
-        params = (self.env.user.company_id.id, self.date_from, self.date_to, self.location_id.id)
+        params = (self.location_id.id,self.env.user.company_id.id, self.date_from, self.date_to, self.location_id.id, self.location_id.id)
 
         self.env.cr.execute(query, params=params)
         product_ids = []
@@ -94,15 +103,19 @@ class DailyStockReport(models.TransientModel):
             stock_in[(row[0], row[1])] = (row[2], row[3], list(row[4]))
         products |= self.env['product.product'].browse(product_ids)
 
-        query = """SELECT aml.product_id, aml.account_id, sum(aml.debit) - sum(aml.credit), sum(quantity), array_agg(aml.id) 
+        query = """SELECT aml.product_id, aml.account_id, sum(aml.debit) - sum(aml.credit), 
+                        sum(CASE WHEN stock_location_dest_id = %s THEN -1*quantity
+                            ELSE quantity
+                            END),
+                             array_agg(aml.id) 
                                  FROM account_move_line AS aml
                                       WHERE aml.product_id IS NOT NULL AND 
                                                aml.company_id=%s AND 
                                                aml.date >= %s AND aml.date  <= %s AND
-                                               stock_location_id = %s AND
+                                                ( stock_location_id = %s OR stock_location_dest_id = %s) AND
                                                (aml.debit  -  aml.credit) < 0 
                                       GROUP BY aml.product_id, aml.account_id"""
-        params = (self.env.user.company_id.id, self.date_from, self.date_to, self.location_id.id)
+        params = (self.location_id.id, self.env.user.company_id.id, self.date_from, self.date_to, self.location_id.id, self.location_id.id)
 
         self.env.cr.execute(query, params=params)
         product_ids = []
@@ -118,42 +131,51 @@ class DailyStockReport(models.TransientModel):
 
         sold_init = 0.0
         for product in products:
-            valuation_account_id = product.categ_id.property_stock_valuation_account_id.id
-            value, quantity, aml_ids = stock_init.get((product.id, valuation_account_id)) or (0, 0, [])
-            if value or quantity:
-                self.env['l10n_ro.daily_stock_report.line'].create({
-                    'report_id': self.id,
-                    'product_id': product.id,
-                    'quantity': quantity,
-                    'amount': value,
-                    'type': 'sold',
-                    'aml_ids': [(6, 0, aml_ids)]
-                })
-            sold_init += value
-            aml_init += aml_ids
+            valuations = [ product.categ_id.property_stock_valuation_account_id.id ]
+            if self.location_id.valuation_in_account_id.id and \
+                    self.location_id.valuation_in_account_id.id not in valuations:
+                valuations.append(self.location_id.valuation_in_account_id.id)
+            if self.location_id.valuation_out_account_id.id and \
+                    self.location_id.valuation_out_account_id.id not in valuations:
+                valuations.append(self.location_id.valuation_out_account_id.id)
 
-            value, quantity, aml_ids = stock_in.get((product.id, valuation_account_id)) or (0, 0, [])
-            if value or quantity:
-                self.env['l10n_ro.daily_stock_report.line'].create({
-                    'report_id': self.id,
-                    'product_id': product.id,
-                    'quantity': quantity,
-                    'amount': value,
-                    'type': 'in',
-                    'aml_ids': [(6, 0, aml_ids)]
-                })
-            aml_in += aml_ids
-            value, quantity, aml_ids = stock_out.get((product.id, valuation_account_id)) or (0, 0, [])
-            if value or quantity:
-                self.env['l10n_ro.daily_stock_report.line'].create({
-                    'report_id': self.id,
-                    'product_id': product.id,
-                    'quantity': quantity,
-                    'amount': value,
-                    'type': 'out',
-                    'aml_ids': [(6, 0, aml_ids)]
-                })
-            aml_out += aml_ids
+            for valuation_account_id in valuations:
+                value, quantity, aml_ids = stock_init.get((product.id, valuation_account_id)) or (0, 0, [])
+
+                if value or quantity:
+                    self.env['l10n_ro.daily_stock_report.line'].create({
+                        'report_id': self.id,
+                        'product_id': product.id,
+                        'quantity': quantity,
+                        'amount': value,
+                        'type': 'sold',
+                        'aml_ids': [(6, 0, aml_ids)]
+                    })
+                sold_init += value
+                aml_init += aml_ids
+
+                value, quantity, aml_ids = stock_in.get((product.id, valuation_account_id)) or (0, 0, [])
+                if value or quantity:
+                    self.env['l10n_ro.daily_stock_report.line'].create({
+                        'report_id': self.id,
+                        'product_id': product.id,
+                        'quantity': quantity,
+                        'amount': value,
+                        'type': 'in',
+                        'aml_ids': [(6, 0, aml_ids)]
+                    })
+                aml_in += aml_ids
+                value, quantity, aml_ids = stock_out.get((product.id, valuation_account_id)) or (0, 0, [])
+                if value or quantity:
+                    self.env['l10n_ro.daily_stock_report.line'].create({
+                        'report_id': self.id,
+                        'product_id': product.id,
+                        'quantity': quantity,
+                        'amount': value,
+                        'type': 'out',
+                        'aml_ids': [(6, 0, aml_ids)]
+                    })
+                aml_out += aml_ids
 
 
         self.env['l10n_ro.daily_stock_report.ref'].create({
