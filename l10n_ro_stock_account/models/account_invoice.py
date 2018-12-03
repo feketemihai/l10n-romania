@@ -8,13 +8,12 @@ from odoo.tools.float_utils import float_compare
 from odoo.exceptions import AccessError, UserError
 
 
-
-
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    stock_location_id = fields.Many2one('stock.location', readonly=True, states={'draft': [('readonly', False)]})
 
+    # nu trebuie sa se schimbe locatia la receptie
+    stock_location_id = fields.Many2one('stock.location', readonly=True, states={'draft': [('readonly', False)]})
 
     @api.onchange('purchase_id')
     def purchase_order_change(self):
@@ -59,20 +58,22 @@ class AccountInvoice(models.Model):
 
     @api.model
     def invoice_line_move_line_get(self):
+
         res = super(AccountInvoice, self).invoice_line_move_line_get()
         account_id = self.company_id.property_stock_picking_payable_account_id
         # char daca nu este sistem anglo saxon diferentele de pret dintre receptie si factura trebuie inregistrate
         if not self.env.user.company_id.anglo_saxon_accounting:
             if self.type in ['in_invoice', 'in_refund']:
+                diff_limit = float(self.env['ir.config_parameter'].sudo().get_param('stock_account.diff_limit', '2.0'))
                 for i_line in self.invoice_line_ids:
                     if account_id and i_line.account_id == account_id:
                         i_line = i_line.with_context(fix_stock_input=account_id)
                     diff_line = self._anglo_saxon_purchase_move_lines(i_line, res)
-                    # todo: de adauga in configurare o valoare limita pentru diferente de pret
+
                     ok = False
                     for diff in diff_line:
-                        if abs(diff['price_unit']*diff['quantity'])>2:
-                            raise UserError(_('Diferenta de pret la produsul %s') % i_line.product_id.name)
+                        if abs(diff['price_unit'] * diff['quantity']) > diff_limit:
+                            raise UserError(_('The price difference for the product %s exceeds the %d limit ') % (i_line.product_id.name,diff_limit))
                         if diff['price_unit'] != 0:
                             ok = True
                     if ok:
@@ -83,13 +84,15 @@ class AccountInvoice(models.Model):
 
         return res
 
+
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
 
-        if self.product_id and self.product_id.type == 'product' and not self.env.context.get('allowed_change_product', False):
+        if self.product_id and self.product_id.type == 'product' and not self.env.context.get('allowed_change_product',
+                                                                                              False):
             raise UserError(_('It is not allowed to change a stored product!'))
         return super(AccountInvoiceLine, self)._onchange_product_id()
 
@@ -118,7 +121,8 @@ class AccountInvoiceLine(models.Model):
                 qty = self.purchase_line_id.product_uom._compute_quantity(qty, self.uom_id)
 
                 if qty < self.quantity:
-                    raise UserError(_('It is not allowed to record an invoice for a quantity bigger than %s') % str(qty))
+                    raise UserError(
+                        _('It is not allowed to record an invoice for a quantity bigger than %s') % str(qty))
             else:
                 message = _('It is not indicated to change the quantity of a stored product!')
         if message:
