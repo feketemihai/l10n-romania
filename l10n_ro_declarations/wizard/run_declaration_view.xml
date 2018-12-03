@@ -9,6 +9,7 @@
             <group name="main_info">
                 <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                 <field name="declaration_id" />
+                <field name="code" invisible="1"/>
             </group>
             <group name="filters">
                 <group name="date_range">
