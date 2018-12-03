@@ -41,6 +41,9 @@ class CreatePurchaseTally(models.TransientModel):
     picking_type = fields.Many2one('stock.picking.type')
     tally_lines = fields.One2many('purchase_tally.tally.item','purchase_tally_id')
 
+    def wizard_close(self):
+        return {'type': 'ir.actions.act_window_close'}
+
     @api.multi
     def create_tally(self):
         # if self.tally_lines:
@@ -98,9 +101,12 @@ class CreatePurchaseTally(models.TransientModel):
         # Setare comanda achizitie pe nimic de facturat
         purchase_order.write({'invoice_status': 'no'})
 
-        # TODO: Print pickings
+        # Print pickings
+        res = self.env.ref('l10n_ro_purchase_tally.action_report_tally').report_action(purchase_order.picking_ids)
 
         # TODO: Close wizard
+
+        return res
 
 
 class PurchaseTallyItems(models.TransientModel):

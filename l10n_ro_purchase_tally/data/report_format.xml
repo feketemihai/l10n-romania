@@ -1,16 +1,16 @@
 <odoo>
     <data>
-        <record model="report.paperformat" id="purchase_tally_paper">
-            <field name="name">Borderou achizitie</field>
-            <field name="format">A4</field>
-            <field name="orientation">Landscape</field>
-            <field name="margin_top">25</field>
-            <field name="margin_bottom">5</field>
-            <field name="margin_left">5</field>
-            <field name="margin_right">5</field>
-            <field name="header_spacing">25</field>
-            <field name="dpi">90</field>
-            <field name="report_ids" eval="[(6, 0, [ref('l10n_ro_stock_picking_report.report_tally')])]"/>
-        </record>
+        <!--<record model="report.paperformat" id="purchase_tally_paper">-->
+            <!--<field name="name">Borderou achizitie</field>-->
+            <!--<field name="format">A4</field>-->
+            <!--<field name="orientation">Landscape</field>-->
+            <!--<field name="margin_top">25</field>-->
+            <!--<field name="margin_bottom">5</field>-->
+            <!--<field name="margin_left">5</field>-->
+            <!--<field name="margin_right">5</field>-->
+            <!--<field name="header_spacing">25</field>-->
+            <!--<field name="dpi">90</field>-->
+            <!--<field name="report_ids" eval="[(6, 0, [ref('l10n_ro_stock_picking_report.report_tally')])]"/>-->
+        <!--</record>-->
     </data>
 </odoo>
