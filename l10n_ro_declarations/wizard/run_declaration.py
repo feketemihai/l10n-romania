@@ -14,6 +14,7 @@ class RunDeclaration(models.TransientModel):
                                  default=lambda self: self.env.user.company_id)
 
     declaration_id = fields.Many2one('l10n_ro.declaration', string='Declaration', required=True)
+    code = fields.Selection([], related='declaration_id.code')
     date_range_id = fields.Many2one('date.range', string='Date range')
     date_from = fields.Date('Start Date', required=True)
     date_to = fields.Date('End Date', required=True)
@@ -40,13 +41,17 @@ class RunDeclaration(models.TransientModel):
     def get_report(self):
         model = self.env['l10n_ro.%s_report' % self.declaration_id.code.lower()]
 
-        report = model.create({
+        report = model.create(self.prepare_value())
+        report.compute_data_for_report()
+        return report
+
+    def prepare_value(self):
+        vals = {
             'company_id': self.company_id.id,
             'date_from': self.date_from,
             'date_to': self.date_to
-        })
-        report.compute_data_for_report()
-        return report
+        }
+        return vals
 
     @api.onchange('date_range_id')
     def onchange_date_range_id(self):
