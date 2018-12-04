@@ -155,8 +155,7 @@ class d394_report(osv.osv_memory):
             if not inv.fiscal_receipt:
                 part = inv.partner_id
                 nrCUI = len(cui) + 1
-                if part.vat and part.vat_subjected and ('RO' in
-                                                            part.vat.upper()):
+                if part.vat and part.vat_subjected and ('RO' in  part.vat.upper()):
                     if cui:
                         for key in cui.iterkeys():
                             if part.id == cui[key]:
