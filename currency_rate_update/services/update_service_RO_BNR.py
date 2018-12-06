@@ -38,8 +38,7 @@ class RO_BNRGetter(CurrencyGetterInterface):
             res['rate_ref'] = 1
         return res
 
-    def get_updated_currency(self, currency_array, main_currency,
-                             max_delta_days):
+    def get_updated_currency(self, currency_array, main_currency,                            max_delta_days):
         """implementation of abstract method of Curreny_getter_interface"""
         url = 'http://www.bnr.ro/nbrfxrates.xml'
         # we do not want to update the main currency
@@ -81,16 +80,17 @@ class RO_BNRGetter(CurrencyGetterInterface):
             _logger.debug("BNR Rate retrieved : 1 " + main_currency + ' = ' + str(rate) + ' ' + curr)
         return self.updated_currency, self.log_info
 
-    def get_updated_all_year(self, currency_array, main_currency):
+    def get_updated_all_year(self, currency_array, main_currency, year=datetime.now().year):
         self.updated_currency = {}
-        url = 'http://www.bnr.ro/files/xml/years/nbrfxrates' + str(datetime.now().year) + '.xml'
+        url = 'http://www.bnr.ro/files/xml/years/nbrfxrates' + str(year) + '.xml'
 
         _logger.debug("BNR currency rate service : connecting...")
         rawfile = self.get_url(url)
         dom = etree.fromstring(rawfile)
         adminch_ns = {'def': 'http://www.bnr.ro/xsd'}
         rate_date_array = dom.xpath('/def:DataSet/def:Body/def:Cube/@date', namespaces=adminch_ns)
-
+        if not rate_date_array:
+            return False
         self.supported_currency_array = dom.xpath(
             "/def:DataSet/def:Body/def:Cube[@date='%s']/def:Rate/@currency" % rate_date_array[0],
             namespaces=adminch_ns)

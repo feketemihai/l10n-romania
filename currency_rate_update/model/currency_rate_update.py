@@ -215,8 +215,13 @@ class CurrencyRateUpdateService(models.Model):
         self.run_currency_update()
         _logger.info('End of the currency rate update cron')
 
+
+
+
+
     @api.multi
     def run_update_all_year(self):
+        year = int(self.next_run[:4])
         main_currency = self.company_id.currency_id
         if main_currency.rate != 1:
             raise ValidationError(_('Base currency rate should be 1.00!'))
@@ -226,7 +231,7 @@ class CurrencyRateUpdateService(models.Model):
         #curr_to_fetch = map(lambda x: x.name, self.currency_to_update)
         curr_to_fetch = self.currency_to_update.mapped('name')
 
-        itmes = getter.get_updated_all_year(curr_to_fetch, main_currency.name)
+        itmes = getter.get_updated_all_year(curr_to_fetch, main_currency.name, year)
         for rate_name, res in itmes.items():
             if res:
                 for curr in self.currency_to_update:
