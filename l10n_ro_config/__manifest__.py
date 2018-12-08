@@ -14,7 +14,7 @@
     'license': 'AGPL-3',
     'application': False,
     'installable': True,
-    'depends': ['l10n_ro', 'sale'],
+    'depends': ['l10n_ro', 'sale'  ,'account'],
     'data': [
         'views/res_config_view.xml',
         'views/res_bank_view.xml',
