@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    "name": "Purchase tally",
+    "name": "Purchase Tally",
     "version": "0.1",
     "author": "Terrabit",
     "website": "https://terrabit.ro",
@@ -37,7 +37,7 @@
     "description": """
 
 Borderou achizitii persoane fizice
---------- 
+---------------------------------- 
   - Tiparire borderou achizitie din picking
     """,
 

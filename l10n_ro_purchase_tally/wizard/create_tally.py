@@ -118,7 +118,7 @@ class PurchaseTallyItems(models.TransientModel):
     product_id = fields.Many2one('product.product', string='Product', required=True)
     name = fields.Char(string='Description')
     product_qty = fields.Float(string="Qty", digits=dp.get_precision('Product Unit of Measure'))
-    product_uom = fields.Many2one('product.uom', string='Product Unit of Measure', required=True)
+    product_uom = fields.Many2one('product.uom', string='UoM', required=True)
     price_unit = fields.Float(string='Unit Price', required=True, digits=dp.get_precision('Product Price'))
     price_subtotal = fields.Float(compute='_compute_amount', string='Valoare')
 

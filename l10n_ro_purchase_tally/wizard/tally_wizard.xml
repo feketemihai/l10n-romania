@@ -2,10 +2,10 @@
 <odoo>
     <data>
         <record id="purchse_tally_form" model="ir.ui.view">
-			<field name="name">Purchase Tally</field>
+			<field name="name">Borderou achizitie</field>
 			<field name="model">purchase_tally.tally</field>
 			<field name="arch" type="xml">
-				<form string="Enter Meter Readings">
+				<form string="Borderou achizitie">
                     <group name="partner" colspan="2" col="2">
                         <group name="partner1">
                             <field name="partner_id" domain="[('supplier', '=', True)]" invisible="1"/>
@@ -34,7 +34,7 @@
                         </page>
                     </notebook>
                     <footer>
-						<button name="create_tally" string="_Apply" type="object" class="oe_highlight" />
+						<button name="create_tally" string="_Apply" type="object" default_focus="1" class="btn-primary"/>
 						or
 						<button string="Cancel" class="oe_link" special="cancel" />
 					</footer>
@@ -42,9 +42,11 @@
             </field>
         </record>
 
+
+
         <act_window id="action_new_tally" name="Borderou achizitie"
                     res_model="purchase_tally.tally" src_model="purchase.order"
-                    view_mode="form" multi="False" target="new"  />
+                    view_mode="form" multi="False" target="new"  key2="client_print_multi" />
 
         <menuitem name="Achizitii" id="purchases_tally_pos" parent="point_of_sale.menu_point_root"/>
 
