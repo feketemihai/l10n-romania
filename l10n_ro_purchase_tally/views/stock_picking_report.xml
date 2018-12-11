@@ -24,7 +24,7 @@
                                         <th class="text-center">Nr.</th>
                                         <th class="text-center">Numele și prenumele</th>
                                         <th class="text-center">Domiciliul</th>
-                                        <th class="text-center">Serie CI</th>
+                                        <th class="text-center">Serie/Nr. CI</th>
                                         <th class="text-center">Denumirea produselor</th>
                                         <th class="text-center">Cantitate</th>
                                         <th class="text-center">Preț unitar</th>
@@ -53,7 +53,7 @@
                                             <span t-field="o.partner_id.name"/>
                                         </td>
                                         <td>
-                                            <span t-field="o.partner_id.street"/>, <span t-field="o.partner_id.city"/>, <span>Jud.</span> <span t-field="o.partner_id.state_id"/>
+                                            <span t-field="o.partner_id.street"/>
                                         </td>
                                        <td><span t-field="o.partner_id.id_nr"/></td>
                                        <td><span t-field="move.product_id"/></td>
@@ -105,7 +105,7 @@
                                         <th class="text-center">Nr.</th>
                                         <th class="text-center">Numele și prenumele</th>
                                         <th class="text-center">Domiciliul</th>
-                                        <th class="text-center">Serie CI</th>
+                                        <th class="text-center">Serie/Nr. CI</th>
                                         <th class="text-center">Denumirea produselor</th>
                                         <th class="text-center">Cantitate</th>
                                         <th class="text-center">Preț unitar</th>
@@ -134,7 +134,7 @@
                                             <span t-field="o.partner_id.name"/>
                                         </td>
                                         <td>
-                                            <span t-field="o.partner_id.street"/>, <span t-field="o.partner_id.city"/>, <span>Jud.</span> <span t-field="o.partner_id.state_id"/>
+                                            <span t-field="o.partner_id.street"/>
                                         </td>
                                        <td><span t-field="o.partner_id.id_nr"/></td>
                                        <td><span t-field="move.product_id"/></td>
