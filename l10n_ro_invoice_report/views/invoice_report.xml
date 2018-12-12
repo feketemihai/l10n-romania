@@ -258,7 +258,7 @@
                         <div class="row" t-if="o.type == 'out_invoice'">
                             <t t-set="pickings" t-value="get_pickings(o)"/>
 
-                            <div class="col-xs-12" t-if="pickings">
+                            <div id="delivery" class="col-xs-12" t-if="pickings">
                                 <span>Deliveries:</span>
                                 <t t-foreach="pickings" t-as="d">
                                     <span t-field="d.name"/>
@@ -494,7 +494,7 @@
                             </div>
 
 
-                            <p t-if="o.payment_term_id.note">
+                            <p id="payment-term" t-if="o.payment_term_id.note">
                                 <strong>Payment Term:</strong>
                                 <span t-field="o.payment_term_id.note"/>
                             </p>
