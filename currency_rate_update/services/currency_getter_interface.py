@@ -7,7 +7,10 @@ import logging
 from datetime import datetime
 from odoo import fields, _
 from odoo.exceptions import UserError
-from future.utils import with_metaclass
+try:
+    from future.utils import with_metaclass
+except:
+    print('Install future')
 import sys
 
 
