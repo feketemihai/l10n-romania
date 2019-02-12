@@ -129,7 +129,7 @@ class DailyStockReport(models.TransientModel):
         aml_out = []
         aml_init = []
 
-        sold_init = 0.0
+        balance_init = 0.0
         for product in products:
             valuations = [ product.categ_id.property_stock_valuation_account_id.id ]
             if self.location_id.valuation_in_account_id.id and \
@@ -148,10 +148,10 @@ class DailyStockReport(models.TransientModel):
                         'product_id': product.id,
                         'quantity': quantity,
                         'amount': value,
-                        'type': 'sold',
+                        'type': 'balance',
                         'aml_ids': [(6, 0, aml_ids)]
                     })
-                sold_init += value
+                balance_init += value
                 aml_init += aml_ids
 
                 value, quantity, aml_ids = stock_in.get((product.id, valuation_account_id)) or (0, 0, [])
@@ -181,8 +181,8 @@ class DailyStockReport(models.TransientModel):
         self.env['l10n_ro.daily_stock_report.ref'].create({
             'report_id': self.id,
             'ref': 'initial',
-            'amount': sold_init,
-            'type': 'sold',
+            'amount': balance_init,
+            'type': 'balance',
             'aml_ids': [(6, 0, aml_init)]
         })
 
@@ -252,7 +252,7 @@ class DailyStockReportRef(models.TransientModel):
     report_id = fields.Many2one('l10n_ro.daily_stock_report')
     ref = fields.Char(string='Reference')
     amount = fields.Float()
-    type = fields.Selection([('sold', 'Sold'), ('in', 'Input'), ('out', 'Output')])
+    type = fields.Selection([('balance', 'Balance'), ('in', 'Input'), ('out', 'Output')])
     aml_ids = fields.Many2many('account.move.line')
 
     def action_valuation_at_date_details(self):
@@ -286,7 +286,7 @@ class DailyStockReportLine(models.TransientModel):
     product_id = fields.Many2one('product.product')
     quantity = fields.Float()
     amount = fields.Float()
-    type = fields.Selection([('sold', 'Sold'), ('in', 'Input'), ('out', 'Output')])
+    type = fields.Selection([('balance', 'Balance'), ('in', 'Input'), ('out', 'Output')])
     aml_ids = fields.Many2many('account.move.line')
 
     def action_valuation_at_date_details(self):

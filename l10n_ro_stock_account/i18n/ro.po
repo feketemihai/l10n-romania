@@ -399,7 +399,7 @@ msgstr "Afișare"
 #. module: l10n_ro_stock_account
 #: selection:l10n_ro.daily_stock_report.line,type:0
 #: selection:l10n_ro.daily_stock_report.ref,type:0
-msgid "Sold"
+msgid "Balance"
 msgstr "Sold"
 
 #. module: l10n_ro_stock_account

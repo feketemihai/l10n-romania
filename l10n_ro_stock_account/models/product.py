@@ -127,6 +127,7 @@ class ProductProduct(models.Model):
     def _convert_prepared_anglosaxon_line(self, line, partner):
         res = super(ProductProduct, self)._convert_prepared_anglosaxon_line( line, partner)
         res['stock_location_id'] = line.get('stock_location_id', False)
+        res['stock_location_dest_id'] = line.get('stock_location_dest_id', False)
         return res
 
     def _compute_stock_value(self):

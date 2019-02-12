@@ -401,6 +401,10 @@ class StockMove(models.Model):
 
         location_id = self.env.context.get('stock_location_id', False)
         location_dest_id = self.env.context.get('stock_location_dest_id', False)
+        if not location_id and move.location_dest_id.usage == 'internal':
+            location_id = move.location_dest_id.id
+        if not location_id and move.location_id.usage == 'internal':
+            location_id = move.location_id.id
 
         for acl in res:
             acl[2]['stock_move_id'] = move.id
