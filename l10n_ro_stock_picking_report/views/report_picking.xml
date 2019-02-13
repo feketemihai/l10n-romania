@@ -814,7 +814,7 @@
                             <strong>Date</strong>
                         </th>
                         <th>
-                            <strong>To location</strong>
+                            <strong>Location</strong>
                         </th>
                     </tr>
                 </thead>
@@ -831,7 +831,12 @@
                             <!-- <t t-esc="formatLang(o.date, date=True)"/> -->
                         </td>
                         <td>
-                            <span t-field="o.location_dest_id"/>
+                            <t t-if="o.location_dest_id.usage=='internal'">
+                               <span t-field="o.location_dest_id"/>
+                            </t>
+                            <t t-if="o.location_id.usage=='internal'">
+                               <span t-field="o.location_id"/>
+                            </t>
                         </td>
                     </tr>
                 </tbody>
@@ -839,32 +844,35 @@
 
             <div>
                 <span>The undersigned, members of the reception, we proceeded to receive material values
-                    supplied by
                 </span>
-                <strong>
-                    <span t-field="o.partner_id.name"/>
-                </strong>
-
-                <span t-if="o.partner_id.city">
-                    from the city
-
+                <t t-if="o.partner_id">
+                     <span>supplied by</span>
                     <strong>
-                        <span t-field="o.partner_id.city"/>
+                        <span t-field="o.partner_id.name"/>
                     </strong>
-                </span>
-                <t t-if="o.notice">
-                    <span>under the delivery note no.</span>
-                </t>
-                <t t-if="not o.notice">
-                    <span>under the invoice no.</span>
-                </t>
 
+                    <span t-if="o.partner_id.city">
+                        from the city
+                        <strong>
+                            <span t-field="o.partner_id.city"/>
+                        </strong>
+                    </span>
+                    <t t-if="o.notice">
+                        <span>under the delivery note no.</span>
+                    </t>
+                    <t t-if="not o.notice">
+                        <span>under the invoice no.</span>
+                    </t>
                 <strong>
                     <span t-field="o.origin"/>
                     <t t-if="not o.origin">
                         <span>_______________</span>
                     </t>
                 </strong>
+                </t>
+
+
+
                 <span>ascertained the following:</span>
             </div>
             <br/>
@@ -1050,7 +1058,8 @@
         <template id="report_reception_sale_price">
 
             <t t-call="web.html_container">
-                <t t-foreach="docs.filtered(lambda record: record.picking_type_code == 'incoming')" t-as="o">
+                <!--<t t-foreach="docs.filtered(lambda record: record.picking_type_code == 'incoming')" t-as="o">-->
+                <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
                         <div class="page">
                             <t t-call="l10n_ro_stock_picking_report.report_address"/>
