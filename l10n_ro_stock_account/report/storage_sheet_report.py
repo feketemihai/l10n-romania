@@ -5,6 +5,7 @@
 
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError, RedirectWarning, ValidationError
 
 
 class StorageSheetReport(models.TransientModel):
@@ -50,6 +51,9 @@ class StorageSheetReport(models.TransientModel):
     @api.multi
     def do_compute(self):
         self.env['account.move.line'].check_access_rights('read')
+        if not self.product_id.categ_id.property_stock_valuation_account_id:
+            raise ValidationError(_("You should have defined an 'Valuation Account' on category %s") % self.product_id.categ_id.name)
+
 
         valuations = [self.product_id.categ_id.property_stock_valuation_account_id.id]
         if self.location_id.valuation_in_account_id.id and \
