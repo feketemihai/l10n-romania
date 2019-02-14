@@ -157,7 +157,7 @@ class StorageSheetReport(models.TransientModel):
                                             aml.account_id in %(valuations)s and
                                             aml.product_id = %(product)s AND 
                                                aml.company_id=%(company)s AND 
-                                               aml.date >= %(date_from)s AND aml.date  <= %(date_from)s AND
+                                               aml.date >= %(date_from)s AND aml.date  <= %(date_to)s AND
                                                 ( stock_location_id = %(location)s OR stock_location_dest_id = %(location)s) AND
                                                (aml.debit  -  aml.credit) < 0 
                                       GROUP BY aml.date, aml.product_id, aml.account_id, aml.ref"""
