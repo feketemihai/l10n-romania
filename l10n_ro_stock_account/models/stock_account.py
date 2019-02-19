@@ -306,7 +306,7 @@ class StockMove(models.Model):
         if self.location_dest_id.valuation_in_account_id:
             acc_dest = self.location_dest_id.valuation_in_account_id.id
         else:
-            acc_dest = accounts_data['stock_in']
+            acc_dest = accounts_data['stock_input']
 
         journal_id = accounts_data['stock_journal'].id
 
