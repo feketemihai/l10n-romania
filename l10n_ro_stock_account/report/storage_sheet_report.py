@@ -104,6 +104,14 @@ class StorageSheetReport(models.TransientModel):
                 'aml_ids': [(6, 0, list(row[4]))]
             }
             self.env['l10n_ro.storage_sheet_report.line'].create(values)
+        if not res:
+            values = {
+                'report_id': self.id,
+                'product_id': self.product_id.id,
+                'date': self.date_from,
+                'type': 'balance',
+            }
+            self.env['l10n_ro.storage_sheet_report.line'].create(values)
 
         query = """SELECT  aml.product_id, aml.account_id, sum(aml.debit) - sum(aml.credit), 
                         sum(CASE WHEN stock_location_dest_id = %(location)s THEN -1*quantity
@@ -144,6 +152,14 @@ class StorageSheetReport(models.TransientModel):
                 'type': 'in',
                 'aml_ids': [(6, 0, list(row[5]))],
                 'ref':row[6]
+            }
+            self.env['l10n_ro.storage_sheet_report.line'].create(values)
+        if not res:
+            values = {
+                'report_id': self.id,
+                'product_id': self.product_id.id,
+                'date':self.date_from,
+                'type': 'in',
             }
             self.env['l10n_ro.storage_sheet_report.line'].create(values)
 
@@ -187,6 +203,15 @@ class StorageSheetReport(models.TransientModel):
                 'ref':row[6]
             }
             self.env['l10n_ro.storage_sheet_report.line'].create(values)
+        if not res:
+            values = {
+                'report_id': self.id,
+                'product_id': self.product_id.id,
+                'date': self.date_to,
+                'type': 'out',
+            }
+            self.env['l10n_ro.storage_sheet_report.line'].create(values)
+
 
     def button_show(self):
         self.do_compute()
