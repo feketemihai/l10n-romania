@@ -2,6 +2,18 @@
 <openerp>
     <data>
 
+        <record id="partner_vat_on_payment_filter" model="ir.ui.view">
+            <field name="name">partner_vat_on_payment_filter</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="before">
+                    <field name="vat"/>
+                </field>
+            </field>
+        </record>
+
+
         <record id="view_partner_form" model="ir.ui.view">
             <field name="name">res.partner.vat.inherit</field>
             <field name="model">res.partner</field>
@@ -23,7 +35,8 @@
                     <field name="nrc" placeholder="e.g. J12/1234/2012"
                            attrs="{'invisible': [  ('is_company', '=', False )]}"/>
 
-                    <label for="vat_subjected" string="VAT Detail" attrs="{'invisible': [  ('is_company', '=', False )]}"/>
+                    <label for="vat_subjected" string="VAT Detail"
+                           attrs="{'invisible': [  ('is_company', '=', False )]}"/>
                     <div attrs="{'invisible': [  ('is_company', '=', False )]}">
 
                         <field name="vat_subjected"/>
