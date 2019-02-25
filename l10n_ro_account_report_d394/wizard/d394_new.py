@@ -363,7 +363,8 @@ class d394_new_report(models.TransientModel):
             set(invoices.filtered(lambda r: r.sequence_type == 'autoinv2')))
         informatii['nrFacturi_benef'] = len(
             set(invoices.filtered(lambda r: r.sequence_type == 'autoinv1')))
-        informatii['nrFacturi'] = len(invoices)
+        informatii['nrFacturi'] = len(
+			set(invoices.filtered(lambda r: r.type in ('out_invoice', 'out_refund'))))
         informatii['nrFacturiL_PF'] = 0
         informatii['nrFacturiLS_PF'] = len(
             set(invoices.filtered(lambda r: r.operation_type == 'LS' and
@@ -882,61 +883,64 @@ class d394_new_report(models.TransientModel):
             total = 0
             baza20 = baza19 = baza9 = baza5 = 0
             tva20 = tva19 = tva9 = tva5 = 0
-            for invoice in period_inv:
-                cotas = [tax for tax in invoice.tax_ids]
-                for cota in cotas:
-                    cota_inv = period_inv.filtered(
-                        lambda r: cota.id in r.tax_ids.ids)
-                    cota_amount = 0
-                    if cota.type == 'percent':
-                        if cota.child_ids:
-                            cota_amount = int(
-                                abs(cota.child_ids[0].amount) * 100)
-                        else:
-                            cota_amount = int(cota.amount * 100)
-                    elif cota.type == 'amount':
-                        cota_amount = int(cota.amount)
-                    if cota_amount in (5, 9, 19, 20):
-                        domain = [('invoice_id', 'in', cota_inv.ids)]
-                        inv_lines = obj_inv_line.search(domain)
-                        filtered_inv_lines = []
-                        for inv_line in inv_lines:
-                            inv_type = inv_line.invoice_id.type
-                            if inv_type in ('out_invoice',
-                                            'out_refund'):
-                                tax = inv_line.product_id.taxes_id
-                            if cota.id in tax.ids:
-                                filtered_inv_lines.append(inv_line.id)
-                        inv_lines = obj_inv_line.browse(filtered_inv_lines)
-                        for line in inv_lines:
-                            inv_curr = line.invoice_id.currency_id
-                            inv_date = line.invoice_id.date_invoice
-                            new_base = inv_curr.with_context(
-                                {'date': inv_date}).compute(
-                                    line.price_subtotal, comp_curr)
-                            new_taxes = inv_curr.with_context(
-                                {'date': inv_date}).compute(
-                                    line.price_normal_taxes and
-                                    line.price_normal_taxes or
-                                    line.price_taxes, comp_curr)
-                            if cota_amount == 20:
-                                baza20 += new_base
-                                tva20 += new_taxes
-                            if cota_amount == 19:
-                                baza19 += new_base
-                                tva19 += new_taxes
-                            elif cota_amount == 9:
-                                baza9 += new_base
-                                tva9 += new_taxes
-                            elif cota_amount == 5:
-                                baza5 += new_base
-                                tva5 += new_taxes
+            domain = [('invoice_id', 'in', period_inv.ids)]
+            inv_lines = obj_inv_line.search(domain)
+            cotas = set([tax.id for tax in inv_lines.mapped(
+                'invoice_line_tax_id')])
+            cotas = [x for x in cotas if x]
+            for cota in self.env['account.tax'].browse(cotas):
+                cota_inv = period_inv.filtered(
+                    lambda r: cota.id in r.tax_ids.ids)
+                cota_amount = 0
+                if cota.type == 'percent':
+                    if cota.child_ids:
+                        cota_amount = int(
+                            abs(cota.child_ids[0].amount) * 100)
+                    else:
+                        cota_amount = int(cota.amount * 100)
+                elif cota.type == 'amount':
+                    cota_amount = int(cota.amount)
+                if cota_amount in (5, 9, 19, 20):
+                    domain = [('invoice_id', 'in', cota_inv.ids)]
+                    inv_lines = obj_inv_line.search(domain)
+                    filtered_inv_lines = []
+                    for inv_line in inv_lines:
+                        inv_type = inv_line.invoice_id.type
+                        if inv_type in ('out_invoice',
+                                        'out_refund'):
+                            tax = inv_line.invoice_line_tax_id
+                        if cota.id in tax.ids:
+                            filtered_inv_lines.append(inv_line.id)
+                    inv_lines = obj_inv_line.browse(filtered_inv_lines)
+                    for line in inv_lines:
+                        inv_curr = line.invoice_id.currency_id
+                        inv_date = line.invoice_id.date_invoice
+                        new_base = inv_curr.with_context(
+                            {'date': inv_date}).compute(
+                                line.price_subtotal, comp_curr)
+                        new_taxes = inv_curr.with_context(
+                            {'date': inv_date}).compute(
+                                line.price_normal_taxes and
+                                line.price_normal_taxes or
+                                line.price_taxes, comp_curr)
+                        if cota_amount == 20:
+                            baza20 += new_base
+                            tva20 += new_taxes
+                        if cota_amount == 19:
+                            baza19 += new_base
+                            tva19 += new_taxes
+                        elif cota_amount == 9:
+                            baza9 += new_base
+                            tva9 += new_taxes
+                        elif cota_amount == 5:
+                            baza5 += new_base
+                            tva5 += new_taxes
             op2.append({
                 'tip_op2': oper_type,
                 'luna': int(period.code[:2]),
                 'nrAMEF': int(round(nrAMEF)),
                 'nrBF': int(round(nrBF)),
-                'total': int(round(baza20+baza19+baza9+baza5)),
+                'total': int(round(baza20+baza19+baza9+baza5+tva20+tva19+tva9+tva5)),
                 'baza20': int(round(baza20)),
                 'baza19': int(round(baza19)),
                 'baza9': int(round(baza9)),
