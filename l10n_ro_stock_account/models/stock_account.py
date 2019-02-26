@@ -331,7 +331,7 @@ class StockMove(models.Model):
             taxes = taxes_ids.compute_all(list_price, product=move.product_id)
             list_price = taxes['total_excluded']
 
-        if list_price <= cost_price:
+        if list_price <= cost_price and list_price != 0.0:
             raise UserError(_(
                 "You cannot move a product if price list is lower than cost price. Please update list price to suit to be higher than %s" % cost_price))
 

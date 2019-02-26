@@ -237,6 +237,7 @@ class DailyStockReport(models.TransientModel):
             action = self.env.ref('l10n_ro_stock_account.action_daily_stock_report_line').read()[0]
         action['domain'] = [('report_id', '=', self.id)]
         action['context'] = {'active_id': self.id}
+        action['target'] = 'main'
         return action
 
     def button_print(self):
