@@ -79,6 +79,7 @@ class StockMove(models.Model):
         ('delivery_notice', 'Delivery with notice'),
         ('delivery_store', 'Delivery from Store'),
         ('delivery_refund', 'Delivery Refund'),
+        ('delivery_refund_store','Delivery Refund Store'),
         ('consume', 'Consume'),
         ('inventory_plus', 'Inventory plus'),
         ('inventory_minus', 'Inventory minus'),
@@ -330,7 +331,7 @@ class StockMove(models.Model):
 
         if list_price <= cost_price:
             raise UserError(_(
-                "You cannot receive products if list price is lower than cost price. Please update list price to suit to be upper than %s." % cost_price))
+                "You cannot move a product if price list is lower than cost price. Please update list price to suit to be higher than %s" % cost_price))
 
         # the standard_price of the product may be in another decimal precision, or not compatible with the coinage of
         # the company currency... so we need to use round() before  creating the accounting entries.

@@ -514,8 +514,8 @@ msgstr "You can only delete draft inventory."
 #: code:addons/l10n_ro_stock_account/models/stock_account.py:260
 #: code:addons/l10n_ro_stock_account/models/stock_account_old.py:334
 #, python-format
-msgid "You cannot receive products if list price is lower than cost price. Please update list price to suit to be upper than %s."
-msgstr "You cannot receive products if list price is lower than cost price. Please update list price to suit to be upper than %s."
+msgid "You cannot move a product if price list is lower than cost price. Please update list price to suit to be higher than %s"
+msgstr "Nu puteți mișca un produs dacă prețul de listă este mai mic decât cel de cost %s."
 
 #. module: l10n_ro_stock_account
 #: code:addons/l10n_ro_stock_account/models/product.py:67
