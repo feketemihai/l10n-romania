@@ -88,6 +88,8 @@ class StockMove(models.Model):
         ('transfer_store', 'Transfer in Store'),
         ('transfer_in', 'Transfer in'),
         ('transfer_out', 'Transfer out'),
+        ('consume_store', 'Consume from Store'),
+        ('production_store', 'Reception from Production')
     ], compute='_compute_move_type')
 
     @api.onchange('date')
