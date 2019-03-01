@@ -543,3 +543,28 @@ msgstr "l10n_ro.daily_stock_report.ref"
 msgid "or"
 msgstr "sau"
 
+#. module: l10n_ro_stock_account
+#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_storage_sheet_report
+msgid "<span style=\"font-weight:bold;\">Total</span>"
+msgstr "<span style=\"font-weight:bold;\">Final</span>"
+
+#. module: l10n_ro_stock_account
+#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_storage_sheet_report
+msgid "Storage Sheet"
+msgstr "Fişă produs"
+
+#. module: l10n_ro_stock_account
+#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_storage_sheet_report
+msgid "<span>Product:</span>"
+msgstr "<span>Produs:</span>"
+
+#. module: l10n_ro_stock_account
+#: selection:l10n_ro.storage_sheet_report.line,type:0
+msgid "Balance"
+msgstr "Iniţial"
+
+#. module: l10n_ro_stock_account
+#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_storage_sheet_report
+msgid "<span style=\"font-weight:bold;\">Total</span>"
+msgstr "<span style=\"font-weight:bold;\">Final</span>"
+

@@ -53,10 +53,12 @@
                                     </tr>
                                 </thead>
                                 <t t-set="total" t-value="0.0"/>
+                                <t t-set="total_qty" t-value="0"/>
                                 <tbody>
 
                                     <tr t-foreach="o.line_product_ids" t-as="line">
                                         <t t-set="total" t-value="total + line.amount"/>
+                                        <t t-set="total_qty" t-value="total_qty+line.quantity"/>
                                         <td>
                                             <span t-field="line.type"/>
                                         </td>
@@ -68,26 +70,14 @@
                                             <span t-field="line.amount"/>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td><span style="font-weight:bold;">Total</span></td>
+                                        <td class="text-right"><span style="font-weight:bold;" t-esc="total_qty"/></td>
+                                        <td class="text-right"><span style="font-weight:bold;" t-esc="total" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                    </tr>
                                 </tbody>
 
                             </table>
-                            <div class="row">
-                                <div class="col-xs-4 pull-right">
-                                    <table class="table table-condensed">
-
-                                        <tr class="border-black">
-                                            <td>
-                                                <strong>Total</strong>
-                                            </td>
-                                            <td class="text-right">
-                                                <span t-esc="total"
-                                                      t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-
                         </div>
                     </t>
                 </t>
