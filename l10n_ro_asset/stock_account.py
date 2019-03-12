@@ -146,7 +146,7 @@ class stock_quant(osv.osv):
             if move.asset_id:
                 last_depr_date = asset_obj._get_last_depreciation_date(
                     cr, uid, [move.asset_id.id])
-                if last_depr_date:
+                if last_depr_date and move.asset_id.state == 'open':
                     depr_date = (datetime.strptime(
                         last_depr_date[move.asset_id.id], "%Y-%m-%d") + relativedelta(day=1)).date()
                     move_date = (
