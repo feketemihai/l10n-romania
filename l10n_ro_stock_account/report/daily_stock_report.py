@@ -27,14 +27,16 @@ class DailyStockReport(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         res = super(DailyStockReport, self).default_get(fields_list)
-        # today = fields.Date.context_today(self)
-        # today = fields.Date.from_string(today)
-        #
-        # from_date = (today + relativedelta(day=1, months=0, days=0))
-        # to_date = (today + relativedelta(day=1, months=1, days=-1))
-        #
-        # res['date_from'] = fields.Date.to_string(from_date)
-        # res['date_to'] = fields.Date.to_string(to_date)
+        mode = res.get('mode','ref')
+        if mode == 'product':
+            today = fields.Date.context_today(self)
+            today = fields.Date.from_string(today)
+
+            from_date = (today + relativedelta(day=1, months=0, days=0))
+            to_date = (today + relativedelta(day=1, months=1, days=-1))
+
+            res['date_from'] = fields.Date.to_string(from_date)
+            res['date_to'] = fields.Date.to_string(to_date)
         return res
 
     @api.onchange('date_range_id')

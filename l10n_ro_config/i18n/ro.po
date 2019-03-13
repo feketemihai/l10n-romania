@@ -29,17 +29,17 @@ msgstr "<strong>Cont:</strong>"
 
 
 #. module: l10n_ro_config
-#: model:ir.ui.view,arch_db:base.report_address_company
+#: model:ir.ui.view,arch_db:l10n_ro_config.report_address_company
 msgid "<strong>Company</strong>"
 msgstr "<strong>Compania</strong>"
 
 #. module: l10n_ro_config
-#: model:ir.ui.view,arch_db:base.report_address_company
+#: model:ir.ui.view,arch_db:l10n_ro_config.report_address_company
 msgid "<strong>Address:</strong>"
 msgstr "<strong>Adresa:</strong>"
 
 #. module: l10n_ro_config
-#: model:ir.ui.view,arch_db:base.report_address_company
+#: model:ir.ui.view,arch_db:l10n_ro_config.report_address_company
 msgid "<strong>Share Capital:</strong>"
 msgstr "<strong>Capital social:</strong>"
 

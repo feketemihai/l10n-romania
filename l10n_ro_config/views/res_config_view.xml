@@ -90,17 +90,17 @@
                                             <label for="property_stock_picking_receivable_account_id"
                                                    class="col-md-3 o_light_label"/>
                                             <field name="property_stock_picking_receivable_account_id"
-                                                   placeholder="418"/>
+                                                   placeholder="Select 418"/>
                                         </div>
                                         <div class="row mt16">
                                             <label for="property_stock_picking_payable_account_id"
                                                    class="col-md-3 o_light_label"/>
-                                            <field name="property_stock_picking_payable_account_id" placeholder="408"/>
+                                            <field name="property_stock_picking_payable_account_id" placeholder="Select 408"/>
                                         </div>
                                         <div class="row mt16">
                                             <label for="property_stock_usage_giving_account_id"
                                                    class="col-md-3 o_light_label"/>
-                                            <field name="property_stock_usage_giving_account_id" placeholder="8035"/>
+                                            <field name="property_stock_usage_giving_account_id" placeholder="Select 8035"/>
                                         </div>
                                         <div class="row mt16">
                                             <label for="property_stock_picking_custody_account_id"
@@ -110,7 +110,7 @@
                                         <div class="row mt16">
                                             <label for="property_stock_transfer_account_id"
                                                    class="col-md-3 o_light_label"/>
-                                            <field name="property_stock_transfer_account_id" placeholder="482"/>
+                                            <field name="property_stock_transfer_account_id" placeholder="Select 482"/>
                                         </div>
                                     </div>
                                 </div>

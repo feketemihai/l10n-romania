@@ -354,6 +354,9 @@ class StockMove(models.Model):
         move._create_account_move_line(acc_src, acc_dest, journal_id)
 
         if uneligible_tax:
+            if not move.company_id.tax_cash_basis_journal_id.default_debit_account_id:
+                #raise UserError(_('Please set account for uneligible tax '))
+                print(_('Please set account for uneligible tax '))
             if not refund:
                 acc_src = move.company_id.tax_cash_basis_journal_id.default_debit_account_id
             else:

@@ -16,9 +16,14 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.basic_layout">
-                        <t t-call="base.report_address_company"/>
+                        <t t-call="l10n_ro_config.report_address_company"/>
                         <div class="page">
-                            <h1>Daily stock report</h1>
+                            <t t-if="o.date_from == o.date_to">
+                                <h1>Daily stock report</h1>
+                            </t>
+                            <t t-if="o.date_from != o.date_to">
+                                <h1>Stock report</h1>
+                            </t>
                             <h3>
                                 <span>From Date:</span>
                                 <span t-field="o.date_from" t-options='{"widget": "date"}'/>

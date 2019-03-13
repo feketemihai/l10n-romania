@@ -28,7 +28,7 @@
         </template>
 
 
-        <template id="base.report_address_company">
+        <template id="l10n_ro_config.report_address_company">
             <t t-if="'company_id' in o._fields">
                 <t t-set="res_company" t-value="o.company_id"/>
             </t>

@@ -44,6 +44,20 @@
               action="action_daily_stock_report"
               parent="stock.menu_warehouse_report" groups="account.group_account_user"/>
 
+    <record id="action_stock_report" model="ir.actions.act_window">
+        <field name="name">Stock Report</field>
+        <field name="res_model">l10n_ro.daily_stock_report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_mode':'product'}</field>
+    </record>
+
+
+    <menuitem id="menu_stock_report" name="Stock Report"
+              action="action_stock_report"
+              parent="stock.menu_warehouse_report" groups="account.group_account_user"/>
+
 
     <record id="action_daily_stock_report_line" model="ir.actions.act_window">
         <field name="name">Daily Stock Report</field>
