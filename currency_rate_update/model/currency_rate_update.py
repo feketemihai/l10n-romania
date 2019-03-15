@@ -221,7 +221,7 @@ class CurrencyRateUpdateService(models.Model):
 
     @api.multi
     def run_update_all_year(self):
-        year = int(self.next_run[:4])
+        year = self.next_run.year #int(self.next_run[:4])
         main_currency = self.company_id.currency_id
         if main_currency.rate != 1:
             raise ValidationError(_('Base currency rate should be 1.00!'))

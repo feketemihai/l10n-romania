@@ -7,8 +7,10 @@
 	    <record model="res.currency" id="base.EUR">
 	    	<field name="base" eval="False"/>
 	    </record>
+		<!--
 	    <record model="res.currency.rate" id="base.rateRON">
 	    	<field name="rate">1.00</field>
 	    </record>
+	    -->
 	</data>
 </openerp>

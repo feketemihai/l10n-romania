@@ -1,23 +1,21 @@
-# -*- coding: utf-8 -*-
-# ©  2014 Forest and Biomass Services Romania
-# See README.rst file on addons root folder for license details
+# Copyright  2018 Forest and Biomass Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Romania - Account Period Close',
-    'version': '10.0.1.0.0',
-    'author': 'FOREST AND BIOMASS SERVICES ROMANIA',
-    'website': 'http://www.forbiom.eu',
+    'name': 'Romania - Account Period Closing',
+    'summary': 'Romania - Account Period Closing',
+    'version': '11.0.1.0.0',
     'category': 'Localization',
-    'description': """
-    Account Period Close - The module allows to close periodically accounts
-    based on templates defines.
-    Usefull for Income / Expense / VAT closing at the end of every month""",
-    'depends': ['base', 'account'],
-    'data': [
-            'security/ir.model.access.csv',
-            'security/account_security.xml',
-            'views/account_period_close_view.xml',
-            'wizard/account_period_closing.xml',
-    ],
+    'author': 'Forest and Biomass Romania, '
+              'Odoo Community Association (OCA)',
+    'website': 'https://www.forbiom.eu',
+    'license': 'AGPL-3',
     'installable': True,
+    'depends': ['account', 'date_range'],
+    'data': [
+        'views/account_period_close_view.xml',
+        'wizards/wizard_account_period_closing_view.xml',
+        'security/account_security.xml',
+        'security/ir.model.access.csv',
+    ],
 }

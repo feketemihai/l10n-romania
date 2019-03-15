@@ -2,7 +2,7 @@
 <odoo>
     <data>
 
-        <template id="base.banks">
+        <template id="banks">
             <small>
                 <t t-set="currency_id" t-value="res_company.currency_id"/>
                 <t t-if="'currency_id' in o._fields">
@@ -28,7 +28,7 @@
         </template>
 
 
-        <template id="base.report_address_company">
+        <template id="report_address_company">
             <t t-if="'company_id' in o._fields">
                 <t t-set="res_company" t-value="o.company_id"/>
             </t>
