@@ -60,7 +60,6 @@ class UnsuportedCurrencyError(Exception):
 
 
 class Currency_getter_factory():
-
     """Factory pattern class that will return
     a currency getter class base on the name passed
     to the register method
@@ -79,13 +78,11 @@ class Currency_getter_factory():
             'RO_BNR_getter',
         ]
         if class_name in allowed:
-            exec "from .update_service_%s import %s" % \
-                 (class_name.replace('_getter', ''), class_name)
+            exec("from .update_service_%s import %s" % (class_name.replace('_getter', ''), class_name))
             class_def = eval(class_name)
             return class_def()
         else:
             raise UnknowClassError
-
 
     def run_update_all_year(self):
         pass

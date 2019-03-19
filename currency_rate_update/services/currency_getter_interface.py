@@ -11,6 +11,7 @@ try:
     from future.utils import with_metaclass
 except:
     print('Install future')
+    exit
 import sys
 
 
