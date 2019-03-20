@@ -29,10 +29,11 @@ from . import amount_to_text_ro
 
 class ReportPaymentPrint(models.AbstractModel):
     _name = 'report.l10n_ro_invoice_report.report_payment'
+    _description = "ReportPaymentPrint"
     _template = 'l10n_ro_invoice_report.report_payment'
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         report = self.env['ir.actions.report']._get_report_from_name(self._template)
         return {
             'doc_ids': docids,
@@ -61,10 +62,11 @@ class ReportPaymentPrint(models.AbstractModel):
 
 class ReportStatementLinePrint(models.AbstractModel):
     _name = 'report.l10n_ro_invoice_report.report_statement_line'
+    _description = "ReportStatementLinePrint"
     _template = 'l10n_ro_invoice_report.report_statement_line'
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         report = self.env['ir.actions.report']._get_report_from_name(self._template)
         return {
             'doc_ids': docids,
@@ -93,12 +95,16 @@ class ReportStatementLinePrint(models.AbstractModel):
 
 class ReportStatementLineVoucher(ReportStatementLinePrint):
     _name = 'report.l10n_ro_invoice_report.report_statement_voucher'
+    _description = "ReportStatementLineVoucher"
     _template = 'l10n_ro_invoice_report.report_statement_voucher'
 
 class ReportStatementLinePayment(ReportStatementLinePrint):
     _name = 'report.l10n_ro_invoice_report.report_statement_payment'
+    _description = "ReportStatementLinePayment"
     _template = 'l10n_ro_invoice_report.report_statement_payment'
 
 class ReportStatementLineCollection(ReportStatementLinePrint):
     _name = 'report.l10n_ro_invoice_report.report_statement_collection'
+    _description = "ReportStatementLineCollection"
     _template = 'l10n_ro_invoice_report.report_statement_collection'
+

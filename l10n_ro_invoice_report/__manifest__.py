@@ -36,6 +36,10 @@ Funftionalitati
  - La factura au fost adugate campurile delegat si mijloc de transport
  - la partener se poate adauga un text aditinonal care apara pe facura
  - tiparire plata / incasare / dispozitie de plata
+ 
+ 
+ https://static.anaf.ro/static/10/Anaf/legislatie/Cod_fiscal_norme_31072017.htm#A330
+ 
 
     """,
 

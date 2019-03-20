@@ -31,10 +31,11 @@ from . import  amount_to_text_ro
 
 class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
     _name = 'report.account.report_invoice_with_payments'
+    _description = "ReportInvoiceWithPaymentsPrint"
     _template = 'account.report_invoice_with_payments'
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         report = self.env['ir.actions.report']._get_report_from_name(self._template)
         return  {
             'doc_ids': docids,
@@ -85,6 +86,7 @@ class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
 
 class ReportInvoicePrint(ReportInvoiceWithPaymentsPrint):
     _name = 'report.account.report_invoice'
+    _description = "ReportInvoicePrint"
     _template = 'account.report_invoice'
 
 

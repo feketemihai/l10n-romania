@@ -33,7 +33,7 @@ class stock_balance(models.Model):
     location_id = fields.Many2one('stock.location', 'Location', readonly=True, index=True)
     categ_id = fields.Many2one('product.category', 'Category', readonly=True)
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
-    product_uom = fields.Many2one('product.uom', 'Unit of Measure', required=True)
+    product_uom = fields.Many2one('uom.uom', 'Unit of Measure', required=True)
     qty_in = fields.Float('Qty In', digits=dp.get_precision('Product UoM'), readonly=True)
     amount_in = fields.Float('Amount In', digits=dp.get_precision('Account'), readonly=True)
     qty_out = fields.Float('Qty Out', digits=dp.get_precision('Product UoM'), readonly=True)

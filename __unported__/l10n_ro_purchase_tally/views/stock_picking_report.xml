@@ -47,7 +47,7 @@
                                         </td>
                                        <td><span t-field="o.partner_id.id_nr"/></td>
                                        <td><span t-field="move.product_id"/></td>
-                                       <td><span t-field="move.product_uom_qty"/><span t-field="move.product_uom" groups="product.group_uom"/></td>
+                                       <td><span t-field="move.product_uom_qty"/><span t-field="move.product_uom" groups="uom.group_uom"/></td>
                                        <td><span t-esc="formatLang(line['price'])"/></td>
                                        <td><span t-esc="formatLang(move.product_uom_qty*line['price'])"/> </td>
                                        <t t-set="nr_crt" t-value="nr_crt+1"/>
@@ -118,7 +118,7 @@
                                         </td>
                                        <td><span t-field="o.partner_id.id_nr"/></td>
                                        <td><span t-field="move.product_id"/></td>
-                                       <td><span t-field="move.product_uom_qty"/><span t-field="move.product_uom" groups="product.group_uom"/></td>
+                                       <td><span t-field="move.product_uom_qty"/><span t-field="move.product_uom" groups="uom.group_uom"/></td>
                                        <td><span t-esc="formatLang(line['price'])"/></td>
                                        <td><span t-esc="formatLang(move.product_uom_qty*line['price'])"/> </td>
                                        <t t-set="nr_crt" t-value="nr_crt+1"/>

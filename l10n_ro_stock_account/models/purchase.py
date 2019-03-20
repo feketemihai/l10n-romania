@@ -19,7 +19,7 @@ class purchase_order(models.Model):
         '''
 
         res = super(purchase_order, self)._prepare_order_line_move(  order, order_line, picking_id, group_id)
-        product_uom = self.pool.get('product.uom')
+        product_uom = self.pool.get('uom.uom')
         price_unit = order_line.price_unit
         if order_line.product_uom.id != order_line.product_id.uom_id.id:
             price_unit *= order_line.product_uom.factor /  order_line.product_id.uom_id.factor

@@ -51,7 +51,7 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <t t-set="partner_id" t-value="res_company.partner_id"/>
-                        <t t-call="base.banks"/>
+                        <t t-call="l10n_ro_config.banks"/>
                     </div>
                 </div>
             </small>

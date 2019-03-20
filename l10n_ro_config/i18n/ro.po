@@ -17,13 +17,13 @@ msgstr ""
 
 
 #. module: l10n_ro_config
-#: model:ir.ui.view,arch_db:base.banks
+#: model:ir.ui.view,arch_db:l10n_ro_config.banks
 msgid "<strong>Bank:</strong>"
 msgstr "<strong>Banca:</strong>"
 
 
 #. module: l10n_ro_config
-#: model:ir.ui.view,arch_db:base.banks
+#: model:ir.ui.view,arch_db:l10n_ro_config.banks
 msgid "<strong>Account:</strong>"
 msgstr "<strong>Cont:</strong>"
 
