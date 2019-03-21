@@ -31,11 +31,13 @@ import odoo.addons.decimal_precision as dp
 
 class res_partner(models.Model):
     _inherit = 'res.partner'
+
     mean_transp = fields.Char(string='Mean transport')
 
 
 class stock_location(models.Model):
     _inherit = "stock.location"
+
     user_id = fields.Many2one('res.users', string='Manager')
 
 

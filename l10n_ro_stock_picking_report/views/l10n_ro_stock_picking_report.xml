@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <report 
             string="Delivery" 
@@ -57,4 +57,4 @@
             name="l10n_ro_stock_picking_report.report_internal_transfer" 
             file="l10n_ro_stock_picking_report.report_internal_transfer"    />
     </data>
-</openerp>
+</odoo>
