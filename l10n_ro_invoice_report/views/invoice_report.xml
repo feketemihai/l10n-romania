@@ -22,13 +22,13 @@
  -->
                 <div class="row zero_min_height">
                     <div class="col-xs-12">
-                        <div style="border-bottom: 1px solid black;"/>
+                        <!--<div style="border-bottom: 1px solid black;"/>-->
                     </div>
                 </div>
 
                 <table class="table table-condensed" style="border-top: initial;">
                     <tr>
-                        <td width="50%">
+                        <td width="40%">
                             <div>
                                 <strong t-if="o.type in ['out_invoice', 'out_refund']">Supplier</strong>
                                 <strong t-if="o.type in ['in_invoice', 'in_refund']">Customer</strong>
@@ -44,7 +44,8 @@
                             <t t-call="l10n_ro_config.banks"/>
 
                         </td>
-                        <td width="50%">
+                        <td width="30%"></td>
+                        <td width="40%">
                             <div>
                                 <strong t-if="o.type in ['out_invoice', 'out_refund']">Customer</strong>
                                 <strong t-if="o.type in ['in_invoice', 'in_refund']">Supplier</strong>
@@ -90,6 +91,7 @@
                                 <!--</span>-->
                             </div>
                         </td>
+                        <td style="border-top: initial;"></td>
                         <td style="border-top: initial;">
                             <div t-if="o.commercial_partner_id.vat">
                                 <strong>CIF:</strong>

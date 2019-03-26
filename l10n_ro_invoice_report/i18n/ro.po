@@ -1,206 +1,198 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_ro_invoice_report
+# 	* l10n_ro_invoice_report
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-11 08:51+0000\n"
-"PO-Revision-Date: 2018-09-11 08:51+0000\n"
+"POT-Creation-Date: 2019-03-22 09:56+0000\n"
+"PO-Revision-Date: 2019-03-22 12:04+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: ro\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
-msgid ",\n"
-"                                            <span>amount</span>"
-msgstr ",\n"
-"                                            <span>suma</span>"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
+msgid ""
+",\n"
+"                                <span>amount</span>"
+msgstr ""
+",\n"
+"                                <span>valoare</span>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
-msgid "amount"
-msgstr "suma"
-
-
-#. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
 msgid "<span>Cash collection:</span>"
-msgstr "<span>Dispoziție de încasare:</span>"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "<span>Delegate:</span>"
 msgstr "<span>Delegat:</span>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid "<span>Deliveries:</span>"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
 msgid "<span>I received from</span>"
 msgstr "<span>Am primit de la</span>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "<span>Mean Transport:</span>"
-msgstr "<span>Mijloc transport:</span>"
+msgstr "<span>Mijloc transport</span>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "<span>Name:</span>"
 msgstr "<span>Nume:</span>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "<span>Payment disposal:</span>"
-msgstr "<span>Dispoziție de plată:</span>"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
-msgid "<span>Refunding invoice</span>"
-msgstr "<span>Factura storno</span>"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid "<span>Receptions:</span>"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid "<span>Reference:</span>"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "<span>Signature for receive</span>"
-msgstr "<span>Semnatura primire</span>"
+msgstr "<span>Semnătura primire</span>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "<span>Transfer:</span>"
-msgstr "<span>Transfer:</span>"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "<span>Vat on payment</span>"
-msgstr "<span>TVA la incasare</span>"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "<span>Voucher:</span>"
-msgstr "<span>Chitanță:</span>"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
-msgid "<strong>Account:</strong>"
-msgstr "<strong>Cont:</strong>"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+msgid "<span>from date:</span>"
+msgstr "<span>din data:</span>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "<strong>Address:</strong>"
 msgstr "<strong>Adresa:</strong>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
-msgid "<strong>Bank:</strong>"
-msgstr "<strong>Banca:</strong>"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "<strong>CIF:</strong>"
-msgstr "<strong>CIF:</strong>"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+msgid "<strong>Client:</strong><br/>"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "<strong>Comment:</strong>"
 msgstr "<strong>Comentariu:</strong>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
-msgid "<span>Deliveries:</span>"
-msgstr "<span>Avize:</span>"
-
-
-#. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
-msgid "<span>Receptions:</span>"
-msgstr "<span>Recepții:</span>"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+msgid "<strong>Companie:</strong><br/>"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
-msgid "<strong>Fiscal Position Remark:</strong>"
-msgstr "<strong>Poziție Notă Fiscală:</strong>"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "<strong>NRC:</strong>"
-msgstr "<strong>NRC:</strong>"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "<strong>Payment Term:</strong>"
-msgstr "<strong>Termen plată:</strong>"
+msgstr "<strong>Termen de plată:</strong>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "<strong>Reference:</strong>"
 msgstr "<strong>Referință:</strong>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "<strong>Share Capital:</strong>"
 msgstr "<strong>Capital social:</strong>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "<strong>Total Without Taxes</strong>"
 msgstr "<strong>Total fără TVA</strong>"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "<strong>Total</strong>"
-msgstr "<strong>Total</strong>"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_res_partner_info_for_invoice
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_res_users_info_for_invoice
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_res_partner__info_for_invoice
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_res_users__info_for_invoice
 msgid "Additional info for invoice"
 msgstr "Informaţii adiţionale"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Amount"
 msgstr "Valoare"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "Amount (in words):"
-msgstr "Suma (în cuvinte):"
+msgstr "Valoare"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "Amount:"
-msgstr "Suma:"
+msgstr "Valoare"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.model,name:l10n_ro_invoice_report.model_account_bank_statement_line
@@ -208,7 +200,7 @@ msgid "Bank Statement Line"
 msgstr "Linie extras bacă"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "Cancelled Invoice"
 msgstr "Factură anulată"
 
@@ -225,77 +217,82 @@ msgstr "Companii"
 #. module: l10n_ro_invoice_report
 #: model:ir.model,name:l10n_ro_invoice_report.model_res_partner
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "Customer"
 msgstr "Client"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_delegate_id
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice__delegate_id
 msgid "Delegate"
-msgstr "Delegate"
+msgstr "Delegat"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Description"
 msgstr "Descriere"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Discount (%)"
-msgstr "Reducere (%)"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice_display_name
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice_with_payments_display_name
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_payment_display_name
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_collection_display_name
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_line_display_name
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_payment_display_name
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_voucher_display_name
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_voucher_display_name
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice__display_name
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice_with_payments__display_name
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_payment__display_name
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_collection__display_name
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_line__display_name
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_payment__display_name
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_voucher__display_name
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_voucher__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "Draft Invoice"
 msgstr "Factură ciornă"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Elaborate:"
 msgstr "Întocmit:"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "For:"
-msgstr "Pentru:"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice_id
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice_with_payments_id
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_payment_id
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_collection_id
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_line_id
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_payment_id
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_voucher_id
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_voucher_id
+#: model:ir.model.fields,help:l10n_ro_invoice_report.field_account_invoice_line__sequence
+msgid "Gives the sequence of this line when displaying the invoice."
+msgstr "Ofera secventa acestei linii atunci cand afiseaza factura."
+
+#. module: l10n_ro_invoice_report
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice__id
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice_with_payments__id
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_payment__id
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_collection__id
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_line__id
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_payment__id
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_voucher__id
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_voucher__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Information for delivery:"
 msgstr "Informații privind livrarea:"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.model,name:l10n_ro_invoice_report.model_account_invoice
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "Invoice"
 msgstr "Factură"
 
@@ -305,50 +302,52 @@ msgid "Invoice Line"
 msgstr "Linie factură"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
-msgid "Invoice circulate without signature and stamp according to the law 571/2003,\n"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid ""
+"Invoice circulate without signature and stamp according to the law 571/2003,\n"
 "                                        rule 115, paragraph 6"
 msgstr "Factura circulă fără semnătură și ștampilă în acord cu legea 571/2003, art. 115, alin. 6"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice___last_update
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice_with_payments___last_update
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_payment___last_update
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_collection___last_update
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_line___last_update
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_payment___last_update
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_voucher___last_update
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_voucher___last_update
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice____last_update
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice_with_payments____last_update
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_payment____last_update
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_collection____last_update
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_line____last_update
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_payment____last_update
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_statement_voucher____last_update
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_l10n_ro_invoice_report_report_voucher____last_update
 msgid "Last Modified on"
 msgstr "Ultima modificare la"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_mean_transp
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice__mean_transp
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_res_partner__mean_transp
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_res_users__mean_transp
 msgid "Mean transport"
-msgstr "Mijloc de transport"
+msgstr "Mijloc transport"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
 msgid "NRC:"
-msgstr "NRC:"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Ord"
-msgstr "Nr. Crt."
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "PRO-FORMA"
-msgstr "PRO-FORMA"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.footer_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.footer_invoice
 msgid "Page:"
 msgstr "Pagina:"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.actions.report,name:l10n_ro_invoice_report.action_report_payment
 #: model:ir.actions.report,name:l10n_ro_invoice_report.action_report_statement_line
 msgid "Payment"
 msgstr "Plată"
@@ -359,143 +358,150 @@ msgid "Payment disposal"
 msgstr "Dispoziție plată"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line_price_normal_taxes
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line__price_normal_taxes
 msgid "Price Normal Taxes"
-msgstr "Price Normal Taxes"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
-msgid "Printing and numbering system of its own under Law 571/2003 on the Fiscal Code,\n"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid ""
+"Printing and numbering system of its own under Law 571/2003 on the Fiscal Code,\n"
 "                                    with subsequent amendments and OMPF 2226/2006"
 msgstr "Sistem propriu de imprimare și numerotare conform Legii 571/2003 privind Codul Fiscal cu modificările și completările ulterioare și OMFP 2226/2006."
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "Received from:"
-msgstr "Primit de la:"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "Refund Invoice"
-msgstr "Factură Storno"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
+#: model:ir.model,name:l10n_ro_invoice_report.model_report_account_report_invoice
+msgid "ReportInvoicePrint"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model:ir.model,name:l10n_ro_invoice_report.model_report_account_report_invoice_with_payments
+msgid "ReportInvoiceWithPaymentsPrint"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_payment
+msgid "ReportPaymentPrint"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_collection
+msgid "ReportStatementLineCollection"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_payment
+msgid "ReportStatementLinePayment"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_line
+msgid "ReportStatementLinePrint"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_voucher
+msgid "ReportStatementLineVoucher"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_voucher
+msgid "ReportVoucherPrint"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
 msgid "Representing counter value of invoice"
-msgstr "Reprezentând contravaloarea facturii"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "Representing:"
-msgstr "Reprezentând c/v:"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line__sequence
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: l10n_ro_invoice_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "Supplier"
 msgstr "Furnizor"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "Supplier Invoice"
-msgstr "Factura furnizor"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 msgid "Supplier Refund"
-msgstr "Restituire furnizor"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line_price_taxes
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line__price_taxes
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Taxes"
-msgstr "Taxe"
+msgstr "TVA"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_voucher
 msgid "To:"
-msgstr "Către:"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Unit Price"
 msgstr "Preț unitar"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line_price_unit_without_taxes
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line__price_unit_without_taxes
 msgid "Unit Price without taxes"
 msgstr "Preț unitar fără TVA"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
 msgid "VAT:"
 msgstr "TVA:"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.actions.report,name:l10n_ro_invoice_report.action_report_statement_voucher
 #: model:ir.actions.report,name:l10n_ro_invoice_report.action_report_voucher
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
 msgid "Voucher"
 msgstr "Chitanță"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_res_company_watermark_image
-msgid "Watermark image"
-msgstr "Imagine fundal"
+#: model:ir.actions.report,name:l10n_ro_invoice_report.action_report_payment
+msgid "Voucher / Payment"
+msgstr ""
 
 #. module: l10n_ro_invoice_report
-#: model:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_res_company__watermark_image
+msgid "Watermark image"
+msgstr ""
+
+#. module: l10n_ro_invoice_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document_with_payments
 msgid "from"
 msgstr "din"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_account_report_invoice
-msgid "report.account.report_invoice"
-msgstr "report.account.report_invoice"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_account_report_invoice_with_payments
-msgid "report.account.report_invoice_with_payments"
-msgstr "report.account.report_invoice_with_payments"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_payment
-msgid "report.l10n_ro_invoice_report.report_payment"
-msgstr "report.l10n_ro_invoice_report.report_payment"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_collection
-msgid "report.l10n_ro_invoice_report.report_statement_collection"
-msgstr "report.l10n_ro_invoice_report.report_statement_collection"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_line
-msgid "report.l10n_ro_invoice_report.report_statement_line"
-msgstr "report.l10n_ro_invoice_report.report_statement_line"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_payment
-msgid "report.l10n_ro_invoice_report.report_statement_payment"
-msgstr "report.l10n_ro_invoice_report.report_statement_payment"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_voucher
-msgid "report.l10n_ro_invoice_report.report_statement_voucher"
-msgstr "report.l10n_ro_invoice_report.report_statement_voucher"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_voucher
-msgid "report.l10n_ro_invoice_report.report_voucher"
-msgstr "report.l10n_ro_invoice_report.report_voucher"
-
