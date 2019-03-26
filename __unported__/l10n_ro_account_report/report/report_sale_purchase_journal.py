@@ -13,7 +13,7 @@ class ReportReportStatement(models.AbstractModel):
     _template = 'l10n_ro_account_report.report_sale_purchase_journal'
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         report = self.env['ir.actions.report']._get_report_from_name(self._template)
         if not docids and data and 'docids' in data:
             docids = data['docids']

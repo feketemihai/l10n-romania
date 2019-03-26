@@ -16,93 +16,93 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<span>From Date:</span>"
 msgstr "<span>De la data:</span>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<span>Location:</span>"
 msgstr "<span>Locație:</span>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<span>To date</span>"
 msgstr "<span>Până la data</span>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
 msgid "<strong>Account:</strong>"
 msgstr "<strong>Cont:</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
 msgid "<strong>Address:</strong>"
 msgstr "<strong>Adresa:</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<strong>Amount</strong>"
 msgstr "<strong>Valoare</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
 msgid "<strong>Bank:</strong>"
 msgstr "<strong>Banca:</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
 msgid "<strong>CIF:</strong>"
 msgstr "<strong>CIF:</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
 msgid "<strong>Company:</strong>"
 msgstr "<strong>Companie:</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
 msgid "<strong>NRC:</strong>"
 msgstr "<strong>NRC:</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<strong>Product</strong>"
 msgstr "<strong>Produs</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<strong>Quantity</strong>"
 msgstr "<strong>Cantitate</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<strong>Ref</strong>"
 msgstr "<strong>Ref</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.report_address_company
 msgid "<strong>Share Capital:</strong>"
 msgstr "<strong>Capital social:</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<strong>Total</strong>"
 msgstr "<strong>Total</strong>"
 
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<strong>Total In</strong>"
 msgstr "<strong>Total intări</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<strong>Total Out</strong>"
 msgstr "<strong>Total ieșiri</strong>"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "<strong>Type</strong>"
 msgstr "<strong>Tip</strong>"
 
@@ -117,13 +117,13 @@ msgid "Account move lines"
 msgstr "Account move lines"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.view_inventory_form_inherit
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_account_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_inventory_form_inherit
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_picking_account_form
 msgid "Accounting Entries"
 msgstr "Mișcări Contabile"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.view_location_form_inherit
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_location_form_inherit
 msgid "Accounting Information"
 msgstr "Informații Contabile"
 
@@ -140,7 +140,7 @@ msgid "Amount"
 msgstr "Valoare"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.view_daily_stock_report_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_daily_stock_report_form
 msgid "Cancel"
 msgstr "Anulează"
 
@@ -180,7 +180,7 @@ msgstr "Raport zilnic de stoc"
 
 #. module: l10n_ro_stock_account
 #: model:ir.actions.report,name:l10n_ro_stock_account.action_report_daily_stock_report
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.document_daily_stock_report
 msgid "Daily stock report"
 msgstr "Raport zilnic de stoc"
 
@@ -348,7 +348,7 @@ msgid "Price changed"
 msgstr "Modificare de preț"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.view_daily_stock_report_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_daily_stock_report_form
 msgid "Print"
 msgstr "Tipăriți"
 
@@ -382,7 +382,7 @@ msgid "Report"
 msgstr "Report"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.view_daily_stock_report_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_daily_stock_report_form
 msgid "Report Options"
 msgstr "Opțiuni Raport"
 
@@ -392,7 +392,7 @@ msgid "Sales Order Line"
 msgstr "Linie comandă vânzare"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.view_daily_stock_report_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_daily_stock_report_form
 msgid "Show"
 msgstr "Afișare"
 
@@ -539,7 +539,7 @@ msgid "l10n_ro.daily_stock_report.ref"
 msgstr "l10n_ro.daily_stock_report.ref"
 
 #. module: l10n_ro_stock_account
-#: model:ir.ui.view,arch_db:l10n_ro_stock_account.view_daily_stock_report_form
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account.view_daily_stock_report_form
 msgid "or"
 msgstr "sau"
 

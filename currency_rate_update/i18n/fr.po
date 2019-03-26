@@ -61,7 +61,7 @@ msgstr "Devises disponibles"
 
 #. module: currency_rate_update
 #: model:ir.model.fields,field_description:currency_rate_update.field_currency_rate_update_service_currency_to_update
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
 msgid "Currencies to update with this service"
 msgstr "Devises à mettre à jour avec ce service"
 
@@ -73,7 +73,7 @@ msgid "Currency Rate Update"
 msgstr "Mise à jour du taux de la devise"
 
 #. module: currency_rate_update
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
 msgid "Currency update configuration"
 msgstr "Configuraiton de mise à jour des devises"
 
@@ -84,9 +84,9 @@ msgstr "Fréquence de mise à jour des devises"
 
 #. module: currency_rate_update
 #: model:ir.model.fields,field_description:currency_rate_update.field_res_company_services_to_use
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_tree
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_tree
 msgid "Currency update services"
 msgstr "Services de mise à jour des devises"
 
@@ -164,7 +164,7 @@ msgid "Last Updated on"
 msgstr "Mis à jour le"
 
 #. module: currency_rate_update
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
 msgid "Logs"
 msgstr "Journaux"
 
@@ -190,7 +190,7 @@ msgid "Next run on"
 msgstr "Prochain lancement"
 
 #. module: currency_rate_update
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
 msgid "Refresh currencies"
 msgstr "Mettre à jour les devises"
 
@@ -206,7 +206,7 @@ msgid "Update logs"
 msgstr "Journaux de mise à jour"
 
 #. module: currency_rate_update
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
 msgid "Update now!"
 msgstr ""
 

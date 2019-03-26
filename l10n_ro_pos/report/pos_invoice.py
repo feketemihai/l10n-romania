@@ -12,9 +12,10 @@ class PosInvoiceReport(models.AbstractModel):
     _inherit = 'report.point_of_sale.report_invoice'
 
 
+
     @api.model
-    def get_report_values(self, docids, data=None):
-        values = super(PosInvoiceReport, self).get_report_values(docids, data)
+    def _get_report_values(self, docids, data=None):
+        values = super(PosInvoiceReport, self)._get_report_values(docids, data)
         values.update({
             'data': data,
             'time': time,
