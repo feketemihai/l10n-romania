@@ -71,7 +71,7 @@ class ResPartner(models.Model):
 
     @api.model
     def _get_Anaf(self, cod):
-        res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': fields.Date.today()}], headers=headers)
+        res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': fields.Date.today().strftime('%Y-%m-%d')}], headers=headers)
         if res.status_code == 200:
             res = res.json()
         if res['found'] and res['found'][0]:
