@@ -61,7 +61,7 @@ msgstr ""
 
 #. module: currency_rate_update
 #: model:ir.model.fields,field_description:currency_rate_update.field_currency_rate_update_service_currency_to_update
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
 msgid "Currencies to update with this service"
 msgstr ""
 
@@ -73,7 +73,7 @@ msgid "Currency Rate Update"
 msgstr ""
 
 #. module: currency_rate_update
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
 msgid "Currency update configuration"
 msgstr ""
 
@@ -84,9 +84,9 @@ msgstr ""
 
 #. module: currency_rate_update
 #: model:ir.model.fields,field_description:currency_rate_update.field_res_company_services_to_use
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_tree
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_tree
 msgid "Currency update services"
 msgstr ""
 
@@ -159,7 +159,7 @@ msgid "Last Updated on"
 msgstr "Τελευταία ενημέρωση στις"
 
 #. module: currency_rate_update
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
 msgid "Logs"
 msgstr ""
 
@@ -185,7 +185,7 @@ msgid "Next run on"
 msgstr ""
 
 #. module: currency_rate_update
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_auto_comp
 msgid "Refresh currencies"
 msgstr ""
 
@@ -201,7 +201,7 @@ msgid "Update logs"
 msgstr ""
 
 #. module: currency_rate_update
-#: model:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.currency_rate_update_form
 msgid "Update now!"
 msgstr ""
 

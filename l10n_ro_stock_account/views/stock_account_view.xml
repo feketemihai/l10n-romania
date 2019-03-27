@@ -50,7 +50,7 @@
                         <field nolabel="1" name="acc_move_line_ids" readonly="1"/>
                     </page>
                 </page>
-                <xpath expr="//field[@name='move_lines']//field[@name='name']" position="after">
+                <xpath expr="//button[@name='action_show_details']" position="after">
                     <field name="picking_type_code" invisible="1"/>
                     <field name="price_unit" attrs="{'invisible': [('picking_type_code','!=','incoming')]}"/>
                 </xpath>

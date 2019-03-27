@@ -44,6 +44,20 @@
               action="action_daily_stock_report"
               parent="stock.menu_warehouse_report" groups="account.group_account_user"/>
 
+    <record id="action_stock_report" model="ir.actions.act_window">
+        <field name="name">Stock Report</field>
+        <field name="res_model">l10n_ro.daily_stock_report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_mode':'product'}</field>
+    </record>
+
+
+    <menuitem id="menu_stock_report" name="Stock Report"
+              action="action_stock_report"
+              parent="stock.menu_warehouse_report" groups="account.group_account_user"/>
+
 
     <record id="action_daily_stock_report_line" model="ir.actions.act_window">
         <field name="name">Daily Stock Report</field>
@@ -62,7 +76,7 @@
                 <field name="product_id"/>
                 <field name="quantity" sum="1"/>
                 <field name="amount" sum="1"/>
-                <button name="action_valuation_at_date_details" type="object" icon="fa-info-circle"/>
+                <button name="action_valuation_at_date_details" aria-label="Valuation" title="Valuation" type="object" icon="fa-info-circle"/>
             </tree>
         </field>
     </record>
@@ -84,7 +98,7 @@
                 <field name="type"/>
                 <field name="ref"/>
                 <field name="amount" sum="1"/>
-                <button name="action_valuation_at_date_details" type="object" icon="fa-info-circle"/>
+                <button name="action_valuation_at_date_details" aria-label="Valuation" title="Valuation" type="object" icon="fa-info-circle"/>
             </tree>
         </field>
     </record>

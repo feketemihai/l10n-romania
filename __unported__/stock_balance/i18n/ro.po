@@ -17,49 +17,49 @@ msgstr ""
 
 #. module: stock_balance
 #: model:ir.model.fields,field_description:stock_balance.field_stock_balance_amount
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
 msgid "Amount"
 msgstr "Valoare"
 
 #. module: stock_balance
 #: model:ir.model.fields,field_description:stock_balance.field_stock_balance_amount_in
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
 msgid "Amount In"
 msgstr "Valoare Intrată"
 
 #. module: stock_balance
 #: model:ir.model.fields,field_description:stock_balance.field_stock_balance_amount_out
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
 msgid "Amount Out"
 msgstr "Valoare Ieșită"
 
 #. module: stock_balance
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
 msgid "Balance"
 msgstr "Sold"
 
 #. module: stock_balance
 #: model:ir.actions.act_window,name:stock_balance.action_stock_balance
 #: model:ir.ui.menu,name:stock_balance.menu_stock_balance_tree
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_graph
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_graph
 msgid "Balance for stock"
 msgstr "Balanța de stocuri"
 
 #. module: stock_balance
 #: model:ir.model.fields,field_description:stock_balance.field_stock_balance_categ_id
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
 msgid "Category"
 msgstr "Categorie"
 
 #. module: stock_balance
 #: model:ir.model.fields,field_description:stock_balance.field_stock_balance_company_id
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
 msgid "Company"
 msgstr "Companie"
 
 #. module: stock_balance
 #: model:ir.model.fields,field_description:stock_balance.field_stock_balance_date
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
 msgid "Date"
 msgstr "Data"
 
@@ -69,12 +69,12 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: stock_balance
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
 msgid "Extended Filters..."
 msgstr "Filtre extinse..."
 
 #. module: stock_balance
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
 msgid "Group By..."
 msgstr "Grupează după..."
 
@@ -90,35 +90,35 @@ msgstr "Ultima modificare la"
 
 #. module: stock_balance
 #: model:ir.model.fields,field_description:stock_balance.field_stock_balance_location_id
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
 msgid "Location"
 msgstr "Locație"
 
 #. module: stock_balance
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
 msgid "Previous Month"
 msgstr "Luna anterioară"
 
 #. module: stock_balance
 #: model:ir.model.fields,field_description:stock_balance.field_stock_balance_product_id
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
 msgid "Product"
 msgstr "Produs"
 
 #. module: stock_balance
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
 msgid "Product_Qty"
 msgstr "Product_Qty"
 
 #. module: stock_balance
 #: model:ir.model.fields,field_description:stock_balance.field_stock_balance_qty_in
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
 msgid "Qty In"
 msgstr "Cant Intrată"
 
 #. module: stock_balance
 #: model:ir.model.fields,field_description:stock_balance.field_stock_balance_qty_out
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_tree
 msgid "Qty Out"
 msgstr "Cant Ieșită"
 
@@ -128,12 +128,12 @@ msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: stock_balance
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
 msgid "Search"
 msgstr "Caută"
 
 #. module: stock_balance
-#: model:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
+#: model_terms:ir.ui.view,arch_db:stock_balance.view_stock_balance_filter
 msgid "This Month"
 msgstr "Această lună"
 
