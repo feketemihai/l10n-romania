@@ -79,6 +79,7 @@ class StockMove(models.Model):
         ('delivery_notice', 'Delivery with notice'),
         ('delivery_store', 'Delivery from Store'),
         ('delivery_refund', 'Delivery Refund'),
+        ('delivery_refund_store','Delivery Refund Store'),
         ('consume', 'Consume'),
         ('inventory_plus', 'Inventory plus'),
         ('inventory_minus', 'Inventory minus'),
@@ -87,6 +88,8 @@ class StockMove(models.Model):
         ('transfer_store', 'Transfer in Store'),
         ('transfer_in', 'Transfer in'),
         ('transfer_out', 'Transfer out'),
+        ('consume_store', 'Consume from Store'),
+        ('production_store', 'Reception from Production')
     ], compute='_compute_move_type')
 
     @api.onchange('date')
@@ -306,7 +309,7 @@ class StockMove(models.Model):
         if self.location_dest_id.valuation_in_account_id:
             acc_dest = self.location_dest_id.valuation_in_account_id.id
         else:
-            acc_dest = accounts_data['stock_in']
+            acc_dest = accounts_data['stock_input']
 
         journal_id = accounts_data['stock_journal'].id
 
@@ -328,9 +331,9 @@ class StockMove(models.Model):
             taxes = taxes_ids.compute_all(list_price, product=move.product_id)
             list_price = taxes['total_excluded']
 
-        if list_price <= cost_price:
+        if list_price <= cost_price and list_price != 0.0:
             raise UserError(_(
-                "You cannot receive products if list price is lower than cost price. Please update list price to suit to be upper than %s." % cost_price))
+                "You cannot move a product if price list is lower than cost price. Please update list price to suit to be higher than %s" % cost_price))
 
         # the standard_price of the product may be in another decimal precision, or not compatible with the coinage of
         # the company currency... so we need to use round() before  creating the accounting entries.
@@ -351,6 +354,9 @@ class StockMove(models.Model):
         move._create_account_move_line(acc_src, acc_dest, journal_id)
 
         if uneligible_tax:
+            if not move.company_id.tax_cash_basis_journal_id.default_debit_account_id:
+                #raise UserError(_('Please set account for uneligible tax '))
+                print(_('Please set account for uneligible tax '))
             if not refund:
                 acc_src = move.company_id.tax_cash_basis_journal_id.default_debit_account_id
             else:
@@ -401,6 +407,10 @@ class StockMove(models.Model):
 
         location_id = self.env.context.get('stock_location_id', False)
         location_dest_id = self.env.context.get('stock_location_dest_id', False)
+        if not location_id and move.location_dest_id.usage == 'internal':
+            location_id = move.location_dest_id.id
+        if not location_id and move.location_id.usage == 'internal':
+            location_id = move.location_id.id
 
         for acl in res:
             acl[2]['stock_move_id'] = move.id

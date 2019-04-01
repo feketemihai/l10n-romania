@@ -85,6 +85,21 @@ class AccountInvoice(models.Model):
         return res
 
 
+
+    # @api.multi
+    # def finalize_invoice_move_lines(self, move_lines):
+    #     move_lines  = super(AccountInvoice, self).finalize_invoice_move_lines(move_lines)
+    #
+    #     for line in move_lines:
+    #         if self.type in ['in_invoice','out_refund']:
+    #             line[2]['stock_location_dest_id'] = self.stock_location_id.id
+    #         else:
+    #             line[2]['stock_location_id'] = self.stock_location_id.id
+    #
+    #     return move_lines
+
+
+
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 

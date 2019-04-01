@@ -31,5 +31,13 @@
             </field>
         </record>
         -->
+
+        <record id="action_propagate_account" model="ir.actions.server">
+			<field name="name">Propagate Account</field>
+			<field name="model_id" ref="model_product_category" />
+			<field name="state">code</field>
+			<field name="code">action = records.propagate_account()</field>
+			<field name="binding_model_id" ref="model_product_category" />
+		</record>
     </data>
 </odoo>
