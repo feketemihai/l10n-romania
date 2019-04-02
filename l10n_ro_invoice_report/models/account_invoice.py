@@ -34,11 +34,9 @@ class res_partner(models.Model):
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
-    delegate_id = fields.Many2one('res.partner', string='Delegate',
-                                  readonly=True, states={'draft': [('readonly', False)]},
-                                  domain=[('is_company', '=', False)])
+    delegate_id = fields.Many2one('res.partner', string='Delegate', domain=[('is_company', '=', False)])
 
-    mean_transp = fields.Char(string='Mean transport', readonly=True, states={'draft': [('readonly', False)]}, )
+    mean_transp = fields.Char(string='Mean transport' )
 
     @api.onchange('delegate_id')
     def on_change_delegate_id(self):
