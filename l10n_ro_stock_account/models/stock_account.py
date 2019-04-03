@@ -79,7 +79,7 @@ class StockMove(models.Model):
         ('delivery_notice', 'Delivery with notice'),
         ('delivery_store', 'Delivery from Store'),
         ('delivery_refund', 'Delivery Refund'),
-        ('delivery_refund_store','Delivery Refund Store'),
+        ('delivery_refund_store', 'Delivery Refund Store'),
         ('consume', 'Consume'),
         ('inventory_plus', 'Inventory plus'),
         ('inventory_minus', 'Inventory minus'),
@@ -355,7 +355,7 @@ class StockMove(models.Model):
 
         if uneligible_tax:
             if not move.company_id.tax_cash_basis_journal_id.default_debit_account_id:
-                #raise UserError(_('Please set account for uneligible tax '))
+                # raise UserError(_('Please set account for uneligible tax '))
                 print(_('Please set account for uneligible tax '))
             if not refund:
                 acc_src = move.company_id.tax_cash_basis_journal_id.default_debit_account_id
@@ -397,8 +397,11 @@ class StockMove(models.Model):
 
     def _prepare_account_move_line(self, qty, cost, credit_account_id, debit_account_id):
         self.ensure_one()
-        move = self
-        res = super(StockMove, self)._prepare_account_move_line(qty, cost, credit_account_id, debit_account_id)
+        config_parameter = self.env['ir.config_parameter'].sudo()
+        account_move_with_zero = eval(config_parameter.get_param(key="force_account_move_with_zero", default="False"))
+
+        move = self.with_context(force_account_move_with_zero=account_move_with_zero)
+        res = super(StockMove, move)._prepare_account_move_line(qty, cost, credit_account_id, debit_account_id)
 
         if not res:
             return res

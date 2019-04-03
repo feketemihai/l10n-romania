@@ -9,6 +9,7 @@ from odoo import api, fields, models, _
 
 class DailyStockReport(models.TransientModel):
     _name = 'l10n_ro.daily_stock_report'
+    _description = 'DailyStockReport'
 
     # Filters fields, used for data computation
 
@@ -251,6 +252,7 @@ class DailyStockReport(models.TransientModel):
 
 class DailyStockReportRef(models.TransientModel):
     _name = 'l10n_ro.daily_stock_report.ref'
+    _description = 'DailyStockReportRef'
 
     report_id = fields.Many2one('l10n_ro.daily_stock_report')
     ref = fields.Char(string='Reference')
@@ -284,6 +286,7 @@ class DailyStockReportRef(models.TransientModel):
 
 class DailyStockReportLine(models.TransientModel):
     _name = 'l10n_ro.daily_stock_report.line'
+    _description =  'DailyStockReportLine'
 
     report_id = fields.Many2one('l10n_ro.daily_stock_report')
     product_id = fields.Many2one('product.product')

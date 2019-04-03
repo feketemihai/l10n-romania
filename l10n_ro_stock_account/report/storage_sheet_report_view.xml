@@ -65,7 +65,7 @@
                 <field name="date"/>
                 <field name="quantity" sum="1"/>
                 <field name="amount" sum="1"/>
-                <button name="action_valuation_at_date_details" type="object" icon="fa-info-circle"/>
+                <button name="action_valuation_at_date_details"   type="object" icon="fa-info-circle"/>
             </tree>
         </field>
     </record>
