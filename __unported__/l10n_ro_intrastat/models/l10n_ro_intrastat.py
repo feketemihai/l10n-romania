@@ -19,23 +19,26 @@
 #
 ##############################################################################
 
-from odoo import api, fields, models, _
-import odoo.addons.decimal_precision as dp
-from odoo import tools
+from odoo import api, fields, models
+from odoo.tools.sql import drop_view_if_exists
 
 class account_invoice(models.Model):
     _inherit = "account.invoice"
- 
-    incoterm_id = fields.Many2one( 'stock.incoterms', 'Incoterm',
+
+    incoterm_id = fields.Many2one(
+            'stock.incoterms', 'Incoterm',
             help="International Commercial Terms are a series of predefined commercial terms "
                  "used in international transactions.")
-    intrastat_transaction_id = fields.Many2one( 'l10n_ro_intrastat.transaction', 'Intrastat Transaction Type',
+    intrastat_transaction_id = fields.Many2one(
+            'l10n_ro_intrastat.transaction', 'Intrastat Transaction Type',
             help="Intrastat nature of transaction")
-    transport_mode_id = fields.Many2one( 'l10n_ro_intrastat.transport_mode', 'Intrastat Transport Mode')
-    intrastat_country_id = fields.Many2one( 'res.country', 'Intrastat Country',
+    transport_mode_id = fields.Many2one(
+            'l10n_ro_intrastat.transport_mode', 'Intrastat Transport Mode')
+    intrastat_country_id = fields.Many2one(
+            'res.country', 'Intrastat Country',
             help='Intrastat country, delivery for sales, origin for purchases',
             domain=[('intrastat','=',True)])
- 
+
 
 
 
@@ -43,11 +46,11 @@ class account_invoice(models.Model):
 class intrastat_transaction(models.Model):
     _name = 'l10n_ro_intrastat.transaction'
     _rec_name = 'description'
- 
+
     code = fields.Char('Code', required=True, readonly=True)
     parent_id = fields.Many2one('l10n_ro_intrastat.transaction', 'Parent Code', readonly=True)
     description = fields.Text('Description', readonly=True)
- 
+
 
     _sql_constraints = [
         ('l10n_ro_intrastat_trcodeunique', 'UNIQUE (code)', 'Code must be unique.'),
@@ -56,13 +59,13 @@ class intrastat_transaction(models.Model):
 
 class intrastat_transport_mode(models.Model):
     _name = 'l10n_ro_intrastat.transport_mode'
- 
+
     code = fields.Char('Code', required=True, readonly=True)
     name = fields.Char('Description', readonly=True)
- 
+
 
     _sql_constraints = [
-        ('l10n_ro_intrastat_trmodecodeunique', 'UNIQUE (code)', 'Code must be unique.')
+        ('l10n_ro_intrastat_trmodecodeunique', 'UNIQUE (code)', 'Code must be unique.'),
     ]
 
 
@@ -70,19 +73,22 @@ class product_category(models.Model):
     _name = "product.category"
     _inherit = "product.category"
 
- 
 
-    intrastat_id = fields.Many2one('report.intrastat.code', string='Intrastat Code')
+    intrastat_id = fields.Many2one('report.intrastat.code', 'Intrastat Code'),
 
-    @api.multi
-    def get_intrastat_recursively(self):
+
+    @api.model
+    def get_intrastat_recursively(self,   category ):
         """ Recursively search in categories to find an intrastat code id
+
+        :param category : Browse record of a category
         """
-        res = None
-        if self.intrastat_id:
-            res = self.intrastat_id.id
-        elif self.parent_id:
-            res = self.parent_id.get_intrastat_recursively()
+        if category.intrastat_id:
+            res = category.intrastat_id.id
+        elif category.parent_id:
+            res = self.get_intrastat_recursively( category.parent_id )
+        else:
+            res = None
         return res
 
 
@@ -90,85 +96,88 @@ class product_product(models.Model):
     _name = "product.product"
     _inherit = "product.product"
 
-    @api.multi
+    @api.model
     def get_intrastat_recursively(self):
         """ Recursively search in categories to find an intrastat code id
         """
-        res = None
-        if self.intrastat_id:
-            res = self.intrastat_id.id
-        elif self.categ_id:
-            res = self.categ_id.get_intrastat_recursively()
+        product = self
+        if product.intrastat_id:
+            res = product.intrastat_id.id
+        elif product.categ_id:
+            res = product.categ_id.get_intrastat_recursively(  product.categ_id )
+        else:
+            res = None
         return res
 
 
-class purchase_order(models.Model):
-    _inherit = "purchase.order"
+#NU exista in 12.
+
+# class purchase_order(models.Model):
+#     _inherit = "purchase.order"
+#
+#     def _prepare_invoice(self, cr, uid, order, line_ids, context=None):
+#         """
+#         copy incoterm from purchase order to invoice
+#         """
+#         invoice = super(purchase_order, self)._prepare_invoice(  cr, uid, order, line_ids, context=context)
+#         if order.incoterm_id:
+#             invoice['incoterm_id'] = order.incoterm_id.id
+#         #Try to determine products origin
+#         if order.partner_id.country_id:
+#             #It comes from supplier
+#             invoice['intrastat_country_id'] = order.partner_id.country_id.id
+#
+#         return invoice
 
 
-    def _prepare_invoice(self):
-        """
-        copy incoterm from purchase order to invoice
-        """
-        invoice = super(PurchaseOrder, self)._prepare_invoice()
-        if self.incoterm_id:
-            invoice['incoterm_id'] = self.incoterm_id.id
-        # Try to determine products origin
-        if self.partner_id.country_id:
-            # It comes from vendor
-            invoice['intrastat_country_id'] = self.partner_id.country_id.id
-        return invoice
 
 
-class report_intrastat_code(models.Model):
-    _inherit = "report.intrastat.code"
-    
-    description = fields.Text(string='Description', translate=True)
- 
 
 
 class res_company(models.Model):
     _inherit = "res.company"
-    
+
 
     intrastat_transaction_id = fields.Many2one(
             'l10n_ro_intrastat.transaction', 'Intrastat Transaction Type',
             help="Intrastat nature of transaction")
                        
-    transport_mode_id = fields.Many2one('l10n_ro_intrastat.transport_mode',    'Default transport mode')
+    transport_mode_id = fields.Many2one('l10n_ro_intrastat.transport_mode',
+                                             'Default transport mode')
     incoterm_id = fields.Many2one('stock.incoterms', 'Default incoterm for Intrastat',
                                        help="International Commercial Terms are a series of "
                                             "predefined commercial terms used in international "
                                             "transactions.")
- 
 
 
-class SaleOrder(models.Model):
+
+class sale_order(models.Model):
     _inherit = "sale.order"
 
 
+
+    @api.multi
     def _prepare_invoice(self):
-        """
-        copy incoterm from sale order to invoice
-        """
-        invoice = super(SaleOrder, self)._prepare_invoice()
+        invoice_vals = super(sale_order, self)._prepare_invoice()
+
         if self.incoterm:
-            invoice['incoterm_id'] = self.incoterm.id
+            invoice_vals['incoterm_id'] = self.incoterm.id
         # Guess products destination
         if self.partner_shipping_id.country_id:
-            invoice['intrastat_country_id'] = self.partner_shipping_id.country_id.id
+            invoice_vals['intrastat_country_id'] = self.partner_shipping_id.country_id.id
         elif self.partner_id.country_id:
-            invoice['intrastat_country_id'] = self.partner_id.country_id.id
+            invoice_vals['intrastat_country_id'] = self.partner_id.country_id.id
         elif self.partner_invoice_id.country_id:
-            invoice['intrastat_country_id'] = self.partner_invoice_id.country_id.id
-        return invoice
+            invoice_vals['intrastat_country_id'] = self.partner_invoice_id.country_id.id
 
+
+        return invoice_vals
 
 class report_intrastat_code(models.Model):
     _inherit = "report.intrastat.code"
- 
 
-    suppl_unit_code = fields.Char(string='SupplUnitCode')
+    description = fields.Text('Description', translate=True)
+    suppl_unit_code = fields.Char('SupplUnitCode'),
 
 
 

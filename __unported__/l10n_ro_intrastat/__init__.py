@@ -20,5 +20,6 @@
 ##############################################################################
 
 
-import l10n_ro_intrastat
-import wizard
+
+from . import wizard
+from .  import report

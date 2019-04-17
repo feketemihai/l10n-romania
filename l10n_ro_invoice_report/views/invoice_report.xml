@@ -235,7 +235,8 @@
                                 <span t-field="payment.amount"
                                       t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                 (
-                                <span t-esc="convert(payment.amount)"/>
+<!--                                <span t-esc="convert(payment.amount)"/>-->
+                                <span t-esc="o.currency_id.amount_to_text(payment.amount)" />
                                 )
                             </div>
                             <div>
@@ -263,7 +264,7 @@
             <xpath expr="//t[@t-set='address']" position="replace">
                 <t t-call="l10n_ro_invoice_report.header_invoice"/>
             </xpath>
-            <xpath expr="//div[@class='page']" position="replace">
+            <xpath expr="//div[hasclass('page')]" position="replace">
 
                 <t>
                     <div class="page">
@@ -330,7 +331,7 @@
                                             <t t-set="quantity" t-value="-1*l.quantity"/>
                                         </t>
 
-                                        <span t-if="quantity" id="quantity" t-esc="formatLang(quantity)"/>
+                                        <span t-if="quantity" id="quantity" t-esc="quantity" t-options='{"widget": "float", "decimal_precision": "Product Unit of Measure"}'/>
                                         <span t-field="l.uom_id" groups="uom.group_uom"/>
                                     </td>
                                     <td class="text-right">
@@ -338,7 +339,7 @@
                                         <t t-set="price_unit_without_taxes"
                                            t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_unit_without_taxes,currency_id)"/>
                                         <span id="price_unit_without_taxes"
-                                              t-esc="formatLang(price_unit_without_taxes)"/>
+                                              t-esc="price_unit_without_taxes" t-options='{"widget": "float", "precision": 2}'/>
                                     </td>
                                     <td class="text-right" t-if="with_discount(o)"
                                         groups="sale.group_discount_per_so_line">
@@ -351,7 +352,7 @@
                                         </t>
                                         <t t-set="price_subtotal"
                                            t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_subtotal,currency_id)"/>
-                                        <span id="price_subtotal" t-esc="formatLang(price_subtotal)"/>
+                                        <span id="price_subtotal" t-esc="price_subtotal"  t-options='{"widget": "float", "precision": 2}'/>
                                     </td>
                                     <td class="text-right">
                                         <t t-set="price_taxes" t-value="l.price_taxes"/>
@@ -361,7 +362,7 @@
                                         </t>
                                         <t t-set="price_taxes"
                                            t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_taxes,currency_id)"/>
-                                        <span id="price_taxes" t-esc="formatLang(price_taxes)"/>
+                                        <span id="price_taxes" t-esc="price_taxes" t-options='{"widget": "float", "precision": 2}'/>
                                     </td>
                                 </tr>
                             </tbody>
@@ -416,8 +417,7 @@
                                                 </t>
 
                                                 <span id="amount_untaxeds">
-                                                    <!--<span t-esc="formatLang(amount_untaxeds)"/>-->
-                                                    <!--<span t-field="currency_id.symbol"/>-->
+
                                                     <span t-esc="amount_untaxeds"
                                                           t-options='{"widget": "monetary", "display_currency": currency_id}'/>
                                                 </span>
@@ -432,8 +432,7 @@
                                                 </t>
 
                                                 <span id="amount_tax">
-                                                    <!--<span t-esc="formatLang(amount_tax)"/>-->
-                                                    <!--<span t-field="currency_id.symbol"/>-->
+
                                                     <span t-esc="amount_tax"
                                                           t-options='{"widget": "monetary", "display_currency": currency_id}'/>
                                                 </span>
@@ -453,8 +452,7 @@
 
                                                 <span id="amount_total">
 
-                                                    <!-- <span t-esc="formatLang(amount_total)"/>
-                                                     <span t-field="currency_id.symbol"/>-->
+
                                                     <span t-esc="amount_total"
                                                           t-options='{"widget": "monetary", "display_currency": currency_id}'/>
                                                 </span>

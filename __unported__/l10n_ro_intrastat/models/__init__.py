@@ -19,29 +19,5 @@
 #
 ##############################################################################
 
-{
-    'name': 'Romanian  Intrastat Declaration',
-    'version': '1.0',
-    'category': 'Reporting',
-    'description': """
-Generates Intrastat XML report for declaration
-Based on invoices.
-    """,
-    'author': 'Dorin Hongu',
-    'depends': ['report_intrastat',
-                'account',
-                'sale_stock',
-                'account_accountant',
-                'l10n_ro'],
-    'data': [
-        
-        #'data/report.intrastat.code.csv',
-        'data/transaction.codes.xml',
-        'data/transport.modes.xml',
-        'security/groups.xml',
-        'security/ir.model.access.csv',
-        'l10n_ro_intrastat.xml',
-        'wizard/l10n_ro_intrastat_xml_view.xml',
-    ],
-    'installable': True,
-}
+
+from . import l10n_ro_intrastat

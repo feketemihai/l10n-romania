@@ -24,7 +24,7 @@
 import time
 from datetime import datetime
 from odoo import api, models
-from odoo.tools import formatLang
+
 from . import amount_to_text_ro
 
 
@@ -43,7 +43,7 @@ class ReportVoucherPrint(models.AbstractModel):
             'time': time,
             'docs': self.env[report.model].browse(docids),
             'convert': self._convert,
-            'formatLang': self._formatLang
+
         }
 
 
@@ -56,12 +56,9 @@ class ReportVoucherPrint(models.AbstractModel):
         return report_obj.render(self._template, docargs)
 
 
-    def _formatLang(self, value, *args):
-        return formatLang(self.env, value, *args)
-
 
     def _convert(self, amount):
-        amt_ro = amount_to_text_ro(amount)
+        amt_ro = amount_to_text_ro.amount_to_text_ro(amount)
         return amt_ro
 
 
