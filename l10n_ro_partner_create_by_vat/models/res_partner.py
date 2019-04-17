@@ -52,9 +52,10 @@ class ResPartner(models.Model):
     split_vat = fields.Boolean('Split VAT')
     vat_on_payment = fields.Boolean('VAT on Payment')
 
+
+    #todo: de facut conversie la multi
     @api.model
     def create(self, vals):
-
         partner = super(ResPartner, self).create(vals)
         if 'name' in vals:
             name = vals['name'].lower().strip()

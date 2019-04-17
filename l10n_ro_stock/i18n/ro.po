@@ -57,7 +57,7 @@ msgstr "Mișcare stoc"
 #: code:addons/l10n_ro_stock/models/stock.py:81
 #, python-format
 msgid "Usage"
-msgstr ""
+msgstr "Dare in Folosinta"
 
 #. module: l10n_ro_stock
 #: model:ir.model.fields,field_description:l10n_ro_stock.field_stock_warehouse__wh_usage_loc_id

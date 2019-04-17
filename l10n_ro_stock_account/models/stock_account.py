@@ -79,7 +79,7 @@ class StockMove(models.Model):
         ('delivery_notice', 'Delivery with notice'),
         ('delivery_store', 'Delivery from Store'),
         ('delivery_refund', 'Delivery Refund'),
-        ('delivery_refund_store','Delivery Refund Store'),
+        ('delivery_refund_store', 'Delivery Refund Store'),
         ('consume', 'Consume'),
         ('inventory_plus', 'Inventory plus'),
         ('inventory_minus', 'Inventory minus'),
@@ -355,7 +355,7 @@ class StockMove(models.Model):
 
         if uneligible_tax:
             if not move.company_id.tax_cash_basis_journal_id.default_debit_account_id:
-                #raise UserError(_('Please set account for uneligible tax '))
+                # raise UserError(_('Please set account for uneligible tax '))
                 print(_('Please set account for uneligible tax '))
             if not refund:
                 acc_src = move.company_id.tax_cash_basis_journal_id.default_debit_account_id
@@ -397,8 +397,10 @@ class StockMove(models.Model):
 
     def _prepare_account_move_line(self, qty, cost, credit_account_id, debit_account_id):
         self.ensure_one()
+
+
         move = self
-        res = super(StockMove, self)._prepare_account_move_line(qty, cost, credit_account_id, debit_account_id)
+        res = super(StockMove, move)._prepare_account_move_line(qty, cost, credit_account_id, debit_account_id)
 
         if not res:
             return res
@@ -440,7 +442,7 @@ class StockMove(models.Model):
     def _is_dropshipped(self):
         # move_type = self.get_move_type()
         move_type = self.move_type
-        if 'transfer' in move_type or 'transit' in move_type:
+        if move_type and 'transfer' in move_type or 'transit' in move_type:
             return True
         return super(StockMove, self)._is_dropshipped()
 
@@ -521,3 +523,5 @@ class StockInventory(models.Model):
         if any(inv.state not in ('draft', 'cancel') for inv in self):
             raise UserError(_('You can only delete draft inventory.'))
         return super(StockInventory, self).unlink()
+
+
