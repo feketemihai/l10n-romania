@@ -397,11 +397,11 @@ class StockMove(models.Model):
 
     def _prepare_account_move_line(self, qty, cost, credit_account_id, debit_account_id):
         self.ensure_one()
-        config_parameter = self.env['ir.config_parameter'].sudo()
-        account_move_with_zero = eval(config_parameter.get_param(key="force_account_move_with_zero", default="False"))
 
-        move = self.with_context(force_account_move_with_zero=account_move_with_zero)
+
+        move = self
         res = super(StockMove, move)._prepare_account_move_line(qty, cost, credit_account_id, debit_account_id)
+
 
         if not res:
             return res
