@@ -25,6 +25,7 @@ class DailyStockReport(models.TransientModel):
     line_product_ids = fields.One2many('l10n_ro.daily_stock_report.line','report_id')
     line_ref_ids = fields.One2many('l10n_ro.daily_stock_report.ref', 'report_id')
 
+
     @api.model
     def default_get(self, fields_list):
         res = super(DailyStockReport, self).default_get(fields_list)
@@ -287,6 +288,8 @@ class DailyStockReportRef(models.TransientModel):
 class DailyStockReportLine(models.TransientModel):
     _name = 'l10n_ro.daily_stock_report.line'
     _description =  'DailyStockReportLine'
+
+
 
     report_id = fields.Many2one('l10n_ro.daily_stock_report')
     product_id = fields.Many2one('product.product')

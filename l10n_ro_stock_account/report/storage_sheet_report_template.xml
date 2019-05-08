@@ -55,7 +55,6 @@
                                 <t t-set="total" t-value="0.0"/>
                                 <t t-set="total_qty" t-value="0"/>
                                 <tbody>
-
                                     <tr t-foreach="o.line_product_ids" t-as="line">
                                         <t t-set="total" t-value="total + line.amount"/>
                                         <t t-set="total_qty" t-value="total_qty+line.quantity"/>
