@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_supplier_form" model="ir.ui.view">
+        <field name="name">Account Invoice Supplier Form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(account.action_account_invoice_payment)d']" position="replace">
+                <button name="%(account.action_account_payment_from_invoices)d" type="action" states="open" string="Register Payment" groups="account.group_account_invoice" class="oe_highlight"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
