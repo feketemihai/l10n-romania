@@ -129,6 +129,8 @@ class ResConfigSettings(models.TransientModel):
 
     siruta_update = fields.Boolean('Update Siruta Data')
 
+    invoice_report_show_discount = fields.Boolean(string='Show discount on invoice report',config_parameter='l10n_ro_config.show_discount')
+
     @api.multi
     def execute(self):
         self.ensure_one()
