@@ -301,6 +301,9 @@
                                 <span t-field="o.reference"/>
                             </div>
                         </div>
+                        <t t-set="with_discount_distinct" t-value="get_discount"/>
+<!--                        <t t-if="with_discount_distinct">Cu discount</t>-->
+<!--                        <t t-if="not with_discount_distinct">Fara discount</t>-->
                         <table class="table table-condensed  table-bordered">
                             <thead>
                                 <tr>
@@ -308,7 +311,7 @@
                                     <th>Description</th>
                                     <th>Quantity</th>
                                     <th class="text-right">Unit Price</th>
-                                    <th class="text-right" t-if="with_discount(o)"
+                                    <th class="text-right" t-if="with_discount(o) and with_discount_distinct"
                                         groups="sale.group_discount_per_so_line">Discount (%)
                                     </th>
                                     <th class="text-right">Amount</th>
@@ -337,10 +340,13 @@
                                         <t t-set="price_unit_without_taxes" t-value="l.price_unit_without_taxes"/>
                                         <t t-set="price_unit_without_taxes"
                                            t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_unit_without_taxes,currency_id)"/>
+                                        <t t-if="not with_discount_distinct and l.discount">
+
+                                        </t>
                                         <span id="price_unit_without_taxes"
                                               t-esc="formatLang(price_unit_without_taxes)"/>
                                     </td>
-                                    <td class="text-right" t-if="with_discount(o)"
+                                    <td class="text-right" t-if="with_discount(o) and with_discount_distinct"
                                         groups="sale.group_discount_per_so_line">
                                         <span t-field="l.discount"/>
                                     </td>
