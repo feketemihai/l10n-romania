@@ -231,6 +231,8 @@ class StorageSheetReport(models.TransientModel):
 
 class DailyStockReportLine(models.TransientModel):
     _name = 'l10n_ro.storage_sheet_report.line'
+    _description =  'l10n_ro.storage_sheet_report.line'
+
 
     report_id = fields.Many2one('l10n_ro.storage_sheet_report')
     product_id = fields.Many2one('product.product')

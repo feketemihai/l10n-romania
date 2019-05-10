@@ -27,6 +27,7 @@ from datetime import datetime
 from odoo import api, models
 from odoo.tools import formatLang
 from . import  amount_to_text_ro
+import num2words
 
 
 class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
@@ -45,14 +46,14 @@ class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
             'docs': self.env[report.model].browse(docids),
             'convert': self._convert,
             'with_discount': self._with_discount,
-            'formatLang': self._formatLang,
+            'amount_to_text':self._amount_to_text,
             'get_pickings':self._get_pickings,
             'get_discount':self._get_discount(),
         }
 
-    def _formatLang(self, value, *args):
-        return formatLang(self.env, value, *args)
 
+    def _amount_to_text(self, amount, currency):
+        return currency.amount_to_text(amount)
 
     def _convert(self, amount):
         # todo: de folosit libraria num2words dupa ce o sa aiba si limba romana

@@ -159,14 +159,15 @@
                                 <tr>
                                     <td>Amount:</td>
                                     <td>
-                                        <span t-esc="formatLang(abs(o.amount))"/>
-                                        <span t-field="o.currency_id.symbol"/>
+                                        <span t-esc="abs(o.amount)" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+<!--                                        <span t-field="o.currency_id.symbol"/>-->
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Amount (in words):</td>
                                     <td>
-                                        <span t-esc="convert(abs(o.amount))"/>
+<!--                                        <span t-esc="convert(abs(o.amount))"/>-->
+                                        <span t-esc="o.currency_id.amount_to_text(o.amount)" />
                                     </td>
                                 </tr>
                                 <tr>

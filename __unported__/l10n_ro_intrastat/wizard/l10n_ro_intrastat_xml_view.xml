@@ -20,6 +20,9 @@
                       <field name="type"/>
 					  <field name="contact_id"/>
                     </group>
+                    <group>
+                      <field name="cn8"/>
+                    </group>
                   </group>
                   <div states="download">
                     <h2>Intrastat Declaration</h2>
@@ -51,7 +54,7 @@
 
         <menuitem
             name="Intrastat Declaration"
-            parent="account.account_management_menu"
+            parent="account.menu_finance_generic_reporting"
             action="action_intrastat_xml_declaration"
             id="l10n_ro_intrastat_xml_declaration"
             groups="account.group_account_manager"/>

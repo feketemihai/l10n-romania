@@ -106,7 +106,8 @@
                                 <tr>
                                     <td>Amount (in words):</td>
                                     <td>
-                                        <span t-esc="convert(o.amount)"/>
+<!--                                        <span t-esc="convert(o.amount)"/>-->
+                                        <span t-esc="o.currency_id.amount_to_text(o.amount)" />
                                     </td>
                                 </tr>
                                 <tr>

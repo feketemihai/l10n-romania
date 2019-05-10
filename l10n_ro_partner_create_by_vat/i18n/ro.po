@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* partner_create_by_vat
+#	* l10n_ro_partner_create_by_vat
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-09 12:11+0000\n"
-"PO-Revision-Date: 2015-01-09 12:11+0000\n"
+"POT-Creation-Date: 2019-04-12 06:59+0000\n"
+"PO-Revision-Date: 2019-04-12 06:59+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,29 +16,68 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_ro_partner_create_by_vat
-#: view:res.partner:l10n_ro_partner_create_by_vat.view_partner_form
-msgid "Get Partner Data"
-msgstr "Preia Date Partener"
-
-#. module: l10n_ro_partner_create_by_vat
 #: model:ir.model,name:l10n_ro_partner_create_by_vat.model_res_partner
-msgid "Partner"
-msgstr "Partener"
+msgid "Contact"
+msgstr "Contact"
 
 #. module: l10n_ro_partner_create_by_vat
-#: view:res.partner:l10n_ro_partner_create_by_vat.view_partner_form
-msgid "e.g. BE0477472701"
-msgstr "e.g. BE0477472701"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_form
+msgid "Get Partner Data"
+msgstr "Preia date partener"
 
 #. module: l10n_ro_partner_create_by_vat
-#: view:res.partner:l10n_ro_partner_create_by_vat.view_partner_form
-#: field:res.partner,vat_on_payment:0
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__nrc
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users__nrc
+msgid "NRC"
+msgstr "NRC"
+
+#. module: l10n_ro_partner_create_by_vat
+#: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:275
+#, python-format
+msgid "No VAT number found"
+msgstr "CUI negăsit"
+
+#. module: l10n_ro_partner_create_by_vat
+#: code:addons/l10n_ro_partner_create_by_vat/models/res_partner.py:234
+#, python-format
+msgid "Partner vat must be unique per company except on partner with parent/childe relationship. Partners with same vat and not related, are: %s!"
+msgstr ""
+
+#. module: l10n_ro_partner_create_by_vat
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_partner__nrc
+#: model:ir.model.fields,help:l10n_ro_partner_create_by_vat.field_res_users__nrc
+msgid "Registration number at the Registry of Commerce"
+msgstr ""
+
+#. module: l10n_ro_partner_create_by_vat
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__split_vat
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users__split_vat
+msgid "Split VAT"
+msgstr "Split TVA"
+
+#. module: l10n_ro_partner_create_by_vat
+#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_form
+msgid "VAT Detail"
+msgstr "Detalii TVA"
+
+#. module: l10n_ro_partner_create_by_vat
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__vat_subjected
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users__vat_subjected
+msgid "VAT Legal Statement"
+msgstr "Plătitir de TVA"
+
+#. module: l10n_ro_partner_create_by_vat
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_partner__vat_on_payment
+#: model:ir.model.fields,field_description:l10n_ro_partner_create_by_vat.field_res_users__vat_on_payment
 msgid "VAT on Payment"
 msgstr "TVA la Încasare"
 
 #. module: l10n_ro_partner_create_by_vat
-#: view:res.partner:l10n_ro_partner_create_by_vat.view_partner_form
-#: field:res.partner,split_vat:0
-msgid "Split VAT"
-msgstr "Split TVA"
+#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_form
+msgid "e.g. BE0477472701"
+msgstr "ex. RO08486157"
 
+#. module: l10n_ro_partner_create_by_vat
+#: model_terms:ir.ui.view,arch_db:l10n_ro_partner_create_by_vat.view_partner_form
+msgid "e.g. J12/1234/2012"
+msgstr "ex. J12/1234/2012"
