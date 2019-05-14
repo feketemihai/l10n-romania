@@ -440,9 +440,10 @@ class StockMove(models.Model):
         return res
 
     def _is_dropshipped(self):
-        # move_type = self.get_move_type()
         move_type = self.move_type
-        if move_type and 'transfer' in move_type or 'transit' in move_type:
+        if not move_type:
+            move_type = self.get_move_type()
+        if move_type and ('transfer' in move_type or 'transit' in move_type):
             return True
         return super(StockMove, self)._is_dropshipped()
 
