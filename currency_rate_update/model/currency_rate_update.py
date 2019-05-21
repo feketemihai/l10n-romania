@@ -34,8 +34,7 @@ class CurrencyRateUpdateService(models.Model):
     def _check_max_delta_days(self):
         for srv in self:
             if srv.max_delta_days < 0:
-                raise ValidationError(_(
-                    'Max delta days must be >= 0'))
+                raise ValidationError(_('Max delta days must be >= 0'))
 
     @api.multi
     @api.constrains('interval_number')
@@ -47,25 +46,20 @@ class CurrencyRateUpdateService(models.Model):
     @api.onchange('interval_number')
     def _onchange_interval_number(self):
         if self.interval_number == 0:
-            self.note = '%s Service deactivated. Currencies will no longer ' \
-                        'be updated. \n%s' % (fields.Datetime.now(),
-                                              self.note and self.note or '')
+            self.note = '%s Service deactivated. Currencies will no longer be updated. \n%s' % (
+                fields.Datetime.now(), self.note and self.note or '')
 
     @api.onchange('service')
     def _onchange_service(self):
         currency_list = ''
-        res = {'domain': {
-            'currency_to_update': "[('id', '=', False)]",
-        }}
+        res = {'domain': {'currency_to_update': "[('id', '=', False)]", }}
         if self.service:
             currencies = []
             getter = CurrencyGetterType.get(self.service)
             currency_list = getter.supported_currency_array
-            currencies = self.env['res.currency'].search(
-                [('name', 'in', currency_list)])
+            currencies = self.env['res.currency'].search([('name', 'in', currency_list)])
             currency_list = [(6, 0, currencies.ids)]
-            res['domain']['currency_to_update'] = \
-                "[('id', 'in', %s)]" % currencies.ids
+            res['domain']['currency_to_update'] = "[('id', 'in', %s)]" % currencies.ids
         self.currency_list = currency_list
         return res
 
@@ -74,10 +68,7 @@ class CurrencyRateUpdateService(models.Model):
         return res
 
     # List of webservicies the value sould be a class name
-    service = fields.Selection(
-        _selection_service,
-        string="Webservice to use",
-        required=True)
+    service = fields.Selection(_selection_service, string="Webservice to use", required=True)
     # List of currencies available on webservice
     currency_list = fields.Many2many('res.currency',
                                      'res_currency_update_avail_rel',
@@ -86,49 +77,39 @@ class CurrencyRateUpdateService(models.Model):
                                      string='Currencies available')
     # I can't just put readonly=True in the field above because I need
     # it as r+w for the on_change to work
-    currency_list_readonly = fields.Many2many(
-        related='currency_list', readonly=True)
+    currency_list_readonly = fields.Many2many(related='currency_list', readonly=True)
     # List of currency to update
     currency_to_update = fields.Many2many('res.currency',
                                           'res_currency_auto_update_rel',
                                           'service_id',
                                           'currency_id',
-                                          string='Currencies to update with '
-                                                 'this service')
+                                          string='Currencies to update with this service')
     # Link with company
-    company_id = fields.Many2one(
-        'res.company', 'Company', required=True,
-        default=lambda self: self.env['res.company']._company_default_get(
-            'currency.rate.update.service'))
+    company_id = fields.Many2one('res.company', 'Company', required=True,
+                                 default=lambda self: self.env['res.company']._company_default_get(
+                                     'currency.rate.update.service'))
     # Note fileds that will be used as a logger
     note = fields.Text('Update logs')
-    max_delta_days = fields.Integer(
-        string='Max delta days', default=4, required=True,
-        help="If the time delta between the rate date given by the "
-             "webservice and the current date exceeds this value, "
-             "then the currency rate is not updated in Odoo.")
-    interval_type = fields.Selection([
-        ('days', 'Day(s)'),
-        ('weeks', 'Week(s)'),
-        ('months', 'Month(s)')],
-        string='Currency update frequency',
-        default='days')
+    max_delta_days = fields.Integer(string='Max delta days', default=4, required=True,
+                                    help="If the time delta between the rate date given by the "
+                                         "webservice and the current date exceeds this value, "
+                                         "then the currency rate is not updated in Odoo.")
+    interval_type = fields.Selection([('days', 'Day(s)'), ('weeks', 'Week(s)'), ('months', 'Month(s)')],
+                                     string='Currency update frequency', default='days')
     interval_number = fields.Integer(string='Frequency', default=1)
     next_run = fields.Date(string='Next run on', default=fields.Date.today())
 
-    _sql_constraints = [('curr_service_unique',
-                         'unique (service, company_id)',
-                         _('You can use a service only one time per '
-                           'company !'))]
+    _sql_constraints = [
+        ('curr_service_unique', 'unique (service, company_id)', _('You can use a service only one time per company !'))]
 
     @api.multi
     def refresh_currency(self):
         """Refresh the currencies rates !!for all companies now"""
         rate_obj = self.env['res.currency.rate']
         for srv in self:
-            _logger.info(
-                'Starting to refresh currencies with service %s (company: %s)',
-                srv.service, srv.company_id.name)
+            _logger.info('Starting to refresh currencies with service %s (company: %s)', srv.service,
+                         srv.company_id.name)
+
             company = srv.company_id
             # The multi company currency can be set or no so we handle
             # The two case
@@ -136,36 +117,29 @@ class CurrencyRateUpdateService(models.Model):
                 main_currency = company.currency_id
                 # No need to test if main_currency exists, because it is a
                 # required field
-                if float_compare(
-                        main_currency.rate, 1,
-                        precision_rounding=main_currency.rounding):
-                    raise UserError(_(
-                        "In company '%s', the rate of the main currency (%s) "
-                        "must be 1.00 (current rate: %s).") % (
-                                        company.name,
-                                        main_currency.name,
-                                        main_currency.rate))
+                if float_compare(main_currency.rate, 1, precision_rounding=main_currency.rounding):
+                    raise UserError(
+                        _("In company '%s', the rate of the main currency (%s)  must be 1.00 (current rate: %s).") % (
+                            company.name, main_currency.name, main_currency.rate))
+
                 note = srv.note or ''
                 try:
                     # We initalize the class that will handle the request
                     # and return a dict of rate
                     getter = CurrencyGetterType.get(srv.service)
                     curr_to_fetch = [x.name for x in srv.currency_to_update]
-                    res, log_info = getter.get_updated_currency(
-                        curr_to_fetch,
-                        main_currency.name,
-                        srv.max_delta_days
-                    )
-                    rate_name = \
-                        fields.Datetime.to_string(datetime.utcnow().replace(
-                            hour=0, minute=0, second=0, microsecond=0))
+                    res, log_info = getter.get_updated_currency(curr_to_fetch, main_currency.name, srv.max_delta_days)
+                    rate_name = fields.Datetime.to_string(
+                        datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0))
+
                     for curr in srv.currency_to_update:
                         if curr == main_currency:
                             continue
-                        rates = rate_obj.search([
-                            ('currency_id', '=', curr.id),
-                            ('company_id', '=', company.id),
-                            ('name', '=', rate_name)])
+                        rates = rate_obj.search(
+                            [('currency_id', '=', curr.id),
+                             ('company_id', '=', company.id),
+                             ('name', '=', rate_name)]
+                        )
                         if not rates:
                             vals = {
                                 'currency_id': curr.id,
@@ -174,39 +148,28 @@ class CurrencyRateUpdateService(models.Model):
                                 'company_id': company.id,
                             }
                             rate_obj.create(vals)
-                            _logger.info(
-                                'Updated currency %s via service %s '
-                                'in company %s',
-                                curr.name, srv.service, company.name)
+                            _logger.info('Updated currency %s via service %s  in company %s', curr.name, srv.service,
+                                         company.name)
 
                     # Show the most recent note at the top
                     msg = '%s \n%s currency updated. %s' % (
-                        log_info or '',
-                        fields.Datetime.to_string(datetime.today()),
-                        note
-                    )
+                        log_info or '', fields.Datetime.to_string(datetime.today()), note)
                     srv.write({'note': msg})
                 except Exception as exc:
-                    error_msg = '\n%s ERROR: %s %s' % (
-                        fields.Datetime.to_string(datetime.today()),
-                        repr(exc),
-                        note
-                    )
+                    error_msg = '\n%s ERROR: %s %s' % (fields.Datetime.to_string(datetime.today()), repr(exc), note)
                     _logger.error(repr(exc))
                     srv.write({'note': error_msg})
                 if self._context.get('cron'):
                     midnight = time(0, 0)
-                    next_run = (datetime.combine(
-                        fields.Date.from_string(srv.next_run),
-                        midnight) + _intervalTypes[str(srv.interval_type)]
-                                (srv.interval_number)).date()
+                    next_run = (datetime.combine(fields.Date.from_string(srv.next_run), midnight) + _intervalTypes[
+                        str(srv.interval_type)](srv.interval_number)).date()
                     srv.next_run = next_run
         return True
 
     @api.multi
     def run_currency_update(self):
         # Update currency at the given frequence
-        services = self.search([('next_run', '=', fields.Date.today())])
+        services = self.search([('next_run', '<=', fields.Date.today())])
         services.with_context(cron=True).refresh_currency()
 
     @api.model
@@ -215,20 +178,16 @@ class CurrencyRateUpdateService(models.Model):
         self.run_currency_update()
         _logger.info('End of the currency rate update cron')
 
-
-
-
-
     @api.multi
     def run_update_all_year(self):
-        year = self.next_run.year #int(self.next_run[:4])
+        year = self.next_run.year  # int(self.next_run[:4])
         main_currency = self.company_id.currency_id
         if main_currency.rate != 1:
             raise ValidationError(_('Base currency rate should be 1.00!'))
 
         getter = CurrencyGetterType.get(self.service)
 
-        #curr_to_fetch = map(lambda x: x.name, self.currency_to_update)
+        # curr_to_fetch = map(lambda x: x.name, self.currency_to_update)
         curr_to_fetch = self.currency_to_update.mapped('name')
 
         itmes = getter.get_updated_all_year(curr_to_fetch, main_currency.name, year)
@@ -238,9 +197,11 @@ class CurrencyRateUpdateService(models.Model):
                     if curr.id == main_currency.id:
                         continue
 
-                    rate = curr.rate_ids.filtered(lambda r: r.name == rate_name)
+                    vals = {'currency_id': curr.id, 'rate': res[curr.name], 'name': rate_name}
+                    rate = self.env['res.currency.rate'].search([
+                        ('name', '=', rate_name),
+                        ('currency_id', '=', curr.id),
+                    ])
                     if rate:
-                        rate.rate = res[curr.name]
-                    else:
-                        vals = {'currency_id': curr.id, 'rate': res[curr.name], 'name': rate_name}
-                        self.env['res.currency.rate'].create(vals)
+                        rate.unlink()
+                    self.env['res.currency.rate'].create(vals)
