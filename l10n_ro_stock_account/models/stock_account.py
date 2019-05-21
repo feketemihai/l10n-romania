@@ -526,3 +526,7 @@ class StockInventory(models.Model):
         return super(StockInventory, self).unlink()
 
 
+class StockReturnPickingLine(models.TransientModel):
+    _inherit = "stock.return.picking.line"
+
+    to_refund = fields.Boolean(default=True)
