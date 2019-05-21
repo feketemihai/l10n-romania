@@ -530,3 +530,16 @@ class StockReturnPickingLine(models.TransientModel):
     _inherit = "stock.return.picking.line"
 
     to_refund = fields.Boolean(default=True)
+
+
+class ReturnPicking(models.TransientModel):
+    _inherit = 'stock.return.picking'
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super(ReturnPicking, self).default_get(fields_list)
+        if 'product_return_moves' in res:
+            product_return_moves = res['product_return_moves']
+            for product_return_move in product_return_moves:
+                product_return_move[2]['to_refund'] = True
+        return res
