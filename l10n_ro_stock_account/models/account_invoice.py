@@ -60,24 +60,47 @@ class AccountInvoice(models.Model):
     def invoice_line_move_line_get(self):
 
         res = super(AccountInvoice, self).invoice_line_move_line_get()
+        # este setat contul 408 in configurare ?
         account_id = self.company_id.property_stock_picking_payable_account_id
         # char daca nu este sistem anglo saxon diferentele de pret dintre receptie si factura trebuie inregistrate
         if not self.env.user.company_id.anglo_saxon_accounting:
             if self.type in ['in_invoice', 'in_refund']:
                 diff_limit = float(self.env['ir.config_parameter'].sudo().get_param('stock_account.diff_limit', '2.0'))
+
+                # se adaga nota contabilia cu diferanta de pret la achizitie ?
+
+                add_diff_from_config = eval(self.env['ir.config_parameter'].sudo().get_param('stock_account.add_diff', 'False'))
+
                 for i_line in self.invoice_line_ids:
+                    if i_line.product_id.cost_method == 'standard':
+                        add_diff =  True  # daca pretul este standard se inregistreaza diferentele de pret.
+                    else:
+                        add_diff = add_diff_from_config
+
+                    # daca linia a fost peceptionata  de pe baza de aviz se seteaza contul 408 pe nota contabile
                     if account_id and i_line.account_id == account_id:
                         i_line = i_line.with_context(fix_stock_input=account_id)
+                        add_diff = True  #trbuie sa adaug diferenta dintre recpetia pe baza de aviz si receptia din factura
                     diff_line = self._anglo_saxon_purchase_move_lines(i_line, res)
 
                     ok = False
+                    line_diff_value = 0.0
                     for diff in diff_line:
-                        if abs(diff['price_unit'] * diff['quantity']) > diff_limit:
-                            raise UserError(_('The price difference for the product %s exceeds the %d limit ') % (i_line.product_id.name,diff_limit))
-                        if diff['price_unit'] != 0:
-                            ok = True
+                        if add_diff:
+                            if abs(diff['price_unit'] * diff['quantity']) > diff_limit:
+                                raise UserError(_('The price difference for the product %s exceeds the %d limit ') % (i_line.product_id.name,diff_limit))
+                            if diff['price_unit'] != 0:
+                                ok = True
+                        else:
+                            line_diff_value += diff['price_unit'] * diff['quantity']
                     if ok:
                         res.extend(diff_line)
+
+                    if line_diff_value:
+                        i_line.modify_stock_move_value(line_diff_value)
+
+
+
 
         for line in res:
             line['stock_location_id'] = self.stock_location_id.id
@@ -102,6 +125,35 @@ class AccountInvoice(models.Model):
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
+
+
+
+    @api.multi
+    def modify_stock_move_value(self, line_diff_value):
+        if self.product_id and self.product_id.valuation == 'real_time' and self.product_id.type == 'product':
+            if self.product_id.cost_method != 'standard' and self.purchase_line_id:
+                stock_move_obj = self.env['stock.move']
+                valuation_stock_move = stock_move_obj.search([
+                    ('purchase_line_id', '=', self.purchase_line_id.id),
+                    ('state', '=', 'done'), ('product_qty', '!=', 0.0)
+                ])
+                if self.invoice_id.type == 'in_refund':
+                    valuation_stock_move = valuation_stock_move.filtered(lambda m: m._is_out())
+                elif self.invoice_id.type == 'in_invoice':
+                    valuation_stock_move = valuation_stock_move.filtered(lambda m: m._is_in())
+
+                if valuation_stock_move:
+                    for move in valuation_stock_move:
+                        cost_to_add = (move.remaining_qty / move.product_qty) * line_diff_value
+                        move.write({
+                            'value':  move.value + line_diff_value,
+                            'remaining_value': move.remaining_value + cost_to_add,
+                            'price_unit': (move.value + line_diff_value) / move.product_qty,
+                        })
+                        #todo: de actualizat pretul standard cu noua valoare de stoc
+
+
+
 
     @api.onchange('product_id')
     def _onchange_product_id(self):

@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 
 class RunDeclaration(models.TransientModel):
     _name = "l10n_ro.run.declaration"
+    _description = 'RunDeclaration'
 
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)

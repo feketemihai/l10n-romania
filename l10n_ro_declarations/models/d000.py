@@ -8,6 +8,7 @@ from odoo import api, fields, models
 
 class D000Report(models.AbstractModel):
     _name = "l10n_ro.d000_report"
+    _description = 'D000Report'
     _code = 'D000'
 
     company_id = fields.Many2one(comodel_name='res.company')

@@ -402,6 +402,7 @@ class StockMove(models.Model):
         move = self
         res = super(StockMove, move)._prepare_account_move_line(qty, cost, credit_account_id, debit_account_id)
 
+
         if not res:
             return res
         # move_type = self.env.context.get('move_type', move.get_move_type())
@@ -456,8 +457,7 @@ class stock_picking(models.Model):
 
     # prin acest camp se indica daca un produs care e stocabil trece prin contul 408 / 418 la achizitie sau vanzare
     # receptie/ livrare in baza de aviz
-    notice = fields.Boolean('Is a notice', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]},
-                            default=False)
+    notice = fields.Boolean('Is a notice', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}, default=False)
 
     @api.multi
     def action_done(self):
