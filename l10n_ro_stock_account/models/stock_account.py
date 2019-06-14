@@ -443,7 +443,7 @@ class StockMove(models.Model):
     def _is_dropshipped(self):
         # move_type = self.get_move_type()
         move_type = self.move_type
-        if 'transfer' in move_type or 'transit' in move_type:
+        if move_type and ('transfer' in move_type or 'transit' in move_type):
             return True
         return super(StockMove, self)._is_dropshipped()
 
@@ -524,3 +524,22 @@ class StockInventory(models.Model):
         if any(inv.state not in ('draft', 'cancel') for inv in self):
             raise UserError(_('You can only delete draft inventory.'))
         return super(StockInventory, self).unlink()
+
+
+class StockReturnPickingLine(models.TransientModel):
+    _inherit = "stock.return.picking.line"
+
+    to_refund = fields.Boolean(default=True)
+
+
+class ReturnPicking(models.TransientModel):
+    _inherit = 'stock.return.picking'
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super(ReturnPicking, self).default_get(fields_list)
+        if 'product_return_moves' in res:
+            product_return_moves = res['product_return_moves']
+            for product_return_move in product_return_moves:
+                product_return_move[2]['to_refund'] = True
+        return res

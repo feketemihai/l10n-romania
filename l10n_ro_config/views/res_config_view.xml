@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
 
         <record id="res_config_settings_view_form" model="ir.ui.view">
@@ -13,9 +13,12 @@
                 </xpath>
 
                 <xpath expr="//div[hasclass('settings')]" position="inside">
+
                     <div class="app_settings_block" data-string="Romania" string="Romania" data-key="l10n_ro_config"
                          groups="account.group_account_manager">
+
                         <h2>Accounting</h2>
+
                         <div class="row mt16 o_settings_container">
                             <div class="col-xs-12 col-md-6 o_setting_box"
                                  attrs="{'invisible': [('group_multi_currency', '=', False)]}">
@@ -65,12 +68,12 @@
                                         <div class="row mt16">
                                             <label for="property_customer_advance_account_id"
                                                    class="col-md-3 o_light_label"/>
-                                            <field name="property_customer_advance_account_id" placeholder="419"/>
+                                            <field name="property_customer_advance_account_id" placeholder="Select 419"/>
                                         </div>
                                         <div class="row mt16">
                                             <label for="property_supplier_advance_account_id"
                                                    class="col-md-3 o_light_label"/>
-                                            <field name="property_supplier_advance_account_id" placeholder="4091"/>
+                                            <field name="property_supplier_advance_account_id" placeholder="Select 4091"/>
                                         </div>
                                     </div>
                                 </div>
@@ -119,10 +122,12 @@
 
 
                     </div>
+
                 </xpath>
+
             </field>
         </record>
 
 
     </data>
-</openerp>
+</odoo>

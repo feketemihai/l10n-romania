@@ -64,17 +64,24 @@ class DailyStockReport(models.TransientModel):
 
         to_date = self.date_from
         query = """SELECT aml.product_id, aml.account_id, sum(aml.debit) - sum(aml.credit), 
-                    sum(CASE WHEN stock_location_dest_id = %s THEN -1*quantity
+                    sum(CASE WHEN stock_location_dest_id = %(location)s THEN -1*quantity
                         ELSE quantity
                         END), 
                     array_agg(aml.id)
                         FROM account_move_line AS aml 
                             WHERE aml.product_id IS NOT NULL AND 
-                                    aml.company_id=%s AND 
-                                    aml.date < %s AND 
-                                   ( stock_location_id = %s OR stock_location_dest_id = %s) 
+                                    aml.company_id=%(company)s AND 
+                                    aml.date < %(date)s AND 
+                                   ( stock_location_id = %(location)s OR stock_location_dest_id = %(location)s) 
                             GROUP BY aml.product_id, aml.account_id """
-        params = (self.location_id.id, self.env.user.company_id.id, to_date, self.location_id.id, self.location_id.id)
+
+
+        params = {
+            'location': self.location_id.id,
+            'company': self.company_id.id,
+            'date': self.date_from,
+        }
+
 
         self.env.cr.execute(query, params=params)
 
@@ -86,18 +93,24 @@ class DailyStockReport(models.TransientModel):
         products = self.env['product.product'].browse(product_ids)
 
         query = """SELECT aml.product_id, aml.account_id, sum(aml.debit) - sum(aml.credit), 
-                        sum(CASE WHEN stock_location_dest_id = %s THEN -1*quantity
+                        sum(CASE WHEN stock_location_dest_id = %(location)s THEN -1*quantity
                             ELSE quantity
                             END), 
                         array_agg(aml.id) 
                          FROM account_move_line AS aml
                               WHERE aml.product_id IS NOT NULL AND 
-                                       aml.company_id=%s AND 
-                                       aml.date >= %s AND aml.date  <= %s AND
-                                        ( stock_location_id = %s OR stock_location_dest_id = %s) AND
+                                       aml.company_id=%(company)s AND 
+                                       aml.date >= %(date_from)s AND aml.date  <= %(date_to)s AND
+                                        ( stock_location_id = %(location)s OR stock_location_dest_id = %(location)s ) AND
                                        (aml.debit  -  aml.credit) >= 0 
                               GROUP BY aml.product_id, aml.account_id"""
-        params = (self.location_id.id,self.env.user.company_id.id, self.date_from, self.date_to, self.location_id.id, self.location_id.id)
+
+        params = {
+            'location': self.location_id.id,
+            'company': self.company_id.id,
+            'date_from': self.date_from  ,
+            'date_to': self.date_to  ,
+        }
 
         self.env.cr.execute(query, params=params)
         product_ids = []
@@ -108,18 +121,25 @@ class DailyStockReport(models.TransientModel):
         products |= self.env['product.product'].browse(product_ids)
 
         query = """SELECT aml.product_id, aml.account_id, sum(aml.debit) - sum(aml.credit), 
-                        sum(CASE WHEN stock_location_dest_id = %s THEN -1*quantity
+                        sum(CASE WHEN stock_location_dest_id = %(location)s THEN -1*quantity
                             ELSE quantity
                             END),
                              array_agg(aml.id) 
                                  FROM account_move_line AS aml
                                       WHERE aml.product_id IS NOT NULL AND 
-                                               aml.company_id=%s AND 
-                                               aml.date >= %s AND aml.date  <= %s AND
-                                                ( stock_location_id = %s OR stock_location_dest_id = %s) AND
+                                               aml.company_id=%(company)s AND 
+                                               aml.date >= %(date_from)s AND aml.date  <= %(date_to)s AND
+                                                ( stock_location_id = %(location)s OR stock_location_dest_id = %(location)s) AND
                                                (aml.debit  -  aml.credit) < 0 
                                       GROUP BY aml.product_id, aml.account_id"""
         params = (self.location_id.id, self.env.user.company_id.id, self.date_from, self.date_to, self.location_id.id, self.location_id.id)
+
+        params = {
+            'location': self.location_id.id,
+            'company': self.company_id.id,
+            'date_from': self.date_from,
+            'date_to': self.date_to,
+        }
 
         self.env.cr.execute(query, params=params)
         product_ids = []

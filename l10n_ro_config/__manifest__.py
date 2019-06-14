@@ -23,5 +23,5 @@
         'views/common_report.xml'
     ],
     'images': [],
-    'auto_install': True,
+    'auto_install': False,
 }
