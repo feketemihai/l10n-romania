@@ -127,6 +127,15 @@ class ResConfigSettings(models.TransientModel):
                                                          related='company_id.property_stock_transfer_account_id',readonly=False,
                                                          string="Stock Transfer Account")
 
+    property_trade_discount_received_account_id = fields.Many2one('account.account',
+                                                                  related='company_id.property_trade_discount_received_account_id',
+                                                                  readonly=False,
+                                                                  string='Trade discounts received')
+    property_trade_discount_granted_account_id = fields.Many2one('account.account',
+                                                                 related='company_id.property_trade_discount_granted_account_id',
+                                                                 readonly=False,
+                                                                 string='Trade discounts granted')
+
     siruta_update = fields.Boolean('Update Siruta Data')
 
     invoice_report_show_discount = fields.Boolean(string='Show discount on invoice report',config_parameter='l10n_ro_config.show_discount')

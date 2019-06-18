@@ -96,7 +96,7 @@
                         <h2>Stock Accounting</h2>
 
                         <div class="row mt16 o_settings_container">
-                            <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="col-12 col-lg-6 o_setting_box">
                                 <div class="o_setting_left_pane">
                                     <field name="module_l10n_ro_stock"/>
                                 </div>
@@ -106,36 +106,88 @@
                                          attrs="{'invisible': [('module_l10n_ro_stock', '=', False)]}">
                                         <div class="row mt16">
                                             <label for="property_stock_picking_receivable_account_id"
-                                                   class="col-md-3 o_light_label"/>
+                                                   class="col-lg-3 o_light_label"/>
                                             <field name="property_stock_picking_receivable_account_id"
                                                    placeholder="Select 418"/>
                                         </div>
                                         <div class="row mt16">
                                             <label for="property_stock_picking_payable_account_id"
-                                                   class="col-md-3 o_light_label"/>
+                                                   class="col-lg-3 o_light_label"/>
                                             <field name="property_stock_picking_payable_account_id" placeholder="Select 408"/>
                                         </div>
                                         <div class="row mt16">
                                             <label for="property_stock_usage_giving_account_id"
-                                                   class="col-md-3 o_light_label"/>
+                                                   class="col-lg-3 o_light_label"/>
                                             <field name="property_stock_usage_giving_account_id" placeholder="Select 8035"/>
                                         </div>
                                         <div class="row mt16">
                                             <label for="property_stock_picking_custody_account_id"
-                                                   class="col-md-3 o_light_label"/>
+                                                   class="col-lg-3 o_light_label"/>
                                             <field name="property_stock_picking_custody_account_id" placeholder=""/>
                                         </div>
                                         <div class="row mt16">
                                             <label for="property_stock_transfer_account_id"
-                                                   class="col-md-3 o_light_label"/>
+                                                   class="col-lg-3 o_light_label"/>
                                             <field name="property_stock_transfer_account_id" placeholder="Select 482"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box"  >
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+
+                                    <div class="text-muted">
+
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                             <div class="row mt16">
+                                                <label for="property_trade_discount_received_account_id"
+                                                       class="col-lg-3 o_light_label"/>
+                                                <field name="property_trade_discount_received_account_id" placeholder="Select 609"/>
+                                            </div>
+                                            <div class="row mt16">
+                                                <label for="property_trade_discount_granted_account_id"
+                                                       class="col-lg-3 o_light_label"/>
+                                                <field name="property_trade_discount_granted_account_id" placeholder="Select 709"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+<!--
+                        <h2>Trade discounts</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_left_pane">
 
+                                </div>
+                                <div class="o_setting_right_pane">
+
+                                    <div class="content-group" >
+
+                                        <div class="row mt16">
+                                            <label for="property_trade_discount_received_account_id"
+                                                   class="col-lg-3 o_light_label"/>
+                                            <field name="property_trade_discount_received_account_id" placeholder="Select 609"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label for="property_trade_discount_granted_account_id"
+                                                   class="col-lg-3 o_light_label"/>
+                                            <field name="property_trade_discount_granted_account_id" placeholder="Select 709"/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                -->
                     </div>
 
                 </xpath>

@@ -11,7 +11,6 @@ from odoo.exceptions import AccessError, UserError
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-
     # nu trebuie sa se schimbe locatia la receptie
     stock_location_id = fields.Many2one('stock.location', readonly=True, states={'draft': [('readonly', False)]})
 
@@ -60,6 +59,7 @@ class AccountInvoice(models.Model):
     def invoice_line_move_line_get(self):
 
         res = super(AccountInvoice, self).invoice_line_move_line_get()
+
         # este setat contul 408 in configurare ?
         account_id = self.company_id.property_stock_picking_payable_account_id
         # char daca nu este sistem anglo saxon diferentele de pret dintre receptie si factura trebuie inregistrate
@@ -69,37 +69,43 @@ class AccountInvoice(models.Model):
 
                 # se adaga nota contabilia cu diferanta de pret la achizitie ?
 
-                add_diff_from_config = eval(self.env['ir.config_parameter'].sudo().get_param('stock_account.add_diff', 'False'))
+                add_diff_from_config = eval(
+                    self.env['ir.config_parameter'].sudo().get_param('stock_account.add_diff', 'False'))
 
                 for i_line in self.invoice_line_ids:
                     if i_line.product_id.cost_method == 'standard':
-                        add_diff =  True  # daca pretul este standard se inregistreaza diferentele de pret.
+                        add_diff = True  # daca pretul este standard se inregistreaza diferentele de pret.
                     else:
                         add_diff = add_diff_from_config
 
                     # daca linia a fost peceptionata  de pe baza de aviz se seteaza contul 408 pe nota contabile
                     if account_id and i_line.account_id == account_id:
                         i_line = i_line.with_context(fix_stock_input=account_id)
-                        add_diff = True  #trbuie sa adaug diferenta dintre recpetia pe baza de aviz si receptia din factura
+                        add_diff = True  # trbuie sa adaug diferenta dintre recpetia pe baza de aviz si receptia din factura
                     diff_line = self._anglo_saxon_purchase_move_lines(i_line, res)
 
-                    ok = False
                     line_diff_value = 0.0
                     for diff in diff_line:
+
                         if add_diff:
                             if abs(diff['price_unit'] * diff['quantity']) > diff_limit:
-                                raise UserError(_('The price difference for the product %s exceeds the %d limit ') % (i_line.product_id.name,diff_limit))
-                            if diff['price_unit'] != 0:
-                                ok = True
+                                raise UserError(_('The price difference for the product %s exceeds the %d limit ') % (
+                                i_line.product_id.name, diff_limit))
+
                         else:
                             line_diff_value += diff['price_unit'] * diff['quantity']
-                    if ok:
+                            diff['account_id'] = i_line.account_id.id
+                            diff['name'] += _(' Price difference')
+                            diff['quantity'] = 0.0  # nu mai este necesara inregistrarea cantitatii
+
+                    if diff_line:
                         res.extend(diff_line)
 
                     if line_diff_value:
                         i_line.modify_stock_move_value(line_diff_value)
 
-
+        if self.type in ['in_invoice', 'in_refund']:
+            res = self.trade_discount_distribution(res)
 
 
         for line in res:
@@ -107,6 +113,59 @@ class AccountInvoice(models.Model):
 
         return res
 
+
+    @api.multi
+    def trade_discount_distribution(self, res):
+
+        # distribuire valaore de pe linii cu discount comerical
+        account_id = self.company_id.property_trade_discount_received_account_id
+
+        discounts = {}
+        discount_lines = self.invoice_line_ids.filtered(lambda x: x.account_id.id == account_id.id)
+        for line in discount_lines:
+            discounts[line.id] = {
+                'line_id': line,
+                'amount': line.price_subtotal,
+                'rap':0.0,
+                'lines': self.env['account.invoice.line']
+            }
+            for aml in res:
+                if aml.get('invl_id') == line.id:
+                    discounts[line.id]['aml'] = aml
+
+        invoice_lines = []
+        for line in self.invoice_line_ids:
+            invoice_lines.insert(0, line)
+        # pentru ce linii sunt aferente aceste discounturi - sunt luate in calcul liniile de inaintea discountului
+        discount = False
+        for line in invoice_lines:   ##self.invoice_line_ids.sorted(key=lambda r: r.sequence, reverse=True):
+            if line.account_id.id == account_id.id:
+                discount = discounts[line.id]
+            else:
+                # eventual se va adauga o conditie petnru a utiliza dosr conturle care sunt de stoc
+                if discount and line.product_id.type == 'product':
+                    discount['lines'] |= line
+
+        for line_id in discounts:
+            value = 0
+            for line in discounts[line_id]['lines']:
+                value += line.price_subtotal
+            if value:
+                rap = discounts[line_id]['amount'] / value
+                discounts[line_id]['rap'] = rap
+
+                for line in discounts[line_id]['lines']:
+                    for aml in res:
+                        if aml.get('invl_id') == line.id:
+                            val = aml['price']* discounts[line_id]['rap']
+                            aml['price'] += val
+                            discounts[line_id]['aml']['price'] += -val
+                            line.modify_stock_move_value(val)
+
+        for aml in res:
+            if aml['price'] == 0:
+                res.remove(aml)
+        return res
 
 
     # @api.multi
@@ -122,14 +181,12 @@ class AccountInvoice(models.Model):
     #     return move_lines
 
 
-
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 
-
-
     @api.multi
     def modify_stock_move_value(self, line_diff_value):
+        product = self.product_id  # with_context(to_date=self.invoice_id.date_invoice)
         if self.product_id and self.product_id.valuation == 'real_time' and self.product_id.type == 'product':
             if self.product_id.cost_method != 'standard' and self.purchase_line_id:
                 stock_move_obj = self.env['stock.move']
@@ -146,14 +203,15 @@ class AccountInvoiceLine(models.Model):
                     for move in valuation_stock_move:
                         cost_to_add = (move.remaining_qty / move.product_qty) * line_diff_value
                         move.write({
-                            'value':  move.value + line_diff_value,
+                            'value': move.value + line_diff_value,
                             'remaining_value': move.remaining_value + cost_to_add,
                             'price_unit': (move.value + line_diff_value) / move.product_qty,
                         })
-                        #todo: de actualizat pretul standard cu noua valoare de stoc
+                        # todo: de actualizat pretul standard cu noua valoare de stoc
 
-
-
+                stock_value = product.stock_value  # + line_diff_value
+                new_price = stock_value / product.qty_at_date
+                self.product_id.write({'standard_price': new_price})
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
