@@ -4,8 +4,10 @@ odoo.define('l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_backend',
 var core = require('web.core');
 var Widget = require('web.Widget');
 var ControlPanelMixin = require('web.ControlPanelMixin');
-var session = require('web.session');
+
 var ReportWidget = require('l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_widget');
+
+var session = require('web.session');
 var framework = require('web.framework');
 var crash_manager = require('web.crash_manager');
 
@@ -65,14 +67,13 @@ var report_backend = Widget.extend(ControlPanelMixin, {
     },
     // Updates the control panel and render the elements that have yet to be rendered
     update_cp: function() {
-        if (!this.$buttons) {
-
-        }
-        var status = {
-            breadcrumbs: this.actionManager.get_breadcrumbs(),
-            cp_content: {$buttons: this.$buttons},
-        };
-        return this.update_control_panel(status);
+        if (this.$buttons) {
+                var status = {
+                    breadcrumbs: this.actionManager.get_breadcrumbs(),
+                    cp_content: {$buttons: this.$buttons},
+                };
+                return this.update_control_panel(status);
+            }
     },
     do_show: function() {
         this._super();
@@ -100,6 +101,9 @@ var report_backend = Widget.extend(ControlPanelMixin, {
         .then(function(result){
             self.do_action(result);
         });
+    },
+    canBeRemoved: function () {
+        return $.when();
     },
 });
 

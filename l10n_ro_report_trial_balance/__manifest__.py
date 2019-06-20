@@ -11,7 +11,12 @@
     'website': 'https://www.forbiom.eu',
     'license': 'AGPL-3',
     'installable': True,
-    'depends': ['account', 'account_financial_report', 'l10n_ro'],
+    'depends': [
+        'account',
+        'report_xlsx',
+        #'account_financial_report',
+        ''
+        'l10n_ro'],
     'data': [
         "views/layouts.xml",
         "views/report_template.xml",
@@ -19,5 +24,6 @@
         "views/trial_balance.xml",
         "views/trial_balance_view.xml",
         "wizards/trial_balance_wizard_view.xml",
+        'data/account_group.xml'
     ],
 }
