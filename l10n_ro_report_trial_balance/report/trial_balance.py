@@ -22,36 +22,23 @@ class RomaniaTrialBalanceReport(models.TransientModel):
     only_posted_moves = fields.Boolean()
     hide_account_balance_at_0 = fields.Boolean()
     with_special_accounts = fields.Boolean()
-    company_id = fields.Many2one(comodel_name='res.company')
-    account_ids = fields.Many2many(comodel_name='account.account')
+    company_id = fields.Many2one('res.company')
+    account_ids = fields.Many2many('account.account')
 
     # Data fields, used to browse report data
-    line_account_ids = fields.One2many(
-        comodel_name='l10n_ro_report_trial_balance_account',
-        inverse_name='report_id'
-    )
+    line_account_ids = fields.One2many('l10n_ro_report_trial_balance_account', inverse_name='report_id')
 
 
 class RomaniaTrialBalanceAccountReport(models.TransientModel):
     _name = 'l10n_ro_report_trial_balance_account'
     _order = 'code ASC, name ASC'
 
-    report_id = fields.Many2one(
-        comodel_name='l10n_ro_report_trial_balance',
-        ondelete='cascade',
-        index=True
-    )
+    report_id = fields.Many2one('l10n_ro_report_trial_balance', ondelete='cascade', index=True)
 
     # Data fields, used to keep link with real object
-    account_id = fields.Many2one(
-        'account.account',
-        index=True
-    )
+    account_id = fields.Many2one('account.account', index=True)
 
-    account_group_id = fields.Many2one(
-        'account.group',
-        index=True
-    )
+    account_group_id = fields.Many2one('account.group', index=True)
 
     # Data fields, used for report display
     code = fields.Char()
@@ -86,13 +73,12 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
         if report_type == 'xlsx':
             report_name = 'l10n_ro_report_trial_balance_xlsx'
         else:
-            report_name = \
-                'l10n_ro_report_trial_balance.' \
-                'l10n_ro_report_trial_balance_qweb'
+            report_name = 'l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_qweb'
         action = self.env['ir.actions.report'].search(
             [('report_name', '=', report_name),
              ('report_type', '=', report_type)], limit=1)
         return action.with_context(context).report_action(self)
+
 
     def _get_html(self):
         result = {}
@@ -100,12 +86,23 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
         context = dict(self.env.context)
         report = self.browse(context.get('active_id'))
         if report:
-            rcontext['o'] = report
-            result['html'] = self.env.ref(
-                'l10n_ro_report_trial_balance.'
-                'l10n_ro_report_trial_balance').render(
-                rcontext)
+            action =  self.env.ref('l10n_ro_report_trial_balance.action_l10n_ro_report_trial_balance_control')
+            html = action.render_qweb_html( report.ids)
+            result['html'] = html[0]
+
         return result
+
+
+
+    # def _get_html(self):
+    #     result = {}
+    #     rcontext = {}
+    #     context = dict(self.env.context)
+    #     report = self.browse(context.get('active_id'))
+    #     if report:
+    #         rcontext['o'] = report
+    #         result['html'] = self.env.ref('l10n_ro_report_trial_balance.l10n_ro_report_trial_balance').render(rcontext)
+    #     return result
 
     @api.model
     def get_html(self, given_context=None):
@@ -122,8 +119,7 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
     def _inject_account_lines(self):
         """Inject report values for report_trial_balance_account"""
         date_from = fields.Date.from_string(self.date_from)
-        fy_start_date = fields.Date.to_string(
-            date_from + relativedelta(day=1, month=1))
+        fy_start_date = fields.Date.to_string(date_from + relativedelta(day=1, month=1))
         if self.only_posted_moves:
             states = "'posted'"
         else:
@@ -131,79 +127,77 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
         if self.account_ids:
             accounts = self.account_ids
         else:
-            accounts = self.env['account.account'].search(
-                [('company_id', '=', self.company_id.id)])
+            accounts = self.env['account.account'].search([('company_id', '=', self.company_id.id)])
+
         if not self.with_special_accounts:
-            sp_acc_type = self.env.ref(
-                'l10n_ro.data_account_type_not_classified')
+            sp_acc_type = self.env.ref('l10n_ro.data_account_type_not_classified')
             if sp_acc_type:
-                accounts = accounts.filtered(
-                    lambda a: a.user_type_id.id != sp_acc_type.id)
+                accounts = accounts.filtered(lambda a: a.user_type_id.id != sp_acc_type.id)
         query_inject_account = """
-INSERT INTO
-    l10n_ro_report_trial_balance_account
-    (
-    report_id,
-    create_uid,
-    create_date,
-    account_id,
-    code,
-    name,
-    debit_opening,
-    credit_opening,
-    debit_initial,
-    credit_initial,
-    debit,
-    credit,
-    debit_total,
-    credit_total,
-    debit_balance,
-    credit_balance)
-SELECT
-    %s AS report_id,
-    %s AS create_uid,
-    NOW() AS create_date,
-    accounts.*,
-    CASE WHEN accounts.debit_total > accounts.credit_total
-        THEN accounts.debit_total - accounts.credit_total
-        ELSE 0
-    END AS debit_balance,
-    CASE WHEN accounts.credit_total > accounts.debit_total
-        THEN accounts.credit_total - accounts.debit_total
-        ELSE 0
-    END AS credit_balance
-FROM
-    (
-    SELECT
-        acc.id, acc.code, acc.name,
-        coalesce(sum(open.debit),0) AS debit_opening,
-        coalesce(sum(open.credit),0) AS credit_opening,
-        coalesce(sum(init.debit),0) AS debit_initial,
-        coalesce(sum(init.credit),0) AS credit_initial,
-        coalesce(sum(current.debit),0) AS debit,
-        coalesce(sum(current.credit),0) AS credit,
-        coalesce(sum(open.debit),0) + coalesce(sum(init.debit),0) +
-            coalesce(sum(current.debit),0) AS debit_total,
-        coalesce(sum(open.credit),0) + coalesce(sum(init.credit),0) +
-            coalesce(sum(current.credit),0) AS credit_total
-    FROM
-        account_account acc
-        LEFT OUTER JOIN account_move_line AS open
-            ON open.account_id = acc.id AND open.date < %s
-        LEFT OUTER JOIN account_move_line AS init
-            ON init.account_id = acc.id AND init.date >= %s AND init.date < %s
-        LEFT OUTER JOIN account_move_line AS current
-            ON current.account_id = acc.id AND current.date >= %s
-                AND current.date <= %s
-        LEFT JOIN account_move AS move
-            ON open.move_id = move.id AND move.state in (%s)
-        LEFT JOIN account_move AS init_move
-            ON init.move_id = init_move.id AND init_move.state in (%s)
-        LEFT JOIN account_move AS current_move
-            ON current.move_id = current_move.id AND current_move.state in (%s)
-    WHERE acc.id in %s
-    GROUP BY acc.id
-    ORDER BY acc.code) as accounts"""
+                INSERT INTO
+                    l10n_ro_report_trial_balance_account
+                    (
+                    report_id,
+                    create_uid,
+                    create_date,
+                    account_id,
+                    code,
+                    name,
+                    debit_opening,
+                    credit_opening,
+                    debit_initial,
+                    credit_initial,
+                    debit,
+                    credit,
+                    debit_total,
+                    credit_total,
+                    debit_balance,
+                    credit_balance)
+                SELECT
+                    %s AS report_id,
+                    %s AS create_uid,
+                    NOW() AS create_date,
+                    accounts.*,
+                    CASE WHEN accounts.debit_total > accounts.credit_total
+                        THEN accounts.debit_total - accounts.credit_total
+                        ELSE 0
+                    END AS debit_balance,
+                    CASE WHEN accounts.credit_total > accounts.debit_total
+                        THEN accounts.credit_total - accounts.debit_total
+                        ELSE 0
+                    END AS credit_balance
+                FROM
+                    (
+                    SELECT
+                        acc.id, acc.code, acc.name,
+                        coalesce(sum(open.debit),0) AS debit_opening,
+                        coalesce(sum(open.credit),0) AS credit_opening,
+                        coalesce(sum(init.debit),0) AS debit_initial,
+                        coalesce(sum(init.credit),0) AS credit_initial,
+                        coalesce(sum(current.debit),0) AS debit,
+                        coalesce(sum(current.credit),0) AS credit,
+                        coalesce(sum(open.debit),0) + coalesce(sum(init.debit),0) +
+                            coalesce(sum(current.debit),0) AS debit_total,
+                        coalesce(sum(open.credit),0) + coalesce(sum(init.credit),0) +
+                            coalesce(sum(current.credit),0) AS credit_total
+                    FROM
+                        account_account acc
+                        LEFT OUTER JOIN account_move_line AS open
+                            ON open.account_id = acc.id AND open.date < %s
+                        LEFT OUTER JOIN account_move_line AS init
+                            ON init.account_id = acc.id AND init.date >= %s AND init.date < %s
+                        LEFT OUTER JOIN account_move_line AS current
+                            ON current.account_id = acc.id AND current.date >= %s
+                                AND current.date <= %s
+                        LEFT JOIN account_move AS move
+                            ON open.move_id = move.id AND move.state in (%s)
+                        LEFT JOIN account_move AS init_move
+                            ON init.move_id = init_move.id AND init_move.state in (%s)
+                        LEFT JOIN account_move AS current_move
+                            ON current.move_id = current_move.id AND current_move.state in (%s)
+                    WHERE acc.id in %s
+                    GROUP BY acc.id
+                    ORDER BY acc.code) as accounts"""
         query_inject_account_params = (
             self.id,
             self.env.uid,
@@ -220,8 +214,7 @@ FROM
     def _compute_account_group_values(self):
         if not self.account_ids:
             acc_res = self.line_account_ids
-            groups = self.env['account.group'].search(
-                [('code_prefix', '!=', False)])
+            groups = self.env['account.group'].search([('code_prefix', '!=', False)])
             for group in groups:
                 accounts = acc_res.filtered(lambda a: a.account_id.id in group.compute_account_ids.ids)
                 if self.hide_account_balance_at_0:
@@ -232,26 +225,15 @@ FROM
                         'account_group_id': group.id,
                         'code': group.code_prefix,
                         'name': group.name,
-                        'debit_opening': sum(
-                            acc.debit_opening for acc in accounts),
-                        'credit_opening': sum(
-                            acc.credit_opening for acc in accounts),
-                        'debit_initial': sum(
-                            acc.debit_initial for acc in accounts),
-                        'credit_initial': sum(
-                            acc.credit_initial for acc in accounts),
-                        'debit': sum(
-                            acc.debit for acc in accounts),
-                        'credit': sum(
-                            acc.credit for acc in accounts),
-                        'debit_total': sum(
-                            acc.debit_total for acc in accounts),
-                        'credit_total': sum(
-                            acc.credit_total for acc in accounts),
-                        'debit_balance': sum(
-                            acc.debit_balance for acc in accounts),
-                        'credit_balance': sum(
-                            acc.credit_balance for acc in accounts),
+                        'debit_opening': sum(acc.debit_opening for acc in accounts),
+                        'credit_opening': sum(acc.credit_opening for acc in accounts),
+                        'debit_initial': sum(acc.debit_initial for acc in accounts),
+                        'credit_initial': sum(acc.credit_initial for acc in accounts),
+                        'debit': sum(acc.debit for acc in accounts),
+                        'credit': sum(acc.credit for acc in accounts),
+                        'debit_total': sum(acc.debit_total for acc in accounts),
+                        'credit_total': sum(acc.credit_total for acc in accounts),
+                        'debit_balance': sum(acc.debit_balance for acc in accounts),
+                        'credit_balance': sum(acc.credit_balance for acc in accounts),
                     }
-                    self.env['l10n_ro_report_trial_balance_account'].create(
-                        newdict)
+                    self.env['l10n_ro_report_trial_balance_account'].create(newdict)

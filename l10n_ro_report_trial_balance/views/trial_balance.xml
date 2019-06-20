@@ -4,8 +4,8 @@
     <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_qweb">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="l10n_ro_report_trial_balance.internal_layout">
-                    <t t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_base"/>
+                <t t-call="l10n_ro_report_trial_balance.internal_layout" t-lang='user.lang'>
+                    <t t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_base" t-lang='user.lang'/>
                 </t>
             </t>
         </t>
@@ -29,25 +29,25 @@
                 <t t-set="firstdate" t-value="time.strftime('%Y-01-01', time.strptime(o.date_from, '%Y-%m-%d'))"/>
                 <t t-if="o.line_account_ids">
                     <t t-foreach="o.line_account_ids" t-as="line">
-                        <t t-set="style" t-value="'font-size:8px;'"/>
+                        <t t-set="style" t-value="'font-size:10px; color: black;'"/>
                         <t t-if="line.account_group_id and len(line.code) == 1">
-                            <t t-set="style" t-value="'font-size: 11px; font-weight: bold; color: blue;'"/>
+                            <t t-set="style" t-value="'font-size: 13px; font-weight: bold; color: blue;'"/>
                             <t t-set="padding" t-value="0"/>
                         </t>
                         <t t-if="line.account_group_id and len(line.code) == 2">
-                            <t t-set="style" t-value="'font-size: 10px; font-weight: bold; color: blue;'"/>
+                            <t t-set="style" t-value="'font-size: 12px; font-weight: bold; color: blue;'"/>
                             <t t-set="padding" t-value="4"/>
                         </t>
                         <t t-if="line.account_group_id and len(line.code) == 3">
-                            <t t-set="style" t-value="'font-size: 9px; font-weight: bold; color: blue;'"/>
+                            <t t-set="style" t-value="'font-size: 11px; font-weight: bold; color: blue;'"/>
                             <t t-set="padding" t-value="8"/>
                         </t>
                         <t t-if="line.account_group_id and len(line.code) == 4">
-                            <t t-set="style" t-value="'font-size: 9px; font-weight: bold; color: blue;'"/>
+                            <t t-set="style" t-value="'font-size: 11px; font-weight: bold; color: blue;'"/>
                             <t t-set="padding" t-value="12"/>
                         </t>
                         <t t-if="line.account_group_id and len(line.code) == 5">
-                            <t t-set="style" t-value="'font-size: 8px; font-weight: bold; color: blue;'"/>
+                            <t t-set="style" t-value="'font-size: 10px; font-weight: bold; color: blue;'"/>
                             <t t-set="padding" t-value="16"/>
                         </t>
                         <t t-if="line.account_group_id">
@@ -77,7 +77,10 @@
             </div>
             <div class="act_as_row">
                 <div class="act_as_cell">
-                    From: <span t-field="o.date_from"/> To: <span t-field="o.date_to"/>
+                    From:
+                    <span t-field="o.date_from"/>
+                    To:
+                    <span t-field="o.date_to"/>
                 </div>
                 <div class="act_as_cell">
                     <t t-if="o.only_posted_moves">All posted entries</t>
@@ -89,11 +92,35 @@
                 </div>
             </div>
         </div>
+
     </template>
 
     <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header">
         <!-- Display table headers for lines -->
+
         <div class="act_as_thead">
+
+<!--
+            <div>
+                    <div class="act_as_row labels" style="font-size:12px; font-weight: bold;">
+                        &lt;!&ndash;## Code&ndash;&gt;
+                        <div class="act_as_cell" style="width: 5%;"></div>
+                        &lt;!&ndash;## Account&ndash;&gt;
+                        <div class="act_as_cell" style="width: 20%;"></div>
+                        &lt;!&ndash;## Opening&ndash;&gt;
+                        <div class="act_as_cell" style="width: 14%;">Opening</div>
+                        &lt;!&ndash;## Initial balance&ndash;&gt;
+                        <div class="act_as_cell" style="width: 14%;">Initial</div>
+                        &lt;!&ndash;## Current &ndash;&gt;
+                        <div class="act_as_cell" style="width: 14%;">Current</div>
+                        &lt;!&ndash;## Total &ndash;&gt;
+                        <div class="act_as_cell" style="width: 14%;">Total</div>
+                        &lt;!&ndash;## Balance &ndash;&gt;
+                        <div class="act_as_cell" style="width: 14%;">Balance</div>
+                    </div>
+            </div>
+-->
+
             <div class="act_as_row labels" style="font-size:12px; font-weight: bold;">
                 <!--## Code-->
                 <div class="act_as_cell" style="width: 5%;">Code</div>
@@ -120,6 +147,7 @@
                 <!--## Balance Credit-->
                 <div class="act_as_cell" style="width: 7%;">Balance Credit</div>
             </div>
+
         </div>
     </template>
 
@@ -140,21 +168,23 @@
             <div class="act_as_cell left">
                 <span>
                     <a t-att-data-active-id="res_id"
-                        t-att-data-res-model="res_model"
-                        class="o_l10n_ro_report_trial_balance_web_action"
-                        t-att-style="style+stylepading">
-                        <t t-att-style="style+stylepading" t-raw="line.code"/></a>
+                       t-att-data-res-model="res_model"
+                       class="o_l10n_ro_report_trial_balance_web_action"
+                       t-att-style="style+stylepading">
+                        <t t-att-style="style+stylepading" t-raw="line.code"/>
+                    </a>
                 </span>
             </div>
             <!--## Account-->
             <div class="act_as_cell left">
                 <span>
                     <a t-att-data-active-id="res_id"
-                        t-att-data-res-model="res_model"
-                        class="o_l10n_ro_report_trial_balance_web_action"
-                        t-att-style="style+stylepading">
-                        <t t-att-style="style+stylepading" t-raw="line.name"/></a>
-                </span>              
+                       t-att-data-res-model="res_model"
+                       class="o_l10n_ro_report_trial_balance_web_action"
+                       t-att-style="style+stylepading">
+                        <t t-att-style="style+stylepading" t-raw="line.name"/>
+                    </a>
+                </span>
             </div>
             <!--## Opening Debit-->
             <div class="act_as_cell amount">
@@ -166,7 +196,7 @@
                        t-att-data-domain="domain"
                        t-att-style="style"
                        class="o_l10n_ro_report_trial_balance_web_action_multi">
-                    <t t-att-style="style" t-raw="line.debit_opening"/>
+                        <t t-att-style="style" t-raw="line.debit_opening"/>
                     </a>
                 </span>
             </div>
@@ -180,7 +210,7 @@
                        t-att-data-domain="domain"
                        t-att-style="style"
                        class="o_l10n_ro_report_trial_balance_web_action_multi">
-                    <t t-att-style="style" t-raw="line.credit_opening"/>
+                        <t t-att-style="style" t-raw="line.credit_opening"/>
                     </a>
                 </span>
             </div>
@@ -195,7 +225,7 @@
                        t-att-data-domain="domain"
                        t-att-style="style"
                        class="o_l10n_ro_report_trial_balance_web_action_multi">
-                    <t t-att-style="style" t-raw="line.debit_initial"/>
+                        <t t-att-style="style" t-raw="line.debit_initial"/>
                     </a>
                 </span>
             </div>
@@ -210,7 +240,7 @@
                        t-att-data-domain="domain"
                        t-att-style="style"
                        class="o_l10n_ro_report_trial_balance_web_action_multi">
-                    <t t-att-style="style" t-raw="line.credit_initial"/>
+                        <t t-att-style="style" t-raw="line.credit_initial"/>
                     </a>
                 </span>
             </div>
@@ -225,7 +255,7 @@
                        t-att-data-domain="domain"
                        t-att-style="style"
                        class="o_l10n_ro_report_trial_balance_web_action_multi">
-                    <t t-att-style="style" t-raw="line.debit"/>
+                        <t t-att-style="style" t-raw="line.debit"/>
                     </a>
                 </span>
             </div>
@@ -240,7 +270,7 @@
                        t-att-data-domain="domain"
                        t-att-style="style"
                        class="o_l10n_ro_report_trial_balance_web_action_multi">
-                    <t t-att-style="style" t-raw="line.credit"/>
+                        <t t-att-style="style" t-raw="line.credit"/>
                     </a>
                 </span>
             </div>
@@ -253,7 +283,7 @@
                        t-att-data-domain="domain"
                        t-att-style="style"
                        class="o_l10n_ro_report_trial_balance_web_action_multi">
-                    <t t-att-style="style" t-raw="line.debit_total"/>
+                        <t t-att-style="style" t-raw="line.debit_total"/>
                     </a>
                 </span>
             </div>
@@ -266,7 +296,7 @@
                        t-att-data-domain="domain"
                        t-att-style="style"
                        class="o_l10n_ro_report_trial_balance_web_action_multi">
-                    <t t-att-style="style" t-raw="line.credit_total"/>
+                        <t t-att-style="style" t-raw="line.credit_total"/>
                     </a>
                 </span>
             </div>
@@ -278,18 +308,19 @@
                        t-att-data-domain="domain"
                        t-att-style="style"
                        class="o_l10n_ro_report_trial_balance_web_action_multi">
-                    <t t-att-style="style" t-raw="line.debit_balance"/>
+                        <t t-att-style="style" t-raw="line.debit_balance"/>
                     </a>
                 </span>
             </div>
             <!--## Balance Credit-->
-            <div class="act_as_cell amount"><t t-set="domain" t-value="[('account_id', 'in', accounts)]"/>
+            <div class="act_as_cell amount">
+                <t t-set="domain" t-value="[('account_id', 'in', accounts)]"/>
                 <span>
                     <a t-att-data-res-model="'account.move.line'"
                        t-att-data-domain="domain"
                        t-att-style="style"
                        class="o_l10n_ro_report_trial_balance_web_action_multi">
-                    <t t-att-style="style" t-raw="line.credit_balance"/>
+                        <t t-att-style="style" t-raw="line.credit_balance"/>
                     </a>
                 </span>
             </div>

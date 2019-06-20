@@ -14,10 +14,14 @@
                 <div>
                     <strong t-field="company.partner_id.name"/>
                 </div>
-                <t t-if="company.vat"><t t-esc="company.country_id.vat_label or 'TIN'"/>: <span t-att-style="'font-size: 9px; font-weight: bold;'" t-field="company.vat"/></t>
-                <t t-if="company.partner_id.nrc"><t t-att-style="'font-size: 9px; font-weight: bold;'" t-esc="'NRC'"/>: <span t-att-style="'font-size: 9px; font-weight: bold;'" t-field="company.partner_id.nrc"/></t>
+                <t t-if="company.vat"><t t-esc="company.country_id.vat_label or 'TIN'"/>:
+                    <span t-att-style="'font-size: 9px; font-weight: bold;'" t-field="company.vat"/>
+                </t>
+                <t t-if="company.partner_id.nrc"><t t-att-style="'font-size: 9px; font-weight: bold;'" t-esc="'NRC'"/>:
+                    <span t-att-style="'font-size: 9px; font-weight: bold;'" t-field="company.partner_id.nrc"/>
+                </t>
                 <span t-field="company.partner_id"
-                    t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+                      t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
             </div>
             <div class="clearfix mb8"/>
         </div>
@@ -32,7 +36,10 @@
                 <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
             </div>
             <div class="col-xs-6 text-right custom_footer">
-                    Page: <span class="page"/> / <span class="topage"/>
+                Page:
+                <span class="page"/>
+                /
+                <span class="topage"/>
             </div>
         </div>
     </template>

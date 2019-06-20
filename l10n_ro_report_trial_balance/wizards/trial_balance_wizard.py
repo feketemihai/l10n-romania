@@ -12,35 +12,21 @@ class RomaniaTrialBalanceReportWizard(models.TransientModel):
     _name = "l10n.ro.report.trial.balance.wizard"
     _description = "Romania Trial Balance Report Wizard"
 
-    company_id = fields.Many2one(
-        comodel_name='res.company',
-        default=lambda self: self.env.user.company_id,
-        string='Company'
-    )
-    date_range_id = fields.Many2one(
-        comodel_name='date.range',
-        string='Date range'
-    )
+    company_id = fields.Many2one('res.company', default=lambda self: self.env.user.company_id, string='Company')
+    date_range_id = fields.Many2one(comodel_name='date.range', string='Date range')
     date_from = fields.Date(required=True)
     date_to = fields.Date(required=True)
-    target_move = fields.Selection([('posted', 'All Posted Entries'),
-                                    ('all', 'All Entries')],
-                                   string='Target Moves',
-                                   required=True,
-                                   default='posted')
+    target_move = fields.Selection([('posted', 'All Posted Entries'), ('all', 'All Entries')],
+                                   string='Target Moves', required=True, default='posted')
     hide_account_balance_at_0 = fields.Boolean(
         string='Hide account ending balance at 0',
         help='Use this filter to hide accounts '
              'with an ending balance at 0. '
              'If all accounts from an account group have ending balance at 0, '
              'the group will not be printed in the report.')
-    with_special_accounts = fields.Boolean(
-        'With Special Accounts',
-        help="Check this if you want to print classes 8 and 9 of accounts.")
-    account_ids = fields.Many2many(
-        comodel_name='account.account',
-        string='Filter accounts',
-    )
+    with_special_accounts = fields.Boolean('With Special Accounts',
+                                           help="Check this if you want to print classes 8 and 9 of accounts.")
+    account_ids = fields.Many2many(comodel_name='account.account', string='Filter accounts', )
 
     @api.onchange('date_range_id')
     def onchange_date_range_id(self):
@@ -51,8 +37,7 @@ class RomaniaTrialBalanceReportWizard(models.TransientModel):
     @api.multi
     def button_export_html(self):
         self.ensure_one()
-        action = self.env.ref(
-            'l10n_ro_report_trial_balance.action_l10n_ro_report_trial_balance')
+        action = self.env.ref('l10n_ro_report_trial_balance.action_l10n_ro_report_trial_balance')
         vals = action.read()[0]
         context1 = vals.get('context', {})
         if isinstance(context1, pycompat.string_types):
