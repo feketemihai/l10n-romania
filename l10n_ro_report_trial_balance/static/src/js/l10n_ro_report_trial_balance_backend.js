@@ -9,6 +9,7 @@ var ReportWidget = require('l10n_ro_report_trial_balance.l10n_ro_report_trial_ba
 var framework = require('web.framework');
 var crash_manager = require('web.crash_manager');
 
+var QWeb = core.qweb;
 
 var report_backend = Widget.extend(ControlPanelMixin, {
     // Stores all the parameters of the action.
@@ -24,6 +25,10 @@ var report_backend = Widget.extend(ControlPanelMixin, {
         if (action.context.context) {
             this.given_context = action.context.context;
         }
+        this.buttons = [
+            { action: "print_pdf", name: "Print Preview"},
+            { action: "print_xlsx", name: "Export (XLSX)"}
+        ]
         this.given_context.active_id = action.context.active_id || action.params.active_id;
         this.given_context.model = action.context.active_model || false;
         this.given_context.ttype = action.context.ttype || false;
@@ -65,8 +70,8 @@ var report_backend = Widget.extend(ControlPanelMixin, {
     },
     // Updates the control panel and render the elements that have yet to be rendered
     update_cp: function() {
-        if (!this.$buttons) {
-
+         if (!this.$buttons) {
+            this.renderButtons();
         }
         var status = {
             breadcrumbs: this.actionManager.get_breadcrumbs(),
@@ -100,6 +105,29 @@ var report_backend = Widget.extend(ControlPanelMixin, {
         .then(function(result){
             self.do_action(result);
         });
+    },
+    canBeRemoved: function () {
+        return $.when();
+    },
+
+    renderButtons: function() {
+        var self = this;
+        this.$buttons = $(QWeb.render("trial_balance.buttons", {buttons: this.buttons}));
+        // bind actions
+        _.each(this.$buttons.siblings('button'), function(el) {
+            $(el).click(function() {
+                return self._rpc({
+                        model: self.given_context.model,
+                        method: $(el).attr('action'),
+                        args: [self.given_context.active_id],
+                        context: self.odoo_context,
+                    })
+                    .then(function(result){
+                        return self.do_action(result);
+                    });
+            });
+        });
+        return this.$buttons;
     },
 });
 
