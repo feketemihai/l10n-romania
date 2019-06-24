@@ -19,6 +19,7 @@ class RomaniaTrialBalanceReport(models.TransientModel):
     # Filters fields, used for data computation
     date_from = fields.Date()
     date_to = fields.Date()
+
     only_posted_moves = fields.Boolean()
     hide_account_balance_at_0 = fields.Boolean()
     with_special_accounts = fields.Boolean()
@@ -28,6 +29,17 @@ class RomaniaTrialBalanceReport(models.TransientModel):
     # Data fields, used to browse report data
     line_account_ids = fields.One2many('l10n_ro_report_trial_balance_account', inverse_name='report_id')
 
+    col_opening = fields.Boolean('Opening Year', default=False)  # rulaje la inceput de an
+    col_opening_balance = fields.Boolean('Balance Opening Year', default=True)  # solduri initiale an
+    col_initial_balance = fields.Boolean('Balance Initial period', default=False)  # solduri initiale perioada
+    col_initial = fields.Boolean('Initial period', default=True)  # sume perecente
+    col_period = fields.Boolean('Period', default=True)  # rulaje perioada
+    #col_total_rulaj = fields.Boolean('Total rulaj', default=False)  # total rulaje (de la inceputul anului)
+
+    col_total = fields.Boolean('Total amount', default=True)  # sume totale
+    col_balance = fields.Boolean('Balance', default=True)  # solduri finale
+
+    refresh_report = fields.Boolean('Refresh Report')
 
 class RomaniaTrialBalanceAccountReport(models.TransientModel):
     _name = 'l10n_ro_report_trial_balance_account'
@@ -44,19 +56,36 @@ class RomaniaTrialBalanceAccountReport(models.TransientModel):
     code = fields.Char()
     name = fields.Char()
 
+    # solduri initiale
+    debit_opening_balance = fields.Float(digits=(16, 2))
+    credit_opening_balance = fields.Float(digits=(16, 2))
+
+    # rulaje intiale
     debit_opening = fields.Float(digits=(16, 2))
     credit_opening = fields.Float(digits=(16, 2))
+
+    # solduri initiale perioada
+    debit_initial_balance = fields.Float(digits=(16, 2))
+    credit_initial_balance = fields.Float(digits=(16, 2))
+
+    # sume perecente
     debit_initial = fields.Float(digits=(16, 2))
     credit_initial = fields.Float(digits=(16, 2))
+
+    # rulaje perioada
     debit = fields.Float(digits=(16, 2))
     credit = fields.Float(digits=(16, 2))
+
+    # sume totale
     debit_total = fields.Float(digits=(16, 2))
     credit_total = fields.Float(digits=(16, 2))
+
+    # solduri finale
     debit_balance = fields.Float(digits=(16, 2))
     credit_balance = fields.Float(digits=(16, 2))
 
     # Data fields, used to browse report data
-    account_ids = fields.Many2many(comodel_name='account.account',string='Accounts')
+    account_ids = fields.Many2many(comodel_name='account.account', string='Accounts')
 
 
 class RomaniaTrialBalanceComputeReport(models.TransientModel):
@@ -66,10 +95,9 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
 
     _inherit = 'l10n_ro_report_trial_balance'
 
-
     def get_reports_buttons(self):
-        return [{'name': _('Print Preview'), 'action': 'print_pdf'}, {'name': _('Export (XLSX)'), 'action': 'print_xlsx'}]
-
+        return [{'name': _('Print Preview'), 'action': 'print_pdf'},
+                {'name': _('Export (XLSX)'), 'action': 'print_xlsx'}]
 
     @api.multi
     def print_pdf(self):
@@ -92,37 +120,63 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
              ('report_type', '=', report_type)], limit=1)
         return action.with_context(context).report_action(self)
 
-
     def _get_html(self):
         result = {}
         rcontext = {}
         context = dict(self.env.context)
         report = self.browse(context.get('active_id'))
         if report:
-            action =  self.env.ref('l10n_ro_report_trial_balance.action_l10n_ro_report_trial_balance_control')
-            html = action.render_qweb_html( report.ids)
+            action = self.env.ref('l10n_ro_report_trial_balance.action_l10n_ro_report_trial_balance_control')
+            html = action.render_qweb_html(report.ids)
             result['html'] = html[0]
 
         return result
 
 
 
-    # def _get_html(self):
-    #     result = {}
-    #     rcontext = {}
-    #     context = dict(self.env.context)
-    #     report = self.browse(context.get('active_id'))
-    #     if report:
-    #         rcontext['o'] = report
-    #         result['html'] = self.env.ref('l10n_ro_report_trial_balance.l10n_ro_report_trial_balance').render(rcontext)
-    #     return result
-
     @api.model
     def get_html(self, given_context=None):
         return self.with_context(given_context)._get_html()
 
+
+
+    @api.multi
+    def do_execute(self):
+        self.ensure_one()
+        domain = [
+            ('date_from', '=', self.date_from),
+            ('date_to', '=', self.date_to),
+            ('id', '!=', self.id)
+        ]
+        if self.refresh_report:
+            report = self.search(domain)
+            report.unlink()
+            report = False
+        else:
+            report = self.search(domain, limit=1)
+            if report:
+                report.write({
+                    'hide_account_balance_at_0': self.hide_account_balance_at_0,
+                    'with_special_accounts': self.with_special_accounts,
+                    'col_opening': self.col_opening,
+                    'col_opening_balance': self.col_opening_balance,
+                    'col_initial_balance': self.col_initial_balance,
+                    'col_initial': self.col_initial,
+                    'col_period': self.col_period,
+                    'col_total': self.col_total,
+                    'col_balance': self.col_balance,
+                })
+
+        if not report:
+            self.compute_data_for_report()
+            report = self
+
+        return report
+
+
     @api.multi
     def compute_data_for_report(self):
+
         self.ensure_one()
         self._inject_account_lines()
         self._compute_account_group_values()
@@ -164,13 +218,39 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
                     credit,
                     debit_total,
                     credit_total,
+                    
+                    debit_opening_balance,
+                    credit_opening_balance,
+                    debit_initial_balance,
+                    credit_initial_balance,
                     debit_balance,
-                    credit_balance)
+                    credit_balance
+                   
+                    )
                 SELECT
                     %s AS report_id,
                     %s AS create_uid,
                     NOW() AS create_date,
                     accounts.*,
+                    
+                    CASE WHEN accounts.debit_opening > accounts.credit_opening
+                        THEN accounts.debit_opening - accounts.credit_opening
+                        ELSE 0
+                    END AS debit_opening_balance,
+                    CASE WHEN accounts.credit_opening > accounts.debit_opening
+                        THEN accounts.credit_opening - accounts.debit_opening
+                        ELSE 0
+                    END AS credit_opening_balance,
+                    
+                    CASE WHEN accounts.debit_initial > accounts.credit_initial
+                        THEN accounts.debit_initial - accounts.credit_initial
+                        ELSE 0
+                    END AS debit_initial_balance,
+                    CASE WHEN accounts.credit_initial > accounts.debit_initial
+                        THEN accounts.credit_initial - accounts.debit_initial
+                        ELSE 0
+                    END AS credit_initial_balance,
+                    
                     CASE WHEN accounts.debit_total > accounts.credit_total
                         THEN accounts.debit_total - accounts.credit_total
                         ELSE 0
@@ -179,6 +259,10 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
                         THEN accounts.credit_total - accounts.debit_total
                         ELSE 0
                     END AS credit_balance
+                    
+                    
+                    
+                    
                 FROM
                     (
                     SELECT
@@ -223,9 +307,9 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
             accounts._ids,
         )
         self.env.cr.execute(query_inject_account, query_inject_account_params)
-        if self.hide_account_balance_at_0:
-            lines = self.line_account_ids.filtered(lambda a: a.debit_balance == 0 and a.credit_balance == 0)
-            lines.unlink()
+        # if self.hide_account_balance_at_0:
+        #     lines = self.line_account_ids.filtered(lambda a: a.debit_balance == 0 and a.credit_balance == 0)
+        #     lines.unlink()
 
     def _compute_account_group_values(self):
         if not self.account_ids:
@@ -233,16 +317,24 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
             groups = self.env['account.group'].search([('code_prefix', '!=', False)])
             for group in groups:
                 accounts = acc_res.filtered(lambda a: a.account_id.id in group.compute_account_ids.ids)
-                if self.hide_account_balance_at_0:
-                    accounts = accounts.filtered(lambda a: a.debit_balance != 0 or a.credit_balance != 0)
+                # if self.hide_account_balance_at_0:
+                #     accounts = accounts.filtered(lambda a: a.debit_balance != 0 or a.credit_balance != 0)
                 if accounts:
                     newdict = {
                         'report_id': self.id,
                         'account_group_id': group.id,
                         'code': group.code_prefix,
                         'name': group.name,
+
+                        'debit_opening_balance': sum(acc.debit_opening_balance for acc in accounts),
+                        'credit_opening_balance': sum(acc.credit_opening_balance for acc in accounts),
+
                         'debit_opening': sum(acc.debit_opening for acc in accounts),
                         'credit_opening': sum(acc.credit_opening for acc in accounts),
+
+                        'debit_initial_balance': sum(acc.debit_initial_balance for acc in accounts),
+                        'credit_initial_balance': sum(acc.credit_initial_balance for acc in accounts),
+
                         'debit_initial': sum(acc.debit_initial for acc in accounts),
                         'credit_initial': sum(acc.credit_initial for acc in accounts),
                         'debit': sum(acc.debit for acc in accounts),
