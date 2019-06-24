@@ -322,7 +322,7 @@
               </record>
       -->
         <record model="account.group" id="account_group_1_14">
-            <field name="name">Castiguri sau pierderi legate de emiterea,rascumpararea,vanzarea,cedarea cu titlu
+            <field name="name">Castiguri sau pierderi legate de emiterea,rascumpararea,vânzarea,cedarea cu titlu
                 gratuit sau anularea instrum.de capitaluri proprii
             </field>
             <field name="code_prefix">14</field>
@@ -330,58 +330,58 @@
             <field name="parent_id" ref="account_group_1"/>
         </record>
 
-        <!--    <record model="account.group" id="account_group_1_141">
-                <field  name="name">141. Castiguri legate de vanzarea sau anularea instrumentelor de capitaluri proprii.
-                </field>
-                <field  name="code_prefix">141</field>
-    <field name="parent_id" ref="account_group_1_14"/>
-            </record>
-    
-            <record model="account.group" id="account_group_1_1411">
-                <field  name="name">1411. Câștiguri legate de vânzarea instrumentelor de capitaluri proprii</field>
-                <field  name="code_prefix">1411</field>
-    <field  name="parent_id" ref="account_group_1_141"/>
-                
-            </record>
-    
-            <record model="account.group" id="account_group_1_1412">
-                <field  name="name">1412. Câștiguri legate de anularea instrumentelor de capitaluri proprii</field>
-                <field  name="code_prefix">1412</field>
-    <field  name="parent_id" ref="account_group_1_141"/>
-                
-            </record>
-    
-            <record model="account.group" id="account_group_1_149">
-                <field  name="name">149. Pierderi legate de emiterea, rascumpararea, vanzarea, cedarea cu titlu gratuit sau
-                    anularea instrumentelor de capitaluri proprii.
-                </field>
-                <field  name="code_prefix">149</field>
-    <field name="parent_id" ref="account_group_1_14"/>
-            </record>
-    
-            <record model="account.group" id="account_group_1_1491">
-                <field  name="name">1491. Pierderi rezultate din vânzarea instrumentelor de capitaluri proprii</field>
-                <field  name="code_prefix">1491</field>
-    <field  name="parent_id" ref="account_group_1_149"/>
-                
-            </record>
-    
-            <record model="account.group" id="account_group_1_1495">
-                <field  name="name">1495. Pierderi rezultate din reorganizări, care sunt determinate de anularea titlurilor
-                    deținute
-                </field>
-                <field  name="code_prefix">1495</field>
-    <field  name="parent_id" ref="account_group_1_149"/>
-                
-            </record>
-    
-            <record model="account.group" id="account_group_1_1498">
-                <field  name="name">1498. Alte pierderi legate de instrumentele de capitaluri proprii</field>
-                <field  name="code_prefix">1498</field>
-    <field  name="parent_id" ref="account_group_1_149"/>
-                
-            </record>
-    -->
+        <record model="account.group" id="account_group_1_141">
+            <field name="name">Câstiguri legate de vânzarea sau anularea instrumentelor de capitaluri proprii.
+            </field>
+            <field name="code_prefix">141</field>
+            <field name="parent_id" ref="account_group_1_14"/>
+        </record>
+        <!--
+               <record model="account.group" id="account_group_1_1411">
+                   <field  name="name">1411. Câștiguri legate de vânzarea instrumentelor de capitaluri proprii</field>
+                   <field  name="code_prefix">1411</field>
+       <field  name="parent_id" ref="account_group_1_141"/>
+
+               </record>
+
+               <record model="account.group" id="account_group_1_1412">
+                   <field  name="name">1412. Câștiguri legate de anularea instrumentelor de capitaluri proprii</field>
+                   <field  name="code_prefix">1412</field>
+       <field  name="parent_id" ref="account_group_1_141"/>
+
+               </record>
+
+               <record model="account.group" id="account_group_1_149">
+                   <field  name="name">149. Pierderi legate de emiterea, rascumpararea, vânzarea, cedarea cu titlu gratuit sau
+                       anularea instrumentelor de capitaluri proprii.
+                   </field>
+                   <field  name="code_prefix">149</field>
+       <field name="parent_id" ref="account_group_1_14"/>
+               </record>
+
+               <record model="account.group" id="account_group_1_1491">
+                   <field  name="name">1491. Pierderi rezultate din vânzarea instrumentelor de capitaluri proprii</field>
+                   <field  name="code_prefix">1491</field>
+       <field  name="parent_id" ref="account_group_1_149"/>
+
+               </record>
+
+               <record model="account.group" id="account_group_1_1495">
+                   <field  name="name">1495. Pierderi rezultate din reorganizări, care sunt determinate de anularea titlurilor
+                       deținute
+                   </field>
+                   <field  name="code_prefix">1495</field>
+       <field  name="parent_id" ref="account_group_1_149"/>
+
+               </record>
+
+               <record model="account.group" id="account_group_1_1498">
+                   <field  name="name">1498. Alte pierderi legate de instrumentele de capitaluri proprii</field>
+                   <field  name="code_prefix">1498</field>
+       <field  name="parent_id" ref="account_group_1_149"/>
+
+               </record>
+       -->
         <record model="account.group" id="account_group_1_15">
             <field name="name">Provizioane</field>
             <field name="code_prefix">15</field>
@@ -3611,7 +3611,7 @@
         </record>
 
         <record model="account.group" id="account_group_7_701">
-            <field name="name">Venituri din vanzarea produselor finite, produselor agricole și a activelor
+            <field name="name">Venituri din vânzarea produselor finite, produselor agricole și a activelor
                 biologice de natura stocurilor
             </field>
             <field name="code_prefix">701</field>

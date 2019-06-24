@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from dateutil.relativedelta import relativedelta
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 
 class RomaniaTrialBalanceReport(models.TransientModel):
@@ -65,6 +65,19 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
     """
 
     _inherit = 'l10n_ro_report_trial_balance'
+
+
+    def get_reports_buttons(self):
+        return [{'name': _('Print Preview'), 'action': 'print_pdf'}, {'name': _('Export (XLSX)'), 'action': 'print_xlsx'}]
+
+
+    @api.multi
+    def print_pdf(self):
+        return self.print_report('qweb-pdf')
+
+    @api.multi
+    def print_xlsx(self):
+        return self.print_report('xlsx')
 
     @api.multi
     def print_report(self, report_type='qweb'):
@@ -210,6 +223,9 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
             accounts._ids,
         )
         self.env.cr.execute(query_inject_account, query_inject_account_params)
+        if self.hide_account_balance_at_0:
+            lines = self.line_account_ids.filtered(lambda a: a.debit_balance == 0 and a.credit_balance == 0)
+            lines.unlink()
 
     def _compute_account_group_values(self):
         if not self.account_ids:

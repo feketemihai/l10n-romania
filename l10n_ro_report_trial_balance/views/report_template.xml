@@ -11,6 +11,7 @@
                     src="/l10n_ro_report_trial_balance/static/src/js/l10n_ro_report_trial_balance_widgets.js"/>
         </xpath>
     </template>
+
     <template id="l10n_ro_report_trial_balance_buttons">
         <div class="button_row">
             <button class="o_l10n_ro_report_trial_balance_print btn btn-sm oe_button"><span class="fa fa-print"/> Print</button>

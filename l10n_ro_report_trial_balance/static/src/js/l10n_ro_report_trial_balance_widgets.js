@@ -21,26 +21,52 @@ var AccountReportWidget = Widget.extend({
         return this._super.apply(this, arguments);
     },
     boundLink: function(e) {
-        var res_model = $(e.target).data('res-model')
-        var res_id = $(e.target).data('active-id')
-        return this.do_action({
-            type: 'ir.actions.act_window',
-            res_model: res_model,
-            res_id: res_id,
-            views: [[false, 'form']],
-            target: 'current'
-        });
+
+
+        var res_model = $(e.target).data('res-model');
+        var res_id = $(e.target).data('active-id');
+
+        if (!res_model){
+
+            res_model = $(e.target.parentElement).data('res-model');
+            res_id = $(e.target.parentElement).data('active-id');
+        }
+
+
+        if (res_model) {
+            return this.do_action({
+                type: 'ir.actions.act_window',
+                res_model: res_model,
+                res_id: res_id,
+                views: [[false, 'form']],
+                target: 'current'
+            });
+        }
+
     },
+
+
     boundLinkmulti: function(e) {
-        var res_model = $(e.target).data('res-model')
-        var domain = $(e.target).data('domain')
-        return this.do_action({
-            type: 'ir.actions.act_window',
-            res_model: res_model,
-            domain: domain,
-            views: [[false, "list"], [false, "form"]],
-            target: 'current'
-        });
+
+        var res_model =  $(e.target).data('res-model');
+        var domain =  $(e.target).data('domain');
+
+        if (!res_model){
+
+            res_model =  $(e.target.parentElement).data('res-model');
+            domain =  $(e.target.parentElement).data('domain');
+        }
+
+
+        if (res_model) {
+            return this.do_action({
+                type: 'ir.actions.act_window',
+                res_model: res_model,
+                domain: domain,
+                views: [[false, "list"], [false, "form"]],
+                target: 'current'
+            });
+        }
     },
 });
 
