@@ -347,6 +347,60 @@ msgstr "Nu"
 msgid "Only Posted Moves"
 msgstr "Numai înregistrări postate"
 
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:30
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Opening"
+msgstr "Solduri inițiale"
+
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:30
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Initial"
+msgstr "Precedent"
+
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:30
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Current"
+msgstr "Curent"
+
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:30
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Total"
+msgstr "Total"
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:30
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Balance"
+msgstr "Sold"
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:30
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Credit"
+msgstr "Credit"
+
+#. module: l10n_ro_report_trial_balance
+#: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:30
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+#, python-format
+msgid "Debit"
+msgstr "Debit"
+
+
 #. module: l10n_ro_report_trial_balance
 #: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:30
 #: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
