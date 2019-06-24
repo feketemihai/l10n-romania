@@ -411,6 +411,13 @@ msgstr "Început de an"
 msgid "Opening Balance"
 msgstr "Sold început an"
 
+
+#. module: l10n_ro_report_trial_balance
+#: model:ir.ui.view,arch_db:l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_lines_header
+msgid "Cumulative"
+msgstr "Rulaj cumulat"
+
+
 #. module: l10n_ro_report_trial_balance
 #: code:addons/l10n_ro_report_trial_balance/report/trial_balance_xlsx.py:30
 #, python-format

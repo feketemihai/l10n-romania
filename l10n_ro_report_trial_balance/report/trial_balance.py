@@ -21,7 +21,7 @@ class RomaniaTrialBalanceReport(models.TransientModel):
     date_to = fields.Date()
 
     only_posted_moves = fields.Boolean()
-    hide_account_balance_at_0 = fields.Boolean()
+    hide_account_without_move = fields.Boolean()
     with_special_accounts = fields.Boolean()
     company_id = fields.Many2one('res.company')
     account_ids = fields.Many2many('account.account')
@@ -29,12 +29,14 @@ class RomaniaTrialBalanceReport(models.TransientModel):
     # Data fields, used to browse report data
     line_account_ids = fields.One2many('l10n_ro_report_trial_balance_account', inverse_name='report_id')
 
-    col_opening = fields.Boolean('Opening Year', default=False)  # rulaje la inceput de an
+
     col_opening_balance = fields.Boolean('Balance Opening Year', default=True)  # solduri initiale an
+    col_opening = fields.Boolean('Opening Year', default=False)  # rulaje la inceput de an
     col_initial_balance = fields.Boolean('Balance Initial period', default=False)  # solduri initiale perioada
-    col_initial = fields.Boolean('Initial period', default=True)  # sume perecente
+    col_initial = fields.Boolean('Initial period', default=False)  # sume perecente
     col_period = fields.Boolean('Period', default=True)  # rulaje perioada
-    #col_total_rulaj = fields.Boolean('Total rulaj', default=False)  # total rulaje (de la inceputul anului)
+
+    col_cumulative = fields.Boolean('Cumulative', default=True)         # total rulaje (de la inceputul anului)
 
     col_total = fields.Boolean('Total amount', default=True)  # sume totale
     col_balance = fields.Boolean('Balance', default=True)  # solduri finale
@@ -75,6 +77,10 @@ class RomaniaTrialBalanceAccountReport(models.TransientModel):
     # rulaje perioada
     debit = fields.Float(digits=(16, 2))
     credit = fields.Float(digits=(16, 2))
+
+    # Rulaje cumulate
+    debit_cumulative = fields.Float(digits=(16, 2))
+    credit_cumulative = fields.Float(digits=(16, 2))
 
     # sume totale
     debit_total = fields.Float(digits=(16, 2))
@@ -133,7 +139,6 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
         return result
 
 
-
     @api.model
     def get_html(self, given_context=None):
         return self.with_context(given_context)._get_html()
@@ -156,13 +161,14 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
             report = self.search(domain, limit=1)
             if report:
                 report.write({
-                    'hide_account_balance_at_0': self.hide_account_balance_at_0,
+                    'hide_account_without_move': self.hide_account_without_move,
                     'with_special_accounts': self.with_special_accounts,
-                    'col_opening': self.col_opening,
                     'col_opening_balance': self.col_opening_balance,
+                    'col_opening': self.col_opening,
                     'col_initial_balance': self.col_initial_balance,
                     'col_initial': self.col_initial,
                     'col_period': self.col_period,
+                    'col_cumulative': self.col_cumulative,
                     'col_total': self.col_total,
                     'col_balance': self.col_balance,
                 })
@@ -210,27 +216,67 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
                     account_id,
                     code,
                     name,
-                    debit_opening,
-                    credit_opening,
-                    debit_initial,
-                    credit_initial,
-                    debit,
-                    credit,
-                    debit_total,
-                    credit_total,
                     
                     debit_opening_balance,
                     credit_opening_balance,
+                    debit_opening,
+                    credit_opening,
+                    
                     debit_initial_balance,
-                    credit_initial_balance,
+                    credit_initial_balance,    
+                                   
+                    debit_initial,
+                    credit_initial,
+                    
+                    debit,
+                    credit,
+                  
+                    debit_cumulative,
+                    credit_cumulative,
+                    
+                    debit_total,
+                    credit_total,
+                    
                     debit_balance,
                     credit_balance
-                   
+                    
                     )
-                SELECT
+                SELECT 
                     %s AS report_id,
                     %s AS create_uid,
                     NOW() AS create_date,
+                    subselect.id as account_id,
+                    subselect.code,
+                    subselect.name,
+                    
+                    subselect.debit_opening_balance,
+                    subselect.credit_opening_balance,
+                    
+                    subselect.debit_opening,
+                    subselect.credit_opening,
+                    
+                    subselect.debit_initial_balance,
+                    subselect.credit_initial_balance,
+                    
+                    subselect.debit_initial,
+                    subselect.credit_initial,
+                    
+                    subselect.debit,
+                    subselect.credit,
+                    
+                    debit_initial + debit as debit_cumulative,
+                    credit_initial + credit as credit_cumulative,   
+                                  
+                    debit_opening_balance + debit_initial + debit as debit_total,
+                    credit_opening_balance + credit_initial + credit as credit_total,                       
+
+                    subselect.debit_balance,
+                    subselect.credit_balance
+                    
+                    
+                FROM (
+                SELECT
+                   
                     accounts.*,
                     
                     CASE WHEN accounts.debit_opening > accounts.credit_opening
@@ -259,10 +305,7 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
                         THEN accounts.credit_total - accounts.debit_total
                         ELSE 0
                     END AS credit_balance
-                    
-                    
-                    
-                    
+
                 FROM
                     (
                     SELECT
@@ -273,6 +316,7 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
                         coalesce(sum(init.credit),0) AS credit_initial,
                         coalesce(sum(current.debit),0) AS debit,
                         coalesce(sum(current.credit),0) AS credit,
+                        
                         coalesce(sum(open.debit),0) + coalesce(sum(init.debit),0) +
                             coalesce(sum(current.debit),0) AS debit_total,
                         coalesce(sum(open.credit),0) + coalesce(sum(init.credit),0) +
@@ -294,7 +338,11 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
                             ON current.move_id = current_move.id AND current_move.state in (%s)
                     WHERE acc.id in %s
                     GROUP BY acc.id
-                    ORDER BY acc.code) as accounts"""
+                    ORDER BY acc.code) as accounts
+                ) as subselect
+        """
+
+
         query_inject_account_params = (
             self.id,
             self.env.uid,

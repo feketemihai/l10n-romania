@@ -29,8 +29,8 @@
                 <t t-set="firstdate" t-value="time.strftime('%Y-01-01', time.strptime(o.date_from, '%Y-%m-%d'))"/>
                 <t t-if="o.line_account_ids">
                     <t t-set="lines" t-value="o.line_account_ids"/>
-                    <t t-if="hide_account_balance_at_0">
-                        <t t-set="lines" t-value="lines.filtered(lambda a: a.debit_balance == 0 and a.credit_balance == 0)"/>
+                    <t t-if="o.hide_account_without_move">
+                        <t t-set="lines" t-value="lines.filtered(lambda a: a.debit != 0 or a.credit != 0 or a.debit_total != 0 or a.credit_total != 0 )"/>
                     </t>
                     <t t-foreach="lines" t-as="line">
                         <t t-set="style" t-value="'font-size:10px; color: black;'"/>
@@ -134,7 +134,10 @@
                     <!--## Current -->
                     <th class="act_as_cell" colspan="2" style="width: 14%;">Current</th>
                 </t>
-
+                <t t-if="o.col_cumulative">
+                    <!--## Cumulative -->
+                    <th class="act_as_cell" colspan="2" style="width: 14%;">Cumulative</th>
+                </t>
                 <t t-if="o.col_total">
                     <!--## Total -->
                     <th class="act_as_cell" colspan="2" style="width: 14%;">Total</th>
@@ -178,6 +181,16 @@
                     <!--## Current Credit-->
                     <th class="act_as_cell" style="width: 7%;">Credit</th>
                 </t>
+
+
+                <t t-if="o.col_cumulative">
+                    <!--## cumulative Debit-->
+                    <th class="act_as_cell" style="width: 7%;">Debit</th>
+                    <!--## cumulative Credit-->
+                    <th class="act_as_cell" style="width: 7%;">Credit</th>
+                </t>
+
+
                 <t t-if="o.col_total">
                     <!--## Total Debit-->
                     <th class="act_as_cell" style="width: 7%;">Debit</th>
@@ -394,6 +407,42 @@
                     </span>
                 </td>
             </t>
+
+
+
+            <t t-if="o.col_cumulative">
+                <!--## cumulative Debit-->
+                <td class="act_as_cell amount">
+                    <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                            ('date', '&gt;=', firstdate),
+                                            ('date', '&lt;=', line.report_id.date_to),
+                                            ('debit', '&lt;&gt;', 0)]"/>
+                    <span>
+                        <a t-att-data-res-model="'account.move.line'"
+                           t-att-data-domain="domain"
+                           t-att-style="style"
+                           class="o_l10n_ro_report_trial_balance_web_action_multi">
+                            <span t-field="line.debit_total"/>
+                        </a>
+                    </span>
+                </td>
+                <!--## cumulative Credit-->
+                <td class="act_as_cell amount">
+                    <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                            ('date', '&gt;=', firstdate),
+                                            ('date', '&lt;=', line.report_id.date_to),
+                                            ('credit', '&lt;&gt;', 0)]"/>
+                    <span>
+                        <a t-att-data-res-model="'account.move.line'"
+                           t-att-data-domain="domain"
+                           t-att-style="style"
+                           class="o_l10n_ro_report_trial_balance_web_action_multi">
+                            <span t-field="line.credit_total"/>
+                        </a>
+                    </span>
+                </td>
+            </t>
+
             <t t-if="o.col_total">
                 <!--## Total Debit-->
                 <td class="act_as_cell amount">

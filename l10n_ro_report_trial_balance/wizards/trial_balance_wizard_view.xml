@@ -20,7 +20,7 @@
                     </group>
                     <group name="other_filters">
                         <field name="target_move" widget="radio"/>
-                        <field name="hide_account_balance_at_0"/>
+                        <field name="hide_account_without_move"/>
                         <field name="with_special_accounts"/>
                     </group>
                     <group>
@@ -35,10 +35,11 @@
                         <field name="col_initial_balance"/>
                         <field name="col_initial"/>
                         <field name="col_period"/>
+                        <field name="col_cumulative"/>
                         <field name="col_total"/>
                         <field name="col_balance"/>
                     </group>
-                    <group name="main_info">
+                    <group>
                         <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                     </group>
                 </group>
