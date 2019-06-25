@@ -11,7 +11,7 @@ body, table, td, span, div {
     page-break-inside: avoid;
 }
 .act_as_cell {
-    display: table-cell !important;
+    // display: table-cell !important;
     page-break-inside: avoid;
 }
 .act_as_thead {
