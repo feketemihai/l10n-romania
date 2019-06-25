@@ -20,7 +20,7 @@ Romania  - Accounting Reports
 
     'data': [
         'views/account_report.xml',
-        'views/report_statement.xml',
+        'views/report_bank_statement.xml',
         'views/report_sale_purchase_journal.xml',
         'wizard/account_report_sale_purchase_journal_view.xml',
     ],
