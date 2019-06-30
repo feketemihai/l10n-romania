@@ -36,14 +36,14 @@ class TestTrialBalance(abstract_test.AbstractTest):
     def _getAdditionalFiltersToBeTested(self):
         return [
             {'only_posted_moves': True},
-            {'hide_account_balance_at_0': True},
+            {'hide_account_without_move': True},
             {'with_special_accounts': True},
-            {'only_posted_moves': True, 'hide_account_balance_at_0': True},
+            {'only_posted_moves': True, 'hide_account_without_move': True},
             {'only_posted_moves': True, 'with_special_accounts': True},
-            {'hide_account_balance_at_0': True, 'with_special_accounts': True},
+            {'hide_account_without_move': True, 'with_special_accounts': True},
             {
                 'only_posted_moves': True,
-                'hide_account_balance_at_0': True,
+                'hide_account_without_move': True,
                 'with_special_accounts': True
             },
         ]

@@ -69,8 +69,7 @@ class RomaniaReportTrialBalanceXslx(models.AbstractModel):
             [_('Date from'), report.date_from],
             [_('Date to'), report.date_to],
             [_('All posted entries'), report.only_posted_moves],
-            [_('Hide accounts with 0 balance'),
-             report.hide_account_balance_at_0],
+            [_('Hide accounts without move'),             report.hide_account_without_move],
             [_('With special accounts'), report.with_special_accounts],
         ]
 

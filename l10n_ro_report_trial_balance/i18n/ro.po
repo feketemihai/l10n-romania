@@ -304,12 +304,12 @@ msgid "From:"
 msgstr "De la:"
 
 #. module: l10n_ro_report_trial_balance
-#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_hide_account_balance_at_0
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_hide_account_without_move
 msgid "Hide Account Balance At 0"
 msgstr "Hide Account Balance At 0"
 
 #. module: l10n_ro_report_trial_balance
-#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_hide_account_balance_at_0
+#: model:ir.model.fields,field_description:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_hide_account_without_move
 msgid "Hide account ending balance at 0"
 msgstr "Ascunde conturi cu sold final egal cu zero"
 
@@ -593,7 +593,7 @@ msgid "Trial Balance XLSX"
 msgstr "Balanța de verificare XLSX"
 
 #. module: l10n_ro_report_trial_balance
-#: model:ir.model.fields,help:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_hide_account_balance_at_0
+#: model:ir.model.fields,help:l10n_ro_report_trial_balance.field_l10n_ro_report_trial_balance_wizard_hide_account_without_move
 msgid "Use this filter to hide accounts with an ending balance at 0. If all accounts from an account group have ending balance at 0, the group will not be printed in the report."
 msgstr "Use this filter to hide accounts with an ending balance at 0. If all accounts from an account group have ending balance at 0, the group will not be printed in the report."
 

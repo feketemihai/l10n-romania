@@ -416,14 +416,14 @@
                 <td class="act_as_cell amount">
                     <t t-set="domain" t-value="[('account_id', 'in', accounts),
                                             ('date', '&gt;=', firstdate),
-                                            ('date', '&lt;=', line.report_id.date_to),
+                                            ('date', '&lt;=', str(line.report_id.date_to)),
                                             ('debit', '&lt;&gt;', 0)]"/>
                     <span>
                         <a t-att-data-res-model="'account.move.line'"
                            t-att-data-domain="domain"
                            t-att-style="style"
                            class="o_l10n_ro_report_trial_balance_web_action_multi">
-                            <span t-field="line.debit_total"/>
+                            <span t-field="line.debit_cumulative"/>
                         </a>
                     </span>
                 </td>
@@ -431,14 +431,14 @@
                 <td class="act_as_cell amount">
                     <t t-set="domain" t-value="[('account_id', 'in', accounts),
                                             ('date', '&gt;=', firstdate),
-                                            ('date', '&lt;=', line.report_id.date_to),
+                                            ('date', '&lt;=', str(line.report_id.date_to)),
                                             ('credit', '&lt;&gt;', 0)]"/>
                     <span>
                         <a t-att-data-res-model="'account.move.line'"
                            t-att-data-domain="domain"
                            t-att-style="style"
                            class="o_l10n_ro_report_trial_balance_web_action_multi">
-                            <span t-field="line.credit_total"/>
+                            <span t-field="line.credit_cumulative"/>
                         </a>
                     </span>
                 </td>
@@ -448,6 +448,7 @@
                 <!--## Total Debit-->
                 <td class="act_as_cell amount">
                     <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                            ('date', '&lt;=', str(line.report_id.date_to)),
                                             ('debit', '&lt;&gt;', 0)]"/>
                     <span>
                         <a t-att-data-res-model="'account.move.line'"
@@ -461,6 +462,7 @@
                 <!--## Total Credit-->
                 <td class="act_as_cell amount">
                     <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                             ('date', '&lt;=', str(line.report_id.date_to)),
                                             ('credit', '&lt;&gt;', 0)]"/>
                     <span>
                         <a t-att-data-res-model="'account.move.line'"
@@ -475,7 +477,9 @@
             <t t-if="o.col_balance">
                 <!--## Balance Debit-->
                 <td class="act_as_cell amount">
-                    <t t-set="domain" t-value="[('account_id', 'in', accounts)]"/>
+                    <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                                 ('date', '&lt;=', str(line.report_id.date_to)),
+                                                ]"/>
                     <span>
                         <a t-att-data-res-model="'account.move.line'"
                            t-att-data-domain="domain"
@@ -487,7 +491,9 @@
                 </td>
                 <!--## Balance Credit-->
                 <td class="act_as_cell amount">
-                    <t t-set="domain" t-value="[('account_id', 'in', accounts)]"/>
+                    <t t-set="domain" t-value="[('account_id', 'in', accounts),
+                                                 ('date', '&lt;=', str(line.report_id.date_to)),
+                                                ]"/>
                     <span>
                         <a t-att-data-res-model="'account.move.line'"
                            t-att-data-domain="domain"

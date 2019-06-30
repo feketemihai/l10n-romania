@@ -90,7 +90,7 @@ class TestTrialBalanceReport(common.TransactionCase):
             'date_from': self.date_start,
             'date_to': self.date_end,
             'only_posted_moves': True,
-            'hide_account_balance_at_0': False,
+            'hide_account_without_move': False,
             'company_id': company.id,
             'with_special_accounts': True,
             })
