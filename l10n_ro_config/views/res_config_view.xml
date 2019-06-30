@@ -80,17 +80,46 @@
                                         <div class="row mt16">
                                             <label for="property_customer_advance_account_id"
                                                    class="col-lg-3 o_light_label"/>
-                                            <field name="property_customer_advance_account_id" placeholder="Select 419"/>
+                                            <field name="property_customer_advance_account_id"
+                                                   placeholder="Select 419"/>
                                         </div>
                                         <div class="row mt16">
                                             <label for="property_supplier_advance_account_id"
                                                    class="col-lg-3 o_light_label"/>
-                                            <field name="property_supplier_advance_account_id" placeholder="Select 4091"/>
+                                            <field name="property_supplier_advance_account_id"
+                                                   placeholder="Select 4091"/>
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Special Fiscal position</span>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific."
+                                          aria-label="Values set here are company-specific."
+                                          groups="base.group_multi_company" role="img"/>
+                                    <div class="text-muted">
+                                        Set the special fiscal position
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label for="property_vat_on_payment_position_id"
+                                                   class="col-lg-3 o_light_label"/>
+                                            <field name="property_vat_on_payment_position_id"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label for="property_inverse_taxation_position_id"
+                                                   class="col-lg-3 o_light_label"/>
+                                            <field name="property_inverse_taxation_position_id"/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
 
                         </div>
                         <h2>Stock Accounting</h2>
@@ -113,12 +142,14 @@
                                         <div class="row mt16">
                                             <label for="property_stock_picking_payable_account_id"
                                                    class="col-lg-3 o_light_label"/>
-                                            <field name="property_stock_picking_payable_account_id" placeholder="Select 408"/>
+                                            <field name="property_stock_picking_payable_account_id"
+                                                   placeholder="Select 408"/>
                                         </div>
                                         <div class="row mt16">
                                             <label for="property_stock_usage_giving_account_id"
                                                    class="col-lg-3 o_light_label"/>
-                                            <field name="property_stock_usage_giving_account_id" placeholder="Select 8035"/>
+                                            <field name="property_stock_usage_giving_account_id"
+                                                   placeholder="Select 8035"/>
                                         </div>
                                         <div class="row mt16">
                                             <label for="property_stock_picking_custody_account_id"
@@ -136,7 +167,7 @@
 
                             </div>
 
-                            <div class="col-12 col-lg-6 o_setting_box"  >
+                            <div class="col-12 col-lg-6 o_setting_box">
                                 <div class="o_setting_left_pane"/>
                                 <div class="o_setting_right_pane">
 
@@ -145,15 +176,17 @@
                                     </div>
                                     <div class="content-group">
                                         <div class="mt16">
-                                             <div class="row mt16">
+                                            <div class="row mt16">
                                                 <label for="property_trade_discount_received_account_id"
                                                        class="col-lg-3 o_light_label"/>
-                                                <field name="property_trade_discount_received_account_id" placeholder="Select 609"/>
+                                                <field name="property_trade_discount_received_account_id"
+                                                       placeholder="Select 609"/>
                                             </div>
                                             <div class="row mt16">
                                                 <label for="property_trade_discount_granted_account_id"
                                                        class="col-lg-3 o_light_label"/>
-                                                <field name="property_trade_discount_granted_account_id" placeholder="Select 709"/>
+                                                <field name="property_trade_discount_granted_account_id"
+                                                       placeholder="Select 709"/>
                                             </div>
                                         </div>
                                     </div>
@@ -161,33 +194,33 @@
                             </div>
                         </div>
 
-<!--
-                        <h2>Trade discounts</h2>
-                        <div class="row mt16 o_settings_container">
-                            <div class="col-xs-12 col-md-6 o_setting_box">
-                                <div class="o_setting_left_pane">
+                        <!--
+                                                <h2>Trade discounts</h2>
+                                                <div class="row mt16 o_settings_container">
+                                                    <div class="col-xs-12 col-md-6 o_setting_box">
+                                                        <div class="o_setting_left_pane">
 
-                                </div>
-                                <div class="o_setting_right_pane">
+                                                        </div>
+                                                        <div class="o_setting_right_pane">
 
-                                    <div class="content-group" >
+                                                            <div class="content-group" >
 
-                                        <div class="row mt16">
-                                            <label for="property_trade_discount_received_account_id"
-                                                   class="col-lg-3 o_light_label"/>
-                                            <field name="property_trade_discount_received_account_id" placeholder="Select 609"/>
-                                        </div>
-                                        <div class="row mt16">
-                                            <label for="property_trade_discount_granted_account_id"
-                                                   class="col-lg-3 o_light_label"/>
-                                            <field name="property_trade_discount_granted_account_id" placeholder="Select 709"/>
-                                        </div>
+                                                                <div class="row mt16">
+                                                                    <label for="property_trade_discount_received_account_id"
+                                                                           class="col-lg-3 o_light_label"/>
+                                                                    <field name="property_trade_discount_received_account_id" placeholder="Select 609"/>
+                                                                </div>
+                                                                <div class="row mt16">
+                                                                    <label for="property_trade_discount_granted_account_id"
+                                                                           class="col-lg-3 o_light_label"/>
+                                                                    <field name="property_trade_discount_granted_account_id" placeholder="Select 709"/>
+                                                                </div>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        -->
                     </div>
 
                 </xpath>
