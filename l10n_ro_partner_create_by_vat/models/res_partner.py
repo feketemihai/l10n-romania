@@ -53,6 +53,13 @@ class ResPartner(models.Model):
     vat_on_payment = fields.Boolean('VAT on Payment')
 
 
+    @api.onchange('vat_on_payment')
+    def onchange_vat_on_payment(self):
+        if self.vat_on_payment:
+            self.property_account_position_id = self.company_id.property_vat_on_payment_position_id
+        elif self.property_account_position_id == self.company_id.property_vat_on_payment_position_id:
+            self.property_account_position_id = False
+
     #todo: de facut conversie la multi
     @api.model
     def create(self, vals):
@@ -105,6 +112,10 @@ class ResPartner(models.Model):
                'split_vat': result['statusSplitTVA'],
                'vat_on_payment': result['statusTvaIncasare'],
                'company_type': 'company'}
+
+        if result['statusTvaIncasare']:
+            res['property_account_position_id'] = self.company_id.property_vat_on_payment_position_id.id
+
         addr = ''
         city = ''
         if result['adresa']:
