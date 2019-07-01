@@ -1348,7 +1348,7 @@
 
 
         <record model="account.group" id="account_group_3_30">
-            <field name="name">Stocuri de materii prime și materialE</field>
+            <field name="name">Stocuri de materii prime și materiale</field>
             <field name="code_prefix">30</field>
             <field name="parent_id" ref="account_group_3"/>
 
