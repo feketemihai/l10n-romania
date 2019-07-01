@@ -22,7 +22,10 @@ Romania  - Accounting Reports
         'views/account_report.xml',
         'views/report_bank_statement.xml',
         'views/report_sale_purchase_journal.xml',
+
+        'views/activity_statement.xml',
         'wizard/account_report_sale_purchase_journal_view.xml',
+        'wizard/statement_wizard.xml'
     ],
 
     'installable': True,

@@ -21,9 +21,9 @@ class ReportReportStatement(models.AbstractModel):
             'data': data,
             'time': time,
             'docs': self.env[report.model].browse(docids),
-            'formatLang': self._formatLang
+            'formatLang': self._formatLang,
+            'company': self.env.user.company_id
         }
 
     def _formatLang(self, value, *args):
         return formatLang(self.env, value, *args)
-

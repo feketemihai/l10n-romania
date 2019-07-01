@@ -37,7 +37,7 @@
 
     <menuitem id="menu_account_report_sale_purchase_journal" name="Report Sale/Purchase Journal"
           action="action_account_report_sale_purchase_journal"
-          parent="account.menu_finance_legal_statement" />
+           parent="l10n_ro.account_reports_ro_statements_menu" />
 
 
 </odoo>
