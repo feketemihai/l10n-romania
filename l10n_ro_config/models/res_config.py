@@ -140,6 +140,16 @@ class ResConfigSettings(models.TransientModel):
 
     invoice_report_show_discount = fields.Boolean(string='Show discount on invoice report',config_parameter='l10n_ro_config.show_discount')
 
+
+    property_vat_on_payment_position_id = fields.Many2one('account.fiscal.position',string='VAT on Payment',
+                                                       related='company_id.property_vat_on_payment_position_id',
+                                                       readonly=False                                                       )
+    property_inverse_taxation_position_id = fields.Many2one('account.fiscal.position', string='Inverse Taxation',
+                                                         related='company_id.property_inverse_taxation_position_id',
+                                                        readonly=False)
+
+
+
     @api.multi
     def execute(self):
         self.ensure_one()
