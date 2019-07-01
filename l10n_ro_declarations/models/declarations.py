@@ -12,9 +12,9 @@ class Declaration(models.Model):
 
     name = fields.Char('Name', required=True)
     code = fields.Selection([],required=True)
-    company_id = fields.Many2one('res.company', string='Company', required=True,
-                                                default=lambda self: self.env.user.company_id)
+    company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self.env.user.company_id)
 
-    data_xdp = fields.Binary(string='XDP file')
+    file_name_xdp = fields.Char()
+    data_xdp = fields.Binary(string='XDP file', attachment=True)
 
 

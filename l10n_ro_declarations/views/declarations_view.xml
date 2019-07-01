@@ -25,7 +25,7 @@
                         <field name="code"/>
                     </group>
                     <group>
-                        <field name="data_xdp"/>
+                        <field name="data_xdp" filename="file_name_xdp"/>
                         <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                     </group>
                 </sheet>

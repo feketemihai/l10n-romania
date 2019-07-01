@@ -40,11 +40,11 @@ class Declarations(http.Controller):
 
         tag_an = xml_doc.xpath('//an_r')
         if tag_an:
-            tag_an[0].text = run_declaration.date_to[:4]
+            tag_an[0].text = str(run_declaration.date_to.year)
 
         tag_luna_r = xml_doc.xpath('//luna_r')
         if tag_luna_r:
-            tag_luna_r[0].text = run_declaration.date_to[5:7]
+            tag_luna_r[0].text = str(run_declaration.date_to.month).zfill(2)
 
         tag_cif = xml_doc.xpath('//cif')
         if tag_cif:

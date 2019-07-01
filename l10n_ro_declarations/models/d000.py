@@ -11,7 +11,7 @@ class D000Report(models.AbstractModel):
     _description = 'D000Report'
     _code = 'D000'
 
-    company_id = fields.Many2one(comodel_name='res.company')
+    company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self.env.user.company_id)
     date_from = fields.Date('Start Date', required=True)
     date_to = fields.Date('End Date', required=True)
 

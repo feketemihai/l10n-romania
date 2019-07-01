@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 # ©  2018 Terrabit
 # See README.rst file on addons root folder for license details
@@ -8,10 +7,9 @@ from odoo import api, fields, models
 from odoo.tools import safe_eval
 from odoo import tools
 
-
+# nu sunt ncesare in 12.0
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
-
 
 
     tax_base_amount = fields.Monetary(string="Base Amount", compute='_compute_tax_base_amount',
@@ -27,3 +25,5 @@ class AccountMoveLine(models.Model):
                 move_line.tax_base_amount = abs(sum(base_lines.mapped('balance')))
             else:
                 move_line.tax_base_amount = 0.0
+
+
