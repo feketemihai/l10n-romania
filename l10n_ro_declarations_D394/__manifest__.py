@@ -14,7 +14,10 @@
 
     "category": "Generic Modules",
     "depends": [
-        'account','l10n_ro','l10n_ro_declarations'
+        'account',
+        'l10n_ro',
+        'l10n_ro_config',
+        'l10n_ro_declarations',
     ],
 
     "data": [
