@@ -368,16 +368,31 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
     def _compute_account_group_values(self):
         if not self.account_ids:
             acc_res = self.line_account_ids
-            groups = self.env['account.group'].search([('code_prefix', '!=', False)])
+            groups = self.env['account.group'].search([]) #('code_prefix', '!=', False)])
+
+            # if self.account_ids:
+            #     all_accounts = self.account_ids
+            # else:
+            #     all_accounts = self.env['account.account'].search([('company_id', '=', self.company_id.id)])
+            #
+            #
+            # if not self.with_special_accounts:
+            #     sp_acc_type = self.env.ref('l10n_ro.data_account_type_not_classified')
+            #     if sp_acc_type:
+            #         all_accounts = all_accounts.filtered(lambda a: a.user_type_id.id != sp_acc_type.id)
+
+
+
             for group in groups:
                 accounts = acc_res.filtered(lambda a: a.account_id.id in group.compute_account_ids.ids)
                 # if self.hide_account_without_move:
-                #     accounts = accounts.filtered(lambda a: a.debit_balance != 0 or a.credit_balance != 0)
+                #     accounts = accounts.filtered(lambda a: a.debit_balance != 0 or a.credit_balance != 0
+
                 if accounts:
                     newdict = {
                         'report_id': self.id,
                         'account_group_id': group.id,
-                        'code': group.code_prefix,
+                        'code': group.code_prefix or '',
                         'name': group.name,
 
                         'debit_opening_balance': sum(acc.debit_opening_balance for acc in accounts),

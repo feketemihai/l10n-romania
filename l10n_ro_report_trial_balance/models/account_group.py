@@ -30,6 +30,10 @@ class AccountGroup(models.Model):
         accounts = account_obj.search([])
         for group in self:
             prefix = group.code_prefix if group.code_prefix else group.name
-            gr_acc = accounts.filtered(
-                lambda a: a.code.startswith(prefix)).ids
+            gr_acc = accounts.filtered( lambda a: a.code.startswith(prefix)).ids
+            if not gr_acc:
+                group_accounts = self.env['account.account']
+                for child in group.group_child_ids:
+                    group_accounts |= child.compute_account_ids
+                gr_acc = group_accounts.ids
             group.compute_account_ids = [(6, 0, gr_acc)]
