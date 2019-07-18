@@ -32,10 +32,8 @@ class AccountInvoice(models.Model):
         return to_open_invoices.invoice_validate()
 
     @api.one
-    @api.depends(
-        'state', 'currency_id', 'invoice_line_ids.price_subtotal',
-        'move_id.line_ids.amount_residual',
-        'move_id.line_ids.currency_id')
+    @api.depends('state', 'currency_id', 'invoice_line_ids.price_subtotal',
+                 'move_id.line_ids.amount_residual', 'move_id.line_ids.currency_id')
     def _compute_residual(self):
         if self.journal_id.posting_policy == 'storno':
             residual = 0.0
@@ -60,9 +58,6 @@ class AccountInvoice(models.Model):
                 self.reconciled = False
         else:
             super(AccountInvoice, self)._compute_residual()
-
-
-
 
     @api.multi
     def _get_outstanding_info_JSON(self):
@@ -147,7 +142,8 @@ class AccountInvoice(models.Model):
             )
             if payment.matched_debit_ids:
                 payment_currency_id = payment.matched_debit_ids[0].currency_id if all(
-                    [p.currency_id == payment.matched_debit_ids[0].currency_id for p in   payment.matched_debit_ids]) else False
+                    [p.currency_id == payment.matched_debit_ids[0].currency_id for p in
+                     payment.matched_debit_ids]) else False
             if payment.matched_credit_ids:
                 payment_currency_id = payment.matched_credit_ids[0].currency_id if all(
                     [p.currency_id == payment.matched_credit_ids[0].currency_id

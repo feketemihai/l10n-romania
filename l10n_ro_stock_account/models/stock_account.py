@@ -402,6 +402,10 @@ class StockMove(models.Model):
         move = self
         res = super(StockMove, move)._prepare_account_move_line(qty, cost, credit_account_id, debit_account_id)
 
+        if cost < 0:
+            if self.env['ir.module.module'].search([('name', '=', 'account_storno'), ('state', '=', 'installed')]):
+                for acl in res:
+                    acl[2]['credit'], acl[2]['debit'] = -acl[2]['debit'], -acl[2]['credit']
 
         if not res:
             return res

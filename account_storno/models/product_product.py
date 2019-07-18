@@ -9,13 +9,11 @@ class ProductProduct(models.Model):
 
     @api.model
     def _convert_prepared_anglosaxon_line(self, line, partner):
-        res = super(ProductProduct, self)._convert_prepared_anglosaxon_line(
-            line, partner)
+        res = super(ProductProduct, self)._convert_prepared_anglosaxon_line(line, partner)
         credit = debit = 0.0
         invoice = self.env['account.invoice']
         if 'invoice_id' in line:
-            invoice = self.env['account.invoice'].browse(
-                line.get('invoice_id', False))
+            invoice = self.env['account.invoice'].browse(line.get('invoice_id', False))
         if invoice and invoice.journal_id.posting_policy == 'storno':
             if invoice.type in ('out_invoice', 'in_refund'):
                 if line.get('type', 'src') == 'dest':

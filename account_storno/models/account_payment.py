@@ -8,12 +8,14 @@ MAP_INVOICE_TYPE_PAYMENT_SIGN = {
     'out_refund': 1,
 }
 
+
 class AccountRegisterPayment(models.TransientModel):
     _inherit = 'account.register.payments'
 
     @api.model
     def _compute_payment_amount(self, invoice_ids):
-        payment_currency = self.currency_id or self.journal_id.currency_id or self.journal_id.company_id.currency_id or invoice_ids and invoice_ids[0].currency_id
+        payment_currency = self.currency_id or self.journal_id.currency_id or self.journal_id.company_id.currency_id or invoice_ids and \
+                           invoice_ids[0].currency_id
 
         total = 0
         for inv in invoice_ids:

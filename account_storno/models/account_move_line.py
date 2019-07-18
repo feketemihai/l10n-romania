@@ -16,10 +16,7 @@ class AccountMoveLine(models.Model):
 
     @api.model
     def _auto_init(self):
-        tools.drop_constraint(
-            self._cr,
-            'account_move_line',
-            'account_move_line_credit_debit2')
+        tools.drop_constraint(self._cr, 'account_move_line', 'account_move_line_credit_debit2')
         res = super(AccountMoveLine, self)._auto_init()
         # Drop original constraint to fit storno posting with minus.
         return res
@@ -35,14 +32,12 @@ class AccountMoveLine(models.Model):
         for line in contra_lines:
             if line.journal_id.posting_policy == 'contra':
                 if line.debit + line.credit < 0.0:
-                    raise ValidationError(
-                        _('Wrong credit or debit value in accounting entry.'))
+                    raise ValidationError(_('Wrong credit or debit value in accounting entry.'))
 
     @api.multi
     @api.constrains('amount_currency')
     def _check_currency_amount(self):
-        storno_lines = self.filtered(
-            lambda line: line.move_id.journal_id.posting_policy == 'storno')
+        storno_lines = self.filtered(lambda line: line.move_id.journal_id.posting_policy == 'storno')
         contra_lines = self - storno_lines
         for line in storno_lines:
             if line.amount_currency:

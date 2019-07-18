@@ -18,23 +18,19 @@ class AccountMove(models.Model):
         This value is relevant only for moves that involve journal items
         on receivable or payable accounts.
         """
-        storno_moves = self.filtered(
-            lambda m: m.journal_id.posting_policy == 'storno')
+        storno_moves = self.filtered(lambda m: m.journal_id.posting_policy == 'storno')
         contra_moves = self - storno_moves
         for move in storno_moves:
             total_amount = 0.0
             total_reconciled = 0.0
             for line in move.line_ids:
-                if line.account_id.user_type_id.type in (
-                        'receivable', 'payable'):
+                if line.account_id.user_type_id.type in ('receivable', 'payable'):
                     amount = line.debit + line.credit
                     sign = 1 if amount > 0 else -1
                     total_amount += amount
-                    for partial_line in (line.matched_debit_ids +
-                                         line.matched_credit_ids):
+                    for partial_line in (line.matched_debit_ids + line.matched_credit_ids):
                         total_reconciled += sign * partial_line.amount
-            if float_is_zero(total_amount,
-                             precision_rounding=move.currency_id.rounding):
+            if float_is_zero(total_amount, precision_rounding=move.currency_id.rounding):
                 move.matched_percentage = 1.0
             else:
                 move.matched_percentage = total_reconciled / total_amount
@@ -46,11 +42,9 @@ class AccountMove(models.Model):
         if self.journal_id.posting_policy == 'storno':
             reversed_move = self.copy(default={
                 'date': date,
-                'journal_id':
-                    journal_id.id if journal_id else self.journal_id.id,
+                'journal_id': journal_id.id if journal_id else self.journal_id.id,
                 'ref': _('Storno of: ') + self.name})
-            for acm_line in reversed_move.line_ids.with_context(
-                    check_move_validity=False):
+            for acm_line in reversed_move.line_ids.with_context(check_move_validity=False):
                 acm_line.write({
                     'debit': -acm_line.debit,
                     'credit': -acm_line.credit,
@@ -58,3 +52,6 @@ class AccountMove(models.Model):
                 })
             return reversed_move
         return super(AccountMove, self)._reverse_move(date, journal_id)
+
+
+

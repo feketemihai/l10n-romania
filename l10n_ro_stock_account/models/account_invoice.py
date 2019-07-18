@@ -85,7 +85,7 @@ class AccountInvoice(models.Model):
 
                     line_diff_value = 0.0
                     for diff in diff_line:
-
+                        diff['invoice_id'] = self.id
                         if add_diff:
                             if abs(diff['price_unit'] * diff['quantity']) > diff_limit:
                                 raise UserError(_('The price difference for the product %s exceeds the %d limit ') % (i_line.product_id.name,diff_limit))
