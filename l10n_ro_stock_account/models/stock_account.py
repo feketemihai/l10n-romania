@@ -71,15 +71,22 @@ class StockMove(models.Model):
     # acc_move_id = fields.Many2one('account.move', string='Account move', copy=False)
     acc_move_line_ids = fields.One2many('account.move.line', 'stock_move_id', string='Account move lines')
     move_type = fields.Selection([
+
         ('reception', 'Reception'),
-        ('reception_notice', 'Reception with notice'),
-        ('reception_store', 'Reception in store'),
-        ('reception_refund', 'Reception Refund'),
+        ('reception_notice', 'Reception with notice'),          # receptie pe baza de aviz
+        ('reception_store', 'Reception in store'),              # receptie in magazin
+        ('reception_refund', 'Reception refund'),               # rambursare receptie
+        ('reception_refund_notice', 'Reception refund with notice'), # rabursare receptie facuta cu aviz
+        ('reception_refund_store_notice', 'Reception refund in store with notice'),# rabursare receptie in magazin facuta cu aviz
+
         ('delivery', 'Delivery'),
         ('delivery_notice', 'Delivery with notice'),
-        ('delivery_store', 'Delivery from Store'),
-        ('delivery_refund', 'Delivery Refund'),
-        ('delivery_refund_store', 'Delivery Refund Store'),
+        ('delivery_store', 'Delivery from store'),
+        ('delivery_refund', 'Delivery refund'),
+        ('delivery_refund_notice', 'Delivery refund with notice'),
+        ('delivery_refund_store', 'Delivery refund in store'),
+        ('delivery_refund_store_notice', 'Delivery refund in store with notice'),
+
         ('consume', 'Consume'),
         ('inventory_plus', 'Inventory plus'),
         ('inventory_minus', 'Inventory minus'),
@@ -402,10 +409,12 @@ class StockMove(models.Model):
         move = self
         res = super(StockMove, move)._prepare_account_move_line(qty, cost, credit_account_id, debit_account_id)
 
-        if cost < 0:
+
+        if 'refund' in self.move_type:
             if self.env['ir.module.module'].search([('name', '=', 'account_storno'), ('state', '=', 'installed')]):
-                for acl in res:
-                    acl[2]['credit'], acl[2]['debit'] = -acl[2]['debit'], -acl[2]['credit']
+                if move.product_id.categ_id.property_stock_journal.posting_policy == 'storno':
+                    for acl in res:
+                        acl[2]['credit'], acl[2]['debit'] = -acl[2]['debit'], -acl[2]['credit']
 
         if not res:
             return res

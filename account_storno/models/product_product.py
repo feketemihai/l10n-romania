@@ -15,7 +15,7 @@ class ProductProduct(models.Model):
         if 'invoice_id' in line:
             invoice = self.env['account.invoice'].browse(line.get('invoice_id', False))
         if invoice and invoice.journal_id.posting_policy == 'storno':
-            if invoice.type in ('out_invoice', 'in_refund'):
+            if invoice.type in ('out_invoice', 'out_refund' ):
                 if line.get('type', 'src') == 'dest':
                     # for OUT_invoice dest (tot. amount goes to debit)
                     debit = line['price']
