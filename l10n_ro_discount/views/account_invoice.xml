@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="invoice_supplier_form" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.discount</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <div class="oe_button_box" name="button_box">
+                        <field name="has_discounting_invoice_lines" invisible="1"/>
+                        <field name="has_discounted_invoice_lines" invisible="1"/>
+                        <button string="Apply discount"
+                                class="oe_stat_button"
+                                name="button_discount_from"
+                                type="object"
+                                icon="fa-credit-card"
+                                attrs="{'invisible':[('has_discounting_invoice_lines', '=', False)]}"
+                                widget="statinfo"/>
+                        <button string="View discounted lines"
+                                class="oe_stat_button"
+                                name="button_discount_to"
+                                type="object"
+                                icon="fa-arrow-down"
+                                attrs="{'invisible':[('has_discounted_invoice_lines', '=', False)]}"
+                                widget="statinfo"/>
+                    </div>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

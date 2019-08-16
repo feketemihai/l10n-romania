@@ -1,0 +1,248 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ro_discount
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-16 19:01+0000\n"
+"PO-Revision-Date: 2019-08-16 19:01+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_discount_remaining_amount
+msgid "Amount of discount that is left to be applied to invoice lines"
+msgstr "Total reducere rămasă pentru a fi aplicată la linii de factură"
+
+#. module: l10n_ro_discount
+#: selection:account.invoice.discount,state:0
+msgid "Applied"
+msgstr "Aplicată"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_amount
+msgid "Applied Discount Amount"
+msgstr "Total reducere aplicată"
+
+#. module: l10n_ro_discount
+#: model:ir.ui.view,arch_db:l10n_ro_discount.invoice_supplier_form
+msgid "Apply discount"
+msgstr "Aplică reducere"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_company_id
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_create_uid
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_create_date
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_company_currency_id
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_company_currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: l10n_ro_discount
+#: model:ir.actions.act_window,name:l10n_ro_discount.discount_action
+#: model:ir.model,name:l10n_ro_discount.model_account_invoice_discount
+#: model:ir.model,name:l10n_ro_discount.model_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_discount_id
+#: model:ir.ui.menu,name:l10n_ro_discount.discount_menu
+msgid "Discount"
+msgstr "Reducere"
+
+#. module: l10n_ro_discount
+#: model:ir.model,name:l10n_ro_discount.model_account_invoice_discount_line
+#: model:ir.model,name:l10n_ro_discount.model_discount_line
+msgid "Discount Line"
+msgstr "Linie de reducere"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_discount_line_ids
+msgid "Discount Lines"
+msgstr "Linii de reducere"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_discounting_invoice_id
+msgid "Discount invoice"
+msgstr "Factură de reducere"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_discount_discount_line_ids
+msgid "Discount lines. The sum of their amount should be equal to the initial_amount field."
+msgstr "Linii de reducere. Suma lor trebuie să egaleze valoarea inițială a reducerii."
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_discounted_invoice_id
+msgid "Discounted invoice"
+msgstr "Factura redusă"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_discounted_invoice_line_id
+msgid "Discounted invoice line"
+msgstr "Linie de factură redusă"
+
+#. module: l10n_ro_discount
+#: code:addons/l10n_ro_discount/models/account_invoice.py:54
+#: code:addons/l10n_ro_discount/models/account_invoice.py:64
+#: code:addons/l10n_ro_discount/models/account_invoice.py:74
+#, python-format
+msgid "Discounts"
+msgstr "Reduceri"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_display_name
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_has_discounted_invoice_lines
+msgid "Evaluates to true if there is at least one line that was discounted"
+msgstr "Este bifat dacă există cel puțin o linie care a fost redusă."
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_has_discounting_invoice_lines
+msgid "Evaluates to true if there is at least one line with account set to the received-discount account"
+msgstr "Este bifat dacă există cel putin o linie care are contul Reduceri Primite"
+
+#. module: l10n_ro_discount
+#: model:ir.ui.view,arch_db:l10n_ro_discount.discount_line_form
+msgid "First, choose the discounted invoice"
+msgstr "Intâi, alege factura redusă"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_id
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_discount_state
+msgid "If the entire initial amount has been applied, then the state is Applied. Otherwise, Opened"
+msgstr "Daca intreaga reducere a fost aplicată, atunci starea este Aplicată. Altfel, este încă Deschisă"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_initial_amount
+msgid "Initial Discount"
+msgstr "Reducere inițială"
+
+#. module: l10n_ro_discount
+#: model:ir.model,name:l10n_ro_discount.model_account_invoice
+msgid "Invoice"
+msgstr "Factură"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_discount_line_discounted_invoice_id
+msgid "Invoice containing the line which this discount was applied to"
+msgstr "Factura care conține linia la care această reducere a fost aplicată"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_discount_line_discounted_invoice_line_id
+msgid "Invoice line to which this discount was applied"
+msgstr "Linia de factura la care această reducere a fost aplicată"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_has_discounted_invoice_lines
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_has_discounting_invoice_lines
+msgid "Is discount invoice"
+msgstr "Factura de reducere"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount___last_update
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line___last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_write_uid
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_line_write_date
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: l10n_ro_discount
+#: model:ir.ui.view,arch_db:l10n_ro_discount.discount_line_form
+msgid "Last, choose the discounted amount"
+msgstr "În final, scrie totalul de reducere"
+
+#. module: l10n_ro_discount
+#: selection:account.invoice.discount,state:0
+msgid "Open"
+msgstr "Deschisă"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_remaining_amount
+msgid "Remaining Discount"
+msgstr "Reducere ramasă de aplicat"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,field_description:l10n_ro_discount.field_account_invoice_discount_state
+msgid "State"
+msgstr "Stare"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_discount_line_amount
+msgid "The amount of discount that has been applied to the discounted invoice line from the discounting invoice, which is present in the discount"
+msgstr "Totalul de reducere care a fost aplicat din factură de reducere pe linia de factură"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_discount_discounting_invoice_id
+msgid "The invoice that contains one or more lines that are discounts"
+msgstr "Factura de reducere este cea care conține una sau mai multe linii de reducere (contul Reduceri Primite)"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_discount_line_discount_id
+msgid "The main document which this line is a part of."
+msgstr "Reducerea principală din care face parte această linie"
+
+#. module: l10n_ro_discount
+#: model:ir.ui.view,arch_db:l10n_ro_discount.discount_line_form
+msgid "Then, choose the discounted invoice line"
+msgstr "Apoi, alege linia de factura la care se aplică reducerea"
+
+#. module: l10n_ro_discount
+#: sql_constraint:account.invoice.discount:0
+#: code:addons/l10n_ro_discount/models/discount.py:12
+#, python-format
+msgid "There is already a discount for this invoice"
+msgstr "Există deja o reducere creată din această factură de reducere"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_discount_initial_amount
+msgid "Total amount of discount"
+msgstr "Total de reducere"
+
+#. module: l10n_ro_discount
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_discount_company_currency_id
+#: model:ir.model.fields,help:l10n_ro_discount.field_account_invoice_discount_line_company_currency_id
+msgid "Utility field to express amount currency"
+msgstr "Utility field to express amount currency"
+
+#. module: l10n_ro_discount
+#: model:ir.ui.view,arch_db:l10n_ro_discount.invoice_supplier_form
+msgid "View discounted lines"
+msgstr "Linii reduse"
+
