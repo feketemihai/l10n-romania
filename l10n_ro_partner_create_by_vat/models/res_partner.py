@@ -48,10 +48,32 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     nrc = fields.Char(string='NRC', help='Registration number at the Registry of Commerce')
-    vat_subjected = fields.Boolean('VAT Legal Statement')  # campul asta cred ca trebuie sa fie in modulul de baza de localizare
+    vat_subjected = fields.Boolean(
+        'VAT Legal Statement')  # campul asta cred ca trebuie sa fie in modulul de baza de localizare
     split_vat = fields.Boolean('Split VAT')
     vat_on_payment = fields.Boolean('VAT on Payment')
 
+    @api.constrains('vat')
+    def check_vat(self):
+        if not self.vat_subjected:
+            return True
+        return super(ResPartner, self).check_vat()
+
+    @api.onchange('vat')
+    def onchange_vat(self):
+        if self.country_id.code == 'RO' and self.vat:
+             self.vat_subjected = self.vat[:2].lower() == 'ro'
+
+
+    @api.onchange('vat_subjected')
+    def onchange_vat_subjected(self):
+        if self.country_id.code == 'RO' and self.vat:
+            if self.vat_subjected:
+                if self.vat[:2].lower() != 'ro':
+                    self.vat = 'RO' + self.vat
+            else:
+                if self.vat[:2].lower() == 'ro':
+                    self.vat = self.vat[2:]
 
     @api.onchange('vat_on_payment')
     def onchange_vat_on_payment(self):
@@ -60,7 +82,7 @@ class ResPartner(models.Model):
         elif self.property_account_position_id == self.company_id.property_vat_on_payment_position_id:
             self.property_account_position_id = False
 
-    #todo: de facut conversie la multi
+    # todo: de facut conversie la multi
     @api.model
     def create(self, vals):
         partner = super(ResPartner, self).create(vals)
@@ -76,10 +98,10 @@ class ResPartner(models.Model):
 
         return partner
 
-
     @api.model
     def _get_Anaf(self, cod):
-        res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': fields.Date.today().strftime('%Y-%m-%d')}], headers=headers)
+        res = requests.post(ANAF_URL, json=[{'cui': cod, 'data': fields.Date.today().strftime('%Y-%m-%d')}],
+                            headers=headers)
         if res.status_code == 200:
             res = res.json()
         if res['found'] and res['found'][0]:
@@ -209,7 +231,6 @@ class ResPartner(models.Model):
                 'company_type': 'company'
             }
 
-
         return result
 
     @api.one
@@ -248,16 +269,12 @@ class ResPartner(models.Model):
                       'Partners with same vat and not related, are: %s!') % (
                         ', '.join(x.name for x in same_vat_partners)))
 
-
-    def _vat_split(self, vat):
-        vat = vat.replace(" ", "")
-        if vat[:2].isdigit():
-            vat_country ='ro'
-            vat_number  = vat
-        else:
-            vat_country, vat_number = vat[:2].lower(), vat[2:]
+    def _split_vat(self, vat):
+        vat_country, vat_number = super(ResPartner, self)._split_vat(vat)
+        if vat_country.isdigit():
+            vat_country = 'ro'
+            vat_number = vat
         return vat_country, vat_number
-
 
     @api.multi
     def button_get_partner_data(self):
@@ -275,20 +292,19 @@ class ResPartner(models.Model):
                 part.name.strip().upper()[:2] == 'RO' and \
                 part.name.strip()[2:].isdigit():
             self.write({'vat': part.name.upper().replace(" ", "")})
-        elif  part.name.strip().isdigit():
-            self.write({'vat': 'RO'+part.name.upper().replace(" ", "")})
+        elif part.name.strip().isdigit():
+            self.write({'vat': 'RO' + part.name.upper().replace(" ", "")})
 
         if not part.vat and part.name:
             try:
-                vat_country, vat_number = self._vat_split(part.name.upper().replace(" ", ""))
+                vat_country, vat_number = self._split_vat(part.name.upper().replace(" ", ""))
                 valid = self.vies_vat_check(vat_country, vat_number)
                 if valid:
                     self.write({'vat': part.name.upper().replace(" ", "")})
             except:
                 raise Warning(_("No VAT number found"))
 
-
-        vat_country, vat_number = self._vat_split(part.vat)
+        vat_country, vat_number = self._split_vat(part.vat)
 
         if part.vat_subjected:
             self.write({'vat_subjected': False})
@@ -305,11 +321,11 @@ class ResPartner(models.Model):
 
                 result = self._get_Anaf(vat_number)
                 if result:
-                    values.update( self._Anaf_to_Odoo(result))
+                    values.update(self._Anaf_to_Odoo(result))
 
                 if values:
                     if not values['vat_subjected']:
-                        values['vat'] = self.vat.replace('RO','')
+                        values['vat'] = self.vat.replace('RO', '')
                     self.write(values)
 
             else:
