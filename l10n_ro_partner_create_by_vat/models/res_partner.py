@@ -7,12 +7,7 @@ import requests
 from odoo import models, api, fields, _
 from odoo.exceptions import Warning
 
-try:
-    # For Python 3.0 and later
-    from urllib.request import Request, urlopen
-except ImportError:
-    # Fall back to Python 2's urllib2
-    from urllib2 import Request, urlopen
+from urllib.request import Request, urlopen
 
 import json
 

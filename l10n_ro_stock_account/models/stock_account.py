@@ -83,13 +83,13 @@ class StockMove(models.Model):
         ('consume', 'Consume'),
         ('inventory_plus', 'Inventory plus'),
         ('inventory_minus', 'Inventory minus'),
-        ('production', 'Production'),
+        ('production', 'Reception from production'),
         ('transfer', 'Transfer'),
         ('transfer_store', 'Transfer in Store'),
         ('transfer_in', 'Transfer in'),
         ('transfer_out', 'Transfer out'),
         ('consume_store', 'Consume from Store'),
-        ('production_store', 'Reception from Production')
+        ('production_store', 'Reception in store from production')
     ], compute='_compute_move_type')
 
     @api.onchange('date')

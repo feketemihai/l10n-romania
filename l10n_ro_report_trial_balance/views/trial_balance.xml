@@ -499,7 +499,7 @@
                            t-att-data-domain="domain"
                            t-att-style="style"
                            class="o_l10n_ro_report_trial_balance_web_action_multi">
-                            <span t-field="line.credit_balance"/>
+                            <span t-field="line.credit_balance" t-options='{"widget": "float", "precision": 2}' />
                         </a>
                     </span>
                 </td>
