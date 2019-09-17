@@ -69,10 +69,10 @@ class ActivityStatement(models.AbstractModel):
         partner_ids = data['partner_ids']
         date_start = data.get('date_start')
         if date_start and isinstance(date_start, str):
-            date_start = fields.Datetime.to_date(date_start)
+            date_start = fields.Date.from_string(date_start)
         date_end = data['date_end']
         if isinstance(date_end, str):
-            date_end = fields.Datetime.to_date(date_end)
+            date_end = fields.Date.from_string(date_end)
         account_type = data['account_type']
 
         today = fields.Date.today()

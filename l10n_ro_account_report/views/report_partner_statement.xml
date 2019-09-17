@@ -42,8 +42,7 @@
                                 În termen de 5 zile de la primire urmează să ne restituiți acest extras confirmat pentru
                                 suma acceptată, iar în cazul constătarii de diferențe să ne anexați nota explicativă
                                 cuprinzând obiecțiile dvs.
-                                Prezentul extras de cont ține loc de conciliere conform procedurii
-                                arbitrale.
+                                Prezentul extras de cont ține loc de conciliere conform procedurii arbitrale.
 
                             </div>
                             <br/>
@@ -55,7 +54,9 @@
                             <hr/>
                             <br/>
                             <br/>
-                            <div>
+
+
+                            <div style="page-break-inside: avoid">
                                 <div>
                                     <span>Unitatea</span>
                                     <strong t-esc="line['name']"/>
