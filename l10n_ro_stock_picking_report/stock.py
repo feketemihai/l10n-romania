@@ -37,7 +37,7 @@ class stock_picking(osv.osv):
     def action_invoice_create(self, cr, uid, ids, journal_id=False, group=False, type='out_invoice', context=None):
         invoice_obj = self.pool.get('account.invoice')
         invoice_line_obj = self.pool.get('account.invoice.line')
-
+        context = context.copy()
         if type == 'out_invoice':
             for picking in self.browse(cr, uid, ids, context=context):
                 # context['date_inv'] = picking.date
