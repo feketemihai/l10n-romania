@@ -29,17 +29,25 @@ Based on invoices.
 New report for invoice
     """,
     'author': 'Dorin Hongu',
-    'depends': ['report_intrastat', 'sale_stock', 'account_accountant', 'l10n_ro'],
+    'depends': [
+        # 'report_intrastat',
+        'product',
+        'sale',
+        'account',
+        'l10n_ro'
+    ],
     'data': [
 
         # 'data/report.intrastat.code.csv',
         'data/transaction.codes.xml',
         'data/transport.modes.xml',
         'security/groups.xml',
-        'security/ir.model.access.csv',
-        'l10n_ro_intrastat.xml',
+         'security/ir.model.access.csv',
+        'views/l10n_ro_intrastat_view.xml',
+        'views/product_view.xml',
+        'views/account_intrastat_code_view.xml',
         'wizard/l10n_ro_intrastat_xml_view.xml',
-        'views/report_invoice.xml'
+       # 'views/report_invoice.xml'
     ],
     'installable': True,
 }

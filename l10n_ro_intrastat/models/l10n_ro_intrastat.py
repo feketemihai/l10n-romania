@@ -25,10 +25,12 @@ from odoo.tools.sql import drop_view_if_exists
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
-    incoterm_id = fields.Many2one(
-            'stock.incoterms', 'Incoterm',
-            help="International Commercial Terms are a series of predefined commercial terms "
-                 "used in international transactions.")
+
+    #exista incoterm_id in 12
+    # incoterm_id = fields.Many2one(
+    #         'account.incoterms', 'Incoterm',
+    #         help="International Commercial Terms are a series of predefined commercial terms "
+    #              "used in international transactions.")
     intrastat_transaction_id = fields.Many2one(
             'l10n_ro_intrastat.transaction', 'Intrastat Transaction Type',
             help="Intrastat nature of transaction")
@@ -69,46 +71,6 @@ class intrastat_transport_mode(models.Model):
     ]
 
 
-class product_category(models.Model):
-    _name = "product.category"
-    _inherit = "product.category"
-
-
-    intrastat_id = fields.Many2one('report.intrastat.code', 'Intrastat Code'),
-
-
-    @api.model
-    def get_intrastat_recursively(self,   category ):
-        """ Recursively search in categories to find an intrastat code id
-
-        :param category : Browse record of a category
-        """
-        if category.intrastat_id:
-            res = category.intrastat_id.id
-        elif category.parent_id:
-            res = self.get_intrastat_recursively( category.parent_id )
-        else:
-            res = None
-        return res
-
-
-class product_product(models.Model):
-    _name = "product.product"
-    _inherit = "product.product"
-
-    @api.model
-    def get_intrastat_recursively(self):
-        """ Recursively search in categories to find an intrastat code id
-        """
-        product = self
-        if product.intrastat_id:
-            res = product.intrastat_id.id
-        elif product.categ_id:
-            res = product.categ_id.get_intrastat_recursively(  product.categ_id )
-        else:
-            res = None
-        return res
-
 
 #NU exista in 12.
 
@@ -144,7 +106,7 @@ class res_company(models.Model):
                        
     transport_mode_id = fields.Many2one('l10n_ro_intrastat.transport_mode',
                                              'Default transport mode')
-    incoterm_id = fields.Many2one('stock.incoterms', 'Default incoterm for Intrastat',
+    incoterm_id = fields.Many2one('account.incoterms', 'Default incoterm for Intrastat',
                                        help="International Commercial Terms are a series of "
                                             "predefined commercial terms used in international "
                                             "transactions.")
@@ -173,11 +135,7 @@ class sale_order(models.Model):
 
         return invoice_vals
 
-class report_intrastat_code(models.Model):
-    _inherit = "report.intrastat.code"
 
-    description = fields.Text('Description', translate=True)
-    suppl_unit_code = fields.Char('SupplUnitCode'),
 
 
 

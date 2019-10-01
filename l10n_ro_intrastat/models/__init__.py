@@ -17,6 +17,14 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
+############################################################################
 
-import xml_decl
+
+
+
+from . import res_country
+from . import account_intrastat_code
+from . import product
+from . import l10n_ro_intrastat
+
+

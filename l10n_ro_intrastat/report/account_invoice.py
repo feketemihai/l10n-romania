@@ -21,11 +21,11 @@
 
 
 import time
-from openerp.report import report_sxw
-from openerp.osv import osv
-# from openerp.addons.l10n_ro_invoice_report.report.amount_to_text_ro  import *
+from odoo.report import report_sxw
+from odoo.osv import osv
+# from odoo.addons.l10n_ro_invoice_report.report.amount_to_text_ro  import *
 
-from openerp.addons.l10n_ro_invoice_report.report.account_invoice import report_invoice_print
+from odoo.addons.l10n_ro_invoice_report.report.account_invoice import report_invoice_print
 
 """
 class report_invoice_print(report_sxw.rml_parse):
@@ -57,4 +57,4 @@ class report_invoice_intrastat(osv.AbstractModel):
     _template = 'report_intrastat.report_intrastatinvoice'
     _wrapped_report_class = report_invoice_print
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

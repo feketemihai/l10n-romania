@@ -221,11 +221,7 @@ msgstr "Informații privind livrarea:"
 msgid "International Commercial Terms are a series of predefined commercial terms used in international transactions."
 msgstr "Termenii Comerciali Internaționali sunt o serie de termeni comerciali predefiniți folosiți în tranzacțiile internaționale."
 
-#. module: l10n_ro_intrastat
-#: view:product.category:l10n_ro_intrastat.l10n_ro_intrastat_xml_decl_product_category_view
-#: view:website:report_intrastat.report_intrastatinvoice_document
-msgid "Intrastat"
-msgstr "Intrastat"
+
 
 #. module: l10n_ro_intrastat
 #: field:product.category,intrastat_id:0
