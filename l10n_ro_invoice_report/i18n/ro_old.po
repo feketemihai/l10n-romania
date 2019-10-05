@@ -465,10 +465,7 @@ msgstr "TVA:"
 msgid "Voucher"
 msgstr "Chitanță"
 
-#. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_res_company_watermark_image
-msgid "Watermark image"
-msgstr "Watermark image"
+
 
 #. module: l10n_ro_invoice_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document

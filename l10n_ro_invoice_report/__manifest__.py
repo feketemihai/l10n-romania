@@ -47,14 +47,14 @@ Funftionalitati
     """,
 
     "category": "Generic Modules",
-    "depends": ["base", "account", "account_voucher", "l10n_ro_config"],
+    "depends": ["base", "account", "account_voucher", "l10n_ro_config",'deltatech_watermark'],
 
 
     "data": [
         'views/invoice_report.xml',
         'views/voucher_report.xml',
         'views/payment_report.xml',
-        'views/company_view.xml',
+
         'views/account_invoice_view.xml',
         'views/account_voucher_report.xml',
         'views/account_bank_statement_view.xml',

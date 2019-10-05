@@ -22,7 +22,6 @@
 
 from . import res_partner
 from . import account_invoice
-from . import company
 from . import account_bank_statement
 
 
