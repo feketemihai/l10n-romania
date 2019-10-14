@@ -43,14 +43,14 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     nrc = fields.Char(string='NRC', help='Registration number at the Registry of Commerce')
-    vat_subjected = fields.Boolean(
-        'VAT Legal Statement')  # campul asta cred ca trebuie sa fie in modulul de baza de localizare
+    vat_subjected = fields.Boolean('VAT Legal Statement')  # campul asta cred ca trebuie sa fie in modulul de baza de localizare
     split_vat = fields.Boolean('Split VAT')
     vat_on_payment = fields.Boolean('VAT on Payment')
 
+    @api.one
     @api.constrains('vat')
     def check_vat(self):
-        if not self.vat_subjected:
+        if not self.vat_subjected or not self.is_company:
             return True
         return super(ResPartner, self).check_vat()
 
