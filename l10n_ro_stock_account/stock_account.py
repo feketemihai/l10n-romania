@@ -25,7 +25,11 @@ from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 
 import openerp.addons.decimal_precision as dp
+import logging
 
+from timeit import default_timer as timer
+
+_logger = logging.getLogger(__name__)
 
 class product_category(osv.Model):
     _name = "product.category"
@@ -154,7 +158,7 @@ class stock_move(osv.Model):
     _inherit = "stock.move"
 
     _columns = {
-        'acc_move_id': fields.many2one('account.move', string='Account move', copy=False),
+        'acc_move_id': fields.many2one('account.move', string='Account move', copy=False, index=True),
         'acc_move_line_ids': fields.one2many('account.move.line', 'stock_move_id', string='Account move lines'),
         'price_unit': fields.float('Unit Price', digits_compute= dp.get_precision('Product Price')),
     }
@@ -207,6 +211,7 @@ class stock_move(osv.Model):
         if context is None:
             context = {}
         for move in self.browse(cr, uid, ids):
+            start = timer()
             period_id = context.get('force_period', self.pool.get(
                 'account.period').find(cr, uid, move.date, context=context)[0])
             journal_id, acc_src, acc_dest, acc_valuation = quant_obj._get_accounting_data_for_valuation(
@@ -231,9 +236,13 @@ class stock_move(osv.Model):
                                                         'name': move.picking_id and move.picking_id.name or '/'
                                                         }, context=context)
                 self.write(cr, uid, [move.id], {'acc_move_id': move_id})
+            end = timer()
+            time = format((end - start), '.5f')
+            _logger.warning('**** Stock move - create account moves for %s time **** %s' % (move.id, time))
         return True
 
     def action_done(self, cr, uid, ids, context=None):
+        start = timer()
         if context is None:
             context = {}
         self._update_move_price(cr, uid, ids, context=context)
@@ -245,6 +254,9 @@ class stock_move(osv.Model):
             if not move.acc_move_id:
                 self.create_account_move_lines(
                     cr, uid, [move.id], context=context)
+        end = timer()
+        time = format((end - start), '.5f')
+        _logger.warning('**** Stock move - action done for %s time **** %s' % (ids, time))
         return res
 
     def action_cancel(self, cr, uid, ids, context=None):
@@ -354,6 +366,8 @@ class stock_quant(osv.Model):
         quants: browse record list of Quants to create accounting valuation entries for. Unempty and all quants are supposed to have the same location id (thay already moved in)
         move: Move to use. browse record
         """
+        
+        start = timer()
         if context is None:
             context = {}
         location_obj = self.pool.get('stock.location')
@@ -522,9 +536,14 @@ class stock_quant(osv.Model):
         if acc_src and acc_dest and acc_src != acc_dest:
             res += self._create_account_move_line(
                 cr, uid, quants, move, acc_src, acc_dest, journal_id, context=ctx)
+        
+        end = timer()
+        time = format((end - start), '.5f')
+        _logger.warning('**** Stock Quant - create account move line time **** %s' % time)
         return res
 
     def _prepare_account_move_line(self, cr, uid, move, qty, cost, credit_account_id, debit_account_id, context=None):
+        start = timer()
         res = super(stock_quant, self)._prepare_account_move_line(
             cr, uid, move, qty, cost, credit_account_id, debit_account_id, context=context)
         debit_line_vals = res[0][2]
@@ -681,6 +700,10 @@ class stock_quant(osv.Model):
             else:
                 debit_line_vals['debit'], debit_line_vals['credit'] = debit_line_vals['credit'], debit_line_vals['debit']
                 credit_line_vals['credit'], credit_line_vals['debit'] =  credit_line_vals['debit'], credit_line_vals['credit']
+        
+        end = timer()
+        time = format((end - start), '.5f')
+        _logger.warning('**** Stock Quant - prepare account move line time **** %s' % time)
         return [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
 
     def _get_accounting_data_for_valuation(self, cr, uid, move, context=None):
@@ -692,6 +715,7 @@ class stock_quant(osv.Model):
         :returns: journal_id, source account, destination account, valuation account
         :raise: osv.except_osv() is any mandatory account or journal is not defined.
         """
+        start = timer()
         journal_id, acc_src, acc_dest, acc_valuation = super(
             stock_quant, self)._get_accounting_data_for_valuation(cr, uid, move, context=context)
 
@@ -832,7 +856,10 @@ class stock_quant(osv.Model):
                     acc_dest = move.company_id and move.company_id.property_stock_picking_receivable_account_id and move.company_id.property_stock_picking_receivable_account_id.id
                 if move.location_id.usage == 'customer':
                     acc_src = move.company_id and move.company_id.property_stock_picking_receivable_account_id and move.company_id.property_stock_picking_receivable_account_id.id
-
+        end = timer()
+        time = format((end - start), '.5f')
+        _logger.warning('**** Stock Quant - get accounting data for valuation time **** %s' % time)
+        
         return journal_id, acc_src, acc_dest, acc_valuation
 
     def _create_account_move_line(self, cr, uid, quants, move, credit_account_id, debit_account_id, journal_id, context=None):
@@ -873,19 +900,27 @@ class stock_picking(osv.Model):
 
     @api.cr_uid_ids_context
     def do_transfer(self, cr, uid, picking_ids, context=None):
+        start = timer()
         for pick in self.browse(cr, uid, picking_ids, context=context):
             self.write(cr, uid, pick.id, {'date_done': pick.date})
         res = super(stock_picking, self).do_transfer(
             cr, uid, picking_ids, context=context)
         self.get_account_move_lines(cr, uid, picking_ids, context=context)
+        end = timer()
+        time = format((end - start), '.5f')
+        _logger.warning('**** Stock picking - do transfer time **** %s' % time)
         return res
 
     def action_done(self, cr, uid, picking_ids, context=None):
+        start = timer()
         for pick in self.browse(cr, uid, picking_ids, context=context):
             self.write(cr, uid, pick.id, {'date_done': pick.date})
         res = super(stock_picking, self).action_done(
             cr, uid, picking_ids, context=context)
         self.get_account_move_lines(cr, uid, picking_ids, context=context)
+        end = timer()
+        time = format((end - start), '.5f')
+        _logger.warning('**** Stock picking - action done time **** %s' % time)
         return res
 
     def action_cancel(self, cr, uid, ids, context=None):
@@ -907,9 +942,13 @@ class stock_picking(osv.Model):
         return super(stock_picking, self).action_unlink(cr, uid, ids, context=context)
 
     def action_invoice_create(self, cr, uid, ids, journal_id, group=False, type='out_invoice', context=None):
+        start = timer()
         res = super(stock_picking, self).action_invoice_create(
             cr, uid, ids, journal_id, group, type, context=context)
         self.write(cr, uid, ids, {'notice': False})
+        end = timer()
+        time = format((end - start), '.5f')
+        _logger.warning('**** Stock picking - action invoice create time **** %s' % time)
         return res
 
 

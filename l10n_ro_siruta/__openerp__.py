@@ -33,10 +33,10 @@ Fields are added in partner and partner contact forms.""",
     "data": ['partner_view.xml',
               'siruta_view.xml',
               'security/ir.model.access.csv',
-              'data/res.country.zone.csv',
+              'data/res_country_zone.xml',
               'data/res_country_state.xml',
-              'data/res.country.commune.csv',
-              'data/res.country.city.csv',
+              'data/res_country_commune.xml',
+              'data/res_country_city.xml',
              ],
     "installable": True
 }

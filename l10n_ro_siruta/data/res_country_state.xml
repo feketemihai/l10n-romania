@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
+    <data noupdate="1">
 
 		<record id="l10n_ro.RO_AB"  model="res.country.state">
 			<field name="zone_id" ref="RO_C"/>

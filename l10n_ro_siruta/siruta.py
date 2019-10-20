@@ -39,7 +39,7 @@ class res_country_zone(models.Model):
         return recs.name_get()
 
     name = fields.Char('Name', required=True, index=True)
-    country_id = fields.Many2one('res.country', string="Country")
+    country_id = fields.Many2one('res.country', string="Country", index=True)
     state_ids = fields.One2many('res.country.state', 'zone_id', string='State')
     siruta = fields.Char('Siruta')
 
@@ -67,7 +67,7 @@ class res_country_state(models.Model):
         if self.zone_id:
             self.country_id = self.zone_id.country_id.id
 
-    zone_id = fields.Many2one('res.country.zone', string='Zone')
+    zone_id = fields.Many2one('res.country.zone', string='Zone', index=True)
     commune_ids = fields.One2many(
         'res.country.commune', 'state_id', string='Cities/Communes')
     city_ids = fields.One2many('res.country.city', 'state_id', string='Cities')
@@ -108,9 +108,9 @@ class res_country_commune(models.Model):
             self.country_id = self.zone_id.country_id.id
 
     name = fields.Char('Name', required=True, index=True)
-    state_id = fields.Many2one('res.country.state', string='State')
-    zone_id = fields.Many2one('res.country.zone', string="Zone")
-    country_id = fields.Many2one('res.country', string="Country")
+    state_id = fields.Many2one('res.country.state', string='State', index=True)
+    zone_id = fields.Many2one('res.country.zone', string="Zone", index=True)
+    country_id = fields.Many2one('res.country', string="Country", index=True)
     siruta = fields.Char('Siruta')
 
 
@@ -160,8 +160,8 @@ class res_country_city(models.Model):
             self.country_id = self.zone_id.country_id.id
 
     name = fields.Char('Name', required=True, index=True)
-    commune_id = fields.Many2one('res.country.commune', string='City/Commune')
-    state_id = fields.Many2one('res.country.state', string='State')
-    zone_id = fields.Many2one('res.country.zone', string="Zone")
-    country_id = fields.Many2one('res.country', string="Country")
+    commune_id = fields.Many2one('res.country.commune', string='City/Commune', index=True)
+    state_id = fields.Many2one('res.country.state', string='State', index=True)
+    zone_id = fields.Many2one('res.country.zone', string="Zone", index=True)
+    country_id = fields.Many2one('res.country', string="Country", index=True)
     siruta = fields.Char('Siruta')
