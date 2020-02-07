@@ -119,6 +119,7 @@ class stock_location(osv.Model):
                        \n* In Custody: Virtual location for products consumed beside production.
                       """, select=True),
         'merchandise_type': fields.selection([("store", "Store"), ("warehouse", "Warehouse")], "Merchandise type"),
+        'int_transfer_prod': fields.boolean("Internal Transfer Production Moves"),
         'property_stock_account_input_location': fields.property(
             type='many2one',
             relation='account.account',
@@ -315,7 +316,7 @@ class stock_move(osv.Model):
         if move.origin_returned_move_id:
             res['quantity'] = -1 * res['quantity']
         return res
-        
+
 # ----------------------------------------------------------
 # Stock Quant
 # ----------------------------------------------------------
@@ -366,7 +367,7 @@ class stock_quant(osv.Model):
         quants: browse record list of Quants to create accounting valuation entries for. Unempty and all quants are supposed to have the same location id (thay already moved in)
         move: Move to use. browse record
         """
-        
+
         start = timer()
         if context is None:
             context = {}
@@ -536,7 +537,7 @@ class stock_quant(osv.Model):
         if acc_src and acc_dest and acc_src != acc_dest:
             res += self._create_account_move_line(
                 cr, uid, quants, move, acc_src, acc_dest, journal_id, context=ctx)
-        
+
         end = timer()
         time = format((end - start), '.5f')
         _logger.warning('**** Stock Quant - create account move line time **** %s' % time)
@@ -700,7 +701,7 @@ class stock_quant(osv.Model):
             else:
                 debit_line_vals['debit'], debit_line_vals['credit'] = debit_line_vals['credit'], debit_line_vals['debit']
                 credit_line_vals['credit'], credit_line_vals['debit'] =  credit_line_vals['debit'], credit_line_vals['credit']
-        
+
         end = timer()
         time = format((end - start), '.5f')
         _logger.warning('**** Stock Quant - prepare account move line time **** %s' % time)
@@ -720,16 +721,39 @@ class stock_quant(osv.Model):
             stock_quant, self)._get_accounting_data_for_valuation(cr, uid, move, context=context)
 
         if move.location_id.usage == 'internal' and move.location_dest_id.usage == 'internal':
-            acc_dest = False
             acc_dest = move.product_id.property_stock_account_input and move.product_id.property_stock_account_input.id or False
             if not acc_dest:
                 acc_dest = move.product_id.categ_id.property_stock_account_input_categ and move.product_id.categ_id.property_stock_account_input_categ.id or False
-
 
         if move.location_id.property_stock_account_output_location:
             acc_src = move.location_id.property_stock_account_output_location.id
         if move.location_dest_id.property_stock_account_input_location:
             acc_dest = move.location_dest_id.property_stock_account_input_location.id
+
+        if move.location_id.usage == 'internal' and move.location_dest_id.usage == 'internal':
+            if move.location_dest_id.int_transfer_prod:
+                move_type = False
+                if context.get('type', False):
+                    move_type = context.get('type')
+                if move_type:
+                    if move_type == 'int_transfer_price_change':
+                        acc_src = move.product_id.property_account_expense and move.product_id.property_account_expense.id or False
+                        if not acc_src:
+                            acc_src = move.product_id.categ_id.property_account_expense_categ and move.product_id.categ_id.property_account_expense_categ.id
+                        if move.location_dest_id.property_account_expense_location:
+                            acc_src = move.location_dest_id.property_account_expense_location.id
+                    else:
+                        acc_dest = move.product_id.property_account_expense and move.product_id.property_account_expense.id or False
+                        if not acc_dest:
+                            acc_dest = move.product_id.categ_id.property_account_expense_categ and move.product_id.categ_id.property_account_expense_categ.id
+                        if move.location_id.property_account_expense_location:
+                            acc_dest = move.location_id.property_account_expense_location.id
+                else:
+                    acc_dest = move.product_id.property_account_expense and move.product_id.property_account_expense.id or False
+                    if not acc_dest:
+                        acc_dest = move.product_id.categ_id.property_account_expense_categ and move.product_id.categ_id.property_account_expense_categ.id
+                    if move.location_id.property_account_expense_location:
+                        acc_dest = move.location_id.property_account_expense_location.id
 
         # Change accounts to suit romanian stock account moves.
         if context.get('type', False):
@@ -859,7 +883,7 @@ class stock_quant(osv.Model):
         end = timer()
         time = format((end - start), '.5f')
         _logger.warning('**** Stock Quant - get accounting data for valuation time **** %s' % time)
-        
+
         return journal_id, acc_src, acc_dest, acc_valuation
 
     def _create_account_move_line(self, cr, uid, quants, move, credit_account_id, debit_account_id, journal_id, context=None):
