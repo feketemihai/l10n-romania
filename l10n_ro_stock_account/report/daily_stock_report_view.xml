@@ -34,7 +34,7 @@
     <record id="action_daily_stock_report" model="ir.actions.act_window">
         <field name="name">Daily Stock Report</field>
         <field name="res_model">l10n_ro.daily_stock_report</field>
-        <field name="view_type">form</field>
+
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
@@ -47,7 +47,7 @@
     <record id="action_stock_report" model="ir.actions.act_window">
         <field name="name">Stock Report</field>
         <field name="res_model">l10n_ro.daily_stock_report</field>
-        <field name="view_type">form</field>
+
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="context">{'default_mode':'product'}</field>
@@ -62,7 +62,7 @@
     <record id="action_daily_stock_report_line" model="ir.actions.act_window">
         <field name="name">Daily Stock Report</field>
         <field name="res_model">l10n_ro.daily_stock_report.line</field>
-        <field name="view_type">form</field>
+
         <field name="view_mode">tree,form</field>
         <field name="domain">[('report_id','=',active_id)]</field>
     </record>
@@ -85,7 +85,7 @@
     <record id="action_daily_stock_report_ref" model="ir.actions.act_window">
         <field name="name">Daily Stock Report</field>
         <field name="res_model">l10n_ro.daily_stock_report.ref</field>
-        <field name="view_type">form</field>
+
         <field name="view_mode">tree</field>
         <field name="domain">[('report_id','=',active_id)]</field>
     </record>

@@ -21,7 +21,8 @@ class StorageSheetReport(models.TransientModel):
     date_from = fields.Date('Start Date', required=True, default=fields.Date.today)
     date_to = fields.Date('End Date', required=True, default=fields.Date.today)
 
-    product_id = fields.Many2one('product.product', string='Product', required=True, )
+    product_id = fields.Many2one('product.product', string='Product', required=True,
+                                 domain=[('type', '=', 'product')] )
 
     company_id = fields.Many2one('res.company', string='Company',
                                  default=lambda self: self.env.user.company_id)
@@ -30,16 +31,27 @@ class StorageSheetReport(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(StorageSheetReport, self).default_get(fields_list)
+        defaults = super(StorageSheetReport, self).default_get(fields_list)
+
+        active_model = self.env.context.get('active_model', False)
+        active_ids = self.env.context.get('active_ids', False)
+        active_id = self.env.context.get('active_id', False)
+        if active_model == 'product.template':
+            product = self.env['product.product'].search([('product_tmpl_id', 'in', active_ids)], limit=1)
+            defaults['product_id'] = product.id
+        elif active_model == 'product.product':
+            defaults['product_id'] = active_id
+
+
         # today = fields.Date.context_today(self)
         # today = fields.Date.from_string(today)
         #
         # from_date = (today + relativedelta(day=1, months=0, days=0))
         # to_date = (today + relativedelta(day=1, months=1, days=-1))
         #
-        # res['date_from'] = fields.Date.to_string(from_date)
-        # res['date_to'] = fields.Date.to_string(to_date)
-        return res
+        # defaults['date_from'] = fields.Date.to_string(from_date)
+        # defaults['date_to'] = fields.Date.to_string(to_date)
+        return defaults
 
     @api.onchange('date_range_id')
     def onchange_date_range_id(self):
@@ -48,7 +60,7 @@ class StorageSheetReport(models.TransientModel):
             self.date_from = self.date_range_id.date_start
             self.date_to = self.date_range_id.date_end
 
-    @api.multi
+
     def do_compute(self):
         self.env['account.move.line'].check_access_rights('read')
         if not self.product_id.categ_id.property_stock_valuation_account_id:
@@ -117,7 +129,7 @@ class StorageSheetReport(models.TransientModel):
                         sum(CASE WHEN stock_location_dest_id = %(location)s THEN -1*quantity
                             ELSE quantity
                             END),  aml.date,
-                        array_agg(aml.id), aml.ref 
+                        array_agg(aml.id), COALESCE(aml.ref, aml.name) 
                          FROM account_move_line AS aml
                               WHERE 
                               aml.account_id in %(valuations)s and
@@ -126,7 +138,7 @@ class StorageSheetReport(models.TransientModel):
                                        aml.date >= %(date_from)s AND aml.date  <= %(date_to)s AND
                                         ( stock_location_id = %(location)s OR stock_location_dest_id = %(location)s) AND
                                        (aml.debit  -  aml.credit) >= 0 
-                              GROUP BY aml.date, aml.product_id, aml.account_id, aml.ref"""
+                              GROUP BY aml.date, aml.product_id, aml.account_id, COALESCE(aml.ref, aml.name)"""
 
         params = {
             'location': self.location_id.id,
@@ -167,7 +179,7 @@ class StorageSheetReport(models.TransientModel):
                         sum(CASE WHEN stock_location_dest_id = %(location)s THEN -1*quantity
                             ELSE quantity
                             END), aml.date,
-                             array_agg(aml.id), aml.ref 
+                             array_agg(aml.id), COALESCE(aml.ref, aml.name) 
                                  FROM account_move_line AS aml
                                       WHERE
                                             aml.account_id in %(valuations)s and
@@ -176,7 +188,7 @@ class StorageSheetReport(models.TransientModel):
                                                aml.date >= %(date_from)s AND aml.date  <= %(date_to)s AND
                                                 ( stock_location_id = %(location)s OR stock_location_dest_id = %(location)s) AND
                                                (aml.debit  -  aml.credit) < 0 
-                                      GROUP BY aml.date, aml.product_id, aml.account_id, aml.ref"""
+                                      GROUP BY aml.date, aml.product_id, aml.account_id, COALESCE(aml.ref, aml.name)"""
 
         params = {
             'location': self.location_id.id,

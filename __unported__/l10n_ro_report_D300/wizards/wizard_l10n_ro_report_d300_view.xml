@@ -37,7 +37,7 @@
         <field name="name">D300 Report</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">wizard.l10n.ro.report.d300</field>
-        <field name="view_type">form</field>
+
         <field name="view_mode">form</field>
         <field name="view_id" ref="wizard_l10n_ro_report_d300_view"/>
         <field name="target">new</field>

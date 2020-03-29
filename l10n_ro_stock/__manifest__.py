@@ -22,7 +22,7 @@
 ##############################################################################
 {
     "name": "Romania - Stock",
-    'version': '11.0.1.0.0',
+    'version': '13.0.1.0.0',
     'category': 'Localization',
     "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",

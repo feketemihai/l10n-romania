@@ -2,7 +2,8 @@
 # ©  2016 Forest and Biomass Romania
 # See README.rst file on addons root folder for license details
 
-from odoo import models, fields
+from odoo import models, fields, api, _
+from odoo.exceptions import  ValidationError
 
 """
 class product_product(models.Model):
@@ -20,7 +21,7 @@ class report_394_code(models.Model):
     _parent_order = 'name'
     _order = 'parent_left'
 
-    _constraints = [(models.Model._check_recursion, 'Error ! You cannot create recursive codes.', ['parent_id'])]
+
 
     name = fields.Char('D394 Code')
     parent_id = fields.Many2one('report.394.code', 'Parent Code', ondelete="restrict")
@@ -29,3 +30,11 @@ class report_394_code(models.Model):
     parent_right = fields.Integer('Rigth Parent', select=True)
     description = fields.Char('Description')
     #product_ids = fields.One2many('product.product', 'd394_id', string='Products')
+
+
+
+
+    @api.constrains('parent_id')
+    def _check_parent_id(self):
+        if not self._check_recursion():
+            raise ValidationError(_('You cannot create recursive codes.'))

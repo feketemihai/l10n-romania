@@ -105,7 +105,7 @@
 		<record id="action_stock_balance" model="ir.actions.act_window">
 			<field name="name">Balance for stock</field>
 			<field name="res_model">stock.balance</field>
-			<field name="view_type">form</field>
+
 			<field name="view_mode">graph,pivot</field>
 			<field name="view_id" ref="view_stock_balance_tree"/>
 			<field name="search_view_id" ref="view_stock_balance_filter"/>

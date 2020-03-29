@@ -29,7 +29,7 @@
     <record id="action_account_report_sale_purchase_journal" model="ir.actions.act_window">
         <field name="name">Report Sale/Purchase Journal</field>
         <field name="res_model">account.report.sale.purchase.journal</field>
-        <field name="view_type">form</field>
+
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
@@ -37,7 +37,7 @@
 
     <menuitem id="menu_account_report_sale_purchase_journal" name="Report Sale/Purchase Journal"
           action="action_account_report_sale_purchase_journal"
-          parent="account.menu_finance_legal_statement" />
+           parent="l10n_ro.account_reports_ro_statements_menu" />
 
 
 </odoo>

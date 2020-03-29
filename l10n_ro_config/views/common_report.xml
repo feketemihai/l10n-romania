@@ -70,7 +70,7 @@
 
                     <div i-if="res_company.share_capital">
                         <strong>Share Capital:</strong>
-                        <span t-field="res_company.share_capital"/>
+                        <span t-esc="int(res_company.share_capital)"  />
                     </div>
                 </div>
             </div>

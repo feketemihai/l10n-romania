@@ -11,15 +11,15 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
 
-    @api.multi
+
     def _prepare_invoice(self):
         invoice_vals = super(SaleOrderLine, self)._prepare_invoice()
         invoice_vals['stock_location_id'] = self.warehouse_id.lot_stock_id.id
         return invoice_vals
 
-    @api.multi
-    def _prepare_invoice_line(self, qty):
-        res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
+
+    def _prepare_invoice_line(self):
+        res = super(SaleOrderLine, self)._prepare_invoice_line()
         if self.product_id.invoice_policy == 'delivery':
             notice = False
             for picking in self.order_id.picking_ids:

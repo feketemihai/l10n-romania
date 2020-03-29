@@ -5,10 +5,10 @@
 {
     'name': 'Romania - Localization Config',
     'summary': 'Romania - Localization Install and Config Apllications',
-    'version': '12.0.1.0.0',
+    'version': '13.0.1.0.0',
     'category': 'Localization',
-    'author': 'Forest and Biomass Services Romania, '
-              'Terrabit, '
+    'author': 'Terrabit, '
+              'Forest and Biomass Services Romania, '
               'Odoo Community Association (OCA)',
     'website': 'https://www.forbiom.eu',
     'license': 'AGPL-3',
@@ -23,10 +23,11 @@
     'data': [
         'views/res_config_view.xml',
         'views/res_bank_view.xml',
-        'data/res_currency_data.xml',
+        #'data/res_currency_data.xml',
         'views/company_view.xml',
         'views/common_report.xml'
     ],
     'images': [],
     'auto_install': False,
+    'post_init_hook': '_create_unaccent',
 }

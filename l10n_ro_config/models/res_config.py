@@ -150,7 +150,7 @@ class ResConfigSettings(models.TransientModel):
 
 
 
-    @api.multi
+
     def execute(self):
         self.ensure_one()
         res = super(ResConfigSettings, self).execute()

@@ -29,13 +29,14 @@ class res_currency(models.Model):
     rate_inv = fields.Float( string='Inverse Rate',   compute="_compute_rate_inv", digits=(12, 4) )
 
 
-    @api.one
+
     @api.depends('rate')
     def _compute_rate_inv(self):
-        if self.rate != 0:
-            self.rate_inv = 1 / self.rate
-        else:
-            self.rate_inv = 0
+        for currency in self:
+            if currency.rate != 0:
+                currency.rate_inv = 1 / currency.rate
+            else:
+                currency.rate_inv = 0
 
 
 
@@ -45,10 +46,11 @@ class res_currency_rate(models.Model):
     rate_inv = fields.Float( string='Inverse Rate',   compute="_compute_rate_inv", digits=(12, 4) )
 
 
-    @api.one
+
     @api.depends('rate')
     def _compute_rate_inv(self):
-        if self.rate != 0:
-            self.rate_inv = 1 / self.rate
-        else:
-            self.rate_inv = 0
+        for currency in self:
+            if currency.rate != 0:
+                currency.rate_inv = 1 / currency.rate
+            else:
+                currency.rate_inv = 0

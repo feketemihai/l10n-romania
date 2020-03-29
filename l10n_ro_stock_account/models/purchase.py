@@ -5,6 +5,10 @@
 
 from odoo import models, fields
 
+
+
+
+
 """
 class purchase_order(models.Model):
     _inherit = 'purchase.order'
@@ -33,3 +37,37 @@ class purchase_order(models.Model):
             line['price_unit'] = price_unit
         return res
 """
+
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+
+    def _prepare_account_move_line(self, move):
+
+        data = super(PurchaseOrderLine, self)._prepare_account_move_line(move)
+
+        line = self
+
+        if line.product_id.purchase_method == 'receive':  # receptia in baza cantitatilor primite
+            if line.product_id.type == 'product':
+                notice = False
+                for picking in line.order_id.picking_ids:
+                    if picking.notice:
+                        notice = True
+
+                if notice:  # daca e stocabil si exista un document facut
+                    data['account_id'] = line.company_id.property_stock_picking_payable_account_id.id or \
+                                         line.product_id.categ_id.property_stock_account_input_categ_id.id or \
+                                         data['account_id']
+                else:
+                    data['account_id'] =  line.product_id.categ_id.property_stock_account_input_categ_id.id or \
+                                         data['account_id']
+
+            else:  # daca nu este stocabil trebuie sa fie un cont de cheltuiala
+                data['account_id'] =  line.product_id.categ_id.property_account_expense_categ_id.id or \
+                                     data['account_id']
+        else:
+            if line.product_id.type == 'product':
+                data['account_id'] =  line.product_id.categ_id.property_stock_account_input_categ_id.id or \
+                                     data['account_id']
+
+        return data

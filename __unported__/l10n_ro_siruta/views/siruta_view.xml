@@ -76,7 +76,7 @@
         <field name="name">Country communes</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.country.commune</field>
-        <field name="view_type">form</field>
+
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_commune_form"/>
         <field name="search_view_id" ref="view_commune_search"/>
@@ -147,7 +147,7 @@
         <field name="name">Cities</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.country.city</field>
-        <field name="view_type">form</field>
+
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_city_form"/>
         <field name="search_view_id" ref="view_city_search"/>
@@ -210,7 +210,7 @@
         <field name="name">Country Zones</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.country.zone</field>
-        <field name="view_type">form</field>
+
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_zone_form"/>
         <field name="search_view_id" ref="view_zone_search"/>

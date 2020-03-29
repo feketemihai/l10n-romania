@@ -12,14 +12,14 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    @api.multi
+
     @api.depends('vat')
     def _compute_vat_number(self):
         for partner in self:
             if partner.vat:
                 partner.vat_number = self._split_vat(partner.vat)[1]
 
-    @api.multi
+
     @api.depends('vat_number')
     def _compute_anaf_history(self):
         partners = self.filtered(lambda r: r.vat_number is not False)
@@ -77,7 +77,7 @@ class ResPartner(models.Model):
                     'operation_type': line[6]
                 })
 
-    @api.multi
+
     def _check_vat_on_payment(self):
         self.ensure_one()
         ctx = dict(self._context)
@@ -98,14 +98,14 @@ class ResPartner(models.Model):
                     vat_on_payment = True
         return vat_on_payment
 
-    @api.multi
+
     def check_vat_on_payment(self):
         self.ensure_one()
         ctx = dict(self._context)
         ctx.update({'check_date': date.today()})
         self.vat_on_payment = self.with_context(ctx)._check_vat_on_payment()
 
-    @api.multi
+
     def update_vat_payment_all(self):
         self.env['res.partner.anaf']._download_anaf_data()
         partners = self.search([('vat', '!=', False)])

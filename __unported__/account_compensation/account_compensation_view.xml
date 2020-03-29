@@ -149,7 +149,7 @@
         <record model="ir.actions.act_window" id="action_compensation_list">
             <field name="name">Journal Compensation</field>
             <field name="res_model">account.compensation</field>
-            <field name="view_type">form</field>
+
             <field name="view_mode">tree,form</field>
             <field name="context">{}</field>
             <field name="view_id" eval="view_compensation_tree"/>
@@ -178,7 +178,7 @@
         <record model="ir.actions.act_window" id="action_review_compensation_list">
             <field name="name">Compensation Entries</field>
             <field name="res_model">account.compensation</field>
-            <field name="view_type">form</field>
+
             <field name="view_mode">tree,form</field>
             <field name="view_id" eval="view_compensation_tree"/>
             <field name="domain">[('state','=','posted')]</field>

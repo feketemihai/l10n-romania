@@ -47,7 +47,7 @@
         <record id="action_report_d394_codes" model="ir.actions.act_window">
             <field name="name">D394 Codes</field>
             <field name="res_model">report.394.code</field>
-            <field name="view_type">form</field>
+
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_report_d394_codes_search"/>
             <field name="help" type="html">

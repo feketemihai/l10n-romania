@@ -9,7 +9,7 @@
                 <field name="usage" position="after">
                     <field name="merchandise_type"/>
                 </field>
-                <xpath expr="//group[@name='localization']" position="after">
+                <xpath expr="//group[@name='additional_info']" position="after">
                     <group string="Accounting Information" >
                         <field name="valuation_in_account_id"/>
                         <field name="valuation_out_account_id"/>

@@ -48,7 +48,7 @@ class DailyStockReport(models.TransientModel):
             self.date_from = self.date_range_id.date_start
             self.date_to = self.date_range_id.date_end
 
-    @api.multi
+
     def do_compute(self):
         self.env['account.move.line'].check_access_rights('read')
 

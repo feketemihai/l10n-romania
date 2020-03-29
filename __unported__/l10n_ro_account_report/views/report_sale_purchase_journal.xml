@@ -25,7 +25,7 @@
                         </div>
 
 
-                        <t t-if="data['journal'] == 'purchase'">
+                        <t t-if=" journal == 'purchase'">
                             <h2>Purchase journal</h2>
                         </t>
                         <t t-if="data['journal'] == 'sale'">

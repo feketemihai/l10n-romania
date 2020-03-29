@@ -29,14 +29,14 @@ class CurrencyRateUpdateService(models.Model):
     _description = "Currency Rate Update"
     _rec_name = "service"
 
-    @api.multi
+
     @api.constrains('max_delta_days')
     def _check_max_delta_days(self):
         for srv in self:
             if srv.max_delta_days < 0:
                 raise ValidationError(_('Max delta days must be >= 0'))
 
-    @api.multi
+
     @api.constrains('interval_number')
     def _check_interval_number(self):
         for srv in self:
@@ -51,13 +51,13 @@ class CurrencyRateUpdateService(models.Model):
 
     @api.onchange('service')
     def _onchange_service(self):
-        currency_list = ''
+        currency_list = []
         res = {'domain': {'currency_to_update': "[('id', '=', False)]", }}
         if self.service:
             currencies = []
             getter = CurrencyGetterType.get(self.service)
-            currency_list = getter.supported_currency_array
-            currencies = self.env['res.currency'].search([('name', 'in', currency_list)])
+            currency_list_str = getter.supported_currency_array
+            currencies = self.env['res.currency'].search([('name', 'in', currency_list_str)])
             currency_list = [(6, 0, currencies.ids)]
             res['domain']['currency_to_update'] = "[('id', 'in', %s)]" % currencies.ids
         self.currency_list = currency_list
@@ -102,7 +102,7 @@ class CurrencyRateUpdateService(models.Model):
     _sql_constraints = [
         ('curr_service_unique', 'unique (service, company_id)', _('You can use a service only one time per company !'))]
 
-    @api.multi
+
     def refresh_currency(self):
         """Refresh the currencies rates !!for all companies now"""
         rate_obj = self.env['res.currency.rate']
@@ -166,7 +166,7 @@ class CurrencyRateUpdateService(models.Model):
                     srv.next_run = next_run
         return True
 
-    @api.multi
+
     def run_currency_update(self):
         # Update currency at the given frequence
         services = self.search([('next_run', '<=', fields.Date.today())])
@@ -178,7 +178,7 @@ class CurrencyRateUpdateService(models.Model):
         self.run_currency_update()
         _logger.info('End of the currency rate update cron')
 
-    @api.multi
+
     def run_update_all_year(self):
         year = self.next_run.year  # int(self.next_run[:4])
         main_currency = self.company_id.currency_id

@@ -11,6 +11,6 @@ from odoo.exceptions import AccessError, UserError
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    purchase_invoice_id = fields.Many2one('account.invoice', string='Purchase Bill')
+    purchase_invoice_id = fields.Many2one('account.move', string='Purchase Bill')
 
 

@@ -13,12 +13,10 @@ class SalePurchaseJournalReport(models.TransientModel):
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
 
-
     date_range_id = fields.Many2one('date.range', string='Date range')
     date_from = fields.Date('Start Date', required=True)
     date_to = fields.Date('End Date', required=True)
     journal = fields.Selection([('purchase', 'Purchase'), ('sale', 'Sale')], string='Journal type')
-
 
     @api.model
     def default_get(self, fields_list):
@@ -34,18 +32,18 @@ class SalePurchaseJournalReport(models.TransientModel):
         return res
 
 
-    @api.multi
     def button_show(self):
-
         journals = self.env['account.journal'].search([
-            ('type','=',self.journal),('company_id','=',self.company_id.id)
+            ('type', '=', self.journal), ('company_id', '=', self.company_id.id)
         ])
         invoices = self.env['account.invoice'].search([
-            ('date_invoice','>=',self.date_from),('date_invoice','<=',self.date_to),
-            ('journal_id','in',journals.ids ),
-            ('company_id','=', self.company_id.id)
+            ('date_invoice', '>=', self.date_from), ('date_invoice', '<=', self.date_to),
+            ('journal_id', 'in', journals.ids),
+            ('company_id', '=', self.company_id.id)
         ])
-        data=self.read()[0]
+        data = {'data':self.read()[0]}
         data['docids'] = invoices.ids
-        res = self.env.ref('l10n_ro_account_report.action_report_sale_purchase_journal').report_action(docids=invoices.ids,data=data)
+
+        report = self.env.ref('l10n_ro_account_report.action_report_sale_purchase_journal')
+        res = report.report_action(invoices,  data=data)
         return res

@@ -48,7 +48,7 @@ class account_invoice(models.Model):
 
 
     # anularea facturilor cu zero
-    @api.multi
+
     def action_invoice_cancel(self):
         for invoice in self:
             if invoice.amount_total == 0.0 and invoice.state == 'paid':
@@ -90,7 +90,7 @@ class account_invoice_line(models.Model):
     @api.one
     @api.depends('price_unit', 'discount', 'invoice_line_tax_ids', 'quantity',
         'product_id', 'invoice_id.partner_id', 'invoice_id.currency_id', 'invoice_id.company_id',
-        'invoice_id.date_invoice', 'invoice_id.date')
+        'invoice_id.invoice_date', 'invoice_id.date')
     def _compute_price(self):
 
         super(account_invoice_line, self)._compute_price()

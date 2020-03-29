@@ -85,7 +85,7 @@
          <record id="action_hr_person_related_form" model="ir.actions.act_window">
             <field name="name">Person related</field>
             <field name="res_model">hr.employee.related</field>
-            <field name="view_type">form</field>
+
             <field name="view_mode">tree,form</field>
         </record>
 

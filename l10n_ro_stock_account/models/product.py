@@ -14,7 +14,7 @@ class ProductCategory(models.Model):
     _inherit = 'product.category'
 
 
-    @api.multi
+
     def propagate_account(self):
         for categ in self:
             childs = self.search([('id','child_of',[categ.id])])
@@ -42,12 +42,16 @@ class ProductCategory(models.Model):
             childs.write(values)
 
 
+    @api.constrains('property_stock_valuation_account_id', 'property_stock_account_output_categ_id', 'property_stock_account_input_categ_id')
+    def _check_valuation_accouts(self):
+        # pentru Romania contul de evaluarea a stocului este egal cu cel intrare/iesire
+        pass
 
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    @api.multi
+
     def write(self, vals):
         if 'list_price' in vals:
             self.do_change_list_price(vals['list_price'])
@@ -57,7 +61,7 @@ class ProductTemplate(models.Model):
         return res
 
 
-    @api.multi
+
     def get_product_accounts(self, fiscal_pos=None):
         res = super(ProductTemplate, self).get_product_accounts(fiscal_pos)
         notice = self.env.context.get('notice')
@@ -71,7 +75,7 @@ class ProductTemplate(models.Model):
             res['stock_input'] = fix_stock_input
         return res
 
-    @api.multi
+
     def do_change_list_price(self, new_price):
         """ Changes the Standard Price of Product and creates an account move accordingly."""
         AccountMove = self.env['account.move']

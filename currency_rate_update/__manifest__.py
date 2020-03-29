@@ -3,9 +3,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
     "name": "Currency Rate Update",
-    "version": "12.0.1.0.0",
-    "author": "Camptocamp,Odoo Community Association (OCA)",
-    "website": "http://camptocamp.com",
+    "version": "13.0.1.0.0",
+    "author": "Terrabit,Camptocamp,Odoo Community Association (OCA)",
+    "website": "http://www.terrabit.ro",
     "license": "AGPL-3",
     "category": "Financial Management/Configuration",
     "depends": [
