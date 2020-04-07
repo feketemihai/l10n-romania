@@ -156,7 +156,7 @@ class AccountInvoiceLine(models.Model):
 
 
     def modify_stock_move_value(self, line_diff_value):
-        product = self.product_id  # with_context(to_date=self.invoice_id.invoice_date)
+        product = self.product_id  # with_context(to_date=self.move_id.invoice_date)
         if self.product_id and self.product_id.valuation == 'real_time' and self.product_id.type == 'product':
             if self.product_id.cost_method != 'standard' and self.purchase_line_id:
                 stock_move_obj = self.env['stock.move']
@@ -164,9 +164,9 @@ class AccountInvoiceLine(models.Model):
                     ('purchase_line_id', '=', self.purchase_line_id.id),
                     ('state', '=', 'done'), ('product_qty', '!=', 0.0)
                 ])
-                if self.invoice_id.type == 'in_refund':
+                if self.move_id.type == 'in_refund':
                     valuation_stock_move = valuation_stock_move.filtered(lambda m: m._is_out())
-                elif self.invoice_id.type == 'in_invoice':
+                elif self.move_id.type == 'in_invoice':
                     valuation_stock_move = valuation_stock_move.filtered(lambda m: m._is_in())
 
                 if valuation_stock_move:
@@ -188,7 +188,7 @@ class AccountInvoiceLine(models.Model):
     @api.onchange('product_id')
     def _onchange_product_id(self):
         # modulul deltatech_invoice_receipt gestioneaza adaugarea de pozitii noi in factura de achzitie
-        if  self.invoice_id.type  == 'out_invoice':
+        if  self.move_id.type  == 'out_invoice':
             if self.product_id and self.product_id.type == 'product' and not self.env.context.get('allowed_change_product', False):
                 raise UserError(_('It is not allowed to change a stored product!'))
         return super(AccountInvoiceLine, self)._onchange_product_id()
@@ -196,18 +196,18 @@ class AccountInvoiceLine(models.Model):
     # @api.onchange('quantity')
     # def _onchange_quantity(self):
     #     message = ''
-    #     if self.invoice_id.type in ['in_refund', 'out_refund']:
+    #     if self.move_id.type in ['in_refund', 'out_refund']:
     #         return
     #     if self.product_id and self.product_id.type == 'product':
     #
     #         if self.purchase_line_id:
     #             qty = 0
     #             for inv_line in self.purchase_line_id.invoice_lines:
-    #                 if not isinstance(inv_line.id, models.NewId) and inv_line.invoice_id.state not in ['cancel']:
-    #                     if inv_line.invoice_id.type == 'in_invoice':
+    #                 if not isinstance(inv_line.id, models.NewId) and inv_line.move_id.state not in ['cancel']:
+    #                     if inv_line.move_id.type == 'in_invoice':
     #                         qty += inv_line.uom_id._compute_quantity(inv_line.quantity,
     #                                                                  self.purchase_line_id.product_uom)
-    #                     elif inv_line.invoice_id.type == 'in_refund':
+    #                     elif inv_line.move_id.type == 'in_refund':
     #                         qty -= inv_line.uom_id._compute_quantity(inv_line.quantity,
     #                                                                  self.purchase_line_id.product_uom)
     #
