@@ -24,7 +24,7 @@ class StockChangeStandardPrice(models.TransientModel):
 
 
     # in metoda standard se foloseste active_id si se aduce un id gresit
-
+    # oare mai este necesar in 13 ?
     def change_price(self):
         """ Changes the Standard Price of Product and creates an account move accordingly. """
         self.ensure_one()
@@ -33,6 +33,6 @@ class StockChangeStandardPrice(models.TransientModel):
         else:
             products = self.env['product.product'].browse(self._context['active_ids'])
 
-        products.do_change_standard_price(self.new_price, self.counterpart_account_id.id)
+        products._change_standard_price(self.new_price, self.counterpart_account_id.id)
         return {'type': 'ir.actions.act_window_close'}
 
