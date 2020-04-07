@@ -6,27 +6,24 @@
 Romania - Stock
 ===============
 
-Ease the process of Consume and Usage Giving - adds location and picking type for every newly created warehouse.
+Ease the process of Consume and Usage Giving - adds location and picking types for every newly created warehouse.
+You can also define the location merchandise type, if it's Merchandise in Store or Warehouse.
 
 Installation
 ============
 
-To install this module, you need to:
-
-* clone the branch 11.0 of the repository https://github.com/dhongu/l10n-romania
+* clone the branch 13.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
-* search for "Romania - Stock in your addons
+* search for "Romania - Stock" in your addons
 * install the module
 
 Usage
 =====
 
-Set Multi-Warehouse and Multi-Step Routes in Stock configuration and edit warehouse.
-
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/177/11.0
+   :target: https://runbot.odoo-community.org/runbot/177/13.0
 
 Known issues / Roadmap
 ======================
