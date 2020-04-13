@@ -43,13 +43,13 @@ class RomaniaTrialBalanceReportWizard(models.TransientModel):
         self.date_from = self.date_range_id.date_start
         self.date_to = self.date_range_id.date_end
 
-    @api.multi
+
     def button_export_html(self):
         self.ensure_one()
         action = self.env.ref('l10n_ro_report_trial_balance.action_l10n_ro_report_trial_balance')
         vals = action.read()[0]
         context1 = vals.get('context', {})
-        if isinstance(context1, pycompat.string_types):
+        if isinstance(context1, str):
             context1 = safe_eval(context1)
         model = self.env['l10n_ro_report_trial_balance']
         report = model.create(self._prepare_report_trial_balance())
@@ -61,13 +61,13 @@ class RomaniaTrialBalanceReportWizard(models.TransientModel):
         vals['context'] = context1
         return vals
 
-    @api.multi
+
     def button_export_pdf(self):
         self.ensure_one()
         report_type = 'qweb-pdf'
         return self._export(report_type)
 
-    @api.multi
+
     def button_export_xlsx(self):
         self.ensure_one()
         report_type = 'xlsx'
