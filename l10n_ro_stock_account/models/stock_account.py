@@ -75,6 +75,8 @@ class StockMove(models.Model):
 
     # Exista standard account_move_ids
     # acc_move_id = fields.Many2one('account.move', string='Account move', copy=False)
+
+    # la ce este bun acest camp ?
     acc_move_line_ids = fields.One2many('account.move.line', 'stock_move_id', string='Account move lines')
     move_type = fields.Selection([
         ('reception', 'Reception'),

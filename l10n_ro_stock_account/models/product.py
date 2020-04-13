@@ -14,7 +14,6 @@ class ProductCategory(models.Model):
     _inherit = 'product.category'
 
 
-
     def propagate_account(self):
         for categ in self:
             childs = self.search([('id','child_of',[categ.id])])
@@ -55,9 +54,7 @@ class ProductTemplate(models.Model):
     def write(self, vals):
         if 'list_price' in vals:
             self.do_change_list_price(vals['list_price'])
-
         res = super(ProductTemplate, self).write(vals)
-
         return res
 
 
