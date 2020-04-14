@@ -459,43 +459,4 @@ msgstr "Imagine fundal"
 msgid "from"
 msgstr "din"
 
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_account_report_invoice
-msgid "report.account.report_invoice"
-msgstr "report.account.report_invoice"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_account_report_invoice_with_payments
-msgid "report.account.report_invoice_with_payments"
-msgstr "report.account.report_invoice_with_payments"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_payment
-msgid "report.l10n_ro_invoice_report.report_payment"
-msgstr "report.l10n_ro_invoice_report.report_payment"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_collection
-msgid "report.l10n_ro_invoice_report.report_statement_collection"
-msgstr "report.l10n_ro_invoice_report.report_statement_collection"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_line
-msgid "report.l10n_ro_invoice_report.report_statement_line"
-msgstr "report.l10n_ro_invoice_report.report_statement_line"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_payment
-msgid "report.l10n_ro_invoice_report.report_statement_payment"
-msgstr "report.l10n_ro_invoice_report.report_statement_payment"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_statement_voucher
-msgid "report.l10n_ro_invoice_report.report_statement_voucher"
-msgstr "report.l10n_ro_invoice_report.report_statement_voucher"
-
-#. module: l10n_ro_invoice_report
-#: model:ir.model,name:l10n_ro_invoice_report.model_report_l10n_ro_invoice_report_report_voucher
-msgid "report.l10n_ro_invoice_report.report_voucher"
-msgstr "report.l10n_ro_invoice_report.report_voucher"
 

@@ -72,7 +72,7 @@
                                     <div>
                                         <strong>Address:</strong>
                                         <address t-field="res_company.partner_id"
-                                                 t-field-options='{"widget": "contact", "fields": ["address","phone", "fax"], "no_marker": false, "no_tag_br": true}'/>
+                                                 t-options='{"widget": "contact", "fields": ["address","phone", "fax"], "no_marker": false, "no_tag_br": true}'/>
                                     </div>
 
                                 </div>
@@ -85,7 +85,7 @@
                                         <strong>Address:</strong>
 
                                         <address t-field="o.partner_id"
-                                                 t-field-options='{"widget": "contact", "fields": ["address", "phone", "fax"], "no_marker": false, "no_tag_br": true}'/>
+                                                 t-options='{"widget": "contact", "fields": ["address", "phone", "fax"], "no_marker": false, "no_tag_br": true}'/>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +167,8 @@
                                     <td>Amount (in words):</td>
                                     <td>
 <!--                                        <span t-esc="convert(abs(o.amount))"/>-->
-                                        <span t-esc="o.currency_id.amount_to_text(o.amount)" />
+                                        <t t-set="currency" t-value="o.currency_id or user.company_id.currency_id"/>
+                                        <span t-esc="currency.amount_to_text(o.amount)" />
                                     </td>
                                 </tr>
                                 <tr>

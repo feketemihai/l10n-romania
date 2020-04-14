@@ -22,7 +22,7 @@
 
 {
     "name": "Romania - Invoice Report",
-    "version": "2.0",
+    "version": "2.2",
     "author": "Dorin Hongu",
     "website": "",
 
