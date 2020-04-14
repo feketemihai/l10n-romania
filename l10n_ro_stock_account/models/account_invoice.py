@@ -14,12 +14,12 @@ class AccountInvoice(models.Model):
     # nu trebuie sa se schimbe locatia la receptie
     #stock_location_id = fields.Many2one('stock.location', readonly=True, states={'draft': [('readonly', False)]})
 
-    @api.onchange('purchase_vendor_bill_id', 'purchase_id')
-    def _onchange_purchase_auto_complete(self):
-        if not self.stock_location_id:
-            self.stock_location_id = self.purchase_id.picking_type_id.default_location_dest_id
-        res = super(AccountInvoice, self)._onchange_purchase_auto_complete()
-        return res
+    # @api.onchange('purchase_vendor_bill_id', 'purchase_id')
+    # def _onchange_purchase_auto_complete(self):
+    #     if not self.stock_location_id:
+    #         self.stock_location_id = self.purchase_id.picking_type_id.default_location_dest_id
+    #     res = super(AccountInvoice, self)._onchange_purchase_auto_complete()
+    #     return res
 
     # codul _prepare_invoice_line_from_po_line (care era in 11) se gaeste in purchase.line metoda   _prepare_account_move_line
 
