@@ -165,7 +165,7 @@ class IntrastatDeclaration(models.TransientModel):
         return {
             'name': _('Save'),
             'context': self.env.context,
-            'view_type': 'form',
+
             'view_mode': 'form',
             'res_model': 'l10n_ro_intrastat.intrastat_xml_declaration',
 
@@ -283,7 +283,7 @@ class IntrastatDeclaration(models.TransientModel):
                 amount = inv_line.price_unit * inv_line.quantity
                 if inv_line.invoice_id.currency_id.id != company.currency_id.id:
 
-                    amount =  inv_line.invoice_id.currency_id.with_context(date=inv_line.invoice_id.date_invoice).compute(    company.currency_id,          amount)
+                    amount =  inv_line.invoice_id.currency_id.with_context(date=inv_line.invoice_id.invoice_date).compute(    company.currency_id,          amount)
             else:
                 amount = 0
             weight = (inv_line.product_id.weight_net or 0.0) * inv_line.uom_id._compute_qty(  inv_line.quantity,  inv_line.product_id.uom_id )
