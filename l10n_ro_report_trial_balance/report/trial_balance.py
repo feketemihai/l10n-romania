@@ -97,7 +97,6 @@ class RomaniaTrialBalanceAccountReport(models.TransientModel):
 
     path = fields.Char()
 
-
     def compute_path(self):
         for item in self:
             group = item.account_group_id
@@ -107,12 +106,10 @@ class RomaniaTrialBalanceAccountReport(models.TransientModel):
                 while code[-1] == '0':
                     code = code[:-1]
                 while code and not group:
-                    group =  self.env['account.group'].search([('code_prefix','=',code)])
+                    group = self.env['account.group'].search([('code_prefix', '=', code)])
                     code = code[:-1]
             if group:
-                item.write({'path':group.path})
-
-
+                item.write({'path': group.path})
 
 
 class RomaniaTrialBalanceComputeReport(models.TransientModel):
@@ -126,14 +123,11 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
         return [{'name': _('Print Preview'), 'action': 'print_pdf'},
                 {'name': _('Export (XLSX)'), 'action': 'print_xlsx'}]
 
-
     def print_pdf(self):
         return self.print_report('qweb-pdf')
 
-
     def print_xlsx(self):
         return self.print_report('xlsx')
-
 
     def print_report(self, report_type='qweb'):
         self.ensure_one()
@@ -173,7 +167,6 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
     def get_html(self, given_context=None):
         return self.with_context(given_context)._get_html()
 
-
     def do_execute(self):
         self.ensure_one()
         domain = [
@@ -207,7 +200,6 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
 
         return report
 
-
     def compute_data_for_report(self):
 
         self.ensure_one()
@@ -216,7 +208,6 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
         self._compute_account_group_values()
         # Refresh cache because all data are computed with SQL requests
         self.refresh()
-
 
     def _compute_path(self):
         self.line_account_ids.compute_path()
@@ -235,7 +226,7 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
             accounts = self.env['account.account'].search([('company_id', '=', self.company_id.id)])
 
         if not self.with_special_accounts:
-            sp_acc_type = self.env.ref('l10n_ro.data_account_type_not_classified')
+            sp_acc_type = self.env.ref('account.data_account_off_sheet')
             if sp_acc_type:
                 accounts = accounts.filtered(lambda a: a.user_type_id.id != sp_acc_type.id)
         query_inject_account = """
@@ -400,13 +391,10 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
         #     lines = self.line_account_ids.filtered(lambda a: a.debit_balance == 0 and a.credit_balance == 0)
         #     lines.unlink()
 
-
-
-
     def _compute_account_group_values(self):
         if not self.account_ids:
             acc_res = self.line_account_ids
-            groups = self.env['account.group'].search([]) #('code_prefix', '!=', False)])
+            groups = self.env['account.group'].search([])  # ('code_prefix', '!=', False)])
 
             # if self.account_ids:
             #     all_accounts = self.account_ids
@@ -418,8 +406,6 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
             #     sp_acc_type = self.env.ref('l10n_ro.data_account_type_not_classified')
             #     if sp_acc_type:
             #         all_accounts = all_accounts.filtered(lambda a: a.user_type_id.id != sp_acc_type.id)
-
-
 
             for group in groups:
                 accounts = acc_res.filtered(lambda a: a.account_id.id in group.compute_account_ids.ids)
@@ -442,7 +428,7 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
                         'credit_initial_balance': 0.0,
 
                         'debit_initial': 0.0,
-                        'credit_initial':0.0,
+                        'credit_initial': 0.0,
                         'debit': 0.0,
                         'credit': 0.0,
 
@@ -455,7 +441,7 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
                         'credit_balance': 0.0,
                     }
                     for acc in accounts:
-                        values['debit_opening_balance'] +=acc.debit_opening_balance
+                        values['debit_opening_balance'] += acc.debit_opening_balance
                         values['credit_opening_balance'] += acc.credit_opening_balance
                         values['debit_opening'] += acc.debit_opening
                         values['credit_opening'] += acc.credit_opening
