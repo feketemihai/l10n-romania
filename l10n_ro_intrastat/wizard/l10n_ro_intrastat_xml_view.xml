@@ -32,10 +32,9 @@
                         </p>
                     </div>
                     <footer>
-<button states="draft" name="create_xml" string="Create XML" type="object" class="oe_highlight"/>
-<!--                        <button states="draft" name="create_xml" string="Create XML" type="object" default_focus="1"-->
-<!--                                class="oe_highlight"/>-->
-<!--                        or-->
+                        <button states="draft" name="create_xml" string="Create XML" type="object"
+                                class="oe_highlight"/>
+
                         <button states="draft" string="Cancel" class="oe_link" special="cancel"/>
 
                         <button states="download" string="Close" special="cancel"/>
