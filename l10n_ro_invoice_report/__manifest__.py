@@ -31,7 +31,7 @@
 Romania - Invoice Report layout
 ------------------------------------------
 
-Funftionalitati
+Functionalitati
  - factura contine: pretul fara tva, valoare si valoare tva
  - La factura au fost adugate campurile delegat si mijloc de transport
  - la partener se poate adauga un text aditinonal care apara pe facura
@@ -47,7 +47,7 @@ Funftionalitati
     """,
 
     "category": "Generic Modules",
-    "depends": ["base", "account", "account_voucher", "l10n_ro_config",'deltatech_watermark'],
+    "depends": ["base", "account",  "l10n_ro_config", 'deltatech_watermark'],
 
 
     "data": [
@@ -55,7 +55,7 @@ Funftionalitati
         'views/voucher_report.xml',
         'views/payment_report.xml',
 
-        'views/account_invoice_view.xml',
+        #'views/account_invoice_view.xml',
         'views/account_voucher_report.xml',
         'views/account_bank_statement_view.xml',
         'views/statement_report.xml',

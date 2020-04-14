@@ -106,7 +106,7 @@
 									<td>Representing:</td>
 									<td>
 
-										<span t-field="o.reference" />
+										<span t-field="o.ref" />
 										
 
  										<span t-field="o.name" />		
