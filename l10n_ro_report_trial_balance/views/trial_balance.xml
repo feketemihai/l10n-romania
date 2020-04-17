@@ -12,10 +12,11 @@
     </template>
 
     <template id="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_base">
+
         <!-- Defines global variables used by internal layout -->
         <t t-set="title">Trial Balance</t>
         <t t-set="company_name" t-value="o.company_id.name"/>
-        <div class="page data_table">
+        <div class="container-fluid page data_table">
             <!-- Display filters -->
             <t t-call="l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_filters"/>
             <div class="page_break"/>
