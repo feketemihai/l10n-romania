@@ -408,6 +408,7 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
             #         all_accounts = all_accounts.filtered(lambda a: a.user_type_id.id != sp_acc_type.id)
 
             for group in groups:
+
                 accounts = acc_res.filtered(lambda a: a.account_id.id in group.compute_account_ids.ids)
                 # if self.hide_account_without_move:
                 #     accounts = accounts.filtered(lambda a: a.debit_balance != 0 or a.credit_balance != 0)
@@ -417,6 +418,7 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
                         'account_group_id': group.id,
                         'code': group.code_prefix or '',
                         'name': group.name,
+                        'path': group.path,
 
                         'debit_opening_balance': 0.0,
                         'credit_opening_balance': 0.0,
