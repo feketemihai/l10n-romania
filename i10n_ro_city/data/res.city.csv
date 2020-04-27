@@ -1,5 +1,5 @@
 id,name,country_id/id,siruta,state_id/id,zipcode,municipality
-base.RO_1026,Alba Iulia,base.ro,1026,base.RO_AB,0,Alba Iulia
+base.RO_1026,Alba Iulia,base.ro,1026,base.RO_AB,,Alba Iulia
 base.RO_1035,Bărăbanț,base.ro,1035,base.RO_AB,510001,Alba Iulia
 base.RO_1044,Micești,base.ro,1044,base.RO_AB,510002,Alba Iulia
 base.RO_1053,Oarda,base.ro,1053,base.RO_AB,510003,Alba Iulia
@@ -715,7 +715,7 @@ base.RO_8979,Valea Goblii,base.ro,8979,base.RO_AB,517892,Vințu de Jos
 base.RO_8988,Valea lui Mihai,base.ro,8988,base.RO_AB,517894,Vințu de Jos
 base.RO_8997,Valea Vințului,base.ro,8997,base.RO_AB,517893,Vințu de Jos
 base.RO_9002,Vurpăr,base.ro,9002,base.RO_AB,517896,Vințu de Jos
-base.RO_9271,Arad,base.ro,9271,base.RO_AR,0,Arad
+base.RO_9271,Arad,base.ro,9271,base.RO_AR,,Arad
 base.RO_9299,Fântânele,base.ro,9299,base.RO_AR,317120,Fântânele
 base.RO_9306,Aluniș,base.ro,9306,base.RO_AR,317121,Frumușeni
 base.RO_9315,Frumușeni,base.ro,9315,base.RO_AR,317122,Frumușeni
@@ -998,7 +998,7 @@ base.RO_12867,Iermata Neagră,base.ro,12867,base.RO_AR,317421,Zerind
 base.RO_12885,Zimandu Nou,base.ro,12885,base.RO_AR,317425,Zimandu Nou
 base.RO_12894,Andrei Șaguna,base.ro,12894,base.RO_AR,317426,Zimandu Nou
 base.RO_12901,Zimandcuz,base.ro,12901,base.RO_AR,317427,Zimandu Nou
-base.RO_13178,Pitești,base.ro,13178,base.RO_AG,0,Pitești
+base.RO_13178,Pitești,base.ro,13178,base.RO_AG,,Pitești
 base.RO_13196,Bascov,base.ro,13196,base.RO_AG,117045,Bascov
 base.RO_13203,Brăileni,base.ro,13203,base.RO_AG,117046,Bascov
 base.RO_13212,Glâmbocu,base.ro,13212,base.RO_AG,117047,Bascov
@@ -1583,7 +1583,7 @@ base.RO_20000,Vlădești,base.ro,20000,base.RO_AG,117840,Vlădești
 base.RO_20019,Coteasca,base.ro,20019,base.RO_AG,117841,Vlădești
 base.RO_20028,Drăghescu,base.ro,20028,base.RO_AG,117842,Vlădești
 base.RO_20037,Putina,base.ro,20037,base.RO_AG,117843,Vlădești
-base.RO_20304,Bacău,base.ro,20304,base.RO_BC,0,Bacău
+base.RO_20304,Bacău,base.ro,20304,base.RO_BC,,Bacău
 base.RO_20322,Hemeiuș,base.ro,20322,base.RO_BC,607235,Hemeiuș
 base.RO_20331,Fântânele,base.ro,20331,base.RO_BC,607236,Hemeiuș
 base.RO_20340,Lilieci,base.ro,20340,base.RO_BC,607237,Hemeiuș
@@ -1604,7 +1604,7 @@ base.RO_20518,Podiș,base.ro,20518,base.RO_BC,607319,Mărgineni
 base.RO_20527,Poiana,base.ro,20527,base.RO_BC,607321,Mărgineni
 base.RO_20536,Trebeș,base.ro,20536,base.RO_BC,607322,Mărgineni
 base.RO_20545,Valea Budului,base.ro,20545,base.RO_BC,607323,Mărgineni
-base.RO_20572,Onești,base.ro,20572,base.RO_BC,0,Onești
+base.RO_20572,Onești,base.ro,20572,base.RO_BC,,Onești
 base.RO_20581,Borzești,base.ro,20581,base.RO_BC,601001,Onești
 base.RO_20590,Slobozia,base.ro,20590,base.RO_BC,601002,Onești
 base.RO_20616,Gura Văii,base.ro,20616,base.RO_BC,607220,Gura Văii
@@ -2093,7 +2093,7 @@ base.RO_26270,Vultureni,base.ro,26270,base.RO_BC,607665,Vultureni
 base.RO_26298,Zemeș,base.ro,26298,base.RO_BC,607690,Zemeș
 base.RO_26305,Bolătău,base.ro,26305,base.RO_BC,607691,Zemeș
 base.RO_26312,Hemieni,base.ro,26312,base.RO_BC,607439,Pârjol
-base.RO_26573,Oradea,base.ro,26573,base.RO_BH,0,Oradea
+base.RO_26573,Oradea,base.ro,26573,base.RO_BH,,Oradea
 base.RO_26591,Sânmartin,base.ro,26591,base.RO_BH,417495,Sânmartin
 base.RO_26608,Betfia,base.ro,26608,base.RO_BH,417497,Sânmartin
 base.RO_26617,Cihei,base.ro,26617,base.RO_BH,417498,Sânmartin
@@ -2551,7 +2551,7 @@ base.RO_32125,Surducel,base.ro,32125,base.RO_BH,417622,Vârciorog
 base.RO_32134,Șerghiș,base.ro,32134,base.RO_BH,417623,Vârciorog
 base.RO_32143,Băile Felix,base.ro,32143,base.RO_BH,417500,Sânmartin
 base.RO_32219,Păcălești,base.ro,32219,base.RO_BH,417255,Drăgănești
-base.RO_32401,Bistrița,base.ro,32401,base.RO_BN,0,Bistrița
+base.RO_32401,Bistrița,base.ro,32401,base.RO_BN,,Bistrița
 base.RO_32410,Ghinda,base.ro,32410,base.RO_BN,420001,Bistrița
 base.RO_32429,Sărata,base.ro,32429,base.RO_BN,420002,Bistrița
 base.RO_32438,Sigmir,base.ro,32438,base.RO_BN,420003,Bistrița
@@ -2800,7 +2800,7 @@ base.RO_35447,Alunișul,base.ro,35447,base.RO_BN,427386,Zagra
 base.RO_35456,Perișor,base.ro,35456,base.RO_BN,427387,Zagra
 base.RO_35465,Poienile Zagrei,base.ro,35465,base.RO_BN,427388,Zagra
 base.RO_35474,Suplai,base.ro,35474,base.RO_BN,427389,Zagra
-base.RO_35740,Botoșani,base.ro,35740,base.RO_BT,0,Botoșani
+base.RO_35740,Botoșani,base.ro,35740,base.RO_BT,,Botoșani
 base.RO_35768,Curtești,base.ro,35768,base.RO_BT,717110,Curtești
 base.RO_35777,Agafton,base.ro,35777,base.RO_BT,717111,Curtești
 base.RO_35786,Băiceni,base.ro,35786,base.RO_BT,717112,Curtești
@@ -3150,7 +3150,7 @@ base.RO_40027,Vatra,base.ro,40027,base.RO_BT,717214,Hudești
 base.RO_40043,Dobrinăuți-Hapăi,base.ro,40043,base.RO_BT,717449,Vârfu Câmpului
 base.RO_40050,Maghera,base.ro,40050,base.RO_BT,717453,Vârfu Câmpului
 base.RO_40068,Pustoaia,base.ro,40068,base.RO_BT,717454,Vârfu Câmpului
-base.RO_40205,Brașov,base.ro,40205,base.RO_BV,0,Brașov
+base.RO_40205,Brașov,base.ro,40205,base.RO_BV,,Brașov
 base.RO_40223,Ghimbav,base.ro,40223,base.RO_BV,507075,Ghimbav
 base.RO_40250,Codlea,base.ro,40250,base.RO_BV,505100,Codlea
 base.RO_40287,Făgăraș,base.ro,40287,base.RO_BV,505200,Făgăraș
@@ -3315,7 +3315,7 @@ base.RO_42405,Vulcan,base.ro,42405,base.RO_BV,507270,Vulcan
 base.RO_42414,Colonia 1 Mai,base.ro,42414,base.RO_BV,507271,Vulcan
 base.RO_42423,Holbav,base.ro,42423,base.RO_BV,507272,Holbav
 base.RO_42432,Poiana Brașov,base.ro,42432,base.RO_BV,500001,Brașov
-base.RO_42691,Brăila,base.ro,42691,base.RO_BR,0,Brăila
+base.RO_42691,Brăila,base.ro,42691,base.RO_BR,,Brăila
 base.RO_42717,Chișcani,base.ro,42717,base.RO_BR,817025,Chișcani
 base.RO_42726,Lacu Sărat,base.ro,42726,base.RO_BR,817026,Chișcani
 base.RO_42735,Vărsătura,base.ro,42735,base.RO_BR,817027,Chișcani
@@ -3459,7 +3459,7 @@ base.RO_44514,Viziru,base.ro,44514,base.RO_BR,817215,Viziru
 base.RO_44523,Lanurile,base.ro,44523,base.RO_BR,817216,Viziru
 base.RO_44541,Zăvoaia,base.ro,44541,base.RO_BR,817220,Zăvoaia
 base.RO_44550,Dudescu,base.ro,44550,base.RO_BR,817221,Zăvoaia
-base.RO_44827,Buzău,base.ro,44827,base.RO_BZ,0,Buzău
+base.RO_44827,Buzău,base.ro,44827,base.RO_BZ,,Buzău
 base.RO_44854,Râmnicu Sărat,base.ro,44854,base.RO_BZ,125300,Râmnicu Sărat
 base.RO_44872,Amaru,base.ro,44872,base.RO_BZ,127005,Amaru
 base.RO_44881,Câmpeni,base.ro,44881,base.RO_BZ,127006,Amaru
@@ -3947,7 +3947,7 @@ base.RO_50512,Heliade Rădulescu,base.ro,50512,base.RO_BZ,127723,Ziduri
 base.RO_50521,Lanurile,base.ro,50521,base.RO_BZ,127724,Ziduri
 base.RO_50530,Zoița,base.ro,50530,base.RO_BZ,127726,Ziduri
 base.RO_50556,Ojasca,base.ro,50556,base.RO_BZ,127323,Unguriu
-base.RO_50807,Reșița,base.ro,50807,base.RO_CS,0,Reșița
+base.RO_50807,Reșița,base.ro,50807,base.RO_CS,,Reșița
 base.RO_50816,Câlnic,base.ro,50816,base.RO_CS,320001,Reșița
 base.RO_50825,Cuptoare,base.ro,50825,base.RO_CS,320002,Reșița
 base.RO_50834,Doman,base.ro,50834,base.RO_CS,320003,Reșița
@@ -4256,7 +4256,7 @@ base.RO_54671,Voislova,base.ro,54671,base.RO_CS,327442,Zăvoi
 base.RO_54680,23 August,base.ro,54680,base.RO_CS,327436,Zăvoi
 base.RO_54706,Zorlențu Mare,base.ro,54706,base.RO_CS,327450,Zorlențu Mare
 base.RO_54715,Zorlencior,base.ro,54715,base.RO_CS,327451,Zorlențu Mare
-base.RO_54984,Cluj-Napoca,base.ro,54984,base.RO_CJ,0,Cluj-Napoca
+base.RO_54984,Cluj-Napoca,base.ro,54984,base.RO_CJ,,Cluj-Napoca
 base.RO_55017,Dej,base.ro,55017,base.RO_CJ,405200,Dej
 base.RO_55026,Ocna Dejului,base.ro,55026,base.RO_CJ,405201,Dej
 base.RO_55035,Peștera,base.ro,55035,base.RO_CJ,405202,Dej
@@ -4690,7 +4690,7 @@ base.RO_60124,Bădești,base.ro,60124,base.RO_CJ,407597,Vultureni
 base.RO_60133,Chidea,base.ro,60133,base.RO_CJ,407598,Vultureni
 base.RO_60142,Făureni,base.ro,60142,base.RO_CJ,407599,Vultureni
 base.RO_60151,Șoimeni,base.ro,60151,base.RO_CJ,407601,Vultureni
-base.RO_60428,Constanța,base.ro,60428,base.RO_CT,0,Constanța
+base.RO_60428,Constanța,base.ro,60428,base.RO_CT,,Constanța
 base.RO_60437,Mamaia,base.ro,60437,base.RO_CT,900001,Constanța
 base.RO_60446,Palazu Mare,base.ro,60446,base.RO_CT,900002,Constanța
 base.RO_60464,Eforie Sud,base.ro,60464,base.RO_CT,905360,Eforie
@@ -5031,7 +5031,7 @@ base.RO_65057,Zăbala,base.ro,65057,base.RO_CV,527190,Zăbala
 base.RO_65066,Peteni,base.ro,65066,base.RO_CV,527191,Zăbala
 base.RO_65075,Surcea,base.ro,65075,base.RO_CV,527192,Zăbala
 base.RO_65084,Tamașfalău,base.ro,65084,base.RO_CV,527193,Zăbala
-base.RO_65351,Târgoviște,base.ro,65351,base.RO_DB,0,Târgoviște
+base.RO_65351,Târgoviște,base.ro,65351,base.RO_DB,,Târgoviște
 base.RO_65360,Priseaca,base.ro,65360,base.RO_DB,130001,Târgoviște
 base.RO_65388,Aninoasa,base.ro,65388,base.RO_DB,137005,Aninoasa
 base.RO_65397,Săteni,base.ro,65397,base.RO_DB,137006,Aninoasa
@@ -5382,7 +5382,7 @@ base.RO_69606,Suduleni,base.ro,69606,base.RO_DB,137533,Voinești
 base.RO_69624,Vulcana-Băi,base.ro,69624,base.RO_DB,137535,Vulcana-Băi
 base.RO_69633,Nicolaești,base.ro,69633,base.RO_DB,137536,Vulcana-Băi
 base.RO_69642,Vulcana de Sus,base.ro,69642,base.RO_DB,137537,Vulcana-Băi
-base.RO_69919,Craiova,base.ro,69919,base.RO_DJ,0,Craiova
+base.RO_69919,Craiova,base.ro,69919,base.RO_DJ,,Craiova
 base.RO_69928,Făcăi,base.ro,69928,base.RO_DJ,200001,Craiova
 base.RO_69937,Mofleni,base.ro,69937,base.RO_DJ,200002,Craiova
 base.RO_69946,Popoveni,base.ro,69946,base.RO_DJ,200003,Craiova
@@ -5772,7 +5772,7 @@ base.RO_74803,Dobromira,base.ro,74803,base.RO_DJ,207619,Vârvoru de Jos
 base.RO_74812,Drăgoaia,base.ro,74812,base.RO_DJ,207621,Vârvoru de Jos
 base.RO_74821,Gabru,base.ro,74821,base.RO_DJ,207622,Vârvoru de Jos
 base.RO_74830,Vârvor,base.ro,74830,base.RO_DJ,207623,Vârvoru de Jos
-base.RO_75105,Galați,base.ro,75105,base.RO_GL,0,Galați
+base.RO_75105,Galați,base.ro,75105,base.RO_GL,,Galați
 base.RO_75123,Șendreni,base.ro,75123,base.RO_GL,807290,Șendreni
 base.RO_75132,Movileni,base.ro,75132,base.RO_GL,807291,Șendreni
 base.RO_75141,Șerbeștii Vechi,base.ro,75141,base.RO_GL,807292,Șendreni
@@ -5956,7 +5956,7 @@ base.RO_77518,Vârlezi,base.ro,77518,base.RO_GL,807330,Vârlezi
 base.RO_77527,Crăiești,base.ro,77527,base.RO_GL,807331,Vârlezi
 base.RO_77545,Vlădești,base.ro,77545,base.RO_GL,807335,Vlădești
 base.RO_77554,Brănești,base.ro,77554,base.RO_GL,807336,Vlădești
-base.RO_77821,Târgu Jiu,base.ro,77821,base.RO_GJ,0,Târgu Jiu
+base.RO_77821,Târgu Jiu,base.ro,77821,base.RO_GJ,,Târgu Jiu
 base.RO_77830,Bârsești,base.ro,77830,base.RO_GJ,210001,Târgu Jiu
 base.RO_77849,Drăgoeni,base.ro,77849,base.RO_GJ,210002,Târgu Jiu
 base.RO_77858,Iezureni,base.ro,77858,base.RO_GJ,210003,Târgu Jiu
@@ -6390,7 +6390,7 @@ base.RO_82840,Andreești,base.ro,82840,base.RO_GJ,217551,Vladimir
 base.RO_82859,Frasin,base.ro,82859,base.RO_GJ,217552,Vladimir
 base.RO_82868,Valea Deșului,base.ro,82868,base.RO_GJ,217553,Vladimir
 base.RO_82877,Vladimir,base.ro,82877,base.RO_GJ,217550,Vladimir
-base.RO_82902,Vârt,base.ro,82902,base.RO_GJ,0,Rovinari
+base.RO_82902,Vârt,base.ro,82902,base.RO_GJ,,Rovinari
 base.RO_83142,Odorheiu Secuiesc,base.ro,83142,base.RO_HR,535600,Odorheiu Secuiesc
 base.RO_83160,Brădești,base.ro,83160,base.RO_HR,537025,Brădești
 base.RO_83179,Târnovița,base.ro,83179,base.RO_HR,537027,Brădești
@@ -6406,7 +6406,7 @@ base.RO_83277,Polonița,base.ro,83277,base.RO_HR,537103,Feliceni
 base.RO_83286,Tăureni,base.ro,83286,base.RO_HR,537104,Feliceni
 base.RO_83295,Teleac,base.ro,83295,base.RO_HR,537106,Feliceni
 base.RO_83302,Văleni,base.ro,83302,base.RO_HR,537107,Feliceni
-base.RO_83339,Miercurea Ciuc,base.ro,83339,base.RO_HR,0,Miercurea Ciuc
+base.RO_83339,Miercurea Ciuc,base.ro,83339,base.RO_HR,,Miercurea Ciuc
 base.RO_83348,Ciba,base.ro,83348,base.RO_HR,530001,Miercurea Ciuc
 base.RO_83357,Harghita-Băi,base.ro,83357,base.RO_HR,530002,Miercurea Ciuc
 base.RO_83366,Jigodin-Băi,base.ro,83366,base.RO_HR,530003,Miercurea Ciuc
@@ -6655,7 +6655,7 @@ base.RO_86393,Izvoare,base.ro,86393,base.RO_HR,537362,Zetea
 base.RO_86400,Poiana Târnavei,base.ro,86400,base.RO_HR,537363,Zetea
 base.RO_86419,Șicasău,base.ro,86419,base.RO_HR,537366,Zetea
 base.RO_86428,Sub Cetate,base.ro,86428,base.RO_HR,537364,Zetea
-base.RO_86696,Deva,base.ro,86696,base.RO_HD,0,Deva
+base.RO_86696,Deva,base.ro,86696,base.RO_HD,,Deva
 base.RO_86703,Sântuhalm,base.ro,86703,base.RO_HD,330004,Deva
 base.RO_86712,Archia,base.ro,86712,base.RO_HD,330001,Deva
 base.RO_86721,Bârcea Mică,base.ro,86721,base.RO_HD,330002,Deva
@@ -6665,7 +6665,7 @@ base.RO_86767,Almașu Sec,base.ro,86767,base.RO_HD,337176,Cârjiți
 base.RO_86776,Chergheș,base.ro,86776,base.RO_HD,337177,Cârjiți
 base.RO_86785,Cozia,base.ro,86785,base.RO_HD,337178,Cârjiți
 base.RO_86794,Popești,base.ro,86794,base.RO_HD,337179,Cârjiți
-base.RO_86829,Hunedoara,base.ro,86829,base.RO_HD,0,Hunedoara
+base.RO_86829,Hunedoara,base.ro,86829,base.RO_HD,,Hunedoara
 base.RO_86838,Răcăștia,base.ro,86838,base.RO_HD,331005,Hunedoara
 base.RO_86847,Boș,base.ro,86847,base.RO_HD,331001,Hunedoara
 base.RO_86856,Groș,base.ro,86856,base.RO_HD,331002,Hunedoara
@@ -6679,7 +6679,7 @@ base.RO_86945,Teliucu Inferior,base.ro,86945,base.RO_HD,337465,Teliucu Inferior
 base.RO_86954,Cinciș-Cerna,base.ro,86954,base.RO_HD,337466,Teliucu Inferior
 base.RO_86963,Izvoarele,base.ro,86963,base.RO_HD,337467,Teliucu Inferior
 base.RO_86972,Teliucu Superior,base.ro,86972,base.RO_HD,337468,Teliucu Inferior
-base.RO_87004,Petroșani,base.ro,87004,base.RO_HD,0,Petroșani
+base.RO_87004,Petroșani,base.ro,87004,base.RO_HD,,Petroșani
 base.RO_87013,Dâlja Mare,base.ro,87013,base.RO_HD,332001,Petroșani
 base.RO_87022,Dâlja Mică,base.ro,87022,base.RO_HD,332002,Petroșani
 base.RO_87031,Peștera,base.ro,87031,base.RO_HD,332003,Petroșani
@@ -7142,12 +7142,12 @@ base.RO_92275,Pojoga,base.ro,92275,base.RO_HD,337561,Zam
 base.RO_92284,Sălciva,base.ro,92284,base.RO_HD,337562,Zam
 base.RO_92293,Tămășești,base.ro,92293,base.RO_HD,337563,Zam
 base.RO_92300,Valea,base.ro,92300,base.RO_HD,337564,Zam
-base.RO_92578,Călărași,base.ro,92578,base.RO_CL,0,Călărași
+base.RO_92578,Călărași,base.ro,92578,base.RO_CL,,Călărași
 base.RO_92596,Modelu,base.ro,92596,base.RO_CL,917180,Modelu
 base.RO_92612,Radu Negru,base.ro,92612,base.RO_CL,917181,Modelu
 base.RO_92621,Stoenești,base.ro,92621,base.RO_CL,917182,Modelu
 base.RO_92630,Tonea,base.ro,92630,base.RO_CL,917183,Modelu
-base.RO_92667,Slobozia,base.ro,92667,base.RO_IL,0,Slobozia
+base.RO_92667,Slobozia,base.ro,92667,base.RO_IL,,Slobozia
 base.RO_92676,Bora,base.ro,92676,base.RO_IL,920001,Slobozia
 base.RO_92685,Slobozia Nouă,base.ro,92685,base.RO_IL,920002,Slobozia
 base.RO_92710,Fetești,base.ro,92710,base.RO_IL,925100,Fetești
@@ -7298,7 +7298,7 @@ base.RO_94759,Floroaica,base.ro,94759,base.RO_CL,917291,Vâlcelele
 base.RO_94777,Vlad Țepeș,base.ro,94777,base.RO_CL,917295,Vlad Țepeș
 base.RO_94786,Mihai Viteazu,base.ro,94786,base.RO_CL,917296,Vlad Țepeș
 base.RO_94802,Vlădeni,base.ro,94802,base.RO_IL,927250,Vlădeni
-base.RO_95079,Iași,base.ro,95079,base.RO_IS,0,Iași
+base.RO_95079,Iași,base.ro,95079,base.RO_IS,,Iași
 base.RO_95097,Bârnova,base.ro,95097,base.RO_IS,707035,Bârnova
 base.RO_95104,Cercu,base.ro,95104,base.RO_IS,707036,Bârnova
 base.RO_95113,Păun,base.ro,95113,base.RO_IS,707037,Bârnova
@@ -7727,7 +7727,7 @@ base.RO_100237,Lungani,base.ro,100237,base.RO_IS,707601,Voinești
 base.RO_100246,Schitu Stavnic,base.ro,100246,base.RO_IS,707602,Voinești
 base.RO_100255,Slobozia,base.ro,100255,base.RO_IS,707603,Voinești
 base.RO_100264,Vocotești,base.ro,100264,base.RO_IS,707604,Voinești
-base.RO_100530,Giurgiu,base.ro,100530,base.RO_GR,0,Giurgiu
+base.RO_100530,Giurgiu,base.ro,100530,base.RO_GR,,Giurgiu
 base.RO_100558,Slobozia,base.ro,100558,base.RO_GR,87210,Slobozia
 base.RO_100585,Buftea,base.ro,100585,base.RO_IF,70000,Buftea
 base.RO_100594,Buciumeni,base.ro,100594,base.RO_IF,70001,Buftea
@@ -8146,7 +8146,7 @@ base.RO_106023,Poiana lui Stângă,base.ro,106023,base.RO_GR,87254,Vânătorii M
 base.RO_106032,Vâlcelele,base.ro,106032,base.RO_GR,87256,Vânătorii Mici
 base.RO_106041,Vânătorii Mari,base.ro,106041,base.RO_GR,87257,Vânătorii Mici
 base.RO_106050,Zădăriciu,base.ro,106050,base.RO_GR,87258,Vânătorii Mici
-base.RO_106327,Baia Mare,base.ro,106327,base.RO_MM,0,Baia Mare
+base.RO_106327,Baia Mare,base.ro,106327,base.RO_MM,,Baia Mare
 base.RO_106336,Blidari,base.ro,106336,base.RO_MM,430001,Baia Mare
 base.RO_106345,Firiza,base.ro,106345,base.RO_MM,430002,Baia Mare
 base.RO_106354,Valea Neagră,base.ro,106354,base.RO_MM,430003,Baia Mare
@@ -8392,7 +8392,7 @@ base.RO_109470,Peteritea,base.ro,109470,base.RO_MM,437384,Vima Mică
 base.RO_109489,Sălnița,base.ro,109489,base.RO_MM,437386,Vima Mică
 base.RO_109498,Vima Mare,base.ro,109498,base.RO_MM,437387,Vima Mică
 base.RO_109513,Vișeu de Jos,base.ro,109513,base.RO_MM,437390,Vișeu de Jos
-base.RO_109782,Drobeta-Turnu Severin,base.ro,109782,base.RO_MH,0,Drobeta-Turnu Severin
+base.RO_109782,Drobeta-Turnu Severin,base.ro,109782,base.RO_MH,,Drobeta-Turnu Severin
 base.RO_109791,Gura Văii,base.ro,109791,base.RO_MH,220002,Drobeta-Turnu Severin
 base.RO_109808,Dudașu Schelei,base.ro,109808,base.RO_MH,220001,Drobeta-Turnu Severin
 base.RO_109817,Schela Cladovei,base.ro,109817,base.RO_MH,220003,Drobeta-Turnu Severin
@@ -8750,7 +8750,7 @@ base.RO_114024,Sperlești,base.ro,114024,base.RO_MH,227509,Voloiac
 base.RO_114033,Țițirigi,base.ro,114033,base.RO_MH,227511,Voloiac
 base.RO_114042,Valea Bună,base.ro,114042,base.RO_MH,227512,Voloiac
 base.RO_114051,Voloicel,base.ro,114051,base.RO_MH,227513,Voloiac
-base.RO_114328,Târgu Mureș,base.ro,114328,base.RO_MS,0,Târgu Mureș
+base.RO_114328,Târgu Mureș,base.ro,114328,base.RO_MS,,Târgu Mureș
 base.RO_114337,Mureșeni,base.ro,114337,base.RO_MS,540001,Târgu Mureș
 base.RO_114346,Remetea,base.ro,114346,base.RO_MS,540002,Târgu Mureș
 base.RO_114364,Cristești,base.ro,114364,base.RO_MS,547185,Cristești
@@ -9268,7 +9268,7 @@ base.RO_120539,Ciba,base.ro,120539,base.RO_MS,547184,Crăciunești
 base.RO_120548,Foi,base.ro,120548,base.RO_MS,547187,Crăciunești
 base.RO_120557,Nicolești,base.ro,120557,base.RO_MS,547188,Crăciunești
 base.RO_120566,Seuca,base.ro,120566,base.RO_MS,547611,Gănești
-base.RO_120735,Piatra-Neamț,base.ro,120735,base.RO_NT,0,Piatra-Neamț
+base.RO_120735,Piatra-Neamț,base.ro,120735,base.RO_NT,,Piatra-Neamț
 base.RO_120744,Ciritei,base.ro,120744,base.RO_NT,610001,Piatra-Neamț
 base.RO_120753,Doamna,base.ro,120753,base.RO_NT,610002,Piatra-Neamț
 base.RO_120762,Văleni,base.ro,120762,base.RO_NT,610003,Piatra-Neamț
@@ -9278,7 +9278,7 @@ base.RO_120806,Cut,base.ro,120806,base.RO_NT,617187,Dumbrava Roșie
 base.RO_120815,Izvoare,base.ro,120815,base.RO_NT,617188,Dumbrava Roșie
 base.RO_120833,Săvinești,base.ro,120833,base.RO_NT,617410,Săvinești
 base.RO_120842,Dumbrava Deal,base.ro,120842,base.RO_NT,617411,Săvinești
-base.RO_120879,Roman,base.ro,120879,base.RO_NT,0,Roman
+base.RO_120879,Roman,base.ro,120879,base.RO_NT,,Roman
 base.RO_120897,Cordun,base.ro,120897,base.RO_NT,617135,Cordun
 base.RO_120904,Pildești,base.ro,120904,base.RO_NT,617136,Cordun
 base.RO_120913,Simionești,base.ro,120913,base.RO_NT,617137,Cordun
@@ -9628,7 +9628,7 @@ base.RO_125043,Mănăstirea Neamț,base.ro,125043,base.RO_NT,617502,Vânători-N
 base.RO_125052,Nemțișor,base.ro,125052,base.RO_NT,617503,Vânători-Neamț
 base.RO_125070,Zănești,base.ro,125070,base.RO_NT,617515,Zănești
 base.RO_125089,Traian,base.ro,125089,base.RO_NT,617516,Zănești
-base.RO_125356,Slatina,base.ro,125356,base.RO_OT,0,Slatina
+base.RO_125356,Slatina,base.ro,125356,base.RO_OT,,Slatina
 base.RO_125365,Cireașov,base.ro,125365,base.RO_OT,230001,Slatina
 base.RO_125383,Slătioara,base.ro,125383,base.RO_OT,237410,Slătioara
 base.RO_125392,Salcia,base.ro,125392,base.RO_OT,237411,Slătioara
@@ -10017,7 +10017,7 @@ base.RO_130240,Vulturești,base.ro,130240,base.RO_OT,237580,Vulturești
 base.RO_130259,Dienci,base.ro,130259,base.RO_OT,237581,Vulturești
 base.RO_130268,Valea lui Alb,base.ro,130268,base.RO_OT,237582,Vulturești
 base.RO_130277,Vlăngărești,base.ro,130277,base.RO_OT,237583,Vulturești
-base.RO_130543,Ploiești,base.ro,130543,base.RO_PH,0,Ploiești
+base.RO_130543,Ploiești,base.ro,130543,base.RO_PH,,Ploiești
 base.RO_130561,Bărcănești,base.ro,130561,base.RO_PH,107055,Bărcănești
 base.RO_130570,Ghighiu,base.ro,130570,base.RO_PH,107056,Bărcănești
 base.RO_130589,Pușcași,base.ro,130589,base.RO_PH,107057,Bărcănești
@@ -10475,7 +10475,7 @@ base.RO_136205,Vâlcănești,base.ro,136205,base.RO_PH,107655,Vâlcănești
 base.RO_136214,Cârjari,base.ro,136214,base.RO_PH,107656,Vâlcănești
 base.RO_136223,Trestioara,base.ro,136223,base.RO_PH,107657,Vâlcănești
 base.RO_136232,Gura Beliei,base.ro,136232,base.RO_PH,105404,Breaza
-base.RO_136492,Satu Mare,base.ro,136492,base.RO_SM,0,Satu Mare
+base.RO_136492,Satu Mare,base.ro,136492,base.RO_SM,,Satu Mare
 base.RO_136508,Sătmărel,base.ro,136508,base.RO_SM,440001,Satu Mare
 base.RO_136535,Carei,base.ro,136535,base.RO_SM,445100,Carei
 base.RO_136544,Ianculești,base.ro,136544,base.RO_SM,445101,Carei
@@ -10709,7 +10709,7 @@ base.RO_139410,Cionchești,base.ro,139410,base.RO_SM,447361,Viile Satu Mare
 base.RO_139429,Medișa,base.ro,139429,base.RO_SM,447362,Viile Satu Mare
 base.RO_139438,Tătărești,base.ro,139438,base.RO_SM,447363,Viile Satu Mare
 base.RO_139447,Tireac,base.ro,139447,base.RO_SM,447364,Viile Satu Mare
-base.RO_139713,Zalău,base.ro,139713,base.RO_SJ,0,Zalău
+base.RO_139713,Zalău,base.ro,139713,base.RO_SJ,,Zalău
 base.RO_139722,Stâna,base.ro,139722,base.RO_SJ,450002,Zalău
 base.RO_139759,Cehu Silvaniei,base.ro,139759,base.RO_SJ,455100,Cehu Silvaniei
 base.RO_139768,Horoatu Cehului,base.ro,139768,base.RO_SJ,455101,Cehu Silvaniei
@@ -10998,7 +10998,7 @@ base.RO_143165,Chendremal,base.ro,143165,base.RO_SJ,457371,Zimbor
 base.RO_143174,Dolu,base.ro,143174,base.RO_SJ,457372,Zimbor
 base.RO_143183,Sutoru,base.ro,143183,base.RO_SJ,457374,Zimbor
 base.RO_143192,Sâncraiu Almașului,base.ro,143192,base.RO_SJ,457373,Zimbor
-base.RO_143469,Sibiu,base.ro,143469,base.RO_SB,0,Sibiu
+base.RO_143469,Sibiu,base.ro,143469,base.RO_SB,,Sibiu
 base.RO_143478,Păltiniș,base.ro,143478,base.RO_SB,550001,Sibiu
 base.RO_143496,Cristian,base.ro,143496,base.RO_SB,557085,Cristian
 base.RO_143511,Poplaca,base.ro,143511,base.RO_SB,557185,Poplaca
@@ -11008,7 +11008,7 @@ base.RO_143566,Șelimbăr,base.ro,143566,base.RO_SB,557260,Șelimbăr
 base.RO_143575,Bungard,base.ro,143575,base.RO_SB,557261,Șelimbăr
 base.RO_143584,Mohu,base.ro,143584,base.RO_SB,557262,Șelimbăr
 base.RO_143593,Veștem,base.ro,143593,base.RO_SB,557263,Șelimbăr
-base.RO_143628,Mediaș,base.ro,143628,base.RO_SB,0,Mediaș
+base.RO_143628,Mediaș,base.ro,143628,base.RO_SB,,Mediaș
 base.RO_143637,Ighișu Nou,base.ro,143637,base.RO_SB,551001,Mediaș
 base.RO_143655,Târnava,base.ro,143655,base.RO_SB,557275,Târnava
 base.RO_143664,Colonia Târnava,base.ro,143664,base.RO_SB,557276,Târnava
@@ -11186,7 +11186,7 @@ base.RO_145952,Sebeșu de Jos,base.ro,145952,base.RO_SB,557286,Turnu Roșu
 base.RO_145970,Valea Viilor,base.ro,145970,base.RO_SB,557290,Valea Viilor
 base.RO_145989,Motiș,base.ro,145989,base.RO_SB,557291,Valea Viilor
 base.RO_146003,Vurpăr,base.ro,146003,base.RO_SB,557295,Vurpăr
-base.RO_146272,Suceava,base.ro,146272,base.RO_SV,0,Suceava
+base.RO_146272,Suceava,base.ro,146272,base.RO_SV,,Suceava
 base.RO_146290,Ipotești,base.ro,146290,base.RO_SV,727325,Ipotești
 base.RO_146307,Lisaura,base.ro,146307,base.RO_SV,727326,Ipotești
 base.RO_146316,Tișăuți,base.ro,146316,base.RO_SV,727327,Ipotești
@@ -11604,7 +11604,7 @@ base.RO_151727,Poiana,base.ro,151727,base.RO_TR,147081,Ciuperceni
 base.RO_151745,Islaz,base.ro,151745,base.RO_TR,147160,Islaz
 base.RO_151754,Moldoveni,base.ro,151754,base.RO_TR,147161,Islaz
 base.RO_151772,Lița,base.ro,151772,base.RO_TR,147175,Lița
-base.RO_151807,Alexandria,base.ro,151807,base.RO_TR,0,Alexandria
+base.RO_151807,Alexandria,base.ro,151807,base.RO_TR,,Alexandria
 base.RO_151825,Nanov,base.ro,151825,base.RO_TR,147215,Nanov
 base.RO_151843,Poroschia,base.ro,151843,base.RO_TR,147280,Poroschia
 base.RO_151852,Calomfirești,base.ro,151852,base.RO_TR,147281,Poroschia
@@ -11836,7 +11836,7 @@ base.RO_154941,Vârtoapele de Sus,base.ro,154941,base.RO_TR,147428,Vârtoape
 base.RO_154950,Gărăgău,base.ro,154950,base.RO_TR,147426,Vârtoape
 base.RO_154969,Vârtoapele de Jos,base.ro,154969,base.RO_TR,147427,Vârtoape
 base.RO_154987,Zâmbreasca,base.ro,154987,base.RO_TR,147445,Zâmbreasca
-base.RO_155252,Timișoara,base.ro,155252,base.RO_TM,0,Timișoara
+base.RO_155252,Timișoara,base.ro,155252,base.RO_TM,,Timișoara
 base.RO_155270,Dumbrăvița,base.ro,155270,base.RO_TM,307160,Dumbrăvița
 base.RO_155298,Ghiroda,base.ro,155298,base.RO_TM,307200,Ghiroda
 base.RO_155305,Giarmata-Vii,base.ro,155305,base.RO_TM,307201,Ghiroda
@@ -12767,7 +12767,7 @@ base.RO_167188,Zorleni,base.ro,167188,base.RO_VS,737635,Zorleni
 base.RO_167197,Dealu Mare,base.ro,167197,base.RO_VS,737636,Zorleni
 base.RO_167204,Popeni,base.ro,167204,base.RO_VS,737637,Zorleni
 base.RO_167213,Simila,base.ro,167213,base.RO_VS,737638,Zorleni
-base.RO_167482,Râmnicu Vâlcea,base.ro,167482,base.RO_VL,0,Râmnicu Vâlcea
+base.RO_167482,Râmnicu Vâlcea,base.ro,167482,base.RO_VL,,Râmnicu Vâlcea
 base.RO_167491,Aranghel,base.ro,167491,base.RO_VL,240001,Râmnicu Vâlcea
 base.RO_167507,Căzănești,base.ro,167507,base.RO_VL,240002,Râmnicu Vâlcea
 base.RO_167516,Copăcelu,base.ro,167516,base.RO_VL,240003,Râmnicu Vâlcea
@@ -13376,7 +13376,7 @@ base.RO_174450,Stanomiru,base.ro,174450,base.RO_VL,247773,Zătreni
 base.RO_174469,Valea Văleni,base.ro,174469,base.RO_VL,247774,Zătreni
 base.RO_174478,Văleni,base.ro,174478,base.RO_VL,247776,Zătreni
 base.RO_174487,Zătrenii de Sus,base.ro,174487,base.RO_VL,247777,Zătreni
-base.RO_174753,Focșani,base.ro,174753,base.RO_VN,0,Focșani
+base.RO_174753,Focșani,base.ro,174753,base.RO_VN,,Focșani
 base.RO_174762,Mândrești-Moldova,base.ro,174762,base.RO_VN,620001,Focșani
 base.RO_174771,Mândrești-Munteni,base.ro,174771,base.RO_VN,620002,Focșani
 base.RO_174799,Câmpineanca,base.ro,174799,base.RO_VN,627055,Câmpineanca
@@ -13722,7 +13722,7 @@ base.RO_178849,Boțârlău,base.ro,178849,base.RO_VN,627456,Vulturu
 base.RO_178858,Hângulești,base.ro,178858,base.RO_VN,627457,Vulturu
 base.RO_178867,Maluri,base.ro,178867,base.RO_VN,627458,Vulturu
 base.RO_178876,Vadu Roșca,base.ro,178876,base.RO_VN,627459,Vulturu
-base.RO_179141,București,base.ro,179141,base.RO_B,0,București
+base.RO_179141,București,base.ro,179141,base.RO_B,,București
 base.RO_179230,Bragadiru,base.ro,179230,base.RO_IF,77025,Bragadiru
 base.RO_179258,Chiajna,base.ro,179258,base.RO_IF,77040,Chiajna
 base.RO_179267,Dudu,base.ro,179267,base.RO_IF,77041,Chiajna

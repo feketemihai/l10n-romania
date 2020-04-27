@@ -10,6 +10,7 @@ class CountryCity(models.Model):
 
     siruta = fields.Char()
     municipality = fields.Char('Municipality')
+    zipcode = fields.Char(index=True)
 
     def name_get(self):
         result = []
