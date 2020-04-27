@@ -12,5 +12,10 @@
             </field>
         </record>
 
+        <record id="base.ro" model="res.country">
+            <field name="enforce_cities" eval="1" />
+        </record>
+
+
     </data>
 </odoo>
