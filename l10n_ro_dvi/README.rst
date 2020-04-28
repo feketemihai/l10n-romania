@@ -8,28 +8,12 @@ Romania - DVI -
 
 DVI - declaraţie vamala de import
 
-- legatura dintre factura de achizitie si DVI
+Se face legatura dintre factura de achizitie si DVI (landed cost)
 
-in landing cost trebuie sa fie adaugate automat doua linii:
-
-Taxa vamala   (cont 446)
-Comision vamal (cont 447)
+Se genereaza automat un DVI cu doua linii si cu TVA.
 
 
-
-Mai trebuie adaugat si un tva
-
-Dupa validare landing cost se va genera nota contabila:
-371 - 446
-371 - 447
-
-4426=462 (TVA platit in vama )
-
-446 analitic distict TVA platita in vama = 5121
-
-4426=5121, 5311
-
-
+Contul 447 trebuie sa fie un cont de reconciliere pentru a se putea inchide prin banca
 
 
 Installation
