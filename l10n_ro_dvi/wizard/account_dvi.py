@@ -95,15 +95,15 @@ class AccountInvoiceDVI(models.TransientModel):
                 vals = self._prepare_custom_duty_product()
                 custom_duty_product = self.env['product.product'].create(vals)
                 config_parameter.set_param('dvi.custom_duty_product_id', custom_duty_product.id)
-                accounts_data = custom_duty_product.product_tmpl_id.get_product_accounts()
+            accounts_data = custom_duty_product.product_tmpl_id.get_product_accounts()
 
-                values['cost_lines'] += [(0, 0, {
-                    'name': custom_duty_product.name,
-                    'product_id': custom_duty_product.id,
-                    'price_unit': self.custom_duty,
-                    'split_method': 'by_current_cost_price',
-                    'account_id': accounts_data['expense'].id,
-                })]
+            values['cost_lines'] += [(0, 0, {
+                'name': custom_duty_product.name,
+                'product_id': custom_duty_product.id,
+                'price_unit': self.custom_duty,
+                'split_method': 'by_current_cost_price',
+                'account_id': accounts_data['expense'].id,
+            })]
 
         if self.customs_commission:
             # Create deposit product if necessary
@@ -112,15 +112,15 @@ class AccountInvoiceDVI(models.TransientModel):
                 vals = self._prepare_customs_commission_product()
                 customs_commission_product = self.env['product.product'].create(vals)
                 config_parameter.set_param('dvi.customs_commission_product_id', customs_commission_product.id)
-                accounts_data = customs_commission_product.product_tmpl_id.get_product_accounts()
+            accounts_data = customs_commission_product.product_tmpl_id.get_product_accounts()
 
-                values['cost_lines'] += [(0, 0, {
-                    'name': customs_commission_product.name,
-                    'product_id': customs_commission_product.id,
-                    'price_unit': self.customs_commission,
-                    'split_method': 'by_current_cost_price',
-                    'account_id': accounts_data['expense'].id,
-                })]
+            values['cost_lines'] += [(0, 0, {
+                'name': customs_commission_product.name,
+                'product_id': customs_commission_product.id,
+                'price_unit': self.customs_commission,
+                'split_method': 'by_current_cost_price',
+                'account_id': accounts_data['expense'].id,
+            })]
 
         landed_cost = self.env['stock.landed.cost'].create(values)
         invoice.write({'dvi_id': landed_cost.id})
