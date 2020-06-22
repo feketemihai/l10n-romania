@@ -12,7 +12,7 @@ class AccountInvoice(models.Model):
     _inherit = 'account.move'
 
     # nu trebuie sa se schimbe locatia la receptie
-    #stock_location_id = fields.Many2one('stock.location', readonly=True, states={'draft': [('readonly', False)]})
+    # stock_location_id = fields.Many2one('stock.location', readonly=True, states={'draft': [('readonly', False)]})
 
     # @api.onchange('purchase_vendor_bill_id', 'purchase_id')
     # def _onchange_purchase_auto_complete(self):
@@ -23,8 +23,6 @@ class AccountInvoice(models.Model):
 
     # codul _prepare_invoice_line_from_po_line (care era in 11) se gaeste in purchase.line metoda   _prepare_account_move_line
 
-
-
     def post(self):
         # OVERRIDE
         # Create additional price difference lines for vendor bills.
@@ -32,6 +30,31 @@ class AccountInvoice(models.Model):
             return super(AccountInvoice, self).post()
         self.env['account.move.line'].create(self._invoice_line_move_line_get_diff())
         return super(AccountInvoice, self).post()
+
+    def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
+        lines_vals_list = super(AccountInvoice, self)._stock_account_prepare_anglo_saxon_in_lines_vals()
+        for line_vals in lines_vals_list:
+            # daca este inregistrata o diferenta de pret inseman ca trebuie ca si stocul sa fie reevaluat cu acesta diferenta!
+            product = self.env['product.product'].browse(line_vals['product_id'])
+            move = self.env['accout.move'].browse(line_vals['move_id'])
+            debit_pdiff_account = product.property_account_creditor_price_difference \
+                                  or product.categ_id.property_account_creditor_price_difference_categ
+            debit_pdiff_account = move.fiscal_position_id.map_account(debit_pdiff_account)
+            if debit_pdiff_account.id == line_vals['account_id']:
+                valuation_layer = self.env['stock.valuation.layer'].create({
+                    'value': -line_vals['price_subtotal'],
+                    'unit_cost': 0,
+                    'quantity': 0,
+                    'remaining_qty': 0,
+                    #'stock_valuation_layer_id': linked_layer.id,
+                    #'description': ,
+                    #'stock_move_id': line.move_id.id,
+                    'product_id': line_vals['product_id'],
+                    'company_id': move.company_id.id,
+                })
+
+        return lines_vals_list
+
 
     # in 13 nu mai exista invoice_line_move_line_get si am folosit
 
@@ -51,7 +74,7 @@ class AccountInvoice(models.Model):
 
                     # se adaga nota contabilia cu diferanta de pret la achizitie ?
 
-                    add_diff_from_config = eval( get_param('stock_account.add_diff', 'False'))
+                    add_diff_from_config = eval(get_param('stock_account.add_diff', 'False'))
 
                     for i_line in invoice.invoice_line_ids:
                         if i_line.product_id.cost_method == 'standard':
@@ -62,16 +85,20 @@ class AccountInvoice(models.Model):
                         # daca linia a fost peceptionata  de pe baza de aviz se seteaza contul 408 pe nota contabile
                         if account_id and i_line.account_id == account_id:
                             i_line = i_line.with_context(fix_stock_input=account_id)
-                            add_diff = True  # trbuie sa adaug diferenta dintre recpetia pe baza de aviz si receptia din factura
-                        diff_line = self._anglo_saxon_purchase_move_lines(i_line, res)  # nu mai exista aceasta metoda in 13.  exista doar _stock_account_prepare_anglo_saxon_in_lines_vals
+                            add_diff = True  # trebuie sa adaug diferenta dintre recpetia pe baza de aviz si receptia din factura
+
+                        # nu mai exista aceasta metoda in 13.  exista doar _stock_account_prepare_anglo_saxon_in_lines_vals
+
+                        diff_line = self._anglo_saxon_purchase_move_lines(i_line, res)
 
                         line_diff_value = 0.0
                         for diff in diff_line:
 
                             if add_diff:
                                 if abs(diff['price_unit'] * diff['quantity']) > diff_limit:
-                                    raise UserError(_('The price difference for the product %s exceeds the %d limit ') % (
-                                        i_line.product_id.name, diff_limit))
+                                    raise UserError(
+                                        _('The price difference for the product %s exceeds the %d limit ') % (
+                                            i_line.product_id.name, diff_limit))
 
                             else:
                                 line_diff_value += diff['price_unit'] * diff['quantity']
@@ -146,7 +173,6 @@ class AccountInvoice(models.Model):
                 res.remove(aml)
         return res
 
-
     # def finalize_invoice_move_lines(self, move_lines):
     #     move_lines  = super(AccountInvoice, self).finalize_invoice_move_lines(move_lines)
     #
@@ -179,9 +205,10 @@ class AccountInvoiceLine(models.Model):
                 if valuation_stock_move:
                     for move in valuation_stock_move:
                         cost_to_add = (move.remaining_qty / move.product_qty) * line_diff_value
+                        # in 13 nu mai exista camurile de mai jos . Evaluarea este stocata separat
                         move.write({
                             'value': move.value + line_diff_value,
-                            'remaining_value': move.remaining_value + cost_to_add,
+                            'remaining_value': move.remaining_value + cost_to_add,   # to do de citit din
                             'price_unit': (move.value + line_diff_value) / move.product_qty,
                         })
                         # todo: de actualizat pretul standard cu noua valoare de stoc
@@ -194,8 +221,8 @@ class AccountInvoiceLine(models.Model):
     def _onchange_product_id(self):
         # modulul deltatech_invoice_receipt gestioneaza adaugarea de pozitii noi in factura de achzitie
         if self.move_id.type == 'out_invoice':
-            if self.product_id and self.product_id.type == 'product' and not self.env.context.get(
-                    'allowed_change_product', False):
+            allowed_change_product = self.env.context.get('allowed_change_product', False)
+            if self.product_id and self.product_id.type == 'product' and not allowed_change_product:
                 raise UserError(_('It is not allowed to change a stored product!'))
         return super(AccountInvoiceLine, self)._onchange_product_id()
 

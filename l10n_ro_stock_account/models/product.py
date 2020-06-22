@@ -9,20 +9,18 @@ from odoo.exceptions import UserError
 from odoo.tools import float_is_zero
 
 
-
 class ProductCategory(models.Model):
     _inherit = 'product.category'
 
-
     def propagate_account(self):
         for categ in self:
-            childs = self.search([('id','child_of',[categ.id])])
+            childs = self.search([('id', 'child_of', [categ.id])])
 
             values = {
                 # Cont diferență de preț
-                'property_account_creditor_price_difference_categ':self.property_account_creditor_price_difference_categ.id,
+                'property_account_creditor_price_difference_categ': self.property_account_creditor_price_difference_categ.id,
                 # Cont de cheltuieli
-                'property_account_expense_categ_id':self.property_account_expense_categ_id.id,
+                'property_account_expense_categ_id': self.property_account_expense_categ_id.id,
                 # Cont de venituri
                 'property_account_income_categ_id': self.property_account_income_categ_id.id,
                 #  Cont Intrare Stoc
@@ -32,16 +30,16 @@ class ProductCategory(models.Model):
                 # Cont Evaluare  Stoc
                 'property_stock_valuation_account_id': self.property_stock_valuation_account_id.id,
                 # Jurnal de stoc
-                'property_stock_journal':self.property_stock_journal.id,
+                'property_stock_journal': self.property_stock_journal.id,
                 # Metodă de cost
-                'property_cost_method':self.property_cost_method,
+                'property_cost_method': self.property_cost_method,
                 # property_valuation
-                'property_valuation':self.property_valuation,
+                'property_valuation': self.property_valuation,
             }
             childs.write(values)
 
-
-    @api.constrains('property_stock_valuation_account_id', 'property_stock_account_output_categ_id', 'property_stock_account_input_categ_id')
+    @api.constrains('property_stock_valuation_account_id', 'property_stock_account_output_categ_id',
+                    'property_stock_account_input_categ_id')
     def _check_valuation_accouts(self):
         # pentru Romania contul de evaluarea a stocului este egal cu cel intrare/iesire
         pass
@@ -50,28 +48,24 @@ class ProductCategory(models.Model):
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-
     def write(self, vals):
         if 'list_price' in vals:
             self.do_change_list_price(vals['list_price'])
         res = super(ProductTemplate, self).write(vals)
         return res
 
-
-
     def get_product_accounts(self, fiscal_pos=None):
         res = super(ProductTemplate, self).get_product_accounts(fiscal_pos)
         notice = self.env.context.get('notice')
-        if notice and self.purchase_method == 'receive' and self.type == 'product' :
-            res['stock_input'] = self.env.user.company_id.property_stock_picking_payable_account_id.id or \
-                                 self.property_stock_account_input.id or \
-                                 self.categ_id.property_stock_account_input_categ_id.id
+        if notice and self.type == 'product':
+            res['stock_input'] = self.env.user.company_id.property_stock_picking_payable_account_id or \
+                                 self.property_stock_account_input or \
+                                 self.categ_id.property_stock_account_input_categ_id
 
         fix_stock_input = self.env.context.get('fix_stock_input')
         if fix_stock_input:
             res['stock_input'] = fix_stock_input
         return res
-
 
     def do_change_list_price(self, new_price):
         """ Changes the Standard Price of Product and creates an account move accordingly."""
@@ -84,18 +78,16 @@ class ProductTemplate(models.Model):
         quant_locs = self.env['stock.quant'].sudo().read_group([('product_id', 'in', products.ids)], ['location_id'],
                                                                ['location_id'])
         quant_loc_ids = [loc['location_id'][0] for loc in quant_locs]
-        locations = self.env['stock.location'].search(  [('usage', '=', 'internal'),
-                                                         ('company_id', '=', self.env.user.company_id.id),
-                                                         ('id', 'in', quant_loc_ids)])
-
-
+        locations = self.env['stock.location'].search([('usage', '=', 'internal'),
+                                                       ('company_id', '=', self.env.user.company_id.id),
+                                                       ('id', 'in', quant_loc_ids)])
 
         product_accounts = {product.id: product.product_tmpl_id.get_product_accounts() for product in products}
-        ref = self.env.context.get('ref',_('Price changed'))
+        ref = self.env.context.get('ref', _('Price changed'))
         to_date = fields.Date.today()
         for location in locations.filtered(lambda r: r.merchandise_type == 'store'):
 
-            for product in products.filtered( lambda r: r.valuation == 'real_time'):
+            for product in products.filtered(lambda r: r.valuation == 'real_time'):
                 old_price = product.list_price
                 diff = old_price - new_price
                 if not diff:
@@ -116,7 +108,6 @@ class ProductTemplate(models.Model):
                 # if product.qty_available:
                 #     old_price = abs(product.stock_value / product.qty_available)
 
-
                 product = product.with_context(location=location.id, compute_child=False)
 
                 qty_available = product.qty_available
@@ -133,14 +124,14 @@ class ProductTemplate(models.Model):
                     move_vals = {
                         'journal_id': product_accounts[product.id]['stock_journal'].id,
                         'company_id': location.company_id.id,
-                        'ref':ref,
+                        'ref': ref,
                         'line_ids': [(0, 0, {
                             'name': name,
                             'account_id': debit_account_id,
                             'debit': abs(diff * qty_available),
                             'credit': 0,
-                            'product_id':product.id,
-                            'stock_location_id':location.id,
+                            'product_id': product.id,
+                            'stock_location_id': location.id,
                         }), (0, 0, {
                             'name': name,
                             'account_id': credit_account_id,
@@ -153,24 +144,21 @@ class ProductTemplate(models.Model):
                     move = AccountMove.create(move_vals)
                     move.post()
 
-
         return True
 
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    @api.model
-    def _convert_prepared_anglosaxon_line(self, line, partner):
-        res = super(ProductProduct, self)._convert_prepared_anglosaxon_line( line, partner)
-        res['stock_location_id'] = line.get('stock_location_id', False)
-        res['stock_location_dest_id'] = line.get('stock_location_dest_id', False)
-        return res
+    # in locul metodei _convert_prepared_anglosaxon_line avem _anglo_saxon_sale_move_lines
+    # @api.model
+    # def _convert_prepared_anglosaxon_line(self, line, partner):
+    # res = super(ProductProduct, self)._convert_prepared_anglosaxon_line(line, partner)
+    # res['stock_location_id'] = line.get('stock_location_id', False)
+    # res['stock_location_dest_id'] = line.get('stock_location_dest_id', False)
+    # return res
 
-    def _compute_stock_value(self):
-        location = self.env.context.get('location')
-        return super(ProductProduct, self)._compute_stock_value()
-
-
-
-
+    # nu exista aceasta metoda in 13
+    # def _compute_stock_value(self):
+    #     location = self.env.context.get('location')
+    #     return super(ProductProduct, self)._compute_stock_value()

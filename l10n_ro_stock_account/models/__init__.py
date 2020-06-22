@@ -5,10 +5,11 @@
 
 
 
-from . import account
-from . import purchase
+#from . import account
+#from . import purchase
 from . import stock_account
 from . import account_invoice
-from . import sale
+#from . import sale
 from . import product
-from . import picking
+#from . import picking
+from . import stock_location

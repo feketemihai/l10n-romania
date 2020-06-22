@@ -41,6 +41,8 @@ class purchase_order(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
+
+    #nu exista in 13
     def _prepare_account_move_line(self, move):
 
         data = super(PurchaseOrderLine, self)._prepare_account_move_line(move)
