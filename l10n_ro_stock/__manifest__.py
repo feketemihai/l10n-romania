@@ -3,8 +3,11 @@
 {
     "name": "Romania - Stock",
     "category": "Localization",
-    "depends": ["stock"],
-    "data": ["views/stock_warehouse_view.xml", "views/stock_location_view.xml"],
+    "depends": ["stock",'stock_account'],
+    "data": [
+        "views/stock_warehouse_view.xml",
+             "views/stock_location_view.xml"]
+    ,
     "license": "AGPL-3",
     "version": "13.0.1.0.0",
     "author": "OdooERP Romania,"
@@ -14,5 +17,5 @@
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
     "development_status": "Mature",
-    "maintainers": ["feketemihai"],
+    "maintainers": ["odoo@terrabit.ro"],
 }
