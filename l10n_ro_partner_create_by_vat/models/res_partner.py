@@ -48,16 +48,18 @@ class ResPartner(models.Model):
     vat_on_payment = fields.Boolean('VAT on Payment')
 
 
-    @api.constrains('vat')
+    @api.constrains('vat', 'country_id')
     def check_vat(self):
-        if not self.vat_subjected or not self.is_company:
-            return True
-        return super(ResPartner, self).check_vat()
+        partners = self
+        for partner in partners:
+            if not partner.vat_subjected or not partner.is_company:
+                partners -= partner
+        return super(ResPartner, partners).check_vat()
 
     @api.onchange('vat')
     def onchange_vat(self):
         if self.country_id.code == 'RO' and self.vat:
-             self.vat_subjected = self.vat[:2].lower() == 'ro'
+            self.vat_subjected = self.vat[:2].lower() == 'ro'
 
 
     @api.onchange('vat_subjected')
@@ -185,7 +187,9 @@ class ResPartner(models.Model):
             if city:
                 res['city'] = city.replace('-', ' ').title()
         res['street'] = addr.strip()
-        res['street2'] = result['adresa']
+        # res['street2'] = result['adresa']
+        if 'adresa' in result:
+            self.message_post(body=result['adresa'])
         return res
 
     @api.model
@@ -194,6 +198,8 @@ class ResPartner(models.Model):
         result = {}
         openapi_key = self.env['ir.config_parameter'].sudo().get_param(key="openapi_key", default=False)
 
+        if not openapi_key:
+            print('Setati openapi_key in parametrii de sistem')
         headers = {
             "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
             "Content-Type": "application/json;",
@@ -216,7 +222,7 @@ class ResPartner(models.Model):
             result = {
                 'name': res['denumire'],
                 'nrc': res['numar_reg_com'] or '',
-                'street': res['adresa'].title(),
+                'street': res['adresa'],
 
                 'phone': res['telefon'] and res['telefon'] or '',
                 'fax': res['fax'] and res['fax'] or '',
@@ -231,33 +237,21 @@ class ResPartner(models.Model):
 
     @api.constrains('is_company', 'vat', 'parent_id', 'company_id')
     def check_vat_unique(self):
-        if not self.vat:
+        if self.env.context.get('tracking_disable', False):
             return True
 
-        if not self.is_company:
-            return True
+        for partner in self:
+            if not partner.vat or not partner.is_company or partner.parent_id:
+                continue
 
-        # get first parent
-        parent = self
-        while parent.parent_id:
-            parent = parent.parent_id
-
-        same_vat_partners = self.search([
-            ('is_company', '=', True),
-            ('vat', '=', self.vat),
-            ('company_id', '=', self.company_id.id),
-        ])
-
-        if same_vat_partners:
-            related_partners = self.search([
-                ('id', 'child_of', parent.id),
-                ('company_id', '=', self.company_id.id),
-            ])
             same_vat_partners = self.search([
-                ('id', 'in', same_vat_partners.ids),
-                ('id', 'not in', related_partners.ids),
-                ('company_id', '=', self.company_id.id),
+                ('is_company', '=', True),
+                ('parent_id', '=', False),
+                ('vat', '=', partner.vat),
+                ('company_id', '=', partner.company_id.id),
+                ('id', '!=', partner.id)
             ])
+
             if same_vat_partners:
                 raise Warning(
                     _('Partner vat must be unique per company except on partner with parent/childe relationship. ' +
@@ -311,7 +305,8 @@ class ResPartner(models.Model):
             if vat_country == 'ro':
                 try:
                     values = self._get_Openapi(vat_number)
-                except:
+                except Exception as e:
+                    print(str(e))
                     values = {}
 
                 result = self._get_Anaf(vat_number)
@@ -328,7 +323,7 @@ class ResPartner(models.Model):
                     result = check_vies(part.vat)
                     if result.name and result.name != '---':
                         self.write({
-                            'name': result.name.upper(),  # unicode(result.name).upper(),
+                            'name': result.name,  # .upper(),  # unicode(result.name).upper(),
                             'is_company': True,
                             'vat_subjected': True
                         })
