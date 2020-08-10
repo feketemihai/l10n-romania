@@ -518,9 +518,7 @@
                                 </div>
 
                                 <t t-if="not res_company.stamp_image">
-                                    <div>Invoice circulate without signature and stamp according to the law 571/2003,
-                                        rule 115, paragraph 6
-                                    </div>
+                                    <div>Invoice valid without signature and stamp according to art.V, paragraph (2) of Ordinance no.17 / 2015, art. 319 paragraph (29) of Law no. 227/2015 on the Fiscal Code and subsequent amendments.</div>
                                 </t>
                                 <img t-if="res_company.stamp_image"
                                      t-att-src="'data:image/png;base64,%s' % res_company.stamp_image"
