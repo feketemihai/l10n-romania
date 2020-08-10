@@ -6,6 +6,7 @@ from odoo import _, models
 
 class RomaniaReportTrialBalanceXslx(models.AbstractModel):
     _name = 'report.l10n_ro_report_trial_balance_xlsx'
+    _description = 'Trial Balance XLS'
     _inherit = 'report.romania.trial.balance.abstract_report_xlsx'
 
     def _get_report_company_name(self, report):

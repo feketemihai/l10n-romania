@@ -9,7 +9,7 @@ class AccountGroup(models.Model):
 
     group_child_ids = fields.One2many(comodel_name='account.group', inverse_name='parent_id', string='Child Groups')
     level = fields.Integer(string='Level', compute='_compute_level', store=True)
-    path = fields.Char(compute='_compute_path', store=True)
+    # path = fields.Char(compute='_compute_path', store=True)
     account_ids = fields.One2many(comodel_name='account.account', inverse_name='group_id', string="Accounts")
     compute_account_ids = fields.Many2many('account.account', compute='_compute_group_accounts',
                                            string="Compute Accounts" )
@@ -22,13 +22,13 @@ class AccountGroup(models.Model):
             else:
                 group.level = group.parent_id.level + 1
 
-    @api.depends('code_prefix', 'parent_id.path')
-    def _compute_path(self):
-        for rec in self:
-            if rec.parent_id:
-                rec.path = rec.parent_id.path + " / " + rec.code_prefix or '0'
-            else:
-                rec.path = rec.code_prefix or '0'
+    # @api.depends('code_prefix', 'parent_id.path')
+    # def _compute_path(self):
+    #     for rec in self:
+    #         if rec.parent_id:
+    #             rec.path = rec.parent_id.path or '0' + " / " + rec.code_prefix or '0'
+    #         else:
+    #             rec.path = rec.code_prefix or '0'
 
     @api.depends('code_prefix', 'account_ids', 'group_child_ids', 'parent_id')
     def _compute_group_accounts(self):

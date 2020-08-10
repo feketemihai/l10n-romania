@@ -16,6 +16,9 @@
 				</field>
             </field>
         </record> 
-                
+
+
+
+       <menuitem name="Stock" id="stock.menu_stock_root"  />
     </data>
 </odoo>

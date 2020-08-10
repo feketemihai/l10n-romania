@@ -6,7 +6,8 @@
         <field name="inherit_id" ref="account.view_account_group_form" />
         <field name="arch" type="xml">
             <field name="parent_id" position="after">
-                <field name="path" />
+                <field name="parent_path" />
+<!--                <field name="path" />-->
                 <field name="level" />
                 <field name="compute_account_ids" />
                 <field name="account_ids" />

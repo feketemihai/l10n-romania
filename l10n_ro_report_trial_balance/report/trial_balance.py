@@ -100,16 +100,9 @@ class RomaniaTrialBalanceAccountReport(models.TransientModel):
     def compute_path(self):
         for item in self:
             group = item.account_group_id
-            if not item.account_group_id:
-                code = item.code
-                code = code.replace('.', '')
-                while code[-1] == '0':
-                    code = code[:-1]
-                while code and not group:
-                    group = self.env['account.group'].search([('code_prefix', '=', code)])
-                    code = code[:-1]
-            if group:
-                item.write({'path': group.path})
+            item.write({'path': group.parent_path})
+
+
 
 
 class RomaniaTrialBalanceComputeReport(models.TransientModel):
@@ -418,7 +411,7 @@ class RomaniaTrialBalanceComputeReport(models.TransientModel):
                         'account_group_id': group.id,
                         'code': group.code_prefix or '',
                         'name': group.name,
-                        'path': group.path,
+                        'path': group.parent_path,
 
                         'debit_opening_balance': 0.0,
                         'credit_opening_balance': 0.0,

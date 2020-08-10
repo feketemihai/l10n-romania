@@ -31,5 +31,5 @@
     'qweb': [
         'static/src/xml/trial_balance_report_template.xml',
     ],
-    #'post_init_hook':'_set_account_group'
+    'post_init_hook':'_set_account_group'
 }
