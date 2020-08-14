@@ -3,7 +3,7 @@
 {
     "name": "Romania - Stock",
     "category": "Localization",
-    "depends": ["stock",'stock_account'],
+    "depends": ["stock"],
     "data": ["views/stock_warehouse_view.xml", "views/stock_location_view.xml"],
     "license": "AGPL-3",
     "version": "13.0.1.0.0",
