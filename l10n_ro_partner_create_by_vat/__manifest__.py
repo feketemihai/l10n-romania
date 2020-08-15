@@ -1,27 +1,18 @@
-# -*- coding: utf-8 -*-
-# Copyright  2015 Forest and Biomass Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Romania - Partner Create by VAT',
-    'summary': 'Romania - Partner Create by VAT',
-
-    'version': '13.0.1.0.0',
-    'author': 'Forest and Biomass Romania, '
-              'Odoo Community Association (OCA)',
-    "website": "http://www.forbiom.eu",
+    "name": "Romania - Partner Create by VAT",
     "category": "Localization",
-    "depends": [
-        #'l10n_ro',
-        'base_vat'
-    ],
-
-
-    'data': [
-        'views/res_partner_view.xml',
-    ],
-    'installable': True,
-    'license': 'AGPL-3',
-    'application': False,
-    'auto_install': False,
+    "summary": "Romania - Partner Create by VAT",
+    "depends": ["base_vat"],
+    "data": ["views/res_partner_view.xml"],
+    "license": "AGPL-3",
+    "version": "13.0.1.0.2",
+    "author": "NextERP Romania,"
+    "Forest and Biomass Romania,"
+    "Odoo Community Association (OCA)",
+    "website": "https://github.com/OCA/l10n-romania",
+    "installable": True,
+    "development_status": "Mature",
+    "maintainers": ["feketemihai"],
 }
