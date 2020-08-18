@@ -16,6 +16,7 @@ List of Modules
         - l10n_ro_account_period_close 
         - l10n_ro_vat_on_payment
         - l10n_ro_stock
+        - l10n_ro_partner_unique
     - Sunt in Pool Request la OCA/l10n-romania
         - l10n_ro_account_report_journal  #74
         - l10n_ro_city  #78

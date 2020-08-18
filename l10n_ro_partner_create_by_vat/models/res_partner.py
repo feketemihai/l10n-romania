@@ -74,10 +74,11 @@ class ResPartner(models.Model):
 
     @api.onchange('vat_on_payment')
     def onchange_vat_on_payment(self):
-        if self.vat_on_payment:
-            self.property_account_position_id = self.company_id.property_vat_on_payment_position_id
-        elif self.property_account_position_id == self.company_id.property_vat_on_payment_position_id:
-            self.property_account_position_id = False
+        if 'property_vat_on_payment_position_id' in self.self.company_id._fields:
+            if self.vat_on_payment:
+                self.property_account_position_id = self.company_id.property_vat_on_payment_position_id
+            elif self.property_account_position_id == self.company_id.property_vat_on_payment_position_id:
+                self.property_account_position_id = False
 
     # todo: de facut conversie la multi
     @api.model
@@ -235,28 +236,28 @@ class ResPartner(models.Model):
         return result
 
 
-    @api.constrains('is_company', 'vat', 'parent_id', 'company_id')
-    def check_vat_unique(self):
-        if self.env.context.get('tracking_disable', False):
-            return True
-
-        for partner in self:
-            if not partner.vat or not partner.is_company or partner.parent_id:
-                continue
-
-            same_vat_partners = self.search([
-                ('is_company', '=', True),
-                ('parent_id', '=', False),
-                ('vat', '=', partner.vat),
-                ('company_id', '=', partner.company_id.id),
-                ('id', '!=', partner.id)
-            ])
-
-            if same_vat_partners:
-                raise Warning(
-                    _('Partner vat must be unique per company except on partner with parent/childe relationship. ' +
-                      'Partners with same vat and not related, are: %s!') % (
-                        ', '.join(x.name for x in same_vat_partners)))
+    # @api.constrains('is_company', 'vat', 'parent_id', 'company_id')
+    # def check_vat_unique(self):
+    #     if self.env.context.get('tracking_disable', False):
+    #         return True
+    #
+    #     for partner in self:
+    #         if not partner.vat or not partner.is_company or partner.parent_id:
+    #             continue
+    #
+    #         same_vat_partners = self.search([
+    #             ('is_company', '=', True),
+    #             ('parent_id', '=', False),
+    #             ('vat', '=', partner.vat),
+    #             ('company_id', '=', partner.company_id.id),
+    #             ('id', '!=', partner.id)
+    #         ])
+    #
+    #         if same_vat_partners:
+    #             raise Warning(
+    #                 _('Partner vat must be unique per company except on partner with parent/childe relationship. ' +
+    #                   'Partners with same vat and not related, are: %s!') % (
+    #                     ', '.join(x.name for x in same_vat_partners)))
 
     def _split_vat(self, vat):
         vat_country, vat_number = super(ResPartner, self)._split_vat(vat)

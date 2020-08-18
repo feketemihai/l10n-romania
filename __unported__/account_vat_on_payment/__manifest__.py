@@ -11,7 +11,7 @@
     """,
     'category': 'Accounting',
     'website': 'https://www.odoo.com/page/accounting',
-    'depends' : ['account_tax_cash_basis'],
+    'depends' : ['l10n_ro_partner_unique'],
     'data': [
         'data/data.xml'
     ],
