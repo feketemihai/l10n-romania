@@ -21,11 +21,14 @@ Installation
 
 To install this module, you need to:
 
-* clone the branch 13.0 of the repository https://github.com/dhongu/l10n-romania
+* clone the branch 13.0 of the repository https://github.com/OCA/l10n-romania
 * add the path to this repository in your configuration (addons-path)
 * update the module list
-* search for "Romania - DVI in your addons
+* search for "Romania - DVI" in your addons
 * install the module
+
+
+
 
 Usage
 =====

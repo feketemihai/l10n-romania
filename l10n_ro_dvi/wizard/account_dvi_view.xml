@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
         <record id="view_account_invoice_dvi_form" model="ir.ui.view">
@@ -8,31 +8,33 @@
                 <form>
                     <group>
                         <group>
-                            <field name="custom_duty"/>
-                            <field name="customs_commission"/>
-                            <field name="tax_value"/>
+                            <field name="custom_duty" />
+                            <field name="customs_commission" />
+                            <field name="tax_value" />
                         </group>
-
                         <group>
-                            <field name="date"/>
-                            <field name="tax_id"/>
+                            <field name="date" />
+                            <field name="tax_id" />
                         </group>
                     </group>
                     <footer>
-                        <button name="do_create_dvi" string="_Apply" type="object" class="oe_highlight"/>
+                        <button
+                            name="do_create_dvi"
+                            string="_Apply"
+                            type="object"
+                            class="oe_highlight"
+                        />
                         or
-                        <button string="Cancel" class="oe_link" special="cancel"/>
+                        <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>
                 </form>
             </field>
         </record>
-
         <record id="action_account_invoice_dvi" model="ir.actions.act_window">
             <field name="name">DVI</field>
             <field name="res_model">account.invoice.dvi</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
-
     </data>
 </odoo>
