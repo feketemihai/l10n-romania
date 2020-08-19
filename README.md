@@ -20,7 +20,8 @@ List of Modules
     - Sunt in Pool Request la OCA/l10n-romania
         - l10n_ro_account_report_journal  #74
         - l10n_ro_city  #78
-        - currency_rate_update_RO_BNR #79
+        - l10n_ro_partner_unique  #80
+        - l10n_ro_dvi #82
      - sunt divergente
         - l10n_ro_config 
         - l10n_ro_partner_create_by_vat
@@ -41,7 +42,7 @@ List of Modules
         
 ToDo:
     - de dus in OCA:
-        - l10n_ro_dvi
+        
         - l10n_ro_intrastat
     - de adus din OCA
         
