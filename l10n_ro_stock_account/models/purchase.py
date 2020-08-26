@@ -1,75 +1,43 @@
-# -*- coding: utf-8 -*-
-# ©  2008-2018 Fekete Mihai <mihai.fekete@forbiom.eu>
-#              Dorin Hongu <dhongu(@)gmail(.)com
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2014 Forest and Biomass Romania
+# Copyright (C) 2020 NextERP Romania
+# Copyright (C) 2020 Terrabit
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields
+from odoo import fields, models
 
-
-
-
-
-"""
-class purchase_order(models.Model):
-    _inherit = 'purchase.order'
-
-    # todo: care o fi metoda in Odoo10  - pregateste  pretul cu care se va face intrare in stoc
-    @api.model
-    def _prepare_order_line_move(self, order, order_line,  picking_id, group_id ):
-        '''
-        prepare the stock move data from the PO line. This function
-        returns a list of dictionary ready to be used in stock.move's
-        create()
-        '''
-
-        res = super(purchase_order, self)._prepare_order_line_move(  order, order_line, picking_id, group_id)
-        product_uom = self.pool.get('uom.uom')
-        price_unit = order_line.price_unit
-        if order_line.product_uom.id != order_line.product_id.uom_id.id:
-            price_unit *= order_line.product_uom.factor /  order_line.product_id.uom_id.factor
-        ctx = dict(self.env.context)
-        ctx.update({'date': order.date_order})
-        if order.currency_id.id != order.company_id.currency_id.id:
-            #we don't round the price_unit, as we may want to store the
-            #standard price with more digits than allowed by the currency
-            price_unit = self.pool.get('res.currency').compute(  order.currency_id.id, order.company_id.currency_id.id,  price_unit, round=False)
-        for line in res:
-            line['price_unit'] = price_unit
-        return res
-"""
 
 class PurchaseOrderLine(models.Model):
-    _inherit = 'purchase.order.line'
+    _inherit = "purchase.order.line"
 
-
-    #nu exista in 13
-    def _prepare_account_move_line(self, move):
-
+    def _prepare_account_move_line(self, move=False):
+        """
+        Modify the account if this invoice is for a reception with notice.
+        Is setting account 408 ' Furnizori - facturi nesosite' that must be
+        used if the goods where received with notice/aviz before the invoice
+        """
         data = super(PurchaseOrderLine, self)._prepare_account_move_line(move)
-
-        line = self
-
-        if line.product_id.purchase_method == 'receive':  # receptia in baza cantitatilor primite
-            if line.product_id.type == 'product':
-                notice = False
-                for picking in line.order_id.picking_ids:
-                    if picking.notice:
-                        notice = True
-
-                if notice:  # daca e stocabil si exista un document facut
-                    data['account_id'] = line.company_id.property_stock_picking_payable_account_id.id or \
-                                         line.product_id.categ_id.property_stock_account_input_categ_id.id or \
-                                         data['account_id']
+        prod = self.product_id
+        payable_acc = self.company_id.property_stock_picking_payable_account_id.id
+        prod_acc = prod.product_tmpl_id.get_product_accounts()["stock_valuation"]
+        # Overwrite with the incoming location valuation in
+        stock_move = self.move_ids and self.move_ids[0] or None
+        if stock_move and stock_move.location_dest_id.valuation_in_account_id:
+            prod_acc = stock_move.location_dest_id.valuation_in_account_id.id
+        if prod.purchase_method == "receive":
+            # Control bills based on received quantities
+            if prod.type == "product":
+                if any([picking.notice for picking in self.order_id.picking_ids]):
+                    # if exist at least one notice/aviz we are going to make
+                    # at reception accounting lines with 408
+                    # even if the invoice came the same day as reception;
+                    # we are going to have a debit and a credit in account 408
+                    # so is the same as making only accounting lines on
+                    # invoice
+                    data["account_id"] = payable_acc
                 else:
-                    data['account_id'] =  line.product_id.categ_id.property_stock_account_input_categ_id.id or \
-                                         data['account_id']
-
-            else:  # daca nu este stocabil trebuie sa fie un cont de cheltuiala
-                data['account_id'] =  line.product_id.categ_id.property_account_expense_categ_id.id or \
-                                     data['account_id']
+                    data["account_id"] = prod_acc
         else:
-            if line.product_id.type == 'product':
-                data['account_id'] =  line.product_id.categ_id.property_stock_account_input_categ_id.id or \
-                                     data['account_id']
-
+            # Control bills based on ordered quantities
+            if self.product_id.type == "product":
+                data["account_id"] = prod_acc
         return data
