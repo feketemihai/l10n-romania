@@ -9,7 +9,10 @@
 
 
     "category": "Warehouse",
-    "depends": ['purchase','stock_account','l10n_ro','l10n_ro_stock_account'],
+    "depends": [
+        'purchase',
+        'sale',
+        'stock_account','l10n_ro','l10n_ro_stock_account'],
 
     'data': [
 
