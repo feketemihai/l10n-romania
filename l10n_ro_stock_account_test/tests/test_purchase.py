@@ -46,7 +46,7 @@ class TestStockPurchase(TestStockCommon):
         """
         po = self.create_po()
 
-        self.check_stock_valuation(self.qty_p1 * self.price_p1, self.qty_p2 * self.price_p2)
+        self.check_stock_valuation(self.val_p1_i, self.val_p2_i)
         # in contabilitate trebuie sa fie zero pentru ca la receptie nu trebuie generata nota cantabila
         self.check_account_valuation(0, 0)
 
@@ -84,7 +84,10 @@ class TestStockPurchase(TestStockCommon):
         """
          Receptie produse pe baza de aviz si inregistare ulterioara a facturii
          cu inregistrare diferente dintre comanda de achzitie si factura
-         Diferentele trebuie sa fie inregitrate in contul de diferente de stoc
+          - Diferentele trebuie sa fie inregitrate in contul de diferente de stoc
+
+          De fortat sa foloseasca contul de stoc la diferente de pret
+
         """
         po = self.create_po(notice=True)
 
@@ -103,4 +106,5 @@ class TestStockPurchase(TestStockCommon):
 
         # verificare inregistrare diferenta de pret
         self.check_account_diff(self.val_p1_f - self.val_p1_i, self.val_p2_f - self.val_p2_i)
+
 

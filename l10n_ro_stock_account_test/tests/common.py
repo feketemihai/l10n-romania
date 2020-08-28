@@ -102,6 +102,19 @@ class TestStockCommon(SavepointCase):
             })
         cls.env.user.company_id.property_stock_picking_payable_account_id = cls.stock_picking_payable_account_id
 
+
+        cls.stock_picking_receivable_account_id = cls.env.user.company_id.property_stock_picking_receivable_account_id
+        if not cls.stock_picking_receivable_account_id:
+            cls.stock_picking_receivable_account_id = cls.env["account.account"].search([("code", "=", "418000")])
+        if not cls.stock_picking_receivable_account_id:
+            cls.stock_picking_receivable_account_id = cls.env["account.account"].create({
+                "name": "Clienti  - facturi nesosite",
+                "code": "418000",
+                "user_type_id": account_type_cur.id,
+                "reconcile": False,
+            })
+        cls.env.user.company_id.property_stock_picking_receivable_account_id = cls.stock_picking_receivable_account_id
+
         stock_journal = cls.env["account.journal"].search([("code", "=", "STJ")])
         if not stock_journal:
             stock_journal = cls.env["account.journal"].create(
@@ -140,21 +153,24 @@ class TestStockCommon(SavepointCase):
         cls.list_price_p1 = 70.0
         cls.list_price_p2 = round(cls.price_p2 + random.random() * 50, 2)
 
-        cls.product_1 = cls.env["product.product"].create(            {
-                "name": "Product A",
-                "type": "product",
-                "categ_id": cls.category.id,
-                "invoice_policy": "delivery",
-
-                "list_price": cls.list_price_p1
-            }        )
-        cls.product_2 = cls.env["product.product"].create(            {
-                "name": "Product B",
-                "type": "product",
-                "categ_id": cls.category.id,
-                "invoice_policy": "delivery",
-                "list_price": cls.list_price_p2
-        }        )
+        cls.product_1 = cls.env["product.product"].create({
+            "name": "Product A",
+            "type": "product",
+            "categ_id": cls.category.id,
+            "invoice_policy": "delivery",
+            "purchase_method":"receive",
+            "list_price": cls.list_price_p1,
+            'standard_price':cls.price_p1,
+        })
+        cls.product_2 = cls.env["product.product"].create({
+            "name": "Product B",
+            "type": "product",
+            "purchase_method":"receive",
+            "categ_id": cls.category.id,
+            "invoice_policy": "delivery",
+            "list_price": cls.list_price_p2,
+            'standard_price': cls.price_p2,
+        })
 
         cls.vendor = cls.env["res.partner"].search([("name", "=", "TEST Vendor")], limit=1)
         if not cls.vendor:
@@ -167,29 +183,29 @@ class TestStockCommon(SavepointCase):
         cls.diff_p1 = 1
         cls.diff_p2 = -1
 
-        cls.qty_p1 = 20.0
-        cls.qty_p2 = 20.0
+        # cantitatea din PO
+        cls.qty_po_p1 = 20.0
+        cls.qty_po_p2 = 20.00
 
+        # cantitata din SO
         cls.qty_so_p1 = 2.0
         cls.qty_so_p2 = 2.0
 
-        cls.val_p1_i = round(cls.qty_p1 * cls.price_p1, 2)
-        cls.val_p2_i = round(cls.qty_p2 * cls.price_p2, 2)
-        cls.val_p1_f = round(cls.qty_p1 * (cls.price_p1 + cls.diff_p1), 2)
-        cls.val_p2_f = round(cls.qty_p2 * (cls.price_p2 + cls.diff_p2), 2)
-
-     
+        cls.val_p1_i = round(cls.qty_po_p1 * cls.price_p1, 2)
+        cls.val_p2_i = round(cls.qty_po_p2 * cls.price_p2, 2)
+        cls.val_p1_f = round(cls.qty_po_p1 * (cls.price_p1 + cls.diff_p1), 2)
+        cls.val_p2_f = round(cls.qty_po_p2 * (cls.price_p2 + cls.diff_p2), 2)
 
         # valoarea descarcari de gestiune
-        cls.val_so_p1_s = round(cls.qty_so_p1 * cls.price_p1, 2)
-        cls.val_so_p2_s = round(cls.qty_so_p2 * cls.price_p2, 2)
+        cls.val_stock_out_so_p1 = round(cls.qty_so_p1 * cls.price_p1, 2)
+        cls.val_stock_out_so_p2 = round(cls.qty_so_p2 * cls.price_p2, 2)
+
         # valoarea vanzarii
-        cls.val_so_p1_i = round(cls.qty_so_p1 * cls.list_price_p1, 2)
-        cls.val_so_p2_i = round(cls.qty_so_p2 * cls.list_price_p2, 2)
+        cls.val_so_p1 = round(cls.qty_so_p1 * cls.list_price_p1, 2)
+        cls.val_so_p2 = round(cls.qty_so_p2 * cls.list_price_p2, 2)
 
-
-        cls.val_p1_store = cls.qty_p1 * cls.list_price_p1
-        cls.val_p2_store = cls.qty_p2 * cls.list_price_p2
+        cls.val_p1_store = cls.qty_po_p1 * cls.list_price_p1
+        cls.val_p2_store = cls.qty_po_p2 * cls.list_price_p2
 
         cls.tva_p1 = cls.val_p1_store * 0.19
         cls.tva_p2 = cls.val_p2_store * 0.19
@@ -205,23 +221,26 @@ class TestStockCommon(SavepointCase):
         picking_type_in = cls.env.ref('stock.picking_type_in')
         location = picking_type_in.default_location_dest_id
 
-        location_warehouse = location.copy({
+        cls.location_warehouse = location.copy({
             'merchandise_type': 'warehouse',
             'name': 'TEST warehouse'
         })
         cls.picking_type_in_warehouse = picking_type_in.copy({
-            'default_location_dest_id': location_warehouse.id,
+            'default_location_dest_id': cls.location_warehouse.id,
             'name': 'TEST Receptie in Depozit'
         })
 
-        location_store = location.copy({
+        cls.location_store = location.copy({
             'merchandise_type': 'store',
             'name': 'TEST store'
         })
         cls.picking_type_in_store = picking_type_in.copy({
-            'default_location_dest_id': location_store.id,
+            'default_location_dest_id': cls.location_store.id,
             'name': 'TEST Receptie in magazin'
         })
+
+        cls.env.user.company_id.anglo_saxon_accounting = True
+
 
     def create_po(self, notice=False, picking_type_in=None):
 
@@ -234,12 +253,12 @@ class TestStockCommon(SavepointCase):
 
         with po.order_line.new() as po_line:
             po_line.product_id = self.product_1
-            po_line.product_qty = self.qty_p1
+            po_line.product_qty = self.qty_po_p1
             po_line.price_unit = self.price_p1
 
         with po.order_line.new() as po_line:
             po_line.product_id = self.product_2
-            po_line.product_qty = self.qty_p2
+            po_line.product_qty = self.qty_po_p2
             po_line.price_unit = self.price_p2
 
         po = po.save()
@@ -248,9 +267,9 @@ class TestStockCommon(SavepointCase):
         self.picking.write({'notice': notice})
         for move_line in self.picking.move_line_ids:
             if move_line.product_id == self.product_1:
-                move_line.write({"qty_done": self.qty_p1})
+                move_line.write({"qty_done": self.qty_po_p1})
             if move_line.product_id == self.product_2:
-                move_line.write({"qty_done": self.qty_p2})
+                move_line.write({"qty_done": self.qty_po_p2})
 
         self.picking.button_validate()
         self.po = po
@@ -270,7 +289,13 @@ class TestStockCommon(SavepointCase):
 
         invoice.post()
 
+    def make_puchase(self):
+        self.create_po()
+        self.create_invoice()
+
     def check_stock_valuation(self, val_p1, val_p2):
+        val_p1 = round(val_p1, 2)
+        val_p2 = round(val_p2, 2)
         domain = [("product_id", "in", [self.product_1.id, self.product_2.id])]
         valuations = self.env["stock.valuation.layer"].read_group(
             domain, ["value:sum", "quantity:sum"], ["product_id"]
@@ -286,6 +311,8 @@ class TestStockCommon(SavepointCase):
                 self.assertEqual(val, val_p2)
 
     def check_account_valuation(self, val_p1, val_p2, account=None):
+        val_p1 = round(val_p1, 2)
+        val_p2 = round(val_p2, 2)
         if not account:
             account = self.account_valuation
 
