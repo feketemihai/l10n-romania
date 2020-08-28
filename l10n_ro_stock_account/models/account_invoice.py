@@ -8,7 +8,7 @@ from odoo.exceptions import AccessError, UserError
 from odoo.tools.float_utils import float_compare, float_is_zero
 
 
-class AccountInvoice(models.Model):
+class AccountMove(models.Model):
     _inherit = 'account.move'
 
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
@@ -37,7 +37,7 @@ class AccountInvoice(models.Model):
                         if price_diff:
                             line.modify_stock_valuation(price_diff)
 
-        lines_vals_list = super(AccountInvoice, self)._stock_account_prepare_anglo_saxon_in_lines_vals()
+        lines_vals_list = super(AccountMove, self)._stock_account_prepare_anglo_saxon_in_lines_vals()
 
         return lines_vals_list
 
@@ -45,18 +45,32 @@ class AccountInvoice(models.Model):
         # nu se mai face descarcarea de gestiune la facturare
         return []
 
+    def post(self):
+        res = super(AccountMove, self).post()
+        for move in self:
+            for line in move.line_ids:
+                print(line.account_id.display_name, line.debit, line.credit)
+        return res
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.move.line"
 
     def _get_computed_account(self):
-        if self.product_id.type == "product" and self.move_id.company_id.anglo_saxon_accounting and self.move_id.is_purchase_document():
-            purchase = self.move_id.purchase_id
-            if self.product_id.purchase_method == "receive":
-                # Control bills based on received quantities
-                if self.product_id.type == "product":
+        if self.product_id.type == "product" and self.move_id.company_id.anglo_saxon_accounting:
+            if self.move_id.is_purchase_document():
+                purchase = self.move_id.purchase_id
+                if purchase and self.product_id.purchase_method == "receive":
+                    # Control bills based on received quantities
                     if any([picking.notice for picking in purchase.picking_ids]):
-                        self = self.with_context(notice=True)
+                        self = self.with_context(valued_type='invoice_in_notice')
+            if self.move_id.is_sale_document():
+                sales = self.sale_line_ids
+                if sales and self.product_id.invoice_policy == "delivery":
+                    # Control bills based on received quantities
+                    sale = self.sale_line_ids[0].order_id
+                    if any([picking.notice for picking in sale.picking_ids]):
+                        self = self.with_context(valued_type='invoice_out_notice')
 
         return super(AccountInvoiceLine, self)._get_computed_account()
 
@@ -101,7 +115,7 @@ class AccountInvoiceLine(models.Model):
 
         valuation_price_unit = valuation_price_unit_total / valuation_total_qty
 
-        print('Pretul din receptie este: ', valuation_price_unit)
+        # print('Pretul din receptie este: ', valuation_price_unit)
 
         price_unit = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
         if line.tax_ids:
@@ -115,7 +129,7 @@ class AccountInvoiceLine(models.Model):
             price_unit, move.company_currency_id,
             move.company_id, move.invoice_date, round=False,
         )
-        print('Pretul din factura este convertit in moneda companiei: ', price_unit)
+        # print('Pretul din factura este convertit in moneda companiei: ', price_unit)
 
         price_unit_val_dif = (price_unit - valuation_price_unit)
         return price_unit_val_dif
