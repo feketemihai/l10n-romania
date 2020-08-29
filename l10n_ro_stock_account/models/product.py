@@ -20,10 +20,9 @@ class ProductCategory(models.Model):
         stock_valuation, stock_output and stock_input
         are the same
         """
-        ro_chart = self.env["ir.model.data"].get_object_reference(
-            "l10n_ro", "ro_chart_template"
-        )[1]
-        if self.env.company.chart_template_id.id == ro_chart:
+        ro_chart = self.env.ref("l10n_ro.ro_chart_template", raise_if_not_found=False )
+
+        if self.env.company.chart_template_id == ro_chart:
             return
         else:
             self.super(ProductCategory, self)._check_valuation_accouts()

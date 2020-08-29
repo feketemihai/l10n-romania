@@ -18,10 +18,10 @@
                 <attribute name="attrs">{'required':[('notice','=',True)]}</attribute>
             </field>
             <xpath expr="//button[@name='action_show_details']" position="after">
-                <field name="picking_type_code" invisible="1" />
+                <field name="picking_code" invisible="1" />
                 <field
                     name="price_unit"
-                    attrs="{'invisible': [('picking_type_code','!=','incoming')]}"
+                    attrs="{'invisible': [('picking_code','!=','incoming')]}"
                 />
             </xpath>
 

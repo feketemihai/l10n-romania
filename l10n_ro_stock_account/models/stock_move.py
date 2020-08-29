@@ -7,11 +7,6 @@ from odoo.tools import float_compare, float_round, float_is_zero
 class StockMove(models.Model):
     _inherit = "stock.move"
 
-    picking_type_code = fields.Selection(
-        related="picking_id.picking_type_code",
-        readonly=True,
-        help="Taken from stock_picking_type.code",
-    )
 
 
     def _is_in(self):
