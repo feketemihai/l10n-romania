@@ -61,7 +61,7 @@ class ProductTemplate(models.Model):
         valued_type = self.env.context.get('valued_type', False)
         print(valued_type)
 
-        if valued_type in [ 'in_notice', 'invoice_in_notice']:
+        if valued_type in ['in_notice', 'invoice_in_notice']:
             stock_picking_payable_account_id = self.env.user.company_id.property_stock_picking_payable_account_id
             if stock_picking_payable_account_id:
                 accounts['stock_input'] = stock_picking_payable_account_id

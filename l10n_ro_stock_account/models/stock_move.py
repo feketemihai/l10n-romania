@@ -62,7 +62,7 @@ class StockMove(models.Model):
     @api.model
     def _get_valued_types(self):
         valued_types = super(StockMove, self)._get_valued_types()
-        valued_types += ['in_notice', 'out_notice', 'in_inventory', 'out_inventory']
+        valued_types += [ 'in_notice', 'out_notice', 'in_inventory', 'out_inventory']
         return valued_types
 
     # in functie de tipul de miscare se va pune in context valued_type pentru a se obtine contrul dorit

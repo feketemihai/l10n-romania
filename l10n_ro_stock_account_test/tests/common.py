@@ -300,7 +300,7 @@ class TestStockCommon(SavepointCase):
         valuations = self.env["stock.valuation.layer"].read_group(
             domain, ["value:sum", "quantity:sum"], ["product_id"]
         )
-        self.assertGreaterEqual(len(valuations), 2)
+
         for valuation in valuations:
             val = round(valuation["value"], 2)
             if valuation["product_id"][0] == self.product_1.id:
