@@ -273,6 +273,7 @@ class TestStockCommon(SavepointCase):
                 move_line.write({"qty_done": self.qty_po_p2})
 
         self.picking.button_validate()
+        print('Receptie facuta')
 
         self.po = po
         return po
@@ -290,6 +291,8 @@ class TestStockCommon(SavepointCase):
         invoice = invoice.save()
 
         invoice.post()
+
+        print('Factura introdusa')
 
     def make_puchase(self):
         self.create_po()
@@ -337,3 +340,4 @@ class TestStockCommon(SavepointCase):
 
     def check_account_diff(self, val_p1, val_p2):
         self.check_account_valuation(val_p1, val_p2, self.account_difference)
+

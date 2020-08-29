@@ -57,14 +57,15 @@ class ProductTemplate(models.Model):
                 "stock_valuation": property_stock_valuation_account_id,
             })
 
-        valued_type = self.env.context.get('valued_type', False)
+        valued_type = self.env.context.get('valued_type', 'indefinite')
         print(valued_type)
 
-        if valued_type in ['in_notice', 'invoice_in_notice']:
+        # in nir si factura se ca utiliza 408
+        if valued_type in ['reception_notice', 'invoice_in_notice']:
             stock_picking_payable_account_id = self.env.user.company_id.property_stock_picking_payable_account_id
             if stock_picking_payable_account_id:
-                accounts['stock_input'] = stock_picking_payable_account_id
-
+                accounts['stock_input'] = stock_picking_payable_account_id   # pt contabilitatea anglo-saxona
+                #accounts['expense'] = stock_picking_payable_account_id       # pentru contabilitate continentala
 
         elif valued_type == 'invoice_out_notice':
             stock_picking_receivable_account_id = self.env.user.company_id.property_stock_picking_receivable_account_id
@@ -74,18 +75,18 @@ class ProductTemplate(models.Model):
                 accounts['income'] = stock_picking_receivable_account_id
 
         # la inventatiere
-        elif valued_type in ['in_inventory']:
+        elif valued_type in ['plus_inventory']:
             accounts['stock_input'] = accounts['expense']
             accounts['stock_output'] = accounts['expense']
 
         # la inventatiere
-        elif valued_type in ['out_inventory']:
+        elif valued_type in ['minus_inventory']:
             accounts['stock_output'] = accounts['expense']
             accounts['stock_input'] = accounts['expense']
 
 
         # la vanzare se scoate stocul pe cheltuiala
-        elif valued_type in ['out', 'out_notice']:
+        elif valued_type in ['delivery', 'delivery_notice']:
             accounts['stock_output'] = accounts['expense']
 
         return accounts

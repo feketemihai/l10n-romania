@@ -63,7 +63,7 @@ class AccountInvoiceLine(models.Model):
                 if purchase and self.product_id.purchase_method == "receive":
                     # Control bills based on received quantities
                     if any([picking.notice for picking in purchase.picking_ids]):
-                        self = self.with_context(valued_type='in_notice')
+                        self = self.with_context(valued_type='invoice_in_notice')
             if self.move_id.is_sale_document():
                 sales = self.sale_line_ids
                 if sales and self.product_id.invoice_policy == "delivery":

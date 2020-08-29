@@ -10,6 +10,9 @@ import odoo.addons.decimal_precision as dp
 class ResCompany(models.Model):
     _inherit = "res.company"
 
+
+    romanian_accounting = fields.Boolean(string="Use Romanian accounting")
+
     property_stock_picking_payable_account_id = fields.Many2one(
         "account.account",
         string="Picking Account Payable",

@@ -18,6 +18,12 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
     )
 
+    use_romanian_accounting = fields.Boolean(
+        string="Romanian Accounting",
+        related="company_id.romanian_accounting",
+        readonly=False,
+    )
+
     property_stock_picking_payable_account_id = fields.Many2one(
         "account.account",
         related="company_id.property_stock_picking_payable_account_id",
