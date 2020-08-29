@@ -11,6 +11,10 @@ from odoo.tools.float_utils import float_compare, float_is_zero
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+
+
+
+
     def _stock_account_prepare_anglo_saxon_in_lines_vals(self):
         """ Can be done simpler by comparing the accounting notes like in version from 6-10 June
         ORIGINAL FROM PURCHASE_STOCK (is adding lines at purchase) that is overridden of stock_account
