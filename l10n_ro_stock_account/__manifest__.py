@@ -10,7 +10,7 @@
     "Dorin Hongu,"
     "Forest and Biomass Romania,"
     "Odoo Community Association (OCA)",
-    "website": "http://www.forbiom.eu",
+    "website": "https://github.com/OCA/l10n-romania",
     "depends": [
         "stock_account",
         "sale_stock",
@@ -20,8 +20,8 @@
     ],
     "license": "AGPL-3",
     "data": [
-
+        'views/stock_picking_view.xml'
     ],
     "installable": True,
-
+    "maintainers": ["dhongu"],
 }

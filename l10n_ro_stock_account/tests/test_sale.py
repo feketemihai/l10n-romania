@@ -89,7 +89,7 @@ class TestStockSale(TestStockCommon):
         self.check_account_valuation(val_stock_p1, val_stock_p2)
 
         print('Verifcare valoare vanduta')
-        #self.check_account_valuation(-self.val_so_p1, -self.val_so_p2, self.account_income)
+        self.check_account_valuation(-self.val_so_p1, -self.val_so_p2, self.account_income)
 
     def test_sale_notice_and_invoice(self):
         """
@@ -122,4 +122,4 @@ class TestStockSale(TestStockCommon):
         self.check_account_valuation(val_stock_p1, val_stock_p2)
 
         print('Verifcare valoare vanduta')
-        #self.check_account_valuation(-self.val_so_p1, -self.val_so_p2, self.account_income)
+        self.check_account_valuation(-self.val_so_p1, -self.val_so_p2, self.account_income)

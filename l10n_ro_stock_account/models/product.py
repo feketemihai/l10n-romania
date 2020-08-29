@@ -70,7 +70,9 @@ class ProductTemplate(models.Model):
         elif valued_type == 'invoice_out_notice':
             stock_picking_receivable_account_id = self.env.user.company_id.property_stock_picking_receivable_account_id
             if stock_picking_receivable_account_id:
-                accounts['expense'] = stock_picking_receivable_account_id
+                accounts['stock_output'] = stock_picking_receivable_account_id
+                accounts['stock_valuation'] = accounts['income']
+                accounts['income'] = stock_picking_receivable_account_id
 
         # la inventatiere
         elif valued_type in ['in_inventory']:

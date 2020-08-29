@@ -17,6 +17,7 @@ class TestStockCommon(SavepointCase):
         account_type_inc = cls.env.ref("account.data_account_type_revenue")
         account_type_exp = cls.env.ref("account.data_account_type_expenses")
         account_type_cur = cls.env.ref("account.data_account_type_current_assets")
+        account_type_current_liabilities = cls.env.ref("account.data_account_type_current_liabilities")
 
         cls.account_difference = cls.env["account.account"].search(
             [("code", "=", "348000")], limit=1
@@ -97,7 +98,7 @@ class TestStockCommon(SavepointCase):
             cls.stock_picking_payable_account_id = cls.env["account.account"].create({
                 "name": "Furnizori - facturi nesosite",
                 "code": "408000",
-                "user_type_id": account_type_cur.id,
+                "user_type_id": account_type_current_liabilities.id,
                 "reconcile": False,
             })
         cls.env.user.company_id.property_stock_picking_payable_account_id = cls.stock_picking_payable_account_id
@@ -272,6 +273,7 @@ class TestStockCommon(SavepointCase):
                 move_line.write({"qty_done": self.qty_po_p2})
 
         self.picking.button_validate()
+
         self.po = po
         return po
 
