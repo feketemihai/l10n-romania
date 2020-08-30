@@ -189,8 +189,8 @@ class TestStockCommon(SavepointCase):
         cls.qty_po_p2 = 20.00
 
         # cantitata din SO
-        cls.qty_so_p1 = 2.0
-        cls.qty_so_p2 = 2.0
+        cls.qty_so_p1 = 5.0
+        cls.qty_so_p2 = 5.0
 
         cls.val_p1_i = round(cls.qty_po_p1 * cls.price_p1, 2)
         cls.val_p2_i = round(cls.qty_po_p2 * cls.price_p2, 2)

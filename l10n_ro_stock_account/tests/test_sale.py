@@ -13,6 +13,7 @@ class TestStockSale(TestStockCommon):
 
 
     def create_so(self, notice=False):
+        print('Start sale')
         so = Form(self.env["sale.order"])
         so.partner_id = self.client
 
@@ -39,6 +40,7 @@ class TestStockSale(TestStockCommon):
         # self.picking.move_lines.write({'quantity_done': 2})
         # self.picking.button_validate()
         self.picking.action_done()
+        print('Livrare facuta')
 
     def create_sale_invoice(self, diff_p1=0, diff_p2=0):
         # invoice on order
@@ -123,3 +125,68 @@ class TestStockSale(TestStockCommon):
 
         print('Verifcare valoare vanduta')
         self.check_account_valuation(-self.val_so_p1, -self.val_so_p2, self.account_income)
+
+
+
+    def test_sale_and_invoice_and_retur(self):
+        """
+        Vanzare si facturare
+             - initial in stoc si contabilitate este valoarea din achizitie
+             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului vandut
+             - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
+             - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
+        """
+
+        #  intrare in stoc
+        self.make_puchase()
+
+
+        # iesire din stoc prin vanzare
+        self.create_so()
+        pick = self.so.picking_ids
+
+        stock_return_picking_form = Form(self.env['stock.return.picking']
+                                         .with_context(active_ids=pick.ids, active_id=pick.ids[0],
+                                                       active_model='stock.picking'))
+        return_wiz = stock_return_picking_form.save()
+        return_wiz.product_return_moves.write({'quantity': 2.0, 'to_refund': True})  # Return only 2
+        res = return_wiz.create_returns()
+        return_pick = self.env['stock.picking'].browse(res['res_id'])
+
+        # Validate picking
+        return_pick.move_line_ids.write({'qty_done': 2})
+
+        return_pick.button_validate()
+
+        self.create_sale_invoice()
+
+    def test_sale_notice_and_invoice_and_retur(self):
+        """
+        Vanzare si facturare
+             - initial in stoc si contabilitate este valoarea din achizitie
+             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului vandut
+             - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
+             - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
+        """
+
+        #  intrare in stoc
+        self.make_puchase()
+
+        # iesire din stoc prin vanzare
+        self.create_so(notice=True)
+        pick = self.so.picking_ids
+
+        stock_return_picking_form = Form(self.env['stock.return.picking']
+                                         .with_context(active_ids=pick.ids, active_id=pick.ids[0],
+                                                       active_model='stock.picking'))
+        return_wiz = stock_return_picking_form.save()
+        return_wiz.product_return_moves.write({'quantity': 2.0, 'to_refund': True})  # Return only 2
+        res = return_wiz.create_returns()
+        return_pick = self.env['stock.picking'].browse(res['res_id'])
+
+        # Validate picking
+        return_pick.move_line_ids.write({'qty_done': 2})
+        return_pick.notice=True
+        return_pick.button_validate()
+
+        self.create_sale_invoice()
