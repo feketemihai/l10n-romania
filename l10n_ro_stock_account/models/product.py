@@ -3,8 +3,11 @@
 # Copyright (C) 2020 Terrabit
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+import logging
+
+from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class ProductCategory(models.Model):
@@ -20,7 +23,7 @@ class ProductCategory(models.Model):
         stock_valuation, stock_output and stock_input
         are the same
         """
-        ro_chart = self.env.ref("l10n_ro.ro_chart_template", raise_if_not_found=False )
+        ro_chart = self.env.ref("l10n_ro.ro_chart_template", raise_if_not_found=False)
 
         if self.env.company.chart_template_id == ro_chart:
             return
@@ -36,11 +39,11 @@ class ProductTemplate(models.Model):
         "Stock Valuation Account",
         company_dependent=True,
         domain="[('company_id', '=', allowed_company_ids[0]),"
-               "('deprecated', '=', False)]",
+        "('deprecated', '=', False)]",
         check_company=True,
         help="In Romania accounting is only one account for valuation/input/"
-             "output. If this value is set, we will use it, otherwise will "
-             "use the category value. ",
+        "output. If this value is set, we will use it, otherwise will "
+        "use the category value. ",
     )
 
     def _get_product_accounts(self):
@@ -48,45 +51,53 @@ class ProductTemplate(models.Model):
         accounts = super(ProductTemplate, self)._get_product_accounts()
 
         property_stock_valuation_account_id = (
-                self.property_stock_valuation_account_id or self.categ_id.property_stock_valuation_account_id
+            self.property_stock_valuation_account_id
+            or self.categ_id.property_stock_valuation_account_id
         )
         if property_stock_valuation_account_id:
-            accounts.update({
-                "stock_input": property_stock_valuation_account_id,
-                "stock_output": property_stock_valuation_account_id,
-                "stock_valuation": property_stock_valuation_account_id,
-            })
+            accounts.update(
+                {
+                    "stock_input": property_stock_valuation_account_id,
+                    "stock_output": property_stock_valuation_account_id,
+                    "stock_valuation": property_stock_valuation_account_id,
+                }
+            )
 
-        valued_type = self.env.context.get('valued_type', 'indefinite')
-        print(valued_type)
+        valued_type = self.env.context.get("valued_type", "indefinite")
+        _logger.info(valued_type)
 
         # in nir si factura se ca utiliza 408
-        if valued_type in ['reception_notice', 'invoice_in_notice']:
-            stock_picking_payable_account_id = self.env.user.company_id.property_stock_picking_payable_account_id
+        if valued_type in ["reception_notice", "invoice_in_notice"]:
+            stock_picking_payable_account_id = (
+                self.env.user.company_id.property_stock_picking_payable_account_id
+            )
             if stock_picking_payable_account_id:
-                accounts['stock_input'] = stock_picking_payable_account_id   # pt contabilitatea anglo-saxona
-                #accounts['expense'] = stock_picking_payable_account_id       # pentru contabilitate continentala
+                accounts[
+                    "stock_input"
+                ] = stock_picking_payable_account_id  # pt contabilitatea anglo-saxona
+                # accounts['expense'] = stock_picking_payable_account_id       # pentru contabilitate continentala
 
-        elif valued_type == 'invoice_out_notice':
-            stock_picking_receivable_account_id = self.env.user.company_id.property_stock_picking_receivable_account_id
+        elif valued_type == "invoice_out_notice":
+            stock_picking_receivable_account_id = (
+                self.env.user.company_id.property_stock_picking_receivable_account_id
+            )
             if stock_picking_receivable_account_id:
-                accounts['stock_output'] = stock_picking_receivable_account_id
-                accounts['stock_valuation'] = accounts['income']
-                accounts['income'] = stock_picking_receivable_account_id
+                accounts["stock_output"] = stock_picking_receivable_account_id
+                accounts["stock_valuation"] = accounts["income"]
+                accounts["income"] = stock_picking_receivable_account_id
 
         # la inventatiere
-        elif valued_type in ['plus_inventory']:
-            accounts['stock_input'] = accounts['expense']
-            accounts['stock_output'] = accounts['expense']
+        elif valued_type in ["plus_inventory"]:
+            accounts["stock_input"] = accounts["expense"]
+            accounts["stock_output"] = accounts["expense"]
 
         # la inventatiere
-        elif valued_type in ['minus_inventory']:
-            accounts['stock_output'] = accounts['expense']
-            accounts['stock_input'] = accounts['expense']
-
+        elif valued_type in ["minus_inventory"]:
+            accounts["stock_output"] = accounts["expense"]
+            accounts["stock_input"] = accounts["expense"]
 
         # la vanzare se scoate stocul pe cheltuiala
-        elif valued_type in ['delivery', 'delivery_notice']:
-            accounts['stock_output'] = accounts['expense']
+        elif valued_type in ["delivery", "delivery_notice"]:
+            accounts["stock_output"] = accounts["expense"]
 
         return accounts

@@ -2,14 +2,12 @@
 # Copyright (C) 2020 NextERP Romania
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import os
 
-from odoo import fields, models, tools
+from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
-
 
     # stock section
     use_anglo_saxon = fields.Boolean(
@@ -34,4 +32,3 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.property_stock_picking_receivable_account_id",
         readonly=False,
     )
-

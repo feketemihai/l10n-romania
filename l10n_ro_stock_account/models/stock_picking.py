@@ -18,4 +18,3 @@ class StockPicking(models.Model):
         help="With this field the reception/delivery is set as a notice. "
         "The generated account move will contain accounts 408/418.",
     )
-

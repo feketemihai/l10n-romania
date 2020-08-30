@@ -24,7 +24,6 @@
                     attrs="{'invisible': [('picking_code','!=','incoming')]}"
                 />
             </xpath>
-
         </field>
     </record>
     <record id="view_picking_add_notice_tree" model="ir.ui.view">

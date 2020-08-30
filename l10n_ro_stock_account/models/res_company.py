@@ -4,12 +4,9 @@
 
 from odoo import fields, models
 
-import odoo.addons.decimal_precision as dp
-
 
 class ResCompany(models.Model):
     _inherit = "res.company"
-
 
     romanian_accounting = fields.Boolean(string="Use Romanian accounting")
 
@@ -27,4 +24,3 @@ class ResCompany(models.Model):
         help="This account will be used as the receivable account for the "
         "current partner on stock picking notice.",
     )
-
