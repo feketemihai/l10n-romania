@@ -17,6 +17,7 @@ List of Modules
         - l10n_ro_vat_on_payment
         - l10n_ro_stock
         - l10n_ro_partner_unique
+        - l10n_ro_siruta
     - Sunt in Pool Request la OCA/l10n-romania
         - l10n_ro_account_report_journal  #74
         - l10n_ro_city  #78
@@ -36,7 +37,6 @@ List of Modules
         - l10n_ro_report_trial_balance
         - l10n_ro_stock_picking_report
         - l10n_ro_stock_report
-    - Cu probleme
         - l10n_ro_stock_account
         
         
