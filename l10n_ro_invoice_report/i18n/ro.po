@@ -160,6 +160,23 @@ msgid "<strong>Reference:</strong>"
 msgstr "<strong>Referință:</strong>"
 
 #. module: l10n_ro_invoice_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid "<strong>Source:</strong>"
+msgstr "<strong>Sursa:</strong>"
+
+
+#. module: l10n_ro_invoice_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid "<strong>Deliveries:</strong>"
+msgstr "<strong>Livrări:</strong>"
+
+
+#. module: l10n_ro_invoice_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
+msgid "<strong>Receptions:</strong>"
+msgstr "<strong>Recepții:</strong>"
+
+#. module: l10n_ro_invoice_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_statement_print
@@ -209,6 +226,7 @@ msgstr "Linie extras bacă"
 
 #. module: l10n_ro_invoice_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Cancelled Invoice"
 msgstr "Factură anulată"
 
@@ -306,8 +324,9 @@ msgstr "Linie factură"
 
 #. module: l10n_ro_invoice_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
-msgid "Invoice valid without signature and stamp according to art.V, paragraph (2) of Ordinance no.17 / 2015, art. 319 paragraph (29) of Law no. 227/2015 on the Fiscal Code and subsequent amendments."
-msgstr "Factură valabilă fără semnatură şi ştampilă cf. art.V, alin (2) din Ordonanţa nr.17/2015, art. 319 alin (29) din Legea nr. 227/2015 privind Codul fiscal” și modificările ulterioare."
+msgid "Invoice circulate without signature and stamp according to the law 571/2003,\n"
+"                                        rule 115, paragraph 6"
+msgstr "Factura circulă fără semnătură și ștampilă în acord cu legea 571/2003, art. 115, alin. 6"
 
 #. module: l10n_ro_invoice_report
 #: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_report_account_report_invoice___last_update
@@ -382,6 +401,7 @@ msgstr "Primit de la:"
 
 #. module: l10n_ro_invoice_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Refund Invoice"
 msgstr "Factură Storno"
 
@@ -406,19 +426,21 @@ msgstr "Furnizor"
 
 #. module: l10n_ro_invoice_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Supplier Invoice"
 msgstr "Factura furnizor"
 
 #. module: l10n_ro_invoice_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.header_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Supplier Refund"
 msgstr "Restituire furnizor"
 
 #. module: l10n_ro_invoice_report
-#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line_price_taxes
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line_price_tax
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Taxes"
-msgstr "Taxe"
+msgstr "TVA"
 
 #. module: l10n_ro_invoice_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.report_payment
@@ -429,12 +451,18 @@ msgstr "Către:"
 #. module: l10n_ro_invoice_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document
 msgid "Unit Price"
-msgstr "Preț unitar"
+msgstr "Preț"
+
+#. module: l10n_ro_invoice_report
+#: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line__price_unit_without_taxes
+msgid "Unit Price without taxes"
+msgstr "Preț fără TVA"
+
 
 #. module: l10n_ro_invoice_report
 #: model:ir.model.fields,field_description:l10n_ro_invoice_report.field_account_invoice_line_price_unit_without_taxes
 msgid "Unit Price without taxes"
-msgstr "Preț unitar fără TVA"
+msgstr "Preț fără TVA"
 
 #. module: l10n_ro_invoice_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_invoice_report.l10n_ro_report_invoice_document

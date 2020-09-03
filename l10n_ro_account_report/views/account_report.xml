@@ -12,7 +12,7 @@
 
          <report
             id="action_report_sale_purchase_journal"
-            model="account.invoice"
+            model="account.move"
             string="Report Sale/Purchase Journal"
             name="l10n_ro_account_report.report_sale_purchase_journal"
             file="l10n_ro_account_report.report_sale_purchase_journal"

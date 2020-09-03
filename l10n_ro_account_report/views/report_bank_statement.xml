@@ -57,7 +57,7 @@
                             <div class="row">
                             </div>
 
-                            <table class="table table-condensed">
+                            <table class="table table-sm">
                                 <thead>
                                     <tr>
                                         <th>Ord</th>
@@ -148,7 +148,7 @@
 
                             <div class="row">
                                 <div class="col-xs-4 pull-right">
-                                    <table class="table table-condensed">
+                                    <table class="table table-sm">
                                         <tr class="border-black">
                                             <td>
                                                 <strong>Total</strong>

@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 
 class SalePurchaseJournalReport(models.TransientModel):
     _name = "account.report.sale.purchase.journal"
+    _description = "SalePurchaseJournalReport"
 
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
@@ -16,7 +17,7 @@ class SalePurchaseJournalReport(models.TransientModel):
     date_range_id = fields.Many2one('date.range', string='Date range')
     date_from = fields.Date('Start Date', required=True)
     date_to = fields.Date('End Date', required=True)
-    journal = fields.Selection([('purchase', 'Purchase'), ('sale', 'Sale')], string='Journal type')
+    journal = fields.Selection([('purchase', 'Purchase'), ('sale', 'Sale')], string='Journal type', required=True)
 
     @api.model
     def default_get(self, fields_list):
@@ -36,14 +37,15 @@ class SalePurchaseJournalReport(models.TransientModel):
         journals = self.env['account.journal'].search([
             ('type', '=', self.journal), ('company_id', '=', self.company_id.id)
         ])
-        invoices = self.env['account.invoice'].search([
-            ('date_invoice', '>=', self.date_from), ('date_invoice', '<=', self.date_to),
+        invoices = self.env['account.move'].search([
+            ('invoice_date', '>=', self.date_from), ('invoice_date', '<=', self.date_to),
             ('journal_id', 'in', journals.ids),
             ('company_id', '=', self.company_id.id)
-        ])
-        data = {'data':self.read()[0]}
+        ], order='invoice_date')
+        data = {'wizard_id':self.id}
         data['docids'] = invoices.ids
 
         report = self.env.ref('l10n_ro_account_report.action_report_sale_purchase_journal')
         res = report.report_action(invoices,  data=data)
+        res['close_on_report_download'] = True
         return res

@@ -66,7 +66,7 @@
                     <t t-call="web.external_layout">
                         <div class="page">
                             <div class="row">
-                                <div class="col-xs-5">
+                                <div class="col-5">
 
                                     <strong t-field="res_company.partner_id.name"/>
                                     <div>
@@ -77,7 +77,7 @@
 
                                 </div>
 
-                                <div class="col-xs-5 col-xs-offset-2">
+                                <div class="col-5 col-offset-2">
                                     <div>
                                         <strong t-field="o.partner_id.name"/>
                                     </div>
@@ -92,7 +92,7 @@
 
 
                             <div class="row">
-                                <div class="col-xs-5">
+                                <div class="col-5">
                                     <div t-if="res_company.partner_id.vat">
                                         <strong>CIF:</strong>
                                         <span t-field="res_company.partner_id.vat"/>
@@ -106,7 +106,7 @@
                                         <span t-field="res_company.share_capital"/>
                                     </div>
                                 </div>
-                                <div class="col-xs-5 col-xs-offset-2">
+                                <div class="col-5 col-offset-2">
                                     <div t-if="o.partner_id.vat">
                                         <strong>CIF:</strong>
                                         <span t-field="o.partner_id.vat"/>
@@ -148,7 +148,7 @@
                             </h2>
 
 
-                            <table class="table table-condensed">
+                            <table class="table table-sm">
                                 <tr>
                                     <td t-if="o.amount&gt;0">Received from:</td>
                                     <td t-if="o.amount&lt;0">For:</td>
@@ -156,10 +156,13 @@
                                         <span t-field="o.partner_id.name"/>
                                     </td>
                                 </tr>
+
+                                <t t-set="currency" t-value="o.currency_id or user.company_id.currency_id"/>
+
                                 <tr>
                                     <td>Amount:</td>
                                     <td>
-                                        <span t-esc="abs(o.amount)" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                        <span t-esc="abs(o.amount)" t-options='{"widget": "monetary", "display_currency": currency}'/>
 <!--                                        <span t-field="o.currency_id.symbol"/>-->
                                     </td>
                                 </tr>
@@ -167,7 +170,7 @@
                                     <td>Amount (in words):</td>
                                     <td>
 <!--                                        <span t-esc="convert(abs(o.amount))"/>-->
-                                        <t t-set="currency" t-value="o.currency_id or user.company_id.currency_id"/>
+
                                         <span t-esc="currency.amount_to_text(o.amount)" />
                                     </td>
                                 </tr>

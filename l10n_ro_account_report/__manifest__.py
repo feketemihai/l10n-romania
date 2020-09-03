@@ -8,7 +8,8 @@
 
     "category": "Romania Adaptation",
     "depends": [
-        'account','date_range',
+        'account',
+        'date_range',
     ],
 
     "description": """
