@@ -4,7 +4,7 @@
         <template id="report_statement">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <t t-call="web.internal_layout">
+                    <t t-call="web.external_layout">
                         <div class="page">
                             <div class="text-left">Company:
                                 <strong t-esc="res_company.name"/>
@@ -30,32 +30,40 @@
                                 <h2>Bank statement</h2>
                             </t>
 
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <strong>Name</strong>:
-                                    <br/>
-                                    <span t-field="o.name"/>
+
+                            <div id="informations" class="row mt32 mb32">
+                                <div class="col-3 bm-2">
+                                    <strong>Name</strong>
+                                    <p>
+                                        <span t-field="o.name"/>
+                                    </p>
+
                                 </div>
-                                <div class="col-xs-3">
-                                    <strong>Opening Date</strong>:
-                                    <br/>
-                                    <span t-field="o.date"/>
-                                </div>
-                                <div class="col-xs-3">
-                                    <strong>Journal</strong>:
-                                    <br/>
-                                    <span t-field="o.journal_id"/>
+                                <div class="col-3 bm-2">
+                                    <strong>Opening Date</strong>
+                                    <p>
+                                        <span t-field="o.date"/>
+                                    </p>
+
                                 </div>
 
-                                <div class="col-xs-3">
-                                    <strong>User</strong>:
-                                    <br/>
-                                    <span t-field="o.user_id"/>
+                                <div class="col-3 bm-2">
+                                    <strong>Journal</strong>
+                                    <p>
+                                        <span t-field="o.journal_id"/>
+                                    </p>
+
+                                </div>
+
+                                <div class="col-3 bm-2">
+                                    <strong>User</strong>
+                                    <p>
+                                        <span t-field="o.user_id"/>
+                                    </p>
+
                                 </div>
                             </div>
 
-                            <div class="row">
-                            </div>
 
                             <table class="table table-sm">
                                 <thead>

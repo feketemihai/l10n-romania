@@ -1,16 +1,10 @@
-# -*- coding: utf-8 -*-
-# ©  2017 Deltatech
-# See README.rst file on addons root folder for license details
+# Copyright (C) 2020 NextERP Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-
-from odoo import models, fields, api, _
-
+from odoo import fields, models
 
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-
-    vat_subjected = fields.Boolean('VAT Legal Statement')
-    split_vat = fields.Boolean('Split VAT')
-    vat_on_payment = fields.Boolean('VAT on Payment')
+    vat_subjected = fields.Boolean("VAT Legal Statement")
