@@ -4,7 +4,7 @@
         <template id="banks">
             <small>
                 <t t-set="currency_id" t-value="res_company.currency_id"/>
-                <t t-if="'currency_id' in o._fields">
+                <t t-if="o and 'currency_id' in o._fields">
                     <t t-set="currency_id" t-value="o.currency_id"/>
                 </t>
                 <t t-set="counts" t-value="0"/>
@@ -27,7 +27,7 @@
         </template>
 
         <template id="report_address_company">
-            <t t-if="'company_id' in o._fields">
+            <t t-if="o and 'company_id' in o._fields">
                 <t t-set="res_company" t-value="o.company_id"/>
             </t>
 
@@ -57,7 +57,7 @@
             <div>
                 <div>
                     <div t-if="res_company.partner_id.vat">
-                        <strong><t t-esc="doc.company_id.country_id.vat_label or 'Tax ID'"/>:</strong>
+                        <strong><t t-esc="res_company.country_id.vat_label or 'Tax ID'"/>:</strong>
                         <span t-field="res_company.partner_id.vat"/>
                     </div>
                     <div t-if="res_company.partner_id.nrc">
