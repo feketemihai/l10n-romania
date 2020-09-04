@@ -1,152 +1,136 @@
-# -*- coding: utf-8 -*-
-##############################################################################
-#
-#     Author:  Fekete Mihai <mihai.fekete@forbiom.eu>
-#    Copyright (C) 2014 FOREST AND BIOMASS SERVICES ROMANIA SA
-#    (http://www.forbiom.eu).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# Copyright (C) 2015 Forest and Biomass Romania
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api
+from odoo import api, fields, models
+from odoo.osv import expression
 
 
 class ResCountryZone(models.Model):
-    _name = 'res.country.zone'
-    _description = 'Country Zones'
+    _name = "res.country.zone"
+    _description = "Country Zones"
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def _name_search(
+        self, name, args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
         args = args or []
-        recs = self.browse()
-        if name:
-            recs = self.search([('name', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search(
-                [('country_id.name', operator, name)] + args, limit=limit)
-        return recs.name_get()
+        if operator == "ilike" and not (name or "").strip():
+            domain = []
+        else:
+            domain = [
+                "|",
+                ("name", operator, name),
+                ("country_id.code", operator, name),
+            ]
+        rec = self._search(
+            expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
+        )
+        return models.lazy_name_get(self.browse(rec).with_user(name_get_uid))
 
-    name = fields.Char('Name', required=True, index=True)
-    country_id = fields.Many2one('res.country', string="Country")
-    state_ids = fields.One2many('res.country.state', 'zone_id', string='State')
-    siruta = fields.Char('Siruta')
+    name = fields.Char("Name", required=True, index=True)
+    country_id = fields.Many2one("res.country", string="Country")
+    state_ids = fields.One2many("res.country.state", "zone_id", string="State")
+    siruta = fields.Char("Siruta")
 
 
 class ResCountryState(models.Model):
-    _name = 'res.country.state'
-    _inherit = 'res.country.state'
+    _name = "res.country.state"
+    _inherit = "res.country.state"
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def _name_search(
+        self, name, args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
         args = args or []
-        recs = self.browse()
-        if name:
-            recs = self.search([('name', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search(
-                [('zone_id.name', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search(
-                [('country_id.name', operator, name)] + args, limit=limit)
-        return recs.name_get()
+        if operator == "ilike" and not (name or "").strip():
+            domain = []
+        else:
+            domain = ["|", ("name", operator, name), ("zone_id.name", operator, name)]
+        rec = self._search(
+            expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
+        )
+        return models.lazy_name_get(self.browse(rec).with_user(name_get_uid))
 
-    @api.onchange('zone_id')
+    @api.onchange("zone_id")
     def _onchange_zone_id(self):
         if self.zone_id:
             self.country_id = self.zone_id.country_id.id
 
-    zone_id = fields.Many2one('res.country.zone', string='Zone')
-    commune_ids = fields.One2many( 'res.country.commune', 'state_id', string='Cities/Communes')
-    city_ids = fields.One2many('res.city', 'state_id', string='Cities')
-    siruta = fields.Char('Siruta')
-
+    zone_id = fields.Many2one("res.country.zone", string="Zone")
+    commune_ids = fields.One2many(
+        "res.country.commune", "state_id", string="Cities/Communes"
+    )
+    city_ids = fields.One2many("res.city", "state_id", string="Cities")
+    siruta = fields.Char("Siruta")
 
 
 # unitate administrativ teritoriala = territorial administrative unit
 
 
 class ResCountryCommune(models.Model):
-    _name = 'res.country.commune'
-    _description = 'Country Cities/Communes'
+    _name = "res.country.commune"
+    _description = "Country Cities/Communes"
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def _name_search(
+        self, name, args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
         args = args or []
-        recs = self.browse()
-        if name:
-            recs = self.search([('name', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search(
-                [('state_id.name', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search(
-                [('zone_id.name', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search(
-                [('country_id.name', operator, name)] + args, limit=limit)
-        return recs.name_get()
+        if operator == "ilike" and not (name or "").strip():
+            domain = []
+        else:
+            domain = ["|", ("name", operator, name), ("state_id.code", operator, name)]
+        rec = self._search(
+            expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
+        )
+        return models.lazy_name_get(self.browse(rec).with_user(name_get_uid))
 
-    @api.onchange('state_id')
+    @api.onchange("state_id")
     def _onchange_state_id(self):
         if self.state_id:
             self.zone_id = self.state_id.zone_id.id
             self.country_id = self.state_id.country_id.id
 
-    @api.onchange('zone_id')
+    @api.onchange("zone_id")
     def _onchange_zone_id(self):
         if self.zone_id:
             self.state_id = False
             self.country_id = self.zone_id.country_id.id
 
-    name = fields.Char('Name', required=True, index=True)
-    state_id = fields.Many2one('res.country.state', string='State')
-    zone_id = fields.Many2one('res.country.zone', string="Zone")
-    country_id = fields.Many2one('res.country', string="Country")
-    siruta = fields.Char('Siruta')
-    city_ids = fields.One2many('res.city', 'state_id', string='Cities')
+    name = fields.Char("Name", required=True, index=True)
+    state_id = fields.Many2one("res.country.state", string="State")
+    zone_id = fields.Many2one("res.country.zone", string="Zone")
+    country_id = fields.Many2one("res.country", string="Country")
+    siruta = fields.Char("Siruta")
+    city_ids = fields.One2many("res.city", "state_id", string="Cities")
 
 
 class ResCountryCity(models.Model):
     _inherit = "res.city"
 
-
-    commune_id = fields.Many2one('res.country.commune', string='City/Commune')
-    zone_id = fields.Many2one('res.country.zone', string="Zone")
-
+    commune_id = fields.Many2one("res.country.commune", string="City/Commune")
+    zone_id = fields.Many2one("res.country.zone", string="Zone")
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def _name_search(
+        self, name, args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
         args = args or []
-        recs = self.browse()
-        if name:
-            recs = self.search([('name', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search(
-                [('commune_id.name', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search(
-                [('state_id.name', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search(
-                [('zone_id.name', operator, name)] + args, limit=limit)
-        if not recs:
-            recs = self.search(
-                [('country_id.name', operator, name)] + args, limit=limit)
-        return recs.name_get()
+        if operator == "ilike" and not (name or "").strip():
+            domain = []
+        else:
+            domain = [
+                "|",
+                ("name", operator, name),
+                ("commune_id.name", operator, name),
+            ]
+        rec = self._search(
+            expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
+        )
 
-    @api.onchange('commune_id')
+        return models.lazy_name_get(self.browse(rec).with_user(name_get_uid))
+
+    @api.onchange("commune_id")
     def _onchange_commune_id(self):
         if self.commune_id:
             self.municipality = self.commune_id.name
@@ -154,17 +138,16 @@ class ResCountryCity(models.Model):
             self.zone_id = self.commune_id.zone_id.id
             self.country_id = self.commune_id.country_id.id
 
-    @api.onchange('state_id')
+    @api.onchange("state_id")
     def _onchange_state_id(self):
         if self.state_id:
             self.commune_id = False
             self.zone_id = self.state_id.zone_id.id
             self.country_id = self.state_id.country_id.id
 
-    @api.onchange('zone_id')
+    @api.onchange("zone_id")
     def _onchange_zone_id(self):
         if self.zone_id:
             self.commune_id = False
             self.state_id = False
             self.country_id = self.zone_id.country_id.id
-
