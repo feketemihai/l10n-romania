@@ -29,15 +29,6 @@ class TestStockCommon(SavepointCase):
             [("code", "=", "707000")]
         )
 
-        # se poate utiliza foarte bine si  408
-        cls.account_input = cls.env["account.account"].search(
-            [("code", "=", "371000.i")]
-        )
-
-        # se poate utiliza foarte bine si  418
-        cls.account_output = cls.env["account.account"].search(
-            [("code", "=", "371000.o")]
-        )
 
         cls.account_valuation = cls.env["account.account"].search(
             [("code", "=", "371000")]
