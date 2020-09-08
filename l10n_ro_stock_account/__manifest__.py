@@ -14,13 +14,13 @@
         "sale_stock",
         "purchase_stock",
         "l10n_ro_config",
-        "l10n_ro_stock"
+        "l10n_ro_stock",
     ],
     "license": "AGPL-3",
     "data": [
         "views/product_category_view.xml",
         "views/stock_location_view.xml",
-        "views/stock_picking_view.xml"
+        "views/stock_picking_view.xml",
     ],
     "installable": True,
     "maintainers": ["dhongu", "feketemihai"],

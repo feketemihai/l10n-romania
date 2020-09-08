@@ -61,7 +61,8 @@ class TestStockSale(TestStockCommon):
         """
         Vanzare si facturare
              - initial in stoc si contabilitate este valoarea din achizitie
-             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului vandut
+             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului
+             vandut
              - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
              - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
         """
@@ -96,7 +97,8 @@ class TestStockSale(TestStockCommon):
     def test_sale_notice_and_invoice(self):
         """
              - initial in stoc si contabilitate este valoarea din achizitie
-             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului vandut
+             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului
+             vandut
              - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
              - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
         """
@@ -131,10 +133,10 @@ class TestStockSale(TestStockCommon):
     def test_sale_and_invoice_and_retur(self):
         """
         Vanzare si facturare
-             - initial in stoc si contabilitate este valoarea din achizitie
-             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului vandut
-             - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
-             - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
+         - initial in stoc si contabilitate este valoarea din achizitie
+         - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului vandut
+         - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
+         - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
         """
 
         #  intrare in stoc
@@ -166,10 +168,12 @@ class TestStockSale(TestStockCommon):
     def test_sale_notice_and_invoice_and_retur(self):
         """
         Vanzare si facturare
-             - initial in stoc si contabilitate este valoarea din achizitie
-             - dupa vanzare valoarea stocului trebuie sa scada cu valoarea stocului vandut
-             - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
-             - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
+         - initial in stoc si contabilitate este valoarea din achizitie
+         - dupa livrare valoarea stocului trebuie sa scada cu valoarea stocului vandut
+         - trebuie sa se inregistreze in contul 418 valoare de vanzare
+         - valoarea din stoc trebuie sa fie egala cu valoarea din contabilitate
+         - in contul de venituri trebuie sa fie inregistrata valoarea de vanzare
+         - dupa facturare soldul contului 418 trebuie sa fie zero
         """
 
         #  intrare in stoc

@@ -13,10 +13,8 @@ _logger = logging.getLogger(__name__)
 
 
 class TestStockCommon(SavepointCase):
-
     @classmethod
     def setUpAccounts(cls):
-
         def get_account(code):
             account = cls.env["account.account"].search([("code", "=", code)], limit=1)
             return account
@@ -27,7 +25,7 @@ class TestStockCommon(SavepointCase):
         cls.account_income = get_account("707000")
         cls.account_valuation = get_account("371000")
 
-        cls.account_valuation_mp =  get_account("301000")
+        cls.account_valuation_mp = get_account("301000")
 
         cls.uneligible_tax_account_id = (
             cls.env.user.company_id.tax_cash_basis_journal_id.default_debit_account_id
@@ -64,7 +62,9 @@ class TestStockCommon(SavepointCase):
         )
         if not cls.stock_usage_giving_account_id:
             cls.stock_usage_giving_account_id = get_account("803500")
-            cls.env.user.company_id.property_stock_usage_giving_account_id  =  cls.stock_usage_giving_account_id
+            cls.env.user.company_id.property_stock_usage_giving_account_id = (
+                cls.stock_usage_giving_account_id
+            )
 
     @classmethod
     def setUpClass(cls):
@@ -81,11 +81,13 @@ class TestStockCommon(SavepointCase):
                 {"name": "Stock Journal", "code": "STJ", "type": "general"}
             )
 
+        acc_diff_id = cls.account_difference.id
+
         category_value = {
             "name": "TEST Marfa",
             "property_cost_method": "fifo",
             "property_valuation": "real_time",
-            "property_account_creditor_price_difference_categ": cls.account_difference.id,
+            "property_account_creditor_price_difference_categ": acc_diff_id,
             "property_account_income_categ_id": cls.account_income.id,
             "property_account_expense_categ_id": cls.account_expense.id,
             "property_stock_account_input_categ_id": cls.account_valuation.id,
@@ -100,13 +102,14 @@ class TestStockCommon(SavepointCase):
         else:
             cls.category.write(category_value)
 
-        cls.category_mp = cls.category.copy({
-            "property_account_expense_categ_id": cls.account_expense_mp.id,
-            "property_stock_account_input_categ_id": cls.account_valuation_mp.id,
-            "property_stock_account_output_categ_id": cls.account_valuation_mp.id,
-            "property_stock_valuation_account_id": cls.account_valuation_mp.id,
-        })
-
+        cls.category_mp = cls.category.copy(
+            {
+                "property_account_expense_categ_id": cls.account_expense_mp.id,
+                "property_stock_account_input_categ_id": cls.account_valuation_mp.id,
+                "property_stock_account_output_categ_id": cls.account_valuation_mp.id,
+                "property_stock_valuation_account_id": cls.account_valuation_mp.id,
+            }
+        )
 
         cls.price_p1 = 50.0
         cls.price_p2 = round(random.random() * 100, 2)
@@ -148,11 +151,15 @@ class TestStockCommon(SavepointCase):
             }
         )
 
-        cls.vendor = cls.env["res.partner"].search([("name", "=", "TEST Vendor")], limit=1)
+        cls.vendor = cls.env["res.partner"].search(
+            [("name", "=", "TEST Vendor")], limit=1
+        )
         if not cls.vendor:
             cls.vendor = cls.env["res.partner"].create({"name": "TEST Vendor"})
 
-        cls.client = cls.env["res.partner"].search([("name", "=", "TEST Client")], limit=1)
+        cls.client = cls.env["res.partner"].search(
+            [("name", "=", "TEST Client")], limit=1
+        )
         if not cls.client:
             cls.client = cls.env["res.partner"].create({"name": "TEST Client"})
 
@@ -204,7 +211,17 @@ class TestStockCommon(SavepointCase):
             {
                 "default_location_dest_id": cls.location_warehouse.id,
                 "name": "TEST Receptie in Depozit",
-                'sequence_code': 'IN_test'
+                "sequence_code": "IN_test",
+            }
+        )
+
+        picking_type_transfer = cls.env.ref("stock.picking_type_internal")
+        cls.picking_type_transfer = picking_type_transfer.copy(
+            {
+                "default_location_src_id": cls.location_warehouse.id,
+                "default_location_dest_id": cls.location_warehouse.id,
+                "name": "TEST Transfer",
+                "sequence_code": "TR_test",
             }
         )
 
@@ -273,6 +290,30 @@ class TestStockCommon(SavepointCase):
     def make_puchase(self):
         self.create_po()
         self.create_invoice()
+
+    def make_return(self, pick, quantity=1.0):
+
+        stock_return_picking_form = Form(
+            self.env["stock.return.picking"].with_context(
+                active_ids=pick.ids, active_id=pick.ids[0], active_model="stock.picking"
+            )
+        )
+        return_wiz = stock_return_picking_form.save()
+        return_wiz.product_return_moves.write({"quantity": quantity, "to_refund": True})
+        res = return_wiz.create_returns()
+        return_pick = self.env["stock.picking"].browse(res["res_id"])
+
+        # Validate picking
+        return_pick.action_confirm()
+        return_pick.action_assign()
+        for move_line in return_pick.move_lines:
+            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
+                move_line.write({"quantity_done": move_line.product_uom_qty})
+        return_pick.action_done()
+
+        #
+        # return_pick.move_line_ids.write({"qty_done": quantity})
+        # return_pick.button_validate()
 
     def check_stock_valuation(self, val_p1, val_p2):
         val_p1 = round(val_p1, 2)

@@ -17,12 +17,12 @@ class ProductCategory(models.Model):
     hide_stock_in_out_account = fields.Boolean(
         compute="_compute_hide_accounts",
         help="Only for Romania, to hide stock_input and stock_output "
-             "accounts because they are the same as stock_valuation account",
+        "accounts because they are the same as stock_valuation account",
     )
     stock_account_change = fields.Boolean(
         string="Allow stock account change from locations",
         help="Only for Romania, to change the accounts to the ones defined "
-             "on stock locations",
+        "on stock locations",
     )
 
     @api.depends("name")
@@ -87,11 +87,11 @@ class ProductTemplate(models.Model):
         "Stock Valuation Account",
         company_dependent=True,
         domain="[('company_id', '=', allowed_company_ids[0]),"
-               "('deprecated', '=', False)]",
+        "('deprecated', '=', False)]",
         check_company=True,
         help="In Romania accounting is only one account for valuation/input/"
-             "output. If this value is set, we will use it, otherwise will "
-             "use the category value. ",
+        "output. If this value is set, we will use it, otherwise will "
+        "use the category value. ",
     )
 
     def _get_product_accounts(self):
@@ -119,7 +119,6 @@ class ProductTemplate(models.Model):
             accounts.update(
                 {
                     "stock_input": property_stock_valuation_account_id,
-                    # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
                     "stock_output": property_stock_valuation_account_id,
                     "stock_valuation": property_stock_valuation_account_id,
                 }
@@ -148,16 +147,25 @@ class ProductTemplate(models.Model):
                 accounts["stock_valuation"] = accounts["income"]
                 accounts["income"] = stock_picking_receivable_account_id
 
-        # la inventatiere si productie
-        elif valued_type in ["plus_inventory", "minus_inventory", "production"]:
+        elif valued_type in [
+            "plus_inventory",
+            "minus_inventory",
+        ]:
             accounts["stock_input"] = accounts["expense"]
             accounts["stock_output"] = accounts["expense"]
 
-        # la vanzare se scoate stocul pe cheltuiala
-        # la consum in productie se foloseste contul de cheltuiala
-        # la
-        elif valued_type in ["delivery", "delivery_notice", "consumption",'usage_giving']:
+        # in Romania iesirea din stoc de face de regula pe contul de cheltuiala
+        elif valued_type in [
+            "delivery",
+            "delivery_notice",
+            "consumption",
+            "production_return",
+            "usage_giving",
+        ]:
             accounts["stock_output"] = accounts["expense"]
+
+        elif valued_type in ["production", "consumption_return", "delivery_return"]:
+            accounts["stock_input"] = accounts["expense"]
 
         # suplimentar la darea in consum mai face o nota contabila
         elif valued_type == "usage_giving_secondary":
