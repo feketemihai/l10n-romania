@@ -90,9 +90,7 @@ class TestStockSale(TestStockCommon):
         self.check_account_valuation(val_stock_p1, val_stock_p2)
 
         _logger.info("Verifcare valoare vanduta")
-        self.check_account_valuation(
-            -self.val_so_p1, -self.val_so_p2, self.account_income
-        )
+        self.check_account_valuation(-self.val_so_p1, -self.val_so_p2, self.account_income)
 
     def test_sale_notice_and_invoice(self):
         """
@@ -126,9 +124,7 @@ class TestStockSale(TestStockCommon):
         self.check_account_valuation(val_stock_p1, val_stock_p2)
 
         _logger.info("Verifcare valoare vanduta")
-        self.check_account_valuation(
-            -self.val_so_p1, -self.val_so_p2, self.account_income
-        )
+        self.check_account_valuation(-self.val_so_p1, -self.val_so_p2, self.account_income)
 
     def test_sale_and_invoice_and_retur(self):
         """
@@ -152,9 +148,7 @@ class TestStockSale(TestStockCommon):
             )
         )
         return_wiz = stock_return_picking_form.save()
-        return_wiz.product_return_moves.write(
-            {"quantity": 2.0, "to_refund": True}
-        )  # Return only 2
+        return_wiz.product_return_moves.write({"quantity": 2.0, "to_refund": True})  # Return only 2
         res = return_wiz.create_returns()
         return_pick = self.env["stock.picking"].browse(res["res_id"])
 
@@ -189,9 +183,7 @@ class TestStockSale(TestStockCommon):
             )
         )
         return_wiz = stock_return_picking_form.save()
-        return_wiz.product_return_moves.write(
-            {"quantity": 2.0, "to_refund": True}
-        )  # Return only 2
+        return_wiz.product_return_moves.write({"quantity": 2.0, "to_refund": True})  # Return only 2
         res = return_wiz.create_returns()
         return_pick = self.env["stock.picking"].browse(res["res_id"])
 

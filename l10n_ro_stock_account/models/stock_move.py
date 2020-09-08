@@ -6,7 +6,7 @@
 import logging
 
 from odoo import api, models
-
+from odoo.tools import float_is_zero
 _logger = logging.getLogger(__name__)
 
 
@@ -33,16 +33,14 @@ class StockMove(models.Model):
             "production_return",  # storno productie
             "internal_transfer",  # transfer intern
             "usage_giving",
+            "usage_giving_return",
         ]
         return valued_types
 
     # nu se mai face in mod automat evaluarea la intrare in stoc
     def _create_in_svl(self, forced_quantity=None):
         _logger.info("SVL:%s" % self.env.context.get("valued_type", ""))
-        if (
-            self.env.context.get("standard")
-            or not self.env.user.company_id.romanian_accounting
-        ):
+        if self.env.context.get("standard") or not self.env.user.company_id.romanian_accounting:
             svl = super(StockMove, self)._create_in_svl(forced_quantity)
         else:
             svl = self.env["stock.valuation.layer"]
@@ -51,10 +49,7 @@ class StockMove(models.Model):
     # nu se mai face in mod automat evaluarea la iserirea din stoc
     def _create_out_svl(self, forced_quantity=None):
         _logger.info("SVL:%s" % self.env.context.get("valued_type", ""))
-        if (
-            self.env.context.get("standard")
-            or not self.env.user.company_id.romanian_accounting
-        ):
+        if self.env.context.get("standard") or not self.env.user.company_id.romanian_accounting:
             svl = super(StockMove, self)._create_out_svl(forced_quantity)
         else:
             svl = self.env["stock.valuation.layer"]
@@ -266,23 +261,71 @@ class StockMove(models.Model):
     def _create_internal_transfer_svl(self, forced_quantity=None):
         svl_vals_list = []
         for move in self.with_context(standard=True, valued_type="internal_transfer"):
-            svl_vals = move._prepare_common_svl_vals()
+            move = move.with_context(force_company=move.company_id.id)
+
+            valued_move_lines = move.move_line_ids
+            valued_quantity = 0
+            for valued_move_line in valued_move_lines:
+                valued_quantity += valued_move_line.product_uom_id._compute_quantity(valued_move_line.qty_done, move.product_id.uom_id)
+            if float_is_zero(forced_quantity or valued_quantity, precision_rounding=move.product_id.uom_id.rounding):
+                continue
+            svl_vals = move.product_id._prepare_out_svl_vals(forced_quantity or valued_quantity, move.company_id)
+            svl_vals.update(move._prepare_common_svl_vals())
+            if forced_quantity:
+                svl_vals['description'] = 'Correction of %s (modification of past move)' % move.picking_id.name or move.name
             svl_vals_list.append(svl_vals)
-        return self.env["stock.valuation.layer"].sudo().create(svl_vals_list)
+
+        for move in self.with_context(standard=True, valued_type="internal_transfer"):
+            move = move.with_context(force_company=move.company_id.id)
+            valued_move_lines = move.move_line_ids
+            valued_quantity = 0
+            for valued_move_line in valued_move_lines:
+                valued_quantity += valued_move_line.product_uom_id._compute_quantity(valued_move_line.qty_done, move.product_id.uom_id)
+            unit_cost = abs(move._get_price_unit())  # May be negative (i.e. decrease an out move).
+            if move.product_id.cost_method == 'standard':
+                unit_cost = move.product_id.standard_price
+            svl_vals = move.product_id._prepare_in_svl_vals(forced_quantity or valued_quantity, unit_cost)
+            svl_vals.update(move._prepare_common_svl_vals())
+            if forced_quantity:
+                svl_vals['description'] = 'Correction of %s (modification of past move)' % move.picking_id.name or move.name
+            svl_vals_list.append(svl_vals)
+
+
+        return self.env['stock.valuation.layer'].sudo().create(svl_vals_list)
+
+
+        # for move in self.with_context(standard=True, valued_type="internal_transfer"):
+        #     svl_vals = move._prepare_common_svl_vals()
+        #     svl_vals_list.append(svl_vals)
+        # return self.env["stock.valuation.layer"].sudo().create(svl_vals_list)
 
     def _is_usage_giving(self):
-        """ Este dare in folosinta, normal sau retur"""
-        it_is = self.env.user.company_id.romanian_accounting and (
+        """ Este dare in folosinta"""
+        it_is = (self.env.user.company_id.romanian_accounting and
             self.location_dest_id.usage == "usage_giving"
-            and self._is_out()
-            or self.location_id.usage == "usage_giving"
-            and self._is_in()
-        )
+            and self._is_out())
+
         return it_is
 
     def _create_usage_giving_svl(self, forced_quantity=None):
         move = self.with_context(standard=True, valued_type="usage_giving")
         return move._create_out_svl(forced_quantity)
+
+
+    def _is_usage_giving_return(self):
+        """ Este return dare in folosinta"""
+        it_is = (self.env.user.company_id.romanian_accounting and
+             self.location_id.usage == "usage_giving"
+            and self._is_in()
+        )
+        return it_is
+
+    def _create_usage_giving_return_svl(self, forced_quantity=None):
+        move = self.with_context(standard=True, valued_type="usage_giving_return")
+        return move._create_in_svl(forced_quantity)
+
+
+
 
     def _prepare_common_svl_vals(self):
         vals = super(StockMove, self)._prepare_common_svl_vals()
@@ -308,66 +351,31 @@ class StockMove(models.Model):
     def romanian_account_entry_move(self, qty, description, svl_id, cost):
         # location_from = self.location_id
         # location_to = self.location_dest_id
-        company_from = (
-            self._is_out()
-            and self.mapped("move_line_ids.location_id.company_id")
-            or False
-        )
-        company_to = (
-            self._is_in()
-            and self.mapped("move_line_ids.location_dest_id.company_id")
-            or False
-        )
+        company_from = self._is_out() and self.mapped("move_line_ids.location_id.company_id") or False
+        company_to = self._is_in() and self.mapped("move_line_ids.location_dest_id.company_id") or False
 
         if self._is_delivery_notice():
             # inregistrare valoare vanzare
             sale_cost = self._get_sale_amount()
-            move = self.with_context(
-                force_company=company_from.id, valued_type="invoice_out_notice"
-            )
+            move = self.with_context(force_company=company_from.id, valued_type="invoice_out_notice")
 
-            (
-                journal_id,
-                acc_src,
-                acc_dest,
-                acc_valuation,
-            ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
-                acc_valuation, acc_dest, journal_id, qty, description, svl_id, sale_cost
-            )
+            (journal_id, acc_src, acc_dest, acc_valuation,) = move._get_accounting_data_for_valuation()
+            move._create_account_move_line(acc_valuation, acc_dest, journal_id, qty, description, svl_id, sale_cost)
 
         if self._is_delivery_notice_return():
             # inregistrare valoare vanzare
             sale_cost = -1 * self._get_sale_amount()
-            move = self.with_context(
-                force_company=company_to.id, valued_type="invoice_out_notice"
-            )
+            move = self.with_context(force_company=company_to.id, valued_type="invoice_out_notice")
 
-            (
-                journal_id,
-                acc_src,
-                acc_dest,
-                acc_valuation,
-            ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
-                acc_dest, acc_valuation, journal_id, qty, description, svl_id, sale_cost
-            )
+            (journal_id, acc_src, acc_dest, acc_valuation,) = move._get_accounting_data_for_valuation()
+            move._create_account_move_line(acc_dest, acc_valuation, journal_id, qty, description, svl_id, sale_cost)
 
         if self._is_usage_giving():
             # inregistrare dare in folosinta 8035
             company = self.env.user.company_id
-            move = self.with_context(
-                force_company=company.id, valued_type="usage_giving_secondary"
-            )
-            (
-                journal_id,
-                acc_src,
-                acc_dest,
-                acc_valuation,
-            ) = move._get_accounting_data_for_valuation()
-            move._create_account_move_line(
-                acc_src, acc_dest, journal_id, qty, description, svl_id, cost
-            )
+            move = self.with_context(force_company=company.id, valued_type="usage_giving_secondary")
+            (journal_id, acc_src, acc_dest, acc_valuation,) = move._get_accounting_data_for_valuation()
+            move._create_account_move_line(acc_src, acc_dest, journal_id, qty, description, svl_id, cost)
 
         # if self._is_internal_transfer():
         #     # inregistrare transfer intern
@@ -389,9 +397,7 @@ class StockMove(models.Model):
         sale_line = self.sale_line_id
         if sale_line:
             price_invoice = sale_line.price_subtotal / sale_line.product_uom_qty
-            price_invoice = sale_line.product_uom._compute_price(
-                price_invoice, self.product_uom
-            )
+            price_invoice = sale_line.product_uom._compute_price(price_invoice, self.product_uom)
             valuation_amount = price_invoice * abs(self.product_qty)
             company = self.location_id.company_id or self.env.user.company_id
             valuation_amount = sale_line.order_id.currency_id._convert(
@@ -400,14 +406,7 @@ class StockMove(models.Model):
         return valuation_amount
 
     def _create_account_move_line(
-        self,
-        credit_account_id,
-        debit_account_id,
-        journal_id,
-        qty,
-        description,
-        svl_id,
-        cost,
+        self, credit_account_id, debit_account_id, journal_id, qty, description, svl_id, cost,
     ):
         # nu mai trebuie generate notele contabile de la cont de stoc la cont de stoc
         # valabil doar pentru dare in folosinta
@@ -418,25 +417,14 @@ class StockMove(models.Model):
         ):
             return
         return super(StockMove, self)._create_account_move_line(
-            credit_account_id,
-            debit_account_id,
-            journal_id,
-            qty,
-            description,
-            svl_id,
-            cost,
+            credit_account_id, debit_account_id, journal_id, qty, description, svl_id, cost,
         )
 
     def _get_accounting_data_for_valuation(self):
-        journal_id, acc_src, acc_dest, acc_valuation = super(
-            StockMove, self
-        )._get_accounting_data_for_valuation()
+        journal_id, acc_src, acc_dest, acc_valuation = super(StockMove, self)._get_accounting_data_for_valuation()
 
         company = self.env.user.company_id
-        if (
-            company.romanian_accounting
-            and self.product_id.categ_id.stock_account_change
-        ):
+        if company.romanian_accounting and self.product_id.categ_id.stock_account_change:
             location_from = self.location_id
             location_to = self.location_dest_id
 
@@ -446,7 +434,24 @@ class StockMove(models.Model):
             if location_to.property_account_expense_location_id:
                 acc_dest = location_to.property_account_expense_location_id.id
 
+            # nu se va putea face tranferul dintre doua locatii care au
+            # setat cont de evaluare
+
+
+            # produsele din aceasta locatia folosesc pentru evaluare contul
             if location_to.property_stock_valuation_account_id:
-                acc_valuation = location_to.property_stock_valuation_account_id.id
+                # in cazul unui transfer intern se va face contare dintre contul de stoc si contul din locatie
+                if self.env.context.get("valued_type") == 'internal_transfer':
+                    acc_dest = location_to.property_stock_valuation_account_id.id
+                else:
+                    acc_valuation = location_to.property_stock_valuation_account_id.id
+
+            # produsele din aceasta locatia folosesc pentru evaluare contul
+            if location_from.property_stock_valuation_account_id:
+                # in cazul unui transfer intern se va face contare dintre contul de stoc si contul din locatie
+                if self.env.context.get("valued_type") == 'internal_transfer':
+                    acc_src = location_from.property_stock_valuation_account_id.id
+                else:
+                    acc_valuation = location_from.property_stock_valuation_account_id.id
 
         return journal_id, acc_src, acc_dest, acc_valuation

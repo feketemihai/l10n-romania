@@ -104,9 +104,7 @@ class TestStockPurchase(TestStockCommon):
         self.check_account_valuation(self.val_p1_i, self.val_p2_i)
 
         # verificare inregistrare diferenta de pret
-        self.check_account_diff(
-            self.val_p1_f - self.val_p1_i, self.val_p2_f - self.val_p2_i
-        )
+        self.check_account_diff(self.val_p1_f - self.val_p1_i, self.val_p2_f - self.val_p2_i)
 
         # soldul lui 408 trebuie sa fie zero
         self.check_account_valuation(0, 0, self.stock_picking_payable_account_id)
