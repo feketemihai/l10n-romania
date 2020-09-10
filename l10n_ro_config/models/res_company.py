@@ -10,26 +10,24 @@ class ResCompany(models.Model):
 
     share_capital = fields.Float(string="Share Capital", digits="Account", default=200)
     company_registry = fields.Char(related="partner_id.nrc", readonly=False)
+    romanian_accounting = fields.Boolean(string="Use Romanian Accounting")
     property_stock_picking_payable_account_id = fields.Many2one(
         "account.account",
         string="Picking Account Payable",
         domain="[('internal_type', 'in', ['payable','other'])]",
-        help="This account will be used as the payable account for the "
-        "current partner on stock picking notice.",
+        help="This account will be used as the payable account for the " "current partner on stock picking notice.",
     )
     property_stock_picking_receivable_account_id = fields.Many2one(
         "account.account",
         string="Picking Account Receivable",
         domain="[('internal_type', 'in', ['receivable','other'])]",
-        help="This account will be used as the receivable account for the "
-        "current partner on stock picking notice.",
+        help="This account will be used as the receivable account for the " "current partner on stock picking notice.",
     )
     property_stock_usage_giving_account_id = fields.Many2one(
         "account.account",
         string="Usage Giving Account",
         domain="[('internal_type', '=', 'other')]",
-        help="This account will be used as the usage giving "
-        "account in account move line.",
+        help="This account will be used as the usage giving " "account in account move line.",
     )
     property_stock_picking_custody_account_id = fields.Many2one(
         "account.account",
@@ -54,10 +52,8 @@ class ResCompany(models.Model):
         "stores.",
     )
 
-    property_trade_discount_received_account_id = fields.Many2one('account.account', string='Trade discounts received')
-    property_trade_discount_granted_account_id = fields.Many2one('account.account', string='Trade discounts granted')
+    property_trade_discount_received_account_id = fields.Many2one("account.account", string="Trade discounts received")
+    property_trade_discount_granted_account_id = fields.Many2one("account.account", string="Trade discounts granted")
 
-
-    property_vat_on_payment_position_id = fields.Many2one('account.fiscal.position','VAT on Payment')
-    property_inverse_taxation_position_id = fields.Many2one('account.fiscal.position', 'Inverse Taxation')
-
+    property_vat_on_payment_position_id = fields.Many2one("account.fiscal.position", "VAT on Payment")
+    property_inverse_taxation_position_id = fields.Many2one("account.fiscal.position", "Inverse Taxation")

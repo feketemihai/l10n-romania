@@ -16,50 +16,40 @@ class RomaniaReportD300(models.TransientModel):
     """
 
     # Filters fields, used for data computation
-    company_id = fields.Many2one(comodel_name='res.company')
+    company_id = fields.Many2one(comodel_name="res.company")
     date_from = fields.Date()
     date_to = fields.Date()
-    tax_detail = fields.Boolean('Tax Detail')
+    tax_detail = fields.Boolean("Tax Detail")
 
     # Data fields, used to browse report data
-    taxtags_ids = fields.One2many(
-        comodel_name='l10n_ro_report_d300_taxtag',
-        inverse_name='report_id'
-    )
+    taxtags_ids = fields.One2many(comodel_name="l10n_ro_report_d300_taxtag", inverse_name="report_id")
 
 
 class RomaniaReportD300TaxTag(models.TransientModel):
-    _name = 'l10n_ro_report_d300_taxtag'
-    _order = 'code ASC'
+    _name = "l10n_ro_report_d300_taxtag"
+    _order = "code ASC"
 
     @api.multi
     def _compute_move_lines(self):
-        ml_object = self.env['account.move.line']
+        ml_object = self.env["account.move.line"]
         for tag in self:
             lines = []
             report = tag.report_id
             if report:
-                taxes = tag.tax_ids.mapped('tax_id').ids
+                taxes = tag.tax_ids.mapped("tax_id").ids
                 domain = [
-                    ('tax_line_id', 'in', taxes),
-                    ('tax_exigible', '=', True),
-                    ('date', '<=', report.date_to),
-                    ('date', '>=', report.date_from)
+                    ("tax_line_id", "in", taxes),
+                    ("tax_exigible", "=", True),
+                    ("date", "<=", report.date_to),
+                    ("date", ">=", report.date_from),
                 ]
                 lines = ml_object.search(domain)
             tag.move_line_ids = lines if lines else []
 
-    report_id = fields.Many2one(
-        comodel_name='l10n_ro_report_d300',
-        ondelete='cascade',
-        index=True
-    )
+    report_id = fields.Many2one(comodel_name="l10n_ro_report_d300", ondelete="cascade", index=True)
 
     # Data fields, used to keep link with real object
-    taxtag_id = fields.Many2one(
-        'account.account.tag',
-        index=True
-    )
+    taxtag_id = fields.Many2one("account.account.tag", index=True)
 
     # Data fields, used for report display
     code = fields.Integer()
@@ -68,32 +58,19 @@ class RomaniaReportD300TaxTag(models.TransientModel):
     tax = fields.Float(digits=(16, 2))
 
     # Data fields, used to browse report data
-    tax_ids = fields.One2many(
-        comodel_name='l10n_ro_report_d300_tax',
-        inverse_name='report_tax_id'
-    )
+    tax_ids = fields.One2many(comodel_name="l10n_ro_report_d300_tax", inverse_name="report_tax_id")
 
-    move_line_ids = fields.One2many(
-        comodel_name='account.move.line',
-        compute='_compute_move_lines'
-    )
+    move_line_ids = fields.One2many(comodel_name="account.move.line", compute="_compute_move_lines")
 
 
 class RomaniaReportD300Tax(models.TransientModel):
-    _name = 'l10n_ro_report_d300_tax'
-    _order = 'name ASC'
+    _name = "l10n_ro_report_d300_tax"
+    _order = "name ASC"
 
-    report_tax_id = fields.Many2one(
-        comodel_name='l10n_ro_report_d300_taxtag',
-        ondelete='cascade',
-        index=True
-    )
+    report_tax_id = fields.Many2one(comodel_name="l10n_ro_report_d300_taxtag", ondelete="cascade", index=True)
 
     # Data fields, used to keep link with real object
-    tax_id = fields.Many2one(
-        'account.tax',
-        index=True
-    )
+    tax_id = fields.Many2one("account.tax", index=True)
 
     # Data fields, used for report display
     code = fields.Char()
@@ -103,24 +80,22 @@ class RomaniaReportD300Tax(models.TransientModel):
 
     @api.multi
     def _compute_move_lines(self):
-        ml_object = self.env['account.move.line']
+        ml_object = self.env["account.move.line"]
         for tax in self:
             lines = []
             report = tax.report_tax_id.report_id
             if report:
                 domain = [
-                    ('tax_line_id', '=', tax.tax_id.id),
-                    ('tax_exigible', '=', True),
-                    ('date', '<=', report.date_to),
-                    ('date', '>=', report.date_from)
+                    ("tax_line_id", "=", tax.tax_id.id),
+                    ("tax_exigible", "=", True),
+                    ("date", "<=", report.date_to),
+                    ("date", ">=", report.date_from),
                 ]
                 lines = ml_object.search(domain)
             tax.move_line_ids = lines if lines else []
 
     move_line_ids = fields.One2many(
-        comodel_name='account.move.line',
-        inverse_name='tax_line_id',
-        compute='_compute_move_lines'
+        comodel_name="account.move.line", inverse_name="tax_line_id", compute="_compute_move_lines"
     )
 
 
@@ -129,31 +104,29 @@ class RomaniaReportD300Compute(models.TransientModel):
     For class fields, go more top at this file.
     """
 
-    _inherit = 'l10n_ro_report_d300'
+    _inherit = "l10n_ro_report_d300"
 
     @api.multi
-    def print_report(self, report_type='qweb'):
+    def print_report(self, report_type="qweb"):
         self.ensure_one()
-        if report_type == 'xlsx':
-            report_name = 'l10n_ro_report_d300_xlsx'
+        if report_type == "xlsx":
+            report_name = "l10n_ro_report_d300_xlsx"
         else:
-            report_name = 'l10n_ro_report_D300.l10n_ro_report_d300_qweb'
+            report_name = "l10n_ro_report_D300.l10n_ro_report_d300_qweb"
         context = dict(self.env.context)
-        action = self.env['ir.actions.report'].search(
-            [('report_name', '=', report_name),
-             ('report_type', '=', report_type)], limit=1)
+        action = self.env["ir.actions.report"].search(
+            [("report_name", "=", report_name), ("report_type", "=", report_type)], limit=1
+        )
         return action.with_context(context).report_action(self)
 
     def _get_html(self):
         result = {}
         rcontext = {}
         context = dict(self.env.context)
-        report = self.browse(context.get('active_id'))
+        report = self.browse(context.get("active_id"))
         if report:
-            rcontext['o'] = report
-            result['html'] = self.env.ref(
-                'l10n_ro_report_D300.l10n_ro_report_d300').render(
-                    rcontext)
+            rcontext["o"] = report
+            result["html"] = self.env.ref("l10n_ro_report_D300.l10n_ro_report_d300").render(rcontext)
         return result
 
     @api.model
@@ -218,8 +191,7 @@ SELECT
 FROM
     taxtags tag
         """
-        query_inject_taxtags_params = (self.company_id.id, self.date_from,
-                                       self.date_to, self.id, self.env.uid)
+        query_inject_taxtags_params = (self.company_id.id, self.date_from, self.date_to, self.id, self.env.uid)
         self.env.cr.execute(query_inject_taxtags, query_inject_taxtags_params)
 
     def _inject_tax_values(self):
@@ -273,6 +245,5 @@ SELECT
 FROM
     taxtags_tax tt
         """
-        query_inject_tax_params = (self.id, self.company_id.id, self.date_from,
-                                   self.date_to, self.env.uid)
+        query_inject_tax_params = (self.id, self.company_id.id, self.date_from, self.date_to, self.env.uid)
         self.env.cr.execute(query_inject_tax, query_inject_tax_params)

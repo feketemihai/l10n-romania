@@ -32,16 +32,19 @@ class account_account(models.Model):
 
     currency_reevaluation = fields.Boolean("Allow Currency reevaluation")
 
+
 class account_move_line(models.Model):
     _inherit = "account.move.line"
 
     currency_reevaluation = fields.Boolean("Currency reevaluation")
 
+
 from odoo.osv import osv, fields
+
 
 class account_move_line(osv.Model):
     _inherit = "account.move.line"
-    
+
     # Rewrite residual function to allow amount residual according to storno
     # journals.
     def _amount_residual(self, cr, uid, ids, field_names, args, context=None):
@@ -51,11 +54,11 @@ class account_move_line(osv.Model):
         res = {}
         if context is None:
             context = {}
-        cur_obj = self.pool.get('res.currency')
+        cur_obj = self.pool.get("res.currency")
         for move_line in self.browse(cr, uid, ids, context=context):
             res[move_line.id] = {
-                'amount_residual': 0.0,
-                'amount_residual_currency': 0.0,
+                "amount_residual": 0.0,
+                "amount_residual_currency": 0.0,
             }
 
             if move_line.reconcile_id:
@@ -77,13 +80,16 @@ class account_move_line(osv.Model):
                 for payment_line in move_line.reconcile_partial_id.line_partial_ids:
                     if payment_line.id == move_line.id:
                         continue
-                    if payment_line.currency_id and move_line.currency_id and payment_line.currency_id.id == move_line.currency_id.id:
+                    if (
+                        payment_line.currency_id
+                        and move_line.currency_id
+                        and payment_line.currency_id.id == move_line.currency_id.id
+                    ):
                         move_line_total += payment_line.amount_currency
                     else:
                         if not payment_line.currency_reevaluation:
                             if move_line.currency_id:
-                                context_unreconciled.update(
-                                    {'date': payment_line.date})
+                                context_unreconciled.update({"date": payment_line.date})
                                 amount_in_foreign_currency = cur_obj.compute(
                                     cr,
                                     uid,
@@ -91,41 +97,37 @@ class account_move_line(osv.Model):
                                     move_line.currency_id.id,
                                     (payment_line.debit - payment_line.credit),
                                     round=False,
-                                    context=context_unreconciled)
+                                    context=context_unreconciled,
+                                )
                                 move_line_total += amount_in_foreign_currency
                             else:
-                                move_line_total += (payment_line.debit -
-                                                payment_line.credit)
-                    line_total_in_company_currency += (
-                        payment_line.debit - payment_line.credit)
+                                move_line_total += payment_line.debit - payment_line.credit
+                    line_total_in_company_currency += payment_line.debit - payment_line.credit
 
             result = move_line_total
-            res[
-                move_line.id]['amount_residual_currency'] = sign * (
-                move_line.currency_id and self.pool.get('res.currency').round(
-                    cr,
-                    uid,
-                    move_line.currency_id,
-                    result) or result)
-            res[move_line.id]['amount_residual'] = sign * \
-                line_total_in_company_currency
-            if move_line.journal_id.posting_policy == 'storno':
+            res[move_line.id]["amount_residual_currency"] = sign * (
+                move_line.currency_id
+                and self.pool.get("res.currency").round(cr, uid, move_line.currency_id, result)
+                or result
+            )
+            res[move_line.id]["amount_residual"] = sign * line_total_in_company_currency
+            if move_line.journal_id.posting_policy == "storno":
                 if move_line.debit < 0 or move_line.credit < 0:
-                    res[move_line.id]['amount_residual_currency'] = res[
-                        move_line.id]['amount_residual_currency'] * (-1)
-                    res[move_line.id]['amount_residual'] = res[
-                        move_line.id]['amount_residual'] * (-1)
+                    res[move_line.id]["amount_residual_currency"] = res[move_line.id]["amount_residual_currency"] * (-1)
+                    res[move_line.id]["amount_residual"] = res[move_line.id]["amount_residual"] * (-1)
         return res
 
     _columns = {
-        'amount_residual_currency': fields.function(
+        "amount_residual_currency": fields.function(
             _amount_residual,
-            string='Residual Amount in Currency',
+            string="Residual Amount in Currency",
             multi="residual",
-            help="The residual amount on a receivable or payable of a journal entry expressed in its currency (maybe different of the company currency)."),
-        'amount_residual': fields.function(
+            help="The residual amount on a receivable or payable of a journal entry expressed in its currency (maybe different of the company currency).",
+        ),
+        "amount_residual": fields.function(
             _amount_residual,
-            string='Residual Amount',
+            string="Residual Amount",
             multi="residual",
-            help="The residual amount on a receivable or payable of a journal entry expressed in the company currency."),
+            help="The residual amount on a receivable or payable of a journal entry expressed in the company currency.",
+        ),
     }

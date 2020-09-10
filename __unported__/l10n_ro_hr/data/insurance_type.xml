@@ -1,127 +1,165 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <openerp>
     <data noupdate="0">
-		<record id="1"  model="hr.insurance.type">
+		<record id="1" model="hr.insurance.type">
 			<field name="type">1</field>
 			<field name="code">1</field>
 			<field name="name">Salariat</field>
 		</record>
-		<record id="2"  model="hr.insurance.type">
+		<record id="2" model="hr.insurance.type">
 			<field name="type">1</field>
 			<field name="code">2</field>
 			<field name="name">Salariat Militar (contributia de somaj=0);</field>
 		</record>
-		<record id="3"  model="hr.insurance.type">
+		<record id="3" model="hr.insurance.type">
 			<field name="type">1</field>
 			<field name="code">3</field>
-			<field name="name">Alte categorii de persoane care realizeaza venituri asimilate salariilor - care nu au contract individual de munca sau raport de servicii (nu este salariat)</field>
+			<field
+        name="name"
+      >Alte categorii de persoane care realizeaza venituri asimilate salariilor - care nu au contract individual de munca sau raport de servicii (nu este salariat)</field>
 		</record>
-		<record id="4"  model="hr.insurance.type">
+		<record id="4" model="hr.insurance.type">
 			<field name="type">1</field>
 			<field name="code">4</field>
 			<field name="name">Cenzori; membri in consiliu de administratie</field>
 		</record>
-		<record id="5"  model="hr.insurance.type">
+		<record id="5" model="hr.insurance.type">
 			<field name="type">1</field>
 			<field name="code">5</field>
-			<field name="name">Persoane disponibilizate care beneficiaza de plati compensatorii acordate in baza contractului colectiv sau individual de munca suportate din fondul de salarii</field>
+			<field
+        name="name"
+      >Persoane disponibilizate care beneficiaza de plati compensatorii acordate in baza contractului colectiv sau individual de munca suportate din fondul de salarii</field>
 		</record>
-		<record id="6"  model="hr.insurance.type">
+		<record id="6" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">6</field>
-			<field name="name">Salariat Militar care isi desfasoara activitatea in alte conditii de munca</field>
+			<field
+        name="name"
+      >Salariat Militar care isi desfasoara activitatea in alte conditii de munca</field>
 		</record>
-		<record id="7"  model="hr.insurance.type">
+		<record id="7" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">1</field>
-			<field name="name">Personal monahal Culte Recunoscute (Ministerul Cultelor + unitati subordonate)</field>
+			<field
+        name="name"
+      >Personal monahal Culte Recunoscute (Ministerul Cultelor + unitati subordonate)</field>
 		</record>
-		<record id="8"  model="hr.insurance.type">
+		<record id="8" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">2</field>
 			<field name="name">Somer (declara ANOFM)</field>
 		</record>
-		<record id="9"  model="hr.insurance.type">
+		<record id="9" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">3</field>
-			<field name="name">Pensionari peste limita (declara CNPAS si alte case de pensii)</field>
+			<field
+        name="name"
+      >Pensionari peste limita (declara CNPAS si alte case de pensii)</field>
 		</record>
-		<record id="10"  model="hr.insurance.type">
+		<record id="10" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">4</field>
-			<field name="name">Persoane beneficiare de ajutor social (declarate de primarii)</field>
+			<field
+        name="name"
+      >Persoane beneficiare de ajutor social (declarate de primarii)</field>
 		</record>
-		<record id="11"  model="hr.insurance.type">
+		<record id="11" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">5</field>
-			<field name="name">Persoane care beneficiaza de indemnizatiie de crestere copilului intre 2-3 ani (declarate Agentia Nationala pentru Prestatii Sociale)</field>
+			<field
+        name="name"
+      >Persoane care beneficiaza de indemnizatiie de crestere copilului intre 2-3 ani (declarate Agentia Nationala pentru Prestatii Sociale)</field>
 		</record>
-		<record id="12"  model="hr.insurance.type">
+		<record id="12" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">6</field>
-			<field name="name">Persoane care beneficiaza de indemnizatiie de crestere copilului cu handicap intre 3-7 ani (declarate de Agentia Nationala pentru Prestatii Sociale)</field>
+			<field
+        name="name"
+      >Persoane care beneficiaza de indemnizatiie de crestere copilului cu handicap intre 3-7 ani (declarate de Agentia Nationala pentru Prestatii Sociale)</field>
 		</record>
-		<record id="13"  model="hr.insurance.type">
+		<record id="13" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">7</field>
-			<field name="name">Persoane care executa o pedeapsa privativa de libertate sau se afla in arest preventiv (declarate de Ministerul Justitiei)</field>
+			<field
+        name="name"
+      >Persoane care executa o pedeapsa privativa de libertate sau se afla in arest preventiv (declarate de Ministerul Justitiei)</field>
 		</record>
-		<record id="14"  model="hr.insurance.type">
+		<record id="14" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">8</field>
-			<field name="name">Persoane care se afla in executarea masurilor prevazute la art. 105; 113; 114 din Cod Penal si persoanele care se afla in perioada de amanare sau intrerupere a pedepsei privative de libertate (declarate de Ministerul Justititiei)</field>
+			<field
+        name="name"
+      >Persoane care se afla in executarea masurilor prevazute la art. 105; 113; 114 din Cod Penal si persoanele care se afla in perioada de amanare sau intrerupere a pedepsei privative de libertate (declarate de Ministerul Justititiei)</field>
 		</record>
-		<record id="15"  model="hr.insurance.type">
+		<record id="15" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">9</field>
-			<field name="name">Persoane returnate sau expulzate sau victimele traficului de persoane si se afla in timpul procedurilor necesare stabilirii demnitatii (declarate de MAI)</field>
+			<field
+        name="name"
+      >Persoane returnate sau expulzate sau victimele traficului de persoane si se afla in timpul procedurilor necesare stabilirii demnitatii (declarate de MAI)</field>
 		</record>
-		<record id="16"  model="hr.insurance.type">
+		<record id="16" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">10</field>
-			<field name="name">Persoane prevazute la art.1 alin. 2 sau art. 23 alin. 3 sau art 32 din OUG 158/2005 declarate de casele de asigurari de sanatate</field>
+			<field
+        name="name"
+      >Persoane prevazute la art.1 alin. 2 sau art. 23 alin. 3 sau art 32 din OUG 158/2005 declarate de casele de asigurari de sanatate</field>
 		</record>
-		<record id="17"  model="hr.insurance.type">
+		<record id="17" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">11</field>
-			<field name="name">Asigurati preluati de casele judetene de pensii de la unitatile in faliment (declarate de CJP)</field>
+			<field
+        name="name"
+      >Asigurati preluati de casele judetene de pensii de la unitatile in faliment (declarate de CJP)</field>
 		</record>
-		<record id="18"  model="hr.insurance.type">
+		<record id="18" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">12</field>
 			<field name="name"> </field>
 		</record>
-		<record id="19"  model="hr.insurance.type">
+		<record id="19" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">13</field>
-			<field name="name">Sot/Sotie pentru personal roman trimis in misiune permanenta in strainatate (declarat de unitatile care trimit)</field>
+			<field
+        name="name"
+      >Sot/Sotie pentru personal roman trimis in misiune permanenta in strainatate (declarat de unitatile care trimit)</field>
 		</record>
-		<record id="20"  model="hr.insurance.type">
+		<record id="20" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">14</field>
-			<field name="name">Membri corpului diplomatic care participa la cursuri de pregatire in strainatate pe o durata care depaseste 90 de zile calendaristice (declarat de MAE)</field>
+			<field
+        name="name"
+      >Membri corpului diplomatic care participa la cursuri de pregatire in strainatate pe o durata care depaseste 90 de zile calendaristice (declarat de MAE)</field>
 		</record>
-		<record id="21"  model="hr.insurance.type">
+		<record id="21" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">15</field>
-			<field name="name">Persoane disponibilizate care beneficiaza de plati compensatorii suportate de bugetul asigurarilor de somaj (declara ANOFM)</field>
+			<field
+        name="name"
+      >Persoane disponibilizate care beneficiaza de plati compensatorii suportate de bugetul asigurarilor de somaj (declara ANOFM)</field>
 		</record>
-		<record id="22"  model="hr.insurance.type">
+		<record id="22" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">16</field>
-			<field name="name">Persoanele; cetateni romani; care sunt victime ale traficului de persoane; pentru o perioada de cel mult 12 luni</field>
+			<field
+        name="name"
+      >Persoanele; cetateni romani; care sunt victime ale traficului de persoane; pentru o perioada de cel mult 12 luni</field>
 		</record>
-		<record id="23"  model="hr.insurance.type">
+		<record id="23" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">17</field>
-			<field name="name">Persoane care realizeaza venituri profesionale din drepturi de autor si drepturi conexe prev art. III din OUG 58/2010 modificata</field>
+			<field
+        name="name"
+      >Persoane care realizeaza venituri profesionale din drepturi de autor si drepturi conexe prev art. III din OUG 58/2010 modificata</field>
 		</record>
-		<record id="24"  model="hr.insurance.type">
+		<record id="24" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">18</field>
-			<field name="name">Persoane care realizeaza venituri profesionale din contracte / conventii civile prev art. III din OUG 58/2010 modificata</field>
+			<field
+        name="name"
+      >Persoane care realizeaza venituri profesionale din contracte / conventii civile prev art. III din OUG 58/2010 modificata</field>
 		</record>
-		<record id="25"  model="hr.insurance.type">
+		<record id="25" model="hr.insurance.type">
 			<field name="type">2</field>
 			<field name="code">19</field>
 			<field name="name">Consilieri locali</field>
@@ -129,4 +167,3 @@
 
     </data>
 </openerp>
-

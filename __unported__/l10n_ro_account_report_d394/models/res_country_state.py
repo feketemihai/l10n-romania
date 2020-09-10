@@ -6,6 +6,6 @@ from odoo import models, fields
 
 
 class res_country_state(models.Model):
-    _inherit = 'res.country.state'
+    _inherit = "res.country.state"
 
-    order_code = fields.Char('Order Code')
+    order_code = fields.Char("Order Code")

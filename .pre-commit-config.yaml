@@ -9,7 +9,8 @@ exclude: |
   # Repos using Sphinx to generate docs don't need prettying
   ^docs/_templates/.*\.html$|
   # You don't usually want a bot to modify your legal texts
-  (LICENSE.*|COPYING.*)
+  (LICENSE.*|COPYING.*)|
+  __unported__
 default_language_version:
   python: python3
 repos:
@@ -17,6 +18,7 @@ repos:
     rev: 19.10b0
     hooks:
       - id: black
+        args: [-l 120]
   - repo: https://github.com/prettier/prettier
     rev: "1.19.1"
     hooks:
@@ -86,17 +88,9 @@ repos:
         name: pylint with mandatory checks
         args: ["--rcfile=.pylintrc-mandatory"]
         additional_dependencies: ["pylint-odoo==3.1.0"]
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v1.26.2
-    hooks:
-      - id: pyupgrade
   - repo: https://github.com/pre-commit/mirrors-isort
     rev: v4.3.21
     hooks:
       - id: isort
         name: isort except __init__.py
         exclude: /__init__\.py$
-  - repo: https://github.com/acsone/setuptools-odoo
-    rev: 2.5.2
-    hooks:
-      - id: setuptools-odoo-make-default

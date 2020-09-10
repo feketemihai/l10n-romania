@@ -29,24 +29,25 @@ class stock_balance(models.Model):
     _description = "stock Stock balance"
     _auto = False
 
-    date = fields.Datetime('Date', readonly=True)
-    location_id = fields.Many2one('stock.location', 'Location', readonly=True, index=True)
-    categ_id = fields.Many2one('product.category', 'Category', readonly=True)
-    product_id = fields.Many2one('product.product', 'Product', readonly=True)
-    product_uom = fields.Many2one('uom.uom', 'Unit of Measure', required=True)
-    qty_in = fields.Float('Qty In', digits=dp.get_precision('Product UoM'), readonly=True)
-    amount_in = fields.Float('Amount In', digits=dp.get_precision('Account'), readonly=True)
-    qty_out = fields.Float('Qty Out', digits=dp.get_precision('Product UoM'), readonly=True)
-    amount_out = fields.Float('Amount Out', digits=dp.get_precision('Account'), readonly=True)
-    product_qty = fields.Float('Quantity', digits_=dp.get_precision('Product UoM'), readonly=True)
-    amount = fields.Float('Amount', digits=dp.get_precision('Account'), readonly=True)
-    company_id = fields.Many2one('res.company', 'Company', readonly=True)
+    date = fields.Datetime("Date", readonly=True)
+    location_id = fields.Many2one("stock.location", "Location", readonly=True, index=True)
+    categ_id = fields.Many2one("product.category", "Category", readonly=True)
+    product_id = fields.Many2one("product.product", "Product", readonly=True)
+    product_uom = fields.Many2one("uom.uom", "Unit of Measure", required=True)
+    qty_in = fields.Float("Qty In", digits=dp.get_precision("Product UoM"), readonly=True)
+    amount_in = fields.Float("Amount In", digits=dp.get_precision("Account"), readonly=True)
+    qty_out = fields.Float("Qty Out", digits=dp.get_precision("Product UoM"), readonly=True)
+    amount_out = fields.Float("Amount Out", digits=dp.get_precision("Account"), readonly=True)
+    product_qty = fields.Float("Quantity", digits_=dp.get_precision("Product UoM"), readonly=True)
+    amount = fields.Float("Amount", digits=dp.get_precision("Account"), readonly=True)
+    company_id = fields.Many2one("res.company", "Company", readonly=True)
 
     @api.model_cr
     def init(self):
 
         tools.drop_view_if_exists(self.env.cr, self._table)
-        self.env.cr.execute("""
+        self.env.cr.execute(
+            """
          create or replace view stock_balance as (
 
 SELECT
@@ -101,9 +102,7 @@ SELECT
       sm.company_id) smg
  GROUP BY smg.date,  smg.categ_id, smg.product_id,
  smg.location_id, smg.product_uom, smg.company_id
-        )""")
+        )"""
+        )
 
         # amount_in era calculat din sum((q.quantity * q.cost)) AS amount_in
-
-
-

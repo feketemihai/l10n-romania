@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <openerp>
     <data>
 
@@ -8,14 +8,18 @@
             <field name="arch" type="xml">
                 <form string="D394 Codes">
                     <div class="oe_title">
-                        <label for="name" class="oe_edit_only"/>
+                        <label for="name" class="oe_edit_only" />
                         <h1>
-                            <field name="name"/> - <field name="description"/>
+                            <field name="name" /> - <field name="description" />
                         </h1>
                     </div>
-                    <field name="parent_id"/>
-                    <field name="child_ids" invisible="1"/>
-                    <field name="product_ids"  widget="many2many" attrs="{'readonly': [('child_ids','!=',[])]}"/>
+                    <field name="parent_id" />
+                    <field name="child_ids" invisible="1" />
+                    <field
+            name="product_ids"
+            widget="many2many"
+            attrs="{'readonly': [('child_ids','!=',[])]}"
+          />
                 </form>
             </field>
         </record>
@@ -25,9 +29,9 @@
             <field name="model">report.394.code</field>
             <field name="arch" type="xml">
                 <tree string="D394 Codes">
-                    <field name="parent_id"/>
-                    <field name="name"/>
-                    <field name="description"/>
+                    <field name="parent_id" />
+                    <field name="name" />
+                    <field name="description" />
                 </tree>
             </field>
         </record>
@@ -37,9 +41,9 @@
             <field name="model">report.394.code</field>
             <field name="arch" type="xml">
                 <search string="D394 Codes">
-                    <field name="parent_id"/>
-                    <field name="name"/>
-                    <field name="description"/>
+                    <field name="parent_id" />
+                    <field name="name" />
+                    <field name="description" />
                 </search>
             </field>
         </record>
@@ -49,7 +53,7 @@
             <field name="res_model">report.394.code</field>
 
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="view_report_d394_codes_search"/>
+            <field name="search_view_id" ref="view_report_d394_codes_search" />
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 Click to create a code for D394 declaration.
@@ -58,7 +62,13 @@
               </p>
             </field>
         </record>
-        <menuitem action="action_report_d394_codes" id="menu_action_report_d394_codes" parent="account.menu_configuration_misc" name="D394 Codes" sequence="30"/>
+        <menuitem
+      action="action_report_d394_codes"
+      id="menu_action_report_d394_codes"
+      parent="account.menu_configuration_misc"
+      name="D394 Codes"
+      sequence="30"
+    />
 
 
     </data>

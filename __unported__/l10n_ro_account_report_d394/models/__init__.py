@@ -8,7 +8,6 @@ from . import res_company
 from . import res_country_state
 
 
-#from . import account_invoice
-#from . import account_journal
-#from . import ir_sequence
-
+# from . import account_invoice
+# from . import account_journal
+# from . import ir_sequence

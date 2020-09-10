@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2014 Deltatech All Rights Reserved
@@ -23,5 +22,3 @@
 from . import account_voucher
 from . import account_invoice
 from . import account_payment
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

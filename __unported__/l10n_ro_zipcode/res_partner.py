@@ -27,7 +27,7 @@ class res_partner(models.Model):
     _name = "res.partner"
     _inherit = "res.partner"
 
-    @api.onchange('zipcode_id')
+    @api.onchange("zipcode_id")
     def _onchange_zipcode_id(self):
         if self.zipcode_id:
             self.city_id = self.zipcode_id.city_id.id
@@ -35,6 +35,6 @@ class res_partner(models.Model):
             self.state_id = self.zipcode_id.state_id.id
             self.zone_id = self.zipcode_id.zone_id.id
             self.country_id = self.zipcode_id.country_id.id
-    
-    zipcode_id = fields.Many2one('res.country.zipcode', string='ZipcodeID', ondelete='set null', index=True)
-    zip = fields.Char(related='zipcode_id.name', string='Zipcode', store=True)
+
+    zipcode_id = fields.Many2one("res.country.zipcode", string="ZipcodeID", ondelete="set null", index=True)
+    zip = fields.Char(related="zipcode_id.name", string="Zipcode", store=True)

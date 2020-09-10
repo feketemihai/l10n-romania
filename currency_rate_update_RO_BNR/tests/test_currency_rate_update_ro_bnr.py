@@ -2,6 +2,7 @@
 # Copyright 2020 NextERP Romania SRL
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from datetime import timedelta
 from unittest import mock
 
 from dateutil.relativedelta import relativedelta
@@ -17,7 +18,6 @@ _RO_BNR_provider_class = _file_ns + ".ResCurrencyRateProviderROBNR"
 class TestCurrencyRateUpdateRoBnr(SavepointCase):
     @classmethod
     def setUpClass(cls):
-
         super().setUpClass()
 
         cls.Company = cls.env["res.company"]
@@ -37,10 +37,7 @@ class TestCurrencyRateUpdateRoBnr(SavepointCase):
         # on the first company.
         cls.env.user.company_id = cls.company
         cls.bnr_provider = cls.CurrencyRateProvider.create(
-            {
-                "service": "RO_BNR",
-                "currency_ids": [(4, cls.usd_currency.id), (4, cls.ron_currency.id)],
-            }
+            {"service": "RO_BNR", "currency_ids": [(4, cls.usd_currency.id), (4, cls.ron_currency.id)],}
         )
         cls.CurrencyRate.search([]).unlink()
 
@@ -59,9 +56,7 @@ class TestCurrencyRateUpdateRoBnr(SavepointCase):
     def test_update_RO_BNR_month(self):
         self.bnr_provider._update(self.today - relativedelta(months=1), self.today)
 
-        rates = self.CurrencyRate.search(
-            [("currency_id", "=", self.usd_currency.id)], limit=1
-        )
+        rates = self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)], limit=1)
         self.assertTrue(rates)
 
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
@@ -69,12 +64,15 @@ class TestCurrencyRateUpdateRoBnr(SavepointCase):
     def test_update_RO_BNR_scheduled(self):
         self.bnr_provider.interval_type = "days"
         self.bnr_provider.interval_number = 1
-        self.bnr_provider.next_run = self.today
+
+        next_run = self.today
+        if next_run.weekday() == 0:
+            next_run = next_run - timedelta(days=2)
+
+        self.bnr_provider.next_run = next_run
         self.bnr_provider._scheduled_update()
 
-        rates = self.CurrencyRate.search(
-            [("currency_id", "=", self.usd_currency.id)], limit=1
-        )
+        rates = self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)], limit=1)
         self.assertTrue(rates)
 
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()

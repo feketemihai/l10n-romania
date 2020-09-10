@@ -1,39 +1,39 @@
-# -*- coding: utf-8 -*-
 # ©  2008-2020 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 
-
-from odoo import models, fields, api
-
-
-class res_partner(models.Model):
-    _inherit = 'res.partner'
-
-    mean_transp = fields.Char(string='Mean transport')
+from odoo import api, fields, models
 
 
-class account_invoice(models.Model):
+class ResPartner(models.Model):
+    _inherit = "res.partner"
+
+    mean_transp = fields.Char(string="Mean transport")
+
+
+class AccountInvoice(models.Model):
     _inherit = "account.move"
 
-    delegate_id = fields.Many2one('res.partner', string='Delegate',
-                                  readonly=True, states={'draft': [('readonly', False)]},
-                                  domain=[('is_company', '=', False)])
+    delegate_id = fields.Many2one(
+        "res.partner",
+        string="Delegate",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        domain=[("is_company", "=", False)],
+    )
 
-    mean_transp = fields.Char(string='Mean transport', readonly=True, states={'draft': [('readonly', False)]}, )
-
+    mean_transp = fields.Char(string="Mean transport", readonly=True, states={"draft": [("readonly", False)]},)
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(account_invoice, self).default_get(fields_list)
-        if 'delegate_id' not in defaults:
-            if 'default_delegate_id' in self.env.context:
-                defaults['default_delegate_id'] = defaults['default_delegate_id']
+        defaults = super(AccountInvoice, self).default_get(fields_list)
+        if "delegate_id" not in defaults:
+            if "default_delegate_id" in self.env.context:
+                defaults["default_delegate_id"] = defaults["default_delegate_id"]
         return defaults
 
-
-    @api.onchange('delegate_id')
+    @api.onchange("delegate_id")
     def on_change_delegate_id(self):
         if self.delegate_id:
             self.mean_transp = self.delegate_id.mean_transp
@@ -42,11 +42,12 @@ class account_invoice(models.Model):
 
     def action_invoice_cancel(self):
         for invoice in self:
-            if invoice.amount_total == 0.0 and invoice.state == 'paid':
-                invoice.state = 'open'
+            if invoice.amount_total == 0.0 and invoice.state == "paid":
+                invoice.state = "open"
                 # invoice.write({'state':'open'})
 
-        return super(account_invoice, self).action_invoice_cancel()
+        return super(AccountInvoice, self).action_invoice_cancel()
+
 
 #
 # class account_invoice_line(models.Model):

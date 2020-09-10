@@ -6,6 +6,6 @@ from odoo import models, fields
 
 
 class AccountConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
+    _inherit = "res.config.settings"
 
-    auto_currency_up = fields.Boolean( related='company_id.auto_currency_up')
+    auto_currency_up = fields.Boolean(related="company_id.auto_currency_up")

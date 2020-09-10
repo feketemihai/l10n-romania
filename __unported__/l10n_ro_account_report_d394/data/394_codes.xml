@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <openerp>
     <data>
 
@@ -16,7 +16,9 @@
         </record>
         <record id="24" model="report.394.code">
             <field name="name">24</field>
-            <field name="description">Certificate de emisii de gaze cu efect de sera</field>
+            <field
+        name="description"
+      >Certificate de emisii de gaze cu efect de sera</field>
         </record>
         <record id="25" model="report.394.code">
             <field name="name">25</field>
@@ -44,7 +46,9 @@
         </record>
         <record id="31" model="report.394.code">
             <field name="name">31</field>
-            <field name="description">Console de jocuri, tablete PC si laptopuri</field>
+            <field
+        name="description"
+      >Console de jocuri, tablete PC si laptopuri</field>
         </record>
         <record id="32" model="report.394.code">
             <field name="name">32</field>
@@ -66,57 +70,61 @@
         <record id="1001" model="report.394.code">
             <field name="name">1001</field>
             <field name="description">Grau si meslin</field>
-            <field name="parent_id" ref="21"/>
+            <field name="parent_id" ref="21" />
         </record>
         <record id="1002" model="report.394.code">
             <field name="name">1002</field>
             <field name="description">Secara</field>
-            <field name="parent_id" ref="21"/>
+            <field name="parent_id" ref="21" />
         </record>
         <record id="1003" model="report.394.code">
             <field name="name">1003</field>
             <field name="description">Orz</field>
-            <field name="parent_id" ref="21"/>
+            <field name="parent_id" ref="21" />
         </record>
         <record id="1004" model="report.394.code">
             <field name="name">1004</field>
             <field name="description">Ovaz</field>
-            <field name="parent_id" ref="21"/>
+            <field name="parent_id" ref="21" />
         </record>
         <record id="1005" model="report.394.code">
             <field name="name">1005</field>
             <field name="description">Porumb</field>
-            <field name="parent_id" ref="21"/>
+            <field name="parent_id" ref="21" />
         </record>
         <record id="120100" model="report.394.code">
             <field name="name">1201</field>
             <field name="description">Boabe de soia, chiar sfaramate</field>
-            <field name="parent_id" ref="21"/>
+            <field name="parent_id" ref="21" />
         </record>
         <record id="1205" model="report.394.code">
             <field name="name">1205</field>
-            <field name="description">Seminte de rapita sau de rapita salbatica, chiar sfaramate</field>
-            <field name="parent_id" ref="21"/>
+            <field
+        name="description"
+      >Seminte de rapita sau de rapita salbatica, chiar sfaramate</field>
+            <field name="parent_id" ref="21" />
         </record>
         <record id="120600" model="report.394.code">
             <field name="name">120600</field>
-            <field name="description">Seminte de floarea-soarelui, chiar sfaramate</field>
-            <field name="parent_id" ref="21"/>
+            <field
+        name="description"
+      >Seminte de floarea-soarelui, chiar sfaramate</field>
+            <field name="parent_id" ref="21" />
         </record>
         <record id="121291" model="report.394.code">
             <field name="name">121291</field>
             <field name="description">Sfecla de zahar</field>
-            <field name="parent_id" ref="21"/>
+            <field name="parent_id" ref="21" />
         </record>
         <record id="10086000" model="report.394.code">
             <field name="name">10086000</field>
             <field name="description">Triticale</field>
-            <field name="parent_id" ref="21"/>
+            <field name="parent_id" ref="21" />
         </record>
         <record id="120400" model="report.394.code">
             <field name="name">120400</field>
             <field name="description">Seminte de in, chiar sfaramate</field>
-            <field name="parent_id" ref="21"/>
+            <field name="parent_id" ref="21" />
         </record>
 
 

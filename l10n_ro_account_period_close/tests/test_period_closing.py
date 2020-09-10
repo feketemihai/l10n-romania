@@ -27,6 +27,107 @@ class TestCurrencyReevaluation(TransactionCase):
             "test",
             self.registry._assertion_report,
         )
+        company = self.env.user.company_id
+
+        search_account = self.env["account.account"].search
+
+        type_revenue = self.env.ref("account.data_account_type_revenue")
+        default_account_revenue = search_account(
+            [("company_id", "=", company.id), ("user_type_id", "=", type_revenue.id)], limit=1
+        )
+        type_expenses = self.env.ref("account.data_account_type_expenses")
+        default_account_expense = search_account(
+            [("company_id", "=", company.id), ("user_type_id", "=", type_expenses.id)], limit=1
+        )
+
+        default_account_receivable = search_account(
+            [("company_id", "=", company.id), ("user_type_id.type", "=", "receivable")], limit=1
+        )
+
+        default_account_payable = search_account(
+            [("company_id", "=", company.id), ("user_type_id.type", "=", "payable")], limit=1
+        )
+
+        default_account_tax_sale = company.account_sale_tax_id.mapped("invoice_repartition_line_ids.account_id")
+
+        default_account_tax_purchase = company.account_purchase_tax_id.mapped("invoice_repartition_line_ids.account_id")
+
+        self.test_move = self.env["account.move"].create(
+            {
+                "type": "entry",
+                "date": fields.Date.from_string(time.strftime("%Y-%m") + "-01"),
+                "line_ids": [
+                    (
+                        0,
+                        None,
+                        {
+                            "name": "revenue line 2",
+                            "account_id": default_account_revenue.id,
+                            "debit": 0.0,
+                            "credit": 1000.0,
+                            "tax_ids": [(6, 0, company.account_sale_tax_id.ids)],
+                        },
+                    ),
+                    (
+                        0,
+                        None,
+                        {"name": "tax line", "account_id": default_account_tax_sale.id, "debit": 0.0, "credit": 150.0},
+                    ),
+                    (
+                        0,
+                        None,
+                        {
+                            "name": "client line",
+                            "account_id": default_account_receivable.id,
+                            "debit": 1150,
+                            "credit": 0.0,
+                        },
+                    ),
+                ],
+            }
+        )
+        self.test_move.action_post()
+
+        self.test_move = self.env["account.move"].create(
+            {
+                "type": "entry",
+                "date": fields.Date.from_string(time.strftime("%Y-%m") + "-01"),
+                "line_ids": [
+                    (
+                        0,
+                        None,
+                        {
+                            "name": "cost line 2",
+                            "account_id": default_account_expense.id,
+                            "debit": 100.0,
+                            "credit": 0.0,
+                            "tax_ids": [(6, 0, company.account_purchase_tax_id.ids)],
+                        },
+                    ),
+                    (
+                        0,
+                        None,
+                        {
+                            "name": "tax line",
+                            "account_id": default_account_tax_purchase.id,
+                            "debit": 15.0,
+                            "credit": 0.0,
+                        },
+                    ),
+                    (
+                        0,
+                        None,
+                        {
+                            "name": "ventor line",
+                            "account_id": default_account_payable.id,
+                            "debit": 0.0,
+                            "credit": 115.0,
+                        },
+                    ),
+                ],
+            }
+        )
+        self.test_move.action_post()
 
         self.misc_journal = ref("l10n_ro_account_period_close.miscellaneous_journal")
         self.debit_acc = ref("l10n_ro_account_period_close.current_liabilities")
@@ -79,9 +180,7 @@ class TestCurrencyReevaluation(TransactionCase):
         self.exp_closing._onchange_type()
         self.inc_closing._onchange_type()
         date_range = self.env["date.range"]
-        self.type = self.env["date.range.type"].create(
-            {"name": "Month", "company_id": False, "allow_overlap": False}
-        )
+        self.type = self.env["date.range.type"].create({"name": "Month", "company_id": False, "allow_overlap": False})
         dt = date_range.create(
             {
                 "name": "FS2016",
@@ -99,11 +198,10 @@ class TestCurrencyReevaluation(TransactionCase):
             }
         )
         wizard.onchange_date_range_id()
-        self.assertEqual(
-            wizard.date_from.strftime("%Y-%m-%d"), time.strftime("%Y-%m-01")
-        )
+        self.assertEqual(wizard.date_from.strftime("%Y-%m-%d"), time.strftime("%Y-%m-01"))
         self.assertEqual(wizard.date_to.strftime("%Y-%m-%d"), time.strftime("%Y-%m-28"))
         wizard.do_close()
+        # self.env.cr.commit()
 
     def test_wizard_defaults(self):
         today = fields.Date.from_string(fields.Date.today())
@@ -111,9 +209,6 @@ class TestCurrencyReevaluation(TransactionCase):
         date_to = today + relativedelta(day=1, days=-1)
         wizard = self.wiz_close_model.create({"closing_id": self.vat_closing.id})
         self.assertEqual(wizard.company_id.id, self.env.ref("base.main_company").id)
-        self.assertEqual(
-            wizard.date_from.strftime("%Y-%m-%d"), fields.Date.to_string(date_from)
-        )
-        self.assertEqual(
-            wizard.date_to.strftime("%Y-%m-%d"), fields.Date.to_string(date_to)
-        )
+        self.assertEqual(wizard.date_from.strftime("%Y-%m-%d"), fields.Date.to_string(date_from))
+        self.assertEqual(wizard.date_to.strftime("%Y-%m-%d"), fields.Date.to_string(date_to))
+        # self.env.cr.commit()

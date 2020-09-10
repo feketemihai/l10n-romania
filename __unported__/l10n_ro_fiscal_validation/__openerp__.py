@@ -25,25 +25,19 @@
     "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category": "Hidden",
-    "depends": [
-        'l10n_ro',
-        'base_vat',
-        'account',
-        'account_vat_on_payment',
-        'partner_create_by_vat'
-    ],
+    "depends": ["l10n_ro", "base_vat", "account", "account_vat_on_payment", "partner_create_by_vat"],
     "description": """
 Partner fiscal validation for Romanian Companies
 ------------------------------------------------
 Partner fiscal validation using ANAF, mfinante or OpenAPI
 
     """,
-
-    'data': ['res_partner_view.xml',
-             'account_invoice_view.xml',
-             'res_partner_vat_cron.xml',
-             'security/ir.model.access.csv',
-             ],
-    'installable': True,
-    'auto_install': True,
+    "data": [
+        "res_partner_view.xml",
+        "account_invoice_view.xml",
+        "res_partner_vat_cron.xml",
+        "security/ir.model.access.csv",
+    ],
+    "installable": True,
+    "auto_install": True,
 }

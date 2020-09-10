@@ -25,15 +25,10 @@
     "version": "10.0.1.0.0",
     "author": "Forest and Biomass Services Romania,Odoo Community Association (OCA)",
     "website": "https://forbiom.eu",
-    "category": 'Tools',
-    "depends": [
-        'base',
-        'web_readonly_bypass',
-        ],
-    "data": [
-        'views/res_partner.xml',
-        ],
-    'installable': True,
-    'auto_install': False,
-    'license': 'AGPL-3'
+    "category": "Tools",
+    "depends": ["base", "web_readonly_bypass",],
+    "data": ["views/res_partner.xml",],
+    "installable": True,
+    "auto_install": False,
+    "license": "AGPL-3",
 }

@@ -25,15 +25,14 @@
     "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category": "Hidden",
-    "depends": ['l10n_ro_config', 'account_compensation'],
+    "depends": ["l10n_ro_config", "account_compensation"],
     "description": """
 Romania Accounting Base
 ------------------------------------------
 
 
     """,
-
-    'data': [],
-    'installable': True,
-    'auto_install': True,
+    "data": [],
+    "installable": True,
+    "auto_install": True,
 }

@@ -15,10 +15,6 @@
         "purchase_stock",
         "stock_landed_costs",
     ],
-    "data": [
-        "views/account_invoice_view.xml",
-        "views/stock_landed_cost_view.xml",
-        "wizard/account_dvi_view.xml",
-    ],
+    "data": ["views/account_invoice_view.xml", "views/stock_landed_cost_view.xml", "wizard/account_dvi_view.xml"],
     "installable": True,
 }

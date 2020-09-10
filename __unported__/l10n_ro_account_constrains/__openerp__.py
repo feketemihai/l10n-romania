@@ -25,15 +25,14 @@
     "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category": "Romania Adaptation",
-    "depends": ['l10n_ro_config'],
+    "depends": ["l10n_ro_config"],
     "description": """
 Romania  - Account Constrains
 ------------------------------------------
 
 
     """,
-
-    'data': [],
-    'installable': True,
-    'auto_install': False,
+    "data": [],
+    "installable": True,
+    "auto_install": False,
 }

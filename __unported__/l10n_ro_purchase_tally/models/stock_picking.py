@@ -21,8 +21,9 @@
 
 from odoo import api, models
 
+
 class report_reception_tally(models.AbstractModel):
-    _name = 'report.l10n_ro_stock_picking_report.report_tally'
-    _inherit = 'report.abstract_report.reception_report'
-    _template = 'l10n_ro_stock_picking_report.report_tally'
+    _name = "report.l10n_ro_stock_picking_report.report_tally"
+    _inherit = "report.abstract_report.reception_report"
+    _template = "l10n_ro_stock_picking_report.report_tally"
     # _wrapped_report_class = picking_reception

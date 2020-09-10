@@ -25,15 +25,14 @@
     "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category": "Romania Adaptation",
-    "depends": ['account', 'l10n_ro_config'],
+    "depends": ["account", "l10n_ro_config"],
     "description": """
 Romania  - Bank Statement Operations
 ------------------------------------------
 
 
     """,
-
-    'data': ['bank_statement_import.xml', ],
-    'installable': True,
-    'auto_install': False,
+    "data": ["bank_statement_import.xml",],
+    "installable": True,
+    "auto_install": False,
 }

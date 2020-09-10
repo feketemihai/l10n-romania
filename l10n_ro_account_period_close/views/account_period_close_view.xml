@@ -40,11 +40,7 @@
                 <notebook>
                     <page string="Config">
                         <group name="main_info">
-                            <field
-                                name="company_id"
-                                options="{'no_create': True}"
-                                groups="base.group_multi_company"
-                            />
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company" />
                             <field
                                 name="journal_id"
                                 options="{'no_create': True}"
@@ -54,14 +50,8 @@
                             <field name="close_result" />
                         </group>
                         <group name="accounts">
-                            <field
-                                name="debit_account_id"
-                                options="{'no_create': True}"
-                            />
-                            <field
-                                name="credit_account_id"
-                                options="{'no_create': True}"
-                            />
+                            <field name="debit_account_id" options="{'no_create': True}" />
+                            <field name="credit_account_id" options="{'no_create': True}" />
                         </group>
                         <field colspan="4" name="account_ids" />
                     </page>

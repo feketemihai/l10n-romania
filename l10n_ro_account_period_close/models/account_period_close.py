@@ -11,30 +11,19 @@ class AccountPeriodClosing(models.Model):
 
     name = fields.Char("Name", required=True)
     company_id = fields.Many2one(
-        "res.company",
-        string="Company",
-        required=True,
-        default=lambda self: self.env.user.company_id,
+        "res.company", string="Company", required=True, default=lambda self: self.env.user.company_id,
     )
     type = fields.Selection(
-        [("income", "Incomes"), ("expense", "Expenses"), ("selected", "Selected")],
-        string="Type",
-        required=True,
+        [("income", "Incomes"), ("expense", "Expenses"), ("selected", "Selected")], string="Type", required=True,
     )
     close_result = fields.Boolean("Close debit and credit accounts")
     journal_id = fields.Many2one("account.journal", string="Journal", required=True)
     account_ids = fields.Many2many("account.account", string="Accounts to close")
     debit_account_id = fields.Many2one(
-        "account.account",
-        "Closing account, debit",
-        required=True,
-        domain="[('company_id', '=', company_id)]",
+        "account.account", "Closing account, debit", required=True, domain="[('company_id', '=', company_id)]",
     )
     credit_account_id = fields.Many2one(
-        "account.account",
-        "Closing account, credit",
-        required=True,
-        domain="[('company_id', '=', company_id)]",
+        "account.account", "Closing account, credit", required=True, domain="[('company_id', '=', company_id)]",
     )
     move_ids = fields.One2many("account.move", "close_id", "Closing Moves")
 
@@ -46,33 +35,21 @@ class AccountPeriodClosing(models.Model):
             acc_type = self.env.ref("account.data_account_type_revenue").id
             if acc_type:
                 accounts = self.env["account.account"].search(
-                    [
-                        ("user_type_id", "=", acc_type),
-                        ("company_id", "=", self.company_id.id),
-                    ]
+                    [("user_type_id", "=", acc_type), ("company_id", "=", self.company_id.id)]
                 )
             if not accounts:
                 accounts = self.env["account.account"].search(
-                    [
-                        ("user_type_id.name", "=", "Income"),
-                        ("company_id", "=", self.company_id.id),
-                    ]
+                    [("user_type_id.name", "=", "Income"), ("company_id", "=", self.company_id.id)]
                 )
         elif self.type == "expense":
             acc_type = self.env.ref("account.data_account_type_expenses").id
             if acc_type:
                 accounts = self.env["account.account"].search(
-                    [
-                        ("user_type_id", "=", acc_type),
-                        ("company_id", "=", self.company_id.id),
-                    ]
+                    [("user_type_id", "=", acc_type), ("company_id", "=", self.company_id.id)]
                 )
             if not accounts:
                 accounts = self.env["account.account"].search(
-                    [
-                        ("user_type_id.name", "=", "Expense"),
-                        ("company_id", "=", self.company_id.id),
-                    ]
+                    [("user_type_id.name", "=", "Expense"), ("company_id", "=", self.company_id.id)]
                 )
         self.account_ids = accounts
 
@@ -121,11 +98,7 @@ class AccountPeriodClosing(models.Model):
         account_res = []
         for account in accounts:
             res = {fn: 0.0 for fn in ["credit", "debit", "balance"]}
-            currency = (
-                account.currency_id
-                if account.currency_id
-                else account.company_id.currency_id
-            )
+            currency = account.currency_id if account.currency_id else account.company_id.currency_id
             res["id"] = account.id
             res["code"] = account.code
             res["name"] = account.name
@@ -138,8 +111,7 @@ class AccountPeriodClosing(models.Model):
             if display_account == "not_zero" and not currency.is_zero(res["balance"]):
                 account_res.append(res)
             if display_account == "movement" and (
-                not currency.is_zero(res["debit"])
-                or not currency.is_zero(res["credit"])
+                not currency.is_zero(res["debit"]) or not currency.is_zero(res["credit"])
             ):
                 account_res.append(res)
         return account_res
@@ -151,17 +123,8 @@ class AccountPeriodClosing(models.Model):
         journal_id = self.journal_id.id
         for closing in self:
             ctx = self.env.context.copy()
-            ctx.update(
-                {
-                    "strict_range": True,
-                    "state": "posted",
-                    "date_from": date_from,
-                    "date_to": date_to,
-                }
-            )
-            account_res = self.with_context(ctx)._get_accounts(
-                closing.account_ids, "not_zero"
-            )
+            ctx.update({"strict_range": True, "state": "posted", "date_from": date_from, "date_to": date_to})
+            account_res = self.with_context(ctx)._get_accounts(closing.account_ids, "not_zero")
             move = self.env["account.move"].create(
                 {
                     "date": date_to,
@@ -171,6 +134,7 @@ class AccountPeriodClosing(models.Model):
                 }
             )
             amount = 0.0
+            line_values = []
             for account in account_res:
                 if account["balance"] != 0.0:
                     balance = account["balance"]
@@ -200,31 +164,25 @@ class AccountPeriodClosing(models.Model):
                             "debit": -balance if balance < 0.0 else 0.0,
                         }
                     amount += balance
-                    self.env["account.move.line"].with_context(
-                        check_move_validity=False
-                    ).create(val)
 
+                    line_values += [val]
             diff_line = {
                 "name": "Closing " + closing.name,
                 "move_id": move.id,
-                "account_id": closing.debit_account_id.id
-                if amount >= 0
-                else closing.credit_account_id.id,
+                "account_id": closing.debit_account_id.id if amount >= 0 else closing.credit_account_id.id,
                 "credit": -amount if amount <= 0.0 else 0.0,
                 "debit": amount if amount >= 0.0 else 0.0,
             }
-            self.env["account.move.line"].with_context(
-                check_move_validity=False
-            ).create(diff_line)
+
+            line_values += [diff_line]
+
             if self.close_result and amount != 0.0:
                 debit_acc = closing.debit_account_id
                 credit_acc = closing.credit_account_id
                 debit = credit = new_amount = 0.0
                 ctx1 = dict(self._context)
                 ctx1.update({"date_from": False, "date_to": date_to})
-                accounts = account_obj.browse(
-                    [closing.debit_account_id.id, closing.credit_account_id.id]
-                )
+                accounts = account_obj.browse([closing.debit_account_id.id, closing.credit_account_id.id])
                 account_res = self.with_context(ctx1)._get_accounts(accounts, "all")
                 for acc in account_res:
                     if acc["id"] == closing.debit_account_id.id:
@@ -250,9 +208,9 @@ class AccountPeriodClosing(models.Model):
                     "credit": new_amount,
                     "debit": 0.0,
                 }
-                self.env["account.move.line"].with_context(
-                    check_move_validity=False
-                ).create(diff_line)
+
+                line_values += [diff_line]
+
                 diff_line = {
                     "name": "Closing " + closing.name + " " + str(credit_acc.code),
                     "move_id": move.id,
@@ -260,7 +218,9 @@ class AccountPeriodClosing(models.Model):
                     "credit": 0.0,
                     "debit": new_amount,
                 }
-                self.env["account.move.line"].with_context(
-                    check_move_validity=False
-                ).create(diff_line)
+
+                line_values += [diff_line]
+
+            # se genereaza toate liniile
+            self.env["account.move.line"].with_context(check_move_validity=False).create(line_values)
             move.post()

@@ -28,7 +28,7 @@ class stock_warehouse(osv.osv):
     _inherit = "stock.warehouse"
 
     _columns = {
-        'wh_asset_loc_id': fields.many2one('stock.location', 'Asset Location', domain=[('usage', '=', 'internal')]),
+        "wh_asset_loc_id": fields.many2one("stock.location", "Asset Location", domain=[("usage", "=", "internal")]),
     }
 
 
@@ -37,5 +37,7 @@ class stock_location(osv.osv):
     _inherit = "stock.location"
 
     _columns = {
-        'asset_location': fields.boolean('Is a Assets Location?', help='Check this box to allow using this location to put assets goods.'),
+        "asset_location": fields.boolean(
+            "Is a Assets Location?", help="Check this box to allow using this location to put assets goods."
+        ),
     }

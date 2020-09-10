@@ -25,7 +25,7 @@
     "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category": "Romania Adaptation",
-    "depends": ['l10n_ro_config', 'account_storno'],
+    "depends": ["l10n_ro_config", "account_storno"],
     "description": """
  
 Romania  - Account Currency Reevaluation
@@ -33,9 +33,7 @@ Romania  - Account Currency Reevaluation
 
 
     """,
-
-    'data': ['account_view.xml',
-             'wizard/wizard_currency_revaluation_view.xml', ],
-    'installable': True,
-    'auto_install': False,
+    "data": ["account_view.xml", "wizard/wizard_currency_revaluation_view.xml",],
+    "installable": True,
+    "auto_install": False,
 }

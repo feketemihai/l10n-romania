@@ -9,59 +9,55 @@ from odoo import tools
 from lxml import etree
 
 OPERATION_TYPE = [
-    ('L', 'Customer Invoice'),
-    ('A', 'Supplier Invoice'),
-    ('LS', 'Special Customer Invoice'),
-    ('AS', 'Special Supplier Invoice'),
-    ('AI', 'VAT on Payment Supplier Invoice'),
-    ('V', 'Inverse Taxation Customer Invoice'),
-    ('C', 'Inverse Taxation Supplier Invoice'),
-    ('N', 'Physical Persons Supplier Invoice')
+    ("L", "Customer Invoice"),
+    ("A", "Supplier Invoice"),
+    ("LS", "Special Customer Invoice"),
+    ("AS", "Special Supplier Invoice"),
+    ("AI", "VAT on Payment Supplier Invoice"),
+    ("V", "Inverse Taxation Customer Invoice"),
+    ("C", "Inverse Taxation Supplier Invoice"),
+    ("N", "Physical Persons Supplier Invoice"),
 ]
 
 
 class Declaration(models.Model):
     _inherit = "l10n_ro.declaration"
-    code = fields.Selection(selection_add=[('D394', 'D394')])
+    code = fields.Selection(selection_add=[("D394", "D394")])
 
 
 class D394Report(models.TransientModel):
     _name = "l10n_ro.d394_report"
     _description = "Declaration 394"
     _inherit = "l10n_ro.d000_report"
-    _code = 'D394'
+    _code = "D394"
 
-    item_ids = fields.One2many('l10n_ro.d394', 'report_id', string='Facturi')
-    plaje_ids = fields.One2many('l10n_ro.d394.plaje', 'report_id', string='Plaje de facturi')
+    item_ids = fields.One2many("l10n_ro.d394", "report_id", string="Facturi")
+    plaje_ids = fields.One2many("l10n_ro.d394.plaje", "report_id", string="Plaje de facturi")
 
-
-    def get_sum_bf(self, tax_value ):
+    def get_sum_bf(self, tax_value):
         baza = 0
         tva = 0
-        for item in self.item_ids.filtered(lambda r: r.type == 'purchase' and r.tax_value == tax_value):
+        for item in self.item_ids.filtered(lambda r: r.type == "purchase" and r.tax_value == tax_value):
             baza += item.net
             tva += item.tax
 
         return baza, tva
 
-
-
     @api.multi
     def xml_processing(self, xml_doc):
 
-        for i in ['24','20','19','9','5']:
-            tag_ab = xml_doc.xpath('//info1/AB'+i)[0]
+        for i in ["24", "20", "19", "9", "5"]:
+            tag_ab = xml_doc.xpath("//info1/AB" + i)[0]
             tag_ab.clear()
-            baza, tva = self.get_sum_bf(' '+i)
+            baza, tva = self.get_sum_bf(" " + i)
             if baza:
                 tag = etree.SubElement(tag_ab, "baza")
                 tag.text = str(baza)
                 tag = etree.SubElement(tag_ab, "tva")
                 tag.text = str(tva)
 
-
         # tag_plaja1 = xml_doc.xpath('//plaja1')[0]
-        tag_facturi2 = xml_doc.xpath('//facturi2')[0]
+        tag_facturi2 = xml_doc.xpath("//facturi2")[0]
         tag_facturi2.clear()
         # plaja_parent = tag_plaja1.find('..')  # retrieve the parent
         # plaja_parent.remove(tag_plaja1)
@@ -80,10 +76,9 @@ class D394Report(models.TransientModel):
             # tag = etree.SubElement(plaja, "nr_f")
             # tag.text = '0'
 
-            nr_fact =  int(item.pana_la_nr)-int(item.de_la_nr)+1
+            nr_fact = int(item.pana_la_nr) - int(item.de_la_nr) + 1
 
-
-            plaja = etree.SubElement(tag_facturi2, "plaja" )
+            plaja = etree.SubElement(tag_facturi2, "plaja")
             tag = etree.SubElement(plaja, "serie_i")
             tag.text = item.serie
             tag = etree.SubElement(plaja, "nr_i")
@@ -97,11 +92,10 @@ class D394Report(models.TransientModel):
         tag = etree.SubElement(tag_facturi2, "fact_emise")
         tag.text = str(nr_fact)
 
-
-        tag_tip1 = xml_doc.xpath('//tip1')[0]
+        tag_tip1 = xml_doc.xpath("//tip1")[0]
 
         tag_tip1.clear()
-        partner_types = ['1', '2', '3', '4']
+        partner_types = ["1", "2", "3", "4"]
         for partner_type in partner_types:
             item_type = self.item_ids.filtered(lambda r: r.partner_type == partner_type)
             if item_type:
@@ -122,17 +116,16 @@ class D394Report(models.TransientModel):
                 tag = etree.SubElement(sub2, "Tip")
                 tag.text = item.operation_type
 
-                if item.operation_type == 'N':
+                if item.operation_type == "N":
                     tag = etree.SubElement(sub2, "tip_document")
-                    tag.text = '1'   #factura
-
+                    tag.text = "1"  # factura
 
                 tag = etree.SubElement(sub2, "cota")
                 tag.text = item.tax_value
 
                 tag = etree.SubElement(sub2, "cuiP")
                 if item.partner_id.vat:
-                    tag.text = item.partner_id.vat.replace('RO', '')
+                    tag.text = item.partner_id.vat.replace("RO", "")
 
                 tag = etree.SubElement(sub2, "nrfact")
                 tag.text = str(item.invoice_count)
@@ -148,8 +141,6 @@ class D394Report(models.TransientModel):
             tag_tip1.addnext(tag)
             tag_tip1 = tag
 
-
-
         return xml_doc
 
     @api.multi
@@ -160,8 +151,7 @@ class D394Report(models.TransientModel):
 
         """
 
-
-        query_inject = '''
+        query_inject = """
             WITH
                 taxgroups AS (
                 SELECT 
@@ -219,22 +209,21 @@ class D394Report(models.TransientModel):
             FROM
                 taxgroups groups
         
-        '''
+        """
         query_inject_params = {
-            'company_id': self.company_id.id,
-            'date_from': self.date_from,
-            'date_to': self.date_to,
-            'report_id': self.id,
-            'uid': self.env.uid,
-            'company_currency_id':self.company_id.currency_id.id
+            "company_id": self.company_id.id,
+            "date_from": self.date_from,
+            "date_to": self.date_to,
+            "report_id": self.id,
+            "uid": self.env.uid,
+            "company_currency_id": self.company_id.currency_id.id,
         }
 
-        #daca o factura are mai multe tva-uri atunci aceasta este numarata de mai multe ori.
-
+        # daca o factura are mai multe tva-uri atunci aceasta este numarata de mai multe ori.
 
         self.env.cr.execute(query_inject, query_inject_params)
 
-        query_inject = '''
+        query_inject = """
             WITH
                 taxgroups AS (
                         SELECT  
@@ -297,22 +286,19 @@ class D394Report(models.TransientModel):
             FROM
                 taxgroups groups
 
-        '''
+        """
         query_inject_params = {
-            'company_id': self.company_id.id,
-            'date_from': self.date_from,
-            'date_to': self.date_to,
-            'report_id': self.id,
-            'uid': self.env.uid,
-            'company_currency_id': self.company_id.currency_id.id
+            "company_id": self.company_id.id,
+            "date_from": self.date_from,
+            "date_to": self.date_to,
+            "report_id": self.id,
+            "uid": self.env.uid,
+            "company_currency_id": self.company_id.currency_id.id,
         }
 
         # daca o factura are mai multe tva-uri atunci aceasta este numarata de mai multe ori.
 
         self.env.cr.execute(query_inject, query_inject_params)
-
-
-
 
         self.refresh()
         self.item_ids.refresh()
@@ -348,24 +334,21 @@ class D394Report(models.TransientModel):
         
         """
         query_inject_params = {
-            'company_id': self.company_id.id,
-            'date_from': self.date_from,
-            'date_to': self.date_to,
-            'report_id': self.id,
-            'uid': self.env.uid
+            "company_id": self.company_id.id,
+            "date_from": self.date_from,
+            "date_to": self.date_to,
+            "report_id": self.id,
+            "uid": self.env.uid,
         }
         self.env.cr.execute(query_inject, query_inject_params)
-
-
-
 
 
 class D394Plaje(models.TransientModel):
     _name = "l10n_ro.d394.plaje"
     _description = "Declaration 394 Plaje de facturi"
 
-    report_id = fields.Many2one('l10n_ro.d394_report')
-    journal_id = fields.Many2one('account.journal')
+    report_id = fields.Many2one("l10n_ro.d394_report")
+    journal_id = fields.Many2one("account.journal")
     de_la = fields.Char()
     pana_la = fields.Char()
 
@@ -374,25 +357,25 @@ class D394Plaje(models.TransientModel):
     pana_la_nr = fields.Char(compute="_comute_serie")
 
     def get_doc_number(self, nume):
-        NrDoc = nume or ''
-        Serie = ''
-        if '/' in NrDoc:
-            seg = NrDoc.split('/')
+        NrDoc = nume or ""
+        Serie = ""
+        if "/" in NrDoc:
+            seg = NrDoc.split("/")
             NrDoc = seg[-1]
-            Serie = '/'.join(seg[:-1])
-        elif '.' in NrDoc:
-            seg = NrDoc.split('.')
+            Serie = "/".join(seg[:-1])
+        elif "." in NrDoc:
+            seg = NrDoc.split(".")
             NrDoc = seg[-1]
-            Serie = '.'.join(seg[:-1])
+            Serie = ".".join(seg[:-1])
         else:
-            Serie = nume or ''
-            Serie = ''.join([s for s in Serie if not s.isdigit()])
+            Serie = nume or ""
+            Serie = "".join([s for s in Serie if not s.isdigit()])
 
-        NrDoc = ''.join([s for s in NrDoc[-10:] if s.isdigit()])
+        NrDoc = "".join([s for s in NrDoc[-10:] if s.isdigit()])
         return NrDoc, Serie
 
     @api.multi
-    @api.depends('journal_id')
+    @api.depends("journal_id")
     def _comute_serie(self):
         for item in self:
             de_la_nr, serie = item.get_doc_number(item.de_la)
@@ -406,62 +389,70 @@ class D394Plaje(models.TransientModel):
 class D394(models.TransientModel):
     _name = "l10n_ro.d394"
     _description = "Declaration 394"
-    _order = 'report_id,partner_type'
+    _order = "report_id,partner_type"
 
-    report_id = fields.Many2one('l10n_ro.d394_report')
-    partner_id = fields.Many2one('res.partner', string='Partner', readonly=True)
-    invoice_count = fields.Integer(string='Invoice Count', readonly=True)
+    report_id = fields.Many2one("l10n_ro.d394_report")
+    partner_id = fields.Many2one("res.partner", string="Partner", readonly=True)
+    invoice_count = fields.Integer(string="Invoice Count", readonly=True)
 
-    fiscal_position_id = fields.Many2one('account.fiscal.position', string='Fiscal Position', readonly=True)
-    tax_id = fields.Many2one('account.tax', string='Originator tax', readonly=True)
-    type = fields.Selection([
-        ('out_invoice', 'Customer Invoice'),
-        ('in_invoice', 'Vendor Bill'),
-        ('out_refund', 'Customer Credit Note'),
-        ('in_refund', 'Vendor Credit Note'),
-        ('sale', 'Sale voucher'),
-        ('purchase', 'Purchase voucher')
-    ], readonly=True)
+    fiscal_position_id = fields.Many2one("account.fiscal.position", string="Fiscal Position", readonly=True)
+    tax_id = fields.Many2one("account.tax", string="Originator tax", readonly=True)
+    type = fields.Selection(
+        [
+            ("out_invoice", "Customer Invoice"),
+            ("in_invoice", "Vendor Bill"),
+            ("out_refund", "Customer Credit Note"),
+            ("in_refund", "Vendor Credit Note"),
+            ("sale", "Sale voucher"),
+            ("purchase", "Purchase voucher"),
+        ],
+        readonly=True,
+    )
     tax_value = fields.Char(readonly=True)
-    net = fields.Monetary(default=0.0, currency_field='company_currency_id', readonly=True)
-    tax = fields.Monetary(default=0.0, currency_field='company_currency_id', readonly=True)
+    net = fields.Monetary(default=0.0, currency_field="company_currency_id", readonly=True)
+    tax = fields.Monetary(default=0.0, currency_field="company_currency_id", readonly=True)
     # date = fields.Date(string='Date',  readonly=True )
-    company_id = fields.Many2one('res.company', string="Company", readonly=True)
-    company_currency_id = fields.Many2one('res.currency', string="Company Currency", readonly=True)
+    company_id = fields.Many2one("res.company", string="Company", readonly=True)
+    company_currency_id = fields.Many2one("res.currency", string="Company Currency", readonly=True)
 
-    partner_type = fields.Char('Partner Type', compute="_get_partner_type", store=True, help=''' 
+    partner_type = fields.Char(
+        "Partner Type",
+        compute="_get_partner_type",
+        store=True,
+        help=""" 
             1.Persoane impozabile inregistrate in scopuri de TVA in Romania
             2.Persoane neinregistrate in scopuri de TVA
             3.Persoane impozabile nestabilite în România care sunt stabilite în alt stat membru, 
               neînregistrate şi care nu sunt obligate să se înregistreze în scopuri de TVA în România 
             4.Persoane impozabile neînregistrate şi care nu sunt obligate să se înregistreze în scopuri 
               de TVA în România,nestabilite pe teritoriul Uniunii Europene 
-    ''')
-    operation_type = fields.Selection(OPERATION_TYPE, compute='_get_operation_type', store=True,
-                                      string='Operation Type')
+    """,
+    )
+    operation_type = fields.Selection(
+        OPERATION_TYPE, compute="_get_operation_type", store=True, string="Operation Type"
+    )
 
     @api.multi
     def _get_partner_type(self):
         for item in self:
             partner = item.partner_id
             # daca nu este completata tara unui partener se considera ca este Romanaia
-            country = partner.country_id or self.env.ref('base.ro')
+            country = partner.country_id or self.env.ref("base.ro")
             eur_countries = []
-            eur_grp = self.env.ref('base.europe')
+            eur_grp = self.env.ref("base.europe")
             if eur_grp:
                 eur_countries = [country.id for country in eur_grp.country_ids]
-            if country.id == self.env.ref('base.ro').id:
+            if country.id == self.env.ref("base.ro").id:
                 if partner.vat_subjected:
-                    new_type = '1'
+                    new_type = "1"
                 else:
-                    new_type = '2'
+                    new_type = "2"
             elif partner.country_id.id in eur_countries:
-                new_type = '3'
+                new_type = "3"
             else:
-                new_type = '4'
+                new_type = "4"
             item.partner_type = new_type
         return True
-
 
     @api.multi
     def _get_operation_type(self):
@@ -478,27 +469,26 @@ class D394(models.TransientModel):
         """
 
         inverse_taxation_position = self.env.user.company_id.property_inverse_taxation_position_id
-        inverse_taxation = self.env['account.tax']
+        inverse_taxation = self.env["account.tax"]
         for line in inverse_taxation_position.tax_ids:
-            if line.tax_dest_id.amount_type == 'group':
+            if line.tax_dest_id.amount_type == "group":
                 inverse_taxation |= line.tax_dest_id.children_tax_ids
             else:
                 inverse_taxation |= line.tax_dest_id
 
-
         for item in self:
-            oper_type = 'N'
-            if item.partner_type == '1':
-                if item.type in ('out_invoice', 'out_refund'):
-                    oper_type = 'L'  # L - Livare - Vanzare
+            oper_type = "N"
+            if item.partner_type == "1":
+                if item.type in ("out_invoice", "out_refund"):
+                    oper_type = "L"  # L - Livare - Vanzare
                 else:
-                    oper_type = 'A'  # A- Achizitie
+                    oper_type = "A"  # A- Achizitie
                     if item.fiscal_position_id == item.company_id.property_vat_on_payment_position_id:
-                        oper_type = 'AI'
+                        oper_type = "AI"
                     if item.tax_id.id in inverse_taxation.ids:
-                        oper_type = 'C'
+                        oper_type = "C"
 
-            elif item.partner_type == '2':
-                oper_type = 'N'
+            elif item.partner_type == "2":
+                oper_type = "N"
             item.operation_type = oper_type
         return True

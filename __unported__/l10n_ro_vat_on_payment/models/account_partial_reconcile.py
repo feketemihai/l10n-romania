@@ -10,6 +10,4 @@ class AccountPartialReconcile(models.Model):
     def _get_tax_cash_basis_base_account(self, line, tax):
         if tax.cash_basis_base_account_id:
             return tax.cash_basis_base_account_id
-        return super(
-            AccountPartialReconcile, self)._get_tax_cash_basis_base_account(
-                line, tax)
+        return super(AccountPartialReconcile, self)._get_tax_cash_basis_base_account(line, tax)

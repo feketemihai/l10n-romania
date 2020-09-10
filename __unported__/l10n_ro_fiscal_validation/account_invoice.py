@@ -29,18 +29,20 @@ class account_invoice(models.Model):
     _inherit = "account.invoice"
 
     @api.multi
-    def onchange_partner_id(self, type, partner_id, date_invoice=False,
-                            payment_term=False, partner_bank_id=False, company_id=False):
+    def onchange_partner_id(
+        self, type, partner_id, date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False
+    ):
         result = super(account_invoice, self).onchange_partner_id(
-            type, partner_id, date_invoice, payment_term, partner_bank_id, company_id)
+            type, partner_id, date_invoice, payment_term, partner_bank_id, company_id
+        )
         vat_on_payment = False
-        if 'out' in type:
+        if "out" in type:
             vat_on_payment = self.user_id.company_id.vat_on_payment
         else:
-            partner = self.env['res.partner'].browse(partner_id)
+            partner = self.env["res.partner"].browse(partner_id)
             ctx = dict(self._context)
             if date_invoice:
-                ctx.update({'check_date': date_invoice})
+                ctx.update({"check_date": date_invoice})
             vat_on_payment = partner.with_context(ctx)._check_vat_on_payment()
-        result['value']['vat_on_payment'] = vat_on_payment
+        result["value"]["vat_on_payment"] = vat_on_payment
         return result

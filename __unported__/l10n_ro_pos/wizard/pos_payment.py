@@ -6,19 +6,17 @@
 from odoo import api, models, _
 
 
-
 class PosMakePayment(models.TransientModel):
-    _inherit = 'pos.make.payment'
-
+    _inherit = "pos.make.payment"
 
     @api.model
     def default_get(self, fields_list):
         res = super(PosMakePayment, self).default_get(fields_list)
-        active_id = self.env.context.get('active_id')
+        active_id = self.env.context.get("active_id")
         if active_id:
-            session = self.env['pos.order'].browse(active_id).session_id
+            session = self.env["pos.order"].browse(active_id).session_id
             for journal in session.config_id.journal_ids:
-                if journal.type == 'cash':
-                    res['journal_id'] =  journal.id
+                if journal.type == "cash":
+                    res["journal_id"] = journal.id
 
         return res

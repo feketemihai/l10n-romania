@@ -8,22 +8,15 @@
     "website": "http://www.terrabit.ro",
     "license": "AGPL-3",
     "category": "Financial Management/Configuration",
-    "depends": [
-        "base",
-        "account",  # Added to ensure account security groups are present
-    ],
-    'external_dependencies': {
-        'python': [
-            'future',
-        ],
-    },
+    "depends": ["base", "account",],  # Added to ensure account security groups are present
+    "external_dependencies": {"python": ["future",],},
     "data": [
         "data/cron.xml",
         "views/currency_rate_update.xml",
-       # "views/account_config_settings.xml",
+        # "views/account_config_settings.xml",
         "security/rule.xml",
         "security/ir.model.access.csv",
         "views/res_currency_view.xml",
     ],
-    'installable': True
+    "installable": True,
 }

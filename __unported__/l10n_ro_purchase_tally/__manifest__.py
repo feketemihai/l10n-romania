@@ -23,11 +23,7 @@
     "version": "0.1",
     "author": "Terrabit",
     "website": "https://terrabit.ro",
-    "depends": [
-        "purchase",
-        "l10n_ro_stock_picking_report",
-        "deltatech_contact"
-    ],
+    "depends": ["purchase", "l10n_ro_stock_picking_report", "deltatech_contact"],
     "data": [
         "views/stock_picking_report.xml",
         "wizard/tally_wizard.xml",
@@ -40,8 +36,7 @@ Borderou achizitii persoane fizice
 ---------------------------------- 
   - Tiparire borderou achizitie din picking
     """,
-
     "category": "Generic Modules",
     "active": False,
-    'installable': True
+    "installable": True,
 }

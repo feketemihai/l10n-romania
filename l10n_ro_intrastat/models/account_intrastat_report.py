@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # ©  2008-2020 Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import models, fields, api, _
+from odoo import api, fields, models
 from odoo.tools.sql import drop_view_if_exists
 
 # class IntrastatReport(models.AbstractModel):
@@ -21,7 +20,8 @@ from odoo.tools.sql import drop_view_if_exists
 #
 #     def _get_filter_journals(self):
 #         #only show sale/purchase journals
-#         return self.env['account.journal'].search([('company_id', 'in', self.env.user.company_ids.ids or [self.env.user.company_id.id]), ('type', 'in', ('sale', 'purchase'))], order="company_id, name")
+#         return self.env['account.journal'].search([('company_id', 'in', self.env.user.company_ids.ids or
+#         [self.env.user.company_id.id]), ('type', 'in', ('sale', 'purchase'))], order="company_id, name")
 #
 #     def _get_columns_name(self, options):
 #         columns = [
@@ -87,7 +87,8 @@ from odoo.tools.sql import drop_view_if_exists
 #         else:
 #             incl_arrivals = incl_dispatches = True
 #
-#         return options['date']['date_from'], options['date']['date_to'], journal_ids, incl_arrivals, incl_dispatches, options.get('intrastat_extended')
+#         return options['date']['date_from'], options['date']['date_to'],
+#         journal_ids, incl_arrivals, incl_dispatches, options.get('intrastat_extended')
 #
 #     @api.model
 #     def _prepare_query(self, date_from, date_to, journal_ids, invoice_types=None):
@@ -100,7 +101,8 @@ from odoo.tools.sql import drop_view_if_exists
 #                 CASE WHEN inv.type IN ('in_invoice', 'out_refund') THEN 19 ELSE 29 END AS system,
 #                 country.code AS country_code,
 #                 company_country.code AS comp_country_code,
-#                 CASE WHEN inv_line.intrastat_transaction_id IS NULL THEN '1' ELSE transaction.code END AS transaction_code,
+#                 CASE WHEN inv_line.intrastat_transaction_id IS NULL
+#                 THEN '1' ELSE transaction.code END AS transaction_code,
 #                 company_region.code AS region_code,
 #                 code.code AS commodity_code,
 #                 inv_line.id AS id,
@@ -142,7 +144,8 @@ from odoo.tools.sql import drop_view_if_exists
 #                 LEFT JOIN account_incoterms inv_incoterm ON inv.incoterm_id = inv_incoterm.id
 #                 LEFT JOIN account_incoterms comp_incoterm ON company.incoterm_id = comp_incoterm.id
 #                 LEFT JOIN account_intrastat_code inv_transport ON inv.intrastat_transport_mode_id = inv_transport.id
-#                 LEFT JOIN account_intrastat_code comp_transport ON company.intrastat_transport_mode_id = comp_transport.id
+#                 LEFT JOIN account_intrastat_code comp_transport
+#                 ON company.intrastat_transport_mode_id = comp_transport.id
 #             WHERE inv.state in ('open', 'in_payment', 'paid')
 #                 AND inv.company_id = %s
 #                 AND company_country.id != country.id
@@ -189,7 +192,8 @@ from odoo.tools.sql import drop_view_if_exists
 #
 #             company_currency_id = self.env.user.company_id.currency_id
 #             if cache[cache_key] != company_currency_id:
-#                 vals[index]['value'] = cache[cache_key]._convert(vals[index]['value'], company_currency_id, self.env.user.company_id, vals[index]['invoice_date'])
+#                 vals[index]['value'] = cache[cache_key]._convert(vals[index]['value'],
+#                 company_currency_id, self.env.user.company_id, vals[index]['invoice_date'])
 #         return vals
 #
 #     @api.model
@@ -240,26 +244,39 @@ class ReportIntrastat(models.Model):
     _description = "Intrastat report"
     _auto = False
 
-    name = fields.Char(string='Year', readonly=True)
-    month = fields.Selection([
-        ('01', 'January'), ('02', 'February'), ('03', 'March'), ('04', 'April'),
-        ('05', 'May'), ('06', 'June'), ('07', 'July'), ('08', 'August'),
-        ('09', 'September'), ('10', 'October'), ('11', 'November'), ('12', 'December')],
-        readonly=True)
-    supply_units = fields.Float(string='Supply Units', readonly=True)
-    ref = fields.Char(string='Source document', readonly=True)
-    code = fields.Char(string='Country code', readonly=True)
+    name = fields.Char(string="Year", readonly=True)
+    month = fields.Selection(
+        [
+            ("01", "January"),
+            ("02", "February"),
+            ("03", "March"),
+            ("04", "April"),
+            ("05", "May"),
+            ("06", "June"),
+            ("07", "July"),
+            ("08", "August"),
+            ("09", "September"),
+            ("10", "October"),
+            ("11", "November"),
+            ("12", "December"),
+        ],
+        readonly=True,
+    )
+    supply_units = fields.Float(string="Supply Units", readonly=True)
+    ref = fields.Char(string="Source document", readonly=True)
+    code = fields.Char(string="Country code", readonly=True)
     # intrastat_id = fields.Many2one('report.intrastat.code', string='Intrastat code', readonly=True)
-    intrastat_name = fields.Char(string='Intrastat code')
-    weight = fields.Float(string='Weight', readonly=True)
-    value = fields.Float(string='Value', readonly=True, digits=0)
-    type = fields.Selection([('import', 'Import'), ('export', 'Export')], string='Type')
-    currency_id = fields.Many2one('res.currency', string="Currency", readonly=True)
-    company_id = fields.Many2one('res.company', string="Company", readonly=True)
+    intrastat_name = fields.Char(string="Intrastat code")
+    weight = fields.Float(string="Weight", readonly=True)
+    value = fields.Float(string="Value", readonly=True, digits=0)
+    type = fields.Selection([("import", "Import"), ("export", "Export")], string="Type")
+    currency_id = fields.Many2one("res.currency", string="Currency", readonly=True)
+    company_id = fields.Many2one("res.company", string="Company", readonly=True)
 
     def init(self):
         drop_view_if_exists(self.env.cr, self._table)
-        self.env.cr.execute("""
+        self.env.cr.execute(
+            """
             create or replace view report_intrastat as (
                 select
                     to_char(coalesce(inv.date, inv.invoice_date), 'YYYY') as name,
@@ -267,12 +284,16 @@ class ReportIntrastat(models.Model):
                     min(inv_line.id) as id,
                     intrastat.name as intrastat_name,
                     upper(inv_country.code) as code,
-                    sum(case when inv_line.price_unit is not null
-                            then inv_line.price_unit * (1.0 - coalesce(inv_line.discount, 0.0) / 100.0) * inv_line.quantity
-                            else 0
-                        end) as value,
+                    sum
+                    (case
+                    when inv_line.price_unit is not null
+                        then inv_line.price_unit * (1.0 - coalesce(inv_line.discount, 0.0) / 100.0) * inv_line.quantity
+                        else 0
+                    end) as value,
                     sum(
-                        case when uom.category_id != puom.category_id then (coalesce(nullif(pp.weight, 0), pt.weight) * inv_line.quantity)
+                        case
+                        when uom.category_id != puom.category_id
+                        then (coalesce(nullif(pp.weight, 0), pt.weight) * inv_line.quantity)
                         else (coalesce(nullif(pp.weight, 0), pt.weight) * inv_line.quantity * uom.factor) end
                     ) as weight,
                     sum(
@@ -303,5 +324,8 @@ class ReportIntrastat(models.Model):
                     inv.state in ('open','paid')
                     and inv_line.product_id is not null
                     and inv_country.intrastat=true
-                group by to_char(coalesce(inv.date, inv.invoice_date), 'YYYY'), to_char(coalesce(inv.date, inv.invoice_date), 'MM'),intrastat.id,inv.type,pt.intrastat_id, inv_country.code,inv.name,  inv.currency_id, inv.company_id
-            )""")
+                group by to_char(coalesce(inv.date, inv.invoice_date), 'YYYY'),
+                to_char(coalesce(inv.date, inv.invoice_date), 'MM'),intrastat.id,inv.type,pt.intrastat_id,
+                inv_country.code,inv.name,  inv.currency_id, inv.company_id
+            )"""
+        )

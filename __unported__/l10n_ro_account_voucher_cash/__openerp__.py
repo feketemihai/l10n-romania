@@ -25,16 +25,14 @@
     "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category": "Romania Adaptation",
-    "depends": ['l10n_ro_config', 'account_voucher'],
+    "depends": ["l10n_ro_config", "account_voucher"],
     "description": """
 Romania - Cash Vouchers
 ------------------------------------------
 
 
     """,
-
-    'data': ['account_view.xml',
-             'account_invoice_pay_cash.xml', ],
-    'installable': True,
-    'auto_install': False,
+    "data": ["account_view.xml", "account_invoice_pay_cash.xml",],
+    "installable": True,
+    "auto_install": False,
 }

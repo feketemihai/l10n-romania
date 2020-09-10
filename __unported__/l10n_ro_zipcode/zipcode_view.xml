@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <openerp>
     <data>
 
@@ -9,13 +9,13 @@
         <field name="model">res.country.zipcode</field>
         <field name="arch" type="xml">
 			<search string="Zipcodes">
-				<field name="name"/>
-				<field name="area"/>
-				<field name="city_id"/>
-				<field name="commune_id"/>
-				<field name="state_id"/>
-				<field name="zone_id"/>
-				<field name="country_id"/>
+				<field name="name" />
+				<field name="area" />
+				<field name="city_id" />
+				<field name="commune_id" />
+				<field name="state_id" />
+				<field name="zone_id" />
+				<field name="country_id" />
 			</search>
 		</field>
 	</record>
@@ -25,13 +25,13 @@
         <field name="model">res.country.zipcode</field>
         <field name="arch" type="xml">
 			<tree string="Zipcodes">
-				<field name="name"/>
-				<field name="area"/>
-				<field name="city_id"/>
-				<field name="commune_id"/>
-				<field name="state_id"/>
-				<field name="zone_id"/>
-				<field name="country_id"/>
+				<field name="name" />
+				<field name="area" />
+				<field name="city_id" />
+				<field name="commune_id" />
+				<field name="state_id" />
+				<field name="zone_id" />
+				<field name="country_id" />
 			</tree>
 		</field>
 	</record>
@@ -41,13 +41,13 @@
         <field name="model">res.country.zipcode</field>
         <field name="arch" type="xml">
             <form string="Zipcodes">
-				<field name="name"/>
-				<field name="area"/>
-				<field name="city_id"/>
-				<field name="commune_id"/>
-				<field name="state_id"/>
-				<field name="zone_id"/>
-				<field name="country_id"/>
+				<field name="name" />
+				<field name="area" />
+				<field name="city_id" />
+				<field name="commune_id" />
+				<field name="state_id" />
+				<field name="zone_id" />
+				<field name="country_id" />
             </form>
         </field>
     </record>
@@ -58,23 +58,29 @@
         <field name="res_model">res.country.zipcode</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_zipcode_form"/>
-        <field name="search_view_id" ref="view_zipcode_search"/>
+        <field name="view_id" ref="view_zipcode_form" />
+        <field name="search_view_id" ref="view_zipcode_search" />
     </record>
     <record id="action_zipcode_view1" model="ir.actions.act_window.view">
-        <field eval="10" name="sequence"/>
+        <field eval="10" name="sequence" />
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="view_zipcode_tree"/>
-        <field name="act_window_id" ref="action_zipcode"/>
+        <field name="view_id" ref="view_zipcode_tree" />
+        <field name="act_window_id" ref="action_zipcode" />
     </record>
     <record id="action_zipcode_view2" model="ir.actions.act_window.view">
-        <field eval="20" name="sequence"/>
+        <field eval="20" name="sequence" />
         <field name="view_mode">form</field>
-        <field name="view_id" ref="view_zipcode_form"/>
-        <field name="act_window_id" ref="action_zipcode"/>
+        <field name="view_id" ref="view_zipcode_form" />
+        <field name="act_window_id" ref="action_zipcode" />
     </record>        
 
-    <menuitem name="Zipcodes" groups="base.group_no_one" action="action_zipcode" parent="base.menu_localisation" id="menu_zipcode"/>
+    <menuitem
+      name="Zipcodes"
+      groups="base.group_no_one"
+      action="action_zipcode"
+      parent="base.menu_localisation"
+      id="menu_zipcode"
+    />
 
     </data>
 </openerp>

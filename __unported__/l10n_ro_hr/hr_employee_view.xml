@@ -1,38 +1,41 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <openerp>
     <data>
         <record id="view_employee_form_romania" model="ir.ui.view">
             <field name="name">view.employee.form.romania</field>
             <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="inherit_id" ref="hr.view_employee_form" />
             <field name="arch" type="xml">
             	<xpath expr="//group[@name='active_group']" position="after">
 					<group colspan="4" string="Social Security">
-						<field name="casang"/>
-						<field name="person_in_care"/>
+						<field name="casang" />
+						<field name="person_in_care" />
 						<field name="person_related" context="{'employee_id': active_id}">
 						    <tree string="Persons Related" editable="bottom">
-						        <field name="name"/>
-						        <field name="ssnid"/>
-						        <field name="relation"/>
-								<field name="relation_type"/>
+						        <field name="name" />
+						        <field name="ssnid" />
+						        <field name="relation" />
+								<field name="relation_type" />
 						    </tree>
 						</field>
 					</group>
 				</xpath>
                 <field name="identification_id" position="before">
-                    <field name="ssnid" groups="base.group_hr_user"/>
+                    <field name="ssnid" groups="base.group_hr_user" />
                 </field>
                 <field name="identification_id" position="after">
-                    <field name="emit_by"/>
-                    <field name="emit_on"/>
-					<field name="expires_on"/>
+                    <field name="emit_by" />
+                    <field name="emit_on" />
+					<field name="expires_on" />
                 </field>               
-                <xpath expr="/form/sheet/notebook/page[@string='Personal Information']/group/group[@string='Contact Information']" position="before">
+                <xpath
+          expr="/form/sheet/notebook/page[@string='Personal Information']/group/group[@string='Contact Information']"
+          position="before"
+        >
                     <group string="Initial Datas">
-                        <field name="ssnid_init"/>
-                        <field name="first_name_init"/>
-                        <field name="last_name_init"/>
+                        <field name="ssnid_init" />
+                        <field name="first_name_init" />
+                        <field name="last_name_init" />
                     </group>
                 </xpath>
             </field>
@@ -44,11 +47,11 @@
             <field name="model">hr.employee.related</field>
             <field name="arch" type="xml">
                 <tree string="Employees Persons related">
-                    <field name="employee_id"/>
-                    <field name="name"/>
-                    <field name="ssnid"/>
-                    <field name="relation"/>
-					<field name="relation_type"/>
+                    <field name="employee_id" />
+                    <field name="name" />
+                    <field name="ssnid" />
+                    <field name="relation" />
+					<field name="relation_type" />
                 </tree>
             </field>
         </record>
@@ -58,10 +61,10 @@
             <field name="model">hr.employee.related</field>
             <field name="arch" type="xml">
                 <form string="Employees Persons related">
-                    <field name="employee_id"/>
-                    <field name="name"/>
-                    <field name="ssnid"/>
-                    <field name="relation"/>
+                    <field name="employee_id" />
+                    <field name="name" />
+                    <field name="ssnid" />
+                    <field name="relation" />
                 </form>
             </field>
         </record>
@@ -71,29 +74,44 @@
             <field name="model">hr.employee.related</field>
             <field name="arch" type="xml">
                 <search string="Persons related">
-                    <field name="employee_id"/>
-                    <field name="name"/>
-                    <newline/>
+                    <field name="employee_id" />
+                    <field name="name" />
+                    <newline />
                     <group expand="1" string="Group By...">
-                        <filter string="Employee" icon="terp-personal" domain="[]" context="{'group_by':'employee_id'}"/>
-						<filter string="Type" icon="terp-personal" domain="[]" context="{'group_by':'relation_type'}"/>
+                        <filter
+              string="Employee"
+              icon="terp-personal"
+              domain="[]"
+              context="{'group_by':'employee_id'}"
+            />
+						<filter
+              string="Type"
+              icon="terp-personal"
+              domain="[]"
+              context="{'group_by':'relation_type'}"
+            />
                     </group>
                 </search>
             </field>
         </record>
          
-         <record id="action_hr_person_related_form" model="ir.actions.act_window">
+         <record
+      id="action_hr_person_related_form"
+      model="ir.actions.act_window"
+    >
             <field name="name">Person related</field>
             <field name="res_model">hr.employee.related</field>
 
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="menu_hr_person_related"
-                    parent="hr.menu_hr_main"
-                    action="action_hr_person_related_form"
-                    sequence="30"
-                    icon="STOCK_JUSTIFY_FILL"/> 
+        <menuitem
+      id="menu_hr_person_related"
+      parent="hr.menu_hr_main"
+      action="action_hr_person_related_form"
+      sequence="30"
+      icon="STOCK_JUSTIFY_FILL"
+    /> 
         
     </data> 
 </openerp>

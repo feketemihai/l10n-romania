@@ -12,6 +12,4 @@ class D300Report(models.TransientModel):
     _name = "l10n_ro.d300_report"
     _description = "Declaration 300"
     _inherit = "l10n_ro.d000_report"
-    _code = 'D300'
-
-
+    _code = "D300"

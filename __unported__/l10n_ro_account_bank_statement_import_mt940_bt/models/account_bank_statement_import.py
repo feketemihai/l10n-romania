@@ -8,10 +8,10 @@ from .mt940 import MT940Parser as Parser
 _logger = logging.getLogger(__name__)
 
 
-
 class AccountBankStatementImport(models.TransientModel):
     """Add parsing of mt940 files to bank statement import."""
-    _inherit = 'account.bank.statement.import'
+
+    _inherit = "account.bank.statement.import"
 
     def _parse_file(self, data_file):
         """Parse a MT940 IBAN bt file."""
@@ -22,4 +22,4 @@ class AccountBankStatementImport(models.TransientModel):
         except ValueError:
             # Returning super will call next candidate:
             _logger.debug("Statement file was not a MT940 IBAN BT file.", exc_info=True)
-            return super(AccountBankStatementImport, self)._parse_file( data_file)
+            return super(AccountBankStatementImport, self)._parse_file(data_file)

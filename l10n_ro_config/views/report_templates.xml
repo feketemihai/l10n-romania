@@ -1,44 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- External layouts styles -->
-    <template
-        id="external_layout_background"
-        inherit_id="web.external_layout_background"
-    >
+    <template id="external_layout_background" inherit_id="web.external_layout_background">
         <xpath
             expr="//div[@t-attf-class='o_company_#{company.id}_layout footer o_background_footer']"
             position="replace"
         >
-            <div
-                t-attf-class="o_company_#{company.id}_layout footer o_background_footer"
-            >
+            <div t-attf-class="o_company_#{company.id}_layout footer o_background_footer">
                 <div class="text-center">
                     <ul class="list-inline">
                         <li t-if="company.phone" class="list-inline-item">
-                            <i
-                                class="fa fa-phone"
-                                role="img"
-                                aria-label="Phone"
-                                title="Phone"
-                            />
+                            <i class="fa fa-phone" role="img" aria-label="Phone" title="Phone" />
                             <span t-field="company.phone" />
                         </li>
                         <li t-if="company.email" class="list-inline-item">
-                            <i
-                                class="fa fa-at"
-                                role="img"
-                                aria-label="Email"
-                                title="Email"
-                            />
+                            <i class="fa fa-at" role="img" aria-label="Email" title="Email" />
                             <span t-field="company.email" />
                         </li>
                         <li t-if="company.website" class="list-inline-item">
-                            <i
-                                class="fa fa-globe"
-                                role="img"
-                                aria-label="Website"
-                                title="Website"
-                            />
+                            <i class="fa fa-globe" role="img" aria-label="Website" title="Website" />
                             <span t-field="company.website" />
                         </li>
                         <br />
@@ -56,22 +36,15 @@
                             </t>
                         </li>
                         <li t-if="company.partner_id.nrc" class="list-inline-item">
-                            <i
-                                class="fa fa-building-o"
-                                role="img"
-                                aria-label="NRC"
-                                title="NRC"
-                            />NRC: <span t-field="company.partner_id.nrc" />
+                            <i class="fa fa-building-o" role="img" aria-label="NRC" title="NRC" />NRC: <span
+                                t-field="company.partner_id.nrc"
+                            />
                         </li>
                     </ul>
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <div
-                            t-foreach="company.partner_id.bank_ids"
-                            t-as="bank"
-                            id="partner_bank"
-                        >
+                        <div t-foreach="company.partner_id.bank_ids" t-as="bank" id="partner_bank">
                             <t t-if="bank.print_report">
                                 <div t-if="bank.bank_name">
                                     <strong>Bank:</strong>
@@ -79,9 +52,7 @@
                                 </div>
                                 <div t-if="bank.acc_number">
                                     <strong>Account:</strong>
-                                    <span t-field="bank.acc_number" /> - <strong
-                                        t-if="bank.currency_id"
-                                    >
+                                    <span t-field="bank.acc_number" /> - <strong t-if="bank.currency_id">
                                         <span t-field="bank.currency_id" />
                                     </strong>
                                 </div>
@@ -89,10 +60,7 @@
                         </div>
                     </div>
                     <div class="col-4" t-field="company.report_footer" />
-                    <div
-                        class="col-2 text-right"
-                        style="margin-right: -5px; margin-bottom: -5px;"
-                    >
+                    <div class="col-2 text-right" style="margin-right: -5px; margin-bottom: -5px;">
                         Page: <span class="page" /> / <span class="topage" />
                     </div>
                 </div>
@@ -109,9 +77,7 @@
                     </div>
                     <div t-if="bank.acc_number">
                         <strong>Account:</strong>
-                        <span t-field="bank.acc_number" /> - <strong
-                            t-if="bank.currency_id"
-                        >
+                        <span t-field="bank.acc_number" /> - <strong t-if="bank.currency_id">
                             <span t-field="bank.currency_id" />
                         </strong>
                     </div>
@@ -127,9 +93,7 @@
             </t>
         </span>
         <li t-if="company.vat" position="after">
-            <li t-if="company.partner_id.nrc">NRC: <span
-                    t-field="company.partner_id.nrc"
-                /></li>
+            <li t-if="company.partner_id.nrc">NRC: <span t-field="company.partner_id.nrc" /></li>
         </li>
     </template>
     <template id="external_layout_clean" inherit_id="web.external_layout_clean">
@@ -142,15 +106,9 @@
             </t>
         </span>
         <li t-if="company.vat" position="after">
-            <li t-if="company.partner_id.nrc">NRC: <span
-                    t-field="company.partner_id.nrc"
-                /></li>
+            <li t-if="company.partner_id.nrc">NRC: <span t-field="company.partner_id.nrc" /></li>
             <li t-if="company.partner_id.bank_ids">
-                <div
-                    t-foreach="company.partner_id.bank_ids"
-                    t-as="bank"
-                    id="partner_bank"
-                >
+                <div t-foreach="company.partner_id.bank_ids" t-as="bank" id="partner_bank">
                     <t t-if="bank.print_report">
                         <div t-if="bank.bank_name">
                             <strong>Bank:</strong>
@@ -158,9 +116,7 @@
                         </div>
                         <div t-if="bank.acc_number">
                             <strong>Account:</strong>
-                            <span t-field="bank.acc_number" /> - <strong
-                                t-if="bank.currency_id"
-                            >
+                            <span t-field="bank.acc_number" /> - <strong t-if="bank.currency_id">
                                 <span t-field="bank.currency_id" />
                             </strong>
                         </div>
@@ -179,9 +135,7 @@
                     </div>
                     <div t-if="bank.acc_number">
                         <strong>Account:</strong>
-                        <span t-field="bank.acc_number" /> - <strong
-                            t-if="bank.currency_id"
-                        >
+                        <span t-field="bank.acc_number" /> - <strong t-if="bank.currency_id">
                             <span t-field="bank.currency_id" />
                         </strong>
                     </div>
@@ -199,10 +153,9 @@
                     <span t-esc="company.partner_id.vat[2:20]" />
                 </t>
             </li>
-            <li
-                t-if="company.partner_id.nrc"
-                class="list-inline-item d-inline"
-            >NRC: <span t-field="company.partner_id.nrc" /></li>
+            <li t-if="company.partner_id.nrc" class="list-inline-item d-inline">NRC: <span
+                    t-field="company.partner_id.nrc"
+                /></li>
         </li>
     </template>
 </odoo>

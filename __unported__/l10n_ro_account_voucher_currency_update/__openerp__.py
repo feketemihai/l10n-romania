@@ -25,15 +25,14 @@
     "author": "FOREST AND BIOMASS SERVICES ROMANIA	",
     "website": "http://www.forbiom.eu",
     "category": "Hidden",
-    "depends": ['l10n_ro_config', 'account_voucher'],
+    "depends": ["l10n_ro_config", "account_voucher"],
     "description": """
 Romania - Currency Update at partial Payments/Receipts
 ------------------------------------------
 
 
     """,
-
-    'data': [],
-    'installable': True,
-    'auto_install': False,
+    "data": [],
+    "installable": True,
+    "auto_install": False,
 }

@@ -24,29 +24,25 @@ from odoo import models, fields, api
 
 
 class ResPartner(models.Model):
-    _inherit = 'res.partner'
+    _inherit = "res.partner"
 
-    @api.onchange('add_street', 'add_number', 'add_block', 'add_staircase', 'add_flat')
+    @api.onchange("add_street", "add_number", "add_block", "add_staircase", "add_flat")
     def _get_street(self):
-        new_street = ''
+        new_street = ""
         if self.add_street:
-            new_street += 'Str. ' + self.add_street + ' '
+            new_street += "Str. " + self.add_street + " "
         if self.add_number:
-            new_street += 'Nr. ' + self.add_number + ' '
+            new_street += "Nr. " + self.add_number + " "
         if self.add_block:
-            new_street += 'Bl. ' + self.add_block + ' '
+            new_street += "Bl. " + self.add_block + " "
         if self.add_staircase:
-            new_street += 'Sc. ' + self.add_staircase + ' '
+            new_street += "Sc. " + self.add_staircase + " "
         if self.add_flat:
-            new_street += 'Ap. ' + self.add_flat + ' '
+            new_street += "Ap. " + self.add_flat + " "
         self.street = new_street.strip()
 
-    add_street = fields.Char('Street name')
-    add_number = fields.Char('Street number')
-    add_block = fields.Char('Block number')
-    add_staircase = fields.Char('Staircase number')
-    add_flat = fields.Char('Flat number')
-
-
-
-
+    add_street = fields.Char("Street name")
+    add_number = fields.Char("Street number")
+    add_block = fields.Char("Block number")
+    add_staircase = fields.Char("Staircase number")
+    add_flat = fields.Char("Flat number")

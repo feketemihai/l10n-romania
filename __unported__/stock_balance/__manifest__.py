@@ -30,14 +30,9 @@
     
     - Trebuie testat  in 11 
     """,
-
     "category": "Generic Modules",
     "depends": ["base", "stock"],
-
-
-    "data": [
-        'security/ir.model.access.csv',
-              "report/stock_balance.xml"],
+    "data": ["security/ir.model.access.csv", "report/stock_balance.xml"],
     "active": False,
     "installable": True,
 }

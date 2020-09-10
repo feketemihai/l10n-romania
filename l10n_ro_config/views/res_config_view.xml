@@ -6,10 +6,7 @@
         <field name="priority" eval="41" />
         <field name="inherit_id" ref="base.res_config_settings_view_form" />
         <field name="arch" type="xml">
-            <xpath
-                expr="//div[@data-key='account']//field[@name='module_currency_rate_live']/../.."
-                position="after"
-            >
+            <xpath expr="//div[@data-key='account']//field[@name='module_currency_rate_live']/../.." position="after">
                 <div class="col-12 col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane">
                         <field name="module_currency_rate_update_RO_BNR" />
@@ -42,10 +39,7 @@
                 >
                     <h2>Adresses</h2>
                     <div class="row mt16 o_settings_container">
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_address_extended"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_address_extended">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_address_extended" />
                             </div>
@@ -56,10 +50,7 @@
                         </div>
                     </div>
                     <div class="row mt16 o_settings_container">
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_city"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_city">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_city" />
                             </div>
@@ -70,10 +61,7 @@
                         </div>
                     </div>
                     <div class="row mt16 o_settings_container">
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_siruta"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_siruta">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_siruta" />
                             </div>
@@ -85,10 +73,7 @@
                     </div>
                     <h2>Partners</h2>
                     <div class="row mt16 o_settings_container">
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_partner_unique"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_partner_unique">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_partner_unique" />
                             </div>
@@ -99,10 +84,7 @@
                         </div>
                     </div>
                     <div class="row mt16 o_settings_container">
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_partner_create_by_vat"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_partner_create_by_vat">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_partner_create_by_vat" />
                             </div>
@@ -113,10 +95,7 @@
                         </div>
                     </div>
                     <div class="row mt16 o_settings_container">
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_fiscal_validation"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_fiscal_validation">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_fiscal_validation" />
                             </div>
@@ -128,10 +107,7 @@
                     </div>
                     <h2>Accounting</h2>
                     <div class="row mt16 o_settings_container">
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_vat_on_payment"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_vat_on_payment">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_vat_on_payment" />
                             </div>
@@ -140,10 +116,7 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_period_close"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_period_close">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_account_period_close" />
                             </div>
@@ -152,41 +125,25 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_invoice"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_report_invoice">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_account_report_invoice" />
                             </div>
                             <div class="o_setting_right_pane">
                                 <label for="module_l10n_ro_account_report_invoice" />
-                                <div
-                                    class="text-muted"
-                                    id="module_currency_rate_update"
-                                />
+                                <div class="text-muted" id="module_currency_rate_update" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_trial_balance"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_report_trial_balance">
                             <div class="o_setting_left_pane">
-                                <field
-                                    name="module_l10n_ro_account_report_trial_balance"
-                                />
+                                <field name="module_l10n_ro_account_report_trial_balance" />
                             </div>
                             <div class="o_setting_right_pane">
-                                <label
-                                    for="module_l10n_ro_account_report_trial_balance"
-                                />
+                                <label for="module_l10n_ro_account_report_trial_balance" />
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_journal"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_report_journal">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_account_report_journal" />
                             </div>
@@ -195,10 +152,7 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_pl"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_report_pl">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_account_report_pl" />
                             </div>
@@ -207,26 +161,16 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_balance_sheet"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_report_balance_sheet">
                             <div class="o_setting_left_pane">
-                                <field
-                                    name="module_l10n_ro_account_report_balance_sheet"
-                                />
+                                <field name="module_l10n_ro_account_report_balance_sheet" />
                             </div>
                             <div class="o_setting_right_pane">
-                                <label
-                                    for="module_l10n_ro_account_report_balance_sheet"
-                                />
+                                <label for="module_l10n_ro_account_report_balance_sheet" />
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_sheet"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_report_sheet">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_account_report_sheet" />
                             </div>
@@ -235,19 +179,12 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_journal_sheet"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_report_journal_sheet">
                             <div class="o_setting_left_pane">
-                                <field
-                                    name="module_l10n_ro_account_report_journal_sheet"
-                                />
+                                <field name="module_l10n_ro_account_report_journal_sheet" />
                             </div>
                             <div class="o_setting_right_pane">
-                                <label
-                                    for="module_l10n_ro_account_report_journal_sheet"
-                                />
+                                <label for="module_l10n_ro_account_report_journal_sheet" />
                                 <div class="text-muted" />
                             </div>
                         </div>
@@ -256,21 +193,14 @@
                             id="module_l10n_ro_account_report_inventory_sheet"
                         >
                             <div class="o_setting_left_pane">
-                                <field
-                                    name="module_l10n_ro_account_report_inventory_sheet"
-                                />
+                                <field name="module_l10n_ro_account_report_inventory_sheet" />
                             </div>
                             <div class="o_setting_right_pane">
-                                <label
-                                    for="module_l10n_ro_account_report_inventory_sheet"
-                                />
+                                <label for="module_l10n_ro_account_report_inventory_sheet" />
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_D300"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_report_D300">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_account_report_D300" />
                             </div>
@@ -279,10 +209,7 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_D390"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_report_D390">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_account_report_D390" />
                             </div>
@@ -291,10 +218,7 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_D394"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_report_D394">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_account_report_D394" />
                             </div>
@@ -303,10 +227,7 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_account_report_intrastat"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_account_report_intrastat">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_account_report_intrastat" />
                             </div>
@@ -318,34 +239,52 @@
                     </div>
                     <h2>Stock</h2>
                     <div class="row mt16 o_settings_container">
-                        <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="use_anglo_saxon">
                             <div class="o_setting_left_pane">
                                 <field name="use_anglo_saxon" />
                             </div>
                             <div class="o_setting_right_pane">
                                 <label for="use_anglo_saxon" />
+                                <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    role="img"
+                                    aria-label="Values set here are company-specific."
+                                    groups="base.group_multi_company"
+                                />
+                                <div class="text-muted">
+                                    Record cost of goods sold in your journal entries
+                                </div>
+                            </div>
+                            <div class="o_setting_left_pane">
+                                <field name="use_romanian_accounting" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="use_romanian_accounting" />
+                                <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    role="img"
+                                    aria-label="Values set here are company-specific."
+                                    groups="base.group_multi_company"
+                                />
+                                <div class="text-muted">
+                                    Registration of accounting move according to Romanian legislation
+                                </div>
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_stock"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_stock">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_stock" />
                             </div>
                             <div class="o_setting_right_pane">
                                 <label for="module_l10n_ro_stock" />
-                                <div
-                                    class="text-muted"
-                                >Adds location in_custody, usage_giving,consume
+                                <div class="text-muted">Adds location in_custody, usage_giving,consume
                                     *merchandise_type:store,warehouse
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="col-12 col-lg-6 o_setting_box"
-                            id="module_l10n_ro_stock_account"
-                        >
+                        <div class="col-12 col-lg-6 o_setting_box" id="module_l10n_ro_stock_account">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_stock_account" />
                             </div>
@@ -410,18 +349,12 @@
                                             for="property_stock_transfer_account_id"
                                             class="col-lg-3 o_light_label"
                                         />
-                                        <field
-                                            name="property_stock_transfer_account_id"
-                                            placeholder="Select 482"
-                                        />
+                                        <field name="property_stock_transfer_account_id" placeholder="Select 482" />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_stock_picking_report"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_stock_picking_report">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_stock_picking_report" />
                             </div>
@@ -430,10 +363,7 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_stock_account_store"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_stock_account_store">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_stock_account_store" />
                             </div>
@@ -442,26 +372,16 @@
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_stock_picking_report_store"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_stock_picking_report_store">
                             <div class="o_setting_left_pane">
-                                <field
-                                    name="module_l10n_ro_stock_picking_report_store"
-                                />
+                                <field name="module_l10n_ro_stock_picking_report_store" />
                             </div>
                             <div class="o_setting_right_pane">
-                                <label
-                                    for="module_l10n_ro_stock_picking_report_store"
-                                />
+                                <label for="module_l10n_ro_stock_picking_report_store" />
                                 <div class="text-muted" />
                             </div>
                         </div>
-                        <div
-                            class="col-xs-12 col-md-6 o_setting_box"
-                            id="module_l10n_ro_dvi"
-                        >
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="module_l10n_ro_dvi">
                             <div class="o_setting_left_pane">
                                 <field name="module_l10n_ro_dvi" />
                             </div>

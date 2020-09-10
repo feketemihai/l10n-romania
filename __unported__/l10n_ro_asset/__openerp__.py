@@ -20,11 +20,11 @@
 #
 ##############################################################################
 {
-    'name': 'Romania - Assets Management',
-    'version': '1.0',
-    'depends': ['account', 'account_asset', 'stock', 'l10n_ro_config', 'l10n_ro_stock'],
-    'author': 'FOREST AND BIOMASS SERVICES ROMANIA',
-    'description': """
+    "name": "Romania - Assets Management",
+    "version": "1.0",
+    "depends": ["account", "account_asset", "stock", "l10n_ro_config", "l10n_ro_stock"],
+    "author": "FOREST AND BIOMASS SERVICES ROMANIA",
+    "description": """
 Financial and accounting asset management.
 ==========================================
 
@@ -33,18 +33,18 @@ track of depreciation's occurred on those assets. And it allows to create Move's
 of the depreciation lines.
 
     """,
-    'website': 'http://www.forbiom.eu',
-    'category': 'Romania Adaptation',
-    'sequence': 32,
-    'data': [
-        'security/ir.model.access.csv',
-        'account_asset_view.xml',
-        'stock_assets_view.xml',
-        'stock_view.xml',
+    "website": "http://www.forbiom.eu",
+    "category": "Romania Adaptation",
+    "sequence": 32,
+    "data": [
+        "security/ir.model.access.csv",
+        "account_asset_view.xml",
+        "stock_assets_view.xml",
+        "stock_view.xml",
         #    'report/account_asset_report_view.xml',
     ],
-    'auto_install': False,
-    'installable': True,
-    'application': False,
+    "auto_install": False,
+    "installable": True,
+    "application": False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

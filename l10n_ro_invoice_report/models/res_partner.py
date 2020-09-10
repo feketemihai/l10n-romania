@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
@@ -19,14 +18,10 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, _
-
+from odoo import _, api, fields, models
 
 
 class res_partner(models.Model):
-    _inherit = 'res.partner'
+    _inherit = "res.partner"
 
-    info_for_invoice = fields.Html(string='Additional info for invoice')
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    info_for_invoice = fields.Html(string="Additional info for invoice")

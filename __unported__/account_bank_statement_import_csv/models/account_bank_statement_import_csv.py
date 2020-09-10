@@ -21,11 +21,11 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountBankStatementImport(models.TransientModel):
-    _inherit = 'account.bank.statement.import'
+    _inherit = "account.bank.statement.import"
 
     def _check_csv(self, file):
         try:
-            dict = unicodecsv.DictReader(file, delimiter=',', quotechar='"', encoding='iso-8859-1')
+            dict = unicodecsv.DictReader(file, delimiter=",", quotechar='"', encoding="iso-8859-1")
         except:
             return False
         return dict
@@ -33,7 +33,7 @@ class AccountBankStatementImport(models.TransientModel):
     def _parse_file(self, data_file):
         # decode Charset and remove BOM if needed
         encoding = chardet.detect(data_file)
-        data_file.decode(encoding['encoding'])
+        data_file.decode(encoding["encoding"])
         if data_file[:3] == codecs.BOM_UTF8:
             data_file = data_file[3:]
 
@@ -43,21 +43,21 @@ class AccountBankStatementImport(models.TransientModel):
         all_statements = {}
         try:
             for line in csv:
-                if not line['Bank reference'] is None:
+                if not line["Bank reference"] is None:
                     # convert the line's date to a date object
-                    entry_date_obj = dateutil.parser.parse(line['Entry date'], dayfirst=True, fuzzy=True).date()
+                    entry_date_obj = dateutil.parser.parse(line["Entry date"], dayfirst=True, fuzzy=True).date()
 
-                    currency = line['Statement currency']
-                    account_num = line['Account']
-                    statement_id = line['Statement number']
+                    currency = line["Statement currency"]
+                    account_num = line["Account"]
+                    statement_id = line["Statement number"]
                     m = hashlib.sha512()
                     m.update(str(line))
                     vals_line = {
-                        'date': entry_date_obj,
-                        'name': line['Counterparty name'] + line['Transaction motivation'],
-                        'ref': line['Account'] + '-' + line['Statement number'] + '-' + line['Bank reference'],
-                        'amount': float(line['Transaction amount'].replace(',', '.')),
-                        'unique_import_id': m.hexdigest(),
+                        "date": entry_date_obj,
+                        "name": line["Counterparty name"] + line["Transaction motivation"],
+                        "ref": line["Account"] + "-" + line["Statement number"] + "-" + line["Bank reference"],
+                        "amount": float(line["Transaction amount"].replace(",", ".")),
+                        "unique_import_id": m.hexdigest(),
                         # 'bank_account_id': bank_account_id,
                         # 'partner_id': partner_id,
                     }
@@ -65,36 +65,36 @@ class AccountBankStatementImport(models.TransientModel):
                         account_statements = all_statements[currency, account_num]
                         processed = False
                         for statement in account_statements:
-                            if statement.get('name') == line['Account'] + '-' + line['Statement number']:
+                            if statement.get("name") == line["Account"] + "-" + line["Statement number"]:
                                 # There is already a statement with this number
                                 # add the transaction
-                                if not statement.get('date') or entry_date_obj > statement.get('date'):
-                                    statement['date'] = entry_date_obj
-                                statement['transactions'].append(vals_line)
+                                if not statement.get("date") or entry_date_obj > statement.get("date"):
+                                    statement["date"] = entry_date_obj
+                                statement["transactions"].append(vals_line)
                                 processed = True
                                 break
                         if not processed:
                             # There is no statement with this number, create
                             # one with this transaction
                             statement = {
-                                'name': line['Account'] + '-' + line['Statement number'],
-                                'balance_start': float(line['Opening balance'].replace(',', '.')),
-                                'balance_end_real': float(line['Closing balance'].replace(',', '.')),
-                                'transactions': [vals_line],
-                                'date': entry_date_obj,
+                                "name": line["Account"] + "-" + line["Statement number"],
+                                "balance_start": float(line["Opening balance"].replace(",", ".")),
+                                "balance_end_real": float(line["Closing balance"].replace(",", ".")),
+                                "transactions": [vals_line],
+                                "date": entry_date_obj,
                             }
                             account_statements.append(statement)
                     else:
                         statement = {
-                            'name': line['Account'] + '-' + line['Statement number'],
-                            'balance_start': float(line['Opening balance'].replace(',', '.')),
-                            'balance_end_real': float(line['Closing balance'].replace(',', '.')),
-                            'transactions': [vals_line],
+                            "name": line["Account"] + "-" + line["Statement number"],
+                            "balance_start": float(line["Opening balance"].replace(",", ".")),
+                            "balance_end_real": float(line["Closing balance"].replace(",", ".")),
+                            "transactions": [vals_line],
                         }
                         all_statements[currency, account_num] = [statement]
 
         except Exception as e:
-            raise exceptions.UserError(_(
-                'The following problem occurred during import. The file might '
-                'not be valid.\n\n %s' % e.message))
+            raise exceptions.UserError(
+                _("The following problem occurred during import. The file might " "not be valid.\n\n %s" % e.message)
+            )
         return currency, account_num, all_statements[currency, account_num]
