@@ -55,5 +55,9 @@ class ResCompany(models.Model):
     property_trade_discount_received_account_id = fields.Many2one("account.account", string="Trade discounts received")
     property_trade_discount_granted_account_id = fields.Many2one("account.account", string="Trade discounts granted")
 
-    property_vat_on_payment_position_id = fields.Many2one("account.fiscal.position", "VAT on Payment")
-    property_inverse_taxation_position_id = fields.Many2one("account.fiscal.position", "Inverse Taxation")
+    property_vat_on_payment_position_id = fields.Many2one(
+        "account.fiscal.position", "Fiscal Position for VAT on Payment"
+    )
+    property_inverse_taxation_position_id = fields.Many2one(
+        "account.fiscal.position", "Fiscal Position for Inverse Taxation"
+    )
