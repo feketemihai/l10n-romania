@@ -6,8 +6,9 @@
             <field name="model">account.intrastat.code</field>
             <field name="arch" type="xml">
                 <tree string="Intrastat code">
-                    <field name="name" />
+                    <field name="nckey" />
                     <field name="code" />
+                    <field name="name" />
                     <field name="description" />
                 </tree>
             </field>
@@ -17,6 +18,7 @@
             <field name="model">account.intrastat.code</field>
             <field name="arch" type="xml">
                 <search>
+                    <field name="nckey" />
                     <field name="name" />
                     <field name="description" />
                     <field name="code" />
@@ -28,12 +30,19 @@
             <field name="model">account.intrastat.code</field>
             <field name="arch" type="xml">
                 <form string="Intrastat Code">
-                    <group>
-                        <field name="name" />
-                        <field name="code" />
-                        <field name="suppl_unit_code" />
-                        <field name="description" />
-                    </group>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="nckey" />
+                                <field name="code" />
+                            </group>
+                            <group>
+                                <field name="name" />
+                                <field name="suppl_unit_code" />
+                                <field name="description" />
+                            </group>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
