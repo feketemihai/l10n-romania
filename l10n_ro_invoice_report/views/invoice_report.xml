@@ -80,12 +80,13 @@
                 </div>
             </div>
         </template>
+        <!--
         <template
             id="l10n_ro_report_invoice_document_with_payments"
             inherit_id="account.report_invoice_document_with_payments"
         >
 
-            <!--<xpath expr="//div[@name='reference']" position="after">
+            <xpath expr="//div[@name='reference']" position="after">
                 <div t-if="o.type == 'out_invoice' and o.payment_ids">
                     <br/>
                     <br/>
@@ -140,9 +141,9 @@
 
                     </div>
                 </div>
-            </xpath>-->
+            </xpath>
 
-        </template>
+        </template>-->
         <template id="l10n_ro_report_invoice_document" inherit_id="account.report_invoice_document">
             <xpath expr="//t[@t-set='address']" position="replace">
                 <t t-call="l10n_ro_invoice_report.header_invoice" />

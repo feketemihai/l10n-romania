@@ -1,29 +1,12 @@
-##############################################################################
-#
-# Copyright (c) 2014 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2008-2020 Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 
 import time
 
 from odoo import api, models
 
-from . import amount_to_text_ro
+# from . import amount_to_text_ro
 
 
 class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
@@ -40,7 +23,7 @@ class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
             "data": data,
             "time": time,
             "docs": self.env[report.model].browse(docids),
-            "convert": self._convert,
+            # "convert": self._convert,
             "with_discount": self._with_discount,
             "amount_to_text": self._amount_to_text,
             "get_pickings": self._get_pickings,
@@ -50,10 +33,10 @@ class ReportInvoiceWithPaymentsPrint(models.AbstractModel):
     def _amount_to_text(self, amount, currency):
         return currency.amount_to_text(amount)
 
-    def _convert(self, amount):
-        # todo: de folosit libraria num2words dupa ce o sa aiba si limba romana
-        amt_ro = amount_to_text_ro.amount_to_text_ro(amount)
-        return amt_ro
+    # def _convert(self, amount):
+    #     # todo: de folosit libraria num2words dupa ce o sa aiba si limba romana
+    #     amt_ro = amount_to_text_ro.amount_to_text_ro(amount)
+    #     return amt_ro
 
     def _with_discount(self, invoice):
         res = False
