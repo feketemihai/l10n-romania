@@ -66,6 +66,7 @@ class d394_new_report(models.TransientModel):
                                     related='company_id.anaf_cross_opt')
     anaf_cross_new_opt = fields.Boolean('Allow ANAF Crosschecking')
     solicit = fields.Boolean('Request VAT Reimbursment')
+    prsAfiliat =  fields.Boolean('Operatiuni cu persoane afiliate')
     achizitiiPE = fields.Boolean(
         'Purchases of Eolian Parks',
         help='Achizitii de bunuri si servicii legate direct de'
