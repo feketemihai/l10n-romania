@@ -21,6 +21,8 @@
                                 <separator string="ANAF Options" colspan="4"/>
                                 <label for="anaf_cross_opt"/>
                                 <field name="anaf_cross_opt" readonly="1"/>
+                                <label for="prsAfiliat"/>
+                                <field name="prsAfiliat"/>
                                 <newline/>
                                 <label for="anaf_cross_new_opt"/>
                                 <field name="anaf_cross_new_opt" attrs="{'invisible': [('anaf_cross_opt','!=',False)]}"/>
