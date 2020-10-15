@@ -1690,6 +1690,7 @@ class d394_new_report(models.TransientModel):
             'cif_intocmit': int_partner.vat and int_partner.vat[2:] or '',
             'den_intocmit': int_partner.name,
             'optiune': int(self.anaf_cross_opt),
+	    'prsAfiliat': int(self.prsAfiliat)
         })
         if int_partner.is_company:
             xmldict.update({
