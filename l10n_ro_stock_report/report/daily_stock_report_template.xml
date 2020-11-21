@@ -213,7 +213,7 @@
                                         <t t-set="total" t-value="0.0" />
                                         <t t-set="rows" t-value="0.0" />
                                         <tr
-                                            t-foreach="o.line_product_ids.filtered(lambda x : x.type == 'out')"
+                                            t-foreach="o.line_product_ids.filtered(lambda x : x.move_type == 'out')"
                                             t-as="line"
                                         >
                                             <t t-set="total" t-value="total + line.amount" />

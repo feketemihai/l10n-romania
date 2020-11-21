@@ -4,7 +4,7 @@
 {
     "name": "Romanian  Intrastat Declaration",
     "license": "AGPL-3",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "author": "Dorin Hongu," "Odoo Community Association (OCA)",
     "depends": ["product", "sale_stock", "account", "l10n_ro"],
     "data": [

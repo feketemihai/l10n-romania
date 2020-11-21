@@ -29,7 +29,7 @@ class ReportVoucherPrint(models.AbstractModel):
     @api.model
     def render_html(self, docids, data=None):
         report_obj = self.env["report"]
-        report = report_obj._get_report_from_name(self._template)
+        # report = report_obj._get_report_from_name(self._template)
         docargs = self.get_report_values()
         return report_obj.render(self._template, docargs)
 

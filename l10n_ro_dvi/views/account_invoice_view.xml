@@ -12,7 +12,7 @@
                         status='posted'
                         string="DVI"
                         type="object"
-                        attrs="{'invisible': ['|',('type', '!=', 'in_invoice'),('state', '!=', 'posted')]}"
+                        attrs="{'invisible': ['|',('move_type', '!=', 'in_invoice'),('state', '!=', 'posted')]}"
                     />
                 </button>
             </field>

@@ -3,28 +3,9 @@
 
 {
     "name": "Romania - Invoice Report",
-    "version": "13.0.1.0.0",
+    "version": "14.0.2.0.2",
     "author": "Dorin Hongu," "Odoo Community Association (OCA)",
-    "website": "",
-    "description": """
-
-Romania - Invoice Report layout
-------------------------------------------
-
-Functionalitati
- - factura contine: pretul fara tva, valoare si valoare tva
- - La factura au fost adugate campurile delegat si mijloc de transport
- - la partener se poate adauga un text aditinonal care apara pe facura
- - tiparire plata / incasare / dispozitie de plata
-
-
- pip3 install --force-reinstall num2words==0.5.9
-
-
- https://static.anaf.ro/static/10/Anaf/legislatie/Cod_fiscal_norme_31072017.htm#A330
-
-
-    """,
+    "license": "AGPL-3",
     "category": "Generic Modules",
     "depends": ["base", "account", "l10n_ro_config", "deltatech_watermark"],
     "data": [
@@ -37,6 +18,4 @@ Functionalitati
         "views/statement_report.xml",
         # 'views/res_partner_view.xml',
     ],
-    "active": False,
-    "installable": True,
 }
