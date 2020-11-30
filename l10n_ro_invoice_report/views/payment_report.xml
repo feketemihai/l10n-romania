@@ -75,7 +75,7 @@
                                 </t>
                                 <span t-field="o.name" />
                                 /
-                                <span t-field="o.payment_date" />
+                                <span t-field="o.date" />
                             </h2>
                             <table class="table table-sm o_main_table">
                                 <tr>
@@ -84,7 +84,7 @@
                                     <td t-if="o.payment_type=='transfer'">To:</td>
                                     <td>
                                         <span t-field="o.partner_id.name" />
-                                        <span t-field="o.destination_journal_id.name" />
+                                        <span t-field="o.journal_id.name" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -112,8 +112,8 @@
                                                 <span t-field="i.invoice_date" />
                                             </t>
                                         </t>
-                                        <t t-if="communication != o.communication">
-                                            <span t-field="o.communication" />
+                                        <t t-if="communication != o.ref">
+                                            <span t-field="o.ref" />
                                         </t>
                                     </td>
                                 </tr>
