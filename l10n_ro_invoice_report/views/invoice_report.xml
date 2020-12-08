@@ -12,8 +12,12 @@
             <div id="address" class="address row">
                 <div name="information_block" class="col-6">
                     <div>
-                        <strong t-if="o.move_type in ['out_invoice', 'out_refund']">Supplier</strong>
-                        <strong t-if="o.move_type in ['in_invoice', 'in_refund']">Customer</strong>
+                        <strong
+                            t-if="o.move_type in ['out_invoice', 'out_refund']"
+                        >Supplier</strong>
+                        <strong
+                            t-if="o.move_type in ['in_invoice', 'in_refund']"
+                        >Customer</strong>
                     </div>
                     <strong t-field="res_company.partner_id.name" />
                     <div id="company_address">
@@ -28,8 +32,12 @@
                 </div>
                 <div class="col-5 offset-1">
                     <div>
-                        <strong t-if="o.move_type in ['out_invoice', 'out_refund']">Customer</strong>
-                        <strong t-if="o.move_type in ['in_invoice', 'in_refund']">Supplier</strong>
+                        <strong
+                            t-if="o.move_type in ['out_invoice', 'out_refund']"
+                        >Customer</strong>
+                        <strong
+                            t-if="o.move_type in ['in_invoice', 'in_refund']"
+                        >Supplier</strong>
                     </div>
                     <div id='partner_name'>
                         <strong t-field="o.commercial_partner_id.name" />
@@ -65,7 +73,9 @@
                         </div>
                     </div>
                     <div>
-                        <span t-esc="', '.join(map(lambda x: (x[0]), o.amount_by_group))" />
+                        <span
+                            t-esc="', '.join(map(lambda x: (x[0]), o.amount_by_group))"
+                        />
                     </div>
                 </div>
                 <div class="col-5 offset-1">
@@ -144,7 +154,10 @@
             </xpath>
 
         </template>-->
-        <template id="l10n_ro_report_invoice_document" inherit_id="account.report_invoice_document">
+        <template
+            id="l10n_ro_report_invoice_document"
+            inherit_id="account.report_invoice_document"
+        >
             <xpath expr="//t[@t-set='address']" position="replace">
                 <t t-call="l10n_ro_invoice_report.header_invoice" />
                 <div style="visibility: hidden;height:1px;">
@@ -159,10 +172,18 @@
                         <span
                             t-if="o.move_type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')"
                         >Invoice</span>
-                        <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
-                        <span t-if="o.move_type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
-                        <span t-if="o.move_type == 'out_refund' and o.state == 'cancel'">Factură Storno Anulată</span>
-                        <span t-if="o.move_type == 'out_refund' and (o.state == 'open' or o.state == 'paid')">Factură
+                        <span
+                            t-if="o.move_type == 'out_invoice' and o.state == 'draft'"
+                        >Draft Invoice</span>
+                        <span
+                            t-if="o.move_type == 'out_invoice' and o.state == 'cancel'"
+                        >Cancelled Invoice</span>
+                        <span
+                            t-if="o.move_type == 'out_refund' and o.state == 'cancel'"
+                        >Factură Storno Anulată</span>
+                        <span
+                            t-if="o.move_type == 'out_refund' and (o.state == 'open' or o.state == 'paid')"
+                        >Factură
                             Storno
                         </span>
                         <span t-if="o.move_type == 'in_refund'">Supplier Refund</span>
@@ -221,7 +242,10 @@
                     <t t-set="with_discount_distinct" t-value="get_discount" />
                     <!--                        <t t-if="with_discount_distinct">Cu discount</t>-->
                     <!--                        <t t-if="not with_discount_distinct">Fara discount</t>-->
-                    <table class="table table-sm o_main_table" name="invoice_line_table">
+                    <table
+                        class="table table-sm o_main_table"
+                        name="invoice_line_table"
+                    >
                         <thead>
                             <tr>
                                 <th>Ord</th>
@@ -258,7 +282,10 @@
                                         t-esc="quantity"
                                         t-options='{"widget": "float", "decimal_precision": "Product Unit of Measure"}'
                                     />
-                                    <span t-field="l.product_uom_id" groups="uom.group_uom" />
+                                    <span
+                                        t-field="l.product_uom_id"
+                                        groups="uom.group_uom"
+                                    />
                                 </td>
                                 <td class="text-right">
                                     <t
@@ -286,9 +313,15 @@
                                     <span t-field="l.discount" />
                                 </td>
                                 <td class="text-right">
-                                    <t t-set="price_subtotal" t-value="l.price_subtotal" />
+                                    <t
+                                        t-set="price_subtotal"
+                                        t-value="l.price_subtotal"
+                                    />
                                     <t t-if="o.move_type == 'out_refund'">
-                                        <t t-set="price_subtotal" t-value="-1*l.price_subtotal" />
+                                        <t
+                                            t-set="price_subtotal"
+                                            t-value="-1*l.price_subtotal"
+                                        />
                                     </t>
                                     <t
                                         t-set="price_subtotal"
@@ -306,7 +339,10 @@
                                         t-value="(l.price_total - l.price_subtotal ) / (l.quantity or 1)"
                                     />
                                     <t t-if="o.move_type == 'out_refund'">
-                                        <t t-set="price_taxes" t-value="-1*price_taxes" />
+                                        <t
+                                            t-set="price_taxes"
+                                            t-value="-1*price_taxes"
+                                        />
                                     </t>
                                     <t
                                         t-set="price_taxes"
@@ -323,7 +359,10 @@
                     </table>
                     <div class="clearfix" style="page-break-inside: avoid !important;">
                         <div id="total" class="row">
-                            <div class="col-8" t-if="o.move_type == 'out_invoice' or o.move_type == 'out_refund' ">
+                            <div
+                                class="col-8"
+                                t-if="o.move_type == 'out_invoice' or o.move_type == 'out_refund' "
+                            >
                                 <table id="signature" class="table table-sm">
                                     <tr class="border-black">
                                         <td>Elaborate:</td>
@@ -351,15 +390,24 @@
                                 </table>
                             </div>
                             <div class="col-4">
-                                <table class="table table-sm" style="page-break-inside: avoid;">
+                                <table
+                                    class="table table-sm"
+                                    style="page-break-inside: avoid;"
+                                >
                                     <tr class="border-black o_subtotal" style="">
                                         <td>
                                             <strong>Total Without Taxes</strong>
                                         </td>
                                         <td class="text-right">
-                                            <t t-set="amount_untaxeds" t-value="o.amount_untaxed" />
+                                            <t
+                                                t-set="amount_untaxeds"
+                                                t-value="o.amount_untaxed"
+                                            />
                                             <t t-if="o.move_type == 'out_refund'">
-                                                <t t-set="amount_untaxeds" t-value="-1*o.amount_untaxed" />
+                                                <t
+                                                    t-set="amount_untaxeds"
+                                                    t-value="-1*o.amount_untaxed"
+                                                />
                                             </t>
                                             <span id="amount_untaxeds">
                                                 <span
@@ -372,9 +420,15 @@
                                     <tr>
                                         <td>Taxes</td>
                                         <td class="text-right">
-                                            <t t-set="amount_tax" t-value="o.amount_tax" />
+                                            <t
+                                                t-set="amount_tax"
+                                                t-value="o.amount_tax"
+                                            />
                                             <t t-if="o.move_type == 'out_refund'">
-                                                <t t-set="amount_tax" t-value="-1*o.amount_tax" />
+                                                <t
+                                                    t-set="amount_tax"
+                                                    t-value="-1*o.amount_tax"
+                                                />
                                             </t>
                                             <span id="amount_tax">
                                                 <span
@@ -389,9 +443,15 @@
                                             <strong>Total</strong>
                                         </td>
                                         <td class="text-right">
-                                            <t t-set="amount_total" t-value="o.amount_total" />
+                                            <t
+                                                t-set="amount_total"
+                                                t-value="o.amount_total"
+                                            />
                                             <t t-if="o.move_type == 'out_refund'">
-                                                <t t-set="amount_total" t-value="-1*o.amount_total" />
+                                                <t
+                                                    t-set="amount_total"
+                                                    t-value="-1*o.amount_total"
+                                                />
                                             </t>
                                             <span id="amount_total">
                                                 <span
@@ -399,14 +459,23 @@
                                                     t-options='{"widget": "monetary", "display_currency": currency_id}'
                                                 />
                                             </span>
-                                            <div t-if="currency_id!=res_company.currency_id">
+                                            <div
+                                                t-if="currency_id!=res_company.currency_id"
+                                            >
                                                 (
                                                 <t t-if="o.move_type == 'out_refund'">
-                                                    <t t-set="amount_total" t-value="-1*o.move_id.amount" />
+                                                    <t
+                                                        t-set="amount_total"
+                                                        t-value="-1*o.move_id.amount"
+                                                    />
                                                     <t t-esc="amount_total" />
-                                                    <span t-field="res_company.currency_id.symbol" />
+                                                    <span
+                                                        t-field="res_company.currency_id.symbol"
+                                                    />
                                                 </t>
-                                                <t t-if="not o.move_type == 'out_refund'">
+                                                <t
+                                                    t-if="not o.move_type == 'out_refund'"
+                                                >
                                                     <span
                                                         t-field="o.move_id.amount"
                                                         t-options='{"widget": "monetary", "display_currency": res_company.currency_id}'
@@ -423,7 +492,10 @@
                         <div class="clearfix">
                             <div id="total" class="row">
                                 <div class="col-4 pull-right">
-                                    <table class="table table-sm" style="min-width: 250px;max-width: 400px;">
+                                    <table
+                                        class="table table-sm"
+                                        style="min-width: 250px;max-width: 400px;"
+                                    >
                                     </table>
                                 </div>
                             </div>
@@ -436,8 +508,11 @@
                         daca livrarea nu are notice = True trebuie afisat si un mesaj de genul
                         Produsele au fost livrate impreuna cu factura. Va multumim ca ati cumparat de la noi!
                         -->
-                        <small t-if="o.move_type == 'out_invoice' or o.move_type == 'out_refund'">
-                            <div>Printing and numbering system of its own under Law 571/2003 on the Fiscal Code,
+                        <small
+                            t-if="o.move_type == 'out_invoice' or o.move_type == 'out_refund'"
+                        >
+                            <div
+                            >Printing and numbering system of its own under Law 571/2003 on the Fiscal Code,
                                 with subsequent amendments and OMPF 2226/2006
                             </div>
                             <!--                            <t t-if="not res_company.stamp_image">-->
@@ -461,7 +536,10 @@
                                      <strong>Fiscal Position Remark:</strong>
                                      <span t-field="o.fiscal_position_id.note"/>
                                  </p>-->
-                        <div name="reference" t-if="o.ref and o.move_type == 'in_invoice'">
+                        <div
+                            name="reference"
+                            t-if="o.ref and o.move_type == 'in_invoice'"
+                        >
                             <strong>Reference:</strong>
                             <p t-field="o.ref" />
                         </div>

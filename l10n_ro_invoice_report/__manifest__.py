@@ -5,6 +5,7 @@
     "name": "Romania - Invoice Report",
     "version": "14.0.2.0.2",
     "author": "Dorin Hongu," "Odoo Community Association (OCA)",
+    "website": "https://github.com/OCA/l10n-romania",
     "license": "AGPL-3",
     "category": "Generic Modules",
     "depends": ["base", "account", "l10n_ro_config", "deltatech_watermark"],

@@ -25,13 +25,19 @@
                                 <div class="col-3 bm-2">
                                     <strong>From Date</strong>
                                     <p>
-                                        <span t-field="o.date_from" t-options='{"widget": "date"}' />
+                                        <span
+                                            t-field="o.date_from"
+                                            t-options='{"widget": "date"}'
+                                        />
                                     </p>
                                 </div>
                                 <div class="col-3 bm-2" t-if="o.date_from != o.date_to">
                                     <strong>To date</strong>
                                     <p>
-                                        <span t-field="o.date_to" t-options='{"widget": "date"}' />
+                                        <span
+                                            t-field="o.date_to"
+                                            t-options='{"widget": "date"}'
+                                        />
                                     </p>
                                 </div>
                                 <div class="col-3 bm-2">
@@ -61,12 +67,21 @@
                                     <t t-set="total_out" t-value="0.0" />
                                     <tbody>
                                         <tr t-foreach="o.line_ref_ids" t-as="ref">
-                                            <t t-set="total" t-value="total + ref.amount" />
+                                            <t
+                                                t-set="total"
+                                                t-value="total + ref.amount"
+                                            />
                                             <t t-if="ref.type=='in'">
-                                                <t t-set="total_in" t-value="total_in + ref.amount" />
+                                                <t
+                                                    t-set="total_in"
+                                                    t-value="total_in + ref.amount"
+                                                />
                                             </t>
                                             <t t-if="ref.type=='out'">
-                                                <t t-set="total_out" t-value="total_out + ref.amount" />
+                                                <t
+                                                    t-set="total_out"
+                                                    t-value="total_out + ref.amount"
+                                                />
                                             </t>
                                             <td>
                                                 <span t-field="ref.type" />
@@ -146,7 +161,10 @@
                                             t-foreach="o.line_product_ids.filtered(lambda x : x.type == 'balance')"
                                             t-as="line"
                                         >
-                                            <t t-set="total" t-value="total + line.amount" />
+                                            <t
+                                                t-set="total"
+                                                t-value="total + line.amount"
+                                            />
                                             <t t-set="rows" t-value="rows + 1" />
                                             <td>
                                                 <span t-field="line.type" />
@@ -161,8 +179,14 @@
                                                 <span t-field="line.amount" />
                                             </td>
                                         </tr>
-                                        <t t-set="total_general" t-value="total_general + total" />
-                                        <tr t-if="total and rows>1" class="border-black">
+                                        <t
+                                            t-set="total_general"
+                                            t-value="total_general + total"
+                                        />
+                                        <tr
+                                            t-if="total and rows>1"
+                                            class="border-black"
+                                        >
                                             <td>
                                                 <strong>Total</strong>
                                             </td>
@@ -181,7 +205,10 @@
                                             t-foreach="o.line_product_ids.filtered(lambda x : x.type == 'in')"
                                             t-as="line"
                                         >
-                                            <t t-set="total" t-value="total + line.amount" />
+                                            <t
+                                                t-set="total"
+                                                t-value="total + line.amount"
+                                            />
                                             <t t-set="rows" t-value="rows + 1" />
                                             <td>
                                                 <span t-field="line.type" />
@@ -196,8 +223,14 @@
                                                 <span t-field="line.amount" />
                                             </td>
                                         </tr>
-                                        <t t-set="total_general" t-value="total_general + total" />
-                                        <tr t-if="total and rows>1" class="border-black">
+                                        <t
+                                            t-set="total_general"
+                                            t-value="total_general + total"
+                                        />
+                                        <tr
+                                            t-if="total and rows>1"
+                                            class="border-black"
+                                        >
                                             <td>
                                                 <strong>Total</strong>
                                             </td>
@@ -216,7 +249,10 @@
                                             t-foreach="o.line_product_ids.filtered(lambda x : x.move_type == 'out')"
                                             t-as="line"
                                         >
-                                            <t t-set="total" t-value="total + line.amount" />
+                                            <t
+                                                t-set="total"
+                                                t-value="total + line.amount"
+                                            />
                                             <t t-set="rows" t-value="rows + 1" />
                                             <td>
                                                 <span t-field="line.type" />
@@ -231,8 +267,14 @@
                                                 <span t-field="line.amount" />
                                             </td>
                                         </tr>
-                                        <t t-set="total_general" t-value="total_general + total" />
-                                        <tr t-if="total and rows>1" class="border-black">
+                                        <t
+                                            t-set="total_general"
+                                            t-value="total_general + total"
+                                        />
+                                        <tr
+                                            t-if="total and rows>1"
+                                            class="border-black"
+                                        >
                                             <td>
                                                 <strong>Total</strong>
                                             </td>
