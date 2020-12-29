@@ -2,8 +2,8 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Romania - Invoice Report",
-    "version": "14.0.2.0.2",
+    "name": "Romania - Invoice Report ",
+    "version": "14.0.3.0.2",
     "author": "Dorin Hongu," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "license": "AGPL-3",

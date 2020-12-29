@@ -5,6 +5,7 @@
 from odoo import api, models
 from odoo.tools.safe_eval import safe_eval
 
+
 class ReportInvoiceWithoutPayment(models.AbstractModel):
     _inherit = "report.account.report_invoice"
 
