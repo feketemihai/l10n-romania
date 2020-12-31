@@ -17,13 +17,13 @@ class TestTrialBalance(abstract_test.AbstractTest):
     def _getQwebReportName(self):
         return "l10n_ro_report_trial_balance.l10n_ro_report_trial_balance_qweb"
 
-    def _getXlsxReportName(self):
-        return "l10n_ro_report_trial_balance_xlsx"
-
-    def _getXlsxReportActionName(self):
-        return (
-            "l10n_ro_report_trial_balance." "action_l10n_ro_report_trial_balance_xlsx"
-        )
+    # def _getXlsxReportName(self):
+    #     return "l10n_ro_report_trial_balance_xlsx"
+    #
+    # def _getXlsxReportActionName(self):
+    #     return (
+    #         "l10n_ro_report_trial_balance." "action_l10n_ro_report_trial_balance_xlsx"
+    #     )
 
     def _getReportTitle(self):
         return "Odoo Report"

@@ -18,8 +18,8 @@ class AbstractTest(TransactionCase):
         self.model = self._getReportModel()
 
         self.qweb_report_name = self._getQwebReportName()
-        self.xlsx_report_name = self._getXlsxReportName()
-        self.xlsx_action_name = self._getXlsxReportActionName()
+        # self.xlsx_report_name = self._getXlsxReportName()
+        # self.xlsx_action_name = self._getXlsxReportActionName()
 
         self.report_title = self._getReportTitle()
 
@@ -47,14 +47,14 @@ class AbstractTest(TransactionCase):
             report_type="qweb-pdf",
         )
 
-    def test_xlsx(self):
-        test_reports.try_report(
-            self.env.cr,
-            self.env.uid,
-            self.xlsx_report_name,
-            [self.report.id],
-            report_type="xlsx",
-        )
+    # def test_xlsx(self):
+    #     test_reports.try_report(
+    #         self.env.cr,
+    #         self.env.uid,
+    #         self.xlsx_report_name,
+    #         [self.report.id],
+    #         report_type="xlsx",
+    #     )
 
     def test_print(self):
         self.report.print_report("qweb")

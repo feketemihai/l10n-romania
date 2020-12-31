@@ -27,7 +27,8 @@ odoo.define(
                 }
 
                 if (res_model) {
-                    return this.do_action({
+                    e.preventDefault();
+                    this.do_action({
                         type: "ir.actions.act_window",
                         res_model: res_model,
                         res_id: res_id,
@@ -47,7 +48,8 @@ odoo.define(
                 }
 
                 if (res_model) {
-                    return this.do_action({
+                    e.preventDefault();
+                    this.do_action({
                         type: "ir.actions.act_window",
                         res_model: res_model,
                         domain: domain,

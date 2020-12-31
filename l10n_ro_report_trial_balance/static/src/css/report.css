@@ -12,7 +12,7 @@
     page-break-inside: avoid;
 }
 .act_as_cell {
-    // display: table-cell !important;
+    /*// display: table-cell !important;*/
     page-break-inside: avoid;
 }
 .act_as_thead {
@@ -25,7 +25,7 @@
 .data_table,
 .totals_table {
     width: 100% !important;
-    //table-layout: fixed !important;
+    /*//table-layout: fixed !important;*/
 }
 .act_as_row.labels {
     background-color: #f0f0f0 !important;
@@ -112,8 +112,8 @@
 }
 
 .o_l10n_ro_report_trial_balance_page {
-    background-color: @odoo-view-background-color;
-    color: @odoo-main-text-color;
+    /*background-color: @odoo-view-background-color;*/
+    /*color: @odoo-main-text-color;*/
     padding-top: 10px;
     width: 100%;
     margin-right: auto;

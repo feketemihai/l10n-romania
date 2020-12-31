@@ -11,7 +11,7 @@
     "license": "AGPL-3",
     "depends": [
         "account",
-        "report_xlsx",
+        # "report_xlsx",
         # 'account_financial_report',
         "l10n_ro",
     ],
