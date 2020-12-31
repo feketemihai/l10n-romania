@@ -14,7 +14,7 @@ class RomaniaTrialBalanceReportWizard(models.TransientModel):
     company_id = fields.Many2one(
         "res.company", default=lambda self: self.env.user.company_id, string="Company"
     )
-    date_range_id = fields.Many2one(comodel_name="date.range", string="Date range")
+    # date_range_id = fields.Many2one(comodel_name="date.range", string="Date range")
     date_from = fields.Date(required=True)
     date_to = fields.Date(required=True)
     target_move = fields.Selection(
@@ -56,11 +56,11 @@ class RomaniaTrialBalanceReportWizard(models.TransientModel):
 
     refresh_report = fields.Boolean("Refresh Report")
 
-    @api.onchange("date_range_id")
-    def onchange_date_range_id(self):
-        """Handle date range change."""
-        self.date_from = self.date_range_id.date_start
-        self.date_to = self.date_range_id.date_end
+    # @api.onchange("date_range_id")
+    # def onchange_date_range_id(self):
+    #     """Handle date range change."""
+    #     self.date_from = self.date_range_id.date_start
+    #     self.date_to = self.date_range_id.date_end
 
     def button_export_html(self):
         self.ensure_one()
