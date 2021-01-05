@@ -14,5 +14,22 @@ class PosSession(models.Model):
     _inherit = 'pos.session'
 
     def _reconcile_account_move_lines(self, data):
-        data['stock_output_lines'] = {}
+        if self.company_id.romanian_accounting:
+            data['stock_output_lines'] = {}
         return super(PosSession, self)._reconcile_account_move_lines(data)
+
+
+    def _accumulate_amounts(self, data):
+        data = super(PosSession, self)._accumulate_amounts(data)
+
+        amounts = lambda: {'amount': 0.0, 'amount_converted': 0.0}
+
+        if self.company_id.romanian_accounting:
+            # nu trebuie generate note contabile  pentru ca acestea sunt generate in miscarea de stoc
+            data.update({
+                'stock_expense': defaultdict(amounts),
+                'stock_return': defaultdict(amounts),
+                'stock_output': defaultdict(amounts),
+            })
+
+        return data
