@@ -351,7 +351,7 @@
                                     <td class="text-right">
                                         <t
                                             t-set="price_taxes"
-                                            t-value="(l.price_total - l.price_subtotal ) / (l.quantity or 1)"
+                                            t-value="(l.price_total - l.price_subtotal )"
                                         />
                                         <t t-if="o.move_type == 'out_refund'">
                                             <t
