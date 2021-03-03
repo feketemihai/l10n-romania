@@ -118,7 +118,7 @@ class AccountInvoice(models.Model):
                 else:
                     oper_type = 'L'
             else:
-                if not partner.is_company and inv.origin_type:
+                if (not partner.is_company or partner.is_company and not partner.vat_subjected) and inv.origin_type:
                     oper_type = 'N'
                 elif inv.fiscal_position and \
                         (('Taxare Inversa' in inv.fiscal_position.name) or \

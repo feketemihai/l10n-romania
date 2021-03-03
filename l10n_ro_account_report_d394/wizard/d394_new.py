@@ -970,7 +970,7 @@ class d394_new_report(models.TransientModel):
                 op['baza'] for op in op1s if op['tip'] == 'L')))
             rezumat1['tvaL'] = int(round(sum(
                 op['tva'] for op in op1s if op['tip'] == 'L')))
-        if partner_type == '1' and cota_amount == 0:
+        if (partner_type == '1' and cota_amount == 0) or partner_type == '2':
             rezumat1['facturiLS'] = int(round(sum(
                 op['nrFact'] for op in op1s if op['tip'] == 'LS')))
             rezumat1['bazaLS'] = int(round(sum(
@@ -1010,11 +1010,10 @@ class d394_new_report(models.TransientModel):
                 op['tva'] for op in op1s if op['tip'] == 'C')))
         if op1s[0]['tip_partener'] == '2' and ('tip_document' in op1s[0]):
             rezumat1['facturiN'] = int(round(sum(
-                op['tva'] for op in op1s if op['tip'] == 'N')))
+                op['nrFact'] for op in op1s if op['tip'] == 'N')))
             rezumat1['document_N'] = op1s[0]['tip_document']
             rezumat1['bazaN'] = int(round(sum(
-                op['baza'] for op in op1s.filtered(
-                    lambda r: r['tip'] == 'N'))))
+                op['baza'] for op in op1s if op['tip'] == 'N')))
         rez_detaliu = []
         for op1 in op1s:
             if op1['op11']:
@@ -1541,6 +1540,10 @@ class d394_new_report(models.TransientModel):
             ('company_id', '=', self.company_id.id),
             ('company_id', 'in', self.company_id.child_ids.ids)
         ])
+        invoices1 = invoices1.filtered(
+            lambda i:
+            i.partner_type in ('1', '2') or
+            (i.partner_type in ('3', '4') and not i.partner_id.vat_subjected))
         invoices = invoices1.filtered(
             lambda r:
             r.amount_total < 0 or r.state == 'cancel' or
@@ -1746,13 +1749,17 @@ class d394_new_report(models.TransientModel):
         invoices = obj_invoice.search([
             ('state', 'in', ['open', 'paid']),
             ('period_id', '=', period.id),
-            ('fiscal_receipt', '=', False),
             ('date_invoice', '>=', self.date_from),
             ('date_invoice', '<=', self.date_to),
-            '|',
             ('company_id', '=', self.company_id.id),
-            ('company_id', 'in', self.company_id.child_ids.ids)
+            '|',
+            ('type', 'in', ['in_invoice', 'in_refund']),
+            ('fiscal_receipt', '=', False),
         ])
+        invoices = invoices.filtered(
+            lambda i:
+            i.partner_type in ('1', '2') or
+            (i.partner_type in ('3', '4') and not i.partner_id.vat_subjected))
         if invoices:
             xmldict.update({
                 'op_efectuate': "1"
@@ -1766,7 +1773,7 @@ class d394_new_report(models.TransientModel):
                 invoices) if d['tip_partener'] == '1']
         else:
             invoices1 = obj_invoice.search([
-                ('type', 'in', ('out_invoice', 'out_refund')),
+                ('type', 'in', ['out_invoice', 'out_refund']),
                 ('fiscal_receipt', '=', True),
                 ('journal_id.fiscal_receipt', '=', True),
                 ('state', 'in', ['open', 'paid']),
