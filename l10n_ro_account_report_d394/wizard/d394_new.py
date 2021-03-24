@@ -779,7 +779,8 @@ class d394_new_report(models.TransientModel):
                                             line.price_normal_taxes and
                                             line.price_normal_taxes or
                                             line.price_taxes, comp_curr)
-
+                            if  cota_amount == 0 and partner_type == '1':
+                                new_oper_type = 'AS'
                             new_dict = {
                                 'tip': new_oper_type,
                                 'tip_partener': partner_type,
@@ -970,7 +971,7 @@ class d394_new_report(models.TransientModel):
                 op['baza'] for op in op1s if op['tip'] == 'L')))
             rezumat1['tvaL'] = int(round(sum(
                 op['tva'] for op in op1s if op['tip'] == 'L')))
-        if (partner_type == '1' and cota_amount == 0) or partner_type == '2':
+        if cota_amount == 0:
             rezumat1['facturiLS'] = int(round(sum(
                 op['nrFact'] for op in op1s if op['tip'] == 'LS')))
             rezumat1['bazaLS'] = int(round(sum(
@@ -1200,9 +1201,10 @@ class d394_new_report(models.TransientModel):
                         op1s = [x for x in op1 if
                                 x['tip_partener'] == partner_type and
                                 x['cota'] == cota and
+                                x['tip'] == 'N' and
                                 x['tip_document'] == doc_type]
-                    if op1s:
-                        rezumat1.append(self.generate_rezumat1(invoices, op1s))
+                        if op1s:
+                            rezumat1.append(self.generate_rezumat1(invoices, op1s))
                     op1s = [x for x in op1 if
                             x['tip_partener'] == partner_type and
                             x['cota'] == cota and
