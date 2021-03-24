@@ -30,7 +30,7 @@ class d394_new_report(models.TransientModel):
             fields.Date.today()) + relativedelta(months=-1)
         period = self.env['account.period'].find(new_date)[:1]
         return period.id
-
+        
     @api.onchange('period_id')
     def _onchange_period(self):
         if self.period_id:
@@ -57,6 +57,11 @@ class d394_new_report(models.TransientModel):
         change_default=True,
         default=lambda self: self.env['res.company']._company_default_get(
             'l10n_ro_account_report_d394.d394_new.report'))
+    comp_partner_id = fields.Many2one(
+        'res.partner', string='Partner', related='company_id.partner_id',
+        store=True, readonly=True)
+    partner_id = fields.Many2one(
+        'res.partner', string='Partner', required=True)
     period_id = fields.Many2one('account.period', 'Period', required=True,
                                 change_default=True,
                                 default=_get_default_period)
@@ -251,14 +256,25 @@ class d394_new_report(models.TransientModel):
         company = self.company_id
         comp_curr = company.currency_id
         payments = []
-        where = [
-            ('state', 'in', ['open', 'paid']),
-            ('date_invoice', '<=', self.date_to),
+        deduc_move_lines = self.env["account.move.line"].search(
+            [("account_id.code", "in", ["442810", "442820"]),
+            ('date', '<=', self.date_to),
+            ('date', '>=', self.date_from),
             '|',
             ('company_id', '=', self.company_id.id),
             ('company_id', 'in', self.company_id.child_ids.ids)
-        ]
-        invoices = invoice_obj.search(where,
+            ])
+        recon = self.env["account.move.reconcile"]
+        if deduc_move_lines:
+            moves = deduc_move_lines.mapped("move_id")
+            for move in moves:
+                for line in move.line_id:
+                    if line.account_id.type in ["receivable", "payable"]:
+                        recon += line.reconcile_id + line.reconcile_partial_id
+        reconciles = recon.mapped("line_partial_ids") + recon.mapped("line_id")
+        invoices = reconciles.mapped("invoice")
+        invoices = invoices.filtered(lambda i: i.vat_on_payment).ids
+        invoices = invoice_obj.search([("id", "in", invoices)],
                                       order="type desc, date_invoice, number")
         for inv1 in invoices:
             ctx = {'date': inv1.date_invoice}
@@ -493,46 +509,47 @@ class d394_new_report(models.TransientModel):
     @api.multi
     def _get_op1(self, invoices):
         def adauga_op1(op1, new):
-            if op1:
-                try:
-                    found = next(
-                        index for (index, old) in enumerate(op1) if
-                        old.get('tip') == new['tip'] and
-                        old.get('tip_partener') == new['tip_partener'] and
-                        old.get('cota') == new['cota'] and
-                        old.get('cuiP') == new['cuiP'])
-                except:
-                    found = None
-                if found is not None:
-                    old = op1[found]
-                    old['nrFact'] += new['nrFact']
-                    old['baza'] += new['baza']
-                    if 'tva' in old.keys():
-                        old['tva'] += new['tva']
-                    if new['op11']:
-                        if old['op11']:
-                            for new11 in new['op11']:
-                                try:
-                                    found11 = next(
-                                        index for (index, old11)
-                                        in enumerate(old['op11']) if
-                                        old11.get('codPR') == new11['codPR'])
-                                except:
-                                    found11 = None
-                                if found11 is not None:
-                                    old11 = old['op11'][found11]
-                                    old11['nrFactPR'] += new11['nrFactPR']
-                                    old11['bazaPR'] += new11['bazaPR']
-                                    if 'tvaPR' in old11.keys():
-                                        old11['tvaPR'] += new11['tvaPR']
-                                else:
-                                    old['op11'].append(new11)
-                        else:
-                            old['op11'].append(new['op11'])
+            if not (new['tip_partener'] == '1' and new['cota'] == 0 and new['tip'] == 'A'):
+                if op1:
+                    try:
+                        found = next(
+                            index for (index, old) in enumerate(op1) if
+                            old.get('tip') == new['tip'] and
+                            old.get('tip_partener') == new['tip_partener'] and
+                            old.get('cota') == new['cota'] and
+                            old.get('cuiP') == new['cuiP'])
+                    except:
+                        found = None
+                    if found is not None:
+                        old = op1[found]
+                        old['nrFact'] += new['nrFact']
+                        old['baza'] += new['baza']
+                        if 'tva' in old.keys():
+                            old['tva'] += new['tva']
+                        if new['op11']:
+                            if old['op11']:
+                                for new11 in new['op11']:
+                                    try:
+                                        found11 = next(
+                                            index for (index, old11)
+                                            in enumerate(old['op11']) if
+                                            old11.get('codPR') == new11['codPR'])
+                                    except:
+                                        found11 = None
+                                    if found11 is not None:
+                                        old11 = old['op11'][found11]
+                                        old11['nrFactPR'] += new11['nrFactPR']
+                                        old11['bazaPR'] += new11['bazaPR']
+                                        if 'tvaPR' in old11.keys():
+                                            old11['tvaPR'] += new11['tvaPR']
+                                    else:
+                                        old['op11'].append(new11)
+                            else:
+                                old['op11'].append(new['op11'])
+                    else:
+                        op1.append(new)
                 else:
                     op1.append(new)
-            else:
-                op1.append(new)
             return op1
         self.ensure_one()
         obj_inv_line = self.env['account.invoice.line']
@@ -570,6 +587,7 @@ class d394_new_report(models.TransientModel):
                                 cota_amount = int(cota.amount * 100)
                         elif cota.type == 'amount':
                             cota_amount = int(cota.amount)
+                        
                         if new_oper_type == 'A' and \
                                 'Ti-ach' in cota.description:
                             new_oper_type = 'C'
@@ -779,8 +797,6 @@ class d394_new_report(models.TransientModel):
                                             line.price_normal_taxes and
                                             line.price_normal_taxes or
                                             line.price_taxes, comp_curr)
-                            if  cota_amount == 0 and partner_type == '1':
-                                new_oper_type = 'AS'
                             new_dict = {
                                 'tip': new_oper_type,
                                 'tip_partener': partner_type,
@@ -1686,10 +1702,10 @@ class d394_new_report(models.TransientModel):
             'cui': comm_partner.vat[2:],
             'den': comm_partner.name,
             'adresa': ', '.join([
-                comm_partner.state_id and comm_partner.state_id.name,
-                comm_partner.city,
-                comm_partner.street,
-                comm_partner.zip]),
+                self.partner_id.state_id and self.partner_id.state_id.name,
+                self.partner_id.city,
+                self.partner_id.street,
+                self.partner_id.zip]),
             'totalPlata_A': 0,
             'tip_intocmit': bool(int_partner.is_company) and 0 or 1,
             'cif_intocmit': int_partner.vat and int_partner.vat[2:] or '',
@@ -1710,19 +1726,17 @@ class d394_new_report(models.TransientModel):
             xmldict.update({
                 'schimb_optiune': int(self.anaf_cross_new_opt),
             })
-        if company.phone:
-            xmldict.update({
-                'telefon': comm_partner.phone
+        phone = self.partner_id.phone or comm_partner.phone
+        fax = self.partner_id.fax or comm_partner.fax
+        email = self.partner_id.email or comm_partner.email
+        xmldict.update({
+                'telefon': phone,
+                'mail': email,
             })
-        if company.fax and company.fax != '-':
+        if fax != '-':
             xmldict.update({
-                'fax': comm_partner.fax,
+                'fax': self.partner_id.fax,
             })
-        if company.email:
-            xmldict.update({
-                'mail': comm_partner.email,
-            })
-
         if comm_partner.id != decl_partner.id:
             xmldict.update({
                 'cifR': decl_partner.vat[2:],
@@ -1747,7 +1761,6 @@ class d394_new_report(models.TransientModel):
                     comm_partner.street,
                     comm_partner.zip]),
             })
-
         invoices = obj_invoice.search([
             ('state', 'in', ['open', 'paid']),
             ('period_id', '=', period.id),
@@ -1762,6 +1775,11 @@ class d394_new_report(models.TransientModel):
             lambda i:
             i.partner_type in ('1', '2') or
             (i.partner_type in ('3', '4') and not i.partner_id.vat_subjected))
+        
+        rem_invoices = invoices.filtered(
+            lambda i:
+			i.partner_type == "1" and i.operation_type == "AS")
+        invoices = invoices - rem_invoices
         if invoices:
             xmldict.update({
                 'op_efectuate': "1"

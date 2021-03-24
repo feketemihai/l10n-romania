@@ -12,6 +12,10 @@
                             <page string="General Information">
                                 <field name="company_id" colspan="4"/>
                                 <newline/>
+                                <separator string="Partner" colspan="4"/>
+                                <field name="comp_partner_id" colspan="4" invisible="True"/>
+                                <field name="partner_id" colspan="4" domain="[('id', 'child_of', comp_partner_id)]"/>
+                                <newline/>
                                 <separator string="Period" colspan="4"/>
                                 <field name="period_id" colspan="4"/>
                                 <group>
