@@ -47,7 +47,7 @@ headers = {
     "Content-Type": "application/json;"
 }
 
-ANAF_URL = 'https://webservicesp.anaf.ro/PlatitorTvaRest/api/v4/ws/tva'
+ANAF_URL = 'https://webservicesp.anaf.ro/PlatitorTvaRest/api/v5/ws/tva'
 
 
 def unaccent(text):
@@ -303,7 +303,6 @@ class res_partner(models.Model):
                         values = self._Anaf_to_Odoo(result)
                 except Exception as e:
                     _logger.error("Error anaf %s " % str(e))
-                    values = self._get_Openapi(vat_number)
 
                 if values:
                     self.write(values)
