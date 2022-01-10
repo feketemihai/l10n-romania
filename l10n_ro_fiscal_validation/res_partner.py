@@ -185,14 +185,14 @@ VALUES
             for item in chunk:
                 anaf_ask.append({'cui': int(item), 'data': check_date})
             res = requests.post(
-                'https://webservicesp.anaf.ro/AsynchWebService/api/v5/ws/tva',
+                'https://webservicesp.anaf.ro/AsynchWebService/api/v6/ws/tva',
                 json=anaf_ask,
                 headers = headers)
             if res.status_code == 200:
                 res = res.json()
                 if res['correlationId']:
                     time.sleep(3)
-                    resp = requests.get('https://webservicesp.anaf.ro/AsynchWebService/api/v5/ws/tva?id=%s' % res['correlationId'])
+                    resp = requests.get('https://webservicesp.anaf.ro/AsynchWebService/api/v6/ws/tva?id=%s' % res['correlationId'])
                     if resp.status_code == 200:
                         resp = resp.json()
                         if resp['found']:
